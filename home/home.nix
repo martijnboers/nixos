@@ -20,6 +20,10 @@
     enable = true;
     userName = "Martijn Boers";
     userEmail = "martijn@plebian.nl";
+    signing = {
+      key = "FDC7B670BF26B101";
+      signByDefault = true;
+    };
     extraConfig = {
       core.editor = "vim";
       pull.rebase = "true";
@@ -46,6 +50,31 @@
     };
   };
 
+  programs.kitty = {
+    enable = true;
+    settings = {
+      font_family = "mononoki Nerd Font Mono";
+      font_size = "12.0";
+      # Window
+      background_opacity = "0.8";
+      scrollback_lines = 10000;
+      window_padding_width = 6;
+
+      # Tabs
+      tab_bar_style = "powerline";
+      tab_powerline_style = "slanted";
+
+      # Display
+      sync_to_monitor = true;
+    };
+    theme = "Doom One";
+  };
+
+  # to get gpg to work
+  programs.gpg.enable = true;
+  services.gpg-agent.enable = true;
+
+
   # KDE
   programs.plasma = {
     enable = true;
@@ -65,6 +94,11 @@
     vim
     sublime-merge
     joplin-desktop
+    kitty
+
+    # personal
+    steam
+    clementine
 
     # shell
     zsh-powerlevel10k
@@ -102,6 +136,10 @@
     zstd
     gnupg
     git
+
+    # for gpg
+    gnupg
+    pinentry
 
     htop
     btop # fancy htop
