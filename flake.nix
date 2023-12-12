@@ -22,6 +22,11 @@
       # to avoid problems caused by different versions of nixpkgs.
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Home manager kde
+    plasma-manager.url = "github:pjones/plasma-manager";
+    plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
+    plasma-manager.inputs.home-manager.follows = "home-manager";
   };
 
   # `outputs` are all the build result of the flake.
@@ -76,17 +81,16 @@
         # Makes all modules receive inputs of flake
         specialArgs = {inherit inputs;};
         modules = [
-          ./hardware.nix
-          ./configuration.nix
+          ./nixos/hardware.nix
+          ./nixos/configuration.nix
           # make home-manager as a module of nixos
           # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.martijn = import ./home.nix;
-
-            # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
+            home-manager.users.martijn = import ./home/home.nix;
+            home-manager.extraSpecialArgs = {inherit inputs;};
           }
         ];
       };

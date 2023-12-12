@@ -1,10 +1,19 @@
 {
+  inputs,
   lib,
   pkgs,
   ...
 }: {
   home.username = "martijn";
   home.homeDirectory = "/home/martijn";
+
+  imports = [
+    # If you want to use modules your own flake exports (from modules/home-manager):
+    # outputs.homeManagerModules.example
+
+    # Or modules exported from other flakes (such as nix-colors):
+    inputs.plasma-manager.homeManagerModules.plasma-manager
+  ];
 
   # basic configuration of git, please change to your own
   programs.git = {
@@ -38,17 +47,14 @@
   };
 
   # KDE
-#  programs.plasma = {
-#    enable = true;
-#
-#    workspace = {
-#      clickItemTo = "select";
-#      tooltipDelay = 5;
-#      theme = "breeze-dark";
-#      colorscheme = "BreezeDark";
-#    };
-#  };
+  programs.plasma = {
+    enable = true;
 
+    workspace = {
+      theme = "breeze-dark";
+      colorscheme = "BreezeDark";
+    };
+  };
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [

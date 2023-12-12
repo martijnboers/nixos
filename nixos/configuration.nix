@@ -29,12 +29,29 @@
     };
   };
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Enable opengpl
+  hardware = {
+    opengl = {
+      enable = true;
+      extraPackages = with pkgs; [libva vaapiVdpau libvdpau-va-gl];
+      extraPackages32 = with pkgs.pkgsi686Linux; [vaapiVdpau libvdpau-va-gl];
+    };
+  };
 
-  boot.initrd.luks.devices."luks-e0ec2197-22be-4ad1-b419-ca17165a5bd5".device = "/dev/disk/by-uuid/e0ec2197-22be-4ad1-b419-ca17165a5bd5";
-  networking.hostName = "nixos"; # Define your hostname.
+  # Bootloader.
+  boot = {
+    loader = {
+      # Use the systemd-boot EFI boot loader.
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+    kernelParams = [
+      "quiet"
+    ];
+    initrd.luks.devices."luks-e0ec2197-22be-4ad1-b419-ca17165a5bd5".device = "/dev/disk/by-uuid/e0ec2197-22be-4ad1-b419-ca17165a5bd5";
+  };
+
+  networking.hostName = "glassdoor";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
