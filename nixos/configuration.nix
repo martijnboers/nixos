@@ -33,6 +33,7 @@
   hardware = {
     opengl = {
       enable = true;
+      driSupport = true;
       extraPackages = with pkgs; [libva vaapiVdpau libvdpau-va-gl];
       extraPackages32 = with pkgs.pkgsi686Linux; [vaapiVdpau libvdpau-va-gl];
     };
@@ -50,9 +51,6 @@
     ];
     initrd.luks.devices."luks-e0ec2197-22be-4ad1-b419-ca17165a5bd5".device = "/dev/disk/by-uuid/e0ec2197-22be-4ad1-b419-ca17165a5bd5";
   };
-
-  networking.hostName = "glassdoor";
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -85,6 +83,12 @@
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
+
+  environment.plasma5.excludePackages = with pkgs.libsForQt5; [
+    elisa
+    khelpcenter
+    konsole
+  ];
 
   # Configure keymap in X11
   services.xserver = {
