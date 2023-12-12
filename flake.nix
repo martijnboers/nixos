@@ -90,7 +90,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.martijn = import ./home/home.nix;
+            home-manager.users.martijn = import ./home/config.nix;
             home-manager.extraSpecialArgs = {inherit inputs;};
           }
         ];
