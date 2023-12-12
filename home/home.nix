@@ -74,7 +74,6 @@
   programs.gpg.enable = true;
   services.gpg-agent.enable = true;
 
-
   # KDE
   programs.plasma = {
     enable = true;
