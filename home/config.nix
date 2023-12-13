@@ -11,6 +11,9 @@
     # All system install packages
     ./packages.nix
 
+    # Custom modules
+    ./modules/ranger.nix
+
     # Or modules exported from other flakes (such as nix-colors):
     inputs.plasma-manager.homeManagerModules.plasma-manager
   ];
@@ -37,12 +40,17 @@
       update = "sudo nixos-rebuild switch --flake /home/martijn/Nix#glassdoor";
       dud = "docker-compose up -d";
       fixup = "ga . && gc --amend --no-edit";
+      xev = "wev"; # wayland xev
     };
     dotDir = ".config/zsh";
     initExtra = ''
       # Powerlevel10k Zsh theme
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       test -f ~/.config/zsh/.p10k.zsh && source ~/.config/zsh/.p10k.zsh
+
+      # Sadly home.sessionVariables not working..
+      export VISUAL=vim
+      export EDITOR=vim
     '';
     oh-my-zsh = {
       enable = true;
@@ -56,7 +64,6 @@
       font_family = "mononoki Nerd Font Mono";
       font_size = "12.0";
       # Window
-      background_opacity = "0.8";
       scrollback_lines = 10000;
       window_padding_width = 6;
 
@@ -66,13 +73,41 @@
 
       # Display
       sync_to_monitor = true;
+      enable_audio_bell = false;
+    };
+    keybindings = {
+      "alt+j" = "next_tab";
+      "alt+k" = "previous_tab";
+      "alt+shift+j" = "move_tab_forward";
+      "alt+shift+k" = "move_tab_backward";
+      "alt+w" = "close_tab";
+      "alt+shift+r" = "set_tab_title";
     };
     theme = "Doom One";
   };
 
+  programs.ranger = {
+    enable = true;
+    enableFishIntegration = true;
+    extraConfig = ''
+      map e shell vim %c
+      set vcs_aware true
+      set draw_borders separators
+      set nested_ranger_warning error
+      set preview_images true
+      set preview_images_method kitty
+    '';
+  };
+
   # to get gpg to work
-  programs.gpg.enable = true;
-  services.gpg-agent.enable = true;
+  services.gpg-agent = {
+    enable = true;
+    pinentryFlavor = "qt";
+    defaultCacheTtl = 34560000;
+    defaultCacheTtlSsh = 34560000;
+    maxCacheTtl = 34560000;
+    maxCacheTtlSsh = 34560000;
+  };
 
   # KDE
   programs.plasma = {

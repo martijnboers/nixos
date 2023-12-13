@@ -34,6 +34,7 @@
     opengl = {
       enable = true;
       driSupport = true;
+      driSupport32Bit = true;
       extraPackages = with pkgs; [libva vaapiVdpau libvdpau-va-gl];
       extraPackages32 = with pkgs.pkgsi686Linux; [vaapiVdpau libvdpau-va-gl];
     };
@@ -46,9 +47,20 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
+
+    # Silent Boot
+    # https://wiki.archlinux.org/title/Silent_boot
     kernelParams = [
       "quiet"
+      "splash"
+      "vga=current"
+      "rd.systemd.show_status=false"
+      "rd.udev.log_level=3"
+      "udev.log_priority=3"
     ];
+    consoleLogLevel = 0;
+    # https://github.com/NixOS/nixpkgs/pull/108294
+    initrd.verbose = false;
     initrd.luks.devices."luks-e0ec2197-22be-4ad1-b419-ca17165a5bd5".device = "/dev/disk/by-uuid/e0ec2197-22be-4ad1-b419-ca17165a5bd5";
   };
 
@@ -84,11 +96,17 @@
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
 
+  # Wayland plasma
+  services.xserver.displayManager.defaultSession = "plasmawayland";
+
   environment.plasma5.excludePackages = with pkgs.libsForQt5; [
     elisa
     khelpcenter
     konsole
   ];
+
+  # Access QMK without sudo
+  hardware.keyboard.qmk.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
