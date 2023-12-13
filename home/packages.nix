@@ -16,6 +16,7 @@
 
     # personal
     steam
+    lutris
     clementine
 
     # shell
@@ -43,6 +44,7 @@
     zoxide
     fzf # A command-line fuzzy finder
     direnv # used for .envrc files
+    ranger
 
     # misc
     file
@@ -54,10 +56,11 @@
     zstd
     gnupg
     git
+    wev # wayland xev
 
     # for gpg
     gnupg
-    pinentry
+    pinentry-qt
 
     htop
     btop # fancy htop
@@ -65,8 +68,6 @@
     iftop # network monitoring
 
     # system call monitoring
-    strace # system call monitoring
-    ltrace # library call monitoring
     lsof # list open files
 
     # system tools
