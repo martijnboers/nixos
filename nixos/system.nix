@@ -155,8 +155,6 @@
 
   # Global packages
   environment.systemPackages = with pkgs; [
-    libsForQt5.kdeconnect-kde
-
     # for gpg
     gnupg
     pinentry
