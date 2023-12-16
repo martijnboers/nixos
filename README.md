@@ -8,7 +8,7 @@ Personal NixOS files. Mostly plagiarized from other configurations.
 ### Fresh install notes
 Link flake file to home
 
-`sudo ln -s /home/martijn/Nix/flake.nix /etc/nixos/flake.nix`
+- `sudo ln -s /home/martijn/Nix/flake.nix /etc/nixos/flake.nix`
 
 
 #### Set  samba secrets
@@ -23,8 +23,12 @@ password=password
 gpg --import private.key
 ```
 
-#### LazyVim
-`git clone https://github.com/LazyVimg/starter ~/.config/nvim`
+#### Nvim
+- `sudo ln -s /home/martijn/Nix/flake.nix /etc/nixos/flake.nix`
 
 #### GPG hangs
-`rm -rf ~/.gnupg/public-keys.d/*.lock`
+- `rm -rf ~/.gnupg/public-keys.d/*.lock`
+
+#### QMK flashing
+- `qmk compile -kb peej/lumberjack -km martijnboers`
+- `qmk flash -kb peej/lumberjack -km martijnboers`

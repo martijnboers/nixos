@@ -40,12 +40,11 @@
       dud = "docker-compose up -d";
       fixup = "ga . && gc --amend --no-edit";
       xev = "wev"; # wayland xev
-      vim = "nvim";
     };
     dotDir = ".config/zsh";
     localVariables = {
-        VISUAL="nvim";
-        EDITOR="nvim";
+      VISUAL = "nvim";
+      EDITOR = "nvim";
     };
     initExtra = ''
       # Powerlevel10k Zsh theme
@@ -56,6 +55,15 @@
       enable = true;
       plugins = ["git" "thefuck" "direnv" "fzf" "z"];
     };
+  };
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    vimAlias = true;
+    plugins = with pkgs.vimPlugins; [
+      LazyVim
+    ];
   };
 
   programs.kitty = {
@@ -80,8 +88,7 @@
       "ctrl+pgup" = "previous_tab";
       "ctrl+shift+pgdn" = "move_tab_forward";
       "ctrl+shift+pgup" = "move_tab_backward";
-      "alt+w" = "close_tab";
-      "alt+r" = "rename_tab";
+      "ctrl+w" = "close_tab";
     };
     theme = "Doom One";
   };
