@@ -18,6 +18,12 @@
     lutris
     clementine
     spotify
+    qmk
+
+    # theming
+    nordic
+    materia-kde-theme
+    roboto
 
     # shell
     zsh-powerlevel10k
@@ -32,9 +38,5 @@
     # messaging
     signal-desktop
     telegram-desktop
-
-    # for gpg
-    gnupg
-    pinentry
   ];
 }
