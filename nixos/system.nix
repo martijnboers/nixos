@@ -148,7 +148,9 @@
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
-    #    pinentryFlavor = "curses";
+    settings = {
+        default-cache-ttl = 21600;
+    };
   };
 
   # Open ports in the firewall.
