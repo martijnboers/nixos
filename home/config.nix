@@ -43,14 +43,14 @@
       vim = "nvim";
     };
     dotDir = ".config/zsh";
+    localVariables = {
+        VISUAL="nvim";
+        EDITOR="nvim";
+    };
     initExtra = ''
       # Powerlevel10k Zsh theme
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       test -f ~/.config/zsh/.p10k.zsh && source ~/.config/zsh/.p10k.zsh
-
-      # Sadly home.sessionVariables not working..
-      export VISUAL=nvim
-      export EDITOR=nvim
     '';
     oh-my-zsh = {
       enable = true;
@@ -76,12 +76,12 @@
       enable_audio_bell = false;
     };
     keybindings = {
-      "alt+j" = "next_tab";
-      "alt+k" = "previous_tab";
-      "alt+shift+j" = "move_tab_forward";
-      "alt+shift+k" = "move_tab_backward";
+      "ctrl+pgdn" = "next_tab";
+      "ctrl+pgup" = "previous_tab";
+      "ctrl+shift+pgdn" = "move_tab_forward";
+      "ctrl+shift+pgup" = "move_tab_backward";
       "alt+w" = "close_tab";
-      "alt+shift+r" = "set_tab_title";
+      "alt+r" = "rename_tab";
     };
     theme = "Doom One";
   };

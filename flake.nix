@@ -27,6 +27,8 @@
     plasma-manager.url = "github:pjones/plasma-manager";
     plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
     plasma-manager.inputs.home-manager.follows = "home-manager";
+
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
   };
 
   # `outputs` are all the build result of the flake.
@@ -46,6 +48,9 @@
     ...
   } @ inputs: {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
+
+    # Your custom packages and modifications, exported as overlays
+    overlays = import ./overlays {inherit inputs;};
 
     nixosConfigurations = {
       # By default, NixOS will try to refer the nixosConfiguration with
@@ -82,7 +87,7 @@
         specialArgs = {inherit inputs;};
         modules = [
           ./nixos/hardware.nix
-          ./nixos/configuration.nix
+          ./nixos/system.nix
           ./machine/glassdoor.nix
           # make home-manager as a module of nixos
           # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
