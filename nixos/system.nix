@@ -185,6 +185,9 @@
     gcc
     tldr
 
+    # samba
+    cifs-utils
+
     htop
     btop # fancy htop
     iotop # io monitoring
