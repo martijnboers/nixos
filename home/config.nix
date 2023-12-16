@@ -4,33 +4,22 @@
   pkgs,
   ...
 }: {
+  home.stateVersion = "23.11";
+  # Let home Manager install and manage itself.
+  programs.home-manager.enable = true;
+
   home.username = "martijn";
   home.homeDirectory = "/home/martijn";
 
   imports = [
-    # All system install packages
+    # All user level packages
     ./packages.nix
 
     # Custom modules
     ./modules/ranger.nix
 
-    # Or modules exported from other flakes (such as nix-colors):
     inputs.plasma-manager.homeManagerModules.plasma-manager
   ];
-
-  # Here are config values for installed programs
-  programs.git = {
-    enable = true;
-    userName = "Martijn Boers";
-    userEmail = "martijn@plebian.nl";
-    signing = {
-      key = "FDC7B670BF26B101";
-      signByDefault = true;
-    };
-    extraConfig = {
-      pull.rebase = "true";
-    };
-  };
 
   # ZSH stuff
   programs.zsh = {
@@ -62,8 +51,47 @@
     defaultEditor = true;
     vimAlias = true;
     plugins = with pkgs.vimPlugins; [
-      LazyVim
+      LazyVim # TODO: make work
     ];
+  };
+
+  # KDE
+  programs.plasma = {
+    enable = true;
+    shortcuts = {
+      kwin = {
+        "Switch Window Down" = "Meta+h";
+        "Switch Window Up" = "Meta+g";
+      };
+    };
+
+    hotkeys.commands."Launch Kitty" = {
+      key = "Meta+t";
+      command = "kitty";
+    };
+
+    hotkeys.commands."Launch Firefox" = {
+      key = "Meta+w";
+      command = "firefox";
+    };
+
+    spectacle.shortcuts = {
+      captureRectangularRegion = "Print";
+    };
+
+    configFile = {
+      spectaclerc.General = {
+        autoSaveImage = false;
+      };
+      kdeglobals = {
+        Icons.Theme = "Nordic-darker";
+      };
+    };
+
+    workspace = {
+      theme = "Materia Dark";
+      clickItemTo = "select";
+    };
   };
 
   programs.kitty = {
@@ -90,12 +118,24 @@
       "ctrl+shift+pgup" = "move_tab_backward";
       "ctrl+w" = "close_tab";
     };
-    theme = "Doom One";
+    theme = "Material Dark";
+  };
+
+  programs.git = {
+    enable = true;
+    userName = "Martijn Boers";
+    userEmail = "martijn@plebian.nl";
+    signing = {
+      key = "FDC7B670BF26B101";
+      signByDefault = true;
+    };
+    extraConfig = {
+      pull.rebase = "true";
+    };
   };
 
   programs.ranger = {
     enable = true;
-    enableFishIntegration = true;
     extraConfig = ''
       map e shell vim %c
       set vcs_aware true
@@ -105,19 +145,4 @@
       set preview_images_method kitty
     '';
   };
-
-  # KDE
-  programs.plasma = {
-    enable = true;
-
-    workspace = {
-      theme = "breeze-dark";
-      colorscheme = "BreezeDark";
-    };
-  };
-
-  home.stateVersion = "23.11";
-
-  # Let home Manager install and manage itself.
-  programs.home-manager.enable = true;
 }

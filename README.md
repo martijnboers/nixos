@@ -5,7 +5,7 @@ Personal NixOS files. Mostly plagiarized from other configurations.
 > 
 > -- ___Jamie Zawinski___
 
-### Fresh install notes
+## Fresh installation notes
 Link flake file to home
 
 - `sudo ln -s /home/martijn/Nix/flake.nix /etc/nixos/flake.nix`
@@ -22,13 +22,13 @@ password=password
 ```bash
 gpg --import private.key
 ```
-
-#### Nvim
-- `sudo ln -s /home/martijn/Nix/flake.nix /etc/nixos/flake.nix`
-
+## Troubleshooting
 #### GPG hangs
 - `rm -rf ~/.gnupg/public-keys.d/*.lock`
 
 #### QMK flashing
 - `qmk compile -kb peej/lumberjack -km martijnboers`
 - `qmk flash -kb peej/lumberjack -km martijnboers`
+
+#### Delete old generations
+- `nix-collect-garbage`
