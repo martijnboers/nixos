@@ -4,12 +4,18 @@
   pkgs,
   ...
 }: {
-  home.stateVersion = "23.11";
   # Let home Manager install and manage itself.
   programs.home-manager.enable = true;
 
   home.username = "martijn";
   home.homeDirectory = "/home/martijn";
+  home.stateVersion = "23.11";
+
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    BROWSER = "firefox";
+    TERMINAL = "kitty";
+  };
 
   imports = [
     # All user level packages
@@ -19,6 +25,7 @@
     ./modules/ranger.nix
 
     inputs.plasma-manager.homeManagerModules.plasma-manager
+    inputs.nixvim.homeManagerModules.nixvim
   ];
 
   # ZSH stuff
@@ -29,12 +36,9 @@
       dud = "docker-compose up -d";
       fixup = "ga . && gc --amend --no-edit";
       xev = "wev"; # wayland xev
+      vim = "nvim";
     };
     dotDir = ".config/zsh";
-    localVariables = {
-      VISUAL = "nvim";
-      EDITOR = "nvim";
-    };
     initExtra = ''
       # Powerlevel10k Zsh theme
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
@@ -46,13 +50,19 @@
     };
   };
 
-  programs.neovim = {
+  # Neovim
+  programs.nixvim = {
     enable = true;
-    defaultEditor = true;
-    vimAlias = true;
-    plugins = with pkgs.vimPlugins; [
-      LazyVim # TODO: make work
-    ];
+    options = {
+      number = true;         # Show line numbers
+      relativenumber = true; # Show relative line numbers
+      shiftwidth = 2;        # Tab width should be 2
+    };
+    colorschemes.catppuccin = {
+        enable = true;
+        flavour = "mocha";
+    };
+    plugins.lightline.enable = true;
   };
 
   # KDE
@@ -78,9 +88,8 @@
   programs.kitty = {
     enable = true;
     settings = {
-      font_family = "mononoki Nerd Font Mono";
+      font_family = "Jetbrains Mono";
       font_size = "12.0";
-      # Window
       scrollback_lines = 10000;
       window_padding_width = 6;
 
@@ -98,8 +107,15 @@
       "ctrl+shift+pgdn" = "move_tab_forward";
       "ctrl+shift+pgup" = "move_tab_backward";
       "ctrl+w" = "close_tab";
+      "alt+j" = "previous_window";
+      "alt+k" = "next_window";
+      "alt+1" = "goto_tab 1";
+      "alt+2" = "goto_tab 2";
+      "alt+3" = "goto_tab 3";
+      "alt+4" = "goto_tab 4";
+      "alt+5" = "goto_tab 5";
     };
-    theme = "Material Dark";
+    theme = "Gruvbox Material Dark Medium";
   };
 
   programs.git = {

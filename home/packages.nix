@@ -9,7 +9,6 @@
     jetbrains.pycharm-community
     thefuck
     firefox
-    vim
     sublime-merge
     joplin-desktop
 
@@ -24,6 +23,7 @@
     nordic
     materia-kde-theme
     roboto
+    jetbrains-mono
 
     # shell
     zsh-powerlevel10k
@@ -38,5 +38,9 @@
     # messaging
     signal-desktop
     telegram-desktop
+
+    # KDE stuff
+    libsForQt5.kdeconnect-kde
+    libsForQt5.neochat
   ];
 }
