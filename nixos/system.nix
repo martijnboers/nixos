@@ -17,7 +17,7 @@
 
   # Don't ask for sudo too often
   security.sudo.extraConfig = ''
-    Defaults        timestamp_timeout=30
+    Defaults timestamp_timeout=100
   '';
 
   # Flakes
@@ -149,15 +149,70 @@
     enable = true;
     enableSSHSupport = true;
     settings = {
-        default-cache-ttl = 21600;
+      default-cache-ttl = 21600;
     };
   };
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  # Global packages
+  environment.systemPackages = with pkgs; [
+    libsForQt5.kdeconnect-kde
+
+    # archives
+    zip
+    unzip
+    p7zip
+
+    # utils
+    ripgrep # recursively searches directories for a regex pattern
+    jq # A lightweight and flexible command-line JSON processor
+    yq-go # yaml processer https://github.com/mikefarah/yq
+
+    # networking tools
+    dnsutils # `dig` + `nslookup`
+
+    # misc
+    file
+    which
+    tree
+    gnused
+    gnutar
+    gawk
+    zstd
+    git
+    wev # wayland xev
+    gcc
+    tldr
+
+    htop
+    btop # fancy htop
+    iotop # io monitoring
+    iftop # network monitoring
+
+    # system call monitoring
+    lsof # list open files
+
+    # system tools
+    lm_sensors # for `sensors` command
+    ethtool
+    pciutils # lspci
+    usbutils # lsusb
+  ];
+
+  networking.firewall = {
+    enable = true;
+    allowedTCPPortRanges = [
+      {
+        from = 1714;
+        to = 1764;
+      } # KDE Connect
+    ];
+    allowedUDPPortRanges = [
+      {
+        from = 1714;
+        to = 1764;
+      } # KDE Connect
+    ];
+  };
 
   system.stateVersion = "23.11";
 }

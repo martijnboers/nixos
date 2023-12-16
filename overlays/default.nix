@@ -1,11 +1,13 @@
- # This file defines overlays
+# This file defines overlays
 {inputs, ...}: {
   # This one contains whatever you want to overlay
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
     # use unstable sddm to fix environment variables after login with wayland
-    libsForQt5 = prev.libsForQt5 // {
+    libsForQt5 =
+      prev.libsForQt5
+      // {
         sddm = final.unstable.libsForQt5.sddm;
       };
   };
