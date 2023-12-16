@@ -58,22 +58,6 @@
   # KDE
   programs.plasma = {
     enable = true;
-    shortcuts = {
-      kwin = {
-        "Switch Window Down" = "Meta+h";
-        "Switch Window Up" = "Meta+g";
-      };
-    };
-
-    hotkeys.commands."Launch Kitty" = {
-      key = "Meta+t";
-      command = "kitty";
-    };
-
-    hotkeys.commands."Launch Firefox" = {
-      key = "Meta+w";
-      command = "firefox";
-    };
 
     spectacle.shortcuts = {
       captureRectangularRegion = "Print";
@@ -88,10 +72,7 @@
       };
     };
 
-    workspace = {
-      theme = "Materia Dark";
-      clickItemTo = "select";
-    };
+    workspace.clickItemTo = "select";
   };
 
   programs.kitty = {
