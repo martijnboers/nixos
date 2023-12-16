@@ -28,7 +28,6 @@
       signByDefault = true;
     };
     extraConfig = {
-      core.editor = "vim";
       pull.rebase = "true";
     };
   };
@@ -41,6 +40,7 @@
       dud = "docker-compose up -d";
       fixup = "ga . && gc --amend --no-edit";
       xev = "wev"; # wayland xev
+      vim = "nvim";
     };
     dotDir = ".config/zsh";
     initExtra = ''
@@ -49,8 +49,8 @@
       test -f ~/.config/zsh/.p10k.zsh && source ~/.config/zsh/.p10k.zsh
 
       # Sadly home.sessionVariables not working..
-      export VISUAL=vim
-      export EDITOR=vim
+      export VISUAL=nvim
+      export EDITOR=nvim
     '';
     oh-my-zsh = {
       enable = true;
@@ -97,16 +97,6 @@
       set preview_images true
       set preview_images_method kitty
     '';
-  };
-
-  # to get gpg to work
-  services.gpg-agent = {
-    enable = true;
-    pinentryFlavor = "qt";
-    defaultCacheTtl = 34560000;
-    defaultCacheTtlSsh = 34560000;
-    maxCacheTtl = 34560000;
-    maxCacheTtlSsh = 34560000;
   };
 
   # KDE

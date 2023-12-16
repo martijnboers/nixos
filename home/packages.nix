@@ -10,6 +10,7 @@
     thefuck
     firefox
     vim
+    neovim
     sublime-merge
     joplin-desktop
     kitty
@@ -54,13 +55,14 @@
     gnutar
     gawk
     zstd
-    gnupg
     git
     wev # wayland xev
+    gcc
+    tldr
 
     # for gpg
     gnupg
-    pinentry-qt
+    pinentry
 
     htop
     btop # fancy htop
