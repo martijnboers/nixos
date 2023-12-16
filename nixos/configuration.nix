@@ -15,6 +15,11 @@
     useDefaultShell = true;
   };
 
+  # Don't ask for sudo too often
+  security.sudo.extraConfig = ''
+    Defaults        timestamp_timeout=30
+  '';
+
   # Flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -137,6 +142,14 @@
 
   # misc
   programs.zsh.enable = true;
+
+  # to get gpg to work
+  services.pcscd.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+    #    pinentryFlavor = "curses";
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
