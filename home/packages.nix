@@ -14,7 +14,7 @@
 
     # personal
     steam
-    lutris
+    bottles
     clementine
     spotify
     qmk
