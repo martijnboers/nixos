@@ -9,8 +9,10 @@
     jetbrains.pycharm-community
     thefuck
     firefox
+    ungoogled-chromium
     sublime-merge
     joplin-desktop
+    awscli2
 
     # personal
     steam
@@ -18,12 +20,14 @@
     clementine
     spotify
     qmk
+    qflipper
 
     # theming
     nordic
     materia-kde-theme
     roboto
     jetbrains-mono
+    gimp
 
     # shell
     zsh-powerlevel10k
@@ -34,6 +38,7 @@
     direnv # used for .envrc files
     ranger
     neofetch
+    wl-clipboard # wayland clipboard manager
 
     # messaging
     signal-desktop
