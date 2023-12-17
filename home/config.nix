@@ -53,6 +53,7 @@
   # Neovim
   programs.nixvim = {
     enable = true;
+    clipboard.register = "unnamedplus";
     options = {
       number = true;         # Show line numbers
       relativenumber = true; # Show relative line numbers
@@ -128,6 +129,7 @@
     };
     extraConfig = {
       pull.rebase = "true";
+      init.defaultBranch = "main";
     };
   };
 
