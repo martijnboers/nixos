@@ -16,9 +16,10 @@
 
     # personal
     steam
-    bottles
+    lutris
     clementine
     spotify
+    spicetify-cli
     qmk
     qflipper
 
