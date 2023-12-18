@@ -53,7 +53,18 @@
   # Neovim
   programs.nixvim = {
     enable = true;
-    clipboard.register = "unnamedplus";
+
+    clipboard = {
+      register = "unnamedplus";
+      providers.wl-copy.enable = true;
+    };
+
+    # keymaps = [
+    #   {
+    #     key = "ff";
+    #     action = "<cmd>Telescope find_files<cr>";
+    #   },
+    # ];
     options = {
       number = true;         # Show line numbers
       relativenumber = true; # Show relative line numbers
@@ -63,7 +74,40 @@
         enable = true;
         flavour = "mocha";
     };
-    plugins.lightline.enable = true;
+    plugins = {
+      lightline.enable = true; # bar at the bottom
+      gitgutter.enable = true; # show changed files in git
+      lastplace.enable = true; # re-open files where left off
+
+      telescope = {
+        enable = true;
+        extraOptions = {
+          pickers.find_files = {
+            hidden = true;
+          };
+        };
+        keymaps = {
+          "<leader>ff" = "find_files";
+          "<leader>fg" = "live_grep";
+          "<leader>fb" = "buffers";
+          "<leader>fh" = "help_tags";
+        };
+      };
+
+      # gitblame.enable = true;
+      # barbar.enable = true; # clibable tabs
+
+      lsp = {
+        servers = {
+          bashls.enable = true;
+          nil_ls.enable = true;
+	  html.enable = true;
+	  jsonls.enable = true;
+	  terraformls.enable = true;
+	  pyright.enable = true;
+        };
+      };
+    };
   };
 
   # KDE
