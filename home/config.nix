@@ -1,6 +1,5 @@
 {
   inputs,
-  lib,
   pkgs,
   ...
 }: {
@@ -18,150 +17,64 @@
   };
 
   imports = [
-    # All user level packages
-    ./packages.nix
-
     # Custom modules
     ./modules/ranger.nix
+
+    # Configs that are large
+    ./neovim.nix
+    ./kde.nix
+    ./zsh.nix
+    ./kitty.nix
 
     inputs.plasma-manager.homeManagerModules.plasma-manager
     inputs.nixvim.homeManagerModules.nixvim
   ];
 
-  # ZSH stuff
-  programs.zsh = {
-    enable = true;
-    shellAliases = {
-      update = "sudo nixos-rebuild switch --flake /home/martijn/Nix#glassdoor";
-      dud = "docker-compose up -d";
-      fixup = "ga . && gc --amend --no-edit";
-      xev = "wev"; # wayland xev
-      vim = "nvim";
-    };
-    dotDir = ".config/zsh";
-    initExtra = ''
-      # Powerlevel10k Zsh theme
-      source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-      test -f ~/.config/zsh/.p10k.zsh && source ~/.config/zsh/.p10k.zsh
-    '';
-    oh-my-zsh = {
-      enable = true;
-      plugins = ["git" "thefuck" "direnv" "fzf" "z"];
-    };
-  };
+  # All user level packages
+  home.packages = with pkgs; [
+    # work
+    jetbrains.pycharm-community
+    thefuck
+    firefox
+    ungoogled-chromium
+    sublime-merge
+    joplin-desktop
+    awscli2
 
-  # Neovim
-  programs.nixvim = {
-    enable = true;
+    # personal
+    steam
+    wine
+    clementine
+    spotify
+    qmk
+    qflipper
 
-    clipboard = {
-      register = "unnamedplus";
-      providers.wl-copy.enable = true;
-    };
+    # theming
+    nordic
+    materia-kde-theme
+    roboto
+    jetbrains-mono
+    gimp
 
-    # keymaps = [
-    #   {
-    #     key = "ff";
-    #     action = "<cmd>Telescope find_files<cr>";
-    #   },
-    # ];
-    options = {
-      number = true;         # Show line numbers
-      relativenumber = true; # Show relative line numbers
-      shiftwidth = 2;        # Tab width should be 2
-    };
-    colorschemes.catppuccin = {
-        enable = true;
-        flavour = "mocha";
-    };
-    plugins = {
-      lightline.enable = true; # bar at the bottom
-      gitgutter.enable = true; # show changed files in git
-      lastplace.enable = true; # re-open files where left off
+    # shell
+    zsh-powerlevel10k
+    meslo-lgs-nf
+    kitty
+    zoxide
+    fzf # A command-line fuzzy finder
+    direnv # used for .envrc files
+    ranger
+    neofetch
+    wl-clipboard # wayland clipboard manager
 
-      telescope = {
-        enable = true;
-        extraOptions = {
-          pickers.find_files = {
-            hidden = true;
-          };
-        };
-        keymaps = {
-          "<leader>ff" = "find_files";
-          "<leader>fg" = "live_grep";
-          "<leader>fb" = "buffers";
-          "<leader>fh" = "help_tags";
-        };
-      };
+    # messaging
+    signal-desktop
+    telegram-desktop
 
-      # gitblame.enable = true;
-      # barbar.enable = true; # clibable tabs
-
-      lsp = {
-        servers = {
-          bashls.enable = true;
-          nil_ls.enable = true;
-	  html.enable = true;
-	  jsonls.enable = true;
-	  terraformls.enable = true;
-	  pyright.enable = true;
-        };
-      };
-    };
-  };
-
-  # KDE
-  programs.plasma = {
-    enable = true;
-
-    spectacle.shortcuts = {
-      captureRectangularRegion = "Print";
-    };
-
-    configFile = {
-      spectaclerc.General = {
-        autoSaveImage = false;
-      };
-      kdeglobals = {
-        Icons.Theme = "Nordic-darker";
-      };
-    };
-
-    workspace.clickItemTo = "select";
-  };
-
-  programs.kitty = {
-    enable = true;
-    settings = {
-      font_family = "Jetbrains Mono";
-      font_size = "12.0";
-      scrollback_lines = 10000;
-      window_padding_width = 6;
-
-      # Tabs
-      tab_bar_style = "powerline";
-      tab_powerline_style = "slanted";
-
-      # Display
-      sync_to_monitor = true;
-      enable_audio_bell = false;
-    };
-    keybindings = {
-      "ctrl+pgdn" = "next_tab";
-      "ctrl+pgup" = "previous_tab";
-      "ctrl+shift+pgdn" = "move_tab_forward";
-      "ctrl+shift+pgup" = "move_tab_backward";
-      "ctrl+w" = "close_tab";
-      "alt+j" = "previous_window";
-      "alt+k" = "next_window";
-      "alt+1" = "goto_tab 1";
-      "alt+2" = "goto_tab 2";
-      "alt+3" = "goto_tab 3";
-      "alt+4" = "goto_tab 4";
-      "alt+5" = "goto_tab 5";
-    };
-    theme = "Gruvbox Material Dark Medium";
-  };
+    # KDE stuff
+    libsForQt5.kdeconnect-kde
+    libsForQt5.neochat
+  ];
 
   programs.git = {
     enable = true;
