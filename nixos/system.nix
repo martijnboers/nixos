@@ -34,16 +34,6 @@
     };
   };
 
-  # Enable opengpl
-  hardware = {
-    opengl = {
-      enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
-      extraPackages = with pkgs; [rocm-opencl-icd rocm-opencl-runtime];
-    };
-  };
-
   # Bootloader.
   boot = {
     loader = {
@@ -65,12 +55,7 @@
     consoleLogLevel = 0;
     # https://github.com/NixOS/nixpkgs/pull/108294
     initrd.verbose = false;
-    initrd.luks.devices."luks-e0ec2197-22be-4ad1-b419-ca17165a5bd5".device = "/dev/disk/by-uuid/e0ec2197-22be-4ad1-b419-ca17165a5bd5";
   };
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -92,49 +77,6 @@
     LC_TELEPHONE = "nl_NL.UTF-8";
     LC_TIME = "nl_NL.UTF-8";
   };
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the KDE Plasma Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-
-  # Wayland plasma
-  services.xserver.displayManager.defaultSession = "plasmawayland";
-
-  environment.plasma5.excludePackages = with pkgs.libsForQt5; [
-    elisa
-    khelpcenter
-    konsole
-  ];
-
-  # Access QMK without sudo
-  hardware.keyboard.qmk.enable = true;
-
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "";
-  };
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
-  # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "martijn";
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -201,22 +143,6 @@
     pciutils # lspci
     usbutils # lsusb
   ];
-
-  networking.firewall = {
-    enable = true;
-    allowedTCPPortRanges = [
-      {
-        from = 1714;
-        to = 1764;
-      } # KDE Connect
-    ];
-    allowedUDPPortRanges = [
-      {
-        from = 1714;
-        to = 1764;
-      } # KDE Connect
-    ];
-  };
 
   system.stateVersion = "23.11";
 }

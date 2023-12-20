@@ -16,4 +16,20 @@
     fsType = "cifs";
     options = ["credentials=/etc/nixos/smb-secrets,uid=1000,gid=100"];
   };
+
+  networking.firewall = {
+    enable = true;
+    allowedTCPPortRanges = [
+      {
+        from = 1714;
+        to = 1764;
+      } # KDE Connect
+    ];
+    allowedUDPPortRanges = [
+      {
+        from = 1714;
+        to = 1764;
+      } # KDE Connect
+    ];
+  };
 }
