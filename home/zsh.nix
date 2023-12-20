@@ -3,7 +3,7 @@
   programs.zsh = {
     enable = true;
     shellAliases = {
-      update = "sudo nixos-rebuild switch --flake /home/martijn/Nix#glassdoor";
+      update = "sudo nixos-rebuild switch --flake /home/martijn/Nix";
       dud = "docker-compose up -d";
       fixup = "ga . && gc --amend --no-edit";
       xev = "wev"; # wayland xev

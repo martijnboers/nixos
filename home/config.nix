@@ -13,7 +13,6 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     BROWSER = "firefox";
-    TERMINAL = "kitty";
   };
 
   imports = [
@@ -26,6 +25,7 @@
     ./zsh.nix
     ./kitty.nix
 
+    # Packaged home manager modules
     inputs.plasma-manager.homeManagerModules.plasma-manager
     inputs.nixvim.homeManagerModules.nixvim
   ];
