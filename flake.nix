@@ -32,51 +32,27 @@
     home-manager,
     nixos-hardware,
     ...
-  } @ inputs: {
+  } @ inputs: let
+    lib = nixpkgs.lib;
+    mkSystem = import ./lib/mksystem.nix {
+      inherit nixpkgs inputs home-manager;
+    };
+  in {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
 
     overlays = import ./overlays {inherit inputs;};
 
-    nixosConfigurations.glassdoor = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.glassdoor = mkSystem "glassdoor" {
       system = "x86_64-linux";
-      # Makes all modules receive inputs of flake
-      specialArgs = {inherit inputs;};
-      modules = [
-        ./hosts/glassdoor/default.nix
-        ./hosts/glassdoor/hardware.nix
-        # Enable KDE
+      extra-modules = [
         ./nixos/desktop.nix
-        # Base NixOS configuration
-        ./nixos/system.nix
-
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.martijn = import ./home/config.nix;
-          home-manager.extraSpecialArgs = {inherit inputs;};
-        }
       ];
     };
 
-    nixosConfigurations.teak = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.teak = mkSystem "teak" {
       system = "aarch64-linux";
-      # Makes all modules receive inputs of flake
-      specialArgs = {inherit inputs;};
-      modules = [
-        ./hosts/hosts/teak/default.nix
-        # TODO: hardware
-        # Base NixOS configuration
-        ./nixos/system.nix
-
+      extra-modules = [
         nixos-hardware.nixosModules.raspberry-pi-4
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.martijn = import ./home/config.nix;
-          home-manager.extraSpecialArgs = {inherit inputs;};
-        }
       ];
     };
   };
