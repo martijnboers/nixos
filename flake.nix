@@ -44,6 +44,11 @@
 
     nixosConfigurations.glassdoor = mkSystem "glassdoor" {
       system = "x86_64-linux";
+      special-options = {
+        isWork = true;
+        isDesktop = true;
+        isPersonal = true;
+      };
       extra-modules = [
         ./nixos/desktop.nix
       ];
@@ -51,6 +56,9 @@
 
     nixosConfigurations.teak = mkSystem "teak" {
       system = "aarch64-linux";
+      special-options = {
+        isWork = false;
+      };
       extra-modules = [
         nixos-hardware.nixosModules.raspberry-pi-4
       ];

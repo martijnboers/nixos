@@ -5,7 +5,8 @@
   ...
 }: name: {
   system,
-  extra-modules
+  extra-modules,
+  special-options,
 }: let
   # The config files for this system.
   systemconfig = ../hosts/${name}/default.nix;
@@ -14,19 +15,21 @@ in
   nixpkgs.lib.nixosSystem rec {
     inherit system;
 
-    modules = [
-      systemconfig
-      hardwareconfig
+    modules =
+      [
+        systemconfig
+        hardwareconfig
 
-      # Base NixOS configuration
-      ../nixos/system.nix
+        # Base NixOS configuration
+        ../nixos/system.nix
 
-      home-manager.nixosModules.home-manager
-      {
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-        home-manager.users.martijn = import ../home/config.nix;
-        home-manager.extraSpecialArgs = {inherit inputs;};
-      }
-    ] ++ extra-modules;
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.martijn = import ../home/config.nix;
+          home-manager.extraSpecialArgs = {inherit inputs special-options;};
+        }
+      ]
+      ++ extra-modules;
   }
