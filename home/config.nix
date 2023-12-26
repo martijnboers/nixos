@@ -1,6 +1,8 @@
 {
   inputs,
   pkgs,
+  lib,
+  special-options,
   ...
 }: {
   # Let home Manager install and manage itself.
@@ -15,66 +17,70 @@
     BROWSER = "firefox";
   };
 
-  imports = [
-    # Custom modules
-    ./modules/ranger.nix
+  imports =
+    [
+      # Custom modules
+      ./modules/ranger.nix
 
-    # Configs that are large
-    ./neovim.nix
-    ./kde.nix
-    ./zsh.nix
-    ./kitty.nix
+      # Configs that are large
+      ./neovim.nix
+      ./zsh.nix
 
-    # Packaged home manager modules
-    inputs.plasma-manager.homeManagerModules.plasma-manager
-    inputs.nixvim.homeManagerModules.nixvim
-  ];
+      # Packaged home manager modules
+      inputs.nixvim.homeManagerModules.nixvim
+    ]
+    ++ lib.optionals special-options.isDesktop [
+      ./kitty.nix
+      ./kde.nix
+      inputs.plasma-manager.homeManagerModules.plasma-manager
+    ];
 
   # All user level packages
-  home.packages = with pkgs; [
-    # work
-    jetbrains.pycharm-community
-    thefuck
-    firefox
-    ungoogled-chromium
-    sublime-merge
-    joplin-desktop
-    awscli2
+  home.packages = with pkgs;
+    [
+      # shell
+      zsh-powerlevel10k
+      meslo-lgs-nf
+      zoxide
+      fzf # A command-line fuzzy finder
+      direnv # used for .envrc files
+      ranger
+      neofetch
+      thefuck
+    ]
+    ++ lib.optionals special-options.isWork [
+      jetbrains.pycharm-community
+      sublime-merge
+      awscli2
+    ]
+    ++ lib.optionals special-options.isDesktop [
+      firefox
+      kitty
+      ungoogled-chromium
+      libsForQt5.kdeconnect-kde
+      libsForQt5.neochat
+      wl-clipboard # wayland clipboard manager
+      joplin-desktop
 
-    # personal
-    steam
-    wine
-    clementine
-    spotify
-    qmk
-    qflipper
+      # theming
+      nordic
+      materia-kde-theme
+      roboto
+      jetbrains-mono
+      gimp
+    ]
+    ++ lib.optionals special-options.isPersonal [
+      steam
+      wine
+      clementine
+      spotify
+      qmk
+      qflipper
 
-    # theming
-    nordic
-    materia-kde-theme
-    roboto
-    jetbrains-mono
-    gimp
-
-    # shell
-    zsh-powerlevel10k
-    meslo-lgs-nf
-    kitty
-    zoxide
-    fzf # A command-line fuzzy finder
-    direnv # used for .envrc files
-    ranger
-    neofetch
-    wl-clipboard # wayland clipboard manager
-
-    # messaging
-    signal-desktop
-    telegram-desktop
-
-    # KDE stuff
-    libsForQt5.kdeconnect-kde
-    libsForQt5.neochat
-  ];
+      # messaging
+      signal-desktop
+      telegram-desktop
+    ];
 
   programs.git = {
     enable = true;
