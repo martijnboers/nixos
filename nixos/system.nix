@@ -23,6 +23,14 @@
   # Flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
+  # Only keep the last 500MiB of systemd journal.
+  services.journald.extraConfig = "SystemMaxUse=500M";
+
+  # Collect nix store garbage and optimise daily.
+  nix.gc.automatic = true;
+  nix.gc.options = "--delete-older-than 30d";
+  nix.optimise.automatic = true;
+
   # Bluetooth
   hardware.bluetooth = {
     enable = true;
