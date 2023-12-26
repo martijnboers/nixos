@@ -10,7 +10,7 @@
   users.users.martijn = {
     isNormalUser = true;
     description = "Martijn Boers";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = ["networkmanager" "wheel" "docker"];
     shell = pkgs.zsh;
     useDefaultShell = true;
   };
@@ -101,6 +101,10 @@
       default-cache-ttl = 21600;
     };
   };
+
+  # Docker configuration
+  virtualisation.docker.enable = true;
+
 
   # Global packages
   environment.systemPackages = with pkgs; [
