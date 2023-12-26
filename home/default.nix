@@ -52,6 +52,7 @@
       jetbrains.pycharm-community
       sublime-merge
       awscli2
+      virtualbox
     ]
     ++ lib.optionals special-options.isDesktop [
       firefox
