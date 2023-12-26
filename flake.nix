@@ -58,9 +58,23 @@
       system = "aarch64-linux";
       special-options = {
         isWork = false;
+        isDesktop = false;
+        isPersonal = false;
       };
       extra-modules = [
         nixos-hardware.nixosModules.raspberry-pi-4
+      ];
+    };
+
+    nixosConfigurations.rihanna = mkSystem "rihanna" {
+      system = "x86_64-linux";
+      special-options = {
+        isWork = true;
+        isDesktop = true;
+        isPersonal = false;
+      };
+      extra-modules = [
+        ./nixos/desktop.nix
       ];
     };
   };
