@@ -8,7 +8,6 @@
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   services.xserver.videoDrivers = ["amdgpu"];
-  boot.initrd.kernelModules = ["amdgpu"];
 
   # For mount.cifs, required unless domain name resolution is not needed.
   fileSystems."/mnt/share" = {
@@ -17,8 +16,20 @@
     options = ["credentials=/etc/nixos/smb-secrets,uid=1000,gid=100"];
   };
 
-  # virtualization
-  virtualisation.libvirtd.enable = true;
+  # QEMU virtualization
+  virtualisation = {
+    libvirtd = {
+      enable = true;
+      qemu = {
+        swtpm.enable = true;
+        ovmf.enable = true;
+        ovmf.packages = [ pkgs.OVMFFull.fd ];
+      };
+    };
+    spiceUSBRedirection.enable = true;
+  };
+  services.spice-vdagentd.enable = true;
+  users.users.martijn.extraGroups = [ "libvirtd" ];
   programs.virt-manager.enable = true;
 
   # Bootloader.
@@ -41,7 +52,10 @@
     ];
     consoleLogLevel = 0;
     # https://github.com/NixOS/nixpkgs/pull/108294
-    initrd.verbose = false;
+    initrd = {
+       verbose = false;
+       kernelModules = ["amdgpu"];
+    };
   };
 
   networking.firewall = {
