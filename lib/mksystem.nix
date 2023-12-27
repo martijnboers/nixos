@@ -12,7 +12,7 @@
   systemconfig = ../hosts/${name}/default.nix;
   hardwareconfig = ../hosts/${name}/hardware.nix;
 in
-  nixpkgs.lib.nixosSystem rec {
+  nixpkgs.lib.nixosSystem {
     inherit system;
 
     modules =

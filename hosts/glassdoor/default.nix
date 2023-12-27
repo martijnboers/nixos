@@ -17,6 +17,10 @@
     options = ["credentials=/etc/nixos/smb-secrets,uid=1000,gid=100"];
   };
 
+  # virtualization
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
+
   networking.firewall = {
     enable = true;
     allowedTCPPortRanges = [
