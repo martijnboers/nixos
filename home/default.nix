@@ -56,7 +56,6 @@
       jetbrains.pycharm-community
       sublime-merge
       awscli2
-      virtualbox
       slack
     ]
     ++ lib.optionals special-options.isDesktop [
