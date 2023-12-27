@@ -9,6 +9,17 @@
     };
   };
 
+  # Bluetooth
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Enable = "Source,Sink,Media,Socket";
+      };
+    };
+  };
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
