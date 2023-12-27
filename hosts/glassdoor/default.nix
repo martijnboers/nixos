@@ -23,13 +23,13 @@
       qemu = {
         swtpm.enable = true;
         ovmf.enable = true;
-        ovmf.packages = [ pkgs.OVMFFull.fd ];
+        ovmf.packages = [pkgs.OVMFFull.fd];
       };
     };
     spiceUSBRedirection.enable = true;
   };
   services.spice-vdagentd.enable = true;
-  users.users.martijn.extraGroups = [ "libvirtd" ];
+  users.users.martijn.extraGroups = ["libvirtd"];
   programs.virt-manager.enable = true;
 
   # Bootloader.
@@ -53,8 +53,8 @@
     consoleLogLevel = 0;
     # https://github.com/NixOS/nixpkgs/pull/108294
     initrd = {
-       verbose = false;
-       kernelModules = ["amdgpu"];
+      verbose = false;
+      kernelModules = ["amdgpu"];
     };
   };
 

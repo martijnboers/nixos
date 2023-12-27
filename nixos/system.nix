@@ -64,6 +64,13 @@
   # Docker configuration
   virtualisation.docker.enable = true;
 
+  # Default env variables
+  environment.sessionVariables = {
+    TERM = "xterm-kitty";
+    EDITOR = "nvim";
+    BROWSER = "firefox";
+  };
+
   # Global packages
   environment.systemPackages = with pkgs; [
     # for gpg

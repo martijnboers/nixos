@@ -9,6 +9,7 @@
       xev = "wev"; # wayland xev
       vim = "nvim";
       rm = "trash-put"; # use trash for cli
+      ks = "kitty +kitten ssh";
     };
     dotDir = ".config/zsh";
     initExtra = ''

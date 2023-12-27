@@ -1,5 +1,6 @@
 {
   inputs,
+  outputs,
   pkgs,
   lib,
   special-options,
@@ -8,13 +9,25 @@
   # Let home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  # Nicely reload system units when changing configs
+  systemd.user.startServices = "sd-switch";
+
   home.username = "martijn";
   home.homeDirectory = "/home/martijn";
   home.stateVersion = "23.11";
 
-  home.sessionVariables = {
-    EDITOR = "nvim";
-    BROWSER = "firefox";
+  nixpkgs = {
+    overlays = [
+      outputs.overlays.additions
+      outputs.overlays.modifications
+      outputs.overlays.unstable-packages
+    ];
+
+    config = {
+      allowUnfree = true;
+      # Workaround for https://github.com/nix-community/home-manager/issues/2942
+      allowUnfreePredicate = _: true;
+    };
   };
 
   imports =
@@ -46,7 +59,6 @@
       ranger
       neofetch
       thefuck
-
       trash-cli
 
       # fonts
@@ -56,9 +68,13 @@
     ]
     ++ lib.optionals special-options.isWork [
       jetbrains.pycharm-community
+      vscode
       sublime-merge
       awscli2
       slack
+      nodejs_18 # global for work, move to project
+      python311Full # move to projects
+      #      httpie-desktop TODO: doesn't work yet
     ]
     ++ lib.optionals special-options.isDesktop [
       firefox
