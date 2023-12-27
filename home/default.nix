@@ -40,19 +40,24 @@
     [
       # shell
       zsh-powerlevel10k
-      meslo-lgs-nf
       zoxide
       fzf # A command-line fuzzy finder
       direnv # used for .envrc files
       ranger
       neofetch
       thefuck
+
+      # fonts
+      meslo-lgs-nf
+      roboto
+      jetbrains-mono
     ]
     ++ lib.optionals special-options.isWork [
       jetbrains.pycharm-community
       sublime-merge
       awscli2
       virtualbox
+      slack
     ]
     ++ lib.optionals special-options.isDesktop [
       firefox
@@ -66,8 +71,6 @@
       # theming
       nordic
       materia-kde-theme
-      roboto
-      jetbrains-mono
       gimp
     ]
     ++ lib.optionals special-options.isPersonal [
