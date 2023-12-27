@@ -1,6 +1,7 @@
 {
   nixpkgs,
   inputs,
+  outputs,
   home-manager,
   ...
 }: name: {
@@ -25,10 +26,9 @@ in
 
         home-manager.nixosModules.home-manager
         {
-          home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.martijn = import ../home/default.nix;
-          home-manager.extraSpecialArgs = {inherit inputs special-options;};
+          home-manager.extraSpecialArgs = {inherit inputs outputs nixpkgs special-options;};
         }
       ]
       ++ extra-modules;

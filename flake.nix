@@ -7,21 +7,17 @@
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     # Home manager kde
     plasma-manager = {
       url = "github:pjones/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
-
     nixvim = {
       url = "github:nix-community/nixvim/nixos-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
-
     # For Raspberry Pi
     nixos-hardware.url = "github:nixos/nixos-hardware";
   };
@@ -33,12 +29,24 @@
     nixos-hardware,
     ...
   } @ inputs: let
-    lib = nixpkgs.lib;
+    inherit (self) outputs;
+    systems = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
+    # This is a function that generates an attribute by calling a function you
+    # pass to it, with each system as an argument
+    forAllSystems = nixpkgs.lib.genAttrs systems;
+
+    # Abstract generating system code here
     mkSystem = import ./lib/mksystem.nix {
-      inherit nixpkgs inputs home-manager;
+      inherit nixpkgs inputs outputs home-manager;
     };
   in {
-    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
+    # Custom packages, accessible through 'nix build', 'nix shell', etc
+    packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+    # Formatter for your nix files, available through 'nix fmt'
+    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
     overlays = import ./overlays {inherit inputs;};
 
