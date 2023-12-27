@@ -3,6 +3,6 @@
   pkgs,
   ...
 }: {
-  # TODO skelleton work laptop
+  # QEMU virtual machine
   networking.hostName = "testbed";
 }
