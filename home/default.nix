@@ -47,6 +47,8 @@
       neofetch
       thefuck
 
+      trash-cli
+
       # fonts
       meslo-lgs-nf
       roboto

@@ -8,6 +8,7 @@
       fixup = "ga . && gc --amend --no-edit";
       xev = "wev"; # wayland xev
       vim = "nvim";
+      rm = "trash-put"; # use trash for cli
     };
     dotDir = ".config/zsh";
     initExtra = ''
