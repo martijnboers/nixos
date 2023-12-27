@@ -77,5 +77,17 @@
         ./nixos/desktop.nix
       ];
     };
+
+    nixosConfigurations.testbed = mkSystem "testbed" {
+      system = "x86_64-linux";
+      special-options = {
+        isWork = true;
+        isDesktop = true;
+        isPersonal = false;
+      };
+      extra-modules = [
+        ./nixos/desktop.nix
+      ];
+    };
   };
 }
