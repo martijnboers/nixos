@@ -68,10 +68,10 @@
     ]
     ++ lib.optionals special-options.isWork [
       jetbrains.pycharm-community
-      vscode
       sublime-merge
       awscli2
       slack
+      mongodb-compass
       nodejs_18 # global for work, move to project
       python311Full # move to projects
       #      httpie-desktop TODO: doesn't work yet
