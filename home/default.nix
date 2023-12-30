@@ -74,7 +74,7 @@
       mongodb-compass
       nodejs_18 # global for work, move to project
       python311Full # move to projects
-      #      httpie-desktop TODO: doesn't work yet
+      httpie-desktop
     ]
     ++ lib.optionals special-options.isDesktop [
       firefox
@@ -82,6 +82,8 @@
       ungoogled-chromium
       libsForQt5.kdeconnect-kde
       libsForQt5.neochat
+      libsForQt5.kate
+      libsForQt5.kompare
       wl-clipboard # wayland clipboard manager
       joplin-desktop
 

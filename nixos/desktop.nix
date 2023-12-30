@@ -40,6 +40,7 @@
     elisa
     khelpcenter
     konsole
+    kate
   ];
 
   # Access QMK without sudo
