@@ -1,13 +1,44 @@
 {
   lib,
-  fetchurl,
+  stdenv,
   appimageTools,
-}:
-appimageTools.wrapType2 {
-  name = "httpie-desktop";
+  fetchurl,
+}: let
+  pname = "httpie-desktop";
+  version = "2023.3.6";
+  name = "${pname}-${version}";
+
+  inherit (stdenv.hostPlatform) system;
+  throwSystem = throw "Unsupported system: ${system}";
+
   src = fetchurl {
-    url = "https://github.com/httpie/desktop/releases/download/v2023.3.5/HTTPie-2023.3.5.AppImage";
-    hash = "sha256-dZkKKdnMn1nS9bfQ89GJfW4w3iG455u1CwIBsLsiOHA=";
+    url = "https://github.com/httpie/desktop/releases/download/v${version}/HTTPie-${version}.AppImage";
+    hash = "sha256-AHD3ZbVzfMQtYpTW3Fu6Iyo41/8B4HKZFfNUWabLCOM=";
   };
-  extraPkgs = pkgs: with pkgs; [];
-}
+
+  appimageContents = appimageTools.extractType2 {
+    inherit name src;
+  };
+
+  meta = with lib; {
+    description = "HTTPie Desktop Client";
+    homepage = "https://httpie.io/";
+    license = licenses.bsd3;
+    platforms = ["x86_64-linux"];
+  };
+
+  linux = appimageTools.wrapType2 rec {
+    inherit pname version src meta;
+
+    multiArch = false; # no 32bit needed
+    extraPkgs = appimageTools.defaultFhsEnvArgs.multiPkgs;
+
+    extraInstallCommands = ''
+      mv $out/bin/{${name},${pname}}
+      install -m 444 -D ${appimageContents}/httpie.desktop $out/share/applications/httpie.desktop
+      install -m 444 -D ${appimageContents}/httpie.png $out/share/icons/hicolor/512x512/apps/httpie.png
+      substituteInPlace $out/share/applications/httpie.desktop --replace 'Exec=AppRun' 'Exec=${pname}'
+    '';
+  };
+in
+  linux
