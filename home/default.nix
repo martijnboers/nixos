@@ -2,15 +2,12 @@
   inputs,
   outputs,
   pkgs,
+  config,
   lib,
   special-options,
+  sopsconfig,
   ...
 }: {
-  # Let home Manager install and manage itself.
-  programs.home-manager.enable = true;
-
-  # Nicely reload system units when changing configs
-  systemd.user.startServices = "sd-switch";
 
   home.username = "martijn";
   home.homeDirectory = "/home/martijn";
@@ -38,6 +35,8 @@
       # Configs that are large
       ./neovim.nix
       ./zsh.nix
+
+      inputs.sops-nix.homeManagerModules.sops
 
       # Packaged home manager modules
       inputs.nixvim.homeManagerModules.nixvim
@@ -108,6 +107,15 @@
       telegram-desktop
     ];
 
+  # shared sops config
+  sops = {
+    defaultSopsFile = sopsconfig;
+    age.keyFile = "${config.xdg.configHome}/sops/age/personal.txt";
+  };
+
+  # Confugration that depends on secrets
+  # networking.extraHosts = if special-options.isPersonal then sops.secrets.hosts else "";
+
   programs.git = {
     enable = true;
     userName = "Martijn Boers";
@@ -133,4 +141,9 @@
       set preview_images_method kitty
     '';
   };
+
+  # Nicely reload system units when changing configs
+  systemd.user.startServices = "sd-switch";
+  # Let home Manager install and manage itself.
+  programs.home-manager.enable = true;
 }
