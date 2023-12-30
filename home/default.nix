@@ -65,6 +65,9 @@
       meslo-lgs-nf
       roboto
       jetbrains-mono
+
+      # tools
+      distrobox # run any linux distro
     ]
     ++ lib.optionals special-options.isWork [
       jetbrains.pycharm-community
