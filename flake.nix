@@ -3,6 +3,8 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
+
     home-manager = {
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,7 +19,8 @@
       url = "github:nix-community/nixvim/nixos-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
+    sops-nix.url = "github:Mic92/sops-nix";
+
     # For Raspberry Pi
     nixos-hardware.url = "github:nixos/nixos-hardware";
   };
@@ -27,6 +30,7 @@
     nixpkgs,
     home-manager,
     nixos-hardware,
+    sops-nix,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -40,7 +44,7 @@
 
     # Abstract generating system code here
     mkSystem = import ./lib/mksystem.nix {
-      inherit nixpkgs inputs outputs home-manager;
+      inherit nixpkgs inputs outputs home-manager sops-nix;
     };
   in {
     # Custom packages, accessible through 'nix build', 'nix shell', etc

@@ -12,6 +12,7 @@
   # The config files for this system.
   systemconfig = ../hosts/${name}/default.nix;
   hardwareconfig = ../hosts/${name}/hardware.nix;
+  sopsconfig = ../secrets/${name}.yaml;
 in
   nixpkgs.lib.nixosSystem {
     inherit system;
@@ -28,7 +29,7 @@ in
         {
           home-manager.useUserPackages = true;
           home-manager.users.martijn = import ../home/default.nix;
-          home-manager.extraSpecialArgs = {inherit inputs outputs nixpkgs special-options;};
+          home-manager.extraSpecialArgs = {inherit inputs outputs nixpkgs special-options sopsconfig;};
         }
       ]
       ++ extra-modules;
