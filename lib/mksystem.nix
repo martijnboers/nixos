@@ -13,7 +13,6 @@
   # The config files for this system.
   systemconfig = ../hosts/${name}/default.nix;
   hardwareconfig = ../hosts/${name}/hardware.nix;
-  sopsconfig = ../secrets/${name}.yaml;
 in
   nixpkgs.lib.nixosSystem {
     modules =

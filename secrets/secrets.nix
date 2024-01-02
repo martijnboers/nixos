@@ -3,4 +3,6 @@ let
   users = [martijn];
 in {
   "hosts.age".publicKeys = users;
+  "password.age".publicKeys = users;
+  "smb.age".publicKeys = users;
 }

@@ -18,11 +18,7 @@
       outputs.overlays.unstable-packages
     ];
 
-    config = {
-      allowUnfree = true;
-      # Workaround for https://github.com/nix-community/home-manager/issues/2942
-      allowUnfreePredicate = _: true;
-    };
+    config.allowUnfree = true;
   };
 
   imports =
@@ -63,6 +59,8 @@
 
       # tools
       distrobox # run any linux distro
+      comma # wrapper for nix run, run program without installing
+      nix-index # search files in upstream: nix-locate 'bin/hello'
     ]
     ++ lib.optionals special-options.isWork [
       jetbrains.pycharm-community
@@ -102,6 +100,8 @@
       signal-desktop
       telegram-desktop
     ];
+
+  programs.direnv.nix-direnv.enable = true;
 
   programs.git = {
     enable = true;
