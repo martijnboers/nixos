@@ -1,4 +1,8 @@
-{pkgs, config, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   # User
   users.users.martijn = {
     isNormalUser = true;
@@ -13,6 +17,30 @@
     Defaults timestamp_timeout=100
   '';
 
+  # Secrets
+  age = {
+    secrets = {
+      hosts = {
+        file = ../secrets/hosts.age;
+        owner = config.users.users.martijn.name;
+      };
+    };
+  };
+
+  # SSH
+  services.openssh = {
+    enable = true;
+    settings.PasswordAuthentication = false;
+    settings.KbdInteractiveAuthentication = false;
+    settings.PermitRootLogin = "no";
+    hostKeys = [
+      {
+        path = "/home/martijn/.ssh/id_ed25519";
+        type = "ed25519";
+      }
+    ];
+  };
+
   # Flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -26,7 +54,9 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-#  networking.hostFiles = [config.sops.secrets.hosts.path];
+  # readFile copies the content into nix-store but only way
+  # to make this work with networking
+  networking.extraHosts = builtins.readFile config.age.secrets.hosts.path;
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
@@ -44,20 +74,6 @@
     LC_PAPER = "nl_NL.UTF-8";
     LC_TELEPHONE = "nl_NL.UTF-8";
     LC_TIME = "nl_NL.UTF-8";
-  };
-
-  sops = {
-    defaultSopsFile = ../secrets/vault.yaml;
-    defaultSopsFormat = "yaml";
-    age.keyFile = /var/lib/sops-nix/keys.txt;
-    gnupg.sshKeyPaths = [];
-
-    secrets = {
-      hosts = {
-        mode = "0440";
-        owner = config.users.users.martijn.name;
-      };
-    };
   };
 
   # Allow unfree packages
@@ -134,7 +150,6 @@
     ethtool
     pciutils # lspci
     usbutils # lsusb
-    sops # for secret files
   ];
 
   system.stateVersion = "23.11";

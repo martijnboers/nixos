@@ -19,14 +19,14 @@
       url = "github:nix-community/nixvim/nixos-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    sops-nix.url = "github:Mic92/sops-nix";
+    agenix.url = "github:ryantm/agenix";
   };
 
   outputs = {
     self,
     nixpkgs,
     home-manager,
-    sops-nix,
+    agenix,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -40,7 +40,7 @@
 
     # Abstract generating system code here
     mkSystem = import ./lib/mksystem.nix {
-      inherit nixpkgs inputs outputs home-manager sops-nix;
+      inherit nixpkgs inputs outputs home-manager agenix;
     };
   in {
     # Custom packages, accessible through 'nix build', 'nix shell', etc
