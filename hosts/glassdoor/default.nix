@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  config,
   ...
 }: {
   # Glassdoor machine specific stuff
@@ -13,7 +14,7 @@
   fileSystems."/mnt/share" = {
     device = "//192.168.1.242/sambashare";
     fsType = "cifs";
-    options = ["credentials=/etc/nixos/smb-secrets,uid=1000,gid=100"];
+    options = ["credentials=${config.age.secrets.smb.path},uid=1000,gid=100"];
   };
 
   # QEMU virtualization

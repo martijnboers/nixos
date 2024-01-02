@@ -10,6 +10,8 @@
     extraGroups = ["networkmanager" "wheel" "docker"];
     shell = pkgs.zsh;
     useDefaultShell = true;
+    hashedPasswordFile = config.age.secrets.password.path;
+    openssh.authorizedKeys.keyFiles = [/home/martijn/.ssh/id_ed25519.pub];
   };
 
   # Don't ask for sudo too often
@@ -20,10 +22,9 @@
   # Secrets
   age = {
     secrets = {
-      hosts = {
-        file = ../secrets/hosts.age;
-        owner = config.users.users.martijn.name;
-      };
+      hosts.file = ../secrets/hosts.age;
+      password.file = ../secrets/password.age;
+      smb.file = ../secrets/smb.age;
     };
   };
 
@@ -33,6 +34,8 @@
     settings.PasswordAuthentication = false;
     settings.KbdInteractiveAuthentication = false;
     settings.PermitRootLogin = "no";
+    ports = [666];
+    openFirewall = true;
     hostKeys = [
       {
         path = "/home/martijn/.ssh/id_ed25519";

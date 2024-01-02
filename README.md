@@ -6,17 +6,9 @@ Personal NixOS files. Mostly plagiarized from other configurations.
 > -- ___Jamie Zawinski___
 
 ## Fresh installation notes
-Link flake file to home
-
+- Create ISO: `nix run github:nix-community/nixos-generators -- --flake "/home/martijn/Nix#glassdoor" -f iso`
+- Link flake file to home
 - `sudo ln -s /home/martijn/Nix/flake.nix /etc/nixos/flake.nix`
-
-
-#### Set  samba secrets
-```bash
-❯ cat /etc/nixos/smb-secrets
-username=user
-password=password
-```
 
 #### Import private key
 ```bash
@@ -34,5 +26,3 @@ cp ssh ~/.ssh
 - `qmk compile -kb peej/lumberjack -km martijnboers`
 - `qmk flash -kb peej/lumberjack -km martijnboers`
 
-#### Delete old generations
-- `nix-collect-garbage`
