@@ -3,6 +3,7 @@
   inputs,
   outputs,
   home-manager,
+  sops-nix,
   ...
 }: name: {
   system,
@@ -15,8 +16,6 @@
   sopsconfig = ../secrets/${name}.yaml;
 in
   nixpkgs.lib.nixosSystem {
-    inherit system;
-
     modules =
       [
         systemconfig
@@ -25,11 +24,14 @@ in
         # Base NixOS configuration
         ../nixos/system.nix
 
+        # Secret management
+        sops-nix.nixosModules.sops
+
         home-manager.nixosModules.home-manager
         {
           home-manager.useUserPackages = true;
           home-manager.users.martijn = import ../home/default.nix;
-          home-manager.extraSpecialArgs = {inherit inputs outputs nixpkgs special-options sopsconfig;};
+          home-manager.extraSpecialArgs = {inherit inputs outputs special-options;};
         }
       ]
       ++ extra-modules;
