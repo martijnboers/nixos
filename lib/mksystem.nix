@@ -3,7 +3,7 @@
   inputs,
   outputs,
   home-manager,
-  sops-nix,
+  agenix,
   ...
 }: name: {
   system,
@@ -25,7 +25,10 @@ in
         ../nixos/system.nix
 
         # Secret management
-        sops-nix.nixosModules.sops
+        agenix.nixosModules.default
+        {
+          environment.systemPackages = [agenix.packages.${system}.default];
+        }
 
         home-manager.nixosModules.home-manager
         {
