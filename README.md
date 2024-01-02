@@ -22,6 +22,11 @@ password=password
 ```bash
 gpg --import private.key
 ```
+
+### Age
+`sudo mkdir /var/lib/sops-nix`
+
+`cp keys.txt /var/lib/sops-nix/keys.txt`
 ## Troubleshooting
 #### GPG hangs
 - `rm -rf ~/.gnupg/public-keys.d/*.lock`

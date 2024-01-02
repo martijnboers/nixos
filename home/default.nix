@@ -5,10 +5,8 @@
   config,
   lib,
   special-options,
-  sopsconfig,
   ...
 }: {
-
   home.username = "martijn";
   home.homeDirectory = "/home/martijn";
   home.stateVersion = "23.11";
@@ -35,8 +33,6 @@
       # Configs that are large
       ./neovim.nix
       ./zsh.nix
-
-      inputs.sops-nix.homeManagerModules.sops
 
       # Packaged home manager modules
       inputs.nixvim.homeManagerModules.nixvim
@@ -106,15 +102,6 @@
       signal-desktop
       telegram-desktop
     ];
-
-  # shared sops config
-  sops = {
-    defaultSopsFile = sopsconfig;
-    age.keyFile = "${config.xdg.configHome}/sops/age/personal.txt";
-  };
-
-  # Confugration that depends on secrets
-  # networking.extraHosts = if special-options.isPersonal then sops.secrets.hosts else "";
 
   programs.git = {
     enable = true;

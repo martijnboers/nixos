@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{pkgs, config, ...}: {
   # User
   users.users.martijn = {
     isNormalUser = true;
@@ -26,6 +26,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+#  networking.hostFiles = [config.sops.secrets.hosts.path];
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
@@ -43,6 +44,20 @@
     LC_PAPER = "nl_NL.UTF-8";
     LC_TELEPHONE = "nl_NL.UTF-8";
     LC_TIME = "nl_NL.UTF-8";
+  };
+
+  sops = {
+    defaultSopsFile = ../secrets/vault.yaml;
+    defaultSopsFormat = "yaml";
+    age.keyFile = /var/lib/sops-nix/keys.txt;
+    gnupg.sshKeyPaths = [];
+
+    secrets = {
+      hosts = {
+        mode = "0440";
+        owner = config.users.users.martijn.name;
+      };
+    };
   };
 
   # Allow unfree packages
@@ -119,6 +134,7 @@
     ethtool
     pciutils # lspci
     usbutils # lsusb
+    sops # for secret files
   ];
 
   system.stateVersion = "23.11";

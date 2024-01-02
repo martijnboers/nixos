@@ -20,16 +20,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix.url = "github:Mic92/sops-nix";
-
-    # For Raspberry Pi
-    nixos-hardware.url = "github:nixos/nixos-hardware";
   };
 
   outputs = {
     self,
     nixpkgs,
     home-manager,
-    nixos-hardware,
     sops-nix,
     ...
   } @ inputs: let
@@ -73,9 +69,6 @@
         isDesktop = false;
         isPersonal = false;
       };
-      extra-modules = [
-        nixos-hardware.nixosModules.raspberry-pi-4
-      ];
     };
 
     nixosConfigurations.rihanna = mkSystem "rihanna" {
