@@ -33,6 +33,12 @@
   users.users.martijn.extraGroups = ["libvirtd"];
   programs.virt-manager.enable = true;
 
+  # Enable secrets + append hosts
+  services.secrets.hosts = true;
+
+  # Support gpg for git signing
+  programs.gpg.enable = true;
+
   # Bootloader.
   boot = {
     loader = {
