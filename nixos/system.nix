@@ -158,8 +158,5 @@
     Defaults timestamp_timeout=100
   '';
 
-  # Make a copy of the working source in generations
-  system.copySystemConfiguration = true;
-
   system.stateVersion = "23.11";
 }
