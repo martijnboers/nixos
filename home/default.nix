@@ -4,7 +4,7 @@
   pkgs,
   config,
   lib,
-  hostenv,
+  home-env,
   ...
 }: {
   home.username = "martijn";
@@ -36,7 +36,7 @@
       # quickly lookup and run programs
       inputs.nix-index-database.hmModules.nix-index
     ]
-    ++ lib.optionals hostenv.desktop [
+    ++ lib.optionals home-env.desktop [
       ./kitty.nix
       ./kde.nix
       inputs.plasma-manager.homeManagerModules.plasma-manager
@@ -63,7 +63,7 @@
       # tools
       distrobox # run any linux distro
     ]
-    ++ lib.optionals hostenv.work [
+    ++ lib.optionals home-env.work [
       jetbrains.pycharm-community
       sublime-merge
       awscli2
@@ -73,7 +73,7 @@
       python311Full # move to projects
       httpie-desktop
     ]
-    ++ lib.optionals hostenv.desktop [
+    ++ lib.optionals home-env.desktop [
       firefox
       kitty
       ungoogled-chromium
@@ -89,7 +89,7 @@
       materia-kde-theme
       gimp
     ]
-    ++ lib.optionals hostenv.personal [
+    ++ lib.optionals home-env.personal [
       steam
       wine
       clementine
@@ -116,7 +116,7 @@
     userEmail = "martijn@plebian.nl";
     signing = {
       key = "FDC7B670BF26B101";
-      signByDefault = config.programs.gpg.enable;
+      signByDefault = true;
     };
     extraConfig = {
       pull.rebase = "true";
