@@ -127,9 +127,7 @@
 
   # Default env variables
   environment.sessionVariables = {
-    TERM = "xterm-kitty";
     EDITOR = "nvim";
-    BROWSER = "firefox";
   };
 
   # Set your time zone.

@@ -1,4 +1,9 @@
 {pkgs, ...}: {
+  environment.sessionVariables = {
+    TERM = "xterm-kitty";
+    BROWSER = "firefox";
+  };
+
   # Enable opengpl
   hardware = {
     opengl = {
