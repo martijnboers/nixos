@@ -39,9 +39,39 @@
     forAllSystems = nixpkgs.lib.genAttrs systems;
 
     # Abstract generating system code here
-    mkSystem = import ./lib/mksystem.nix {
-      inherit nixpkgs inputs outputs home-manager agenix;
-    };
+    mkSystem = name: {
+      system,
+      special-options,
+    }: let
+      # The config files for this system.
+      systemconfig = ./hosts/${name}/default.nix;
+      hardwareconfig = ./hosts/${name}/hardware.nix;
+    in
+      with nixpkgs.lib;
+        nixosSystem {
+          modules =
+            [
+              systemconfig
+              hardwareconfig
+
+              # Base NixOS configuration
+              ./nixos/system.nix
+
+              # Secret management
+              agenix.nixosModules.default
+              {
+                environment.systemPackages = [agenix.packages.${system}.default];
+              }
+
+              home-manager.nixosModules.home-manager
+              {
+                home-manager.useUserPackages = true;
+                home-manager.users.martijn = import ./home/default.nix;
+                home-manager.extraSpecialArgs = {inherit inputs outputs special-options;};
+              }
+            ]
+            ++ optionals special-options.isDesktop [./nixos/desktop.nix];
+        };
   in {
     # Custom packages, accessible through 'nix build', 'nix shell', etc
     packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
@@ -57,9 +87,6 @@
         isDesktop = true;
         isPersonal = true;
       };
-      extra-modules = [
-        ./nixos/desktop.nix
-      ];
     };
 
     nixosConfigurations.teak = mkSystem "teak" {
@@ -78,9 +105,6 @@
         isDesktop = true;
         isPersonal = false;
       };
-      extra-modules = [
-        ./nixos/desktop.nix
-      ];
     };
 
     nixosConfigurations.testbed = mkSystem "testbed" {
@@ -90,9 +114,6 @@
         isDesktop = true;
         isPersonal = false;
       };
-      extra-modules = [
-        ./nixos/desktop.nix
-      ];
     };
   };
 }

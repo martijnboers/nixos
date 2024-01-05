@@ -2,8 +2,12 @@
   # ZSH stuff
   programs.zsh = {
     enable = true;
-    shellAliases = {
-      update = "sudo nixos-rebuild switch --impure --flake /home/martijn/Nix";
+    shellAliases = let
+      updateCommand = "nixos-rebuild switch --impure --use-remote-sudo --flake /home/martijn/Nix";
+    in {
+      deploy = updateCommand;
+      debug = "${updateCommand} --show-trace --verbose";
+      update = "nix flake update";
       dud = "docker compose up -d";
       fixup = "ga . && gc --amend --no-edit";
       xev = "wev"; # wayland xev
