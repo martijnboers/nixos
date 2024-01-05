@@ -20,6 +20,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     agenix.url = "github:ryantm/agenix";
+
+    nix-index-database.url = "github:Mic92/nix-index-database";
+    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
@@ -27,6 +30,7 @@
     nixpkgs,
     home-manager,
     agenix,
+    nix-index-database,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -41,7 +45,7 @@
     # Abstract generating system code here
     mkSystem = name: {
       system,
-      special-options,
+      hostenv,
     }: let
       # The config files for this system.
       systemconfig = ./hosts/${name}/default.nix;
@@ -67,10 +71,10 @@
               {
                 home-manager.useUserPackages = true;
                 home-manager.users.martijn = import ./home/default.nix;
-                home-manager.extraSpecialArgs = {inherit inputs outputs special-options;};
+                home-manager.extraSpecialArgs = {inherit inputs outputs hostenv;};
               }
             ]
-            ++ optionals special-options.isDesktop [./nixos/desktop.nix];
+            ++ optionals hostenv.desktop [./nixos/desktop.nix];
         };
   in {
     # Custom packages, accessible through 'nix build', 'nix shell', etc
@@ -82,37 +86,37 @@
 
     nixosConfigurations.glassdoor = mkSystem "glassdoor" {
       system = "x86_64-linux";
-      special-options = {
-        isWork = true;
-        isDesktop = true;
-        isPersonal = true;
+      hostenv = {
+        work = true;
+        desktop = true;
+        personal = true;
       };
     };
 
     nixosConfigurations.teak = mkSystem "teak" {
       system = "aarch64-linux";
-      special-options = {
-        isWork = false;
-        isDesktop = false;
-        isPersonal = false;
+      hostenv = {
+        work = false;
+        desktop = false;
+        personal = false;
       };
     };
 
     nixosConfigurations.rihanna = mkSystem "rihanna" {
       system = "x86_64-linux";
-      special-options = {
-        isWork = true;
-        isDesktop = true;
-        isPersonal = false;
+      hostenv = {
+        work = true;
+        desktop = true;
+        personal = false;
       };
     };
 
     nixosConfigurations.testbed = mkSystem "testbed" {
       system = "x86_64-linux";
-      special-options = {
-        isWork = true;
-        isDesktop = true;
-        isPersonal = false;
+      hostenv = {
+        work = true;
+        desktop = true;
+        personal = false;
       };
     };
   };

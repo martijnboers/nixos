@@ -4,7 +4,7 @@
   pkgs,
   config,
   lib,
-  special-options,
+  hostenv,
   ...
 }: {
   home.username = "martijn";
@@ -32,8 +32,11 @@
 
       # Packaged home manager modules
       inputs.nixvim.homeManagerModules.nixvim
+
+      # quickly lookup and run programs
+      inputs.nix-index-database.hmModules.nix-index
     ]
-    ++ lib.optionals special-options.isDesktop [
+    ++ lib.optionals hostenv.desktop [
       ./kitty.nix
       ./kde.nix
       inputs.plasma-manager.homeManagerModules.plasma-manager
@@ -59,10 +62,8 @@
 
       # tools
       distrobox # run any linux distro
-      comma # wrapper for nix run, run program without installing
-      nix-index # search files in upstream: nix-locate 'bin/hello'
     ]
-    ++ lib.optionals special-options.isWork [
+    ++ lib.optionals hostenv.work [
       jetbrains.pycharm-community
       sublime-merge
       awscli2
@@ -72,7 +73,7 @@
       python311Full # move to projects
       httpie-desktop
     ]
-    ++ lib.optionals special-options.isDesktop [
+    ++ lib.optionals hostenv.desktop [
       firefox
       kitty
       ungoogled-chromium
@@ -88,7 +89,7 @@
       materia-kde-theme
       gimp
     ]
-    ++ lib.optionals special-options.isPersonal [
+    ++ lib.optionals hostenv.personal [
       steam
       wine
       clementine
@@ -100,6 +101,11 @@
       signal-desktop
       telegram-desktop
     ];
+
+  # Let nix-index handle command-not-found
+  programs.nix-index.enable = true;
+  # Run programs with , cowsay
+  programs.nix-index-database.comma.enable = true;
 
   programs.direnv.nix-direnv.enable = true;
 
