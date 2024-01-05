@@ -7,6 +7,7 @@
     ./modules/openssh.nix
     ./modules/secrets.nix
     ./modules/gpg.nix
+    ./modules/kde.nix
   ];
 
   # User

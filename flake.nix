@@ -45,7 +45,7 @@
     # Abstract generating system code here
     mkSystem = name: {
       system,
-      hostenv,
+      home-env,
     }: let
       # The config files for this system.
       systemconfig = ./hosts/${name}/default.nix;
@@ -53,28 +53,26 @@
     in
       with nixpkgs.lib;
         nixosSystem {
-          modules =
-            [
-              systemconfig
-              hardwareconfig
+          modules = [
+            systemconfig
+            hardwareconfig
 
-              # Base NixOS configuration
-              ./nixos/system.nix
+            # Base NixOS configuration
+            ./nixos/system.nix
 
-              # Secret management
-              agenix.nixosModules.default
-              {
-                environment.systemPackages = [agenix.packages.${system}.default];
-              }
+            # Secret management
+            agenix.nixosModules.default
+            {
+              environment.systemPackages = [agenix.packages.${system}.default];
+            }
 
-              home-manager.nixosModules.home-manager
-              {
-                home-manager.useUserPackages = true;
-                home-manager.users.martijn = import ./home/default.nix;
-                home-manager.extraSpecialArgs = {inherit inputs outputs hostenv;};
-              }
-            ]
-            ++ optionals hostenv.desktop [./nixos/desktop.nix];
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useUserPackages = true;
+              home-manager.users.martijn = import ./home/default.nix;
+              home-manager.extraSpecialArgs = {inherit inputs outputs home-env;};
+            }
+          ];
         };
   in {
     # Custom packages, accessible through 'nix build', 'nix shell', etc
@@ -86,7 +84,7 @@
 
     nixosConfigurations.glassdoor = mkSystem "glassdoor" {
       system = "x86_64-linux";
-      hostenv = {
+      home-env = {
         work = true;
         desktop = true;
         personal = true;
@@ -95,7 +93,7 @@
 
     nixosConfigurations.hadouken = mkSystem "hadouken" {
       system = "aarch64-linux";
-      hostenv = {
+      home-env = {
         work = false;
         desktop = false;
         personal = false;
@@ -104,7 +102,7 @@
 
     nixosConfigurations.lapdance = mkSystem "lapdance" {
       system = "x86_64-linux";
-      hostenv = {
+      home-env = {
         work = true;
         desktop = true;
         personal = false;
@@ -113,7 +111,7 @@
 
     nixosConfigurations.testbed = mkSystem "testbed" {
       system = "x86_64-linux";
-      hostenv = {
+      home-env = {
         work = false;
         desktop = false;
         personal = false;

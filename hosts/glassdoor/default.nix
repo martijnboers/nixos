@@ -6,7 +6,7 @@
 }: {
   # Glassdoor machine specific stuff
   networking.hostName = "glassdoor";
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  services.desktop.enable = true;
 
   services.xserver.videoDrivers = ["amdgpu"];
 
