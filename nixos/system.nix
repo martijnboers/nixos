@@ -17,7 +17,10 @@
     shell = pkgs.zsh;
     useDefaultShell = true;
     hashedPasswordFile = config.age.secrets.password.path;
-    openssh.authorizedKeys.keyFiles = [./keys/glassdoor.pub];
+    openssh.authorizedKeys.keyFiles = [
+      ./keys/glassdoor.pub
+      ./key/phone.pub
+    ];
   };
 
   # Global packages
