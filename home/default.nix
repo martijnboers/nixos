@@ -107,6 +107,7 @@
   # Run programs with , cowsay
   programs.nix-index-database.comma.enable = true;
 
+  # Additional direnv flake support
   programs.direnv.nix-direnv.enable = true;
 
   programs.git = {

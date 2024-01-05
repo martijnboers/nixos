@@ -93,7 +93,7 @@
       };
     };
 
-    nixosConfigurations.teak = mkSystem "teak" {
+    nixosConfigurations.hadouken = mkSystem "hadouken" {
       system = "aarch64-linux";
       hostenv = {
         work = false;
@@ -102,7 +102,7 @@
       };
     };
 
-    nixosConfigurations.rihanna = mkSystem "rihanna" {
+    nixosConfigurations.lapdance = mkSystem "lapdance" {
       system = "x86_64-linux";
       hostenv = {
         work = true;
@@ -114,8 +114,8 @@
     nixosConfigurations.testbed = mkSystem "testbed" {
       system = "x86_64-linux";
       hostenv = {
-        work = true;
-        desktop = true;
+        work = false;
+        desktop = false;
         personal = false;
       };
     };

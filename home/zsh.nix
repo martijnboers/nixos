@@ -3,11 +3,14 @@
   programs.zsh = {
     enable = true;
     shellAliases = let
-      updateCommand = "nixos-rebuild switch --impure --use-remote-sudo --flake /home/martijn/Nix";
+      defaultNixFlags = "--impure --use-remote-sudo --flake /home/martijn/Nix";
     in {
-      deploy = updateCommand;
-      debug = "${updateCommand} --show-trace --verbose";
+      # --- NixOS specific --------
+      deploy = "nixos-rebuild switch ${defaultNixFlags}";
+      debug = "nixos-rebuild switch ${defaultNixFlags} --show-trace --verbose";
+      testbed = "nixos-rebuild build ${defaultNixFlags}#testbed";
       update = "nix flake update";
+      # ---------------------------
       dud = "docker compose up -d";
       fixup = "ga . && gc --amend --no-edit";
       xev = "wev"; # wayland xev
