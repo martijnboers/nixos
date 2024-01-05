@@ -7,8 +7,6 @@
 with lib; let
   cfg = config.programs.ranger;
 in {
-  meta.maintainers = [];
-
   options.programs.ranger = {
     enable = mkEnableOption "ranger, a vim-inspired filemanager for the console";
     package = mkPackageOption pkgs "ranger" {};

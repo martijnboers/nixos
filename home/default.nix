@@ -116,7 +116,7 @@
     userEmail = "martijn@plebian.nl";
     signing = {
       key = "FDC7B670BF26B101";
-      signByDefault = true;
+      signByDefault = config.programs.gpg.enable;
     };
     extraConfig = {
       pull.rebase = "true";

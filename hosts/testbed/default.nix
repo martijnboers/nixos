@@ -11,6 +11,7 @@
   ];
 
   programs.caddy.enable = true;
+  programs.openssh.enable = true;
 
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/vda";
