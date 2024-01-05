@@ -14,15 +14,13 @@
     openssh.authorizedKeys.keyFiles = [/home/martijn/.ssh/id_ed25519.pub];
   };
 
-  # Don't ask for sudo too often
-  security.sudo.extraConfig = ''
-    Defaults timestamp_timeout=100
-  '';
-
   # Secrets
   age = {
     secrets = {
-      hosts.file = ../secrets/hosts.age;
+      hosts = {
+        file = ../secrets/hosts.age;
+        owner = config.users.users.martijn.name;
+      };
       password.file = ../secrets/password.age;
       smb.file = ../secrets/smb.age;
     };
@@ -42,67 +40,6 @@
         type = "ed25519";
       }
     ];
-  };
-
-  # Flakes
-  nix.settings.experimental-features = ["nix-command" "flakes"];
-
-  # Only keep the last 500MiB of systemd journal.
-  services.journald.extraConfig = "SystemMaxUse=500M";
-
-  # Collect nix store garbage and optimise daily.
-  nix.gc.automatic = true;
-  nix.gc.options = "--delete-older-than 30d";
-  nix.optimise.automatic = true;
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-  # readFile copies the content into nix-store but only way
-  # to make this work with networking
-  networking.extraHosts = builtins.readFile config.age.secrets.hosts.path;
-
-  # Set your time zone.
-  time.timeZone = "Europe/Amsterdam";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "nl_NL.UTF-8";
-    LC_IDENTIFICATION = "nl_NL.UTF-8";
-    LC_MEASUREMENT = "nl_NL.UTF-8";
-    LC_MONETARY = "nl_NL.UTF-8";
-    LC_NAME = "nl_NL.UTF-8";
-    LC_NUMERIC = "nl_NL.UTF-8";
-    LC_PAPER = "nl_NL.UTF-8";
-    LC_TELEPHONE = "nl_NL.UTF-8";
-    LC_TIME = "nl_NL.UTF-8";
-  };
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  # misc
-  programs.zsh.enable = true;
-
-  # to get gpg to work
-  services.pcscd.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-    settings = {
-      default-cache-ttl = 21600;
-    };
-  };
-
-  # Docker configuration
-  virtualisation.docker.enable = true;
-
-  # Default env variables
-  environment.sessionVariables = {
-    TERM = "xterm-kitty";
-    EDITOR = "nvim";
-    BROWSER = "firefox";
   };
 
   # Global packages
@@ -154,6 +91,75 @@
     pciutils # lspci
     usbutils # lsusb
   ];
+
+  # Flakes
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+
+  # Only keep the last 500MiB of systemd journal.
+  services.journald.extraConfig = "SystemMaxUse=500M";
+
+  # Collect nix store garbage and optimise daily.
+  nix.gc.automatic = true;
+  nix.gc.options = "--delete-older-than 30d";
+  nix.optimise.automatic = true;
+
+  # Enable networking
+  networking.networkmanager.enable = true;
+  # readFile copies the content into nix-store but only way
+  # to make this work with networking
+  networking.extraHosts = builtins.readFile config.age.secrets.hosts.path;
+
+  # misc
+  programs.zsh.enable = true;
+
+  # to get gpg to work
+  services.pcscd.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+    settings = {
+      default-cache-ttl = 21600;
+    };
+  };
+
+  # Docker configuration
+  virtualisation.docker.enable = true;
+
+  # Default env variables
+  environment.sessionVariables = {
+    TERM = "xterm-kitty";
+    EDITOR = "nvim";
+    BROWSER = "firefox";
+  };
+
+  # Set your time zone.
+  time.timeZone = "Europe/Amsterdam";
+
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "nl_NL.UTF-8";
+    LC_IDENTIFICATION = "nl_NL.UTF-8";
+    LC_MEASUREMENT = "nl_NL.UTF-8";
+    LC_MONETARY = "nl_NL.UTF-8";
+    LC_NAME = "nl_NL.UTF-8";
+    LC_NUMERIC = "nl_NL.UTF-8";
+    LC_PAPER = "nl_NL.UTF-8";
+    LC_TELEPHONE = "nl_NL.UTF-8";
+    LC_TIME = "nl_NL.UTF-8";
+  };
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
+  # Don't ask for sudo too often
+  security.sudo.extraConfig = ''
+    Defaults timestamp_timeout=100
+  '';
+
+  # Make a copy of the working source in generations
+  system.copySystemConfiguration = true;
 
   system.stateVersion = "23.11";
 }
