@@ -92,7 +92,7 @@
     };
 
     nixosConfigurations.hadouken = mkSystem "hadouken" {
-      system = "aarch64-linux";
+      system = "x86_64-linux";
       home-env = {
         work = false;
         desktop = false;
