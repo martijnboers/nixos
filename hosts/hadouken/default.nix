@@ -8,6 +8,9 @@
   # Enable share
   programs.smb.enable = true;
 
+  # Enable ssh for host
+  programs.openssh.enable = true;
+
   # Bootloader.
   boot = {
     loader = {
@@ -32,7 +35,4 @@
       verbose = false;
     };
   };
-
-  # Enable ssh for host
-  programs.openssh.enable = true;
 }
