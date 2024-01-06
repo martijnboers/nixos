@@ -5,6 +5,9 @@
 }: {
   networking.hostName = "hadouken";
 
+  # Enable share
+  programs.smb.enable = true;
+
   # Bootloader.
   boot = {
     loader = {

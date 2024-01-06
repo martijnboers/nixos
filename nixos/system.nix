@@ -8,6 +8,7 @@
     ./modules/secrets.nix
     ./modules/gpg.nix
     ./modules/kde.nix
+    ./modules/smb.nix
   ];
 
   # User
@@ -98,6 +99,13 @@
   environment.sessionVariables = {
     EDITOR = "nvim";
   };
+
+  # Samba sharing discovery
+  networking.firewall.extraCommands = ''iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns'';
+  services.gvfs.enable = true;
+
+  # Enable firewall by default
+  networking.firewall.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
