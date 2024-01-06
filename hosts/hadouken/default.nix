@@ -3,8 +3,8 @@
   pkgs,
   ...
 }: {
-  # TODO skelleton for home server
   networking.hostName = "hadouken";
 
-  # example: https://github.com/MatthewCroughan/raspberrypi-nixos-example/blob/master/flake.nix
+  # Enable ssh for host
+  programs.openssh.enable = true;
 }
