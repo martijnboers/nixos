@@ -8,6 +8,7 @@
   imports = [
     ./modules/caddy.nix
     ./modules/vaultwarden.nix
+    ./modules/plex.nix
   ];
 
   # Enable share
@@ -21,6 +22,9 @@
 
   # Vaultwarden
   hosts.vaultwarden.enable = true;
+
+  # Plex
+  hosts.plex.enable = true;
 
   # Bootloader.
   boot = {
