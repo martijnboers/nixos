@@ -18,10 +18,9 @@ in {
     networking.firewall.allowedUDPPorts = [9000];
 
     services.resilio = {
-      enable = true;
       deviceName = "hadouken";
+      enable = true;
       enableWebUI = true;
-      listeningPort = 9000;
       httpListenAddr = "0.0.0.0";
     };
   };
