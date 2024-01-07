@@ -24,6 +24,7 @@ in {
       httpLogin = "martijn";
       listeningPort = 9001;
       httpListenAddr = "0.0.0.0";
+      encryptLAN = false;
     };
   };
 }
