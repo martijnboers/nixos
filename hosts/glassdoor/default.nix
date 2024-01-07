@@ -4,9 +4,13 @@
   config,
   ...
 }: {
-  # Glassdoor machine specific stuff
+  imports = [
+    ./modules/borg.nix
+  ];
+
   networking.hostName = "glassdoor";
   hosts.desktop.enable = true;
+  hosts.borg.enable = true;
 
   services.xserver.videoDrivers = ["amdgpu"];
 

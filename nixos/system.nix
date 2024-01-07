@@ -35,6 +35,7 @@
     zip
     unzip
     p7zip
+    borgbackup # backups
 
     # utils
     ripgrep # recursively searches directories for a regex pattern
