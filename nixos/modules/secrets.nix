@@ -32,10 +32,6 @@ in {
           file = ../../secrets/smb.age;
           owner = config.users.users.martijn.name;
         };
-        resilio = {
-          file = ../../secrets/resilio.age;
-          owner = config.users.users.martijn.name;
-        };
       };
     };
 
