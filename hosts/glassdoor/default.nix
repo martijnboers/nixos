@@ -21,27 +21,14 @@
     options = ["credentials=${config.age.secrets.smb.path},uid=1000,gid=100"];
   };
 
-  # QEMU virtualization
-  virtualisation = {
-    libvirtd = {
-      enable = true;
-      qemu = {
-        swtpm.enable = true;
-        ovmf.enable = true;
-        ovmf.packages = [pkgs.OVMFFull.fd];
-      };
-    };
-    spiceUSBRedirection.enable = true;
-  };
-  services.spice-vdagentd.enable = true;
-  users.users.martijn.extraGroups = ["libvirtd"];
-  programs.virt-manager.enable = true;
-
   # Enable secrets + append hosts
   hosts.secrets.hosts = true;
 
   # Support gpg for git signing
   hosts.gpg.enable = true;
+
+  # Docker + QEMU
+  hosts.virtualization.enable = true;
 
   # Bootloader.
   boot = {
