@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.programs.openssh;
+  cfg = config.hosts.openssh;
 in {
-  options.programs.openssh = {
+  options.hosts.openssh = {
     enable = mkEnableOption "Enable OpenSSH server";
   };
 

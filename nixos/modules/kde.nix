@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.services.desktop;
+  cfg = config.hosts.desktop;
 in {
-  options.services.desktop = {
+  options.hosts.desktop = {
     enable = mkEnableOption "Support KDE desktop";
   };
 

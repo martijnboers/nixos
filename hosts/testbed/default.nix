@@ -8,10 +8,11 @@
 
   imports = [
     ./modules/caddy.nix
+    ./modules/vaultwarden.nix
   ];
 
-  programs.caddy.enable = true;
-  programs.openssh.enable = true;
+  hosts.caddy.enable = true;
+  hosts.openssh.enable = true;
 
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/vda";
