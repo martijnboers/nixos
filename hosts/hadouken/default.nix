@@ -8,6 +8,7 @@
   imports = [
     ./modules/caddy.nix
     ./modules/vaultwarden.nix
+    ./modules/coredns.nix
     ./modules/plex.nix
   ];
 
@@ -25,6 +26,9 @@
 
   # Plex
   hosts.plex.enable = true;
+
+  # Custom DNS records
+  hosts.coredns.enable = true;
 
   # Bootloader.
   boot = {
