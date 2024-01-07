@@ -11,6 +11,9 @@
   # Enable ssh for host
   programs.openssh.enable = true;
 
+  # Websites
+  programs.caddy.enable = true;
+
   # Bootloader.
   boot = {
     loader = {

@@ -24,8 +24,14 @@ in {
           file = ../../secrets/hosts.age;
           owner = config.users.users.martijn.name;
         };
-        password.file = ../../secrets/password.age;
-        smb.file = ../../secrets/smb.age;
+        password = {
+          file = ../../secrets/password.age;
+          owner = config.users.users.martijn.name;
+        };
+        smb = {
+          file = ../../secrets/smb.age;
+          owner = config.users.users.martijn.name;
+        };
       };
     };
 
