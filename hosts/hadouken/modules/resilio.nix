@@ -14,17 +14,15 @@ in {
   config = mkIf cfg.enable {
     users.users.martijn.extraGroups = ["rslsync"];
 
-    networking.firewall.allowedTCPPorts = [9001];
-    networking.firewall.allowedUDPPorts = [9001];
+    networking.firewall.allowedTCPPorts = [9000];
+    networking.firewall.allowedUDPPorts = [9000];
 
     services.resilio = {
       enable = true;
       deviceName = "hadouken";
       enableWebUI = true;
-      httpLogin = "martijn";
-      listeningPort = 9001;
+      listeningPort = 9000;
       httpListenAddr = "0.0.0.0";
-      encryptLAN = false;
     };
   };
 }
