@@ -12,7 +12,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    plex = {
+    services.plex = {
       enable = true;
       openFirewall = true;
     };
