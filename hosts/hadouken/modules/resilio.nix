@@ -20,7 +20,7 @@ in {
       enableWebUI = true;
       httpLogin = "martijn";
       httpPass = builtins.readFile config.age.secrets.resilio.path;
-      httpListenPort = "9001";
+      httpListenPort = 9001;
     };
   };
 }
