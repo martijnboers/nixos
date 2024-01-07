@@ -15,7 +15,7 @@ in {
     services.vaultwarden = {
       enable = true;
       dbBackend = "sqlite";
-      backupDir = "/mnt/garage/Backup/vaultwarden"; # todo include into borg
+      backupDir = "/var/lib/bitwarden_rs/backup"; # todo include into borg
       config = {
         domain = "https://noisesfrom.space";
         signupsAllowed = false;
