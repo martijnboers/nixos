@@ -110,6 +110,8 @@
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
+  networking.nameservers = ["9.9.9.9" "192.168.1.156"];
+
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
