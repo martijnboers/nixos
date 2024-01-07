@@ -12,7 +12,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    resilio = {
+    services.resilio = {
       enable = true;
       deviceName = "hadouken";
       enableWebUI = true;
