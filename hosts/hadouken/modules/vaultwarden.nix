@@ -15,10 +15,11 @@ in {
     services.vaultwarden = {
       enable = true;
       dbBackend = "sqlite";
-      backupDir = "/mnt/garage/Backup/vaultwarden";
+      backupDir = "/mnt/garage/Backup/vaultwarden"; # todo include into borg
       config = {
         domain = "https://noisesfrom.space";
-        signupsAllowed = true; # set to false
+        signupsAllowed = false;
+        invitationsAllowed = false;
         rocketPort = 3011;
         websocketEnabled = false;
       };
