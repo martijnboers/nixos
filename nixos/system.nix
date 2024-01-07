@@ -4,6 +4,7 @@
   ...
 }: {
   imports = [
+    ./modules/virtualization.nix
     ./modules/openssh.nix
     ./modules/secrets.nix
     ./modules/gpg.nix
@@ -15,7 +16,7 @@
   users.users.martijn = {
     isNormalUser = true;
     description = "Martijn Boers";
-    extraGroups = ["networkmanager" "wheel" "docker"];
+    extraGroups = ["networkmanager" "wheel"];
     shell = pkgs.zsh;
     useDefaultShell = true;
     hashedPasswordFile = config.age.secrets.password.path;
@@ -92,9 +93,6 @@
 
   # misc
   programs.zsh.enable = true;
-
-  # Docker configuration
-  virtualisation.docker.enable = true;
 
   # Default env variables
   environment.sessionVariables = {
