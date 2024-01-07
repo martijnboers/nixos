@@ -28,7 +28,7 @@ in {
         reverse_proxy http://localhost:${toString config.services.vaultwarden.config.rocketPort}
       '';
       virtualHosts."atuin.plebian.nl".extraConfig = ''
-        reverse_proxy http://localhost:${toString config.services.atuin.port}"
+        reverse_proxy http://localhost:${toString config.services.atuin.port}
       '';
     };
   };
