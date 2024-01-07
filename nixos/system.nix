@@ -58,7 +58,6 @@
     wev # wayland xev
     gcc
     tldr
-    atuin # synchronize zsh history
 
     # samba
     cifs-utils
