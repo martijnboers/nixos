@@ -55,7 +55,7 @@
       kernelModules = ["amdgpu"];
     };
   };
-  
+
   # Access QMK without sudo
   hardware.keyboard.qmk.enable = true;
 
