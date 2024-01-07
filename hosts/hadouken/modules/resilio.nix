@@ -22,7 +22,8 @@ in {
       deviceName = "hadouken";
       enableWebUI = true;
       httpLogin = "martijn";
-      httpListenPort = 9001;
+      listeningPort = 9001;
+      httpListenAddr = "0.0.0.0";
     };
   };
 }
