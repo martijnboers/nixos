@@ -48,7 +48,7 @@ in {
           "create mask" = "0644";
           "directory mask" = "0755";
           "force user" = "martijn";
-          "force group" = "users";
+          "force group" = "users plex";
         };
       };
     };
