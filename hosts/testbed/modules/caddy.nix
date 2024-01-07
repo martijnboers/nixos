@@ -25,7 +25,7 @@ in {
         file_server
       '';
       virtualHosts."noisesfrom.space".extraConfig = ''
-        reverse_proxy http://localhost:${toString config.services.vaultwarden.config.rocketPort}
+        reverse_proxy http://localhost:3011
       '';
     };
   };
