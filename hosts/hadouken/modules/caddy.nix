@@ -20,7 +20,7 @@ in {
     services.caddy = {
       enable = true;
       virtualHosts."plebian.nl".extraConfig = ''
-        root * ${plebianRepo}/public
+        root * ${plebianRepo}/
         encode zstd gzip
         file_server
       '';
