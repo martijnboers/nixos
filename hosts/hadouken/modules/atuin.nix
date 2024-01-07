@@ -17,7 +17,7 @@ in {
   config = mkIf cfg.enable {
       services.atuin = {
         enable = true;
-        openRegistration = true;
+        openRegistration = false;
         port = 8965;
       };
   };
