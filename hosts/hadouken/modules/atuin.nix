@@ -6,12 +6,9 @@
 }:
 with lib; let
   cfg = config.hosts.atuin;
-  plebianRepo = builtins.fetchGit {
-    url = "https://github.com/martijnboers/plebian.nl.git";
-  };
 in {
   options.hosts.atuin = {
-    enable = mkEnableOption "caddy with default websites loaded";
+    enable = mkEnableOption "Synchronize zsh history files";
   };
 
   config = mkIf cfg.enable {
