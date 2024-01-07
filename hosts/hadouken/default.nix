@@ -5,6 +5,10 @@
 }: {
   networking.hostName = "hadouken";
 
+  imports = [
+    ./modules/caddy.nix
+  ];
+
   # Enable share
   programs.smb.enable = true;
 
