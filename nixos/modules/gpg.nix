@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.programs.gpg;
+  cfg = config.hosts.gpg;
 in {
-  options.programs.gpg = {
+  options.hosts.gpg = {
     enable = mkEnableOption "Enable GPG agent";
   };
 

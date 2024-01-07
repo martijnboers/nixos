@@ -7,16 +7,20 @@
 
   imports = [
     ./modules/caddy.nix
+    ./modules/vaultwarden.nix
   ];
 
   # Enable share
-  programs.smb.enable = true;
+  hosts.smb.enable = true;
 
   # Enable ssh for host
-  programs.openssh.enable = true;
+  hosts.openssh.enable = true;
 
   # Websites
-  programs.caddy.enable = true;
+  hosts.caddy.enable = true;
+
+  # Vaultwarden
+  hosts.vaultwarden.enable = true;
 
   # Bootloader.
   boot = {

@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.services.secrets;
+  cfg = config.hosts.secrets;
 in {
-  options.services.secrets = {
+  options.hosts.secrets = {
     hosts = mkOption {
       type = types.bool;
       default = false;

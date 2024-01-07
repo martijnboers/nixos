@@ -6,7 +6,7 @@
 }: {
   # Glassdoor machine specific stuff
   networking.hostName = "glassdoor";
-  services.desktop.enable = true;
+  hosts.desktop.enable = true;
 
   services.xserver.videoDrivers = ["amdgpu"];
 
