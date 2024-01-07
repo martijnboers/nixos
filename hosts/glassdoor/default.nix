@@ -34,10 +34,10 @@
   programs.virt-manager.enable = true;
 
   # Enable secrets + append hosts
-  services.secrets.hosts = true;
+  hosts.secrets.hosts = true;
 
   # Support gpg for git signing
-  programs.gpg.enable = true;
+  hosts.gpg.enable = true;
 
   # Bootloader.
   boot = {

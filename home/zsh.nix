@@ -8,7 +8,7 @@
       # --- NixOS specific --------
       deploy = "nixos-rebuild switch ${defaultNixFlags}";
       debug = "nixos-rebuild switch ${defaultNixFlags} --show-trace --verbose";
-      testbed = "nixos-rebuild build ${defaultNixFlags}#testbed";
+      testbuild = "nixos-rebuild build ${defaultNixFlags}#hadouken";
       update = "nix flake update";
       # ---------------------------
       dud = "docker compose up -d";
