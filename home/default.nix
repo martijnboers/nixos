@@ -23,12 +23,9 @@
 
   imports =
     [
-      # Custom modules
       ./modules/ranger.nix
-
-      # Configs that are large
-      ./neovim.nix
-      ./zsh.nix
+      ./modules/neovim.nix
+      ./modules/zsh.nix
 
       # Packaged home manager modules
       inputs.nixvim.homeManagerModules.nixvim
@@ -37,8 +34,8 @@
       inputs.nix-index-database.hmModules.nix-index
     ]
     ++ lib.optionals home-env.desktop [
-      ./kitty.nix
-      ./kde.nix
+      ./modules/kitty.nix
+      ./modules/kde.nix
       inputs.plasma-manager.homeManagerModules.plasma-manager
     ];
 

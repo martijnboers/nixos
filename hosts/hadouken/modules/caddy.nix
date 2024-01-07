@@ -27,6 +27,9 @@ in {
       virtualHosts."noisesfrom.space".extraConfig = ''
         reverse_proxy http://localhost:${toString config.services.vaultwarden.config.rocketPort}
       '';
+      virtualHosts."atuin.plebian.nl".extraConfig = ''
+        reverse_proxy http://localhost:${toString config.services.atuin.port}"
+      '';
     };
   };
 }

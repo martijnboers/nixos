@@ -6,6 +6,7 @@
   networking.hostName = "hadouken";
 
   imports = [
+    ./modules/atuin.nix
     ./modules/caddy.nix
     ./modules/resilio.nix
     ./modules/vaultwarden.nix
@@ -33,6 +34,9 @@
 
   # Sync with seedb
   hosts.resilio.enable = true;
+
+  # Sync zsh history
+  hosts.atuin.enable = true;
 
   # Bootloader.
   boot = {
