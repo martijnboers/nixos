@@ -14,6 +14,8 @@ in {
   config = mkIf cfg.enable {
     users.users.martijn.extraGroups = ["rslsync"];
 
+    networking.firewall.allowedTCPPorts = [9001];
+
     services.resilio = {
       enable = true;
       deviceName = "hadouken";
