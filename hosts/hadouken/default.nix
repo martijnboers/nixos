@@ -7,6 +7,7 @@
 
   imports = [
     ./modules/caddy.nix
+    ./modules/resilio.nix
     ./modules/vaultwarden.nix
     ./modules/coredns.nix
     ./modules/plex.nix
@@ -29,6 +30,9 @@
 
   # Custom DNS records
   hosts.coredns.enable = true;
+
+  # Sync with seedb
+  hosts.resilio.enable = true;
 
   # Bootloader.
   boot = {

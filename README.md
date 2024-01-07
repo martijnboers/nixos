@@ -15,9 +15,6 @@ Personal NixOS files. Mostly plagiarized from other configurations.
 gpg --import private.key
 ```
 
-```bash
-cp ssh ~/.ssh
-```
 ## Troubleshooting
 #### GPG hangs
 - `rm -rf ~/.gnupg/public-keys.d/*.lock`
