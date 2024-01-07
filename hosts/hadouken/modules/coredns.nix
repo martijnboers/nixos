@@ -21,11 +21,24 @@ in {
       .:53 {
         log
         errors
-
-        hosts {
-          192.168.1.156  hadouken.plebian.local
-          192.168.1.114  glassdoor.plebian.local
-          192.168.1.1    router.plebian.local
+        . {
+          forward . 9.9.9.9
+          cache
+        }
+        hadouken.plebian.local {
+          template IN A {
+            answer "{{ .Name }} 0 IN A 192.168.1.156"
+          }
+        }
+        glassdoor.plebian.local {
+          template IN A {
+            answer "{{ .Name }} 0 IN A 192.168.1.114"
+          }
+        }
+        router.plebian.local {
+          template IN A {
+            answer "{{ .Name }} 0 IN A 192.168.1.1"
+          }
         }
       }
     '';
