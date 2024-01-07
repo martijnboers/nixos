@@ -19,26 +19,13 @@ in {
 
     services.coredns.config = ''
       .:53 {
-        log
         errors
-        . {
-          forward . 9.9.9.9
-          cache
-        }
-        hadouken.plebian.local {
-          template IN A {
-            answer "{{ .Name }} 0 IN A 192.168.1.156"
-          }
-        }
-        glassdoor.plebian.local {
-          template IN A {
-            answer "{{ .Name }} 0 IN A 192.168.1.114"
-          }
-        }
-        router.plebian.local {
-          template IN A {
-            answer "{{ .Name }} 0 IN A 192.168.1.1"
-          }
+        forward . 8.8.8.8 8.8.4.4
+        hosts {
+          192.168.1.156  hadouken.plebian.local
+          192.168.1.114  glassdoor.plebian.local
+          192.168.1.1    router.plebian.local
+          fallthrough
         }
       }
     '';

@@ -16,7 +16,7 @@ in {
       paths = "/home/martijn";
       encryption.mode = "none";
       environment.BORG_RSH = "ssh -i /home/martijn/.ssh/id_ed25519";
-      repo = "ssh://martijn@192.168.1.156:666/192.168.1.156/mnt/garage/Backup/borg/home-glassdoor";
+      repo = "ssh://martijn@hadouken.plebian.local:666/mnt/garage/Backup/borg/home-glassdoor";
       compression = "auto,zstd";
       startAt = "daily";
       exclude = [
