@@ -19,6 +19,9 @@ in {
 
     services.coredns.config = ''
       .:53 {
+        log
+        errors
+
         hosts {
           192.168.1.156  hadouken.plebian.local
           192.168.1.114  glassdoor.plebian.local
