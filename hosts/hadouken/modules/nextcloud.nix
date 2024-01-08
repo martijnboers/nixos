@@ -23,6 +23,8 @@ in {
     services.nextcloud = {
       enable = true;
       database.createLocally = true;
+      hostName = "next.plebian.nl";
+      https = true;
       config = {
         dbtype = "pgsql";
         adminuser = "admin";
