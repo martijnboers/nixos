@@ -30,7 +30,22 @@ in {
       virtualHosts."atuin.plebian.nl".extraConfig = ''
         reverse_proxy http://localhost:${toString config.services.atuin.port}
       '';
-      virtualHosts."${config.services.nextcloud.hostName}".extraConfig = "";
+      virtualHosts."${config.services.nextcloud.hostName}".extraConfig = ''
+        root * ${config.services.nextcloud.package}
+         root /store-apps/* ${config.services.nextcloud.home}
+         root /nix-apps/* ${config.services.nextcloud.home}
+         encode zstd gzip
+
+         php_fastcgi unix//${config.services.phpfpm.pools.nextcloud.socket}
+         file_server
+
+         header {
+           Strict-Transport-Security max-age=31536000;
+         }
+
+         redir /.well-known/carddav /remote.php/dav 301
+         redir /.well-known/caldav /remote.php/dav 301
+      '';
     };
   };
 }
