@@ -79,10 +79,10 @@
 
   # Auto updates flakes
   system.autoUpgrade = {
-    enabled = true;
+    enable = true;
     dates = "daily";
     allowReboot = true;
-    flake = inputs.self.outPath;
+    flake = "/home/martijn/Nix";
     flags = [
       "--update-input"
       "nixpkgs"
