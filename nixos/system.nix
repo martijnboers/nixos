@@ -84,8 +84,8 @@
     flake = "/home/martijn/Nix";
     allowReboot = true;
     rebootWindow = {
-        lower = "01:00";
-        upper = "05:00";
+      lower = "01:00";
+      upper = "05:00";
     };
     flags = [
       "--update-input"

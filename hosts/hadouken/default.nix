@@ -12,31 +12,23 @@
     ./modules/vaultwarden.nix
     ./modules/coredns.nix
     ./modules/plex.nix
+    ./modules/joplin.nix
   ];
 
-  # Enable share
   hosts.smb.enable = true;
-
-  # Enable ssh for host
   hosts.openssh.enable = true;
-
-  # Websites
   hosts.caddy.enable = true;
-
-  # Vaultwarden
   hosts.vaultwarden.enable = true;
-
-  # Plex
   hosts.plex.enable = true;
-
-  # Custom DNS records
   hosts.coredns.enable = true;
-
-  # Sync with seedb
   hosts.resilio.enable = true;
+  hosts.joplin.enable = true;
 
   # Sync zsh history
   hosts.atuin.enable = true;
+
+  # Docker + QEMU
+  hosts.virtualization.enable = true;
 
   # Bootloader.
   boot = {
