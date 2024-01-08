@@ -30,9 +30,7 @@ in {
       virtualHosts."atuin.plebian.nl".extraConfig = ''
         reverse_proxy http://localhost:${toString config.services.atuin.port}
       '';
-      virtualHosts."joplin.plebian.nl".extraConfig = ''
-        reverse_proxy http://localhost:22300
-      '';
+      virtualHosts."${config.services.nextcloud.hostName}".extraConfig = "";
     };
   };
 }
