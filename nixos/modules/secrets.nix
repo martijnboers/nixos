@@ -34,7 +34,7 @@ in {
         };
         nextcloud = {
           file = ../../secrets/nextcloud.age;
-          owner = config.users.users.martijn.name;
+          owner = "nextcloud";
         };
       };
     };
