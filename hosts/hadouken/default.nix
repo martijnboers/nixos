@@ -12,7 +12,7 @@
     ./modules/vaultwarden.nix
     ./modules/coredns.nix
     ./modules/plex.nix
-    ./modules/joplin.nix
+    ./modules/nextcloud.nix
   ];
 
   hosts.smb.enable = true;
@@ -22,7 +22,7 @@
   hosts.plex.enable = true;
   hosts.coredns.enable = true;
   hosts.resilio.enable = true;
-  hosts.joplin.enable = true;
+  hosts.nextcloud.enable = true;
 
   # Sync zsh history
   hosts.atuin.enable = true;
