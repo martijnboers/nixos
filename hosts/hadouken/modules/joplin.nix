@@ -23,7 +23,7 @@ in {
         image = "docker.io/joplin/server:latest";
         ports = ["127.0.0.1:22300:22300"];
         volumes = [
-          "/srv/joplin:/data"
+          "/home/martijn/Data/joplin:/data"
           "/etc/localtime:/etc/localtime:ro"
         ];
         environment = {
