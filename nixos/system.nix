@@ -77,6 +77,20 @@
     usbutils # lsusb
   ];
 
+  # Auto updates flakes
+  system.autoUpgrade = {
+    enabled = true;
+    dates = "daily";
+    allowReboot = true;
+    flake = inputs.self.outPath;
+    flags = [
+      "--update-input"
+      "nixpkgs"
+      "--impure"
+      "-L" # print build logs
+    ];
+  };
+
   # Flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
