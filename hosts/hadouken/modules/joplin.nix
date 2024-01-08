@@ -7,11 +7,7 @@
 with lib; let
   cfg = config.hosts.joplin;
   joplin-data = "/srv/joplin/data";
-  joplin-db-data = "/srv/joplin/postgres";
   joplin-uid = "1001";
-  backend = config.virtualisation.oci-containers.backend;
-  pod-name = "joplin-pod";
-  open-ports = ["127.0.0.1:22300:22300/tcp"];
 in {
   options.hosts.joplin = {
     enable = mkEnableOption "Joplin server";
@@ -23,7 +19,7 @@ in {
         image = "docker.io/joplin/server:latest";
         ports = ["127.0.0.1:22300:22300"];
         volumes = [
-          "/home/martijn/Data/joplin:/data"
+          "${joplin-data}:/data"
           "/etc/localtime:/etc/localtime:ro"
         ];
         environment = {
@@ -33,5 +29,8 @@ in {
         };
       };
     };
+    systemd.tmpfiles.rules = [
+      "d ${joplin-data} 0755 ${joplin-uid} ${joplin-uid} -"
+    ];
   };
 }
