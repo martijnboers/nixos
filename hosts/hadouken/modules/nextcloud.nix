@@ -20,8 +20,8 @@ in {
     # Needed to read /var/lib/nextcloud
     users.groups.nextcloud.members = ["nextcloud" config.services.caddy.user];
 
-    config.age.secrets.nextcloud = {
-      file = ../../secrets/nextcloud.age;
+    age.secrets.nextcloud = {
+      file = ../../../secrets/nextcloud.age;
       owner = "nextcloud";
     };
 
