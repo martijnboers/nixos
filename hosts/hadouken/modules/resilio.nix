@@ -21,6 +21,8 @@ in {
       deviceName = "hadouken";
       enable = true;
       enableWebUI = true;
+      httpLogin = "admin";
+      httpPass = "admin";
       httpListenAddr = "0.0.0.0";
     };
   };
