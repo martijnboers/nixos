@@ -9,7 +9,10 @@
   ];
 
   networking.hostName = "glassdoor";
-  hosts.desktop.enable = true;
+  hosts.desktop = {
+    enable = true;
+    wayland = false;
+  };
   hosts.borg.enable = true;
 
   services.xserver.videoDrivers = ["amdgpu"];
