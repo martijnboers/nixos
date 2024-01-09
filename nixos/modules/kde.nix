@@ -9,6 +9,10 @@ with lib; let
 in {
   options.hosts.desktop = {
     enable = mkEnableOption "Support KDE desktop";
+    wayland = mkOption {
+      type = types.bool;
+      default = true;
+    };
   };
 
   config = mkIf cfg.enable {
@@ -48,8 +52,10 @@ in {
       autoLogin.enable = true;
       autoLogin.user = "martijn";
 
-      # Wayland plasma
-      defaultSession = "plasmawayland";
+      defaultSession =
+        if cfg.wayland
+        then "plasmawayland"
+        else "plasma";
     };
 
     services.xserver.desktopManager.plasma5.enable = true;

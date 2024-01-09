@@ -32,10 +32,6 @@ in {
           file = ../../secrets/smb.age;
           owner = config.users.users.martijn.name;
         };
-        nextcloud = {
-          file = ../../secrets/nextcloud.age;
-          owner = "nextcloud";
-        };
       };
     };
 
