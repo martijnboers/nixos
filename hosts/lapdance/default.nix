@@ -10,7 +10,7 @@
     wayland = false;
   };
 
-   # Enable secrets + append hosts
+  # Enable secrets + append hosts
   hosts.secrets.hosts = true;
 
   # Support gpg for git signing
