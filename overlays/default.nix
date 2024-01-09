@@ -10,10 +10,10 @@
     libsForQt5 =
       prev.libsForQt5
       // {
+        # Use unstable plasma for wayland
         sddm = final.unstable.libsForQt5.sddm;
+        plasma-desktop = final.unstable.libsForQt5.plasma-desktop;
       };
-     # Use unstable plasma for wayland
-     plasma-desktop = final.unstable.plasma-desktop;
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
