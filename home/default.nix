@@ -77,7 +77,6 @@
       ungoogled-chromium
       libsForQt5.kdeconnect-kde
       libsForQt5.neochat
-      libsForQt5.kate
       libsForQt5.kompare
       wl-clipboard # wayland clipboard manager
       joplin-desktop
