@@ -4,7 +4,6 @@
   pkgs,
   config,
   lib,
-  home-env,
   ...
 }: {
   home.username = "martijn";
@@ -21,83 +20,49 @@
     config.allowUnfree = true;
   };
 
-  imports =
-    [
-      ./modules/ranger.nix
-      ./modules/neovim.nix
-      ./modules/zsh.nix
-      ./modules/atuin.nix
+  imports = [
+    ./modules/ranger.nix
+    ./modules/neovim.nix
+    ./modules/zsh.nix
+    ./modules/atuin.nix
 
-      # Packaged home manager modules
-      inputs.nixvim.homeManagerModules.nixvim
+    # Packaged home manager modules
+    inputs.nixvim.homeManagerModules.nixvim
 
-      # quickly lookup and run programs
-      inputs.nix-index-database.hmModules.nix-index
-    ]
-    ++ lib.optionals home-env.desktop [
-      ./modules/kitty.nix
-      ./modules/kde.nix
-      inputs.plasma-manager.homeManagerModules.plasma-manager
-    ];
+    # quickly lookup and run programs
+    inputs.nix-index-database.hmModules.nix-index
 
-  # All user level packages
-  home.packages = with pkgs;
-    [
-      # shell
-      zsh-powerlevel10k
-      zoxide
-      fzf # A command-line fuzzy finder
-      direnv # used for .envrc files
-      ranger
-      neofetch
-      thefuck
-      trash-cli
+    # Used by desktop but lazy loaded
+    ./modules/kitty.nix
+    ./modules/kde.nix
+    inputs.plasma-manager.homeManagerModules.plasma-manager
 
-      # fonts
-      meslo-lgs-nf
-      roboto
-      jetbrains-mono
+    # profiles based on type of computer usage
+    ./profiles/desktop.nix
+    ./profiles/personal.nix
+    ./profiles/work.nix
+  ];
 
-      # tools
-      distrobox # run any linux distro
-    ]
-    ++ lib.optionals home-env.work [
-      jetbrains.pycharm-community
-      sublime-merge
-      awscli2
-      slack
-      mongodb-compass
-      nodejs_18 # global for work, move to project
-      python311Full # move to projects
-      httpie-desktop
-    ]
-    ++ lib.optionals home-env.desktop [
-      firefox
-      kitty
-      ungoogled-chromium
-      libsForQt5.kdeconnect-kde
-      libsForQt5.neochat
-      libsForQt5.kompare
-      wl-clipboard # wayland clipboard manager
-      joplin-desktop
+  # Global user level packages
+  home.packages = with pkgs; [
+    # shell
+    zsh-powerlevel10k
+    zoxide
+    fzf # A command-line fuzzy finder
+    direnv # used for .envrc files
+    ranger
+    neofetch
+    thefuck
+    trash-cli
 
-      # theming
-      nordic
-      materia-kde-theme
-      gimp
-    ]
-    ++ lib.optionals home-env.personal [
-      steam
-      wine
-      clementine
-      spotify
-      qmk
-      qflipper
+    # fonts
+    meslo-lgs-nf
+    roboto
+    jetbrains-mono
 
-      # messaging
-      signal-desktop
-      telegram-desktop
-    ];
+    # tools
+    distrobox # run any linux distro
+  ];
 
   # Let nix-index handle command-not-found
   programs.nix-index.enable = true;
