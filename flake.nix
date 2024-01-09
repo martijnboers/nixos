@@ -43,13 +43,11 @@
     forAllSystems = nixpkgs.lib.genAttrs systems;
 
     # Abstract generating system code here
-    mkSystem = name: {
-      system,
-      home-env,
-    }: let
+    mkSystem = name: {system}: let
       # The config files for this system.
       systemconfig = ./hosts/${name}/default.nix;
       hardwareconfig = ./hosts/${name}/hardware.nix;
+      homeconfig = ./hosts/${name}/home.nix;
     in
       with nixpkgs.lib;
         nixosSystem {
@@ -69,8 +67,8 @@
             home-manager.nixosModules.home-manager
             {
               home-manager.useUserPackages = true;
-              home-manager.users.martijn = import ./home/default.nix;
-              home-manager.extraSpecialArgs = {inherit inputs outputs home-env;};
+              home-manager.users.martijn = import homeconfig;
+              home-manager.extraSpecialArgs = {inherit inputs outputs;};
             }
           ];
         };
@@ -84,38 +82,18 @@
 
     nixosConfigurations.glassdoor = mkSystem "glassdoor" {
       system = "x86_64-linux";
-      home-env = {
-        work = true;
-        desktop = true;
-        personal = true;
-      };
     };
 
     nixosConfigurations.hadouken = mkSystem "hadouken" {
       system = "x86_64-linux";
-      home-env = {
-        work = false;
-        desktop = false;
-        personal = false;
-      };
     };
 
     nixosConfigurations.lapdance = mkSystem "lapdance" {
       system = "x86_64-linux";
-      home-env = {
-        work = true;
-        desktop = true;
-        personal = false;
-      };
     };
 
     nixosConfigurations.testbed = mkSystem "testbed" {
       system = "x86_64-linux";
-      home-env = {
-        work = false;
-        desktop = false;
-        personal = false;
-      };
     };
   };
 }

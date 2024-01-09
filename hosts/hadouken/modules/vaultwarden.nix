@@ -11,11 +11,10 @@ in {
     enable = mkEnableOption "Enable vaultwarden";
   };
 
-  services.caddy.virtualHosts."noisesfrom.space".extraConfig = ''
-    reverse_proxy http://localhost:${toString config.services.vaultwarden.config.rocketPort}
-  '';
-
   config = mkIf cfg.enable {
+    services.caddy.virtualHosts."noisesfrom.space".extraConfig = ''
+      reverse_proxy http://localhost:${toString config.services.vaultwarden.config.rocketPort}
+    '';
     services.vaultwarden = {
       enable = true;
       dbBackend = "sqlite";

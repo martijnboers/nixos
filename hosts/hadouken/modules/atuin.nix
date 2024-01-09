@@ -11,11 +11,10 @@ in {
     enable = mkEnableOption "Synchronize zsh history files";
   };
 
-  services.caddy.virtualHosts."atuin.plebian.nl".extraConfig = ''
-    reverse_proxy http://localhost:${toString config.services.atuin.port}
-  '';
-
   config = mkIf cfg.enable {
+    services.caddy.virtualHosts."atuin.plebian.nl".extraConfig = ''
+      reverse_proxy http://localhost:${toString config.services.atuin.port}
+    '';
     services.atuin = {
       enable = true;
       openRegistration = false;
