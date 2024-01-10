@@ -13,6 +13,7 @@
     ./modules/coredns.nix
     ./modules/plex.nix
     ./modules/nextcloud.nix
+    ./modules/wireguard.nix
   ];
 
   hosts.smb.enable = true;
