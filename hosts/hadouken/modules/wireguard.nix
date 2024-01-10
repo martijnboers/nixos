@@ -26,7 +26,7 @@ in {
       firewall = {
         allowedUDPPorts = [51820];
         extraCommands = ''
-          iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o eth0 -j MASQUERADE
+          iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o enp114s0 -j MASQUERADE
           iptables -A FORWARD -i wg0 -j ACCEPT
           iptables -A FORWARD -o wg0 -j ACCEPT
         '';
