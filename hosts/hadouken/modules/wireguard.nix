@@ -25,11 +25,6 @@ in {
       };
       firewall = {
         allowedUDPPorts = [51820];
-        extraCommands = ''
-          iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o enp114s0 -j MASQUERADE
-          iptables -A FORWARD -i wg0 -j ACCEPT
-          iptables -A FORWARD -o wg0 -j ACCEPT
-        '';
       };
       wireguard.interfaces = {
         wg0 = {
@@ -42,12 +37,12 @@ in {
           # This allows the wireguard server to route your traffic to the internet and hence be like a VPN
           # For this to work you have to set the dnsserver IP of your router (or dnsserver of choice) in your clients
           postSetup = ''
-            ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o eth0 -j MASQUERADE
+            ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o enp114s0 -j MASQUERADE
           '';
 
           # This undoes the above command
           postShutdown = ''
-            ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.100.0.0/24 -o eth0 -j MASQUERADE
+            ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.100.0.0/24 -o enp114s0 -j MASQUERADE
           '';
 
           privateKeyFile = config.age.secrets.wireguard-private.path;
