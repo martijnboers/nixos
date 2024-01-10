@@ -12,10 +12,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    age.secrets.wireguard-private = {
-      file = ../../../secrets/wireguard.age;
-      owner = "wireguard";
-    };
+    age.secrets.wireguard-private.file = ../../../secrets/wireguard.age;
 
     # enable NAT
     networking.nat.enable = true;
