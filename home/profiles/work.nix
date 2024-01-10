@@ -15,7 +15,7 @@ in {
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       jetbrains.pycharm-community
-      jetbrains.idea-community
+      jetbrains.webstorm
       sublime-merge
       awscli2
       slack
