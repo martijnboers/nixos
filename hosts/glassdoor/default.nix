@@ -14,7 +14,7 @@
     wayland = true;
   };
   hosts.borg.enable = true;
-  hosts.wireguard-client = true;
+  hosts.wireguard-client.enable = true;
 
   services.xserver.videoDrivers = ["amdgpu"];
 
