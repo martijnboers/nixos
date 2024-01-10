@@ -88,9 +88,6 @@
       upper = "05:00";
     };
     flags = [
-      "--update-input"
-      "--commit-lock-file"
-      "nixpkgs"
       "--impure"
       "-L" # print build logs
     ];
