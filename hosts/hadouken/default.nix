@@ -23,6 +23,7 @@
   hosts.coredns.enable = true;
   hosts.resilio.enable = true;
   hosts.nextcloud.enable = true;
+  hosts.wireguard.enable = true;
 
   # Sync zsh history
   hosts.atuin.enable = true;

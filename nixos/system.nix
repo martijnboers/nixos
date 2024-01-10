@@ -58,6 +58,7 @@
     wev # wayland xev
     gcc
     tldr
+    wireguard-tools
 
     # samba
     cifs-utils
