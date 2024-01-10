@@ -7,7 +7,7 @@
 
   hosts.desktop = {
     enable = true;
-    wayland = false;
+    wayland = true;
   };
 
   # Enable secrets + append hosts

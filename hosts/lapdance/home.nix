@@ -4,7 +4,7 @@
   ];
 
   # Enable profiles
-  hosts.desktop = true;
-  hosts.personal = false;
-  hosts.work = true;
+  hosts.desktop.enable = true;
+  hosts.personal.enable = false;
+  hosts.work.enable = true;
 }
