@@ -116,12 +116,31 @@
     EDITOR = "nvim";
   };
 
-  # Samba sharing discovery
-  networking.firewall.extraCommands = ''iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns'';
+  # SMB network discovery
   services.gvfs.enable = true;
 
   # Enable firewall by default
-  networking.firewall.enable = true;
+  networking.firewall = {
+    enable = true;
+    # Samba sharing discovery
+
+    # wireguard for clients
+    allowedUDPPorts = [ 51820 ];
+
+    # if packets are still dropped, they will show up in dmesg
+    logReversePathDrops = true;
+
+    # smba discovery + wireguard trips rpfilter up
+    extraCommands = ''
+      iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns
+      ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --sport 51820 -j RETURN
+      ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --dport 51820 -j RETURN
+    '';
+    extraStopCommands = ''
+      ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --sport 51820 -j RETURN || true
+      ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --dport 51820 -j RETURN || true
+    '';
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
