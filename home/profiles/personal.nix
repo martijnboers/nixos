@@ -16,8 +16,6 @@ in {
     home.packages = with pkgs; [
       steam
       wine
-      clementine
-      spotify
       qmk
       qflipper
 
