@@ -58,7 +58,7 @@
     wev # wayland xev
     gcc
     tldr
-    wireguard-tools
+    config.services.headscale.package
 
     # samba
     cifs-utils
@@ -123,24 +123,18 @@
   networking.firewall = {
     enable = true;
     # Samba sharing discovery
-
-    # wireguard for clients
-    allowedUDPPorts = [ 51820 ];
-
-    # if packets are still dropped, they will show up in dmesg
-    logReversePathDrops = true;
-
-    # smba discovery + wireguard trips rpfilter up
     extraCommands = ''
       iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns
-      ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --sport 51820 -j RETURN
-      ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --dport 51820 -j RETURN
     '';
-    extraStopCommands = ''
-      ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --sport 51820 -j RETURN || true
-      ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --dport 51820 -j RETURN || true
-    '';
+
+    # Required for tailscale
+    checkReversePath = "loose";
+    trustedInterfaces = ["tailscale0"];
+    allowedUDPPorts = [config.services.tailscale.port];
   };
+
+  # Setup tailscale default on all machines
+  services.tailscale.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";

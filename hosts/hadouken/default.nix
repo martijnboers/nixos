@@ -13,7 +13,7 @@
     ./modules/coredns.nix
     ./modules/plex.nix
     ./modules/nextcloud.nix
-    ./modules/wireguard.nix
+    ./modules/headscale.nix
   ];
 
   hosts.smb.enable = true;
@@ -24,7 +24,7 @@
   hosts.coredns.enable = true;
   hosts.resilio.enable = true;
   hosts.nextcloud.enable = true;
-  hosts.wireguard.enable = true;
+  hosts.headscale.enable = true;
 
   # Sync zsh history
   hosts.atuin.enable = true;
