@@ -12,7 +12,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."vaulwarden.plebian.local".extraConfig = ''
+    services.caddy.virtualHosts."noisesfrom.space".extraConfig = ''
       reverse_proxy http://localhost:${toString config.services.vaultwarden.config.rocketPort}
     '';
     services.vaultwarden = {
