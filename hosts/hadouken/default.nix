@@ -32,6 +32,9 @@
   # Docker + QEMU
   hosts.virtualization.enable = true;
 
+  # Needed for exit node headscale
+  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
+
   # Bootloader.
   boot = {
     loader = {

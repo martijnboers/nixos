@@ -9,7 +9,7 @@ Personal NixOS files. Mostly plagiarized from other configurations.
 - Create ISO: `nix run github:nix-community/nixos-generators -- --flake "/home/martijn/Nix#glassdoor" -f iso`
 - Link flake file to home
 - `sudo ln -s /home/martijn/Nix/flake.nix /etc/nixos/flake.nix`
-
+- `sudo tailscale up --login-server https://headscale.plebian.nl`
 #### Import private key
 ```bash
 gpg --import private.key

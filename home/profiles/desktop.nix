@@ -23,6 +23,10 @@ in {
       wl-clipboard # wayland clipboard manager
       joplin-desktop
 
+      # music
+      clementine
+      spotify
+
       # theming
       nordic
       materia-kde-theme
