@@ -28,7 +28,7 @@ in {
             base_domain = "plebian.nl";
             extra_records = [
               {
-                name = "vaultwarden.headscale";
+                name = "vaultwarden.thuis.plebian.nl";
                 type = "A";
                 value = "100.64.0.2";
               }
