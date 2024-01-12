@@ -130,11 +130,13 @@
     # Required for tailscale
     checkReversePath = "loose";
     trustedInterfaces = ["tailscale0"];
-    allowedUDPPorts = [config.services.tailscale.port];
   };
 
   # Setup tailscale default on all machines
-  services.tailscale.enable = true;
+  services.tailscale = {
+    enable = true;
+    openFirewall = true;
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";

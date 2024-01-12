@@ -24,6 +24,9 @@ in {
         encode zstd gzip
         file_server
       '';
+      virtualHosts."noisesfrom.space".extraConfig = ''
+        respond "🦆"
+      '';
     };
   };
 }
