@@ -27,6 +27,7 @@ in {
             nameservers = ["9.9.9.9" "192.168.1.156"];
             base_domain = "plebian.nl";
           };
+          ip_prefixes = ["100.64.0.0/10" "fd7a:115c:a1e0::/48"];
         };
       };
     };
