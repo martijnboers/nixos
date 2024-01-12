@@ -12,7 +12,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."hadouken.thuis.plebian.nl".extraConfig = ''
+    services.caddy.virtualHosts."vaultwarden.headscale".extraConfig = ''
       reverse_proxy http://localhost:${toString config.services.vaultwarden.config.rocketPort}
     '';
     services.vaultwarden = {
@@ -20,7 +20,7 @@ in {
       dbBackend = "sqlite";
       backupDir = "/var/lib/bitwarden_rs/backup"; # todo include into borg
       config = {
-        domain = "https://noisesfrom.space";
+        domain = "https://vaultwarden.headscale";
         signupsAllowed = false;
         invitationsAllowed = false;
         rocketPort = 3011;

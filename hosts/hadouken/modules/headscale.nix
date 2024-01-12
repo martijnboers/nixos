@@ -28,6 +28,13 @@ in {
             base_domain = "plebian.nl";
           };
           ip_prefixes = ["100.64.0.0/10" "fd7a:115c:a1e0::/48"];
+          extra_records = [
+            {
+              name = "vaultwarden.headscale";
+              type = "A";
+              value = "100.64.0.2";
+            }
+          ];
         };
       };
     };
