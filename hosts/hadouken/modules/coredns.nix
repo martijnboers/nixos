@@ -25,8 +25,6 @@ in {
           192.168.1.156  hadouken.plebian.local
           192.168.1.114  glassdoor.plebian.local
           192.168.1.1    router.plebian.local
-
-          100.64.0.2     vaulwarden.plebian.local
           fallthrough
         }
       }
