@@ -1,0 +1,36 @@
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
+  cfg = config.hosts.headscale;
+in {
+  options.hosts.headscale = {
+    enable = mkEnableOption "VPN server";
+  };
+
+  config = mkIf cfg.enable {
+    services = {
+      caddy.virtualHosts."headscale.plebian.nl".extraConfig = ''
+        reverse_proxy http://localhost:${toString config.services.headscale.port}
+      '';
+      headscale = {
+        enable = true;
+        address = "0.0.0.0";
+        port = 7070;
+        settings = {
+          server_url = "https://headscale.plebian.nl";
+          logtail.enabled = false;
+          dns_config = {
+            nameservers = ["9.9.9.9" "192.168.1.156"];
+            base_domain = "plebian.nl";
+          };
+        };
+      };
+    };
+    # Is this necessary?
+    environment.systemPackages = [config.services.headscale.package];
+  };
+}

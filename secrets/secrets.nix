@@ -8,5 +8,4 @@ in {
   "password.age".publicKeys = users;
   "smb.age".publicKeys = users;
   "nextcloud.age".publicKeys = users;
-  "wireguard.age".publicKeys = users;
 }
