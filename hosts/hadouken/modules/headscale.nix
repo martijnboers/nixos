@@ -24,7 +24,7 @@ in {
           server_url = "https://headscale.plebian.nl";
           logtail.enabled = false;
           dns_config = {
-            nameservers = ["9.9.9.9" "100.64.0.2"];
+            nameservers = ["100.64.0.2"];
             base_domain = "plebian.nl";
           };
           ip_prefixes = ["100.64.0.0/10" "fd7a:115c:a1e0::/48"];
