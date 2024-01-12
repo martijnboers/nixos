@@ -13,7 +13,7 @@ in {
 
   config = mkIf cfg.enable {
     services = {
-      caddy.virtualHosts."headscale.plebian.nl".extraConfig = ''
+      caddy.virtualHosts."noisesfrom.space".extraConfig = ''
         reverse_proxy http://localhost:${toString config.services.headscale.port}
       '';
       headscale = {
