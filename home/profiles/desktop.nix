@@ -10,12 +10,17 @@ with lib; let
 in {
   options.hosts.desktop = {
     enable = mkEnableOption "Enable default desktop packages + configuration";
+    ipaddress = mkOption {
+      type = types.str;
+      default = "undefined";
+      description = "Hostname of the computer";
+    };
   };
 
   config = mkIf cfg.enable {
     services.syncthing = {
       enable = true;
-      # extraOptions = [''--gui-address="${cfg.ipaddress}:8384"''];
+      extraOptions = [''--gui-address="${cfg.ipaddress}:8384"''];
     };
 
     home.packages = with pkgs; [

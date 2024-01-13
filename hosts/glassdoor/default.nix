@@ -14,6 +14,10 @@
     wayland = true;
   };
   hosts.borg.enable = true;
+  hosts.syncthing = {
+    enable = true;
+    ipaddress = "100.64.0.4";
+  };
 
   services.xserver.videoDrivers = ["amdgpu"];
 
@@ -65,15 +69,15 @@
   networking.firewall = {
     allowedTCPPortRanges = [
       {
-        from = 1714;
+        from = 1714; # Kde connect
         to = 1764;
-      } # KDE Connect
+      }
     ];
     allowedUDPPortRanges = [
       {
-        from = 1714;
+        from = 1714; # Kde connect
         to = 1764;
-      } # KDE Connect
+      }
     ];
   };
 }
