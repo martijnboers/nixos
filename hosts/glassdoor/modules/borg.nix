@@ -13,14 +13,17 @@ in {
 
   config = mkIf cfg.enable {
     services.borgbackup.jobs.home-glassdoor = {
-      paths = "/home/martijn";
-      encryption.mode = "none";
-      environment.BORG_RSH = "ssh -i /home/martijn/.ssh/id_ed25519";
-      repo = "ssh://martijn@hadouken.plebian.local:666/mnt/garage/Backup/borg/home-glassdoor";
+      paths = ["/home/martijn"];
+      encryption = {
+        mode = "repokey-blake2";
+        passCommand = "cat ${config.age.secrets.borg.path}";
+      };
+      environment.BORG_RSH = "ssh -o 'StrictHostKeyChecking=no' -i /home/martijn/.ssh/id_ed25519";
+      repo = "myg0b6y7@myg0b6y7.repo.borgbase.com:repo";
       compression = "auto,zstd";
       startAt = "daily";
+      user = "martijn";
       exclude = [
-        # Largest cache dirs
         ".cache"
         "*/cache2" # firefox
         "*/Cache"
@@ -28,13 +31,13 @@ in {
         ".config/Code/CachedData"
         ".container-diff"
         ".npm/_cacache"
-        # Work related dirs
         "*/node_modules"
-        "*/bower_components"
         "*/_build"
-        "*/.tox"
         "*/venv"
         "*/.venv"
+        "~/.local"
+        "~/Downloads"
+        "~/Data"
       ];
     };
   };

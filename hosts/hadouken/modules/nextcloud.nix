@@ -42,6 +42,8 @@ in {
        redir /.well-known/caldav /remote.php/dav 301
     '';
 
+    services.borgbackup.jobs.hadouken.paths = [config.services.nexcloud.home];
+
     services.nextcloud = {
       enable = true;
       database.createLocally = true;
