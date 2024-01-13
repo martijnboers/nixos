@@ -18,6 +18,7 @@ in {
 
     services.syncthing = {
       enable = true;
+      guiAddress = "0.0.0.0:8384";
     };
 
     # 22000 TCP and/or UDP for sync traffic
