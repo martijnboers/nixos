@@ -15,6 +15,7 @@
     ./modules/plex.nix
     ./modules/nextcloud.nix
     ./modules/headscale.nix
+    ./modules/syncthing.nix
   ];
 
   hosts.smb.enable = true;
@@ -26,6 +27,7 @@
   hosts.resilio.enable = true;
   hosts.nextcloud.enable = true;
   hosts.headscale.enable = true;
+  hosts.syncthing.enable = true;
 
   # Sync zsh history
   hosts.atuin.enable = true;

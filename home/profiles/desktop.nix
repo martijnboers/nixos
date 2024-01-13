@@ -13,6 +13,11 @@ in {
   };
 
   config = mkIf cfg.enable {
+    services.syncthing = {
+      enable = true;
+      tray = true;
+    };
+
     home.packages = with pkgs; [
       firefox
       kitty
