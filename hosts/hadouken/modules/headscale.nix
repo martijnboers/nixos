@@ -24,7 +24,7 @@ in {
           server_url = "https://headscale.plebian.nl";
           logtail.enabled = false;
           dns_config = {
-            nameservers = ["100.64.0.2"];
+            nameservers = ["9.9.9.9"];
             base_domain = "plebian.nl";
             extra_records = [
               {
