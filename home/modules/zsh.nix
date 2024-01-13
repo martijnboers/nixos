@@ -27,7 +27,7 @@
     '';
     oh-my-zsh = {
       enable = true;
-      plugins = ["git" "thefuck" "direnv" "fzf" "z"];
+      plugins = ["git" "thefuck" "direnv" "fzf" "z" "fd"];
     };
   };
 }
