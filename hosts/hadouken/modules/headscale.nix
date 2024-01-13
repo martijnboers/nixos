@@ -32,6 +32,11 @@ in {
                 type = "A";
                 value = "100.64.0.2";
               }
+              {
+                name = "atuin.thuis.plebian.nl";
+                type = "A";
+                value = "100.64.0.2";
+              }
             ];
           };
           ip_prefixes = ["100.64.0.0/10" "fd7a:115c:a1e0::/48"];
