@@ -35,6 +35,9 @@
   # Docker + QEMU
   hosts.virtualization.enable = true;
 
+  # Enable general secrets
+  hosts.secrets.hosts = true;
+
   # Needed for exit node headscale
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 
