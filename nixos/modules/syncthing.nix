@@ -35,10 +35,12 @@ in {
             devices = ["glassdoor" "phone"];
           };
         };
-        listenAddress = "${cfg.ipaddress}:22000";
-        extraOptions.gui = {
-          user = "goodluck";
-          password = "tailscale";
+        options = {
+          localAnnounceEnabled = false;
+          globalAnnounceEnabled = false;
+          listenAddresses = [
+            "tcp4://${cfg.ipaddress}:22000"
+          ];
         };
       };
     };
