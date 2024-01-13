@@ -12,7 +12,7 @@ in {
     ipaddress = mkOption {
       type = types.str;
       default = "undefined";
-      description = "IP address of the computer";
+      description = "Tailscale IP address of the computer";
     };
   };
 
@@ -27,7 +27,7 @@ in {
       settings = {
         devices = {
           "glassdoor" = {id = "L77BOY3-HVS7OGS-6ABZ3T6-RDUSIB4-GZHNSCW-B5DVI3V-74JW4B6-T7B6PAS";};
-          "phone" = {id = "BLHVSN7-DCVI4WC-D6YUCS6-XAOZX4L-VUZGQU3-MMJWI2T-MFUL4D7-E7A4KAI";};
+          "phone" = {id = "4ROZWW2-EAWAQ3S-NQDS7HL-HHJU2PT-UJNRCRE-ZO5VKPN-CECNL6D-LEEYLQP";};
         };
         folders = {
           "Obsidian" = {
@@ -35,12 +35,12 @@ in {
             devices = ["glassdoor" "phone"];
           };
         };
+        listenAddress = "${cfg.ipaddress}:22000";
+        extraOptions.gui = {
+          user = "goodluck";
+          password = "tailscale";
+        };
       };
     };
-
-    # 22000 TCP and/or UDP for sync traffic
-    # 21027/UDP for discovery
-    networking.firewall.allowedTCPPorts = [8384 22000];
-    networking.firewall.allowedUDPPorts = [22000 21027];
   };
 }
