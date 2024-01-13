@@ -15,7 +15,7 @@ in {
     services.caddy.virtualHosts."vaultwarden.thuis.plebian.nl".extraConfig = ''
       reverse_proxy http://localhost:${toString config.services.vaultwarden.config.rocketPort}
     '';
-    services.borgbackup.jobs.hadouken.paths = ["/var/lib/bitwarden_rs/backup"];
+    services.borgbackup.jobs.home-hadouken.paths = ["/var/lib/bitwarden_rs/backup"];
     services.vaultwarden = {
       enable = true;
       dbBackend = "sqlite";
