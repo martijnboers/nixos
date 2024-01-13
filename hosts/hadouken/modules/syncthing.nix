@@ -13,7 +13,7 @@ in {
 
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."syncthing.thuis.plebian.nl".extraConfig = ''
-      reverse_proxy http://localhost:8384
+      reverse_proxy http://100.64.0.2:8384
     '';
 
     services.syncthing = {
