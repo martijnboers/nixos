@@ -42,6 +42,7 @@
     ripgrep # recursively searches directories for a regex pattern
     jq # A lightweight and flexible command-line JSON processor
     yq-go # yaml processer https://github.com/mikefarah/yq
+    tldr # man summarized
 
     # networking tools
     dnsutils # `dig` + `nslookup`
@@ -57,7 +58,6 @@
     git
     wev # wayland xev
     gcc
-    tldr
     config.services.headscale.package
 
     # samba
@@ -76,6 +76,7 @@
     ethtool
     pciutils # lspci
     usbutils # lsusb
+    cachix # community binary caches
   ];
 
   # Auto updates flakes
