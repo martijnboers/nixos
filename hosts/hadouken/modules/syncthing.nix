@@ -23,6 +23,7 @@ in {
       settings = {
         devices = {
           "glassdoor" = {id = "OGMFMVP-NAUEZKG-DXPWGED-V4OE2NY-FEUCU75-RWRN7UP-ZOK6J3H-CIKA2QY";};
+          "phone" = {id = "BLHVSN7-DCVI4WC-D6YUCS6-XAOZX4L-VUZGQU3-MMJWI2T-MFUL4D7-E7A4KAI";};
         };
       };
     };
