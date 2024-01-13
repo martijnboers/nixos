@@ -13,6 +13,7 @@
     ./modules/vaultwarden.nix
     ./modules/coredns.nix
     ./modules/plex.nix
+    ./modules/borg.nix
     ./modules/nextcloud.nix
     ./modules/headscale.nix
   ];
@@ -26,6 +27,7 @@
   hosts.resilio.enable = true;
   hosts.nextcloud.enable = true;
   hosts.headscale.enable = true;
+  hosts.borg.enable = true;
 
   # Sync zsh history
   hosts.atuin.enable = true;

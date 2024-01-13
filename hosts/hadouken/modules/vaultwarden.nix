@@ -15,10 +15,11 @@ in {
     services.caddy.virtualHosts."vaultwarden.thuis.plebian.nl".extraConfig = ''
       reverse_proxy http://localhost:${toString config.services.vaultwarden.config.rocketPort}
     '';
+    services.borgbackup.jobs.hadouken.paths = ["/var/lib/bitwarden_rs/backup"];
     services.vaultwarden = {
       enable = true;
       dbBackend = "sqlite";
-      backupDir = "/var/lib/bitwarden_rs/backup"; # todo include into borg
+      backupDir = "/var/lib/bitwarden_rs/backup";
       config = {
         domain = "https://vaultwarden.thuis.plebian.nl";
         signupsAllowed = false;
