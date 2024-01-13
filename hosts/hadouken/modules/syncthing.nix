@@ -18,7 +18,13 @@ in {
 
     services.syncthing = {
       enable = true;
-      guiAddress = "0.0.0.0:8384";
+      guiAddress = "100.64.0.2:8384";
+      overrideDevices = true; # overrides any devices added or deleted through the WebUI
+      settings = {
+        devices = {
+          "glassdoor" = {id = "OGMFMVP-NAUEZKG-DXPWGED-V4OE2NY-FEUCU75-RWRN7UP-ZOK6J3H-CIKA2QY";};
+        };
+      };
     };
 
     # 22000 TCP and/or UDP for sync traffic
