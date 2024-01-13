@@ -17,7 +17,13 @@
       outputs.overlays.unstable-packages
     ];
 
-    config.allowUnfree = true;
+    config = {
+      allowUnfree = true;
+      # For Obsidian
+      permittedInsecurePackages = [
+        "electron-25.9.0"
+      ];
+    };
   };
 
   imports = [

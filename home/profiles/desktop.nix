@@ -21,7 +21,7 @@ in {
       libsForQt5.neochat
       libsForQt5.kompare
       wl-clipboard # wayland clipboard manager
-      joplin-desktop
+      obsidian
 
       # music
       clementine
