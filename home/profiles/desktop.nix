@@ -15,7 +15,7 @@ in {
   config = mkIf cfg.enable {
     services.syncthing = {
       enable = true;
-      tray = true;
+      # extraOptions = [''--gui-address="${cfg.ipaddress}:8384"''];
     };
 
     home.packages = with pkgs; [
