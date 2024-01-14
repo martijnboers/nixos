@@ -14,6 +14,7 @@
     ./modules/coredns.nix
     ./modules/plex.nix
     ./modules/borg.nix
+    ./modules/immich.nix
     ./modules/nextcloud.nix
     ./modules/headscale.nix
   ];
@@ -28,6 +29,7 @@
   hosts.nextcloud.enable = true;
   hosts.headscale.enable = true;
   hosts.borg.enable = true;
+  hosts.immich.enable = true;
 
   # Sync zsh history
   hosts.atuin.enable = true;
