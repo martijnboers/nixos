@@ -12,6 +12,9 @@ in {
   };
 
   config = mkIf cfg.enable {
+    networking.firewall.allowedTCPPorts = [32400];
+    networking.firewall.allowedUDPPorts = [32400];
+
     services.plex = {
       enable = true;
       openFirewall = true;
