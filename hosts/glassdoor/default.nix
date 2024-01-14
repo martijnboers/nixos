@@ -11,7 +11,7 @@
   networking.hostName = "glassdoor";
   hosts.desktop = {
     enable = true;
-    wayland = true;
+    wayland = false;
   };
   hosts.borg.enable = true;
   hosts.syncthing = {
