@@ -26,8 +26,18 @@ in {
       overrideFolders = true; # overrides any folders added or deleted through the WebUI
       settings = {
         devices = {
-          "glassdoor" = {id = "L77BOY3-HVS7OGS-6ABZ3T6-RDUSIB4-GZHNSCW-B5DVI3V-74JW4B6-T7B6PAS";};
-          "phone" = {id = "4ROZWW2-EAWAQ3S-NQDS7HL-HHJU2PT-UJNRCRE-ZO5VKPN-CECNL6D-LEEYLQP";};
+          "glassdoor" = {
+            id = "L77BOY3-HVS7OGS-6ABZ3T6-RDUSIB4-GZHNSCW-B5DVI3V-74JW4B6-T7B6PAS";
+            addresses = [
+              "tcp://100.64.0.4:22000"
+            ];
+          };
+          "phone" = {
+            id = "4ROZWW2-EAWAQ3S-NQDS7HL-HHJU2PT-UJNRCRE-ZO5VKPN-CECNL6D-LEEYLQP";
+            addresses = [
+              "tcp://100.64.0.3:22000"
+            ];
+          };
         };
         folders = {
           "Obsidian" = {
