@@ -38,6 +38,12 @@ in {
               "tcp://100.64.0.3:22000"
             ];
           };
+          "lapdance" = {
+            id = "DZMLQOR-CGFZN2K-RATVUCL-PTTDLPO-FYEVRCB-3W2OARE-YFXJIGD-KGRZNAO";
+            addresses = [
+              "tcp://100.64.0.1:22000"
+            ];
+          };
         };
         folders = {
           "Obsidian" = {
