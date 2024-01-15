@@ -89,6 +89,7 @@ in {
         }
       ];
       ensureDatabases = [dbUsername];
+      package = pkgs.postgresql_14;
 
       extraPlugins = [
         (pkgs.pgvecto-rs.override rec {
