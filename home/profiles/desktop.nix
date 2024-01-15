@@ -18,11 +18,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.syncthing = {
-      enable = true;
-      extraOptions = [''--gui-address="${cfg.ipaddress}:8384"''];
-    };
-
     home.packages = with pkgs; [
       firefox
       kitty
