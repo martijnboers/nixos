@@ -5,7 +5,7 @@
   fetchurl,
 }: let
   pname = "httpie-desktop";
-  version = "2023.3.6";
+  version = "2024.1.2";
   name = "${pname}-${version}";
 
   inherit (stdenv.hostPlatform) system;
@@ -13,7 +13,7 @@
 
   src = fetchurl {
     url = "https://github.com/httpie/desktop/releases/download/v${version}/HTTPie-${version}.AppImage";
-    hash = "sha256-AHD3ZbVzfMQtYpTW3Fu6Iyo41/8B4HKZFfNUWabLCOM=";
+    hash = "sha256-OOP1l7J2BgO3nOPSipxfwfN/lOUsl80UzYMBosyBHrM=";
   };
 
   appimageContents = appimageTools.extractType2 {
