@@ -21,7 +21,7 @@ with lib; let
   dbUsername = user;
   redisName = "immich";
 
-  photosLocation = "/mnt/garage/Photos";
+  photosLocation = "/mnt/garage/Immich";
 
   user = "immich";
   group = user;
