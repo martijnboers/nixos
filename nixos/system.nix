@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  outputs,
   ...
 }: {
   imports = [
@@ -160,8 +161,17 @@
     LC_TIME = "nl_NL.UTF-8";
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs = {
+    overlays = [
+      outputs.overlays.additions
+      outputs.overlays.modifications
+      outputs.overlays.unstable-packages
+    ];
+
+    config = {
+      allowUnfree = true;
+    };
+  };
 
   # Don't ask for sudo too often
   security.sudo.extraConfig = ''
