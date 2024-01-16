@@ -47,7 +47,10 @@ in {
 
     # Enable the KDE Plasma Desktop Environment.
     services.xserver.displayManager = {
-      sddm.enable = true;
+      # Auto loging crash
+      # sddm.enable = true;
+      lightdm.enable = true;
+
       # Enable automatic login for the user.
       autoLogin.enable = true;
       autoLogin.user = "martijn";
