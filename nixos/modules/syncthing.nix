@@ -25,7 +25,6 @@ in {
       dataDir = "/home/martijn/Sync"; # Default folder for new synced folders
       overrideDevices = true; # overrides any devices added or deleted through the WebUI
       overrideFolders = true; # overrides any folders added or deleted through the WebUI
-      urAccepted = -1;
       settings = {
         devices = {
           "glassdoor" = {
@@ -60,6 +59,7 @@ in {
           };
         };
         options = {
+          urAccepted = -1;
           localAnnounceEnabled = false;
           globalAnnounceEnabled = false;
           reconnectionIntervalM = 5;
