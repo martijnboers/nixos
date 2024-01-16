@@ -51,6 +51,14 @@ in {
               "tcp://100.64.0.1:22000"
             ];
           };
+          "hadouken" = {
+            id = "KSZBEEG-YXNPG3M-XFSTOSE-NPGHHUR-QNNNYKO-YTQYDOE-MRRLJVF-VR2YCQU";
+            autoAcceptFolders = true;
+            allowedNetwork = "100.64.0.0/10";
+            addresses = [
+              "tcp://100.64.0.2:22000"
+            ];
+          };
         };
         folders = {
           "Obsidian" = {
