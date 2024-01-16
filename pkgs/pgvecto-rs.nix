@@ -14,7 +14,7 @@
 }: let
   versionHashes = {
     "14" = "sha256-8YRC1Cd9i0BGUJwLmUoPVshdD4nN66VV3p48ziy3ZbA=";
-#    "15" = "sha256-IVx/LgRnGyvBRYvrrJatd7yboWEoSYSJogLaH5N/wPA=";
+    #    "15" = "sha256-IVx/LgRnGyvBRYvrrJatd7yboWEoSYSJogLaH5N/wPA=";
   };
   major = lib.versions.major postgresql.version;
 in

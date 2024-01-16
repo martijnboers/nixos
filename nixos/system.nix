@@ -60,6 +60,7 @@
     git
     wev # wayland xev
     gcc
+    wget
     config.services.headscale.package
 
     # samba

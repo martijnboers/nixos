@@ -64,7 +64,6 @@ in {
       elisa
       khelpcenter
       konsole
-      kate
     ];
 
     # Configure keymap in X11

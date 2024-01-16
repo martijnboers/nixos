@@ -21,6 +21,7 @@
       lightline.enable = true; # bar at the bottom
       gitgutter.enable = true; # show changed files in git
       lastplace.enable = true; # re-open files where left off
+      which-key.enable = true; # popup with possible key combinations
       nvim-tree = {
         enable = true;
         #        autoClose = true; # doesn't work yet?
