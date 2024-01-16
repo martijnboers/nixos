@@ -70,6 +70,7 @@
     # tools
     distrobox # run any linux distro
     mods # ai for cli
+    glow # cli markdown viewer
   ];
 
   # Let nix-index handle command-not-found
