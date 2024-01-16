@@ -10,10 +10,8 @@ Personal NixOS files. Mostly plagiarized from other configurations.
 - Link flake file to home
 - `sudo ln -s /home/martijn/Nix/flake.nix /etc/nixos/flake.nix`
 - `sudo tailscale up --login-server https://headscale.plebian.nl`
-#### Import private key
-```bash
-gpg --import private.key
-```
+- Set accent color to wallpaper in KDE
+- `gpg --import private.key`
 
 ## Troubleshooting
 #### GPG hangs

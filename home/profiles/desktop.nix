@@ -25,6 +25,7 @@ in {
       libsForQt5.kdeconnect-kde
       libsForQt5.neochat
       libsForQt5.kompare
+      libsForQt5.kate
       wl-clipboard # wayland clipboard manager
       obsidian
 
