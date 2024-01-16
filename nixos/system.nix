@@ -100,9 +100,6 @@
   # Flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
-  # Only keep the last 500MiB of systemd journal.
-  services.journald.extraConfig = "SystemMaxUse=500M";
-
   # Collect nix store garbage and optimise daily.
   nix.gc.automatic = true;
   nix.gc.options = "--delete-older-than 30d";
@@ -173,9 +170,15 @@
     };
   };
 
+  # Keep journal log max 20gigs
+  services.journald.extraConfig = ''
+    SystemMaxUse=20G
+    SystemKeepFree=100G
+  '';
+
   # Don't ask for sudo too often
   security.sudo.extraConfig = ''
-    Defaults timestamp_timeout=100
+    Defaults timestamp_timeout=300
   '';
 
   system.stateVersion = "23.11";
