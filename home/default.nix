@@ -69,6 +69,7 @@
 
     # tools
     distrobox # run any linux distro
+    mods # ai for cli
   ];
 
   # Let nix-index handle command-not-found
