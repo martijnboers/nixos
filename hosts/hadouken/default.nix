@@ -29,6 +29,11 @@
   hosts.headscale.enable = true;
   hosts.borg.enable = true;
 
+  hosts.syncthing = {
+    enable = true;
+    ipaddress = "100.64.0.2";
+  };
+
   # Sync zsh history
   hosts.atuin.enable = true;
 
