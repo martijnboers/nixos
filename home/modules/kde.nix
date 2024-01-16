@@ -27,7 +27,7 @@
           "org.kde.plasma.panelspacer"
           "org.kde.plasma.digitalclock"
           "org.kde.plasma.panelspacer"
-          "org.kde.plasma.systemmonitor"
+          "org.kde.plasma.systemmonitor.cpucore"
           "org.kde.plasma.systemtray"
         ];
         iconTasksLaunchers = [
