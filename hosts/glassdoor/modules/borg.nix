@@ -19,7 +19,7 @@ in {
         passCommand = "cat ${config.age.secrets.borg.path}";
       };
       environment.BORG_RSH = "ssh -o 'StrictHostKeyChecking=no' -i /home/martijn/.ssh/id_ed25519";
-      repo = "myg0b6y7@myg0b6y7.repo.borgbase.com:repo";
+      repo = "ssh://myg0b6y7@myg0b6y7.repo.borgbase.com/./repo";
       compression = "auto,zstd";
       startAt = "daily";
       user = "martijn";
