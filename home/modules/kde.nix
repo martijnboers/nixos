@@ -27,6 +27,7 @@
           "org.kde.plasma.panelspacer"
           "org.kde.plasma.digitalclock"
           "org.kde.plasma.panelspacer"
+          "org.kde.plasma.systemmonitor.memmory"
           "org.kde.plasma.systemmonitor.cpucore"
           "org.kde.plasma.systemtray"
         ];
@@ -39,6 +40,16 @@
           "obsidian.desktop"
           "sublime_merge.desktop"
         ];
+        extraSettings = ''
+          [Containments][57][Applets][65][Configuration][Appearance]
+          chartFace=org.kde.ksysguard.linechart
+          title=Individual Core Usage
+
+          [Containments][57][Applets][58][Configuration][General]
+          favoritesPortedToKAstats=true
+          icon=nix-snowflake-white
+          systemFavorites=suspend\\,hibernate\\,reboot\\,shutdown
+        '';
       }
     ];
 
