@@ -18,6 +18,7 @@
       rm = "trash-put"; # use trash for cli
       ks = "kitty +kitten ssh";
       pow = "ks hadouken.plebian.nl -p 666";
+      readme = "cat README* | glow";
     };
     dotDir = ".config/zsh";
     initExtra = ''

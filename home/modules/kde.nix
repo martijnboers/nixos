@@ -43,6 +43,8 @@
     ];
 
     configFile = {
+      "kwinrc"."Desktops"."Number" = 3;
+      "kwinrc"."Desktops"."Rows" = 3;
       spectaclerc.General = {
         autoSaveImage = false;
       };
