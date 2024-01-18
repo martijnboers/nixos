@@ -35,9 +35,9 @@ in {
         "*/_build"
         "*/venv"
         "*/.venv"
-        "~/.local"
-        "~/Downloads"
-        "~/Data"
+        "/home/*/.local"
+        "/home/*/Downloads"
+        "/home/*/Data"
       ];
     };
   };
