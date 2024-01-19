@@ -14,6 +14,8 @@
   # don't autologin
   services.xserver.displayManager.autoLogin.enable = false;
 
+  hosts.openssh.enable = true;
+
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/vda";
   boot.loader.grub.useOSProber = true;
