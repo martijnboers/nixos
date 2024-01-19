@@ -17,7 +17,7 @@
       vim = "nvim";
       rm = "trash-put"; # use trash for cli
       ssh = "kitty +kitten ssh";
-      pow = "ks hadouken.plebian.nl -p 666";
+      pow = "ssh hadouken.plebian.nl -p 666";
       readme = "cat README* | glow";
     };
     dotDir = ".config/zsh";
