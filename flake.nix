@@ -89,6 +89,10 @@
       system = "x86_64-linux";
     };
 
+    nixosConfigurations.suydersee = mkSystem "suydersee" {
+      system = "x86_64-linux";
+    };
+
     nixosConfigurations.lapdance = mkSystem "lapdance" {
       system = "x86_64-linux";
     };
