@@ -19,7 +19,7 @@ in {
   config = mkIf cfg.enable {
     services.syncthing = {
       enable = true;
-      guiAddress = "127.0.0.1:8384";
+      guiAddress = "${cfg.ipaddress}:8384";
       openDefaultPorts = true;
       user = "martijn";
       dataDir = "/home/martijn/Sync"; # Default folder for new synced folders
