@@ -60,7 +60,7 @@ in {
             ];
           };
           "suydersee" = {
-            id = "56U3WOL-6CFE2LR-LDANZED-TSRYHR6-7HSL2IP-YS7TJFG-PMCXBQR-PABK7AM";
+            id = "U6WMBC4-P6XCMFW-UFQKGRI-OFQSIAJ-UVPTVVC-JBSNSZG-22F7QZG-2AHWHQN";
             autoAcceptFolders = true;
             allowedNetwork = "100.64.0.0/10";
             addresses = [

@@ -4,6 +4,14 @@
   config,
   ...
 }: {
+  imports = [
+    ./modules/caddy.nix
+    ./modules/transmission.nix
+  ];
+
+  hosts.caddy.enable = true;
+  hosts.transmission.enable = true;
+
   networking.hostName = "suydersee";
 
   hosts.syncthing = {
