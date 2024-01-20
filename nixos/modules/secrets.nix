@@ -36,6 +36,10 @@ in {
           file = ../../secrets/borg.age;
           owner = config.users.users.martijn.name;
         };
+        transmission = {
+          file = ../../secrets/transmission.age;
+          owner = config.users.users.martijn.name;
+        };
       };
     };
 
