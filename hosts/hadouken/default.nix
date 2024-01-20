@@ -9,7 +9,6 @@
   imports = [
     ./modules/atuin.nix
     ./modules/caddy.nix
-    ./modules/resilio.nix
     ./modules/vaultwarden.nix
     ./modules/coredns.nix
     ./modules/plex.nix
@@ -24,7 +23,6 @@
   hosts.vaultwarden.enable = true;
   hosts.plex.enable = true;
   hosts.coredns.enable = true;
-  hosts.resilio.enable = true;
   hosts.nextcloud.enable = true;
   hosts.headscale.enable = true;
   hosts.borg.enable = true;
