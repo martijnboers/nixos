@@ -6,10 +6,10 @@
 }: {
   networking.hostName = "suydersee";
 
-  #  hosts.syncthing = {
-  #    enable = true;
-  #    ipaddress = "100.64.0.1";
-  #  };
+  hosts.syncthing = {
+    enable = true;
+    ipaddress = "100.64.0.5";
+  };
 
   # don't autologin
   services.xserver.displayManager.autoLogin.enable = false;
