@@ -19,6 +19,4 @@
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/vda";
   boot.loader.grub.useOSProber = true;
-
-  networking.nameservers = ["2a00:1098:2c::1" "2a01:4f8:c2c:123f::1"];
 }

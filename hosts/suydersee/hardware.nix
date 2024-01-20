@@ -29,17 +29,12 @@
     }
   ];
 
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
   networking = {
     interfaces = {
       ens3 = {
         ipv6.addresses = [
           {
-            address = " 2a04:52c0:102:b465::2";
+            address = "2a04:52c0:102:b465::2";
             prefixLength = 48;
           }
         ];
@@ -51,8 +46,13 @@
         ];
       };
     };
+    nameservers = ["2a00:1098:2c::1" "2a01:4f8:c2c:123f::1"];
     defaultGateway6 = {
       address = "2a04:52c0:102::1";
+      interface = "ens3";
+    };
+    defaultGateway = {
+      address = "5.255.97.1";
       interface = "ens3";
     };
   };
