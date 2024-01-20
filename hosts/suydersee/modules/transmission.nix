@@ -14,7 +14,7 @@ in {
   config = mkIf cfg.enable {
     services = {
       caddy.virtualHosts."transmission.thuis.plebian.nl".extraConfig = ''
-        reverse_proxy http://localhost:${toString config.services.transmission.port}
+        reverse_proxy http://100.64.0.5:${toString config.services.transmission.port}
       '';
       transmission = {
         enable = true; #Enable transmission daemon
