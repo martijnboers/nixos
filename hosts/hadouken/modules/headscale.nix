@@ -37,11 +37,6 @@ in {
                 value = "100.64.0.2";
               }
               {
-                name = "syncthing.thuis.plebian.nl";
-                type = "A";
-                value = "100.64.0.2";
-              }
-              {
                 name = "transmission.thuis.plebian.nl";
                 type = "A";
                 value = "100.64.0.5";
