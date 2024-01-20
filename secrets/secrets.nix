@@ -10,4 +10,5 @@ in {
   "smb.age".publicKeys = users;
   "nextcloud.age".publicKeys = users;
   "borg.age".publicKeys = users;
+  "transmission.age".publicKeys = users;
 }
