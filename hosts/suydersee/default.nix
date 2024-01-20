@@ -11,6 +11,13 @@
     ipaddress = "100.64.0.5";
   };
 
+  services.syncthing.settings.folders = {
+    "Music" = {
+      path = "/mnt/garage/Music";
+      devices = ["hadouken" "suydersee"];
+    };
+  };
+
   # don't autologin
   services.xserver.displayManager.autoLogin.enable = false;
 
