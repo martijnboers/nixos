@@ -18,11 +18,11 @@ in {
       '';
       transmission = {
         enable = true; #Enable transmission daemon
+        openRPCPort = true;
         settings = {
           download-dir = "/mnt/garage/Music";
           incomplete-dir-enabled = true;
-          rpc-bind-address = "0.0.0.0";
-#          rpc-whitelist = "127.0.0.1,10.0.0.1"; #Whitelist your remote machine (10.0.0.1 in this example)
+          rpc-bind-address = "100.64.0.5";
         };
       };
     };
