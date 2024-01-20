@@ -32,6 +32,13 @@
     ipaddress = "100.64.0.2";
   };
 
+  services.syncthing.settings.folders = {
+    "Obsidian" = {
+      path = "~/Sync/Obsidian";
+      devices = ["glassdoor" "phone" "lapdance" "hadouken"];
+    };
+  };
+
   # Sync zsh history
   hosts.atuin.enable = true;
 
