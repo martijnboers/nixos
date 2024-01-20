@@ -63,7 +63,11 @@ in {
         folders = {
           "Obsidian" = {
             path = "~/Sync/Obsidian";
-            devices = ["glassdoor" "phone" "lapdance"];
+            devices = ["glassdoor" "phone" "lapdance" "hadouken"];
+          };
+          "Music" = {
+            path = "/mnt/garage/Music";
+            devices = ["hadouken"];
           };
         };
         options = {
