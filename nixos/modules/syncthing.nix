@@ -59,6 +59,14 @@ in {
               "tcp://100.64.0.2:22000"
             ];
           };
+          "suydersee" = {
+            id = "56U3WOL-6CFE2LR-LDANZED-TSRYHR6-7HSL2IP-YS7TJFG-PMCXBQR-PABK7AM";
+            autoAcceptFolders = true;
+            allowedNetwork = "100.64.0.0/10";
+            addresses = [
+              "tcp://100.64.0.5:22000"
+            ];
+          };
         };
         folders = {
           "Obsidian" = {
@@ -67,7 +75,7 @@ in {
           };
           "Music" = {
             path = "/mnt/garage/Music";
-            devices = ["hadouken"];
+            devices = ["hadouken" "suydersee"];
           };
         };
         options = {
