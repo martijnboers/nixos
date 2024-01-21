@@ -9,6 +9,7 @@
     ./modules/syncthing.nix
     ./modules/openssh.nix
     ./modules/secrets.nix
+    ./modules/borg.nix
     ./modules/gpg.nix
     ./modules/kde.nix
     ./modules/smb.nix

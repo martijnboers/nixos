@@ -42,7 +42,7 @@ in {
        redir /.well-known/caldav /remote.php/dav 301
     '';
 
-    services.borgbackup.jobs.home-hadouken.paths = ["${config.services.nextcloud.home}"];
+    services.borgbackup.jobs.default.paths = ["${config.services.nextcloud.home}"];
 
     services.nextcloud = {
       enable = true;

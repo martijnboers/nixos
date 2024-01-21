@@ -16,6 +16,8 @@ in {
       caddy.virtualHosts."transmission.thuis.plebian.nl".extraConfig = ''
         reverse_proxy http://127.0.0.1:${toString config.services.transmission.settings.rpc-port}
       '';
+      services.borgbackup.jobs.default.paths = ["${services.transmission.home}/.config/"];
+
       transmission = {
         enable = true;
         openPeerPorts = true;
@@ -23,6 +25,7 @@ in {
         downloadDirPermissions = "0777";
         settings = {
           download-dir = "/home/martijn/Torrents";
+          umask = 022;
           incomplete-dir-enabled = true;
           rpc-host-whitelist = "transmission.thuis.plebian.nl";
           rpc-host-whitelist-enabled = true;
