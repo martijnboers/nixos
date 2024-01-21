@@ -27,7 +27,7 @@ in {
       settings = {
         devices = {
           "glassdoor" = {
-            id = "ETH5H4M-I6AXLYU-G6GQV2J-ZCBUTT6-WJWHR5U-OWQDFFP-JJ3FWAA-JXSCDAU";
+            id = "D3FA3AV-TMGC6HM-ULQSUKR-NBX4UCX-FQ53V7Y-HJ73FHY-KGYUE2Y-FVXTPQJ";
             autoAcceptFolders = true;
             allowedNetwork = "100.64.0.0/10";
             addresses = [
@@ -51,7 +51,7 @@ in {
             ];
           };
           "hadouken" = {
-            id = "KSZBEEG-YXNPG3M-XFSTOSE-NPGHHUR-QNNNYKO-YTQYDOE-MRRLJVF-VR2YCQU";
+            id = "T235TJH-GWV7O3T-KQ57U47-W6MH5GC-JXCCIO2-37ZBP2C-HWDGL7A-LDM43Q7"; # TODO: change
             autoAcceptFolders = true;
             allowedNetwork = "100.64.0.0/10";
             addresses = [
@@ -59,7 +59,7 @@ in {
             ];
           };
           "suydersee" = {
-            id = "U6WMBC4-P6XCMFW-UFQKGRI-OFQSIAJ-UVPTVVC-JBSNSZG-22F7QZG-2AHWHQN";
+            id = "MNA6KRH-GULVLRX-ONZVPOP-V4ZXYPJ-Q6RGBVC-UQQ4FPZ-P6IGWSJ-RLHGGQ6";
             autoAcceptFolders = true;
             allowedNetwork = "100.64.0.0/10";
             addresses = [
