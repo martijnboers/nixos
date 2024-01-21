@@ -43,13 +43,6 @@
     };
   };
 
-  fileSystems."/mnt/garage/Music" = {
-    device = "/dev/sda1";
-    fsType = "ext4";
-    options = ["rw" "relatime" "data=ordered" "user_xattr" "acl" "noatime"];
-    permissions = "0777";
-  };
-
   # Sync zsh history
   hosts.atuin.enable = true;
 
