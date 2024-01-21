@@ -22,7 +22,6 @@ in {
       guiAddress = "${cfg.ipaddress}:8384";
       openDefaultPorts = true;
       user = "martijn";
-      dataDir = "/home/martijn/Sync"; # Default folder for new synced folders
       overrideDevices = true; # overrides any devices added or deleted through the WebUI
       overrideFolders = true; # overrides any folders added or deleted through the WebUI
       settings = {
