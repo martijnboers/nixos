@@ -27,7 +27,7 @@ in {
       settings = {
         devices = {
           "glassdoor" = {
-            id = "L77BOY3-HVS7OGS-6ABZ3T6-RDUSIB4-GZHNSCW-B5DVI3V-74JW4B6-T7B6PAS";
+            id = "ETH5H4M-I6AXLYU-G6GQV2J-ZCBUTT6-WJWHR5U-OWQDFFP-JJ3FWAA-JXSCDAU";
             autoAcceptFolders = true;
             allowedNetwork = "100.64.0.0/10";
             addresses = [
