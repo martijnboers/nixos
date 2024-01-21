@@ -22,8 +22,9 @@ in {
         openPeerPorts = true;
         credentialsFile = config.age.secrets.transmission.path;
         downloadDirPermissions = "0777";
+        user = "martijn";
         settings = {
-          download-dir = "/home/martijn/Torrents";
+          download-dir = "/media";
           umask = 022;
           incomplete-dir-enabled = true;
           rpc-host-whitelist = "transmission.thuis.plebian.nl";
