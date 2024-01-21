@@ -16,7 +16,7 @@ in {
       caddy.virtualHosts."transmission.thuis.plebian.nl".extraConfig = ''
         reverse_proxy http://127.0.0.1:${toString config.services.transmission.settings.rpc-port}
       '';
-      services.borgbackup.jobs.default.paths = ["${config.transmission.home}/.config/"];
+      services.borgbackup.jobs.default.paths = ["${config.services.transmission.home}/.config/"];
 
       transmission = {
         enable = true;
