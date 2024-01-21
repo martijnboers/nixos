@@ -29,6 +29,8 @@ in {
       deviceName = cfg.name;
       enable = true;
       enableWebUI = true;
+      httpLogin = "admin";
+      httpPass = "admin";
       httpListenAddr = "${cfg.ipaddress}";
     };
   };
