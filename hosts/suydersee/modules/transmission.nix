@@ -17,7 +17,7 @@ in {
         reverse_proxy http://127.0.0.1:${toString config.services.transmission.settings.rpc-port}
       '';
       transmission = {
-        enable = true; #Enable transmission daemon
+        enable = true;
         openPeerPorts = true;
         credentialsFile = config.age.secrets.transmission.path;
         settings = {
