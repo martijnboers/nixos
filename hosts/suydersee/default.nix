@@ -12,6 +12,11 @@
   hosts.caddy.enable = true;
   hosts.transmission.enable = true;
 
+  hosts.borg = {
+    enable = true;
+    repository = "ssh://iv2maozj@iv2maozj.repo.borgbase.com/./repo";
+  };
+
   networking.hostName = "suydersee";
 
   hosts.syncthing = {

@@ -4,16 +4,34 @@
   config,
   ...
 }: {
-  imports = [
-    ./modules/borg.nix
-  ];
-
   networking.hostName = "glassdoor";
   hosts.desktop = {
     enable = true;
     wayland = true;
   };
-  hosts.borg.enable = true;
+
+  hosts.borg = {
+    enable = true;
+    repository = "ssh://nads486h@nads486h.repo.borgbase.com/./repo";
+    paths = ["/home/martijn"];
+    exclude = [
+      ".cache"
+      "*/cache2" # firefox
+      "*/Cache"
+      ".config/Slack/logs"
+      ".config/Code/CachedData"
+      ".container-diff"
+      ".npm/_cacache"
+      "*/node_modules"
+      "*/_build"
+      "*/venv"
+      "*/.venv"
+      "/home/*/.local"
+      "/home/*/Downloads"
+      "/home/*/Data"
+    ];
+  };
+
   hosts.syncthing = {
     enable = true;
     ipaddress = "100.64.0.4";

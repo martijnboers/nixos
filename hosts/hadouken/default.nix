@@ -12,7 +12,6 @@
     ./modules/vaultwarden.nix
     ./modules/coredns.nix
     ./modules/plex.nix
-    ./modules/borg.nix
     ./modules/nextcloud.nix
     ./modules/headscale.nix
   ];
@@ -25,7 +24,11 @@
   hosts.coredns.enable = true;
   hosts.nextcloud.enable = true;
   hosts.headscale.enable = true;
-  hosts.borg.enable = true;
+
+  hosts.borg = {
+    enable = true;
+    repository = "ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo";
+  };
 
   hosts.syncthing = {
     enable = true;
