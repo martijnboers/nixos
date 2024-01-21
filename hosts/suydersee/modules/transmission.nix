@@ -21,7 +21,7 @@ in {
         openPeerPorts = true;
         credentialsFile = config.age.secrets.transmission.path;
         settings = {
-          download-dir = "/mnt/garage/Music";
+          download-dir = "/home/martijn/Torrents";
           incomplete-dir-enabled = true;
           rpc-host-whitelist-enabled = false;
           rpc-bind-address = "127.0.0.1";
