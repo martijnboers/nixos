@@ -23,7 +23,11 @@ in {
         settings = {
           download-dir = "/home/martijn/Torrents";
           incomplete-dir-enabled = true;
-          rpc-host-whitelist-enabled = false;
+          rpc-host-whitelist = "transmission.thuis.plebian.nl";
+          rpc-host-whitelist-enabled = true;
+          rpc-whitelist = "127.0.0.1,100.64.0.*";
+          rpc-whitelist-enabled = true;
+          rpc-authentication-required = true;
           rpc-bind-address = "127.0.0.1";
         };
       };
