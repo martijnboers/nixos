@@ -20,6 +20,7 @@ in {
         enable = true;
         openPeerPorts = true;
         credentialsFile = config.age.secrets.transmission.path;
+        downloadDirPermissions = "0777";
         settings = {
           download-dir = "/home/martijn/Torrents";
           incomplete-dir-enabled = true;
