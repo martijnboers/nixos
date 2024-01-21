@@ -7,6 +7,7 @@
   imports = [
     ./modules/virtualization.nix
     ./modules/syncthing.nix
+    ./modules/resillio.nix
     ./modules/openssh.nix
     ./modules/secrets.nix
     ./modules/borg.nix

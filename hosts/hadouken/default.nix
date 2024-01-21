@@ -35,14 +35,16 @@
     ipaddress = "100.64.0.2";
   };
 
+  hosts.resilio = {
+    enable = true;
+    name = "hadouken";
+    ipaddress = "100.64.0.2";
+  };
+
   services.syncthing.settings.folders = {
     "Obsidian" = {
       path = "~/Sync/Obsidian";
       devices = ["glassdoor" "phone" "lapdance" "hadouken"];
-    };
-    "Music" = {
-      path = "/mnt/garage/Music";
-      devices = ["hadouken" "suydersee"];
     };
   };
 
