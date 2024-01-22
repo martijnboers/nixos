@@ -46,7 +46,7 @@ in {
         };
         ca = {
           file = ../../secrets/ca.age;
-          owner = config.users.users.martijn.name;
+          owner = "caddy";
         };
       };
     };
