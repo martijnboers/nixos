@@ -13,7 +13,7 @@ in {
 
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."atuin.thuis.plebian.nl".extraConfig = ''
-      tls ${config.age.secrets.ca.path} ${config.age.secrets.key.path}
+      tls internal
       reverse_proxy http://localhost:${toString config.services.atuin.port}
     '';
     services.atuin = {

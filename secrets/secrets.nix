@@ -11,6 +11,4 @@ in {
   "nextcloud.age".publicKeys = users;
   "borg.age".publicKeys = users;
   "transmission.age".publicKeys = users;
-  "ca.age".publicKeys = users;
-  "key.age".publicKeys = users;
 }
