@@ -64,6 +64,7 @@
     gcc
     wget
     config.services.headscale.package
+    openssl # for CA work
 
     # samba
     cifs-utils
