@@ -42,11 +42,11 @@ in {
         };
         key = {
           file = ../../secrets/key.age;
-          owner = "caddy";
+          mode = "770";
         };
         ca = {
           file = ../../secrets/ca.age;
-          owner = "caddy";
+          mode = "770";
         };
       };
     };
