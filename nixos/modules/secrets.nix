@@ -42,7 +42,7 @@ in {
         };
         key = {
           file = ../../secrets/key.age;
-          owner = config.users.users.martijn.name;
+          owner = "caddy";
         };
         ca = {
           file = ../../secrets/ca.age;
