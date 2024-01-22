@@ -141,6 +141,11 @@
     openFirewall = true;
   };
 
+  # Self signed ca for all the internal tailscale services
+  security.pki.certificateFiles = [
+    config.age.secrets.ca.path
+  ];
+
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
