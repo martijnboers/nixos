@@ -13,6 +13,9 @@ Personal NixOS files. Mostly plagiarized from other configurations.
 - Set accent color to wallpaper in KDE
 - `gpg --import private.key`
 
+### Create self signed key
+`openssl req -x509 -newkey rsa:4096 -keyout private-key.pem -out certificate.pem -days 9999 -subj "/CN=thuis.plebian.nl" -addext "basicConstraints=critical,CA:FALSE" -addext "subjectAltName=DNS:thuis.plebian.nl,DNS:*.thuis.plebian.nl"`
+
 ## Troubleshooting
 #### GPG hangs
 - `rm -rf ~/.gnupg/public-keys.d/*.lock`
