@@ -142,6 +142,11 @@
     openFirewall = true;
   };
 
+  # Self signed ca for all the internal tailscale services
+  security.pki.certificateFiles = [
+    ./keys/caddy.pem
+  ];
+
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
