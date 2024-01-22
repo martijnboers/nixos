@@ -14,7 +14,7 @@ in {
   config = mkIf cfg.enable {
     services = {
       caddy.virtualHosts."transmission.thuis.plebian.nl".extraConfig = ''
-        tls ${config.age.secrets.ca.path} ${config.age.secrets.key.path}
+        tls internal
         reverse_proxy http://127.0.0.1:${toString config.services.transmission.settings.rpc-port}
       '';
       borgbackup.jobs.default.paths = ["${config.services.transmission.home}/.config/"];
