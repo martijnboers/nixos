@@ -40,6 +40,14 @@ in {
           file = ../../secrets/transmission.age;
           owner = config.users.users.martijn.name;
         };
+        key = {
+          file = ../../secrets/key.age;
+          owner = config.users.users.martijn.name;
+        };
+        ca = {
+          file = ../../secrets/ca.age;
+          owner = config.users.users.martijn.name;
+        };
       };
     };
 
