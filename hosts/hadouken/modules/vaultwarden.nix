@@ -13,7 +13,7 @@ in {
 
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."vaultwarden.thuis.plebian.nl".extraConfig = ''
-      tls ${config.age.secrets.key.path} ${config.age.secrets.ca.path}
+      tls ${config.age.secrets.ca.path} ${config.age.secrets.key.path}
       reverse_proxy http://localhost:${toString config.services.vaultwarden.config.rocketPort}
     '';
     services.borgbackup.jobs.default.paths = ["/var/lib/bitwarden_rs/backup"];
