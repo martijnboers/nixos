@@ -29,6 +29,7 @@ in {
       libsForQt5.kate
       wl-clipboard # wayland clipboard manager
       obsidian
+      qmk
 
       # music
       clementine

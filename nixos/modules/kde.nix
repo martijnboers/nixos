@@ -69,6 +69,9 @@ in {
       konsole
     ];
 
+    # Access QMK without sudo
+    hardware.keyboard.qmk.enable = true;
+
     # Configure keymap in X11
     services.xserver = {
       layout = "us";
