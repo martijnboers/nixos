@@ -20,36 +20,37 @@
         location = "top";
         height = 41;
         widgets = [
-          "org.kde.plasma.kickoff"
+          {
+            name = "org.kde.plasma.kickoff";
+            config.General.icon = "nix-snowflake-white";
+          }
           "org.kde.plasma.pager"
-          "org.kde.plasma.icontasks"
+          {
+            name = "org.kde.plasma.icontasks";
+            config = {
+              General.launchers = [
+                "applications:firefox.desktop"
+                "applications:kitty.desktop"
+                "applications:org.kde.dolphin.desktop"
+                "applications:pycharm-community.desktop"
+                "applications:webstorm.desktop"
+                "applications:obsidian.desktop"
+                "applications:sublime_merge.desktop"
+              ];
+            };
+          }
           "org.kde.plasma.marignsseperator"
           "org.kde.plasma.panelspacer"
           "org.kde.plasma.digitalclock"
           "org.kde.plasma.panelspacer"
-          "org.kde.plasma.systemmonitor.memmory"
-          "org.kde.plasma.systemmonitor.cpucore"
+          "org.kde.plasma.systemmonitor.memory"
+          {
+            name = "org.kde.plasma.systemmonitor.cpucore";
+            config.Appearance.chartFace = "org.kde.ksysguard.linechart";
+            config.Appearance.title = "cpu does zoom";
+          }
           "org.kde.plasma.systemtray"
         ];
-        iconTasksLaunchers = [
-          "firefox.desktop"
-          "kitty.desktop"
-          "org.kde.dolphin.desktop"
-          "pycharm-community.desktop"
-          "webstorm.desktop"
-          "obsidian.desktop"
-          "sublime_merge.desktop"
-        ];
-        extraSettings = ''
-          [Containments][57][Applets][65][Configuration][Appearance]
-          chartFace=org.kde.ksysguard.linechart
-          title=Individual Core Usage
-
-          [Containments][57][Applets][58][Configuration][General]
-          favoritesPortedToKAstats=true
-          icon=nix-snowflake-white
-          systemFavorites=suspend\\,hibernate\\,reboot\\,shutdown
-        '';
       }
     ];
 
