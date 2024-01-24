@@ -3,9 +3,10 @@
     enable = true;
     settings = {
       font_family = "Jetbrains Mono";
-      font_size = "12.0";
+      font_size = "12";
       scrollback_lines = 10000;
       window_padding_width = 6;
+      enableZshIntegration = true;
 
       # Tabs
       tab_bar_style = "powerline";

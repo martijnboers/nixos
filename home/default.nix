@@ -67,6 +67,7 @@
     meslo-lgs-nf
     roboto
     jetbrains-mono
+    nerdfonts
 
     # tools
     distrobox # run any linux distro
