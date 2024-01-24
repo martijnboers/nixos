@@ -16,6 +16,7 @@
       xev = "wev"; # wayland xev
       vim = "nvim";
       rm = "trash-put"; # use trash for cli
+      ls = "lsd"; # fancy ls
       ssh = "kitty +kitten ssh";
       pow = "ssh hadouken.plebian.nl -p 666";
       zee = "ssh suydersee.plebian.nl -p 666";

@@ -61,6 +61,7 @@
     neofetch
     thefuck
     trash-cli
+    lsd # fance ls
 
     # fonts
     meslo-lgs-nf
