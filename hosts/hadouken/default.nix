@@ -46,6 +46,10 @@
       path = "~/Sync/Obsidian";
       devices = ["glassdoor" "phone" "lapdance" "hadouken"];
     };
+    "Archive" = {
+      path = "/mnt/garage/Archive";
+      devices = ["suydersee" "hadouken"];
+    };
   };
 
   # Sync zsh history
