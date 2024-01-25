@@ -1,11 +1,18 @@
 {...}: {
   programs.kitty = {
     enable = true;
+    font = {
+      name = "Jetbrains Mono";
+      size = 12;
+    };
+
     settings = {
-      font_family = "Jetbrains Mono";
-      font_size = "12";
       scrollback_lines = 10000;
       window_padding_width = 6;
+      hide_window_decorations = "titlebar-only";
+      tab_title_max_length = 60;
+      tab_title_template = "{title}";
+      strip_trailing_spaces = "always";
       enableZshIntegration = true;
 
       # Tabs
