@@ -1,5 +1,7 @@
 ## Description
-Personal NixOS files. Mostly plagiarized from other configurations. 
+Personal NixOS files. You could directly use this but it's better to
+extract the pieces you want in your own config. Checkout https://github.com/Misterio77/nix-starter-configs
+for a good initial starting point for NixOS with flakes. 
 
 > Linux is only free if your time has no value 
 > 
