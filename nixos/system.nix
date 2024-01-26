@@ -118,6 +118,7 @@
   # Default env variables
   environment.sessionVariables = {
     EDITOR = "nvim";
+    OPENAI_API_KEY = config.age.secrets.openai.path;
   };
 
   # SMB network discovery
