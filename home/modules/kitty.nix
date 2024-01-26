@@ -28,7 +28,7 @@
       "ctrl+pgup" = "previous_tab";
       "ctrl+shift+pgdn" = "move_tab_forward";
       "ctrl+shift+pgup" = "move_tab_backward";
-      "ctrl+shift+t" = "new_tab_with_cwd";
+      "ctrl+shift+t" = "new_tab";
       "ctrl+w" = "close_tab";
       "alt+j" = "previous_window";
       "alt+k" = "next_window";
