@@ -24,22 +24,11 @@ in {
           file = ../../secrets/hosts.age;
           owner = config.users.users.martijn.name;
         };
-        password = {
-          file = ../../secrets/password.age;
-          owner = config.users.users.martijn.name;
-        };
-        smb = {
-          file = ../../secrets/smb.age;
-          owner = config.users.users.martijn.name;
-        };
-        borg = {
-          file = ../../secrets/borg.age;
-          owner = config.users.users.martijn.name;
-        };
-        transmission = {
-          file = ../../secrets/transmission.age;
-          owner = config.users.users.martijn.name;
-        };
+        password.file = ../../secrets/password.age;
+        smb.file = ../../secrets/smb.age;
+        openai.file = ../../secrets/openai.age;
+        borg.file = ../../secrets/borg.age;
+        transmission.file = ../../secrets/transmission.age;
       };
     };
 
