@@ -43,7 +43,7 @@
 
   services.syncthing.settings.folders = {
     "Obsidian" = {
-      path = "~/Sync/Obsidian";
+      path = "~/Obsidian";
       devices = ["glassdoor" "phone" "lapdance" "hadouken"];
     };
   };
