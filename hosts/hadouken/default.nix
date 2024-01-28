@@ -43,8 +43,9 @@
 
   services.syncthing.settings.folders = {
     "Obsidian" = {
+      id = "Obsidian"; # will become default folder path
       path = "~/Obsidian";
-      devices = ["glassdoor" "phone" "lapdance" "hadouken"];
+      devices = ["glassdoor" "phone" "lapdance"];
     };
   };
 
