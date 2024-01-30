@@ -19,11 +19,6 @@
 
   networking.hostName = "suydersee";
 
-  hosts.syncthing = {
-    enable = true;
-    ipaddress = "100.64.0.5";
-  };
-
   hosts.resilio = {
     enable = true;
     name = "suydersee";
