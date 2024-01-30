@@ -41,11 +41,15 @@
     ipaddress = "100.64.0.2";
   };
 
-  services.syncthing.settings.folders = {
-    "Obsidian" = {
-      id = "Obsidian"; # will become default folder path
-      path = "~/Obsidian";
-      devices = ["glassdoor" "phone" "lapdance"];
+  services.syncthing = {
+    overrideFolders = true; # overrides any folders added or deleted through the WebUI
+
+    settings.folders = {
+      "Obsidian" = {
+        id = "Obsidian"; # will become default folder path
+        path = "~/Obsidian";
+        devices = ["glassdoor" "phone" "lapdance"];
+      };
     };
   };
 
