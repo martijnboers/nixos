@@ -26,7 +26,6 @@ in {
         };
         password.file = ../../secrets/password.age;
         smb.file = ../../secrets/smb.age;
-        openai.file = ../../secrets/openai.age;
         borg.file = ../../secrets/borg.age;
         transmission.file = ../../secrets/transmission.age;
       };
