@@ -36,6 +36,12 @@ in {
           protection_enabled = true;
           blocked_hosts = ["version.bind" "id.server" "hostname.bind"];
           cache_size = 4194304;
+          rewrites = [
+            {
+              domain = "hadouken.plebian.local";
+              answer = "192.168.1.156";
+            }
+          ];
         };
         filters = [
           {
