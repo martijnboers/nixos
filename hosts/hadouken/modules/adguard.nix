@@ -63,7 +63,7 @@ in {
         users = [
           {
             username = "admin";
-            password = "admin";
+            password = "$2a$12$2.LYNDcUmLA/14My1r592.lNs32aWsF7q6g6RwdGG0BPF.cbyde/W";
           }
         ];
       };
