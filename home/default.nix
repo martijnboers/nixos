@@ -38,6 +38,9 @@
     # quickly lookup and run programs
     inputs.nix-index-database.hmModules.nix-index
 
+    # secrets manager
+    inputs.agenix.homeManagerModules.default
+
     # Used by desktop but lazy loaded
     ./modules/kitty.nix
     ./modules/kde.nix
@@ -74,6 +77,16 @@
     mods # ai for cli
     glow # cli markdown viewer
   ];
+
+  # User level secrets
+  age = {
+    identityPaths = [
+      "/home/martijn/.ssh/id_ed25519"
+    ];
+    secrets = {
+      openai.file = ../secrets/openai.age;
+    };
+  };
 
   # Let nix-index handle command-not-found
   programs.nix-index.enable = true;

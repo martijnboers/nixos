@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   # ZSH stuff
   programs.zsh = {
     enable = true;
@@ -21,12 +25,16 @@
       pow = "ssh hadouken.plebian.nl -p 666";
       zee = "ssh suydersee.plebian.nl -p 666";
       readme = "cat README* | glow";
+      question = "() { mods -f \"$1\" | glow; }";
     };
     dotDir = ".config/zsh";
     initExtra = ''
       # Powerlevel10k Zsh theme
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       test -f ~/.config/zsh/.p10k.zsh && source ~/.config/zsh/.p10k.zsh
+
+      # Open AI key
+      source ${config.age.secrets.openai.path}
     '';
     oh-my-zsh = {
       enable = true;
