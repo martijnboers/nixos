@@ -14,7 +14,7 @@ in {
   config = mkIf cfg.enable {
   services.caddy.virtualHosts."dns.thuis.plebian.nl".extraConfig = ''
       tls internal
-      reverse_proxy http://localhost:${toString config.services.atuin.port}
+      reverse_proxy http://localhost:${toString config.adguardhome.settings.bind_port}
     '';
     services.adguardhome = {
       enable = true;
