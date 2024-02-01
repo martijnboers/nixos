@@ -29,9 +29,13 @@ in {
         bind_host = "127.0.0.1";
 
         dns = {
+          ratelimit = 0;
           bind_hosts = ["100.64.0.2"];
           bootstrap_dns = ["9.9.9.9" "208.67.222.222"];
           upstream_dns = ["9.9.9.9" "208.67.222.222"];
+          protection_enabled = true;
+          blocked_hosts = ["version.bind" "id.server" "hostname.bind"];
+          cache_size = 4194304;
         };
         filters = [
           {
@@ -60,9 +64,10 @@ in {
             name = "Unified hosts file with base extensions";
           }
         ];
+        theme = "auto";
         users = [
           {
-            username = "admin";
+            name = "admin";
             password = "$2a$12$2.LYNDcUmLA/14My1r592.lNs32aWsF7q6g6RwdGG0BPF.cbyde/W";
           }
         ];
