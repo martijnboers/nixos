@@ -7,13 +7,14 @@
   networking.hostName = "hadouken";
 
   imports = [
-    ./modules/atuin.nix
-    ./modules/caddy.nix
     ./modules/vaultwarden.nix
-    ./modules/coredns.nix
-    ./modules/plex.nix
     ./modules/nextcloud.nix
     ./modules/headscale.nix
+    ./modules/adguard.nix
+    ./modules/coredns.nix
+    ./modules/caddy.nix
+    ./modules/atuin.nix
+    ./modules/plex.nix
   ];
 
   hosts.smb.enable = true;
@@ -24,6 +25,7 @@
   hosts.coredns.enable = true;
   hosts.nextcloud.enable = true;
   hosts.headscale.enable = true;
+  hosts.adguard.enable = true;
 
   hosts.borg = {
     enable = true;
