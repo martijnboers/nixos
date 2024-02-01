@@ -12,9 +12,9 @@ in {
   };
 
   config = mkIf cfg.enable {
-  services.caddy.virtualHosts."dns.thuis.plebian.nl".extraConfig = ''
+    services.caddy.virtualHosts."dns.thuis.plebian.nl".extraConfig = ''
       tls internal
-      reverse_proxy http://localhost:${toString config.adguardhome.settings.bind_port}
+      reverse_proxy http://localhost:3000
     '';
     services.adguardhome = {
       enable = true;
