@@ -25,6 +25,10 @@ in {
           logtail.enabled = false;
           dns_config = {
             base_domain = "plebian.nl";
+            override_local_dns = true;
+            nameservers = [
+              "100.64.0.2" "192.168.1.156"
+            ];
             extra_records = [
               {
                 name = "vaultwarden.thuis.plebian.nl";
@@ -33,6 +37,11 @@ in {
               }
               {
                 name = "atuin.thuis.plebian.nl";
+                type = "A";
+                value = "100.64.0.2";
+              }
+              {
+                name = "dns.thuis.plebian.nl";
                 type = "A";
                 value = "100.64.0.2";
               }
