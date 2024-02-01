@@ -41,7 +41,7 @@
 
   # For mount.cifs, required unless domain name resolution is not needed.
   fileSystems."/mnt/share" = {
-    device = "//hadouken.plebian.local/public";
+    device = "//hadouken.thuis.plebian.nl/public";
     fsType = "cifs";
     options = ["credentials=${config.age.secrets.smb.path},uid=1000,gid=100"];
   };

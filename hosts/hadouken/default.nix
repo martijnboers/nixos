@@ -11,7 +11,6 @@
     ./modules/nextcloud.nix
     ./modules/headscale.nix
     ./modules/adguard.nix
-    ./modules/coredns.nix
     ./modules/caddy.nix
     ./modules/atuin.nix
     ./modules/plex.nix
@@ -22,7 +21,6 @@
   hosts.caddy.enable = true;
   hosts.vaultwarden.enable = true;
   hosts.plex.enable = true;
-  hosts.coredns.enable = true;
   hosts.nextcloud.enable = true;
   hosts.headscale.enable = true;
   hosts.adguard.enable = true;
