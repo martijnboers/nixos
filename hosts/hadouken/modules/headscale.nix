@@ -28,7 +28,6 @@ in {
             override_local_dns = true;
             nameservers = [
               "100.64.0.2"
-              "192.168.1.156"
             ];
             extra_records = [
               {
