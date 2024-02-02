@@ -41,22 +41,6 @@ in {
               domain = "hadouken.plebian.local";
               answer = "192.168.1.156";
             }
-            {
-              domain = "vaultwarden.thuis.plebian.nl";
-              answer = "100.64.0.2";
-            }
-            {
-              domain = "atuin.thuis.plebian.nl";
-              answer = "100.64.0.2";
-            }
-            {
-              domain = "dns.thuis.plebian.nl";
-              answer = "100.64.0.2";
-            }
-            {
-              domain = "transmission.thuis.plebian.nl";
-              answer = "100.64.0.5";
-            }
           ];
         };
         filters = [
