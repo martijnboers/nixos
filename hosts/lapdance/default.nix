@@ -14,11 +14,6 @@
   # Enable secrets + append hosts
   hosts.secrets.hosts = true;
 
-  hosts.syncthing = {
-    enable = true;
-    ipaddress = "100.64.0.1";
-  };
-
   # Support gpg for git signing
   hosts.gpg.enable = true;
 
