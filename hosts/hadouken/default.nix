@@ -30,27 +30,10 @@
     repository = "ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo";
   };
 
-  hosts.syncthing = {
-    enable = true;
-    ipaddress = "100.64.0.2";
-  };
-
   hosts.resilio = {
     enable = true;
     name = "hadouken";
     ipaddress = "100.64.0.2";
-  };
-
-  services.syncthing = {
-    overrideFolders = true; # overrides any folders added or deleted through the WebUI
-
-    settings.folders = {
-      "Obsidian" = {
-        id = "Obsidian"; # will become default folder path
-        path = "~/Obsidian";
-        devices = ["glassdoor" "phone" "lapdance"];
-      };
-    };
   };
 
   # Sync zsh history

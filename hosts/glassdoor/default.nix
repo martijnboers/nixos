@@ -32,11 +32,6 @@
     ];
   };
 
-  hosts.syncthing = {
-    enable = true;
-    ipaddress = "100.64.0.4";
-  };
-
   services.xserver.videoDrivers = ["amdgpu"];
 
   # For mount.cifs, required unless domain name resolution is not needed.
