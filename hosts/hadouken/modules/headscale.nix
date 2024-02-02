@@ -29,28 +29,6 @@ in {
             nameservers = [
               "100.64.0.2"
             ];
-            extra_records = [
-              {
-                name = "vaultwarden.thuis.plebian.nl";
-                type = "A";
-                value = "100.64.0.2";
-              }
-              {
-                name = "atuin.thuis.plebian.nl";
-                type = "A";
-                value = "100.64.0.2";
-              }
-              {
-                name = "dns.thuis.plebian.nl";
-                type = "A";
-                value = "100.64.0.2";
-              }
-              {
-                name = "transmission.thuis.plebian.nl";
-                type = "A";
-                value = "100.64.0.5";
-              }
-            ];
           };
           ip_prefixes = ["100.64.0.0/10" "fd7a:115c:a1e0::/48"];
         };
