@@ -41,33 +41,114 @@ in {
               domain = "hadouken.plebian.local";
               answer = "192.168.1.156";
             }
+            {
+              domain = "vaultwarden.thuis.plebian.nl";
+              answer = "100.64.0.2";
+            }
+            {
+              domain = "atuin.thuis.plebian.nl";
+              answer = "100.64.0.2";
+            }
+            {
+              domain = "dns.thuis.plebian.nl";
+              answer = "100.64.0.2";
+            }
+            {
+              domain = "transmission.thuis.plebian.nl";
+              answer = "100.64.0.5";
+            }
           ];
         };
         filters = [
           {
             enabled = true;
-            url = "https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt";
-            name = "Disconnect.me SimpleAd";
+            url = "https://raw.githubusercontent.com/PolishFiltersTeam/KADhosts/master/KADhosts.txt";
+            name = "https://github.com/FadeMind/hosts.extras";
           }
           {
             enabled = true;
-            url = "https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt";
-            name = "Disconnect.me SimpleTracking";
+            url = "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Spam/hosts";
+            name = "https://github.com/FadeMind/hosts.extras";
           }
           {
             enabled = true;
-            url = "http://sysctl.org/cameleon/hosts";
-            name = "sysctl";
+            url = "https://v.firebog.net/hosts/static/w3kbl.txt";
+            name = "https://firebog.net/about";
           }
           {
             enabled = true;
-            url = "https://raw.githubusercontent.com/kevinle-1/Windows-telemetry-blocklist/master/windowsblock.txt";
-            name = "Windows Telemetry BlockList";
+            url = "https://v.firebog.net/hosts/static/w3kbl.https://firebog.net/about";
+            name = "https://github.com/FadeMind/hosts.extras";
           }
           {
             enabled = true;
-            url = "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling/hosts";
-            name = "Unified hosts file with base extensions";
+            url = "https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt";
+            name = "https://github.com/matomo-org/referrer-spam-list";
+          }
+          {
+            enabled = true;
+            url = "https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt";
+            name = "https://github.com/matomo-org/referrer-spam-list";
+          }
+          {
+            enabled = true;
+            url = "https://someonewhocares.org/hosts/zero/hosts";
+            name = "https://someonewhocares.org/";
+          }
+          {
+            enabled = true;
+            url = "https://v.firebog.net/hosts/Easyprivacy.txt";
+            name = "https://firebog.net/";
+          }
+          {
+            enabled = true;
+            url = "https://v.firebog.net/hosts/Prigent-Ads.txt";
+            name = "https://firebog.net/";
+          }
+          {
+            enabled = true;
+            url = "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.2o7Net/hosts";
+            name = "https://github.com/FadeMind/hosts.extras";
+          }
+          {
+            enabled = true;
+            url = "https://hostfiles.frogeye.fr/firstparty-trackers-hosts.txt";
+            name = "https://frogeye.fr";
+          }
+          {
+            enabled = true;
+            url = "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareHosts.txt";
+            name = "https://github.com/DandelionSprout/adfilt";
+          }
+          {
+            enabled = true;
+            url = "https://osint.digitalside.it/Threat-Intel/lists/latestdomains.txt";
+            name = "https://digitalside.it";
+          }
+          {
+            enabled = true;
+            url = "https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt";
+            name = "https://disconnect.me/";
+          }
+          {
+            enabled = true;
+            url = "https://v.firebog.net/hosts/Prigent-Crypto.txt";
+            name = "https://firebog.net/";
+          }
+          {
+            enabled = true;
+            url = "https://phishing.army/download/phishing_army_blocklist_extended.txt";
+            name = "https://phishing.army";
+          }
+          {
+            enabled = true;
+            url = "https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-malware.txt";
+            name = "https://github.com/Ultimate-Hosts-Blacklist/quidsup_notrack_trackers";
+          }
+          {
+            enabled = true;
+            url = "https://zerodot1.gitlab.io/CoinBlockerLists/hosts_browser";
+            name = "https://gitlab.com/ZeroDot1/CoinBlockerLists";
           }
         ];
         theme = "auto";
