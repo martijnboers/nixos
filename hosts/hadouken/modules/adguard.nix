@@ -87,8 +87,8 @@ in {
           }
           {
             enabled = true;
-            url = "https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt";
-            name = "https://github.com/matomo-org/referrer-spam-list";
+            url = "https://adaway.org/hosts.txt";
+            name = "https://adaway.org";
           }
           {
             enabled = true;
@@ -114,6 +114,11 @@ in {
             enabled = true;
             url = "https://hostfiles.frogeye.fr/firstparty-trackers-hosts.txt";
             name = "https://frogeye.fr";
+          }
+          {
+            enabled = true;
+            url = "https://v.firebog.net/hosts/AdguardDNS.txt";
+            name = "AdGuardDNS";
           }
           {
             enabled = true;
