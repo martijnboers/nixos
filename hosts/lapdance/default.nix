@@ -27,7 +27,7 @@
   # Docker + QEMU
   hosts.virtualization.enable = true;
 
-    # Bootloader.
+  # Bootloader.
   boot = {
     loader = {
       # Use the systemd-boot EFI boot loader.
