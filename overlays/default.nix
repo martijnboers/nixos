@@ -7,6 +7,8 @@
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
+    ollama = final.unstable.ollama;
+
     libsForQt5 =
       prev.libsForQt5
       // {
