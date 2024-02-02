@@ -7,9 +7,9 @@
   imports = [
     ./modules/virtualization.nix
     ./modules/resillio.nix
-    ./modules/openssh.nix
     ./modules/secrets.nix
     ./modules/borg.nix
+    ./modules/ssh.nix
     ./modules/gpg.nix
     ./modules/kde.nix
     ./modules/smb.nix
