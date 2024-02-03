@@ -15,9 +15,11 @@ in {
     services.fail2ban.enable = true;
     services.openssh = {
       enable = true;
-      settings.PasswordAuthentication = false;
-      settings.KbdInteractiveAuthentication = false;
-      settings.PermitRootLogin = "no";
+      settings = {
+        PasswordAuthentication = false;
+        KbdInteractiveAuthentication = false;
+        PermitRootLogin = "no";
+      };
       ports = [666];
       openFirewall = true;
       hostKeys = [

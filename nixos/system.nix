@@ -141,12 +141,15 @@
     openFirewall = true;
   };
 
-  # Self signed ca for all the internal tailscale services
-  security.pki.certificateFiles = [
-    ./keys/hadouken-ca.pem
-  ];
+  security = {
+    sudo.wheelNeedsPassword = false;
+    # Self signed ca for all the internal tailscale services
+    pki.certificateFiles = [
+      ./keys/hadouken-ca.pem
+    ];
+  };
 
-  # Set your time zone.
+  # Set time zone.
   time.timeZone = "Europe/Amsterdam";
 
   # Select internationalisation properties.
@@ -180,11 +183,6 @@
   services.journald.extraConfig = ''
     SystemMaxUse=20G
     SystemKeepFree=100G
-  '';
-
-  # Don't ask for sudo too often
-  security.sudo.extraConfig = ''
-    Defaults timestamp_timeout=300
   '';
 
   system.stateVersion = "23.11";
