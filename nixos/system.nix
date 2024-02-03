@@ -144,7 +144,6 @@
   # Self signed ca for all the internal tailscale services
   security.pki.certificateFiles = [
     ./keys/hadouken-ca.pem
-    ./keys/zee-ca.pem
   ];
 
   # Set your time zone.

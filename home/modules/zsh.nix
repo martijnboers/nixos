@@ -23,7 +23,6 @@
       ls = "lsd"; # fancy ls
       ssh = "kitty +kitten ssh";
       pow = "ssh hadouken.plebian.nl -p 666";
-      zee = "ssh suydersee.plebian.nl -p 666";
       readme = "cat README* | glow";
       question = "() { mods -f \"$1\" | glow; }";
     };
