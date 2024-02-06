@@ -14,12 +14,18 @@ in {
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."hass.thuis.plebian.nl".extraConfig = ''
       tls internal
-      reverse_proxy http://localhost:${toString config.services.home-assistant.config.http.server_port}
+      reverse_proxy http://127.0.0.1:${toString config.services.home-assistant.config.http.server_port}
     '';
     services.borgbackup.jobs.default.paths = ["${config.services.home-assistant.configDir}"];
     services.home-assistant = {
       enable = true;
       config = {
+      http = {
+        use_x_forwarded_for = true;
+        trusted_proxies = [
+          "127.0.0.1"
+        ];
+      };
         default_config = {};
         homeassistant = {
           name = "Thuis";
