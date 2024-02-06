@@ -21,10 +21,8 @@
       gitgutter.enable = true; # show changed files in git
       lastplace.enable = true; # re-open files where left off
       which-key.enable = true; # popup with possible key combinations
-      nvim-tree = {
-        enable = true;
-        #        autoClose = true; # doesn't work yet?
-      }; # left pane with files
+      barbecue.enable = true; # breadcrumbs at top of code files
+      nvim-tree.enable = true; # left pane with files
 
       treesitter = {
         enable = true;
