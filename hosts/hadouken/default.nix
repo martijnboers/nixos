@@ -14,6 +14,7 @@
     ./modules/caddy.nix
     ./modules/atuin.nix
     ./modules/plex.nix
+    ./modules/hass.nix
   ];
 
   hosts.smb.enable = true;
@@ -24,6 +25,7 @@
   hosts.nextcloud.enable = true;
   hosts.headscale.enable = true;
   hosts.adguard.enable = true;
+  hosts.hass.enable = true;
 
   hosts.borg = {
     enable = true;
