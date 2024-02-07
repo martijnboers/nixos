@@ -19,6 +19,10 @@ in {
     services.borgbackup.jobs.default.paths = ["${config.services.home-assistant.configDir}"];
     services.home-assistant = {
       enable = true;
+      extraComponents = [
+        "adguard"
+        "accuweather"
+      ];
       config = {
         http = {
           use_x_forwarded_for = true;
