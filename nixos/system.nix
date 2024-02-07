@@ -167,6 +167,17 @@
     LC_TIME = "nl_NL.UTF-8";
   };
 
+  # Bluetooth
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Enable = "Source,Sink,Media,Socket";
+      };
+    };
+  };
+
   nixpkgs = {
     overlays = [
       outputs.overlays.additions

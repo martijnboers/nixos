@@ -10,11 +10,6 @@ with lib; let
 in {
   options.hosts.desktop = {
     enable = mkEnableOption "Enable default desktop packages + configuration";
-    ipaddress = mkOption {
-      type = types.str;
-      default = "undefined";
-      description = "Hostname of the computer";
-    };
   };
 
   config = mkIf cfg.enable {
@@ -30,6 +25,7 @@ in {
       wl-clipboard # wayland clipboard manager
       obsidian
       qmk
+      vlc
 
       # music
       clementine
