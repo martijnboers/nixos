@@ -32,6 +32,10 @@
     ];
   };
 
+  # SDR
+  hardware.rtl-sdr.enable = true;
+  users.users.martijn.extraGroups = ["plugdev"];
+
   services.xserver.videoDrivers = ["amdgpu"];
 
   # For mount.cifs, required unless domain name resolution is not needed.
