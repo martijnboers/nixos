@@ -9,20 +9,30 @@
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     # Home manager kde
     plasma-manager = {
       url = "github:pjones/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+
     nixvim = {
       url = "github:nix-community/nixvim/nixos-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Secrets
     agenix.url = "github:ryantm/agenix";
 
-    nix-index-database.url = "github:Mic92/nix-index-database";
-    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+    # Run unpatched bins
+    nix-alien.url = "github:thiagokokada/nix-alien";
+
+    # On the fly running of programs
+    nix-index-database = {
+      url = "github:Mic92/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -31,6 +41,7 @@
     home-manager,
     agenix,
     nix-index-database,
+    nix-alien,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -69,7 +80,7 @@
             {
               home-manager.useUserPackages = true;
               home-manager.users.martijn = import homeconfig;
-              home-manager.extraSpecialArgs = {inherit inputs outputs;};
+              home-manager.extraSpecialArgs = {inherit inputs outputs system;};
             }
           ];
         };

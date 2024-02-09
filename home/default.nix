@@ -1,9 +1,8 @@
 {
   inputs,
   outputs,
+  system,
   pkgs,
-  config,
-  lib,
   ...
 }: {
   home.username = "martijn";
@@ -40,6 +39,16 @@
 
     # secrets manager
     inputs.agenix.homeManagerModules.default
+
+    ({
+      inputs,
+      system,
+      ...
+    }: {
+      home.packages = with inputs.nix-alien.packages.${system}; [
+        nix-alien
+      ];
+    })
 
     # Used by desktop but lazy loaded
     ./modules/kitty.nix
