@@ -13,9 +13,14 @@ in {
   };
 
   config = mkIf cfg.enable {
+    # Install java for jetbrains
+    programs.java = {
+      enable = true;
+      package = pkgs.jetbrains.jdk;
+    };
+
     home.packages = with pkgs; [
-      jetbrains.pycharm-community
-      jetbrains.webstorm
+      jetbrains-toolbox
       sublime-merge
       awscli2
       slack
