@@ -32,8 +32,8 @@
                 "applications:firefox.desktop"
                 "applications:kitty.desktop"
                 "applications:org.kde.dolphin.desktop"
-                "applications:jetbrains-pycharm-professional.desktop"
-                "applications:jetbrains-webstorm.desktop"
+                "applications:pycharm-professional.desktop"
+                "applications:webstorm.desktop"
                 "applications:obsidian.desktop"
                 "applications:sublime_merge.desktop"
               ];
