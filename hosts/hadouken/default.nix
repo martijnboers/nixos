@@ -26,6 +26,7 @@
   hosts.headscale.enable = true;
   hosts.adguard.enable = true;
   hosts.hass.enable = true;
+  hosts.tailscale.enable = true;
 
   hosts.borg = {
     enable = true;

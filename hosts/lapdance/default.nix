@@ -11,6 +11,9 @@
     wayland = true;
   };
 
+  # Enable tailscale network
+  hosts.tailscale.enable = true;
+
   # Enable secrets + append hosts
   hosts.secrets.hosts = true;
 

@@ -32,6 +32,9 @@
     ];
   };
 
+  # Enable tailscale network
+  hosts.tailscale.enable = true;
+
   # SDR
   hardware.rtl-sdr.enable = true;
   users.users.martijn.extraGroups = ["plugdev"];
