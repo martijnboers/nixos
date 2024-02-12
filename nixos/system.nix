@@ -7,6 +7,7 @@
   imports = [
     ./modules/virtualization.nix
     ./modules/resillio.nix
+    ./modules/tailscale.nix
     ./modules/secrets.nix
     ./modules/borg.nix
     ./modules/ssh.nix
@@ -129,16 +130,6 @@
     extraCommands = ''
       iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns
     '';
-
-    # Required for tailscale
-    checkReversePath = "loose";
-    trustedInterfaces = ["tailscale0"];
-  };
-
-  # Setup tailscale default on all machines
-  services.tailscale = {
-    enable = true;
-    openFirewall = true;
   };
 
   security = {
