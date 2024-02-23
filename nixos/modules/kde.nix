@@ -70,6 +70,21 @@ in {
     # Enable CUPS to print documents.
     services.printing.enable = true;
 
+    # Make it possible to detect printers
+    services.avahi = {
+      enable = true;
+      openFirewall = true;
+    };
+
+    # settings from avahi-daemon.nix where mdns is replaced with mdns4
+    # Track: https://github.com/NixOS/nixpkgs/issues/118628
+    system.nssModules = pkgs.lib.optional (!config.services.avahi.nssmdns) pkgs.nssmdns;
+    system.nssDatabases.hosts = with pkgs.lib;
+      optionals (!config.services.avahi.nssmdns) (mkMerge [
+        (mkBefore ["mdns4_minimal [NOTFOUND=return]"]) # before resolve
+        (mkAfter ["mdns4"]) # after dns
+      ]);
+
     # Enable sound with pipewire.
     hardware.pulseaudio.enable = false;
     security.rtkit.enable = true;
