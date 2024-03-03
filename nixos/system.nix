@@ -73,6 +73,7 @@
     btop # fancy htop
     iotop # io monitoring
     iftop # network monitoring
+    du-dust # better du
 
     # system call monitoring
     lsof # list open files
