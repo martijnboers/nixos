@@ -32,7 +32,7 @@
                 "applications:firefox.desktop"
                 "applications:kitty.desktop"
                 "applications:org.kde.dolphin.desktop"
-                "applications:pycharm-professional.desktop"
+                "applications:pycharm-community.desktop"
                 "applications:webstorm.desktop"
                 "applications:obsidian.desktop"
                 "applications:sublime_merge.desktop"
