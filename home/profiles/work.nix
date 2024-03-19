@@ -13,18 +13,7 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      # https://www.jetbrains.com/pycharm/nextversion/
-      (pkgs.unstable.jetbrains.pycharm-professional.overrideAttrs {
-        version = "241.11761.13";
-        postPatch = ''
-          rm -rf jbr
-          ln -s ${jdk.home} jbr
-        '';
-        src = builtins.fetchurl {
-          url = "https://download-cdn.jetbrains.com/python/pycharm-professional-241.14494.19.tar.gz";
-          sha256 = "0mvn0348hrkc039b0cc6vn4y4jqj5xjrp903dj5f8b4ad019r78c";
-        };
-      })
+      jetbrains.pycharm-community
       # https://www.jetbrains.com/webstorm/nextversion/
       (pkgs.unstable.jetbrains.webstorm.overrideAttrs {
         version = "241.11761.28";
