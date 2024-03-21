@@ -15,6 +15,9 @@
       strip_trailing_spaces = "always";
       enableZshIntegration = true;
 
+      # Don't do updates
+      update_check_interval = 0;
+
       # Tabs
       tab_bar_style = "powerline";
       tab_powerline_style = "slanted";
