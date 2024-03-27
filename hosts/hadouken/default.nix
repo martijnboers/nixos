@@ -13,6 +13,7 @@
     ./modules/adguard.nix
     ./modules/caddy.nix
     ./modules/atuin.nix
+    ./modules/pgrok.nix
     ./modules/plex.nix
     ./modules/hass.nix
   ];

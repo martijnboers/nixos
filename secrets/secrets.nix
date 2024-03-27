@@ -10,4 +10,5 @@ in {
   "openai.age".publicKeys = users;
   "nextcloud.age".publicKeys = users;
   "borg.age".publicKeys = users;
+  "pgrok.age".publicKeys = users;
 }
