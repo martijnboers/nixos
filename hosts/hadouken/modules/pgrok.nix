@@ -42,7 +42,7 @@
     };
   };
 in {
-  options.services.pgrok = with lib; {
+  options.hosts.pgrok = with lib; {
     enable = mkEnableOption "pgrok";
   };
   config = lib.mkIf cfg.enable {
