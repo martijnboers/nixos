@@ -6,7 +6,7 @@
   utils,
   ...
 }: let
-  cfg = config.services.pgrok;
+  cfg = config.hosts.pgrok;
   statePath = "/var/lib/pgrok";
 
   settings = {
