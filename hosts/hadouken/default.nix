@@ -30,6 +30,7 @@
   hosts.hass.enable = true;
   hosts.tailscale.enable = true;
   hosts.keycloak.enable = true;
+  hosts.pgrok.enable = true;
 
   hosts.borg = {
     enable = true;
