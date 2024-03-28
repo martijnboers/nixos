@@ -10,6 +10,7 @@
     ./modules/vaultwarden.nix
     ./modules/nextcloud.nix
     ./modules/headscale.nix
+    ./modules/keycloak.nix
     ./modules/adguard.nix
     ./modules/caddy.nix
     ./modules/atuin.nix
@@ -28,6 +29,7 @@
   hosts.adguard.enable = true;
   hosts.hass.enable = true;
   hosts.tailscale.enable = true;
+  hosts.keycloak.enable = true;
 
   hosts.borg = {
     enable = true;

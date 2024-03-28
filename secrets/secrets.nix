@@ -11,4 +11,5 @@ in {
   "nextcloud.age".publicKeys = users;
   "borg.age".publicKeys = users;
   "pgrok.age".publicKeys = users;
+  "keycloak.age".publicKeys = users;
 }
