@@ -1,3 +1,4 @@
+# From: https://github.com/NyCodeGHG/dotfiles/blob/5311b9be5654071abe4b4596946040372157494a/hosts/artemis/applications/pgrok.nix#L20
 {
   config,
   pkgs,
@@ -32,7 +33,7 @@
       display_name = "Authentik";
       issuer = "https://sso.nycode.dev/application/o/pgrok/";
       client_id = "wkG4JDxfWoK2QpJfYLadmuvWOJn8IEadLxQmaHOc";
-      client_secret = {_secret = config.age.secrets.pgrok-client-secret.path;};
+      client_secret = {_secret = config.age.secrets.pgrok.path;};
       field_mapping = {
         identifier = "lowercase_username";
         display_name = "name";
