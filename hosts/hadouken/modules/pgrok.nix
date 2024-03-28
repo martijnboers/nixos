@@ -30,9 +30,9 @@
     };
     identity_provider = {
       type = "oidc";
-      display_name = "Authentik";
-      issuer = "https://sso.nycode.dev/application/o/pgrok/";
-      client_id = "wkG4JDxfWoK2QpJfYLadmuvWOJn8IEadLxQmaHOc";
+      display_name = "Keycloak";
+      issuer = "https://auth.plebian.nl/";
+      client_id = "pgrok";
       client_secret = {_secret = config.age.secrets.pgrok.path;};
       field_mapping = {
         identifier = "lowercase_username";
