@@ -8,5 +8,5 @@
   hosts.personal.enable = false;
   hosts.work.enable = false;
 
-  home.packages = with pkgs; [ollama pgrok];
+  home.packages = with pkgs; [ollama];
 }
