@@ -18,7 +18,7 @@
       };
     headscale = final.unstable.buildGo122Module rec {
       pname = "headscale";
-      version = "0.23.0-alpha4";
+      version = "0.23.0-alpha5";
 
       src = prev.fetchFromGitHub {
         owner = "juanfont";
@@ -39,14 +39,14 @@
           --zsh <($out/bin/headscale completion zsh)
       '';
     };
-    };
+  };
 
-    # When applied, the unstable nixpkgs set (declared in the flake inputs) will
-    # be accessible through 'pkgs.unstable'
-    unstable-packages = final: _prev: {
-      unstable = import inputs.nixpkgs-unstable {
-        system = final.system;
-        config.allowUnfree = true;
-      };
+  # When applied, the unstable nixpkgs set (declared in the flake inputs) will
+  # be accessible through 'pkgs.unstable'
+  unstable-packages = final: _prev: {
+    unstable = import inputs.nixpkgs-unstable {
+      system = final.system;
+      config.allowUnfree = true;
     };
+  };
 }
