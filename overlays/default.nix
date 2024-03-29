@@ -16,24 +16,36 @@
         sddm = final.unstable.libsForQt5.sddm;
         plasma-desktop = final.unstable.libsForQt5.plasma-desktop;
       };
-    headscale = prev.headscale.overrideAttrs (old: rec {
+    headscale = prev.buildGoModule rec {
+      pname = "headscale";
       version = "0.23.0-alpha5";
+
       src = prev.fetchFromGitHub {
         owner = "juanfont";
         repo = "headscale";
         rev = "v${version}";
-        hash = "sha256-nqmTqe3F3Oh8rnJH0clwACD/0RpqmfOMXNubr3C8rEc=";
       };
-      vendorHash = "sha256-IOkbbFtE6+tNKnglE/8ZuNxhPSnloqM2sLgTvagMmnc=";
-    });
-  };
 
-  # When applied, the unstable nixpkgs set (declared in the flake inputs) will
-  # be accessible through 'pkgs.unstable'
-  unstable-packages = final: _prev: {
-    unstable = import inputs.nixpkgs-unstable {
-      system = final.system;
-      config.allowUnfree = true;
+      ldflags = ["-s" "-w" "-X github.com/juanfont/headscale/cmd/headscale/cli.Version=v${version}"];
+
+      nativeBuildInputs = [prev.installShellFiles];
+      checkFlags = ["-short"];
+
+      postInstall = ''
+        installShellCompletion --cmd headscale \
+          --bash <($out/bin/headscale completion bash) \
+          --fish <($out/bin/headscale completion fish) \
+          --zsh <($out/bin/headscale completion zsh)
+      '';
     };
-  };
+    };
+
+    # When applied, the unstable nixpkgs set (declared in the flake inputs) will
+    # be accessible through 'pkgs.unstable'
+    unstable-packages = final: _prev: {
+      unstable = import inputs.nixpkgs-unstable {
+        system = final.system;
+        config.allowUnfree = true;
+      };
+    };
 }
