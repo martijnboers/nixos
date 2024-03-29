@@ -13,4 +13,5 @@ in {
   "pgrok.age".publicKeys = users;
   "keycloak.age".publicKeys = users;
   "caddy.age".publicKeys = users;
+  "headscale.age".publicKeys = users;
 }
