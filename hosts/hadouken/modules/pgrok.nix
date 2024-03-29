@@ -51,7 +51,22 @@ in {
       ensureDatabases = [
         "pgrok"
       ];
+      ensureUsers = [
+        {
+          name = "pgrok";
+          ensureDBOwnership = true;
+        }
+      ];
     };
+
+    users.users.pgrok = {
+      isSystemUser = true;
+      home = statePath;
+      group = "prgok";
+      createHome = true;
+    };
+
+    users.groups.pgrok = {};
 
     services.caddy.virtualHosts."tunnel.plebian.nl".extraConfig = ''
       reverse_proxy http://localhost:3320
@@ -77,7 +92,8 @@ in {
         ];
         serviceConfig = {
           Type = "oneshot";
-          User = "root";
+          User = "pgrok";
+          Group = "pgrok";
           TimeoutSec = "infinity";
           Restart = "on-failure";
           WorkingDirectory = statePath;
@@ -104,7 +120,8 @@ in {
         partOf = ["pgrok.target"];
         serviceConfig = {
           Type = "simple";
-          User = "root";
+          User = "pgrok";
+          Group = "pgrok";
           TimeoutSec = "infinity";
           Restart = "always";
           WorkingDirectory = statePath;

@@ -27,7 +27,10 @@ in {
         password.file = ../../secrets/password.age;
         smb.file = ../../secrets/smb.age;
         borg.file = ../../secrets/borg.age;
-        pgrok.file = ../../secrets/pgrok.age;
+        pgrok = {
+          file = ../../secrets/pgrok.age;
+          owner = "pgrok";
+        };
         keycloak.file = ../../secrets/keycloak.age;
       };
     };
