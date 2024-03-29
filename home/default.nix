@@ -50,7 +50,7 @@
       ];
     })
 
-    # Used by desktop but lazy loaded
+    # Desktop only
     ./modules/kitty.nix
     ./modules/kde.nix
     inputs.plasma-manager.homeManagerModules.plasma-manager

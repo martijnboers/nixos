@@ -12,4 +12,5 @@ in {
   "borg.age".publicKeys = users;
   "pgrok.age".publicKeys = users;
   "keycloak.age".publicKeys = users;
+  "caddy.age".publicKeys = users;
 }

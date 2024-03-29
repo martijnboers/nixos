@@ -1,4 +1,4 @@
-# From: https://github.com/NyCodeGHG/dotfiles/blob/5311b9be5654071abe4b4596946040372157494a/hosts/artemis/applications/pgrok.nix#L20
+# inspo: https://github.com/NyCodeGHG/dotfiles
 {
   config,
   pkgs,
@@ -65,12 +65,24 @@ in {
   config = lib.mkIf cfg.enable {
     networking.firewall.allowedTCPPorts = [2222];
 
-    services.caddy.virtualHosts."tunnel.plebian.nl".extraConfig = ''
-      reverse_proxy http://localhost:3320
-    '';
-    services.caddy.virtualHosts."*.tunnel.plebian.nl".extraConfig = ''
-      reverse_proxy http://localhost:3070
-    '';
+    services.caddy = {
+      virtualHosts."tunnel.plebian.nl".extraConfig = ''
+        reverse_proxy http://localhost:3320
+      '';
+      virtualHosts."*.tunnel.plebian.nl".extraConfig = ''
+        tls {
+          dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+        }
+        reverse_proxy http://localhost:3070
+      '';
+    };
+
+    age.secrets = {
+      pgrok = {
+        file = ../../../secrets/pgrok.age;
+        owner = cfg.user;
+      };
+    };
 
     services.postgresql = {
       enable = true;
