@@ -18,7 +18,7 @@
       };
     headscale = final.unstable.buildGo122Module rec {
       pname = "headscale";
-      version = "0.23.0-alpha5";
+      version = "0.23.0-alpha4";
 
       src = prev.fetchFromGitHub {
         owner = "juanfont";
