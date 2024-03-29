@@ -35,8 +35,6 @@
       client_id = "pgrok";
       client_secret = {_secret = config.age.secrets.pgrok.path;};
       field_mapping = {
-        identifier = "lowercase_username";
-        display_name = "name";
         email = "email";
       };
     };
