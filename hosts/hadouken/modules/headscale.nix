@@ -72,8 +72,5 @@ in {
         owner = config.services.headscale.user;
       };
     };
-
-    # Is this necessary?
-    environment.systemPackages = [config.services.headscale.package];
   };
 }
