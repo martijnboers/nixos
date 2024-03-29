@@ -29,7 +29,12 @@ in {
             allowed_users = ["martijn@plebian.nl"];
           };
           logtail.enabled = false;
-          db_type = "sqlite3";
+          database = {
+            type = "sqlite3";
+            sqlite = {
+              path = /var/lib/headscale/db.sqlite;
+            };
+          };
           dns_config = {
             base_domain = "plebian.nl";
             override_local_dns = true;
