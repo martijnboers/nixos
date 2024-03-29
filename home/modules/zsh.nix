@@ -12,7 +12,7 @@
       # --- NixOS specific --------
       deploy = "nixos-rebuild switch ${defaultNixFlags}";
       debug = "nixos-rebuild switch ${defaultNixFlags} --show-trace --verbose";
-      testbuild = "nixos-rebuild build ${defaultNixFlags}#hadouken";
+      testbuild = "nixos-rebuild build --option sandbox false ${defaultNixFlags}#hadouken";
       update = "nix flake update";
       # ---------------------------
       dud = "docker compose up -d";

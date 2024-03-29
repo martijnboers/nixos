@@ -102,8 +102,10 @@
     ];
   };
 
-  # Flakes
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings ={
+    experimental-features = ["nix-command" "flakes"];
+    trusted-users = ["martijn"];
+  };
 
   # Collect nix store garbage and optimise daily.
   nix.gc.automatic = true;
