@@ -27,6 +27,7 @@ in {
           sha256 = "04rpag23w55mxm98q8gggdc5n1ax2h4qy7ks7rc7825r3cail94q";
         };
       })
+      pgrok
       sublime-merge
       awscli2
       slack
