@@ -26,6 +26,8 @@
         rev = "v${version}";
       };
 
+      vendorHash = "sha256-IOkbbFtE6+tNKnglE/8ZuNxhPSnloqM2sLgTvagMmnc=";
+
       ldflags = ["-s" "-w" "-X github.com/juanfont/headscale/cmd/headscale/cli.Version=v${version}"];
 
       nativeBuildInputs = [prev.installShellFiles];
