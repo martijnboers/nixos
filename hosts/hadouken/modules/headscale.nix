@@ -26,6 +26,7 @@ in {
             issuer = "https://auth.plebian.nl/realms/master";
             client_id = "headscale";
             client_secret_path = config.age.secrets.headscale.path;
+            allowed_users = ["martijn@plebian.nl"];
           };
           logtail.enabled = false;
           dns_config = {
