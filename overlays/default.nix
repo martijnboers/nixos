@@ -16,6 +16,16 @@
         sddm = final.unstable.libsForQt5.sddm;
         plasma-desktop = final.unstable.libsForQt5.plasma-desktop;
       };
+    headscale = prev.headscale.overrideAttrs (old: rec {
+      version = "0.23.0-alpha5";
+      src = prev.fetchFromGitHub {
+        owner = "juanfont";
+        repo = "headscale";
+        rev = "v${version}";
+        hash = "sha256-nqmTqe3F3Oh8rnJH0clwACD/0RpqmfOMXNubr3C8rEc=";
+      };
+      vendorHash = "sha256-IOkbbFtE6+tNKnglE/8ZuNxhPSnloqM2sLgTvagMmnc=";
+    });
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
