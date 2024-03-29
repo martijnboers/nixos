@@ -55,6 +55,8 @@
   # Needed for exit node headscale
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 
+  environment.systemPackages = with pkgs; [pgrok];
+
   # Bootloader.
   boot = {
     loader = {
