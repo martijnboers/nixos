@@ -19,7 +19,6 @@ in {
       headscale = {
         enable = true;
         address = "0.0.0.0";
-        db_type = "sqlite3";
         port = 7070;
         settings = {
           server_url = "https://headscale.plebian.nl";
@@ -30,6 +29,7 @@ in {
             allowed_users = ["martijn@plebian.nl"];
           };
           logtail.enabled = false;
+          db_type = "sqlite3";
           dns_config = {
             base_domain = "plebian.nl";
             override_local_dns = true;
