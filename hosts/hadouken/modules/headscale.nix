@@ -19,6 +19,7 @@ in {
       headscale = {
         enable = true;
         address = "0.0.0.0";
+        db_type = "sqlite3";
         port = 7070;
         settings = {
           server_url = "https://headscale.plebian.nl";
