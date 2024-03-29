@@ -32,7 +32,7 @@ in {
           database = {
             type = "sqlite3";
             sqlite = {
-              path = /var/lib/headscale/db.sqlite;
+              path = "/var/lib/headscale/db.sqlite";
             };
           };
           dns_config = {
