@@ -63,67 +63,80 @@ in {
     };
   };
   config = lib.mkIf cfg.enable {
+    services.postgresql = {
+      enable = true;
+      ensureDatabases = [
+        "pgrok"
+      ];
+      ensureUsers = [
+        {
+          name = "pgrok";
+          ensureDBOwnership = true;
+        }
+      ];
+    };
+
     users.users.${cfg.user} = {
       isSystemUser = true;
       home = cfg.statePath;
       group = cfg.group;
       createHome = true;
     };
-    users.groups.${cfg.group} = { };
+    users.groups.${cfg.group} = {};
 
     systemd.targets.pgrok = {
       description = "Common Target for pgrok";
-      wantedBy = [ "multi-user.target" ];
+      wantedBy = ["multi-user.target"];
     };
 
-    systemd.services =
-      let
-        configPath = "${cfg.statePath}/config.yml";
-      in
-      {
-        pgrok-config = {
-          wantedBy = [ "pgrok.target" ];
-          partOf = [ "pgrok.target" ];
-          path = with pkgs; [
-            jq
-            replace-secret
-          ];
-          serviceConfig = {
-            Type = "oneshot";
-            User = cfg.user;
-            Group = cfg.group;
-            TimeoutSec = "infinity";
-            Restart = "on-failure";
-            WorkingDirectory = cfg.statePath;
-            RemainAfterExit = true;
-            ExecStart = pkgs.writeShellScript "pgrok-config" ''
-              umask u=rwx,g=,o=
-              ${utils.genJqSecretsReplacementSnippet
-                settings configPath
-              }
-            '';
-          };
-        };
-        pgrok = {
-          after = [
-            "network.target"
-            "pgrok-config.service"
-          ];
-          bindsTo = [
-            "pgrok-config.service"
-          ];
-          wantedBy = [ "pgrok.target" ];
-          partOf = [ "pgrok.target" ];
-          serviceConfig = {
-            Type = "simple";
-            User = cfg.user;
-            Group = cfg.group;
-            TimeoutSec = "infinity";
-            Restart = "always";
-            WorkingDirectory = cfg.statePath;
-            ExecStart = "${pkgs.pgrok.server}/bin/pgrokd --config ${configPath}";
-          };
+    systemd.services = let
+      configPath = "${cfg.statePath}/config.yml";
+    in {
+      pgrok-config = {
+        wantedBy = ["pgrok.target"];
+        partOf = ["pgrok.target"];
+        path = with pkgs; [
+          jq
+          replace-secret
+        ];
+        serviceConfig = {
+          Type = "oneshot";
+          User = cfg.user;
+          Group = cfg.group;
+          TimeoutSec = "infinity";
+          Restart = "on-failure";
+          WorkingDirectory = cfg.statePath;
+          RemainAfterExit = true;
+          ExecStart = pkgs.writeShellScript "pgrok-config" ''
+            umask u=rwx,g=,o=
+            ${
+              utils.genJqSecretsReplacementSnippet
+              settings
+              configPath
+            }
+          '';
         };
       };
+      pgrok = {
+        after = [
+          "network.target"
+          "pgrok-config.service"
+        ];
+        bindsTo = [
+          "pgrok-config.service"
+        ];
+        wantedBy = ["pgrok.target"];
+        partOf = ["pgrok.target"];
+        serviceConfig = {
+          Type = "simple";
+          User = cfg.user;
+          Group = cfg.group;
+          TimeoutSec = "infinity";
+          Restart = "always";
+          WorkingDirectory = cfg.statePath;
+          ExecStart = "${pkgs.pgrok.server}/bin/pgrokd --config ${configPath}";
+        };
+      };
+    };
   };
 }
