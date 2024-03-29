@@ -22,6 +22,11 @@ in {
         port = 7070;
         settings = {
           server_url = "https://headscale.plebian.nl";
+          oidc = {
+            issuer = "https://auth.plebian.nl/realms/master";
+            client_id = "headscale";
+            client_secret_path = config.age.secrets.headscale.path;
+          };
           logtail.enabled = false;
           dns_config = {
             base_domain = "plebian.nl";
@@ -56,6 +61,14 @@ in {
         };
       };
     };
+
+    age.secrets = {
+      headscale = {
+        file = ../../../secrets/headscale.age;
+        owner = config.services.headscale.user;
+      };
+    };
+
     # Is this necessary?
     environment.systemPackages = [config.services.headscale.package];
   };
