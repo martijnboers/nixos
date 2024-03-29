@@ -18,6 +18,9 @@ in {
       '';
       headscale = {
         enable = true;
+        package = pkgs.unstable.headscale.overrideAttrs {
+          version = "0.23.0-alpha5";
+        };
         address = "0.0.0.0";
         port = 7070;
         settings = {

@@ -20,9 +20,9 @@ in {
 
     services.caddy = {
       enable = true;
-      package = (pkgs.callPackage ../../../pkgs/xcaddy.nix {
-        plugins = [ "github.com/caddy-dns/cloudflare" ];
-      });
+      package = pkgs.callPackage ../../../pkgs/xcaddy.nix {
+        plugins = ["github.com/caddy-dns/cloudflare"];
+      };
       virtualHosts."plebian.nl".extraConfig = ''
         root * ${plebianRepo}/
         encode zstd gzip
