@@ -63,7 +63,14 @@ in {
     };
   };
   config = lib.mkIf cfg.enable {
-    networking.firewall.allowedTCPPorts = [ 2222 ];
+    networking.firewall.allowedTCPPorts = [2222];
+
+    services.caddy.virtualHosts."tunnel.plebian.nl".extraConfig = ''
+      reverse_proxy http://localhost:3320
+    '';
+    services.caddy.virtualHosts."*.tunnel.plebian.nl".extraConfig = ''
+      reverse_proxy http://localhost:3070
+    '';
 
     services.postgresql = {
       enable = true;
