@@ -18,10 +18,6 @@ in {
   config = mkIf cfg.enable {
     networking.firewall.allowedTCPPorts = [80 443];
 
-    # Allow network access when building
-    # https://mdleom.com/blog/2021/12/27/caddy-plugins-nixos/#xcaddy
-    nix.settings.sandbox = false;
-
     services.caddy = {
       enable = true;
       package = (pkgs.callPackage ../../../pkgs/xcaddy.nix {
