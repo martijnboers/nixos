@@ -60,8 +60,6 @@ in {
       reverse_proxy http://localhost:3070
     '';
 
-    networking.firewall.allowedTCPPorts = [2222];
-
     systemd.targets.pgrok = {
       description = "Common Target for pgrok";
       wantedBy = ["multi-user.target"];
