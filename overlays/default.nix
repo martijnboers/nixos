@@ -16,7 +16,7 @@
         sddm = final.unstable.libsForQt5.sddm;
         plasma-desktop = final.unstable.libsForQt5.plasma-desktop;
       };
-    headscale = prev.buildGoModule rec {
+    headscale = final.unstable.buildGo122Module rec {
       pname = "headscale";
       version = "0.23.0-alpha5";
 
@@ -27,10 +27,8 @@
         hash = "sha256-BMrbYvxNAUs5vK7zCevSKDnB2npWZQpAtxoePXi5r40=";
       };
 
-      vendorHash = "sha256-BMrbYvxNAUs5vK7zCevSKDnB2npWZQpAtxoePXi5r40=";
-
+      vendorHash = "sha256-Yb5WaN0abPLZ4mPnuJGZoj6EMfoZjaZZ0f344KWva3o=";
       ldflags = ["-s" "-w" "-X github.com/juanfont/headscale/cmd/headscale/cli.Version=v${version}"];
-
       nativeBuildInputs = [prev.installShellFiles];
       checkFlags = ["-short"];
 
