@@ -18,6 +18,5 @@ in {
       encode zstd gzip
       file_server
     '';
-    environment.systemPackages = with pkgs; [cyberchef];
   };
 }
