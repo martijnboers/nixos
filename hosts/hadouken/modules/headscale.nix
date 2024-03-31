@@ -6,6 +6,7 @@
 }:
 with lib; let
   cfg = config.hosts.headscale;
+  hadoukenIp = "100.64.0.2";
 in {
   options.hosts.headscale = {
     enable = mkEnableOption "VPN server";
@@ -45,22 +46,27 @@ in {
               {
                 name = "vaultwarden.thuis.plebian.nl";
                 type = "A";
-                value = "100.64.0.2";
+                value = hadoukenIp;
               }
               {
                 name = "atuin.thuis.plebian.nl";
                 type = "A";
-                value = "100.64.0.2";
+                value = hadoukenIp;
               }
               {
                 name = "dns.thuis.plebian.nl";
                 type = "A";
-                value = "100.64.0.2";
+                value = hadoukenIp;
               }
               {
                 name = "hass.thuis.plebian.nl";
                 type = "A";
-                value = "100.64.0.2";
+                value = hadoukenIp;
+              }
+              {
+                name = "tools.thuis.plebian.nl";
+                type = "A";
+                value = hadoukenIp;
               }
             ];
           };
