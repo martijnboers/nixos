@@ -10,6 +10,7 @@
     ./modules/vaultwarden.nix
     ./modules/nextcloud.nix
     ./modules/headscale.nix
+    ./modules/cyberchef.nix
     ./modules/keycloak.nix
     ./modules/adguard.nix
     ./modules/caddy.nix
@@ -31,6 +32,7 @@
   hosts.tailscale.enable = true;
   hosts.keycloak.enable = true;
   hosts.pgrok.enable = true;
+  hosts.cyberchef.enable = true;
 
   hosts.borg = {
     enable = true;
