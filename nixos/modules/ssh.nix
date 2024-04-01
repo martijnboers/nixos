@@ -9,6 +9,10 @@ with lib; let
 in {
   options.hosts.openssh = {
     enable = mkEnableOption "Enable OpenSSH server";
+    ipaddress = mkOption {
+      type = types.str;
+      description = "Tailscale IP address of the computer";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -21,6 +25,11 @@ in {
         PermitRootLogin = "no";
       };
       ports = [666];
+      listenAddresses = [
+        {
+          addr = ipaddress;
+        }
+      ];
       openFirewall = true;
       hostKeys = [
         {

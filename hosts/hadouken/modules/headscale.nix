@@ -39,9 +39,7 @@ in {
           dns_config = {
             base_domain = "plebian.nl";
             override_local_dns = true;
-            nameservers = [
-              "100.64.0.2"
-            ];
+            nameservers = [hadoukenIp];
             extra_records = [
               {
                 name = "vaultwarden.thuis.plebian.nl";
@@ -65,6 +63,11 @@ in {
               }
               {
                 name = "tools.thuis.plebian.nl";
+                type = "A";
+                value = hadoukenIp;
+              }
+              {
+                name = "ssh.thuis.plebian.nl";
                 type = "A";
                 value = hadoukenIp;
               }

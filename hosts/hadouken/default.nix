@@ -21,7 +21,6 @@
   ];
 
   hosts.smb.enable = true;
-  hosts.openssh.enable = true;
   hosts.caddy.enable = true;
   hosts.vaultwarden.enable = true;
   hosts.plex.enable = true;
@@ -42,6 +41,11 @@
   hosts.resilio = {
     enable = true;
     name = "hadouken";
+    ipaddress = "100.64.0.2";
+  };
+
+  hosts.openssh = {
+    enable = true;
     ipaddress = "100.64.0.2";
   };
 

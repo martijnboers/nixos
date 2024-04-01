@@ -136,7 +136,6 @@
   };
 
   security = {
-    sudo.wheelNeedsPassword = false;
     # Self signed ca for all the internal tailscale services
     pki.certificateFiles = [
       ./keys/hadouken-ca.pem
