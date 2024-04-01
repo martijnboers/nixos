@@ -11,4 +11,11 @@ in {
   "smb.age".publicKeys = users;
   "openai.age".publicKeys = users;
   "borg.age".publicKeys = users;
+
+  "nextcloud.age".publicKeys = hadoukens;
+  "acl.age".publicKeys = hadoukens;
+  "pgrok.age".publicKeys = hadoukens;
+  "keycloak.age".publicKeys = hadoukens;
+  "caddy.age".publicKeys = hadoukens;
+  "headscale.age".publicKeys = hadoukens;
 }
