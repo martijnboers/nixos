@@ -64,7 +64,6 @@
     wev # wayland xev
     gcc
     wget
-    config.services.headscale.package
     openssl # for CA work
 
     # samba
