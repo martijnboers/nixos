@@ -4,7 +4,7 @@ let
   laptop = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIElgHjsOqLVDjObBrhg3gCQO7nesudsepiJxoTkBYCEl martijn@plebian.nl";
   hadouken = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILFaPlgRyXXEbbtzYgBPSkGWaY1vNvL/hV3CTJ1HOisv hadouken@plebian.nl";
   users = [martijn testbed hadouken laptop];
-  hadoukens = [hadouken];
+  hadoukens = [hadouken martijn];
 in {
   "hosts.age".publicKeys = users;
   "password.age".publicKeys = users;

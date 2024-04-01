@@ -45,13 +45,6 @@
     ipaddress = "100.64.0.2";
   };
 
-  config = {
-    age = {
-      secrets = {
-
-      };
-    };
-
   # Sync zsh history
   hosts.atuin.enable = true;
 
