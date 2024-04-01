@@ -20,6 +20,7 @@ in {
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
         PermitRootLogin = "no";
+        ListenAddress = "100.64.0.2";
         AllowUsers = ["100.64.0.0/10"];
       };
       openFirewall = true;
