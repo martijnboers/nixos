@@ -29,6 +29,7 @@ in {
             client_secret_path = config.age.secrets.headscale.path;
             allowed_users = ["martijn@plebian.nl"];
           };
+          acl_policy_path = config.age.secrets.acl.path;
           logtail.enabled = false;
           database = {
             type = "sqlite3";
@@ -84,6 +85,10 @@ in {
     age.secrets = {
       headscale = {
         file = ../../../secrets/headscale.age;
+        owner = config.services.headscale.user;
+      };
+      acl = {
+        file = ../../../secrets/acl.age;
         owner = config.services.headscale.user;
       };
     };
