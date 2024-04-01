@@ -24,10 +24,10 @@ in {
         KbdInteractiveAuthentication = false;
         PermitRootLogin = "no";
       };
-      ports = [666];
       listenAddresses = [
         {
           addr = cfg.ipaddress;
+          ports = [666];
         }
       ];
       openFirewall = true;
