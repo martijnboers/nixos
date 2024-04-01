@@ -20,7 +20,7 @@ in {
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
         PermitRootLogin = "no";
-        AllowUsers = ["@100.64.0.0/10"];
+        AllowUsers = ["100.64.0.0/10"];
       };
       openFirewall = true;
       hostKeys = [
