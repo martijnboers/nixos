@@ -27,7 +27,7 @@ in {
       listenAddresses = [
         {
           addr = cfg.ipaddress;
-          ports = [666];
+          port = 666;
         }
       ];
       openFirewall = true;
