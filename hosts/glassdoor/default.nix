@@ -34,6 +34,7 @@
 
   # Enable tailscale network
   hosts.tailscale.enable = true;
+  security.sudo.wheelNeedsPassword = false;
 
   # SDR
   hardware.rtl-sdr.enable = true;
