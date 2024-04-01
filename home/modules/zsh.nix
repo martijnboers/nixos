@@ -22,8 +22,8 @@
       rm = "trash-put"; # use trash for cli
       ls = "lsd"; # fancy ls
       ssh = "kitty +kitten ssh";
-      pow = "ssh hadouken.thuis.plebian.nl -p 666";
-      socks = "ssh -D 1337 -q -C -N plebian.nl -p 666";
+      pow = "ssh ssh.thuis.plebian.nl -p 666";
+      socks = "ssh -D 1337 -q -C -N ssh.thuis.plebian.nl -p 666";
       readme = "cat README* | glow";
       question = "() { mods -f \"$1\" | glow; }";
     };

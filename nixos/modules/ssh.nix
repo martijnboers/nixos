@@ -23,13 +23,9 @@ in {
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
         PermitRootLogin = "no";
+        ports = [666];
+        AllowUsers = "@100.64.0.0/10";
       };
-      listenAddresses = [
-        {
-          addr = cfg.ipaddress;
-          port = 666;
-        }
-      ];
       openFirewall = true;
       hostKeys = [
         {
