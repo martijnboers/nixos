@@ -16,7 +16,7 @@ in {
       reverse_proxy http://localhost:${toString config.services.keycloak.settings.http-port}
     '';
 
-    age.secrets.caddy.file = ../../../secrets/caddy.age;
+    age.secrets.keycloak.file = ../../../secrets/keycloak.age;
 
     services.keycloak = {
       enable = true;
