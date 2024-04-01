@@ -17,6 +17,7 @@ for a good initial starting point for NixOS with flakes.
 - `sudo tailscale up --login-server https://headscale.plebian.nl`
 - Set accent color to wallpaper in KDE
 - `gpg --import private.key`
+- `ssh-add ~/.ssh/id_ed25519`
 
 ## Troubleshooting
 #### GPG hangs
