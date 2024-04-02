@@ -20,7 +20,7 @@
       domain = "tunnel.plebian.nl";
     };
     sshd = {
-      port = 2222;
+      port = 666;
     };
     database = {
       host = "/run/postgresql";
@@ -63,7 +63,7 @@ in {
     };
   };
   config = lib.mkIf cfg.enable {
-    networking.firewall.allowedTCPPorts = [2222];
+    networking.firewall.allowedTCPPorts = [settings.sshd.port];
 
     services.caddy = {
       virtualHosts."tunnel.plebian.nl".extraConfig = ''

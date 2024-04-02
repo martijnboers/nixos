@@ -9,18 +9,22 @@ with lib; let
 in {
   options.hosts.openssh = {
     enable = mkEnableOption "Enable OpenSSH server";
+    ipaddress = mkOption {
+      type = types.str;
+      description = "Tailscale IP address of the computer";
+    };
   };
 
   config = mkIf cfg.enable {
     services.fail2ban.enable = true;
     services.openssh = {
       enable = true;
-      ports = [666];
+      ports = [22];
       settings = {
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
         PermitRootLogin = "no";
-        ListenAddress = "100.64.0.2";
+        ListenAddress = cfg.ipaddress;
         AllowUsers = ["*@100.64.0.0/10"];
       };
       openFirewall = true;
