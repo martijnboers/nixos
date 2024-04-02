@@ -22,7 +22,7 @@
 
   # Access through headscale
   fileSystems."/mnt/share" = {
-    device = "//hadouken.thuis.plebian.nl/public";
+    device = "//ssh.thuis.plebian.nl/public";
     fsType = "cifs";
     options = ["credentials=${config.age.secrets.smb.path},uid=1000,gid=100"];
   };
