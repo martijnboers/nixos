@@ -49,6 +49,8 @@
     options = ["credentials=${config.age.secrets.smb.path},uid=1000,gid=100"];
   };
 
+  services.yubikey-agent.enable = true;
+
   # Enable secrets + append hosts
   hosts.secrets.hosts = true;
 
