@@ -86,22 +86,6 @@
     cachix # community binary caches
   ];
 
-  # Auto updates flakes
-  system.autoUpgrade = {
-    enable = true;
-    dates = "daily";
-    flake = "/home/martijn/Nix";
-    allowReboot = true;
-    rebootWindow = {
-      lower = "01:00";
-      upper = "05:00";
-    };
-    flags = [
-      "--impure"
-      "-L" # print build logs
-    ];
-  };
-
   nix.settings = {
     experimental-features = ["nix-command" "flakes"];
     trusted-users = ["martijn"];
