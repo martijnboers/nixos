@@ -3,7 +3,7 @@
     ../../home/default.nix
   ];
 
-  home.packages = with pkgs; [gqrx];
+  home.packages = with pkgs; [gqrx yubikey-manager];
 
   # Enable profiles
   hosts.desktop.enable = true;
