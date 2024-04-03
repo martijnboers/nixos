@@ -14,6 +14,7 @@
     enable = true;
     repository = "ssh://nads486h@nads486h.repo.borgbase.com/./repo";
     paths = ["/home/martijn"];
+    identityPath = "/home/martijn/.ssh/id_ed25519_age";
     exclude = [
       ".cache"
       "*/cache2" # firefox
@@ -31,6 +32,10 @@
       "/home/*/Data"
     ];
   };
+
+  age.identityPaths = [
+    "/home/martijn/.ssh/id_ed25519_age"
+  ];
 
   # Enable tailscale network
   hosts.tailscale.enable = true;

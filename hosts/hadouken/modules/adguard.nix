@@ -13,14 +13,14 @@ in {
 
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."dns.thuis.plebian.nl".extraConfig = ''
-      tls internal
-      @internal {
-        remote_ip 100.64.0.0/10
-      }
-      handle @internal {
-        reverse_proxy http://localhost:3000
-      }
-	  respond 403
+         tls internal
+         @internal {
+           remote_ip 100.64.0.0/10
+         }
+         handle @internal {
+           reverse_proxy http://localhost:3000
+         }
+      respond 403
     '';
 
     networking.firewall.allowedTCPPorts = [53];

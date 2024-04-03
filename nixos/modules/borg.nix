@@ -23,6 +23,11 @@ in {
       default = [];
       description = "Include these paths";
     };
+    identityPath = mkOption {
+      type = types.str;
+      default = "/home/martijn/.ssh/id_ed25519";
+      description = "Which key to use";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -32,7 +37,7 @@ in {
         mode = "repokey-blake2";
         passCommand = "cat ${config.age.secrets.borg.path}";
       };
-      environment.BORG_RSH = "ssh -o 'StrictHostKeyChecking=no' -i /home/martijn/.ssh/id_ed25519";
+      environment.BORG_RSH = "ssh -o 'StrictHostKeyChecking=no' -i ${cfg.identityPath}";
       repo = cfg.repository;
       compression = "auto,zstd";
       startAt = "daily";
