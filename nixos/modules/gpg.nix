@@ -13,7 +13,7 @@ in {
 
   config = mkIf cfg.enable {
     services.pcscd.enable = true;
-    services.udev.packages = [ pkgs.yubikey-personalization ];
+    services.udev.packages = [pkgs.yubikey-personalization];
 
     programs.gnupg.agent = {
       enable = true;
