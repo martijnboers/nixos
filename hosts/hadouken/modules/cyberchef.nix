@@ -14,9 +14,15 @@ in {
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."tools.thuis.plebian.nl".extraConfig = ''
       tls internal
-      root * ${pkgs.cyberchef}/share/cyberchef/
-      encode zstd gzip
-      file_server
+      @internal {
+        remote_ip 100.64.0.0/10
+      }
+      handle @internal {
+        root * ${pkgs.cyberchef}/share/cyberchef/
+        encode zstd gzip
+        file_server
+      }
+	  respond 403
     '';
   };
 }
