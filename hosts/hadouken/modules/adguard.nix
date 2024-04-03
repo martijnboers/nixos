@@ -13,8 +13,10 @@ in {
 
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."dns.thuis.plebian.nl".extraConfig = ''
+      @denied not remote_ip 100.64.0.0/10
+	  abort @denied
+
       tls internal
-      client_ip 100.64.0.0/10
       reverse_proxy http://localhost:3000
     '';
 
