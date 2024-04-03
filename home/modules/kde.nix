@@ -63,10 +63,13 @@ in {
       ];
 
       configFile = {
-        "kwinrc"."Desktops"."Number" = 3;
-        "kwinrc"."Desktops"."Rows" = 3;
-        spectaclerc.General = {
-          autoSaveImage = false;
+        "kwinrc"."Desktops"."Number" = {
+          value = 3;
+          immutable = true;
+        };
+        "kwinrc"."Desktops"."Rows" = {
+          value = 3;
+          immutable = true;
         };
       };
     };
