@@ -18,7 +18,7 @@ in {
         remote_ip 100.64.0.0/10
       }
       handle @internal {
-        reverse_proxy http://127.0.0.1:${toString config.services.grafana.port}
+        reverse_proxy http://127.0.0.1:${toString config.services.grafana.settings.server.http_port}
       }
       respond 403
     '';
