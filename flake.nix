@@ -23,7 +23,9 @@
     };
 
     # Secrets
-    agenix.url = "github:ryantm/agenix";
+    # agenix.url = "github:ryantm/agenix";
+    # See: https://github.com/ryantm/agenix/pull/249
+    agenix.url = "github:plastic-forks/agenix";
 
     # Run unpatched bins
     nix-alien.url = "github:thiagokokada/nix-alien";
