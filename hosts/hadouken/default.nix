@@ -8,6 +8,7 @@
 
   imports = [
     ./modules/vaultwarden.nix
+    ./modules/monitoring.nix
     ./modules/nextcloud.nix
     ./modules/headscale.nix
     ./modules/cyberchef.nix
@@ -32,6 +33,7 @@
   hosts.keycloak.enable = true;
   hosts.pgrok.enable = true;
   hosts.cyberchef.enable = true;
+  hosts.monitoring.enable = true;
 
   hosts.borg = {
     enable = true;
