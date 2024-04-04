@@ -33,10 +33,6 @@
     ];
   };
 
-  age.identityPaths = [
-    "/home/martijn/.ssh/id_ed25519_age"
-  ];
-
   # Enable tailscale network
   hosts.tailscale.enable = true;
   security.sudo.wheelNeedsPassword = false;
@@ -56,8 +52,16 @@
 
   services.yubikey-agent.enable = true;
 
-  # Enable secrets + append hosts
-  hosts.secrets.hosts = true;
+  hosts.secrets = {
+    hosts = true;
+    identityPaths = [
+      "/home/martijn/.ssh/id_ed25519_age"
+    ];
+  };
+
+  programs.ssh.extraConfig = ''
+    IdentityFile /home/martijn/.ssh/id_ed25519_sk
+  '';
 
   # Support gpg for git signing
   hosts.gpg.enable = true;
