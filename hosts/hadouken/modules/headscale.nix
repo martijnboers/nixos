@@ -72,6 +72,11 @@ in {
                 type = "A";
                 value = hadoukenIp;
               }
+              {
+                name = "monitoring.thuis.plebian.nl";
+                type = "A";
+                value = hadoukenIp;
+              }
             ];
           };
           prefixes = {
