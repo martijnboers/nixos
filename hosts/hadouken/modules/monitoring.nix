@@ -23,7 +23,7 @@ in {
       respond 403
     '';
     services.borgbackup.jobs.default.paths = [
-      "${config.services.grafana.dataDir}"
+      "${config.services.grafana.settings.database.path}"
     ];
     services.grafana = {
       enable = true;
@@ -36,12 +36,9 @@ in {
       };
     };
 
-    #  # nginx reverse proxy
-    #  services.nginx.virtualHosts.${config.services.grafana.domain} = {
-    #    locations."/" = {
-    #        proxyPass = "http://127.0.0.1:";
-    #        proxyWebsockets = true;
-    #    };
-    #  };
+    services.prometheus = {
+       enable = true;
+       port = 9001;
+    };
   };
 }
