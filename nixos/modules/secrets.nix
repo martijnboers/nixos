@@ -37,9 +37,9 @@ in {
 
     # readFile copies the content into nix-store but only way
     # to make this work with networking
-    #    networking.extraHosts =
-    #      if cfg.hosts
-    #      then builtins.readFile config.age.secrets.hosts.path
-    #      else "";
+    networking.extraHosts =
+      if cfg.hosts
+      then builtins.readFile config.age.secrets.hosts.path
+      else "";
   };
 }
