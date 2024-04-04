@@ -35,7 +35,6 @@
 
   # Enable tailscale network
   hosts.tailscale.enable = true;
-  security.sudo.wheelNeedsPassword = false;
 
   # SDR
   hardware.rtl-sdr.enable = true;
@@ -51,6 +50,11 @@
   };
 
   services.yubikey-agent.enable = true;
+  security.pam.yubico = {
+    enable = true;
+    mode = "challenge-response";
+    id = ["25580427"];
+  };
 
   hosts.secrets = {
     hosts = true;
