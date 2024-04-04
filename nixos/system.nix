@@ -25,7 +25,7 @@
     useDefaultShell = true;
     hashedPasswordFile = config.age.secrets.password.path;
     openssh.authorizedKeys.keyFiles = [
-      ./keys/glassdoor.pub
+      ./keys/glassdoor-sk.pub
       ./keys/laptop.pub
       ./keys/phone.pub
     ];

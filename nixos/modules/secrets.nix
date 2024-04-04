@@ -12,13 +12,16 @@ in {
       type = types.bool;
       default = false;
     };
+    identityPaths = mkOption {
+      type = types.listOf types.str;
+      default = ["/home/martijn/.ssh/id_ed25519"];
+      description = "Include these paths";
+    };
   };
 
   config = {
     age = {
-      identityPaths = [
-        "/home/martijn/.ssh/id_ed25519"
-      ];
+      identityPaths = cfg.identityPaths;
       secrets = {
         hosts = {
           file = ../../secrets/hosts.age;
@@ -34,9 +37,9 @@ in {
 
     # readFile copies the content into nix-store but only way
     # to make this work with networking
-    networking.extraHosts =
-      if cfg.hosts
-      then builtins.readFile config.age.secrets.hosts.path
-      else "";
+#    networking.extraHosts =
+#      if cfg.hosts
+#      then builtins.readFile config.age.secrets.hosts.path
+#      else "";
   };
 }
