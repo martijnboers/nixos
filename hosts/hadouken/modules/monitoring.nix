@@ -162,6 +162,19 @@ in {
               }
             ];
           }
+          {
+            job_name = "caddy";
+            static_configs = [
+              {
+                targets = ["localhost"];
+                labels = {
+                  job = "caddy";
+                  __path__ = "/var/log/caddy/*log";
+                  agent = "caddy-promtail";
+                };
+              }
+            ];
+          }
         ];
       };
     };
