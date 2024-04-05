@@ -27,6 +27,18 @@ in {
     ];
     services.grafana = {
       enable = true;
+      settings = {
+        server = {
+          domain = "monitoring.thuis.plebian.nl";
+          http_port = 2342;
+          http_addr = "127.0.0.1";
+        };
+      };
+    };
+
+    services.prometheus = {
+      enable = true;
+      port = 9001;
       scrapeConfigs = [
         {
           job_name = "node";
@@ -46,19 +58,6 @@ in {
           ];
         }
       ];
-
-      settings = {
-        server = {
-          domain = "monitoring.thuis.plebian.nl";
-          http_port = 2342;
-          http_addr = "127.0.0.1";
-        };
-      };
-    };
-
-    services.prometheus = {
-      enable = true;
-      port = 9001;
       exporters = {
         node = {
           enable = true;
