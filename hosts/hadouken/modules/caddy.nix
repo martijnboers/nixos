@@ -31,6 +31,11 @@ in {
       virtualHosts."noisesfrom.space".extraConfig = ''
         respond "🦆"
       '';
+      globalConfig = ''
+        servers {
+           metrics
+        }
+      '';
     };
 
     age.secrets.caddy.file = ../../../secrets/caddy.age;
