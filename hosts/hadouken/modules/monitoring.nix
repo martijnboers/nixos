@@ -131,7 +131,7 @@ in {
     };
 
     # Add promtail to access access logs
-    users.groups.caddy.members = ["caddy" "promtail"];
+    users.groups.promtail.members = [config.services.caddy.user "promtail"];
 
     services.promtail = {
       enable = true;
