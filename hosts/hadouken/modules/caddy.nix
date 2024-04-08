@@ -31,6 +31,9 @@ in {
       virtualHosts."noisesfrom.space".extraConfig = ''
         respond "🦆"
       '';
+      virtualHosts."whichmarket.online".extraConfig = ''
+        respond "todo"
+      '';
       globalConfig = ''
         servers {
            metrics
