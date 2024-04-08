@@ -13,6 +13,7 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
+      vscode
       jetbrains.pycharm-community
       # https://www.jetbrains.com/webstorm/nextversion/
       (pkgs.unstable.jetbrains.webstorm.overrideAttrs {
