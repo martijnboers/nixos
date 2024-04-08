@@ -64,9 +64,6 @@
         ];
       }; # auto-complete
 
-      # gitblame.enable = true;
-      # barbar.enable = true; # clibable tabs
-
       lsp-format = {
         enable = true;
       };
@@ -80,6 +77,7 @@
           jsonls.enable = true;
           terraformls.enable = true;
           pyright.enable = true;
+          gopls.enable = true;
         };
       };
     };
