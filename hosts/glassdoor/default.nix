@@ -53,7 +53,7 @@
   security.pam.yubico = {
     enable = true;
     mode = "challenge-response";
-    id = ["25580427"];
+    id = "25580427";
   };
 
   hosts.secrets = {
