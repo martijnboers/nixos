@@ -31,8 +31,11 @@ in {
       virtualHosts."noisesfrom.space".extraConfig = ''
         respond "🦆"
       '';
+      virtualHosts."doornappel.nl".extraConfig = ''
+        respond "🍎"
+      '';
       virtualHosts."whichmarket.online".extraConfig = ''
-        respond "todo"
+        respond "👷🏻‍♂️"
       '';
       globalConfig = ''
         servers {
