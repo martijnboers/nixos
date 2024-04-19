@@ -12,18 +12,31 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.endlessh-go = {
-      enable = true;
-      port = 6667;
-      prometheus = {
+    age.secrets.geoip.file = ../../../secrets/geoip.age;
+
+    services = {
+      geoipupdate = {
         enable = true;
+        settings = {
+          EditionIDs = [
+            "GeoLite2-City"
+          ];
+          AccountID = 1003091;
+          LicenseKey = config.age.secrets.geoip.path;
+        };
       };
-      extraOptions = [
-        "-geoip_supplier=max-mind-db"
-        # Download manually
-        "-max_mind_db=/mnt/garage/Data/geolite.mmdb"
-      ];
-      openFirewall = true;
+      endlessh-go = {
+        enable = true;
+        port = 6667;
+        prometheus = {
+          enable = true;
+        };
+        extraOptions = [
+          "-geoip_supplier=max-mind-db"
+          "-max_mind_db=${toString config.services.geoipupdate.settings.DatabaseDirectory}/geolite.mmdb"
+        ];
+        openFirewall = true;
+      };
     };
   };
 }

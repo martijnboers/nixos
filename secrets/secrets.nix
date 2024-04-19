@@ -19,4 +19,5 @@ in {
   "keycloak.age".publicKeys = hadoukens;
   "caddy.age".publicKeys = hadoukens;
   "headscale.age".publicKeys = hadoukens;
+  "geoip.age".publicKeys = hadoukens;
 }
