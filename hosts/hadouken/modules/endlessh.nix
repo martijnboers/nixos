@@ -18,6 +18,11 @@ in {
       prometheus = {
         enable = true;
       };
+      extraOptions = [
+        "-geoip_supplier=max-mind-db"
+        # Download manually
+        "-max_mind_db=/mnt/garage/Data/geolite.mmdb"
+      ];
       openFirewall = true;
     };
   };
