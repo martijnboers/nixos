@@ -23,6 +23,8 @@ in {
           ];
           AccountID = 1003091;
           LicenseKey = config.age.secrets.geoip.path;
+          # Only path accassible for the service
+          DatabaseDirectory = "/run/endlessh-go/var";
         };
       };
       endlessh-go = {
