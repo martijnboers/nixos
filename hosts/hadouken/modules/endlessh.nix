@@ -23,8 +23,6 @@ in {
           ];
           AccountID = 1003091;
           LicenseKey = config.age.secrets.geoip.path;
-          # Only path accassible for the service
-          DatabaseDirectory = "/run/endlessh-go/var";
         };
       };
       endlessh-go = {
@@ -39,6 +37,10 @@ in {
         ];
         openFirewall = true;
       };
+    };
+    systemd.services.endlessh-go = {
+      after = ["network.target"];
+      serviceConfig.BindReadOnlyPaths = [config.services.geoipupdate.settings.DatabaseDirectory];
     };
   };
 }
