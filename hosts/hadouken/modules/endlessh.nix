@@ -33,7 +33,7 @@ in {
         };
         extraOptions = [
           "-geoip_supplier=max-mind-db"
-          "-max_mind_db=${toString config.services.geoipupdate.settings.DatabaseDirectory}/geolite.mmdb"
+          "-max_mind_db=${toString config.services.geoipupdate.settings.DatabaseDirectory}/GeoLite2-City.mmdb"
         ];
         openFirewall = true;
       };
