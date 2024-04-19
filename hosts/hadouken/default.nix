@@ -13,6 +13,7 @@
     ./modules/headscale.nix
     ./modules/cyberchef.nix
     ./modules/keycloak.nix
+    ./modules/endlessh.nix
     ./modules/adguard.nix
     ./modules/caddy.nix
     ./modules/atuin.nix
@@ -34,6 +35,7 @@
   hosts.pgrok.enable = true;
   hosts.cyberchef.enable = true;
   hosts.monitoring.enable = true;
+  hosts.endlessh.enable = true;
 
   hosts.borg = {
     enable = true;

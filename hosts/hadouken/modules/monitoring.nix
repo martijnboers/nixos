@@ -198,8 +198,15 @@ in {
           job_name = "caddy";
           static_configs = [
             {
-              # caddy api endpoint
               targets = ["127.0.0.1:2019"];
+            }
+          ];
+        }
+        {
+          job_name = "endlessh";
+          static_configs = [
+            {
+              targets = ["127.0.0.1:${toString config.services.endlessh-go.prometheus.port}"];
             }
           ];
         }
