@@ -17,10 +17,13 @@ in {
            }
     '';
 
+    networking.firewall.allowedTCPPorts = [8448];
+
     services.matrix-conduit = {
       enable = true;
       settings.global = {
         server_name = "id.plebian.nl";
+	database_backend = "rocksdb";
         allow_check_for_updates = false;
         allow_registration = true;
       };
