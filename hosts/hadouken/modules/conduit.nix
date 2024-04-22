@@ -11,7 +11,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    caddy.virtualHosts."id.plebian.nl, id.plebian.nl:8448".extraConfig = ''
+    services.caddy.virtualHosts."id.plebian.nl, id.plebian.nl:8448".extraConfig = ''
       reverse_proxy /_matrix/* http://localhost:${toString config.services.matrix-conduit.settings.global.port}
     '';
 
