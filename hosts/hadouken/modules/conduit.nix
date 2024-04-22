@@ -24,7 +24,7 @@ in {
       settings.global = {
         server_name = "id.plebian.nl";
         allow_check_for_updates = false;
-        allow_registration = true;
+        allow_registration = false;
       };
     };
   };
