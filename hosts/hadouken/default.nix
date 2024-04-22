@@ -15,6 +15,7 @@
     ./modules/keycloak.nix
     ./modules/endlessh.nix
     ./modules/adguard.nix
+    ./modules/conduit.nix
     ./modules/caddy.nix
     ./modules/atuin.nix
     ./modules/pgrok.nix
@@ -36,6 +37,7 @@
   hosts.cyberchef.enable = true;
   hosts.monitoring.enable = true;
   hosts.endlessh.enable = true;
+  hosts.conduit.enable = true;
 
   hosts.borg = {
     enable = true;

@@ -18,12 +18,12 @@ in {
       kitty
       ungoogled-chromium
       libsForQt5.kdeconnect-kde
-      libsForQt5.neochat # matrix messager
       libsForQt5.kompare # diff viewer
       libsForQt5.kate
       wl-clipboard # wayland clipboard manager
       obsidian
       vlc
+      cinny-desktop # matrix client
 
       # music
       clementine
