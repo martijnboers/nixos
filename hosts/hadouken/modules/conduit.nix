@@ -5,17 +5,17 @@
 }:
 with lib; let
   cfg = config.hosts.conduit;
-  caddyCfg = ''
-    reverse_proxy /_matrix/* http://localhost:${toString config.services.matrix-conduit.settings.global.port}
-  '';
 in {
   options.hosts.conduit = {
     enable = mkEnableOption "Matrix chat federation";
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."id.plebian.nl".extraConfig = caddyCfg;
-    services.caddy.virtualHosts."id.plebian.nl:8448".extraConfig = caddyCfg;
+    services.caddy.extraConfig = ''
+           id.plebian.nl, id.plebian.nl:8448 {
+      reverse_proxy /_matrix/* http://localhost:${toString config.services.matrix-conduit.settings.global.port}
+           }
+    '';
 
     services.matrix-conduit = {
       enable = true;
