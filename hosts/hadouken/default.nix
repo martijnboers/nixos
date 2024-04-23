@@ -44,6 +44,15 @@
     repository = "ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo";
   };
 
+  hosts.auditd = {
+    enable = true;
+    rules = [
+      "-w /home/martijn/.ssh -p rwa -k ssh_file_access"
+      "-w /home/martijn/Nix -p rwa -k nix_config_changes"
+      "-a exit,always -F arch=b64 -S execve -k program_run"
+    ];
+  };
+
   hosts.resilio = {
     enable = true;
     name = "hadouken";

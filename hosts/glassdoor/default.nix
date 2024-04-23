@@ -42,6 +42,15 @@
 
   services.xserver.videoDrivers = ["amdgpu"];
 
+  hosts.auditd = {
+    enable = true;
+    rules = [
+      "-w /home/martijn/.ssh -p rwa -k ssh_file_access"
+      "-w /home/martijn/Nix -p rwa -k nix_config_changes"
+      "-a exit,always -F arch=b64 -S execve -k program_run"
+    ];
+  };
+
   # For mount.cifs, required unless domain name resolution is not needed.
   fileSystems."/mnt/share" = {
     device = "//hadouken.plebian.local/public";

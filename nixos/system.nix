@@ -9,6 +9,7 @@
     ./modules/resillio.nix
     ./modules/tailscale.nix
     ./modules/secrets.nix
+    ./modules/auditd.nix
     ./modules/borg.nix
     ./modules/ssh.nix
     ./modules/gpg.nix
@@ -87,6 +88,9 @@
 
   nix.settings = {
     experimental-features = ["nix-command" "flakes"];
+
+    # Only martijn can access Nix deamon
+    allowed-users = ["martijn"];
     trusted-users = ["martijn"];
   };
 
