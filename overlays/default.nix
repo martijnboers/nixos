@@ -1,10 +1,7 @@
-# This file defines overlays
 {inputs, ...}: {
   # This one brings our custom packages from the 'pkgs' directory
   additions = final: _prev: import ../pkgs {pkgs = final;};
 
-  # This one contains whatever you want to overlay
-  # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
     ollama = final.unstable.ollama;
@@ -38,6 +35,20 @@
           --fish <($out/bin/headscale completion fish) \
           --zsh <($out/bin/headscale completion zsh)
       '';
+
+      # https://www.jetbrains.com/webstorm/nextversion/
+      webstorm-eap = final.unstable.jetbrains.webstorm.overrideAttrs {
+        version = "241.11761.28";
+        # Patches don't work with new version
+        postPatch = ''
+          rm -rf jbr
+          ln -s ${final.jdk.home} jbr
+        '';
+        src = builtins.fetchurl {
+          url = "https://download-cdn.jetbrains.com/webstorm/WebStorm-241.14494.25.tar.gz";
+          sha256 = "04rpag23w55mxm98q8gggdc5n1ax2h4qy7ks7rc7825r3cail94q";
+        };
+      };
     };
   };
 
