@@ -66,7 +66,6 @@
   };
 
   hosts.secrets = {
-    hosts = true;
     identityPaths = [
       "/home/martijn/.ssh/id_ed25519_age"
     ];
