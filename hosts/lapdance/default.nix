@@ -14,9 +14,6 @@
   # Enable tailscale network
   hosts.tailscale.enable = true;
 
-  # Enable secrets + append hosts
-  hosts.secrets.hosts = true;
-
   # Support gpg for git signing
   hosts.gpg.enable = true;
 
