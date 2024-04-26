@@ -19,16 +19,9 @@ in {
     age = {
       identityPaths = cfg.identityPaths;
       secrets = {
-        hosts = {
-          file = ../../secrets/hosts.age;
-          owner = config.users.users.martijn.name;
-        };
         password.file = ../../secrets/password.age;
         smb.file = ../../secrets/smb.age;
-        borg.file = ../../secrets/borg.age;
       };
     };
-
-    users.users.martijn.hashedPasswordFile = config.age.secrets.password.path;
   };
 }

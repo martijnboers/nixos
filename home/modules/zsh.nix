@@ -7,7 +7,7 @@
   programs.zsh = {
     enable = true;
     shellAliases = let
-      defaultNixFlags = "--impure --use-remote-sudo --flake /home/martijn/Nix";
+      defaultNixFlags = "--use-remote-sudo --flake /home/martijn/Nix";
     in {
       # --- NixOS specific --------
       deploy = "nixos-rebuild switch ${defaultNixFlags}";
