@@ -1,5 +1,4 @@
 let
-  # See: https://github.com/ryantm/agenix/pull/249
   glassdoor = builtins.readFile ../nixos/keys/glassdoor.pub;
   laptop = builtins.readFile ../nixos/keys/laptop.pub;
   hadouken = builtins.readFile ../nixos/keys/hadouken.pub;
@@ -19,4 +18,5 @@ in {
   "caddy.age".publicKeys = hadoukens;
   "headscale.age".publicKeys = hadoukens;
   "geoip.age".publicKeys = hadoukens;
+  "immich.age".publicKeys = hadoukens;
 }
