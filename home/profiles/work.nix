@@ -16,6 +16,7 @@ in {
       vscode
       jetbrains.pycharm-community
       jetbrains.webstorm
+      jetbrains.goland
       pgrok
       sublime-merge
       awscli2

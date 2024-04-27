@@ -18,6 +18,7 @@ in {
       wine
       qmk
       qflipper
+      minecraft
 
       # messaging
       signal-desktop
