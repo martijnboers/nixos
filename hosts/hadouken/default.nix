@@ -16,6 +16,7 @@
     ./modules/endlessh.nix
     ./modules/adguard.nix
     ./modules/conduit.nix
+    ./modules/immich.nix
     ./modules/caddy.nix
     ./modules/atuin.nix
     ./modules/pgrok.nix
@@ -38,6 +39,7 @@
   hosts.monitoring.enable = true;
   hosts.endlessh.enable = true;
   hosts.conduit.enable = true;
+  hosts.immich.enable = true;
 
   hosts.borg = {
     enable = true;
