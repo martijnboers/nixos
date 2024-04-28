@@ -1,10 +1,9 @@
+# Source: https://gist.github.com/mfenniak/c6f6b1cde07fc33df4d925e13f7d5afa
 {
   config,
   pkgs,
   ...
 }: let
-  immichHost = "immich.thuis.plebian.nl";
-
   immichRoot = "/mnt/garage/Pictures";
   immichPhotos = "${immichRoot}/photos";
   immichAppdataRoot = "${immichRoot}/appdata";
@@ -14,7 +13,7 @@
   postgresUser = "immich";
   postgresDb = "immich";
 in {
-  services.caddy.virtualHosts."${immichHost}".extraConfig = ''
+  services.caddy.virtualHosts."immich.thuis.plebian.nl".extraConfig = ''
        tls internal
        @internal {
          remote_ip 100.64.0.0/10
