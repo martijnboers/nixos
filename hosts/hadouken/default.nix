@@ -39,7 +39,8 @@
   hosts.monitoring.enable = true;
   hosts.endlessh.enable = true;
   hosts.conduit.enable = true;
-  hosts.immich.enable = true;
+
+  hosts.immich.enable = false;
 
   hosts.borg = {
     enable = true;
