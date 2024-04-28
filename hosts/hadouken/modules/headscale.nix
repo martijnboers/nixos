@@ -79,6 +79,11 @@ in {
                 type = "A";
                 value = hadoukenIp;
               }
+              {
+                name = "immich.thuis.plebian.nl";
+                type = "A";
+                value = hadoukenIp;
+              }
             ];
           };
           prefixes = {
