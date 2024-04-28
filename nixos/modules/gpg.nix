@@ -15,6 +15,8 @@ in {
     services.pcscd.enable = true;
     services.udev.packages = [pkgs.yubikey-personalization];
 
+    programs.yubikey-touch-detector.enable = true;
+
     programs.gnupg.agent = {
       enable = true;
       enableSSHSupport = true;

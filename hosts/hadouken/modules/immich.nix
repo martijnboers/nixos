@@ -1,4 +1,8 @@
-{config, ...}: let
+{
+  config,
+  pkgs,
+  ...
+}: let
   immichHost = "immich.thuis.plebian.nl";
 
   immichRoot = "/mnt/garage/Pictures";
@@ -11,40 +15,38 @@
   postgresUser = "immich";
   postgresDb = "immich";
 in {
-  services = {
-    caddy.virtualHosts."${immichHost}".extraConfig = ''
-         tls internal
-         @internal {
-           remote_ip 100.64.0.0/10
-         }
-         handle @internal {
-           reverse_proxy http://127.0.0.1:2283
-         }
-      respond 403
-    '';
+  services.caddy.virtualHosts."${immichHost}".extraConfig = ''
+       tls internal
+       @internal {
+         remote_ip 100.64.0.0/10
+       }
+       handle @internal {
+         reverse_proxy http://127.0.0.1:2283
+       }
+    respond 403
+  '';
 
-    age.secrets.immich = {
-        file = ../../../secrets/immich.age;
-        owner = virtualisation.oci-containers.users; # ??
-      };
-    };
+  age.secrets.immich = {
+    file = ../../../secrets/immich.age;
+    owner = virtualisation.oci-containers.user;
+  };
 
-    postgresql = {
-      enable = true;
-      ensureDatabases = [
-        postgresDb
-      ];
-      authentication = pkgs.lib.mkOverride 10 ''
+  postgresql = {
+    enable = true;
+    ensureDatabases = [
+      postgresDb
+    ];
+    authentication = pkgs.lib.mkOverride 10 ''
       # TYPE  DATABASE        USER            ADDRESS                 METHOD
       host    all             all             100.64.0.0/10           scram-sha-256
-      '';
-      ensureUsers = [
-        {
-          name = postgresDb;
-          ensureDBOwnership = true;
-        }
-      ];
-    };
+    '';
+    ensureUsers = [
+      {
+        name = postgresDb;
+        ensureDBOwnership = true;
+      }
+    ];
+  };
 
   services.borgbackup.jobs.default.paths = [immichPhotos];
 

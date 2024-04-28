@@ -41,6 +41,7 @@
   users.users.martijn.extraGroups = ["plugdev"];
 
   services.xserver.videoDrivers = ["amdgpu"];
+  services.flatpak.enable = true;
 
   hosts.auditd = {
     enable = true;
