@@ -11,7 +11,6 @@
   immichVersion = "release";
 
   postgresRoot = "${immichAppdataRoot}/pgsql";
-  postgresPassword = "${toString config.age.secrets.immich.path}";
   postgresUser = "immich";
   postgresDb = "immich";
 in {
