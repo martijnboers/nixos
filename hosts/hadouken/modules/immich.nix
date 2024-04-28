@@ -31,23 +31,6 @@ in {
     owner = virtualisation.oci-containers.user;
   };
 
-  postgresql = {
-    enable = true;
-    ensureDatabases = [
-      postgresDb
-    ];
-    authentication = pkgs.lib.mkOverride 10 ''
-      # TYPE  DATABASE        USER            ADDRESS                 METHOD
-      host    all             all             100.64.0.0/10           scram-sha-256
-    '';
-    ensureUsers = [
-      {
-        name = postgresDb;
-        ensureDBOwnership = true;
-      }
-    ];
-  };
-
   services.borgbackup.jobs.default.paths = [immichPhotos];
 
   # The primary source for this configuration is the recommended docker-compose installation of immich from
@@ -78,9 +61,9 @@ in {
       DB_HOSTNAME = "immich_postgres";
       DB_USERNAME = postgresUser;
       DB_DATABASE_NAME = postgresDb;
-      DB_PASSWORD = postgresPassword;
       REDIS_HOSTNAME = "immich_redis";
     };
+    environmentFiles = [config.age.secrets.immich.path];
     volumes = [
       "${immichPhotos}:/usr/src/app/upload"
       "/etc/localtime:/etc/localtime:ro"
@@ -103,9 +86,9 @@ in {
       DB_HOSTNAME = "immich_postgres";
       DB_USERNAME = postgresUser;
       DB_DATABASE_NAME = postgresDb;
-      DB_PASSWORD = postgresPassword;
       REDIS_HOSTNAME = "immich_redis";
     };
+    environmentFiles = [config.age.secrets.immich.path];
     volumes = [
       "${immichPhotos}:/usr/src/app/upload"
       "/etc/localtime:/etc/localtime:ro"
@@ -131,10 +114,10 @@ in {
   virtualisation.oci-containers.containers.immich_postgres = {
     image = "tensorchord/pgvecto-rs:pg14-v0.1.11";
     environment = {
-      POSTGRES_PASSWORD = postgresPassword;
       POSTGRES_USER = postgresUser;
       POSTGRES_DB = postgresDb;
     };
+    environmentFiles = [config.age.secrets.immich.path];
     volumes = [
       "${postgresRoot}:/var/lib/postgresql/data"
     ];
