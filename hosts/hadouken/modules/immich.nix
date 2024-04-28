@@ -16,8 +16,8 @@ with lib; let
   postgresUser = "immich";
   postgresDb = "immich";
 in {
-  options.hosts.hass = {
-    enable = mkEnableOption "Home assistant server";
+  options.hosts.immich = {
+    enable = mkEnableOption "Enable immich photos";
   };
 
   config = mkIf cfg.enable {
