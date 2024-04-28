@@ -32,11 +32,7 @@ in {
       respond 403
     '';
 
-    age.secrets.immich = {
-      file = ../../../secrets/immich.age;
-      owner = config.virtualisation.oci-containers.user;
-    };
-
+    age.secrets.immich.file = ../../../secrets/immich.age;
     services.borgbackup.jobs.default.paths = [immichPhotos];
 
     # The primary source for this configuration is the recommended docker-compose installation of immich from
