@@ -19,4 +19,5 @@ in {
   "headscale.age".publicKeys = hadoukens;
   "geoip.age".publicKeys = hadoukens;
   "immich.age".publicKeys = hadoukens;
+  "adguard.age".publicKeys = hadoukens;
 }
