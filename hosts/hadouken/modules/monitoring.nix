@@ -193,7 +193,7 @@ in {
         ExecStart = ''
         ${pkgs.adguard-exporter}/bin/adguard-exporter \
             -adguard_hostname 127.0.0.1 -adguard_port ${toString config.services.adguardhome.settings.bind_port} \
-            -adguard_username admin -adguard_password $(cat ${config.age.secrets.adguard.path}) -log_limit 10000";
+            -adguard_username admin -adguard_password $(cat ${config.age.secrets.adguard.path}) -log_limit 10000
         '';
         Restart = "on-failure";
         RestartSec = 5;
