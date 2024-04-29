@@ -1,4 +1,6 @@
 {pkgs, ...}: {
   httpie-desktop = pkgs.callPackage ./httpie-desktop.nix {};
-  pgvecto-rs = pkgs.callPackage ./pgvecto-rs.nix {};
+  xcaddy = pkgs.callPackage ../../../pkgs/xcaddy.nix {
+    plugins = ["github.com/caddy-dns/cloudflare"];
+  };
 }
