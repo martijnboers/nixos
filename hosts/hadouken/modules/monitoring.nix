@@ -182,13 +182,19 @@ in {
       };
     };
 
-    systemd.services."adguard-exporter-prometheus" = {
+    age.secrets.adguard.file = ../../../secrets/adguard.age;
+
+    systemd.services."adguard-exporter" = {
       enable = true;
       description = "AdGuard metric exporter for Prometheus";
       documentation = ["https://github.com/totoroot/adguard-exporter/blob/master/README.md"];
       wantedBy = ["multi-user.target"];
       serviceConfig = {
-        ExecStart = "${pkgs.adguard-exporter}/bin/adguard-exporter -adguard_hostname 127.0.0.1 -adguard_port ${toString config.services.adguardhome.settings.bind_port} -log_limit 10000";
+        ExecStart = ''
+        ${pkgs.adguard-exporter}/bin/adguard-exporter
+            -adguard_hostname 127.0.0.1 -adguard_port ${toString config.services.adguardhome.settings.bind_port}
+            -adguard_username admin -adguard_password $(cat ${config.age.secrets.adguard.path}) -log_limit 10000";
+        '';
         Restart = "on-failure";
         RestartSec = 5;
         NoNewPrivileges = true;
