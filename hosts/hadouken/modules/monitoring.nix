@@ -182,6 +182,19 @@ in {
       };
     };
 
+    systemd.services."adguard-exporter" = {
+      enable = true;
+      description = "AdGuard metric exporter for Prometheus";
+      documentation = ["https://github.com/totoroot/adguard-exporter/blob/master/README.md"];
+      wantedBy = ["multi-user.target"];
+      serviceConfig = {
+        ExecStart = "${pkgs.adguard-exporter}/adguard_exporter -adguard_hostname 127.0.0.1 -adguard_port 3300  -log_limit 10000";
+        Restart = "on-failure";
+        RestartSec = 5;
+        NoNewPrivileges = true;
+      };
+    };
+
     services.prometheus = {
       enable = true;
       port = 9001;
@@ -207,6 +220,14 @@ in {
           static_configs = [
             {
               targets = ["127.0.0.1:${toString config.services.endlessh-go.prometheus.port}"];
+            }
+          ];
+        }
+        {
+          job_name = "adguard";
+          static_configs = [
+            {
+              targets = ["127.0.0.1:9617"];
             }
           ];
         }
