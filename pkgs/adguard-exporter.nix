@@ -16,6 +16,7 @@ with pkgs;
     };
 
     vendorHash = "sha256-nm+B7Qjtx/NHqGuaqVKt2kM9ZvSNYHhTfLxHeu4hlT4=";
+    outputs = [ "out"];
 
     meta = with pkgs.lib; {
       description = "Prometheus exporter for AdGuard Home";
