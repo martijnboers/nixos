@@ -42,6 +42,9 @@
 
   hosts.immich.enable = false;
 
+  # First load headscale on host
+  systemd.services.sshd.after = ["headscale.target"];
+
   hosts.borg = {
     enable = true;
     repository = "ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo";
