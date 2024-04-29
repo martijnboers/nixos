@@ -182,7 +182,7 @@ in {
       };
     };
 
-    systemd.services."adguard-exporter" = {
+    systemd.services."adguard-exporter-prometheus" = {
       enable = true;
       description = "AdGuard metric exporter for Prometheus";
       documentation = ["https://github.com/totoroot/adguard-exporter/blob/master/README.md"];
