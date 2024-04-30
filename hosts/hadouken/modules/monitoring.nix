@@ -6,6 +6,7 @@
 }:
 with lib; let
   cfg = config.hosts.monitoring;
+  retentionTime = 30 * 6;
 in {
   options.hosts.monitoring = {
     enable = mkEnableOption "Enable monitoring to host";
@@ -238,6 +239,7 @@ in {
           ];
         }
       ];
+      retentionTime = toString retentionTime + "d";
       exporters = {
         node = {
           enable = true;
