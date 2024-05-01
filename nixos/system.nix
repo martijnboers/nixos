@@ -21,7 +21,7 @@
   users.users.martijn = {
     isNormalUser = true;
     description = "Martijn Boers";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = ["networkmanager"];
     shell = pkgs.zsh;
     useDefaultShell = true;
     hashedPasswordFile = config.age.secrets.password.path;
@@ -105,6 +105,24 @@
   # misc
   programs.zsh.enable = true;
 
+  security = {
+    doas.enable = true;
+    sudo.enable = false;
+    doas.extraRules = [
+      {
+        users = ["martijn"];
+        # Optional, retains environment variables while running commands
+        # e.g. retains your NIX_PATH when applying your config
+        keepEnv = true;
+        persist = true; # Optional, only require password verification a single time
+      }
+    ];
+    # Self signed ca for all the internal tailscale services
+    pki.certificateFiles = [
+      ./keys/hadouken-ca.pem
+    ];
+  };
+
   # Default env variables
   environment.sessionVariables = {
     EDITOR = "nvim";
@@ -120,13 +138,6 @@
     extraCommands = ''
       iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns
     '';
-  };
-
-  security = {
-    # Self signed ca for all the internal tailscale services
-    pki.certificateFiles = [
-      ./keys/hadouken-ca.pem
-    ];
   };
 
   # Set time zone.
@@ -151,11 +162,6 @@
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
-    settings = {
-      General = {
-        Experimental = "true";
-      };
-    };
   };
 
   # Inject patched libraries to unpatched bins
