@@ -7,17 +7,18 @@
   programs.zsh = {
     enable = true;
     shellAliases = let
-      defaultNixFlags = "--use-remote-sudo --flake /home/martijn/Nix";
+      defaultNixFlags = "--flake /home/martijn/Nix";
     in {
       # --- NixOS specific --------
-      deploy = "nixos-rebuild switch ${defaultNixFlags}";
-      debug = "nixos-rebuild switch ${defaultNixFlags} --show-trace --verbose";
+      deploy = "doas nixos-rebuild switch ${defaultNixFlags}";
+      debug = "doas nixos-rebuild switch ${defaultNixFlags} --show-trace --verbose";
       testbuild = "nixos-rebuild build --option sandbox false ${defaultNixFlags}#hadouken";
       update = "nix flake update";
       # ---------------------------
       dud = "docker compose up -d";
       fixup = "ga . && gc --amend --no-edit";
       xev = "wev"; # wayland xev
+      sudo = "doas"; # OpenBSD replacement
       vim = "nvim";
       rm = "trash-put"; # use trash for cli
       ls = "lsd"; # fancy ls
