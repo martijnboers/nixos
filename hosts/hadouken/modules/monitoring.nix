@@ -50,7 +50,7 @@ in {
           http_addr = "127.0.0.1";
         };
       };
-      declarativePlugins = with pkgs.grafanaPlugins; [ grafana-piechart-panel ];
+      declarativePlugins = with pkgs.grafanaPlugins; [grafana-piechart-panel];
     };
 
     services.loki = {
@@ -191,9 +191,9 @@ in {
       wantedBy = ["multi-user.target"];
       serviceConfig = {
         ExecStart = ''
-        ${pkgs.adguard-exporter}/bin/adguard-exporter \
-            -adguard_hostname 127.0.0.1 -adguard_port ${toString config.services.adguardhome.settings.bind_port} \
-            -adguard_username admin -adguard_password $ADGUARD_PASSWORD -log_limit 10000
+          ${pkgs.adguard-exporter}/bin/adguard-exporter \
+              -adguard_hostname 127.0.0.1 -adguard_port ${toString config.services.adguardhome.settings.bind_port} \
+              -adguard_username admin -adguard_password $ADGUARD_PASSWORD -log_limit 10000
         '';
         Restart = "on-failure";
         RestartSec = 5;

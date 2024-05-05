@@ -1,3 +1,7 @@
+<h1 align="center">
+  <img src="home/assets/logo.svg" alt="nixos" width="250">
+</h1>
+
 ## Description
 NixOS is a Linux distribution with a unique package management system, Nix, offering precise control and reproducible configurations. 
 It follows a declarative and functional programming approach, ensuring system reliability and easy rollback.
@@ -10,7 +14,7 @@ for a good initial starting point for NixOS with flakes.
 > 
 > -- ___Jamie Zawinski___
 
-## Fresh installation notes
+### Fresh installation notes
 - Create ISO: `nix run github:nix-community/nixos-generators -- --flake "/home/martijn/Nix#glassdoor" -f iso`
 - Link flake file to home
 - `sudo ln -s /home/martijn/Nix/flake.nix /etc/nixos/flake.nix`
@@ -19,7 +23,7 @@ for a good initial starting point for NixOS with flakes.
 - `gpg --import private.key`
 - `ssh-add ~/.ssh/id_ed25519`
 
-## Troubleshooting
+### Troubleshooting
 #### GPG hangs
 - `rm -rf ~/.gnupg/public-keys.d/*.lock`
 
