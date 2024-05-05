@@ -50,6 +50,7 @@ in {
           http_addr = "127.0.0.1";
         };
       };
+      declarativePlugins = with pkgs.grafanaPlugins; [ grafana-piechart-panel ];
     };
 
     services.loki = {
