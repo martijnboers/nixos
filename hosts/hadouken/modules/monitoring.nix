@@ -23,9 +23,7 @@ in {
       }
       respond 403
     '';
-    services.borgbackup.jobs.default.paths = [
-      "${config.services.grafana.settings.database.path}"
-    ];
+    services.borgbackup.jobs.default.paths = [config.services.grafana.settings.database.path];
     services.grafana = {
       enable = true;
       provision = {
@@ -183,8 +181,15 @@ in {
       };
     };
 
-    age.secrets.adguard.file = ../../../secrets/adguard.age;
-
+    users.groups.adguard-exporter = {};
+    users.users.adguard-exporter = {
+         isSystemUser = true;
+         group = "adguard-exporter";
+    };
+    age.secrets.adguard = {
+        file = ../../../secrets/adguard.age;
+        owner = "adguard-exporter";
+    };
     systemd.services."adguard-exporter" = {
       enable = true;
       description = "AdGuard metric exporter for Prometheus";
@@ -199,6 +204,7 @@ in {
         Restart = "on-failure";
         RestartSec = 5;
         NoNewPrivileges = true;
+        User = "adguard-exporter";
       };
     };
 
