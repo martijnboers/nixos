@@ -51,6 +51,7 @@ in {
         };
       };
       declarativePlugins = with pkgs.grafanaPlugins; [grafana-piechart-panel];
+      analytics.reporting_enabled = false;
     };
 
     services.loki = {
