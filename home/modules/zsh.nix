@@ -26,6 +26,8 @@
       pow = "ssh ssh.thuis.plebian.nl";
       socks = "ssh -D 1337 -q -C -N ssh.thuis.plebian.nl";
       readme = "cat README* | glow";
+      keeb-c = "qmk compile -kb peej/lumberjack -km martijnboers";
+      keeb-f = "qmk flash -kb peej/lumberjack -km martijnboers";
       question = "() { mods -f \"$1\" | glow; }";
     };
     dotDir = ".config/zsh";
