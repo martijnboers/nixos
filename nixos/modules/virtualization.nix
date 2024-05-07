@@ -15,6 +15,7 @@ in {
     # Docker configuration
     virtualisation.docker.enable = true;
     users.users.martijn.extraGroups = ["docker" "libvirtd" "libvirt"];
+    environment.systemPackages = with pkgs; [quickemu];
 
     # QEMU virtualization
     virtualisation = {

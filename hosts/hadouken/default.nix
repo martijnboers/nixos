@@ -104,9 +104,6 @@
       "udev.log_priority=3"
     ];
     consoleLogLevel = 0;
-    # https://github.com/NixOS/nixpkgs/pull/108294
-    initrd = {
-      verbose = false;
-    };
+    initrd.verbose = false;
   };
 }

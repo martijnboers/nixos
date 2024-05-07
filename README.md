@@ -10,24 +10,19 @@ You could directly use this but it's better to extract the pieces
 you want in your own config. Checkout [nix-starter-config](https://github.com/Misterio77/nix-starter-configs)
 for a good initial starting point for NixOS with flakes. 
 
-> Linux is only free if your time has no value 
-> 
-> -- ___Jamie Zawinski___
 
 ### Fresh installation notes
-- Create ISO: `nix run github:nix-community/nixos-generators -- --flake "/home/martijn/Nix#glassdoor" -f iso`
-- Link flake file to home
 - `sudo ln -s /home/martijn/Nix/flake.nix /etc/nixos/flake.nix`
 - `sudo tailscale up --login-server https://headscale.plebian.nl`
 - Set accent color to wallpaper in KDE
 - `gpg --import private.key`
 - `ssh-add ~/.ssh/id_ed25519`
 
-### Troubleshooting
-#### GPG hangs
-- `rm -rf ~/.gnupg/public-keys.d/*.lock`
 
-#### QMK flashing
-- `qmk compile -kb peej/lumberjack -km martijnboers`
-- `qmk flash -kb peej/lumberjack -km martijnboers`
+### Documentation
+| project | link |
+| ------- | ---- |
+|`quickemo` | https://github.com/quickemu-project/quickemu/wiki/05-Advanced-quickemu-configuration |
+| `nixvim` | https://nix-community.github.io/nixvim/NeovimOptions/index.html |
+| `agenix` | https://github.com/ryantm/agenix/tree/main/doc |
 
