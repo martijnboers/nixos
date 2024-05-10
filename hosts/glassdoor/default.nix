@@ -87,7 +87,10 @@
   hosts.gpg.enable = true;
 
   # Docker + QEMU
-  hosts.virtualization.enable = true;
+  hosts.virtualization = {
+    enable = true;
+    networkInterface = "enp4s0";
+  };
 
   # Bootloader.
   boot = {

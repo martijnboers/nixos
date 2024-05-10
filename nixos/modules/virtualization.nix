@@ -9,6 +9,10 @@ with lib; let
 in {
   options.hosts.virtualization = {
     enable = mkEnableOption "Enable virtualization";
+    networkInterface = mkOption {
+      type = types.str;
+      description = "interface of host";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -22,7 +26,7 @@ in {
 
     # Used by microvm
     systemd.network.networks."10-lan" = {
-      matchConfig.Name = ["enp4s0" "vm-*"];
+      matchConfig.Name = [networkInterface "vm-*"];
       networkConfig = {
         Bridge = "br0";
       };
