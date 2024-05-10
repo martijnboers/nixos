@@ -16,7 +16,6 @@
     ./modules/endlessh.nix
     ./modules/adguard.nix
     ./modules/conduit.nix
-    ./modules/immich.nix
     ./modules/caddy.nix
     ./modules/atuin.nix
     ./modules/pgrok.nix
@@ -57,6 +56,11 @@
       "-a exit,always -F arch=b64 -S execve -k program_run"
     ];
   };
+
+  # try to automatically start these MicroVMs on bootup
+  microvm.autostart = [
+    "shoryuken"
+  ];
 
   services.wazuh = {
     agent = {
