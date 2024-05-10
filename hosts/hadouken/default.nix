@@ -7,7 +7,6 @@
   networking.hostName = "hadouken";
 
   imports = [
-    ./modules/wazuh/wazuh.nix
     ./modules/vaultwarden.nix
     ./modules/monitoring.nix
     ./modules/nextcloud.nix
