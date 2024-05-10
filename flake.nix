@@ -33,6 +33,10 @@
       url = "github:Mic92/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Declare vms declarative
+    microvm.url = "github:astro/microvm.nix";
+    microvm.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
@@ -42,6 +46,7 @@
     agenix,
     nix-index-database,
     nix-alien,
+    microvm,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -82,6 +87,8 @@
               home-manager.users.martijn = import homeconfig;
               home-manager.extraSpecialArgs = {inherit inputs outputs system;};
             }
+            # Declarative vm config
+            microvm.nixosModules.host
           ];
         };
   in {
@@ -106,6 +113,14 @@
 
     nixosConfigurations.testbed = mkSystem "testbed" {
       system = "x86_64-linux";
+    };
+
+    nixosConfigurations.shoryuken = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        microvm.nixosModules.microvm
+        ./hosts/shoryuken
+      ];
     };
   };
 }

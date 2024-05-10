@@ -24,6 +24,12 @@ in {
         plugins = ["github.com/caddy-dns/cloudflare"];
       };
 
+      globalConfig = ''
+        servers {
+           metrics
+        }
+      '';
+
       virtualHosts."plebian.nl".extraConfig = ''
         root * ${plebianRepo}/
         encode zstd gzip
@@ -38,7 +44,7 @@ in {
       virtualHosts."whichmarket.online".extraConfig = ''
         respond "👷🏻‍♂️"
       '';
-      services.caddy.virtualHosts."immich.thuis.plebian.nl".extraConfig = ''
+      virtualHosts."immich.thuis.plebian.nl".extraConfig = ''
         tls internal
         @internal {
           remote_ip 100.64.0.0/10
@@ -47,11 +53,6 @@ in {
           reverse_proxy http://todo:3030
         }
         respond 403
-      '';
-      globalConfig = ''
-        servers {
-           metrics
-        }
       '';
     };
 
