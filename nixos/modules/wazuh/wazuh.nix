@@ -1,13 +1,19 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
   wazuhUser = "wazuh";
   wazuhGroup = wazuhUser;
   stateDir = "/var/ossec";
   cfg = config.services.wazuh;
   pkg = config.services.wazuh.package;
-  generatedConfig = import ./agent.nix { cfg = config.services.wazuh; pkgs = pkgs; };
+  generatedConfig = import ./agent.nix {
+    cfg = config.services.wazuh;
+    pkgs = pkgs;
+  };
   rsyncPath = "${pkgs.rsync}/bin";
 in {
   options = {
@@ -39,10 +45,10 @@ in {
           '';
           default = "";
           example = ''
-          <!-- The added ossec_config root tag is required -->
-          <ossec_config>
-            <!-- Extra configuration options as needed -->
-          </ossec_config>
+            <!-- The added ossec_config root tag is required -->
+            <ossec_config>
+              <!-- Extra configuration options as needed -->
+            </ossec_config>
           '';
         };
       };
@@ -52,18 +58,18 @@ in {
         defaultText = literalExpression "pkgs.wazuh";
         type = types.package;
         description = ''
-        The Wazuh package to use.
+          The Wazuh package to use.
         '';
       };
     };
   };
 
-  config = mkIf ( cfg.agent.enable ) {
-    environment.systemPackages = [ pkg ];
+  config = mkIf (cfg.agent.enable) {
+    environment.systemPackages = [pkg];
 
     assertions = [
       {
-        assertion = !( cfg.agent.managerIP == "" );
+        assertion = !(cfg.agent.managerIP == "");
         message = "services.wazuh.agent.managerIP must be set";
       }
       {
@@ -72,7 +78,7 @@ in {
       }
     ];
 
-    users.users.${ wazuhUser } = {
+    users.users.${wazuhUser} = {
       group = wazuhGroup;
       description = "Wazuh daemon user";
       home = stateDir;
@@ -80,7 +86,7 @@ in {
       isSystemUser = true;
     };
 
-    users.groups.${ wazuhGroup } = {
+    users.groups.${wazuhGroup} = {
       name = wazuhUser;
     };
 
@@ -93,9 +99,9 @@ in {
         "/run/current-system/sw"
       ];
       description = "Wazuh agent";
-      wants = [ "network-online.target" ];
-      after = [ "network.target" "network-online.target" ];
-      wantedBy = [ "multi-user.target" ];
+      wants = ["network-online.target"];
+      after = ["network.target" "network-online.target"];
+      wantedBy = ["multi-user.target"];
 
       preStart = ''
         rsync -av --exclude '/etc/client.keys' --exclude '/logs/' ${pkg}/ ${stateDir}/

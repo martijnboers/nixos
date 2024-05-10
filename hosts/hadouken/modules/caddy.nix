@@ -38,6 +38,16 @@ in {
       virtualHosts."whichmarket.online".extraConfig = ''
         respond "👷🏻‍♂️"
       '';
+      services.caddy.virtualHosts."immich.thuis.plebian.nl".extraConfig = ''
+        tls internal
+        @internal {
+          remote_ip 100.64.0.0/10
+        }
+        handle @internal {
+          reverse_proxy http://todo:3030
+        }
+        respond 403
+      '';
       globalConfig = ''
         servers {
            metrics
