@@ -26,7 +26,7 @@ in {
 
     # Used by microvm
     systemd.network.networks."10-lan" = {
-      matchConfig.Name = [networkInterface "vm-*"];
+      matchConfig.Name = [cfg.networkInterface "vm-*"];
       networkConfig = {
         Bridge = "br0";
       };
