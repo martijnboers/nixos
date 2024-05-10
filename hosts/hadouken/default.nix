@@ -7,6 +7,7 @@
   networking.hostName = "hadouken";
 
   imports = [
+    ./modules/wazuh/wazuh.nix
     ./modules/vaultwarden.nix
     ./modules/monitoring.nix
     ./modules/nextcloud.nix
@@ -57,6 +58,13 @@
       "-w /home/martijn/Nix -p rwa -k nix_config_changes"
       "-a exit,always -F arch=b64 -S execve -k program_run"
     ];
+  };
+
+  services.wazuh = {
+    agent = {
+        enable = true;
+        managerIP = "100.64.0.2";
+    };
   };
 
   hosts.resilio = {

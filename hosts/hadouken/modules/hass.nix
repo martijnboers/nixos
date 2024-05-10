@@ -22,7 +22,7 @@ in {
          }
       respond 403
     '';
-    services.borgbackup.jobs.default.paths = ["${config.services.home-assistant.configDir}"];
+    services.borgbackup.jobs.default.paths = [config.services.home-assistant.configDir];
     services.home-assistant = {
       enable = true;
       extraComponents = [

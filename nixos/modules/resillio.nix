@@ -31,7 +31,7 @@ in {
       enableWebUI = true;
       httpLogin = "admin";
       httpPass = "admin";
-      httpListenAddr = "${cfg.ipaddress}";
+      httpListenAddr = toString cfg.ipaddress;
       listeningPort = 36612;
     };
   };
