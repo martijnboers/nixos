@@ -64,7 +64,7 @@
 
   services.wazuh = {
     agent = {
-      enable = true;
+      enable = false;
       managerIP = "100.64.0.2";
     };
   };
@@ -84,7 +84,10 @@
   hosts.atuin.enable = true;
 
   # Docker + QEMU
-  hosts.virtualization.enable = true;
+  hosts.virtualization = {
+    enable = true;
+    networkInterface = "enp114s0";
+  };
 
   # Needed for exit node headscale
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
