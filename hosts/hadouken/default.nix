@@ -40,14 +40,13 @@
   hosts.endlessh.enable = true;
   hosts.conduit.enable = true;
 
-  hosts.immich.enable = false;
-
   # First load headscale on host
   systemd.services.sshd.after = ["headscale.target"];
 
   hosts.borg = {
     enable = true;
     repository = "ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo";
+    paths = ["/mnt/garage/Pictures"];
   };
 
   hosts.auditd = {
@@ -61,8 +60,8 @@
 
   services.wazuh = {
     agent = {
-        enable = true;
-        managerIP = "100.64.0.2";
+      enable = true;
+      managerIP = "100.64.0.2";
     };
   };
 

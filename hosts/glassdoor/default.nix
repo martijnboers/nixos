@@ -45,8 +45,8 @@
 
   services.wazuh = {
     agent = {
-        enable = true;
-        managerIP = "100.64.0.4";
+      enable = true;
+      managerIP = "100.64.0.4";
     };
   };
 
