@@ -13,6 +13,7 @@
     ./modules/headscale.nix
     ./modules/cyberchef.nix
     ./modules/keycloak.nix
+    ./modules/mastodon.nix
     ./modules/endlessh.nix
     ./modules/adguard.nix
     ./modules/conduit.nix
@@ -38,6 +39,7 @@
   hosts.monitoring.enable = true;
   hosts.endlessh.enable = true;
   hosts.conduit.enable = true;
+  hosts.mastodon.enable = true;
 
   # First load headscale on host
   systemd.services.sshd.after = ["headscale.target"];
