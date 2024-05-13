@@ -43,6 +43,7 @@
 
   # First load headscale on host
   systemd.services.sshd.after = ["headscale.target"];
+  systemd.services.resilio.after = ["headscale.target"];
 
   hosts.borg = {
     enable = true;

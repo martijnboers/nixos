@@ -12,7 +12,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."social.plebian.nl".extraConfig = ''
+    services.caddy.virtualHosts."noisesfrom.space".extraConfig = ''
       handle_path /system/* {
            file_server * {
                root /var/lib/mastodon/public-system
@@ -63,7 +63,7 @@ in {
     services.mastodon = {
       enable = true;
       streamingProcesses = 2;
-      localDomain = "social.plebian.nl";
+      localDomain = "noisesfrom.space";
       configureNginx = false;
       smtp.fromAddress = "noreply@plebian.nl";
       extraConfig.SINGLE_USER_MODE = "true";
