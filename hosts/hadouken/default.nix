@@ -57,11 +57,6 @@
     ];
   };
 
-  # try to automatically start these MicroVMs on bootup
-  microvm.autostart = [
-    "shoryuken"
-  ];
-
   services.wazuh = {
     agent = {
       enable = false;
@@ -84,10 +79,7 @@
   hosts.atuin.enable = true;
 
   # Docker + QEMU
-  hosts.virtualization = {
-    enable = true;
-    networkInterface = "enp114s0";
-  };
+  hosts.virtualization.enable = true;
 
   # Needed for exit node headscale
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
