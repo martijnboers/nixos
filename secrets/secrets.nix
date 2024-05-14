@@ -20,4 +20,5 @@ in {
   "geoip.age".publicKeys = hadoukens;
   "immich.age".publicKeys = hadoukens;
   "adguard.age".publicKeys = hadoukens;
+  "fedifetcher.age".publicKeys = hadoukens;
 }
