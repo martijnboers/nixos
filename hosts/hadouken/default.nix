@@ -44,8 +44,8 @@
   hosts.fedifetcher.enable = true;
 
   # First load headscale on host
-  systemd.services.sshd.after = ["headscale.target"];
-  systemd.services.resilio.after = ["headscale.target"];
+  systemd.services.sshd.after = ["tailscaled.target"];
+  systemd.services.resilio.after = ["tailscaled.target"];
 
   hosts.borg = {
     enable = true;
