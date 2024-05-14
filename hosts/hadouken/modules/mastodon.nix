@@ -68,5 +68,23 @@ in {
       smtp.fromAddress = "noreply@plebian.nl";
       extraConfig.SINGLE_USER_MODE = "true";
     };
+
+    # Backfill comments automaticly
+    age.secrets.fedifetcher.file = ../../../secrets/fedifetcher.age;
+
+    systemd.services.fedifetcher = {
+      description = "FediFetcher";
+      wants = ["mastodon-web.service" "mastodon-wait-for-available.service"];
+      after = ["mastodon-web.service" "mastodon-wait-for-available.service"];
+      startAt = "*:0/20";
+
+      serviceConfig = {
+        Type = "oneshot";
+        DynamicUser = true;
+        StateDirectory = "fedifetcher";
+        LoadCredential = "config.json:${config.age.secrets.fedifetcher.path}";
+        ExecStart = "${lib.getExe pkgs.fedifetcher} --state-dir=/var/lib/fedifetcher --config=%d/config.json";
+      };
+    };
   };
 }
