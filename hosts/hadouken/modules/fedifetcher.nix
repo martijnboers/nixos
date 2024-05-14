@@ -25,7 +25,7 @@ in {
         DynamicUser = true;
         StateDirectory = "fedifetcher";
         LoadCredential = "config.json:${config.age.secrets.fedifetcher.path}";
-        ExecStart = "${lib.getExe pkgs.fedifetcher} --config=%d/config.json";
+        ExecStart = "${lib.getExe pkgs.fedifetcher} --state-dir=/var/lib/fedifetcher --config=%d/config.json";
       };
     };
   };
