@@ -8,7 +8,6 @@
 
   imports = [
     ./modules/vaultwarden.nix
-    ./modules/fedifetcher.nix
     ./modules/monitoring.nix
     ./modules/nextcloud.nix
     ./modules/headscale.nix
@@ -41,7 +40,6 @@
   hosts.endlessh.enable = true;
   hosts.conduit.enable = true;
   hosts.mastodon.enable = true;
-  hosts.fedifetcher.enable = true;
 
   # First load headscale on host
   systemd.services.sshd.after = ["tailscaled.target"];
