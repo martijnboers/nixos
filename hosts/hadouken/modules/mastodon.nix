@@ -62,7 +62,7 @@ in {
 
     services.mastodon = {
       enable = true;
-      streamingProcesses = 2;
+      streamingProcesses = 7;
       localDomain = "noisesfrom.space";
       configureNginx = false;
       smtp.fromAddress = "noreply@plebian.nl";
