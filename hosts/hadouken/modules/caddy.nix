@@ -36,7 +36,7 @@ in {
         file_server
       '';
       virtualHosts."doornappel.nl".extraConfig = ''
-        respond "🍎"
+        respond "ok" 200
       '';
       virtualHosts."whichmarket.online".extraConfig = ''
         respond "👷🏻‍♂️"
