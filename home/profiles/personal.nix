@@ -18,11 +18,11 @@ in {
       wine
       qmk
       qflipper
-      minecraft
 
       # messaging
       signal-desktop
       telegram-desktop
+      unstable.gossip # nostr client
     ];
   };
 }
