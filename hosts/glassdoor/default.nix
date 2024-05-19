@@ -43,13 +43,6 @@
   services.xserver.videoDrivers = ["amdgpu"];
   services.flatpak.enable = true;
 
-  services.wazuh = {
-    agent = {
-      enable = true;
-      managerIP = "100.64.0.4";
-    };
-  };
-
   hosts.auditd = {
     enable = true;
     rules = [
