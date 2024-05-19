@@ -60,13 +60,6 @@
     ];
   };
 
-  services.wazuh = {
-    agent = {
-      enable = false;
-      managerIP = "100.64.0.2";
-    };
-  };
-
   hosts.resilio = {
     enable = true;
     name = "hadouken";

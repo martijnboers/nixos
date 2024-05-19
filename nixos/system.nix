@@ -6,7 +6,6 @@
 }: {
   imports = [
     ./modules/virtualization.nix
-    ./modules/wazuh/wazuh.nix
     ./modules/tailscale.nix
     ./modules/resillio.nix
     ./modules/secrets.nix
