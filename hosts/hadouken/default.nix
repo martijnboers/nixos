@@ -71,6 +71,31 @@
     ipaddress = "100.64.0.2";
   };
 
+  services.fail2ban = {
+    enable = true;
+    ignoreIP = ["192.168.1.0/16"];
+    jails = {
+      caddy-status = {
+        settings = {
+          enabled = true;
+          port = "http,https";
+          filter = "caddy-status";
+          logpath = "/var/log/caddy/*.access.log";
+          maxretry = 10;
+        };
+      };
+    };
+  };
+
+  environment.etc = {
+    "fail2ban/filter.d/caddy-status.conf".text = ''
+      [Definition]
+      failregex = ^.*"remote_ip":"<HOST>",.*?"status":(?:401|403|500),.*$
+      ignoreregex =
+      datepattern = LongEpoch
+    '';
+  };
+
   # Sync zsh history
   hosts.atuin.enable = true;
 
