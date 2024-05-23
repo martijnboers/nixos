@@ -16,7 +16,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.fail2ban.enable = true;
     services.openssh = {
       enable = true;
       ports = [22];
@@ -26,6 +25,7 @@ in {
         PermitRootLogin = "no";
         ListenAddress = cfg.ipaddress;
         AllowUsers = ["*@100.64.0.0/10"];
+        LogLevel = "VERBOSE";
       };
       openFirewall = true;
       hostKeys = [

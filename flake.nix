@@ -33,6 +33,12 @@
       url = "github:Mic92/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Crowdsourced IDS
+    crowdsec = {
+      url = "git+https://codeberg.org/kampka/nix-flake-crowdsec.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -42,6 +48,7 @@
     agenix,
     nix-index-database,
     nix-alien,
+    crowdsec,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -49,13 +56,12 @@
       "x86_64-linux"
       "aarch64-linux"
     ];
-    # This is a function that generates an attribute by calling a function you
-    # pass to it, with each system as an argument
     forAllSystems = nixpkgs.lib.genAttrs systems;
 
-    # Abstract generating system code here
-    mkSystem = name: {system}: let
-      # The config files for this system.
+    mkSystem = name: {
+      system,
+      extraModules ? [],
+    }: let
       systemconfig = ./hosts/${name}/default.nix;
       hardwareconfig = ./hosts/${name}/hardware.nix;
       homeconfig = ./hosts/${name}/home.nix;
@@ -63,26 +69,29 @@
       with nixpkgs.lib;
         nixosSystem {
           specialArgs = {inherit inputs outputs;};
-          modules = [
-            systemconfig
-            hardwareconfig
+          extraModules = extraModules;
+          modules =
+            [
+              systemconfig
+              hardwareconfig
 
-            # Base NixOS configuration
-            ./nixos/system.nix
+              # Base NixOS configuration
+              ./nixos/system.nix
 
-            # Secret management
-            agenix.nixosModules.default
-            {
-              environment.systemPackages = [agenix.packages.${system}.default];
-            }
+              # Secret management
+              agenix.nixosModules.default
+              {
+                environment.systemPackages = [agenix.packages.${system}.default];
+              }
 
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useUserPackages = true;
-              home-manager.users.martijn = import homeconfig;
-              home-manager.extraSpecialArgs = {inherit inputs outputs system;};
-            }
-          ];
+              home-manager.nixosModules.home-manager
+              {
+                home-manager.useUserPackages = true;
+                home-manager.users.martijn = import homeconfig;
+                home-manager.extraSpecialArgs = {inherit inputs outputs system;};
+              }
+            ]
+            ++ extraModules;
         };
   in {
     # Custom packages, accessible through 'nix build', 'nix shell', etc
@@ -98,6 +107,17 @@
 
     nixosConfigurations.hadouken = mkSystem "hadouken" {
       system = "x86_64-linux";
+      extraModules = [
+#        crowdsec.nixosModules.crowdsec
+#        # For the bouncer
+#        ({
+#          pkgs,
+#          lib,
+#          ...
+#        }: {
+#          nixpkgs.overlays = [crowdsec.overlays.default];
+#        })
+      ];
     };
 
     nixosConfigurations.lapdance = mkSystem "lapdance" {
