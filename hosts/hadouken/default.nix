@@ -80,7 +80,8 @@
           enabled = true;
           port = "http,https";
           filter = "caddy-status";
-          logpath = "/var/log/caddy/*.access.log";
+          logpath = "/var/log/caddy/access-*.log";
+          exclude = "/var/log/caddy/access-doornappel.nl.log";
           maxretry = 10;
         };
       };
