@@ -42,11 +42,26 @@
   hosts.mastodon.enable = true;
 
   # Right order of headscale operations for startup
-  systemd.services.headscale.after = ["keycloak.target"];
-  systemd.services.tailscaled.after = ["headscale.target"];
-  systemd.services.sshd.after = ["tailscaled.target"];
-  systemd.services.resilio.after = ["tailscaled.target"];
-  systemd.services.loki.after = ["tailscaled.target"];
+  systemd.services.headscale = {
+    after = ["keycloak.service"];
+    requires = ["keycloak.service"];
+  };
+  systemd.services.tailscaled = {
+    after = ["headscale.service"];
+    requires = ["headscale.service"];
+  };
+  systemd.services.sshd = {
+    after = ["tailscaled.service"];
+    requires = ["tailscaled.service"];
+  };
+  systemd.services.resilio = {
+    after = ["tailscaled.service"];
+    requires = ["tailscaled.service"];
+  };
+  systemd.services.loki = {
+    after = ["tailscaled.service"];
+    requires = ["tailscaled.service"];
+  };
 
   hosts.borg = {
     enable = true;
