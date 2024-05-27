@@ -41,7 +41,8 @@
   hosts.conduit.enable = true;
   hosts.mastodon.enable = true;
 
-  # First load headscale on host
+  # Right order of headscale operations for startup
+  systemd.services.headscale.after = ["keycloak.target"];
   systemd.services.tailscaled.after = ["headscale.target"];
   systemd.services.sshd.after = ["tailscaled.target"];
   systemd.services.resilio.after = ["tailscaled.target"];
