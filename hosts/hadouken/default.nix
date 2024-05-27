@@ -3,7 +3,11 @@
   pkgs,
   config,
   ...
-}: {
+}: let
+  defaultRestart = {
+    RestartSec = 10;
+  };
+in {
   networking.hostName = "hadouken";
 
   imports = [
@@ -15,6 +19,7 @@
     ./modules/keycloak.nix
     ./modules/mastodon.nix
     ./modules/endlessh.nix
+    ./modules/fail2ban.nix
     ./modules/adguard.nix
     ./modules/conduit.nix
     ./modules/caddy.nix
@@ -40,6 +45,7 @@
   hosts.endlessh.enable = true;
   hosts.conduit.enable = true;
   hosts.mastodon.enable = true;
+  hosts.fail2ban.enable = true;
 
   # Right order of headscale operations for startup
   systemd.services.headscale = {
@@ -47,36 +53,29 @@
     requires = ["keycloak.service"];
     startLimitBurst = 10;
     startLimitIntervalSec = 600;
-    serviceConfig = {
-      RestartSec = 10;
-    };
+    serviceConfig = defaultRestart;
   };
   systemd.services.tailscaled = {
     after = ["headscale.service"];
     requires = ["headscale.service"];
     startLimitBurst = 10;
     startLimitIntervalSec = 600;
-    serviceConfig = {
-      RestartSec = 10;
-    };
+    serviceConfig = defaultRestart;
   };
   systemd.services.sshd = {
     after = ["tailscaled.service"];
     requires = ["tailscaled.service"];
-    serviceConfig = {
-      RestartSec = 10;
-    };
+    serviceConfig = defaultRestart;
   };
   systemd.services.resilio = {
     after = ["tailscaled.service"];
     requires = ["tailscaled.service"];
-    serviceConfig = {
-      RestartSec = 10;
-    };
+    serviceConfig = defaultRestart;
   };
   systemd.services.loki = {
     after = ["tailscaled.service"];
     requires = ["tailscaled.service"];
+    serviceConfig = defaultRestart;
   };
 
   hosts.borg = {
@@ -103,32 +102,6 @@
   hosts.openssh = {
     enable = true;
     ipaddress = "100.64.0.2";
-  };
-
-  services.fail2ban = {
-    enable = true;
-    ignoreIP = ["192.168.1.0/16"];
-    jails = {
-      caddy-status = {
-        settings = {
-          enabled = true;
-          port = "http,https";
-          filter = "caddy-status";
-          logpath = "/var/log/caddy/access-*.log";
-          exclude = "/var/log/caddy/access-doornappel.nl.log";
-          maxretry = 10;
-        };
-      };
-    };
-  };
-
-  environment.etc = {
-    "fail2ban/filter.d/caddy-status.conf".text = ''
-      [Definition]
-      failregex = ^.*"remote_ip":"<HOST>",.*?"status":(?:401|403|500),.*$
-      ignoreregex =
-      datepattern = LongEpoch
-    '';
   };
 
   # Sync zsh history
