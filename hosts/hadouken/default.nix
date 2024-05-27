@@ -63,10 +63,16 @@
   systemd.services.sshd = {
     after = ["tailscaled.service"];
     requires = ["tailscaled.service"];
+    serviceConfig = {
+      RestartSec = 10;
+    };
   };
   systemd.services.resilio = {
     after = ["tailscaled.service"];
     requires = ["tailscaled.service"];
+    serviceConfig = {
+      RestartSec = 10;
+    };
   };
   systemd.services.loki = {
     after = ["tailscaled.service"];
