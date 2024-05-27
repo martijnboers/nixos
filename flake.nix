@@ -108,15 +108,15 @@
     nixosConfigurations.hadouken = mkSystem "hadouken" {
       system = "x86_64-linux";
       extraModules = [
-#        crowdsec.nixosModules.crowdsec
-#        # For the bouncer
-#        ({
-#          pkgs,
-#          lib,
-#          ...
-#        }: {
-#          nixpkgs.overlays = [crowdsec.overlays.default];
-#        })
+        #        crowdsec.nixosModules.crowdsec
+        #        # For the bouncer
+        #        ({
+        #          pkgs,
+        #          lib,
+        #          ...
+        #        }: {
+        #          nixpkgs.overlays = [crowdsec.overlays.default];
+        #        })
       ];
     };
 
