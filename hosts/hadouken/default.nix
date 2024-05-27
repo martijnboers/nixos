@@ -45,10 +45,20 @@
   systemd.services.headscale = {
     after = ["keycloak.service"];
     requires = ["keycloak.service"];
+    startLimitBurst = 10;
+    startLimitIntervalSec = 600;
+    serviceConfig = {
+      RestartSec = 10;
+    };
   };
   systemd.services.tailscaled = {
     after = ["headscale.service"];
     requires = ["headscale.service"];
+    startLimitBurst = 10;
+    startLimitIntervalSec = 600;
+    serviceConfig = {
+      RestartSec = 10;
+    };
   };
   systemd.services.sshd = {
     after = ["tailscaled.service"];
