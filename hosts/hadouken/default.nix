@@ -42,8 +42,10 @@
   hosts.mastodon.enable = true;
 
   # First load headscale on host
+  systemd.services.tailscaled.after = ["headscale.target"];
   systemd.services.sshd.after = ["tailscaled.target"];
   systemd.services.resilio.after = ["tailscaled.target"];
+  systemd.services.loki.after = ["tailscaled.target"];
 
   hosts.borg = {
     enable = true;
