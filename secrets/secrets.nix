@@ -21,4 +21,5 @@ in {
   "immich.age".publicKeys = hadoukens;
   "adguard.age".publicKeys = hadoukens;
   "fedifetcher.age".publicKeys = hadoukens;
+  "email.age".publicKeys = hadoukens;
 }
