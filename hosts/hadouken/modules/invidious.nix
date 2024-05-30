@@ -39,11 +39,16 @@ in {
       enable = true;
       domain = "videos.thuis.plebian.nl";
       port = 4558;
+
       database.passwordFile = config.age.secrets.invidious.path;
       database.createLocally = true;
       settings = {
         admins = ["martijn"];
         quality = "dash";
+        https_only = true;
+        external_port = 443;
+        registration_enabled = false;
+        captcha_enabled = false;
         quality_dash = "best";
         db = {
           user = "invidious";
