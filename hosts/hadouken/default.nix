@@ -9,7 +9,6 @@
   };
 in {
   networking.hostName = "hadouken";
-  networking.hostId = "hadouken";
 
   imports = [
     ./modules/vaultwarden.nix
