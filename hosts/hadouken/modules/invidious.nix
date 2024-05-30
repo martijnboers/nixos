@@ -24,10 +24,6 @@ in {
     '';
 
     age.secrets = {
-      hmac = {
-        file = ../../../secrets/hmac.age;
-        mode = "0644";
-      };
       invidious = {
         file = ../../../secrets/invidious.age;
         mode = "444";
@@ -43,7 +39,6 @@ in {
       enable = true;
       domain = "videos.thuis.plebian.nl";
       database.passwordFile = config.age.secrets.invidious.path;
-      hmacKeyFile = config.age.secrets.hmac.path;
       database.createLocally = true;
       settings = {
         admins = ["martijn"];

@@ -21,6 +21,5 @@ in {
   "immich.age".publicKeys = hadoukens;
   "adguard.age".publicKeys = hadoukens;
   "fedifetcher.age".publicKeys = hadoukens;
-  "hmac.age".publicKeys = hadoukens;
   "invidious.age".publicKeys = hadoukens;
 }
