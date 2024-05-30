@@ -30,7 +30,7 @@ in {
       };
       invidious = {
         file = ../../../secrets/invidious.age;
-        owner = "invidious";
+        mode = "444";
       };
     };
 
@@ -47,14 +47,13 @@ in {
       database.createLocally = true;
       settings = {
         admins = ["martijn"];
-        external_port = 80;
-        use_quic = true;
-        channel_threads = 2;
-        use_pubsub_feeds = true;
-        https_only = false;
-        popular_enabled = false;
+        external_port = 443;
         quality = "dash";
         quality_dash = "best";
+        db = {
+          user = "invidious";
+          dbname = "invidious";
+        };
       };
     };
   };
