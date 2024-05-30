@@ -84,11 +84,6 @@ in {
                 type = "A";
                 value = hadoukenIp;
               }
-              {
-                name = "videos.thuis.plebian.nl";
-                type = "A";
-                value = hadoukenIp;
-              }
             ];
           };
           prefixes = {
