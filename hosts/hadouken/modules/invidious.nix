@@ -24,8 +24,14 @@ in {
     '';
 
     age.secrets = {
-      hmac.file = ../../../secrets/hmac.age;
-      invidious.file = ../../../secrets/invidious.age;
+      hmac = {
+        file = ../../../secrets/hmac.age;
+        owner = "invidious";
+      };
+      invidious = {
+        file = ../../../secrets/invidious.age;
+        owner = "invidious";
+      };
     };
 
     services.postgresqlBackup = {
