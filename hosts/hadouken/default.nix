@@ -85,7 +85,6 @@ in {
   };
 
   services.zfs = {
-    enabled = true;
     autoScrub.enable = true;
     autoSnapshot.enable = true;
   };
@@ -132,6 +131,8 @@ in {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
+
+    zfs.enabled = true;
 
     # Silent Boot
     # https://wiki.archlinux.org/title/Silent_boot
