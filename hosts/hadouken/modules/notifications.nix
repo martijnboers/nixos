@@ -45,8 +45,8 @@ systemd.services.hydroxide = {
         default = {
           host = "localhost";
           passwordeval = "cat ${toString config.age.secrets.email.path}";
-          user = "martijn@plebian.nl";
-          from = "martijn@plebian.nl";
+          user = "monitoring@plebian.nl";
+          from = "monitoring@plebian.nl";
         };
       };
     };
