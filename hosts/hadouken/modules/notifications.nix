@@ -16,14 +16,18 @@ in {
     # hydroxide auth <username>
     environment.systemPackages = with pkgs; [hydroxide];
 
-    systemd.services.hydroxide = {
-      description = "hydroxide";
+systemd.services.hydroxide = {
+    enable = true;
+    wantedBy = ["multi-user.target"];
+    description = "A third-party, open-source ProtonMail bridge";
 
-      serviceConfig = {
-        DynamicUser = true;
-        ExecStart = "${lib.getExe pkgs.hydroxide} smtp";
-      };
+    serviceConfig = {
+      User = "notoh";
+      ExecStart = "${pkgs.hydroxide}/bin/hydroxide -disable-carddav smtp";
+      Restart = "always";
+      RestartSec = 30;
     };
+  };
 
     age.secrets.email.file = ../../../secrets/email.age;
 
