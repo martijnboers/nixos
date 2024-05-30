@@ -24,7 +24,7 @@ in {
     '';
 
     age.secrets = {
-      hmace.file = ../../../secrets/hmace.age;
+      hmac.file = ../../../secrets/hmac.age;
       invidious.file = ../../../secrets/invidious.age;
     };
 
