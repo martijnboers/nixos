@@ -37,7 +37,7 @@ in {
 
     services.invidious = {
       enable = true;
-      domaine = "videos.thuis.plebian.nl";
+      domain = "videos.thuis.plebian.nl";
       passwordFile = config.age.secrets.invidious.path;
       hmacKeyFile = config.age.secrets.hmac.path;
     };
