@@ -37,7 +37,7 @@ in {
       '';
       shares = {
         public = {
-          path = "/mnt/garage";
+          path = "/mnt/zwembad/music";
           browseable = "yes";
           "read only" = "no";
           "guest ok" = "no";
