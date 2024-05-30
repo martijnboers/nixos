@@ -33,8 +33,6 @@ in {
       databases = ["invidious"];
     };
 
-    services.borgbackup.jobs.default.paths = [config.services.postgresqlBackup.location];
-
     services.invidious = {
       enable = true;
       domain = "videos.thuis.plebian.nl";
