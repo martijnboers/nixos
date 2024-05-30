@@ -16,6 +16,7 @@ in {
     ./modules/nextcloud.nix
     ./modules/headscale.nix
     ./modules/cyberchef.nix
+    ./modules/invidious.nix
     ./modules/keycloak.nix
     ./modules/mastodon.nix
     ./modules/endlessh.nix
@@ -46,6 +47,7 @@ in {
   hosts.conduit.enable = true;
   hosts.mastodon.enable = true;
   hosts.fail2ban.enable = true;
+  hosts.invidious.enable = true;
 
   # Right order of headscale operations for startup
   systemd.services.headscale = {
