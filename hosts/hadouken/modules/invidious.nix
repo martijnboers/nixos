@@ -38,6 +38,7 @@ in {
     services.invidious = {
       enable = true;
       domain = "videos.thuis.plebian.nl";
+      port = 4558;
       database.passwordFile = config.age.secrets.invidious.path;
       database.createLocally = true;
       settings = {
