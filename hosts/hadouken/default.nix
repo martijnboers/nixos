@@ -84,6 +84,12 @@ in {
     paths = ["/mnt/garage/Pictures"];
   };
 
+  services.zfs = {
+    enable = true;
+    autoScrub.enable = true;
+    autoSnapshot.enable = true;
+  };
+
   hosts.auditd = {
     enable = true;
     rules = [
