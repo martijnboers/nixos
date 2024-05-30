@@ -24,6 +24,7 @@ in {
       obsidian
       vlc
       cinny-desktop # matrix client
+      kooha # record screen wayland
 
       # music
       clementine
