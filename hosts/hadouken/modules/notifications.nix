@@ -45,7 +45,7 @@ in {
       accounts = {
         default = {
           host = "localhost";
-          passwordeval = "cat ${toString config.age.secrets.caddy.path}";
+          passwordeval = "cat ${toString config.age.secrets.email.path}";
           user = "monitoring@plebian.nl";
           from = "monitoring@plebian.nl";
         };
