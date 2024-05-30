@@ -40,10 +40,6 @@ systemd.services.hydroxide = {
       defaults = {
         aliases = "/etc/aliases";
         port = 1025;
-        tls_trust_file = "/etc/ssl/certs/ca-certificates.crt";
-        tls = "on";
-        auth = "login";
-        tls_starttls = "off";
       };
       accounts = {
         default = {
