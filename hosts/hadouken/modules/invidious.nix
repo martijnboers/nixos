@@ -47,7 +47,6 @@ in {
       database.createLocally = true;
       settings = {
         admins = ["martijn"];
-        external_port = 443;
         quality = "dash";
         quality_dash = "best";
         db = {
