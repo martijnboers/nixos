@@ -22,7 +22,6 @@ systemd.services.hydroxide = {
     description = "A third-party, open-source ProtonMail bridge";
 
     serviceConfig = {
-      User = "notoh";
       ExecStart = "${pkgs.hydroxide}/bin/hydroxide -disable-carddav smtp";
       Restart = "always";
       RestartSec = 30;
