@@ -41,7 +41,7 @@ in {
       environment.BORG_RSH = "ssh -o 'StrictHostKeyChecking=no' -i ${cfg.identityPath}";
       repo = cfg.repository;
       compression = "auto,zstd";
-      startAt = "daily";
+      startAt = "12:30";
       user = "root";
       exclude = cfg.exclude;
     };
