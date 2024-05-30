@@ -133,10 +133,12 @@ in {
       efi.canTouchEfiVariables = true;
     };
 
-    supportedFilesystems = [ "zfs" ];
-    zfs.forceImportRoot = false;
+    supportedFilesystems = ["zfs"];
+    zfs = {
+      forceImportRoot = false;
+      extraPools = ["zwembad"];
+    };
     kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-    # zfs.extraPools = [ "tank" ];
 
     # Silent Boot
     # https://wiki.archlinux.org/title/Silent_boot

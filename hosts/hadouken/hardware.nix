@@ -37,21 +37,19 @@
     {device = "/dev/disk/by-uuid/416601b3-23c4-4169-9d99-37bae9898e66";}
   ];
 
-  # ZFS pool
-  fileSystems."/mnt/zwembad/music" =
-    { device = "zpool/music";
-      fsType = "zfs";
-    };
-
-  fileSystems."/mnt/zwembad/hot" =
-    { device = "zpool/hot";
-      fsType = "zfs";
-    };
-
-  fileSystems."/mnt/zwembad/app" =
-    { device = "zpool/app";
-      fsType = "zfs";
-    };
+  # ZFS datasets
+  fileSystems."/mnt/zwembad/music" = {
+    device = "zwembad/music";
+    fsType = "zfs";
+  };
+  fileSystems."/mnt/zwembad/hot" = {
+    device = "zwembad/hot";
+    fsType = "zfs";
+  };
+  fileSystems."/mnt/zwembad/app" = {
+    device = "zwembad/app";
+    fsType = "zfs";
+  };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
