@@ -36,7 +36,7 @@ in {
       setSendmail = true;
       defaults = {
         aliases = "/etc/aliases";
-        port = 465;
+        port = 1025;
         tls_trust_file = "/etc/ssl/certs/ca-certificates.crt";
         tls = "on";
         auth = "login";
@@ -45,7 +45,6 @@ in {
       accounts = {
         default = {
           host = "localhost";
-          port = 1025;
           passwordeval = "cat ${toString config.age.secrets.caddy.path}";
           user = "monitoring@plebian.nl";
           from = "monitoring@plebian.nl";
