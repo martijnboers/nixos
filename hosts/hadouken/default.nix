@@ -132,8 +132,6 @@ in {
       efi.canTouchEfiVariables = true;
     };
 
-    zfs.enabled = true;
-
     # Silent Boot
     # https://wiki.archlinux.org/title/Silent_boot
     kernelParams = [
