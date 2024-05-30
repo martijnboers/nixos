@@ -9,6 +9,7 @@
   };
 in {
   networking.hostName = "hadouken";
+  networking.hostId = "hadouken";
 
   imports = [
     ./modules/vaultwarden.nix
@@ -131,6 +132,11 @@ in {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
+
+    supportedFilesystems = [ "zfs" ];
+    zfs.forceImportRoot = false;
+    kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+    # zfs.extraPools = [ "tank" ];
 
     # Silent Boot
     # https://wiki.archlinux.org/title/Silent_boot
