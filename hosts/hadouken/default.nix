@@ -31,7 +31,7 @@ in {
     ./modules/hass.nix
   ];
 
-  hosts.smb.enable = false;
+  hosts.smb.enable = true;
   hosts.caddy.enable = true;
   hosts.vaultwarden.enable = true;
   hosts.plex.enable = true;
