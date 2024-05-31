@@ -65,7 +65,7 @@ in {
       streamingProcesses = 7;
       localDomain = "noisesfrom.space";
       configureNginx = false;
-      smtp ={
+      smtp = {
         createLocally = false;
         fromAddress = "noreply@plebian.nl"; # required
       };

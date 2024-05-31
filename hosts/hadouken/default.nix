@@ -12,7 +12,6 @@ in {
   networking.hostId = "1b936a2a";
 
   imports = [
-    ./modules/notifications.nix
     ./modules/vaultwarden.nix
     ./modules/monitoring.nix
     ./modules/nextcloud.nix
@@ -48,7 +47,6 @@ in {
   hosts.conduit.enable = true;
   hosts.mastodon.enable = true;
   hosts.fail2ban.enable = true;
-  hosts.notifications.enable = true;
 
   # Right order of headscale operations for startup
   systemd.services.headscale = {
@@ -91,9 +89,6 @@ in {
     autoScrub.enable = true;
     zed.settings = {
       ZED_DEBUG_LOG = "/tmp/zed.debug.log";
-      ZED_EMAIL_ADDR = ["root"];
-      ZED_EMAIL_PROG = "${pkgs.msmtp}/bin/msmtp";
-      ZED_EMAIL_OPTS = "@ADDRESS@";
 
       ZED_NOTIFY_INTERVAL_SECS = 3600;
       ZED_NOTIFY_VERBOSE = true;
