@@ -20,6 +20,8 @@ stdenv.mkDerivation rec {
     export GOPATH="$TMPDIR/go"
   '';
 
+  meta.mainProgram = "xcaddy";
+
   buildPhase = let
     pluginArgs =
       lib.concatMapStringsSep " " (plugin: "--with ${plugin}") plugins;

@@ -43,23 +43,22 @@
       cmp = {
         enable = true;
         settings = {
-        snippet.expand = "luasnip";
-        mapping = {
-          "<C-Space>" = "cmp.mapping.complete()";
-          "<Down>" = "cmp.mapping.select_next_item()";
-          "<Up>" = "cmp.mapping.select_prev_item()";
-          "<Tab>" = "cmp.mapping.confirm({ select = true })";
-        };
-        sources = [
-          {name = "nvim_lsp";}
-          {name = "path";} # what are these values?
-          {name = "buffer";}
-          {name = "orgmode";}
-          {name = "neorg";}
-        ];
+          snippet.expand = "luasnip";
+          mapping = {
+            "<C-Space>" = "cmp.mapping.complete()";
+            "<Down>" = "cmp.mapping.select_next_item()";
+            "<Up>" = "cmp.mapping.select_prev_item()";
+            "<Tab>" = "cmp.mapping.confirm({ select = true })";
+          };
+          sources = [
+            {name = "nvim_lsp";}
+            {name = "path";} # what are these values?
+            {name = "buffer";}
+            {name = "orgmode";}
+            {name = "neorg";}
+          ];
         };
       }; # auto-complete intelij like
-
 
       lsp-format = {
         enable = true;
