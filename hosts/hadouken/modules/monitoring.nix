@@ -55,7 +55,10 @@ in {
     };
 
     services.loki = {
+      # from: https://gist.github.com/rickhull/895b0cb38fdd537c1078a858cf15d63e
       enable = true;
+      # see: https://github.com/NixOS/nixpkgs/commit/100c1501e12b095f7fafa9ae17c59a07bd79acb4
+      extraFlags = ["-v"];
       configuration = {
         server.http_listen_port = 3030;
         auth_enabled = false;
@@ -193,7 +196,7 @@ in {
       serviceConfig = {
         ExecStart = ''
           ${pkgs.adguard-exporter}/bin/adguard-exporter \
-              -adguard_hostname 127.0.0.1 -adguard_port ${toString config.services.adguardhome.settings.bind_port} \
+              -adguard_hostname 127.0.0.1 -adguard_port ${toString config.services.adguardhome.port} \
               -adguard_username admin -adguard_password $ADGUARD_PASSWORD -log_limit 10000
         '';
         Restart = "on-failure";

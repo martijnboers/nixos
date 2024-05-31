@@ -30,10 +30,9 @@ in {
       enable = true;
       mutableSettings = false;
       allowDHCP = false;
+      host = "127.0.0.1";
 
       settings = {
-        bind_host = "127.0.0.1";
-
         dns = {
           ratelimit = 0;
           bind_hosts = ["100.64.0.2"];
