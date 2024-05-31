@@ -31,7 +31,7 @@ in {
     ./modules/hass.nix
   ];
 
-  hosts.smb.enable = true;
+  hosts.smb.enable = false;
   hosts.caddy.enable = true;
   hosts.vaultwarden.enable = true;
   hosts.plex.enable = true;
@@ -84,7 +84,7 @@ in {
   hosts.borg = {
     enable = true;
     repository = "ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo";
-    paths = ["/mnt/zwembad/appdata"];
+    paths = ["/mnt/zwembad/app"];
   };
 
   services.zfs = {

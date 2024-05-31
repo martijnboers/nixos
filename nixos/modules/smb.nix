@@ -36,7 +36,7 @@ in {
         map to guest = bad user
       '';
       shares = {
-        public = {
+        music = {
           path = "/mnt/zwembad/music";
           browseable = "yes";
           "read only" = "no";
