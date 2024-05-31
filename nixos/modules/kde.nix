@@ -35,11 +35,7 @@ in {
     services.xserver.enable = true;
 
     # Enable the KDE Plasma Desktop Environment.
-    services.xserver.displayManager = {
-      # Auto loging crash
-      # sddm.enable = true;
-      lightdm.enable = true;
-
+    services.displayManager = {
       # Enable automatic login for the user.
       autoLogin.enable = true;
       autoLogin.user = "martijn";
@@ -63,8 +59,10 @@ in {
 
     # Configure keymap in X11
     services.xserver = {
-      layout = "us";
-      xkbVariant = "";
+      xkb = {
+        layout = "us";
+        variant = "";
+      };
     };
 
     # Enable CUPS to print documents.
@@ -75,15 +73,6 @@ in {
       enable = true;
       openFirewall = true;
     };
-
-    # settings from avahi-daemon.nix where mdns is replaced with mdns4
-    # Track: https://github.com/NixOS/nixpkgs/issues/118628
-    system.nssModules = pkgs.lib.optional (!config.services.avahi.nssmdns) pkgs.nssmdns;
-    system.nssDatabases.hosts = with pkgs.lib;
-      optionals (!config.services.avahi.nssmdns) (mkMerge [
-        (mkBefore ["mdns4_minimal [NOTFOUND=return]"]) # before resolve
-        (mkAfter ["mdns4"]) # after dns
-      ]);
 
     # Enable sound with pipewire.
     hardware.pulseaudio.enable = false;

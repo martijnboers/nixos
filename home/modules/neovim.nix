@@ -7,14 +7,14 @@
       providers.wl-copy.enable = true;
     };
 
-    options = {
+    opts = {
       number = true; # Show line numbers
       relativenumber = true; # Show relative line numbers
       shiftwidth = 2; # Tab width should be 2
     };
     colorschemes.catppuccin = {
       enable = true;
-      flavour = "mocha";
+      settings.flavour = "mocha";
     };
     plugins = {
       lightline.enable = true; # bar at the bottom
@@ -40,19 +40,14 @@
         };
       }; # fzf fuzzy finding
 
-      nvim-cmp = {
+      cmp = {
         enable = true;
+        settings = {
         snippet.expand = "luasnip";
         mapping = {
           "<C-Space>" = "cmp.mapping.complete()";
-          "<Down>" = {
-            modes = ["i" "s"];
-            action = "cmp.mapping.select_next_item()";
-          };
-          "<Up>" = {
-            modes = ["i" "s"];
-            action = "cmp.mapping.select_prev_item()";
-          };
+          "<Down>" = "cmp.mapping.select_next_item()";
+          "<Up>" = "cmp.mapping.select_prev_item()";
           "<Tab>" = "cmp.mapping.confirm({ select = true })";
         };
         sources = [
@@ -62,7 +57,9 @@
           {name = "orgmode";}
           {name = "neorg";}
         ];
-      }; # auto-complete
+        };
+      }; # auto-complete intelij like
+
 
       lsp-format = {
         enable = true;

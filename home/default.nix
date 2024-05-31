@@ -7,7 +7,7 @@
 }: {
   home.username = "martijn";
   home.homeDirectory = "/home/martijn";
-  home.stateVersion = "23.11";
+  home.stateVersion = "24.05";
 
   nixpkgs = {
     overlays = [
@@ -26,7 +26,6 @@
   };
 
   imports = [
-    ./modules/ranger.nix
     ./modules/neovim.nix
     ./modules/zsh.nix
     ./modules/atuin.nix
@@ -118,18 +117,6 @@
       init.defaultBranch = "main";
       push.autoSetupRemote = "true";
     };
-  };
-
-  programs.ranger = {
-    enable = true;
-    extraConfig = ''
-      map e shell vim %c
-      set vcs_aware true
-      set draw_borders separators
-      set nested_ranger_warning error
-      set preview_images true
-      set preview_images_method kitty
-    '';
   };
 
   # Nicely reload system units when changing configs
