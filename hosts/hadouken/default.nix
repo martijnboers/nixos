@@ -71,6 +71,8 @@ in {
   systemd.services.resilio = {
     after = ["tailscaled.service"];
     requires = ["tailscaled.service"];
+    startLimitBurst = 10;
+    startLimitIntervalSec = 600;
     serviceConfig = defaultRestart;
   };
   systemd.services.loki = {

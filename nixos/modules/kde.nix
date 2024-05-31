@@ -42,13 +42,11 @@ in {
 
       defaultSession =
         if cfg.wayland
-        then "plasmawayland"
-        else "plasma";
+        then "plasma"
+        else "plasmax11";
     };
 
-    services.xserver.desktopManager.plasma5.enable = true;
-
-    environment.plasma5.excludePackages = with pkgs.libsForQt5; [
+    environment.plasma6.excludePackages = with pkgs.libsForQt5; [
       elisa
       khelpcenter
       konsole
@@ -57,8 +55,10 @@ in {
     # Access QMK without sudo
     hardware.keyboard.qmk.enable = true;
 
-    # Configure keymap in X11
+    # Configure window manager
     services.xserver = {
+     displayManager.sddm.wayland.enable = true;
+     desktopManager.plasma6.enable = true;
       xkb = {
         layout = "us";
         variant = "";
