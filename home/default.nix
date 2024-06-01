@@ -9,22 +9,6 @@
   home.homeDirectory = "/home/martijn";
   home.stateVersion = "24.05";
 
-  nixpkgs = {
-    overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.unstable-packages
-    ];
-
-    config = {
-      allowUnfree = true;
-      # For Obsidian
-      permittedInsecurePackages = [
-        "electron-25.9.0"
-      ];
-    };
-  };
-
   imports = [
     ./modules/neovim.nix
     ./modules/zsh.nix
@@ -38,6 +22,9 @@
 
     # secrets manager
     inputs.agenix.homeManagerModules.default
+
+    # rice
+    inputs.stylix.homeManagerModules.stylix
 
     ({
       inputs,
@@ -76,8 +63,6 @@
 
     # fonts
     meslo-lgs-nf
-    roboto
-    jetbrains-mono
     nerdfonts
 
     # tools
@@ -93,6 +78,46 @@
     ];
     secrets = {
       openai.file = ../secrets/openai.age;
+    };
+  };
+
+  stylix = {
+    image = ../assets/wallpaper2.jpg;
+    polarity = "dark";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/material-darker.yaml";
+    fonts = {
+      serif = {
+        package = pkgs.roboto;
+        name = "Roboto";
+      };
+      sansSerif = {
+        package = pkgs.roboto;
+        name = "Roboto";
+      };
+      monospace = {
+        package = pkgs.jetbrains-mono;
+        name = "Jetbrains Mono";
+      };
+      emoji = {
+        package = pkgs.noto-fonts-emoji;
+        name = "Noto Color Emoji";
+      };
+    };
+  };
+
+  nixpkgs = {
+    overlays = [
+      outputs.overlays.additions
+      outputs.overlays.modifications
+      outputs.overlays.unstable-packages
+    ];
+
+    config = {
+      allowUnfree = true;
+      # For Obsidian
+      permittedInsecurePackages = [
+        "electron-25.9.0"
+      ];
     };
   };
 
