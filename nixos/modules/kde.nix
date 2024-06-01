@@ -56,14 +56,8 @@ in {
     hardware.keyboard.qmk.enable = true;
 
     # Configure window manager
-    services.xserver = {
-     displayManager.sddm.wayland.enable = true;
-     desktopManager.plasma6.enable = true;
-      xkb = {
-        layout = "us";
-        variant = "";
-      };
-    };
+    services.displayManager.sddm.wayland.enable = true;
+    services.desktopManager.plasma6.enable = true;
 
     # Enable CUPS to print documents.
     services.printing.enable = true;

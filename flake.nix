@@ -18,7 +18,6 @@
     };
 
     nixvim = {
-      #      url = "github:nix-community/nixvim/nixos-23.11";
       url = "github:nix-community/nixvim/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -35,21 +34,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Crowdsourced IDS
-    crowdsec = {
-      url = "git+https://codeberg.org/kampka/nix-flake-crowdsec.git";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # rice
+    stylix.url = "github:danth/stylix";
   };
 
   outputs = {
     self,
     nixpkgs,
     home-manager,
-    agenix,
-    nix-index-database,
-    nix-alien,
-    crowdsec,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -80,9 +72,9 @@
               ./nixos/system.nix
 
               # Secret management
-              agenix.nixosModules.default
+              inputs.agenix.nixosModules.default
               {
-                environment.systemPackages = [agenix.packages.${system}.default];
+                environment.systemPackages = [inputs.agenix.packages.${system}.default];
               }
 
               home-manager.nixosModules.home-manager
@@ -108,17 +100,7 @@
 
     nixosConfigurations.hadouken = mkSystem "hadouken" {
       system = "x86_64-linux";
-      extraModules = [
-        #        crowdsec.nixosModules.crowdsec
-        #        # For the bouncer
-        #        ({
-        #          pkgs,
-        #          lib,
-        #          ...
-        #        }: {
-        #          nixpkgs.overlays = [crowdsec.overlays.default];
-        #        })
-      ];
+      extraModules = [];
     };
 
     nixosConfigurations.lapdance = mkSystem "lapdance" {

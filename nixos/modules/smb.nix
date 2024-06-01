@@ -21,11 +21,10 @@ in {
     ];
 
     networking.firewall.allowPing = true;
-    services.samba.openFirewall = true;
-
     services.samba = {
       enable = true;
       securityType = "user";
+      openFirewall = true;
       extraConfig = ''
         workgroup = WORKGROUP
         server string = smbnix

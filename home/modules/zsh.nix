@@ -8,11 +8,13 @@
     enable = true;
     shellAliases = let
       defaultNixFlags = "--flake /home/martijn/Nix";
+      withNom = "doas nixos-rebuild --log-format internal-json -v";
+      parseNom = "|& nom --json";
     in {
       # --- NixOS specific --------
-      deploy = "doas nixos-rebuild switch ${defaultNixFlags}";
+      deploy = "${withNom} switch ${defaultNixFlags} ${parseNom}";
       debug = "doas nixos-rebuild switch ${defaultNixFlags} --show-trace --verbose";
-      testbuild = "nixos-rebuild build --option sandbox false ${defaultNixFlags}#hadouken";
+      testbuild = "${withNom} build --option sandbox false ${defaultNixFlags}#hadouken ${parseNom}";
       update = "nix flake update";
       # ---------------------------
       dud = "docker compose up -d";
