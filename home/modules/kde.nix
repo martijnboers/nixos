@@ -15,7 +15,6 @@ in {
       };
 
       workspace = {
-        clickItemTo = "select";
         theme = "Materia-Color";
         iconTheme = "Nordic-darker";
         wallpaper = ../assets/wallpaper2.jpg;

@@ -48,6 +48,7 @@ in {
       enable = true;
       database.createLocally = true;
       hostName = "next.plebian.nl";
+      home = "/mnt/zwembad/app/nextcloud";
       https = true;
       config = {
         dbtype = "pgsql";
