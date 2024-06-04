@@ -55,38 +55,27 @@ in {
     };
 
     services.loki = {
-      # from: https://gist.github.com/rickhull/895b0cb38fdd537c1078a858cf15d63e
       enable = true;
-      # see: https://github.com/NixOS/nixpkgs/commit/100c1501e12b095f7fafa9ae17c59a07bd79acb4
-      extraFlags = ["-v"];
       configuration = {
         server.http_listen_port = 3030;
         auth_enabled = false;
 
-        ingester = {
-          lifecycler = {
-            address = "127.0.0.1";
-            ring = {
-              kvstore = {
-                store = "inmemory";
-              };
-              replication_factor = 1;
-            };
+        common = {
+          ring = {
+            instance_addr = "127.0.0.1";
+            kvstore.store = "inmemory";
           };
-          chunk_idle_period = "1h";
-          max_chunk_age = "1h";
-          chunk_target_size = 999999;
-          chunk_retain_period = "30s";
-          max_transfer_retries = 0;
+          replication_factor = 1;
+          path_prefix = "/tmp/loki";
         };
 
         schema_config = {
           configs = [
             {
-              from = "2024-01-01";
-              store = "boltdb-shipper";
+              from = "2020-05-15";
+              store = "tsdb";
               object_store = "filesystem";
-              schema = "v11";
+              schema = "v13";
               index = {
                 prefix = "index_";
                 period = "24h";
@@ -95,47 +84,12 @@ in {
           ];
         };
 
-        storage_config = {
-          boltdb_shipper = {
-            active_index_directory = "/var/lib/loki/boltdb-shipper-active";
-            cache_location = "/var/lib/loki/boltdb-shipper-cache";
-            cache_ttl = "24h";
-            shared_store = "filesystem";
-          };
-
-          filesystem = {
-            directory = "/var/lib/loki/chunks";
-          };
-        };
-
-        limits_config = {
-          reject_old_samples = true;
-          reject_old_samples_max_age = "168h";
-        };
-
-        chunk_store_config = {
-          max_look_back_period = "0s";
-        };
-
-        table_manager = {
-          retention_deletes_enabled = false;
-          retention_period = "0s";
-        };
-
-        compactor = {
-          working_directory = "/var/lib/loki";
-          shared_store = "filesystem";
-          compactor_ring = {
-            kvstore = {
-              store = "inmemory";
-            };
-          };
-        };
+        storage_config.filesystem.directory = "/var/lib/loki/chunk";
       };
     };
 
     # Add promtail to access access logs
-    users.groups.caddy.members = [config.services.caddy.user "promtail"];
+    users.users.promtail.extraGroups = [config.services.caddy.group];
 
     services.promtail = {
       enable = true;
@@ -242,6 +196,22 @@ in {
             }
           ];
         }
+        {
+          job_name = "zfs";
+          static_configs = [
+            {
+              targets = ["127.0.0.1:2020"];
+            }
+          ];
+        }
+        {
+          job_name = "smartctl";
+          static_configs = [
+            {
+              targets = ["127.0.0.1:2021"];
+            }
+          ];
+        }
       ];
       retentionTime = toString retentionTime + "d";
       exporters = {
@@ -249,6 +219,14 @@ in {
           enable = true;
           enabledCollectors = ["systemd"];
           port = 9002;
+        };
+        zfs = {
+          enable = true;
+          port = 2020;
+        };
+        smartctl = {
+          enable = true;
+          port = 2021;
         };
       };
     };
