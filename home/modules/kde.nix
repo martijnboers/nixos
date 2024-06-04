@@ -13,7 +13,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    hosts.desktop.enable = true;
+    thuis.desktop.enable = true;
     programs.plasma = {
       enable = true;
 
