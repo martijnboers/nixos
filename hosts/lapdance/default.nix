@@ -6,7 +6,7 @@
 }: {
   networking.hostName = "lapdance";
 
-  hosts.desktop = {
+  hosts.kde = {
     enable = true;
     wayland = true;
   };
