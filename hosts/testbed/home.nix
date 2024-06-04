@@ -4,7 +4,7 @@
   ];
 
   # Enable profiles
-  hosts.desktop.enable = false;
+  hosts.hyprland.enable = false;
   hosts.personal.enable = false;
   hosts.work.enable = false;
 }
