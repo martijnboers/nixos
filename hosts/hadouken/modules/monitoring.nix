@@ -23,7 +23,6 @@ in {
       }
       respond 403
     '';
-    environment.systemPackages = [smartmontools];
     services.borgbackup.jobs.default.paths = [config.services.grafana.settings.database.path];
     services.grafana = {
       enable = true;
@@ -205,14 +204,6 @@ in {
             }
           ];
         }
-        {
-          job_name = "smartctl";
-          static_configs = [
-            {
-              targets = ["127.0.0.1:2021"];
-            }
-          ];
-        }
       ];
       retentionTime = toString retentionTime + "d";
       exporters = {
@@ -224,10 +215,6 @@ in {
         zfs = {
           enable = true;
           port = 2020;
-        };
-        smartctl = {
-          enable = true;
-          port = 2021;
         };
       };
     };
