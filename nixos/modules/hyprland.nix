@@ -6,8 +6,8 @@
   ...
 }:
 with lib; let
-in {
   cfg = config.hosts.hyprland;
+in {
   imports = [./desktop.nix];
 
   options.hosts.hyprland = {
