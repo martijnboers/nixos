@@ -5,7 +5,7 @@
   ...
 }: {
   networking.hostName = "glassdoor";
-  hosts.desktop = {
+  hosts.kde = {
     enable = true;
     wayland = true;
   };
