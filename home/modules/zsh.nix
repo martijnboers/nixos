@@ -12,7 +12,7 @@
       parseNom = "|& nom --json";
     in {
       # --- NixOS specific --------
-      deploy = "${withNom} switch ${defaultNixFlags} ${parseNom}";
+      deploy = "rm -r /home/martijn/.config/gtk* & ${withNom} switch ${defaultNixFlags} ${parseNom}";
       debug = "doas nixos-rebuild switch ${defaultNixFlags} --show-trace --verbose";
       testbuild = "${withNom} build --option sandbox false ${defaultNixFlags}#hadouken ${parseNom}";
       update = "nix flake update";

@@ -48,7 +48,8 @@ in {
       enable = true;
       database.createLocally = true;
       hostName = "next.plebian.nl";
-      home = "/mnt/zwembad/app/nextcloud";
+      package = pkgs.nextcloud29;
+      # home = "/mnt/zwembad/app/nextcloud";
       https = true;
       config = {
         dbtype = "pgsql";
@@ -56,10 +57,7 @@ in {
         adminpassFile = config.age.secrets.nextcloud.path;
       };
       enableImagemagick = true;
-      caching = flip genAttrs (_: true) [
-        "apcu"
-        "redis"
-      ];
+      configureRedis = true;
     };
   };
 }
