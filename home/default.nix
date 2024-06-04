@@ -146,6 +146,7 @@
       pull.rebase = "true";
       init.defaultBranch = "main";
       push.autoSetupRemote = "true";
+      safe.directory = "/home/martijn/Nix/.git";
     };
   };
 
