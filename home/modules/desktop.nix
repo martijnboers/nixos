@@ -6,9 +6,9 @@
   ...
 }:
 with lib; let
-  cfg = config.hosts.desktop;
+  cfg = config.thuis.desktop;
 in {
-  options.hosts.desktop = {
+  options.thuis.desktop = {
     enable = mkEnableOption "Enable default desktop packages + configuration";
   };
 

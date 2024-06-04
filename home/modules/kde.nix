@@ -4,11 +4,11 @@
   ...
 }:
 with lib; let
-  cfg = config.hosts.kde;
+  cfg = config.thuis.kde;
 in {
   imports = [./desktop.nix];
 
-  options.hosts.kde = {
+  options.thuis.kde = {
     enable = mkEnableOption "KDE home manager config";
   };
 

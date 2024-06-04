@@ -4,7 +4,7 @@
   ...
 }:
 with lib; let
-  cfg = config.hosts.desktop;
+  cfg = config.thuis.desktop;
 in {
   config = mkIf cfg.enable {
     programs.kitty = {

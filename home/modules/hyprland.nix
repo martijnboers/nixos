@@ -4,11 +4,11 @@
   ...
 }:
 with lib; let
-  cfg = config.hosts.hyprland;
+  cfg = config.thuis.hyprland;
 in {
   imports = [./desktop.nix];
 
-  options.hosts.hyprland = {
+  options.thuis.hyprland = {
     enable = mkEnableOption "Rice is healthy";
   };
 

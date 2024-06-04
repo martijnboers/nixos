@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.hosts.work;
+  cfg = config.thuis.work;
 in {
-  options.hosts.work = {
+  options.thuis.work = {
     enable = mkEnableOption "Enable packages and configuration specfic to work";
   };
 

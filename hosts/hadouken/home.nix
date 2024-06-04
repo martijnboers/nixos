@@ -4,9 +4,9 @@
   ];
 
   # Enable profiles
-  hosts.desktop.enable = false;
-  hosts.personal.enable = false;
-  hosts.work.enable = false;
+  thuis.desktop.enable = false;
+  thuis.personal.enable = false;
+  thuis.work.enable = false;
 
   home.packages = with pkgs; [ollama zfs];
 }

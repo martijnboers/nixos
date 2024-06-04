@@ -6,9 +6,9 @@
   ...
 }:
 with lib; let
-  cfg = config.hosts.personal;
+  cfg = config.thuis.personal;
 in {
-  options.hosts.personal = {
+  options.thuis.personal = {
     enable = mkEnableOption "Add personal computer configuration";
   };
 
