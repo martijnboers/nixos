@@ -5,10 +5,7 @@
   ...
 }: {
   networking.hostName = "glassdoor";
-  hosts.kde = {
-    enable = true;
-    wayland = true;
-  };
+  hosts.hyprland.enable = true;
 
   hosts.borg = {
     enable = true;

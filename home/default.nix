@@ -25,7 +25,6 @@
 
     # rice
     inputs.stylix.homeManagerModules.stylix
-    inputs.hyprland.homeManagerModules.default
 
     ({
       inputs,

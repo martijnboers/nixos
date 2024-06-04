@@ -20,6 +20,9 @@ in {
   config = mkIf cfg.enable {
     hosts.desktop.enable = true;
 
+    # Enable the X11 windowing system.
+    services.xserver.enable = true;
+
     # Enable the KDE Plasma Desktop Environment.
     services.displayManager.defaultSession =
       if cfg.wayland
@@ -33,7 +36,6 @@ in {
     ];
 
     # Configure window manager
-    services.displayManager.sddm.wayland.enable = true;
     services.desktopManager.plasma6.enable = true;
   };
 }

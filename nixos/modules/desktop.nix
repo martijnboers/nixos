@@ -31,14 +31,15 @@ in {
       };
     };
 
-    # Enable the X11 windowing system.
-    services.xserver.enable = true;
-
-    # Enable the KDE Plasma Desktop Environment.
+    # SSDM works on hyprland and kde
     services.displayManager = {
       # Enable automatic login for the user.
       autoLogin.enable = true;
       autoLogin.user = "martijn";
+      sddm = {
+        enable = true;
+        wayland.enable = true;
+      };
     };
 
     # Access QMK without sudo
