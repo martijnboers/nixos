@@ -7,6 +7,7 @@
   imports = [
     ./modules/virtualization.nix
     ./modules/tailscale.nix
+    ./modules/hyperland.nix
     ./modules/resillio.nix
     ./modules/secrets.nix
     ./modules/auditd.nix
