@@ -23,6 +23,7 @@ in {
       }
       respond 403
     '';
+    environment.systemPackages = [smartmontools];
     services.borgbackup.jobs.default.paths = [config.services.grafana.settings.database.path];
     services.grafana = {
       enable = true;
