@@ -4,7 +4,7 @@
   ];
 
   # Enable profiles
-  hosts.kde.enable = true;
-  hosts.personal.enable = false;
-  hosts.work.enable = true;
+  thuis.kde.enable = true;
+  thuis.personal.enable = false;
+  thuis.work.enable = true;
 }

@@ -8,7 +8,7 @@
   age.identityPaths = ["/home/martijn/.ssh/id_ed25519_age"];
 
   # Enable profiles
-  hosts.kde.enable = true;
-  hosts.personal.enable = true;
-  hosts.work.enable = true;
+  thuis.kde.enable = true;
+  thuis.personal.enable = true;
+  thuis.work.enable = true;
 }

@@ -4,8 +4,7 @@
   ];
 
   # Enable profiles
-  hosts.hyprland.enable = true;
-
-  hosts.personal.enable = false;
-  hosts.work.enable = false;
+  thuis.hyprland.enable = true;
+  thuis.personal.enable = false;
+  thuis.work.enable = false;
 }
