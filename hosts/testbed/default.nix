@@ -7,6 +7,7 @@
   networking.hostName = "testbed";
 
   hosts.openssh.enable = true;
+  hosts.hyprland.enable = true;
 
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/vda";
