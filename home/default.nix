@@ -85,9 +85,9 @@
     image = assets/wallpaper2.jpg;
     polarity = "dark";
     cursor = {
-        package = pkgs.phinger-cursors;
-        name = "pakkarobaan";
-        size = 28;
+      package = pkgs.phinger-cursors;
+      name = "pakkarobaan";
+      size = 28;
     };
     base16Scheme = "${pkgs.base16-schemes}/share/themes/material-darker.yaml";
     fonts = {
