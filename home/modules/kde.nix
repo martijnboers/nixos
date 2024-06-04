@@ -4,9 +4,16 @@
   ...
 }:
 with lib; let
-  cfg = config.hosts.desktop;
+  cfg = config.hosts.kde;
 in {
+  imports = [./desktop.nix];
+
+  options.hosts.kde = {
+    enable = mkEnableOption "KDE home manager config";
+  };
+
   config = mkIf cfg.enable {
+    hosts.desktop.enable = true;
     programs.plasma = {
       enable = true;
 
