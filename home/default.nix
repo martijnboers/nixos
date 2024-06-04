@@ -43,7 +43,6 @@
     inputs.plasma-manager.homeManagerModules.plasma-manager
 
     # profiles based on type of computer usage
-    ./profiles/desktop.nix
     ./profiles/personal.nix
     ./profiles/work.nix
   ];
