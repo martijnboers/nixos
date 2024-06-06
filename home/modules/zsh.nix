@@ -13,7 +13,8 @@
       deploy = "doas nixos-rebuild switch ${defaultNixFlags}";
       deploy_n = "rm -r /home/martijn/.config/gtk* & doas nixos-rebuild --log-format internal-json -v switch ${defaultNixFlags} |& nom --json";
       debug = "doas nixos-rebuild switch ${defaultNixFlags} --show-trace --verbose";
-      testbuild = "nixos-rebuild build --option sandbox false ${defaultNixFlags}#hadouken";
+      testbuild_hadouken = "nixos-rebuild build --option sandbox false ${defaultNixFlags}#hadouken";
+      testbuild_glassdoor = "nixos-rebuild build ${defaultNixFlags}#glassdoor";
       update = "nix flake update";
       # ---------------------------
       dud = "docker compose up -d";
