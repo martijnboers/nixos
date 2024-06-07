@@ -1,9 +1,10 @@
-@define-color base   #ffcb6b;
-@define-color crust  #11111b;
+@define-color base   #212121;
+@define-color crust   #212121;
+@define-color text   #585b70;
+@define-color yellow #ffcb6b;
+@define-color lime   #c3e88d;
+@define-color grey   #b2ccd6;
 
-@define-color text      #cdd6f4;
-@define-color surface2  #585b70;
-@define-color blue      #89b4fa;
 @define-color green     #a6e3a1;
 @define-color red       #f38ba8;
 
@@ -47,7 +48,7 @@ button:hover {
 }
 
 #custom-power {
-  color: @blue;
+  color: @yellow;
   font-weight: 600;
   margin-right: 10px;
   padding-left: 15px;
@@ -65,7 +66,7 @@ button:hover {
 }
 
 #workspaces button {
-  color: @text;
+  color: @yellow;
     font-weight: 600;
         margin: 0px;
         padding: 0px 5px;
@@ -75,22 +76,22 @@ button:hover {
   color: @red;
 }
 #workspaces button.empty {
-  color: @surface2;
+  color: @text;
 }
 
 #workspaces button.active {
-  color: @blue;
+  color: @lime;
 }
 
 #workspaces button.focused {
-  color: @green;
+  color: @yellow;
 }
 
 #cpu,
 #memory,
 #pulseaudio,
 #disk {
-  color: @blue;
+  color: @grey;
   font-weight: 600;
   margin-right: 10px;
   padding: 6px 15px;
@@ -107,7 +108,7 @@ button:hover {
 }
 
 #clock {
-  color: @blue;
+  color: @grey;
   font-weight: 600;
   margin-right: 10px;
   padding: 6px 15px;
@@ -116,7 +117,7 @@ button:hover {
 }
 
 #custom-sepp {
-  color: @surface2;
+  color: @text;
   font-size: 20px;
   padding-left: 4px;
   padding-right: 10px;
