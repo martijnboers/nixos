@@ -68,7 +68,7 @@
         enable = true;
         servers = {
           bashls.enable = true;
-          nil_ls.enable = true;
+          nil-ls.enable = true;
           html.enable = true;
           jsonls.enable = true;
           terraformls.enable = true;

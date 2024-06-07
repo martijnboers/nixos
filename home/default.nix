@@ -26,18 +26,8 @@
     # rice
     inputs.stylix.homeManagerModules.stylix
 
-    ({
-      inputs,
-      system,
-      ...
-    }: {
-      home.packages = with inputs.nix-alien.packages.${system}; [
-        nix-alien
-      ];
-    })
-
     # Desktop only
-    ./modules/hyprland/default.nix
+    ./modules/hyprland.nix
     ./modules/kitty.nix
     ./modules/kde.nix
     inputs.plasma-manager.homeManagerModules.plasma-manager
