@@ -7,7 +7,7 @@
   programs.waybar = {
     enable = true;
     systemd.enable = true;
-    style = lib.mkForce ./style.css;
+    style = lib.mkForce ../assets/css/waybar.css;
     settings = [
       {
         layer = "top";
@@ -63,6 +63,8 @@
         disk = {
           interval = 15;
           format = "󰋊 {percentage_used}%";
+          exec-on-event = "true";
+          on-click = "swaync-client -t -sw";
         };
 
         pulseaudio = {

@@ -9,7 +9,7 @@ with lib; let
 in {
   imports = [
     ./desktop.nix
-    ./waybar
+    ./waybar.nix
   ];
 
   options.thuis.hyprland = {
@@ -19,6 +19,8 @@ in {
   config = mkIf cfg.enable {
     thuis.desktop.enable = true;
     gtk.enable = true;
+    qt.enable = true;
+
     home.packages = with pkgs; [
       # utilities
       hyprpaper
@@ -41,8 +43,12 @@ in {
       copyq
 
       # notifs
-      dunst
+      swaynotificationcenter
     ];
+
+    home.file.".config/swaync/style.css" = {
+      source = ../assets/css/notifications.css;
+    };
 
     wayland.windowManager.hyprland = {
       enable = true;
@@ -54,7 +60,7 @@ in {
         exec-once = [
           "swaybg --mode fill --image /home/martijn/Nix/home/assets/wallpaper2.jpg"
           "nm-applet --indicator &"
-          "dunst &"
+          "swaync &"
           "copyq --start-server &"
         ];
         "$terminal" = "kitty";
