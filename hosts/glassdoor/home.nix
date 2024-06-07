@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   imports = [
-    ../../home/default.nix
+    ../../home
   ];
 
   home.packages = with pkgs; [gqrx yubikey-manager yubikey-manager-qt];
