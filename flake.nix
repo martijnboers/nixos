@@ -18,15 +18,12 @@
     };
 
     nixvim = {
-      url = "github:nix-community/nixvim/main";
+      url = "github:nix-community/nixvim/nixos-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Secrets
     agenix.url = "github:ryantm/agenix";
-
-    # Run unpatched bins
-    nix-alien.url = "github:thiagokokada/nix-alien";
 
     # On the fly running of programs
     nix-index-database = {

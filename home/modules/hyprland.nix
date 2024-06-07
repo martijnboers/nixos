@@ -8,9 +8,8 @@ with lib; let
   cfg = config.thuis.hyprland;
 in {
   imports = [
-    ../desktop.nix
-    ./waybar.nix
-    ./wofi.nix
+    ./desktop.nix
+    ./waybar
   ];
 
   options.thuis.hyprland = {
@@ -19,6 +18,7 @@ in {
 
   config = mkIf cfg.enable {
     thuis.desktop.enable = true;
+    gtk.enable = true;
     home.packages = with pkgs; [
       # utilities
       hyprpaper
@@ -26,6 +26,9 @@ in {
       rofi-wayland
       swaybg
       networkmanagerapplet
+      cinnamon.nemo-with-extensions
+      blueman # bluetooth
+      pavucontrol # audio
 
       # emojis
       wofi
@@ -34,19 +37,12 @@ in {
 
       # screenshots / clipboard
       wl-clipboard
-      flameshot
+      hyprshot
+      copyq
 
       # notifs
       dunst
     ];
-
-    programs.thunar = {
-      enable = true;
-      plugins = with pkgs.xfce; [
-        thunar-archive-plugin
-        thunar-volman
-      ];
-    };
 
     wayland.windowManager.hyprland = {
       enable = true;
@@ -56,13 +52,13 @@ in {
         "$mod" = "ALT";
         "$prog" = "CTRL ALT";
         exec-once = [
-          "swaybg --image /home/martijn/Nix/home/assets/wallpaper2.jpg"
-          "npm-applet --indicator &"
+          "swaybg --mode fill --image /home/martijn/Nix/home/assets/wallpaper2.jpg"
+          "nm-applet --indicator &"
           "dunst &"
           "copyq --start-server &"
         ];
         "$terminal" = "kitty";
-        "$fileManager" = "thunar";
+        "$fileManager" = "nemo";
         "$browser" = "firefox";
         "$menu" = "rofi -show drun -show-icons";
 
@@ -77,19 +73,24 @@ in {
             "$mod, W, exec, $terminal"
             "$mod, E, exec, $fileManager"
             "$mod, Space, exec, $menu"
-            "$mod, E, exec, wofi-emoji"
-            ", Print, exec, flameshot gui" # https://github.com/flameshot-org/flameshot
+            "$mod, T, exec, wofi-emoji"
+            "$mod, R, exec, pycharm-community"
+            ", Print, exec, hyprshot -m region --clipboard-only" # https://github.com/flameshot-org/flameshot
             "$mod, F4, killactive"
             "$prog, H, exec, copyq toggle"
 
             # movement
+            # https://wiki.hyprland.org/Configuring/Dispatchers/#list-of-dispatchers
             "$mod, V, togglefloating"
-            "$mod, left, movefocus, l"
-            "$mod, right, movefocus, r"
-            "$mod, up, movefocus, u"
-            "$mod, down, movefocus, d"
+            "$mod, J, movefocus, l"
+            "$mod, L, movefocus, r"
+            "$mod, I, movefocus, u"
+            "$mod, K, movefocus, d"
+            "$mod, U, swapwindow, l"
+            "$mod, O, swapwindow, r"
+            "$mod, Y, fullscreen,"
             "$mod, P, pseudo," # dwindle
-            "$mod, J, togglesplit" # dwindle
+            "$mod, H, togglesplit" # dwindle
           ]
           ++ (
             # workspaces
@@ -115,7 +116,7 @@ in {
         };
         general = {
           gaps_in = 3;
-          gaps_out = 17;
+          gaps_out = "5,12,12,12";
           border_size = 2;
 
           # Please see https://wiki.hyprland.org/Configuring/Tearing/ before you turn this on
