@@ -50,6 +50,10 @@ in {
       source = ../assets/css/notifications.css;
     };
 
+    home.file.".config/rofi/config.rasi" = {
+      source = ../assets/css/runner.css;
+    };
+
     wayland.windowManager.hyprland = {
       enable = true;
       systemd.enable = true;
@@ -64,19 +68,20 @@ in {
           "copyq --start-server &"
         ];
         "$terminal" = "kitty";
-        "$fileManager" = "nemo";
+        "$fileManager" = "thunar";
         "$browser" = "firefox";
         "$menu" = "rofi -show drun -show-icons";
 
         bindm = [
           "$mod,mouse:272,movewindow"
           "$mod,mouse:273,resizewindow"
+          "$mod,mouse:274,killactive"
         ];
 
         bind =
           [
-            "$mod, Q, exec, $browser"
-            "$mod, W, exec, $terminal"
+            "$mod, W, exec, $browser"
+            "$mod, Q, exec, $terminal"
             "$mod, E, exec, $fileManager"
             "$mod, Space, exec, $menu"
             "$mod, T, exec, wofi-emoji"
