@@ -32,9 +32,12 @@ in {
       enable = true;
       plugins = with pkgs.xfce; [
         thunar-archive-plugin
+        thunar-media-tags-plugin
         thunar-volman
       ];
     };
+
+    programs.file-roller.enable = true;
 
     environment.sessionVariables = {
       NIXOS_OZONE_WL = "1"; # hint electron apps to use wayland

@@ -33,13 +33,11 @@ in {
       pavucontrol # audio
 
       # emojis
-      wofi
       wofi-emoji
       wtype
 
       # screenshots / clipboard
       wl-clipboard
-      hyprshot
       copyq
 
       # notifs
@@ -75,7 +73,7 @@ in {
         bindm = [
           "$mod,mouse:272,movewindow"
           "$mod,mouse:273,resizewindow"
-          "$mod,mouse:274,killactive"
+          "mouse:274,killactive"
         ];
 
         bind =
@@ -119,6 +117,9 @@ in {
               )
               10)
           );
+
+        # https://youtrack.jetbrains.com/issue/IJPL-149906/Focus-bug-with-Ctrl-Shift-F-on-Arch-Linux-with-Hyprland-WM
+        float_switch_override_focus = 1;
 
         # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
         dwindle = {
