@@ -4,6 +4,13 @@
   lib,
   ...
 }: {
+  # swanc files
+  home.file.".config/swaync/style.css" = {
+    source = ../assets/css/notifications.css;
+  };
+  home.file.".config/swaync/config.json" = {
+    source = ../assets/config/notifications.json;
+  };
   programs.waybar = {
     enable = true;
     systemd.enable = true;
