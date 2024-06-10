@@ -18,8 +18,16 @@ in {
 
   config = mkIf cfg.enable {
     thuis.desktop.enable = true;
-    gtk.enable = true;
-    qt.enable = true;
+    gtk = {
+      enable = true;
+      iconTheme.name = "gruvbox";
+      iconTheme.package = pkgs.gruvbox-dark-icons-gtk;
+    };
+    qt = {
+      enable = true;
+      style.name = "breeze";
+      platformTheme.name = "kde";
+    };
 
     home.packages = with pkgs; [
       # utilities
@@ -28,29 +36,27 @@ in {
       rofi-wayland
       swaybg
       networkmanagerapplet
-      cinnamon.nemo-with-extensions
       blueman # bluetooth
       pavucontrol # audio
+      playerctl
+
+      # KDE apps
+      libsForQt5.kate
+      libsForQt5.kwallet
+      libsForQt5.kwallet-pam
 
       # emojis
       wofi-emoji
       wtype
 
       # screenshots / clipboard
+      hyprshot
       wl-clipboard
       copyq
 
       # notifs
       swaynotificationcenter
     ];
-
-    home.file.".config/swaync/style.css" = {
-      source = ../assets/css/notifications.css;
-    };
-
-    home.file.".config/rofi/config.rasi" = {
-      source = ../assets/css/runner.css;
-    };
 
     wayland.windowManager.hyprland = {
       enable = true;
@@ -60,20 +66,40 @@ in {
         "$mod" = "ALT";
         "$prog" = "CTRL ALT";
         exec-once = [
-          "swaybg --mode fill --image /home/martijn/Nix/home/assets/wallpaper2.jpg"
+          "swaybg --mode fill --image /home/martijn/Nix/home/assets/img/wallpaper2.jpg"
           "nm-applet --indicator &"
           "swaync &"
           "copyq --start-server &"
+          "blueman-applet &"
         ];
         "$terminal" = "kitty";
         "$fileManager" = "thunar";
         "$browser" = "firefox";
         "$menu" = "rofi -show drun -show-icons";
 
+        # l -> locked, will also work when an input inhibitor (e.g. a lockscreen) is active.
+        # r -> release, will trigger on release of a key.
+        # e -> repeat, will repeat when held.
+        # n -> non-consuming, key/mouse events will be passed to the active window in addition to triggering the dispatcher.
+        # m -> mouse, see below
+        # t -> transparent, cannot be shadowed by other binds.
+        # i -> ignore mods, will ignore modifiers.
         bindm = [
           "$mod,mouse:272,movewindow"
           "$mod,mouse:273,resizewindow"
-          "mouse:274,killactive"
+          ",mouse:274,killactive"
+        ];
+
+        bindr = [
+          ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 3%+"
+          ", XF86AudioLowerVolume, exec, wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 3%-"
+        ];
+
+        bindl = [
+          ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+          ", XF86AudioPlay, exec, playerctl play-pause"
+          ", XF86AudioNext, exec, playerctl next"
+          ", XF86AudioPrev, exec, playerctl previous"
         ];
 
         bind =
@@ -84,20 +110,23 @@ in {
             "$mod, Space, exec, $menu"
             "$mod, T, exec, wofi-emoji"
             "$mod, R, exec, pycharm-community"
-            ", Print, exec, hyprshot -m region --clipboard-only" # https://github.com/flameshot-org/flameshot
+            ", Print, exec, hyprshot -m region --clipboard-only" #
             "$mod, F4, killactive"
             "$prog, H, exec, copyq toggle"
+            "$mod, M, exec, hyprlock"
 
             # movement
             # https://wiki.hyprland.org/Configuring/Dispatchers/#list-of-dispatchers
             "$mod, V, togglefloating"
+            "$prog, down, workspace, -1"
+            "$prog, up, workspace, +1"
             "$mod, J, movefocus, l"
             "$mod, L, movefocus, r"
             "$mod, I, movefocus, u"
             "$mod, K, movefocus, d"
             "$mod, U, swapwindow, l"
             "$mod, O, swapwindow, r"
-            "$mod, Y, fullscreen,"
+            "$mod, F, fullscreen,"
             "$mod, P, pseudo," # dwindle
             "$mod, H, togglesplit" # dwindle
           ]
@@ -115,11 +144,8 @@ in {
                   "$mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
                 ]
               )
-              10)
+              5)
           );
-
-        # https://youtrack.jetbrains.com/issue/IJPL-149906/Focus-bug-with-Ctrl-Shift-F-on-Arch-Linux-with-Hyprland-WM
-        float_switch_override_focus = 1;
 
         # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
         dwindle = {
@@ -163,6 +189,49 @@ in {
           animate_mouse_windowdragging = false;
           close_special_on_empty = true;
         };
+      };
+    };
+    home.file.".config/swaync/style.css" = {
+      source = ../assets/css/notifications.css;
+    };
+
+    home.file.".config/rofi/config.rasi" = {
+      source = ../assets/css/runner.css;
+    };
+
+    programs.hyprlock = {
+      enable = true;
+      settings = {
+        general = {
+          disable_loading_bar = true;
+          grace = 30;
+          hide_cursor = true;
+          no_fade_in = false;
+        };
+
+        background = [
+          {
+            path = "screenshot";
+            blur_passes = 3;
+            blur_size = 8;
+          }
+        ];
+
+        input-field = [
+          {
+            size = "200, 50";
+            position = "0, -80";
+            monitor = "";
+            dots_center = true;
+            fade_on_empty = false;
+            font_color = "rgb(202, 211, 245)";
+            inner_color = "rgb(91, 96, 120)";
+            outer_color = "rgb(24, 25, 38)";
+            outline_thickness = 5;
+            placeholder_text = "Rara...";
+            shadow_passes = 2;
+          }
+        ];
       };
     };
   };
