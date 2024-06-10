@@ -43,7 +43,7 @@ in {
       # KDE apps
       libsForQt5.kate
       libsForQt5.kwallet
-      libsForQt5.kwallet-pam
+      libsForQt5.kwalletmanager
 
       # emojis
       wofi-emoji
@@ -87,7 +87,6 @@ in {
         bindm = [
           "$mod,mouse:272,movewindow"
           "$mod,mouse:273,resizewindow"
-          ",mouse:274,killactive"
         ];
 
         bindr = [
@@ -164,7 +163,7 @@ in {
         input = {
           kb_layout = "us";
           follow_mouse = 1;
-          sensitivity = 0; # # -1.0 - 1.0, 0 means no modification.
+          sensitivity = 0; # -1.0 - 1.0, 0 means no modification.
           touchpad = {
             natural_scroll = false;
           };
@@ -190,13 +189,41 @@ in {
           close_special_on_empty = true;
         };
       };
+      # Attempt at fixing youtube picture-in-picture
+      extraConfig = ''
+        windowrulev2 = keepaspectratio,class:^(firefox)$,title:^(Picture-in-Picture)$
+        windowrulev2 = noborder,class:^(firefox)$,title:^(Picture-in-Picture)$
+        windowrulev2 = fakefullscreen,class:^(firefox)$,title:^(Firefox)$
+        windowrulev2 = fakefullscreen,class:^(firefox)$,title:^(Picture-in-Picture)$
+        windowrulev2 = pin,class:^(firefox)$,title:^(Firefox)$
+        windowrulev2 = pin,class:^(firefox)$,title:^(Picture-in-Picture)$
+        windowrulev2 = float,class:^(firefox)$,title:^(Firefox)$
+        windowrulev2 = float,class:^(firefox)$,title:^(Picture-in-Picture)$
+      '';
     };
+
     home.file.".config/swaync/style.css" = {
       source = ../assets/css/notifications.css;
     };
 
     home.file.".config/rofi/config.rasi" = {
       source = ../assets/css/runner.css;
+    };
+
+    services.swayidle = {
+      # https://wiki.archlinux.org/title/Hyprland
+      enable = true;
+      timeouts = [
+        {
+          timeout = 500;
+          command = "hyprlock";
+        }
+        {
+          timeout = 600;
+          command = "hyprctl dispatch dpms off";
+          resumeCommand = "hyprctl dispatch dpms on";
+        }
+      ];
     };
 
     programs.hyprlock = {
