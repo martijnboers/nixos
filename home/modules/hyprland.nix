@@ -39,6 +39,7 @@ in {
       blueman # bluetooth
       pavucontrol # audio
       playerctl
+      wlogout
 
       # KDE apps
       libsForQt5.kate
@@ -71,6 +72,12 @@ in {
           "swaync &"
           "copyq --start-server &"
           "blueman-applet &"
+
+          "[workspace 1 silent] $browser &"
+          "[workspace 1 silent] $terminal &"
+          "[workspace 2 silent] sublime-merge &"
+          "[workspace 3 silent] cinny &"
+          "[workspace 3 silent] signal &"
         ];
         "$terminal" = "kitty";
         "$fileManager" = "thunar";
@@ -113,6 +120,7 @@ in {
             "$mod, F4, killactive"
             "$prog, H, exec, copyq toggle"
             "$mod, M, exec, hyprlock"
+            "$mod, \, exec, wlogout"
 
             # movement
             # https://wiki.hyprland.org/Configuring/Dispatchers/#list-of-dispatchers
@@ -145,6 +153,19 @@ in {
               )
               5)
           );
+
+        plugin = {
+          hyprexpo = {
+            columns = 3;
+            gap_size = 5;
+            bg_col = "rgb(111111)";
+            workspace_method = "center current"; # [center/first] [workspace] e.g. first 1 or center m+1
+
+            enable_gesture = true; # laptop touchpad, 4 fingers
+            gesture_distance = 300; # how far is the "max"
+            gesture_positive = true; # positive = swipe down. Negative = swipe up.
+          };
+        };
 
         # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
         dwindle = {
@@ -200,10 +221,6 @@ in {
         windowrulev2 = float,class:^(firefox)$,title:^(Firefox)$
         windowrulev2 = float,class:^(firefox)$,title:^(Picture-in-Picture)$
       '';
-    };
-
-    home.file.".config/swaync/style.css" = {
-      source = ../assets/css/notifications.css;
     };
 
     home.file.".config/rofi/config.rasi" = {

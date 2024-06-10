@@ -26,10 +26,7 @@ in {
           ovmf.enable = true;
           ovmf.packages = [pkgs.OVMFFull.fd];
         };
-        extraConfig = ''
-          ON_SHUTDOWN="ignore"
-          SHUTDOWN_TIMEOUT=1
-        ''; # should fix hanging reboots
+        onShutdown = "shutdown";
       };
       spiceUSBRedirection.enable = true;
     };
