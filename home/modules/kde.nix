@@ -24,7 +24,7 @@ in {
       workspace = {
         theme = "Materia-Color";
         iconTheme = "Nordic-darker";
-        wallpaper = ../assets/wallpaper2.jpg;
+        wallpaper = ../assets/img/wallpaper2.jpg;
         colorScheme = "MateriaDark";
         lookAndFeel = "com.github.varlesh.materia-dark";
       };

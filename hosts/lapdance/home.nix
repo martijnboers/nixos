@@ -3,8 +3,10 @@
     ../../home
   ];
 
+  wayland.windowManager.hyprland.settings.monitor = "eDP-1,disable"; # builtin
+
   # Enable profiles
-  thuis.kde.enable = true;
+  thuis.hyprland.enable = true;
   thuis.personal.enable = false;
   thuis.work.enable = true;
 }

@@ -28,6 +28,8 @@ in {
       extraPortals = [pkgs.xdg-desktop-portal-gtk];
     };
 
+    security.pam.services.sddm.kwallet.enable = true;
+
     programs.thunar = {
       enable = true;
       plugins = with pkgs.xfce; [

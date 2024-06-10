@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="home/assets/logo.svg" alt="nixos" width="250">
+  <img src="home/assets/img/logo.svg" alt="nixos" width="250">
 </h1>
 
 ## Description

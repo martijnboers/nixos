@@ -72,7 +72,7 @@
   };
 
   stylix = {
-    image = assets/wallpaper2.jpg;
+    image = assets/img/wallpaper2.jpg;
     polarity = "dark";
     cursor = {
       package = pkgs.phinger-cursors;

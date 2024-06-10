@@ -6,10 +6,7 @@
 }: {
   networking.hostName = "lapdance";
 
-  hosts.kde = {
-    enable = true;
-    wayland = true;
-  };
+  hosts.hyprland.enable = true;
 
   # Enable tailscale network
   hosts.tailscale.enable = true;
