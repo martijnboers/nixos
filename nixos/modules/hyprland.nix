@@ -28,7 +28,7 @@ in {
       extraPortals = [pkgs.xdg-desktop-portal-gtk];
     };
 
-    security.pam.services.sddm.kwallet.enable = true;
+    security.pam.services.login.kwallet.enable = true;
 
     programs.thunar = {
       enable = true;
