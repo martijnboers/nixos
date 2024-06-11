@@ -30,16 +30,23 @@
 
         "hyprland/workspaces" = {
           on-click = "activate";
+          # https://github.com/Alexays/Waybar/wiki/Module:-Workspaces#persistent-workspaces
           persistent-workspaces = {
-            "*" = 5;
+            "1" = [];
+            "2" = [];
+            "3" = [];
+            "4" = [];
+            "5" = [];
+            "6" = [];
           };
           format = "{icon}";
           format-icons = {
             "1" = "󰹈";
-            "2" = "";
-            "3" = "󰭹";
-            "4" = "󰺵";
-            "5" = "󰻈";
+            "2" = "";
+            "3" = "";
+            "4" = "󰭹";
+            "5" = "󰺵";
+            "6" = "󰻈";
           };
         };
 
@@ -53,7 +60,7 @@
           interval = 60;
           format = "  {:%a %b %d <b>%H:%M</b>}";
           exec-on-event = "true";
-          on-click = "wofi --show=drun"; # todo cal
+          on-click = "merkuro";
         };
 
         cpu = {
