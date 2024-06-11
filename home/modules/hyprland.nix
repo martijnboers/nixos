@@ -31,7 +31,6 @@ in {
 
     home.packages = with pkgs; [
       # utilities
-      hyprpaper
       waybar
       rofi-wayland
       swaybg
@@ -57,8 +56,9 @@ in {
       wl-clipboard
       copyq
 
-      # notifs
-      swaynotificationcenter
+      # other
+      nwg-dock-hyprland # dock
+      swaynotificationcenter # notifs
     ];
 
     wayland.windowManager.hyprland = {
@@ -74,6 +74,7 @@ in {
           "swaync &"
           "copyq --start-server &"
           "blueman-applet &"
+          "nwg-dock-hyprland -i 33 -w 6 -p left -nolauncher &"
 
           "[workspace 1 silent] $browser &"
           "[workspace 1 silent] $terminal &"
