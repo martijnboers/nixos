@@ -85,6 +85,11 @@
       # Use the systemd-boot EFI boot loader.
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
+
+      # hopefully fixes crashing AMD GPU
+      grub.extraConfig = ''
+        amdgpu.aspm=0
+      '';
     };
 
     # Silent Boot
