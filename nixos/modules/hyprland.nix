@@ -28,7 +28,7 @@ in {
       extraPortals = [pkgs.xdg-desktop-portal-gtk];
     };
 
-    security.pam.services.ssdm.kwallet.enable = true;
+    services.gnome.gnome-keyring.enable = true;
 
     programs.thunar = {
       enable = true;

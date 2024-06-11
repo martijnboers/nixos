@@ -43,13 +43,9 @@ in {
 
       # KDE apps
       libsForQt5.kate
-      # kwallet stuff
-      libsForQt5.kwallet
-      libsForQt5.kwalletmanager
-      libsForQt5.polkit-kde-agent
-      libsForQt5.kded
-      # --
       libsForQt5.merkuro # kalender
+
+      gnome.seahorse # kwallet stinks
 
       # emojis
       wofi-emoji
@@ -73,8 +69,6 @@ in {
         "$mod" = "ALT";
         "$prog" = "CTRL ALT";
         exec-once = [
-          "kwalletd5 &"
-          "kded5 &"
           "swaybg --mode fill --image /home/martijn/Nix/home/assets/img/wallpaper2.jpg"
           "nm-applet --indicator &"
           "swaync &"

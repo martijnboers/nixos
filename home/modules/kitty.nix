@@ -16,7 +16,6 @@ in {
         tab_title_max_length = 60;
         tab_title_template = "{title}";
         strip_trailing_spaces = "always";
-        enableZshIntegration = true;
 
         # Don't do updates
         update_check_interval = 0;
