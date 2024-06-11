@@ -43,8 +43,12 @@ in {
 
       # KDE apps
       libsForQt5.kate
+      # kwallet stuff
       libsForQt5.kwallet
       libsForQt5.kwalletmanager
+      libsForQt5.polkit-kde-agent
+      libsForQt5.kded
+      # --
       libsForQt5.merkuro # kalender
 
       # emojis
@@ -69,18 +73,14 @@ in {
         "$mod" = "ALT";
         "$prog" = "CTRL ALT";
         exec-once = [
+          "kwalletd5 &"
+          "kded5 &"
           "swaybg --mode fill --image /home/martijn/Nix/home/assets/img/wallpaper2.jpg"
           "nm-applet --indicator &"
           "swaync &"
           "copyq --start-server &"
           "blueman-applet &"
           "nwg-dock-hyprland -i 33 -w 6 -p left -nolauncher &"
-
-          "[workspace 1 silent] $browser &"
-          "[workspace 1 silent] $terminal &"
-          "[workspace 2 silent] sublime-merge &"
-          "[workspace 3 silent] cinny &"
-          "[workspace 3 silent] signal &"
         ];
         "$terminal" = "kitty";
         "$fileManager" = "thunar";
@@ -97,6 +97,17 @@ in {
         bindm = [
           "$mod,mouse:272,movewindow"
           "$mod,mouse:273,resizewindow"
+        ];
+
+        # hyprctl clients
+        windowrulev2 = [
+            "workspace 3, class:(sublime_merge)"
+            "workspace 4, class:(cinny)"
+            "workspace 4, class:(signal)"
+            "workspace 4, class:(Slack)"
+            "workspace 5, class:(steam)"
+            "workspace 6, title:(Clementine)"
+            "workspace 6, title:(Spotify Premium)"
         ];
 
         bindr = [
