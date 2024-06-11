@@ -40,11 +40,13 @@ in {
       pavucontrol # audio
       playerctl
       wlogout
+      imv # image viewer
 
       # KDE apps
       libsForQt5.kate
       libsForQt5.kwallet
       libsForQt5.kwalletmanager
+      libsForQt5.merkuro # kalender
 
       # emojis
       wofi-emoji
@@ -151,7 +153,7 @@ in {
                   "$mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
                 ]
               )
-              5)
+              6)
           );
 
         plugin = {

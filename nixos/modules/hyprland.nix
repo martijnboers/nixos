@@ -28,7 +28,7 @@ in {
       extraPortals = [pkgs.xdg-desktop-portal-gtk];
     };
 
-    security.pam.services.login.kwallet.enable = true;
+    security.pam.services.ssdm.kwallet.enable = true;
 
     programs.thunar = {
       enable = true;
@@ -38,8 +38,10 @@ in {
         thunar-volman
       ];
     };
-
+    programs.xfconf.enable = true;
     programs.file-roller.enable = true;
+    services.gvfs.enable = true; # Mount, trash, and other functionalities
+    services.tumbler.enable = true; # Thumbnail support for images
 
     environment.sessionVariables = {
       NIXOS_OZONE_WL = "1"; # hint electron apps to use wayland
