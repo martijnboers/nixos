@@ -76,7 +76,7 @@
     polarity = "dark";
     cursor = {
       package = pkgs.phinger-cursors;
-      name = "pakkarobaan";
+      name = "phinger-cursors-light";
       size = 28;
     };
     base16Scheme = "${pkgs.base16-schemes}/share/themes/material-darker.yaml";
