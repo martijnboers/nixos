@@ -87,6 +87,9 @@ in {
     paths = ["/mnt/zwembad/app"];
   };
 
+  # immich requires docker 25
+  virtualisation.docker.package = pkgs.docker_25;
+
   services.zfs = {
     autoScrub.enable = true;
     zed.settings = {
