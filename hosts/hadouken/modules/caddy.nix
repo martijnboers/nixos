@@ -47,7 +47,7 @@ in {
           remote_ip 100.64.0.0/10
         }
         handle @internal {
-          reverse_proxy http://0.0.0.0:2283
+          reverse_proxy http://localhost:2283
         }
         respond 403
       '';
