@@ -47,7 +47,7 @@ in {
           remote_ip 100.64.0.0/10
         }
         handle @internal {
-          reverse_proxy http://todo:3030
+          reverse_proxy http://0.0.0.0:3003
         }
         respond 403
       '';
