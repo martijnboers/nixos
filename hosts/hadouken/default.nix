@@ -28,6 +28,7 @@ in {
     ./modules/pgrok.nix
     ./modules/plex.nix
     ./modules/hass.nix
+    ./modules/zfs.nix
   ];
 
   hosts.smb.enable = true;
@@ -89,20 +90,6 @@ in {
 
   # immich requires docker 25
   virtualisation.docker.package = pkgs.docker_25;
-
-  services.zfs = {
-    autoScrub.enable = true;
-    zed.settings = {
-      ZED_DEBUG_LOG = "/tmp/zed.debug.log";
-
-      ZED_NOTIFY_INTERVAL_SECS = 3600;
-      ZED_NOTIFY_VERBOSE = true;
-
-      ZED_USE_ENCLOSURE_LEDS = true;
-      ZED_SCRUB_AFTER_RESILVER = true;
-    };
-  };
-  services.zfs.zed.enableMail = false;
 
   hosts.auditd = {
     enable = true;
