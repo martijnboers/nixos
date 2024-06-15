@@ -1,4 +1,4 @@
-{...}: {
+{config, ...}: {
   # ZFS datasets
   fileSystems."/mnt/zwembad/music" = {
     device = "zwembad/music";
