@@ -25,8 +25,8 @@ in {
     };
     qt = {
       enable = true;
-      style.name = "breeze";
       platformTheme.name = "kde";
+      style.name = "breeze";
     };
 
     xdg.mimeApps = {
