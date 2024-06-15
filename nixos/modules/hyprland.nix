@@ -59,6 +59,7 @@ in {
       WLR_NO_HARDWARE_CURSORS = "1"; # disable hardware cursors for wlroots
       NIXOS_XDG_OPEN_USE_PORTAL = "1"; # needed to open apps after web login
       DEFAULT_BROWSER = "firefox";
+      QT_QPA_PLATFORMTHEME= "kde";
     };
   };
 }
