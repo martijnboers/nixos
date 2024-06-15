@@ -24,7 +24,6 @@ in {
     services.keycloak = {
       enable = true;
       database = {
-        # database will be automatically created by the keycloak module
         type = "postgresql";
         passwordFile = config.age.secrets.keycloak.path;
       };
