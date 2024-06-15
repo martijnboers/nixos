@@ -31,41 +31,6 @@
   "timeout-low": 5,
   "transition-time": 100,
   "widget-config": {
-    "buttons-grid": {
-      "actions": [
-        {
-          "active": false,
-          "command": "notify-send 'hey'",
-          "label": "󰤄",
-          "type": "toggle",
-          "update_command": "notify-send 'Hi'"
-        },
-        {
-          "active": false,
-          "command": "swaync-client -d",
-          "label": "",
-          "type": "toggle"
-        },
-        {
-          "active":false,
-          "command":"obs",
-          "label":"󰄀",
-          "type": "button"
-        },
-        {
-          "active":false,
-          "command":"obs",
-          "label":"󰕧",
-          "type": "button"
-        },
-        {
-          "active": false,
-          "command": "swaync-client -t",
-          "label": "",
-          "type": "toggle"
-        }
-      ]
-    },
     "mpris": {
       "image-radius": 12,
       "image-size": 96
@@ -74,20 +39,11 @@
       "text": "Notifications",
       "button-text": "󰎟 Clear",
       "clear-all-button": true
-    },
-    "volume": {
-      "label": "",
-        "show-per-app": true,
-        "show-per-app-icon": true,
-        "show-per-app-label":true
     }
 },
 
   "widgets": [
     "title",
-    "notifications",
-    "buttons-grid",
-    "mpris",
-    "volume"
+    "notifications"
   ]
 }

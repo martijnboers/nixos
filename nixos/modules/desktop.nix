@@ -31,17 +31,6 @@ in {
       };
     };
 
-    # SSDM works on hyprland and kde
-    services.displayManager = {
-      # Enable automatic login for the user.
-      autoLogin.enable = true;
-      autoLogin.user = "martijn";
-      sddm = {
-        enable = true;
-        wayland.enable = true;
-      };
-    };
-
     # Access QMK without sudo
     hardware.keyboard.qmk.enable = true;
 

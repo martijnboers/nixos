@@ -29,21 +29,28 @@ in {
       platformTheme.name = "kde";
     };
 
-    xdg.mimeApps.defaultApplications = {
-      "application/pdf" = "zathura.desktop";
-      "text/plain" = "kate.desktop";
-      "text/html" = "webstorm.desktop";
+    xdg.mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "application/pdf" = "zathura.desktop";
+        "text/plain" = "kate.desktop";
+        "text/html" = "webstorm.desktop";
+        "x-scheme-handler/http" = "firefox.desktop";
+        "x-scheme-handler/https" = "firefox.desktop";
+        "x-scheme-handler/about" = "firefox.desktop";
+        "x-scheme-handler/unknown" = "firefox.desktop";
 
-      "image/gif" = "imv.desktop";
-      "image/jpeg" = "imv.desktop";
-      "image/png" = "imv.desktop";
-      "image/webp" = "imv.desktop";
+        "image/gif" = "imv.desktop";
+        "image/jpeg" = "imv.desktop";
+        "image/png" = "imv.desktop";
+        "image/webp" = "imv.desktop";
 
-      "video/mp4" = "vlc.desktop";
-      "video/webm" = "vlc.desktop";
+        "video/mp4" = "vlc.desktop";
+        "video/webm" = "vlc.desktop";
 
-      "audio/flac" = "clementine.desktop";
-      "audio/mpeg" = "clementine.desktop";
+        "audio/flac" = "clementine.desktop";
+        "audio/mpeg" = "clementine.desktop";
+      };
     };
 
     home.packages = with pkgs; [
@@ -65,7 +72,6 @@ in {
       libsForQt5.dolphin-plugins
       libsForQt5.kdegraphics-thumbnailers
       ffmpegthumbs
-      libsForQt5.qt5.qtwayland
       gnome.seahorse # kwallet stinks
 
       # File support

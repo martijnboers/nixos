@@ -23,11 +23,21 @@ in {
     # Enable the X11 windowing system.
     services.xserver.enable = true;
 
-    # Enable the KDE Plasma Desktop Environment.
-    services.displayManager.defaultSession =
-      if cfg.wayland
-      then "plasma"
-      else "plasmax11";
+    services.displayManager = {
+      # Enable automatic login for the user.
+      autoLogin.enable = true;
+      autoLogin.user = "martijn";
+
+      sddm = {
+        enable = true;
+        wayland.enable = true;
+      };
+
+      defaultSession =
+        if cfg.wayland
+        then "plasma"
+        else "plasmax11";
+    };
 
     environment.plasma6.excludePackages = with pkgs.libsForQt5; [
       elisa
