@@ -30,25 +30,14 @@ in {
 
     services.gnome.gnome-keyring.enable = true;
 
-    programs.thunar = {
-      enable = true;
-      plugins = with pkgs.xfce; [
-        thunar-archive-plugin
-        thunar-media-tags-plugin
-        thunar-volman
-      ];
-    };
-    programs.xfconf.enable = true;
-    programs.file-roller.enable = true;
-    services.gvfs.enable = true; # Mount, trash, and other functionalities
-    services.tumbler.enable = true; # Thumbnail support for images
-
     environment.sessionVariables = {
       NIXOS_OZONE_WL = "1"; # hint electron apps to use wayland
       MOZ_ENABLE_WAYLAND = "1"; # ensure enable wayland for Firefox
       WLR_RENDERER_ALLOW_SOFTWARE = "1"; # enable software rendering for wlroots
       WLR_NO_HARDWARE_CURSORS = "1"; # disable hardware cursors for wlroots
       NIXOS_XDG_OPEN_USE_PORTAL = "1"; # needed to open apps after web login
+      QT_QPA_PLATFORM = "wayland";
+      QT_WAYLAND_DISABLE_WINDOWDECORATION = 1;
     };
 
     programs.hyprland = {

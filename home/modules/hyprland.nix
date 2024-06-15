@@ -29,6 +29,23 @@ in {
       platformTheme.name = "kde";
     };
 
+    xdg.mimeApps.defaultApplications = {
+      "application/pdf" = "zathura.desktop";
+      "text/plain" = "kate.desktop";
+      "text/html" = "webstorm.desktop";
+
+      "image/gif" = "imv.desktop";
+      "image/jpeg" = "imv.desktop";
+      "image/png" = "imv.desktop";
+      "image/webp" = "imv.desktop";
+
+      "video/mp4" = "vlc.desktop";
+      "video/webm" = "vlc.desktop";
+
+      "audio/flac" = "clementine.desktop";
+      "audio/mpeg" = "clementine.desktop";
+    };
+
     home.packages = with pkgs; [
       # utilities
       waybar
@@ -44,8 +61,16 @@ in {
       # KDE apps
       libsForQt5.kate
       libsForQt5.merkuro # kalender
-
+      libsForQt5.dolphin
+      libsForQt5.dolphin-plugins
+      libsForQt5.kdegraphics-thumbnailers
+      ffmpegthumbs
+      libsForQt5.qt5.qtwayland
       gnome.seahorse # kwallet stinks
+
+      # File support
+      zathura #pdf
+      vlc
 
       # emojis
       wofi-emoji
@@ -77,7 +102,7 @@ in {
           "nwg-dock-hyprland -i 33 -w 6 -p left -nolauncher &"
         ];
         "$terminal" = "kitty";
-        "$fileManager" = "thunar";
+        "$fileManager" = "dolphin";
         "$browser" = "firefox";
         "$menu" = "rofi -show drun -show-icons";
 
@@ -95,13 +120,13 @@ in {
 
         # hyprctl clients
         windowrulev2 = [
-            "workspace 3, class:(sublime_merge)"
-            "workspace 4, class:(cinny)"
-            "workspace 4, class:(signal)"
-            "workspace 4, class:(Slack)"
-            "workspace 5, class:(steam)"
-            "workspace 6, title:(Clementine)"
-            "workspace 6, title:(Spotify Premium)"
+          "workspace 3, class:(sublime_merge)"
+          "workspace 4, class:(cinny)"
+          "workspace 4, class:(signal)"
+          "workspace 4, class:(Slack)"
+          "workspace 5, class:(steam)"
+          "workspace 6, title:(Clementine)"
+          "workspace 6, title:(Spotify Premium)"
         ];
 
         bindr = [
@@ -161,19 +186,6 @@ in {
               )
               6)
           );
-
-        plugin = {
-          hyprexpo = {
-            columns = 3;
-            gap_size = 5;
-            bg_col = "rgb(111111)";
-            workspace_method = "center current"; # [center/first] [workspace] e.g. first 1 or center m+1
-
-            enable_gesture = true; # laptop touchpad, 4 fingers
-            gesture_distance = 300; # how far is the "max"
-            gesture_positive = true; # positive = swipe down. Negative = swipe up.
-          };
-        };
 
         # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
         dwindle = {
@@ -236,7 +248,6 @@ in {
     };
 
     services.swayidle = {
-      # https://wiki.archlinux.org/title/Hyprland
       enable = true;
       timeouts = [
         {
