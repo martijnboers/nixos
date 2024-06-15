@@ -16,7 +16,13 @@ in {
 
   config = mkIf cfg.enable {
     hosts.desktop.enable = true;
+
+    # Still necesarry for stylix
     environment.systemPackages = with pkgs; [libsForQt5.full];
+
+    programs.hyprland = {
+      enable = true;
+    };
 
     nix.settings = {
       substituters = ["https://hyprland.cachix.org"];
@@ -29,6 +35,22 @@ in {
     };
 
     services.gnome.gnome-keyring.enable = true;
+    security.pam.services.greetd.enableGnomeKeyring = true;
+
+    services.greetd = {
+      enable = true;
+      settings = {
+        # only first session auto-login
+        initial_session = {
+          command = "Hyprland";
+          user = "martijn";
+        };
+        default_session = {
+          command = "${lib.getExe pkgs.greetd.tuigreet} --time --cmd Hyprland";
+          user = "martijn";
+        };
+      };
+    };
 
     environment.sessionVariables = {
       NIXOS_OZONE_WL = "1"; # hint electron apps to use wayland
@@ -36,12 +58,7 @@ in {
       WLR_RENDERER_ALLOW_SOFTWARE = "1"; # enable software rendering for wlroots
       WLR_NO_HARDWARE_CURSORS = "1"; # disable hardware cursors for wlroots
       NIXOS_XDG_OPEN_USE_PORTAL = "1"; # needed to open apps after web login
-      QT_QPA_PLATFORM = "wayland";
-      QT_WAYLAND_DISABLE_WINDOWDECORATION = 1;
-    };
-
-    programs.hyprland = {
-      enable = true;
+      DEFAULT_BROWSER = "firefox";
     };
   };
 }

@@ -77,7 +77,7 @@
     cursor = {
       package = pkgs.phinger-cursors;
       name = "phinger-cursors-light";
-      size = 28;
+      size = 27;
     };
     base16Scheme = "${pkgs.base16-schemes}/share/themes/material-darker.yaml";
     fonts = {
