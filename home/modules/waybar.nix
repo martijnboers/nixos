@@ -28,7 +28,7 @@ in {
           spacing = 1;
 
           modules-left = ["custom/power" "hyprland/workspaces"];
-          modules-center = ["clock"];
+          modules-center = ["clock" "custom/notification"];
           modules-right = ["cpu" "memory" "disk" "pulseaudio" "tray"];
 
           "hyprland/workspaces" = {
@@ -80,8 +80,6 @@ in {
           disk = {
             interval = 15;
             format = "󰋊 {percentage_used}%";
-            exec-on-event = "true";
-            on-click = "swaync-client -t -sw";
           };
 
           pulseaudio = {
@@ -104,8 +102,26 @@ in {
           };
 
           "custom/power" = {
+            tooltip = false;
             format = "{icon}";
             format-icons = "";
+            exec-on-event = "true";
+            on-click = "wlogout";
+          };
+
+          "custom/notification" = {
+            tooltip = false;
+            format = "{icon}";
+            format-icons = {
+              notification = "󱅫";
+              none = "󰂚";
+              dnd-notification = "󱏧";
+              dnd-none = "󱏧";
+            };
+            return-type = "json";
+            exec-if = "which swaync-client";
+            exec = "swaync-client -swb";
+            on-click = "sleep 0.1 && swaync-client -t -sw";
           };
 
           "custom/sepp" = {

@@ -158,7 +158,6 @@ in {
             "$mod, F4, killactive"
             "$prog, H, exec, copyq toggle"
             "$mod, M, exec, hyprlock"
-            "$mod, \, exec, wlogout"
 
             # movement
             # https://wiki.hyprland.org/Configuring/Dispatchers/#list-of-dispatchers
