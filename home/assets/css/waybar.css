@@ -90,6 +90,7 @@ button:hover {
 #cpu,
 #memory,
 #pulseaudio,
+#custom-notification,
 #disk {
   color: @grey;
   font-weight: 600;
