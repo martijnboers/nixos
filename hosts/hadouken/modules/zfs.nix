@@ -50,7 +50,7 @@
 
     commands."apps" = {
       source = "zwembad/app";
-      target = "/mnt/garaga/Backups/app";
+      target = "/mnt/garage/Backups/app";
       extraArgs = [
         "--no-sync-snap"
         "--delete-target-snapshots"
