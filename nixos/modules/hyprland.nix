@@ -31,7 +31,7 @@ in {
 
     xdg.portal = {
       enable = true;
-      extraPortals = [pkgs.xdg-desktop-portal-gtk];
+      extraPortals = [pkgs.xdg-desktop-portal-gtk pkgs.libsForQt5.xdg-desktop-portal-kde];
     };
 
     services.gnome.gnome-keyring.enable = true;

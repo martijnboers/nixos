@@ -98,6 +98,7 @@
         name = "Noto Color Emoji";
       };
     };
+    targets.firefox.profileNames = ["default"];
     targets.nixvim.enable = false;
   };
 
