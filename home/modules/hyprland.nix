@@ -89,7 +89,6 @@ in {
       copyq
 
       # other
-      nwg-dock-hyprland # dock
       swaynotificationcenter # notifs
     ];
 
@@ -106,7 +105,6 @@ in {
           "swaync &"
           "copyq --start-server &"
           "blueman-applet &"
-          "nwg-dock-hyprland -i 33 -w 6 -p left -nolauncher &"
         ];
         "$terminal" = "kitty";
         "$fileManager" = "dolphin";
