@@ -71,6 +71,7 @@ in {
       libsForQt5.dolphin
       libsForQt5.dolphin-plugins
       libsForQt5.kdegraphics-thumbnailers
+      libsForQt5.qt5ct
       ffmpegthumbs
       gnome.seahorse # kwallet stinks
 

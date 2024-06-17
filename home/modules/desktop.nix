@@ -26,6 +26,12 @@ in {
       cinny-desktop # matrix client
       kooha # record screen wayland
 
+      # Office suite
+      libreoffice-qt
+      hunspell
+      hunspellDicts.nl_NL
+      hunspellDicts.en_US
+
       # music
       clementine
       spotify
