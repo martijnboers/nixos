@@ -85,7 +85,6 @@
     pciutils # lspci
     usbutils # lsusb
     cachix # community binary caches
-    nix-output-monitor # nix-build monitor
   ];
 
   nix.settings = {

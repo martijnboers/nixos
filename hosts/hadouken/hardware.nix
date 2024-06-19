@@ -28,11 +28,6 @@
     fsType = "vfat";
   };
 
-  fileSystems."/mnt/garage" = {
-    device = "/dev/disk/by-uuid/72709062-424c-4e45-8258-1c20757538ea";
-    fsType = "ext4";
-  };
-
   swapDevices = [
     {device = "/dev/disk/by-uuid/416601b3-23c4-4169-9d99-37bae9898e66";}
   ];

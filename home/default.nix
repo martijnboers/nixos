@@ -50,6 +50,7 @@
     thefuck
     trash-cli
     lsd # fancy ls
+    bat # fancy cat
 
     # fonts
     meslo-lgs-nf
