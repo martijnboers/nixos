@@ -1,5 +1,8 @@
 {config, ...}: {
-  # ZFS datasets
+  fileSystems."/mnt/zwembad/app" = {
+    device = "zwembad/app";
+    fsType = "zfs";
+  };
   fileSystems."/mnt/zwembad/music" = {
     device = "zwembad/music";
     fsType = "zfs";
@@ -8,8 +11,17 @@
     device = "zwembad/hot";
     fsType = "zfs";
   };
-  fileSystems."/mnt/zwembad/app" = {
-    device = "zwembad/app";
+
+  fileSystems."/mnt/garage/cold" = {
+    device = "garage/cold";
+    fsType = "zfs";
+  };
+  fileSystems."/mnt/garage/backups" = {
+    device = "garage/backups";
+    fsType = "zfs";
+  };
+  fileSystems."/mnt/garage/misc" = {
+    device = "garage/misc";
     fsType = "zfs";
   };
 
@@ -17,10 +29,6 @@
     autoScrub.enable = true;
     zed.settings = {
       ZED_DEBUG_LOG = "/tmp/zed.debug.log";
-
-      ZED_NOTIFY_INTERVAL_SECS = 3600;
-      ZED_NOTIFY_VERBOSE = true;
-
       ZED_USE_ENCLOSURE_LEDS = true;
       ZED_SCRUB_AFTER_RESILVER = true;
     };
@@ -50,7 +58,7 @@
 
     commands."apps" = {
       source = "zwembad/app";
-      target = "/mnt/garage/Backups/app";
+      target = "garage/backups/app";
       extraArgs = [
         "--no-sync-snap"
         "--delete-target-snapshots"

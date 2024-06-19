@@ -75,6 +75,7 @@
     iotop # io monitoring
     iftop # network monitoring
     du-dust # better du
+    screens
 
     # system call monitoring
     lsof # list open files
