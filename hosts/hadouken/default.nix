@@ -137,7 +137,7 @@ in {
     supportedFilesystems = ["zfs"];
     zfs = {
       forceImportRoot = false;
-      extraPools = ["zwembad"];
+      extraPools = ["zwembad" "garage"];
     };
     kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
 
