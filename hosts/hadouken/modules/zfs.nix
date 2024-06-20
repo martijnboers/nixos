@@ -21,6 +21,7 @@
     fsType = "zfs";
   };
   fileSystems."/mnt/garage/backups/app" = {
+    label = "app - replica";
     device = "garage/backups/app";
     fsType = "zfs";
   };
