@@ -20,8 +20,6 @@ in {
       auditd.enable = true;
       audit = {
         enable = true;
-        backlogLimit = 8192;
-        failureMode = "printk";
         rules = cfg.rules;
       };
     };
