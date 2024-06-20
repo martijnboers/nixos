@@ -16,12 +16,12 @@
     device = "garage/cold";
     fsType = "zfs";
   };
-  fileSystems."/mnt/garage/backups" = {
-    device = "garage/backups";
-    fsType = "zfs";
-  };
   fileSystems."/mnt/garage/misc" = {
     device = "garage/misc";
+    fsType = "zfs";
+  };
+  fileSystems."/mnt/garage/backups/app" = {
+    device = "garage/backups/app";
     fsType = "zfs";
   };
 
