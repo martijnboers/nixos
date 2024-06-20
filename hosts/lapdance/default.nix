@@ -14,9 +14,13 @@
   # Support gpg for git signing
   hosts.gpg.enable = true;
 
-  # Access through headscale
-  fileSystems."/mnt/share" = {
+  fileSystems."/mnt/music" = {
     device = "//hadouken.thuis.plebian.nl/music";
+    fsType = "cifs";
+    options = ["credentials=${config.age.secrets.smb.path},uid=1000,gid=100"];
+  };
+  fileSystems."/mnt/misc" = {
+    device = "//hadouken.thuis.plebian.nl/misc";
     fsType = "cifs";
     options = ["credentials=${config.age.secrets.smb.path},uid=1000,gid=100"];
   };
