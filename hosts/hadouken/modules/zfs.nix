@@ -60,7 +60,6 @@
       source = "zwembad/app";
       target = "garage/backups";
       extraArgs = [
-        "--no-sync-snap"
         "--delete-target-snapshots"
       ];
       localSourceAllow = config.services.syncoid.localSourceAllow ++ ["mount"];
