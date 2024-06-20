@@ -58,7 +58,7 @@
 
     commands."apps" = {
       source = "zwembad/app";
-      target = "garage/backups/app";
+      target = "garage/backups";
       extraArgs = [
         "--no-sync-snap"
         "--delete-target-snapshots"
