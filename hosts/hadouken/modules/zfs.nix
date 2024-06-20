@@ -21,16 +21,17 @@
     fsType = "zfs";
   };
 
+  # Only mount when sanoid has created the datasets
   fileSystems."/mnt/garage/backups/app" = {
     label = "app - replica";
     device = "garage/backups/app";
     fsType = "zfs";
   };
-  fileSystems."/mnt/garage/backups/music" = {
-    label = "music - replica";
-    device = "garage/backups/music";
-    fsType = "zfs";
-  };
+#  fileSystems."/mnt/garage/backups/music" = {
+#    label = "music - replica";
+#    device = "garage/backups/music";
+#    fsType = "zfs";
+#  };
 
   services.zfs = {
     autoScrub.enable = true;
