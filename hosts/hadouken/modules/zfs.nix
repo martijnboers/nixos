@@ -58,7 +58,7 @@
 
     commands."apps" = {
       source = "zwembad/app";
-      target = "garage/backups";
+      target = "garage/backups/app";
     };
   };
 }
