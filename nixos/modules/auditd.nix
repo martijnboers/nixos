@@ -24,31 +24,21 @@ in {
       };
     };
 
-    systemd = {
-      timers."clean-audit-log" = {
-        description = "Periodically clean audit log";
-        wantedBy = ["timers.target"];
-        timerConfig = {
-          OnCalendar = "weekly";
-          Persistent = true;
+    services.logrotate = {
+      enable = true;
+      checkConfig = false; # auth.log is root owned
+      settings = {
+        header = {
+          dateext = true;
         };
-      };
-
-      # clean audit log if it's more than 524,288,000 bytes, which is roughly 500 megabytes
-      # it can grow MASSIVE in size if left unchecked
-      services."clean-audit-log" = {
-        script = ''
-          set -eu
-          if [[ $(stat -c "%s" /var/log/audit/audit.log) -gt 524288000 ]]; then
-            echo "Clearing Audit Log";
-            rm -rvf /var/log/audit/audit.log;
-            echo "Done!"
-          fi
-        '';
-
-        serviceConfig = {
-          Type = "oneshot";
-          User = "root";
+        "/var/log/audit/auth.log" = {
+          frequency = "weekly";
+          rotate = 4;
+          compress = true;
+          missingok = true;
+          notifempty = true;
+          create = "0600 root root";
+          postrotate = "systemctl reload auditd";
         };
       };
     };
