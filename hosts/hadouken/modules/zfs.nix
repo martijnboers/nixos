@@ -59,11 +59,6 @@
     commands."apps" = {
       source = "zwembad/app";
       target = "garage/backups";
-      extraArgs = [
-        "--delete-target-snapshots"
-      ];
-      localSourceAllow = config.services.syncoid.localSourceAllow ++ ["mount"];
-      localTargetAllow = config.services.syncoid.localTargetAllow ++ ["destroy"];
     };
   };
 }
