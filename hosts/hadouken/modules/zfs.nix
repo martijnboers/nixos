@@ -20,9 +20,15 @@
     device = "garage/misc";
     fsType = "zfs";
   };
+
   fileSystems."/mnt/garage/backups/app" = {
     label = "app - replica";
     device = "garage/backups/app";
+    fsType = "zfs";
+  };
+  fileSystems."/mnt/garage/backups/music" = {
+    label = "music - replica";
+    device = "garage/backups/music";
     fsType = "zfs";
   };
 
@@ -49,6 +55,9 @@
     datasets."zwembad/app" = {
       useTemplate = ["backup"];
     };
+    datasets."zwembad/music" = {
+      useTemplate = ["backup"];
+    };
   };
 
   services.syncoid = {
@@ -60,6 +69,10 @@
     commands."apps" = {
       source = "zwembad/app";
       target = "garage/backups/app";
+    };
+    commands."music" = {
+      source = "zwembad/music";
+      target = "garage/backups/music";
     };
   };
 }
