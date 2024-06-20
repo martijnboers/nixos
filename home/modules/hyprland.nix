@@ -53,7 +53,8 @@ in {
       };
     };
 
-    home.packages = with pkgs; [
+    home.packages = with pkgs;
+    with libsForQt5; [
       # utilities
       waybar
       rofi-wayland
@@ -66,13 +67,16 @@ in {
       imv # image viewer
 
       # KDE apps
-      libsForQt5.kate
-      libsForQt5.merkuro # kalender
-      libsForQt5.dolphin
-      libsForQt5.dolphin-plugins
-      libsForQt5.kdegraphics-thumbnailers
-      libsForQt5.qt5ct
+      kate
+      merkuro # kalender
+      dolphin
+      dolphin-plugins
+      kdegraphics-thumbnailers
+      qt5ct
+      kio
+      kio-extras
       ffmpegthumbs
+      kservice # for xdg mimetypes
       gnome.seahorse # kwallet stinks
 
       # File support
