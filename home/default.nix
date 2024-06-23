@@ -45,7 +45,7 @@
     fzf # A command-line fuzzy finder
     fd # easier find
     direnv # used for .envrc files
-    ranger
+    yazi # like ranger
     neofetch
     thefuck
     trash-cli
