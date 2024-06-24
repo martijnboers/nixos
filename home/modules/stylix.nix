@@ -31,7 +31,6 @@ stylix = {
       enable = true;
       profileNames = ["default"];
     };
-    override.base0D = "#ffcb6b"; # https://github.com/danth/stylix/issues/430
     targets.nixvim.enable = false;
   };
 }

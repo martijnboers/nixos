@@ -209,6 +209,9 @@ in {
           # Please see https://wiki.hyprland.org/Configuring/Tearing/ before you turn this on
           allow_tearing = false;
           layout = "dwindle";
+
+          # https://github.com/danth/stylix/issues/430
+          "col.active_border" = lib.mkForce "rgb(${config.lib.stylix.colors.base0A})";
         };
         input = {
           kb_layout = "us";
@@ -238,6 +241,7 @@ in {
           animate_mouse_windowdragging = false;
           close_special_on_empty = true;
         };
+
       };
       # Attempt at fixing youtube picture-in-picture
       extraConfig = ''
