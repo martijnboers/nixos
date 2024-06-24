@@ -120,7 +120,7 @@ in {
   # Needed for exit node headscale
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 
-  environment.systemPackages = with pkgs; [pgrok pgrok.server];
+  environment.systemPackages = with pkgs; [pgrok pgrok.server unstable.immich-go];
 
   # Allow network access when building
   # https://mdleom.com/blog/2021/12/27/caddy-plugins-nixos/#xcaddy
