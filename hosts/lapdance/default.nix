@@ -11,6 +11,11 @@
   # Enable tailscale network
   hosts.tailscale.enable = true;
 
+  networking.extraHosts = ''
+    127.0.0.1 rabbitmq.development.floodtags.internal
+
+  '';
+
   # Support gpg for git signing
   hosts.gpg.enable = true;
 
