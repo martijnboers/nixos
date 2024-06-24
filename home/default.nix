@@ -13,6 +13,7 @@
     ./modules/neovim.nix
     ./modules/zsh.nix
     ./modules/atuin.nix
+    ./modules/stylix.nix
 
     # Packaged home manager modules
     inputs.nixvim.homeManagerModules.nixvim
@@ -70,38 +71,6 @@
     secrets = {
       openai.file = ../secrets/openai.age;
     };
-  };
-
-  stylix = {
-  enable = true;
-    image = assets/img/wallpaper2.jpg;
-    polarity = "dark";
-    cursor = {
-      package = pkgs.phinger-cursors;
-      name = "phinger-cursors-light";
-      size = 26;
-    };
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/material-darker.yaml";
-    fonts = {
-      serif = {
-        package = pkgs.roboto;
-        name = "Roboto";
-      };
-      sansSerif = {
-        package = pkgs.roboto;
-        name = "Roboto";
-      };
-      monospace = {
-        package = pkgs.jetbrains-mono;
-        name = "Jetbrains Mono";
-      };
-      emoji = {
-        package = pkgs.noto-fonts-emoji;
-        name = "Noto Color Emoji";
-      };
-    };
-    targets.firefox.profileNames = ["default"];
-    targets.nixvim.enable = false;
   };
 
   nixpkgs = {
