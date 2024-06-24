@@ -91,6 +91,7 @@ button:hover {
 #memory,
 #pulseaudio,
 #custom-notification,
+#network,
 #disk {
   color: @grey;
   font-weight: 600;

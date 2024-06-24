@@ -29,7 +29,7 @@ in {
 
           modules-left = ["custom/power" "hyprland/workspaces"];
           modules-center = ["clock" "custom/notification"];
-          modules-right = ["cpu" "memory" "disk" "pulseaudio" "tray"];
+          modules-right = ["cpu" "memory" "network" "disk" "pulseaudio" "tray"];
 
           "hyprland/workspaces" = {
             on-click = "activate";
@@ -74,7 +74,14 @@ in {
 
           memory = {
             interval = 2;
-            format = "  {}%";
+            format = "  {}%";
+          };
+
+          network = {
+            interval = 2;
+            format = "󰓅 {bandwidthTotalBits}";
+            format-disconnected = "󰌙 Disconnected";
+            tooltip-format = "󰖟  {ifname} 󰥔  {frequency} 󰅧  {bandwidthUpBits}   {bandwidthDownBits}";
           };
 
           disk = {
