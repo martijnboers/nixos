@@ -241,7 +241,6 @@ in {
           animate_mouse_windowdragging = false;
           close_special_on_empty = true;
         };
-
       };
       # Attempt at fixing youtube picture-in-picture
       extraConfig = ''
@@ -264,13 +263,23 @@ in {
       enable = true;
       timeouts = [
         {
+          timeout = 495;
+          command = "${pkgs.libnotify}/bin/notify-send 'Locking in 5 seconds' -t 5000";
+        }
+        {
           timeout = 500;
-          command = "hyprlock";
+          command = "${pkgs.swaylock}/bin/swaylock";
         }
         {
           timeout = 600;
           command = "hyprctl dispatch dpms off";
           resumeCommand = "hyprctl dispatch dpms on";
+        }
+      ];
+      events = [
+        {
+          event = "before-sleep";
+          command = "${pkgs.swaylock}/bin/swaylock";
         }
       ];
     };
