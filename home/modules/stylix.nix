@@ -1,5 +1,9 @@
-{config, pkgs, ...} : {
-stylix = {
+{
+  config,
+  pkgs,
+  ...
+}: {
+  stylix = {
     enable = true;
     image = ../assets/img/wallpaper2.jpg;
     polarity = "dark";
