@@ -32,24 +32,24 @@ in {
     xdg.mimeApps = {
       enable = true;
       defaultApplications = {
-        "application/pdf" = "zathura.desktop";
-        "text/plain" = "kate.desktop";
-        "text/html" = "webstorm.desktop";
-        "x-scheme-handler/http" = "firefox.desktop";
-        "x-scheme-handler/https" = "firefox.desktop";
-        "x-scheme-handler/about" = "firefox.desktop";
-        "x-scheme-handler/unknown" = "firefox.desktop";
+        "application/pdf" = lib.mkForce "zathura.desktop";
+        "text/plain" = lib.mkForce "kate.desktop";
+        "text/html" = lib.mkForce "webstorm.desktop";
+        "x-scheme-handler/http" = lib.mkForce "firefox.desktop";
+        "x-scheme-handler/https" = lib.mkForce "firefox.desktop";
+        "x-scheme-handler/about" = lib.mkForce "firefox.desktop";
+        "x-scheme-handler/unknown" = lib.mkForce "firefox.desktop";
 
-        "image/gif" = "imv.desktop";
-        "image/jpeg" = "imv.desktop";
-        "image/png" = "imv.desktop";
-        "image/webp" = "imv.desktop";
+        "image/gif" = lib.mkForce "imv.desktop";
+        "image/jpeg" = lib.mkForce "imv.desktop";
+        "image/png" = lib.mkForce "imv.desktop";
+        "image/webp" = lib.mkForce "imv.desktop";
 
-        "video/mp4" = "vlc.desktop";
-        "video/webm" = "vlc.desktop";
+        "video/mp4" = lib.mkForce "vlc.desktop";
+        "video/webm" = lib.mkForce "vlc.desktop";
 
-        "audio/flac" = "clementine.desktop";
-        "audio/mpeg" = "clementine.desktop";
+        "audio/flac" = lib.mkForce "clementine.desktop";
+        "audio/mpeg" = lib.mkForce "clementine.desktop";
       };
     };
 
@@ -264,22 +264,16 @@ in {
       timeouts = [
         {
           timeout = 495;
-          command = "${pkgs.libnotify}/bin/notify-send 'Locking in 5 seconds' -t 5000";
+          command = "${lib.getExe pkgs.libnotify} 'Locking in 5 seconds' -t 5000";
         }
         {
           timeout = 500;
-          command = "${pkgs.swaylock}/bin/swaylock";
+          command = lib.getExe pkgs.hyprlock;
         }
         {
           timeout = 600;
-          command = "hyprctl dispatch dpms off";
-          resumeCommand = "hyprctl dispatch dpms on";
-        }
-      ];
-      events = [
-        {
-          event = "before-sleep";
-          command = "${pkgs.swaylock}/bin/swaylock";
+          command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
+          resumeCommand = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
         }
       ];
     };
