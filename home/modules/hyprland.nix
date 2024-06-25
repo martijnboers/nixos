@@ -259,6 +259,13 @@ in {
       source = ../assets/css/runner.css;
     };
 
+    services.wlsunset = {
+      enable = true;
+      latitude = "52.081038939033604";
+      longitude = "4.306721564001391";
+      temperature.night = 3000;
+    };
+
     services.swayidle = {
       enable = true;
       timeouts = [
