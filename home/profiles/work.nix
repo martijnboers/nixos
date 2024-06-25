@@ -15,7 +15,7 @@ with lib; let
   };
   teamsDeskopItem = pkgs.makeDesktopItem {
     name = "teams";
-    exec = "${teamsScript}/bin/teams";
+    exec = getExe teamsScript;
     desktopName = "Microsoft Teams";
     genericName = "Buissness Communication";
     comment = "Microsoft Teams as Chromium web app.";
