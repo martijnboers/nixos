@@ -27,13 +27,13 @@ in {
           margin-top = 5;
           spacing = 1;
 
-          modules-left = ["custom/power" "hyprland/workspaces"];
-          modules-center = ["clock" "custom/notification"];
-          modules-right = ["cpu" "memory" "network" "disk" "pulseaudio" "tray"];
+          modules-left = ["custom/power" "hyprland/workspaces" "hyprland/window"];
+          modules-center = ["privacy" "clock" "custom/notification"];
+          modules-right = ["cpu" "memory" "network" "temperature" "disk" "pulseaudio" "tray"];
 
           "hyprland/workspaces" = {
             on-click = "activate";
-            # https://github.com/Alexays/Waybar/wiki/Module:-Workspaces#persistent-workspaces
+            # https:#github.com/Alexays/Waybar/wiki/Module:-Workspaces#persistent-workspaces
             persistent-workspaces = {
               "1" = [];
               "2" = [];
@@ -51,6 +51,11 @@ in {
               "5" = "󰺵";
               "6" = "󰻈";
             };
+          };
+
+          "hyprland.window" = {
+            format = "{}";
+            icon = true;
           };
 
           tray = {
@@ -129,6 +134,29 @@ in {
             exec-if = "which swaync-client";
             exec = "swaync-client -swb";
             on-click = "sleep 0.1 && swaync-client -t -sw";
+          };
+          temperature = {
+            # "thermal-zone": 2,
+            "hwmon-path" = "/sys/class/hwmon/hwmon2/temp1_input";
+            format = "󰈸 {temperatureC}°C";
+          };
+
+          privacy = {
+            iconSize = 10;
+            modules = [
+              {
+                type = "screenshare";
+                tooltip = true;
+              }
+              {
+                type = "audio-out";
+                tooltip = true;
+              }
+              {
+                type = "audio-in";
+                tooltip = true;
+              }
+            ];
           };
 
           "custom/sepp" = {
