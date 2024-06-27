@@ -21,10 +21,6 @@ window#waybar {
   transition-duration: 0.5s;
 }
 
-window#waybar.empty {
-  opacity: 0.3;
-}
-
 .modules-left {
     border: none;
 }
@@ -92,6 +88,8 @@ button:hover {
 #pulseaudio,
 #custom-notification,
 #network,
+#temperature,
+#privacy,
 #disk {
   color: @grey;
   font-weight: 600;
@@ -101,12 +99,18 @@ button:hover {
   background: @crust
 }
 
+#window,
 #tray {
-  color: @text;
+  color: @grey;
   font-weight: 600;
   padding: 6px 15px;
   border-radius: 90px;
   background: @crust
+}
+
+/* make window module transparent when no windows present */
+window#waybar.empty #window {
+    background-color: transparent;
 }
 
 #clock {
