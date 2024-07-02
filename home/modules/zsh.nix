@@ -3,7 +3,6 @@
   config,
   ...
 }: {
-  # ZSH stuff
   programs.zsh = {
     enable = true;
     shellAliases = let
@@ -19,7 +18,6 @@
       dud = "docker compose up -d";
       fixup = "ga . && gc --amend --no-edit";
       xev = "wev"; # wayland xev
-      sudo = "doas"; # OpenBSD replacement
       vim = "nvim";
       rm = "trash-put"; # use trash for cli
       ls = "lsd"; # fancy ls

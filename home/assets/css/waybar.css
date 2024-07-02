@@ -1,5 +1,6 @@
 @define-color base   #212121;
 @define-color crust   #212121;
+@define-color white  #eeffff;
 @define-color text   #585b70;
 @define-color yellow #ffcb6b;
 @define-color lime   #c3e88d;
@@ -101,7 +102,7 @@ button:hover {
 
 #window,
 #tray {
-  color: @grey;
+  color: @white;
   font-weight: 600;
   padding: 6px 15px;
   border-radius: 90px;

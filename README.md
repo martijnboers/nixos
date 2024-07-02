@@ -18,6 +18,15 @@ for a good initial starting point for NixOS with flakes.
 - `gpg --import private.key`
 - `ssh-add ~/.ssh/id_ed25519`
 
+### Loading repl
+```commandline
+nix repl
+nix-repl> :lf /home/martijn/Nix
+warning: Git tree '/home/martijn/Nix' is dirty
+Added 15 variables.
+
+nix-repl> nixosConfigurations.[TAB]
+```
 
 ### Documentation
 | project        | link |

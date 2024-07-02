@@ -3,6 +3,7 @@
   pkgs,
   ...
 }: {
+  # file:///home/martijn/.config/stylix/palette.html
   stylix = {
     enable = true;
     image = ../assets/img/wallpaper2.jpg;
