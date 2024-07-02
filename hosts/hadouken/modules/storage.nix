@@ -7,6 +7,10 @@
     device = "zwembad/music";
     fsType = "zfs";
   };
+  fileSystems."/mnt/zwembad/games" = {
+    device = "zwembad/games";
+    fsType = "zfs";
+  };
   fileSystems."/mnt/zwembad/hot" = {
     device = "zwembad/hot";
     fsType = "zfs";

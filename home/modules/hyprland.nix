@@ -211,7 +211,7 @@ in {
           layout = "dwindle";
 
           # https://github.com/danth/stylix/issues/430
-          "col.active_border" = lib.mkForce "rgb(${config.lib.stylix.colors.base0A})";
+          "col.active_border" = lib.mkForce "rgb(${config.lib.stylix.colors.base06})";
         };
         input = {
           kb_layout = "us";
