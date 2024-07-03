@@ -22,7 +22,7 @@
       lastplace.enable = true; # re-open files where left off
       which-key.enable = true; # popup with possible key combinations
       barbecue.enable = true; # breadcrumbs at top of code files
-      nvim-tree.enable = true; # left pane with files
+      neo-tree.enable = true; # left pane with files
 
       treesitter = {
         enable = true;
