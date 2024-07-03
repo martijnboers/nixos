@@ -1,4 +1,4 @@
-{config, ...}: {
+{...}: {
   fileSystems."/mnt/zwembad/app" = {
     device = "zwembad/app";
     fsType = "zfs";
