@@ -42,6 +42,7 @@ in {
       python311Full # move to projects
       go
       httpie-desktop
+      obsidian
 
       teamsDeskopItem
       teamsScript

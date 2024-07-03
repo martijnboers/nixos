@@ -18,11 +18,18 @@ in {
       wine
       qmk
       qflipper
+      vlc
+      gimp
+
+      # music
+      clementine
+      spotify
 
       # messaging
       signal-desktop
       telegram-desktop
       unstable.gossip # nostr client
+      cinny-desktop # matrix client
     ];
   };
 }

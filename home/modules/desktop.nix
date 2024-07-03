@@ -17,13 +17,7 @@ in {
       firefox
       kitty
       ungoogled-chromium
-      libsForQt5.kdeconnect-kde
-      libsForQt5.kompare # diff viewer
-      libsForQt5.kate
       wl-clipboard # wayland clipboard manager
-      obsidian
-      vlc
-      cinny-desktop # matrix client
       kooha # record screen wayland
 
       # Office suite
@@ -31,15 +25,6 @@ in {
       hunspell
       hunspellDicts.nl_NL
       hunspellDicts.en_US
-
-      # music
-      clementine
-      spotify
-
-      # theming
-      nordic
-      materia-kde-theme
-      gimp
     ];
   };
 }

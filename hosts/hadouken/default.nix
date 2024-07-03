@@ -84,6 +84,7 @@ in {
 
   hosts.borg = {
     enable = true;
+    serviceName = "hadouken";
     repository = "ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo";
     paths = ["/mnt/zwembad/app"];
   };

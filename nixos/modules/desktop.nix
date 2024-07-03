@@ -31,6 +31,9 @@ in {
       };
     };
 
+    services.udev.packages = [pkgs.yubikey-personalization];
+    programs.yubikey-touch-detector.enable = true;
+
     # Access QMK without sudo
     hardware.keyboard.qmk.enable = true;
 

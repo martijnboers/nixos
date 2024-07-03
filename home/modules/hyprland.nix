@@ -33,7 +33,7 @@ in {
       enable = true;
       defaultApplications = {
         "application/pdf" = lib.mkForce "zathura.desktop";
-        "text/plain" = lib.mkForce "kate.desktop";
+        "text/plain" = lib.mkForce "kwrite.desktop";
         "text/html" = lib.mkForce "webstorm.desktop";
         "x-scheme-handler/http" = lib.mkForce "firefox.desktop";
         "x-scheme-handler/https" = lib.mkForce "firefox.desktop";
