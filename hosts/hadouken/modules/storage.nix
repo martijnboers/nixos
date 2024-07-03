@@ -31,11 +31,11 @@
     device = "garage/backups/app";
     fsType = "zfs";
   };
-  #  fileSystems."/mnt/garage/backups/music" = {
-  #    label = "music - replica";
-  #    device = "garage/backups/music";
-  #    fsType = "zfs";
-  #  };
+  fileSystems."/mnt/garage/backups/music" = {
+    label = "music - replica";
+    device = "garage/backups/music";
+    fsType = "zfs";
+  };
 
   services.zfs = {
     autoScrub.enable = true;
