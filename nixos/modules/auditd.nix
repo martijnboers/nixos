@@ -31,7 +31,7 @@ in {
           dateext = true;
         };
         "/var/log/audit/auth.log" = {
-          frequency = "weekly";
+          frequency = "daily";
           rotate = 4;
           compress = true;
           missingok = true;
