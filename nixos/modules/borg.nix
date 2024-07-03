@@ -13,10 +13,6 @@ in {
       type = types.str;
       description = "Repository link";
     };
-    serviceName = mkOption {
-      type = types.str;
-      description = "Name to add after systemd borg-\${}";
-    };
     exclude = mkOption {
       type = types.listOf types.str;
       default = [];
@@ -36,7 +32,7 @@ in {
 
   config = mkIf cfg.enable {
     age.secrets.borg.file = ../../secrets/borg.age;
-    services.borgbackup.jobs."borg-${cfg.serviceName}" = {
+    services.borgbackup.jobs.default = {
       paths = cfg.paths;
       encryption = {
         mode = "repokey-blake2";

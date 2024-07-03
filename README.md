@@ -22,9 +22,6 @@ for a good initial starting point for NixOS with flakes.
 ```commandline
 nix repl
 nix-repl> :lf /home/martijn/Nix
-warning: Git tree '/home/martijn/Nix' is dirty
-Added 15 variables.
-
 nix-repl> nixosConfigurations.[TAB]
 ```
 
