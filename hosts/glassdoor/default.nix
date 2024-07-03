@@ -9,6 +9,7 @@
 
   hosts.borg = {
     enable = true;
+    serviceName = "glassdoor";
     repository = "ssh://nads486h@nads486h.repo.borgbase.com/./repo";
     paths = ["/home/martijn"];
     identityPath = "/home/martijn/.ssh/id_ed25519_age";

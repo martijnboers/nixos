@@ -14,6 +14,15 @@ in {
 
   config = mkIf cfg.enable {
     thuis.desktop.enable = true;
+
+    home.packages = with pkgs; [
+      libsForQt5.kdeconnect-kde
+      libsForQt5.kompare # diff viewer
+      libsForQt5.kate
+      nordic
+      materia-kde-theme
+    ];
+
     programs.plasma = {
       enable = true;
 
