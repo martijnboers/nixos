@@ -25,6 +25,12 @@ nix-repl> :lf /home/martijn/Nix
 nix-repl> nixosConfigurations.[TAB]
 ```
 
+### Restore backups
+```commandline
+borg list ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo
+borgfs -f ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo::hadouken-default-2024-03-24T00:00:00 /mnt/restore
+```
+
 ### Documentation
 | project        | link |
 |----------------| ---- |
