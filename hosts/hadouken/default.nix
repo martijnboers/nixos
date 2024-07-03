@@ -28,7 +28,7 @@ in {
     ./modules/pgrok.nix
     ./modules/plex.nix
     ./modules/hass.nix
-    ./modules/zfs.nix
+    ./modules/storage.nix
   ];
 
   hosts.smb.enable = true;
