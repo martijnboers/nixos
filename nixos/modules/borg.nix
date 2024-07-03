@@ -15,7 +15,6 @@ in {
     };
     serviceName = mkOption {
       type = types.str;
-      default = "default";
       description = "Name to add after systemd borg-\${}";
     };
     exclude = mkOption {
