@@ -81,11 +81,15 @@
     };
 
     # https://github.com/NixOS/nixpkgs/issues/216614#issuecomment-1567519369
-    localSourceAllow = options.services.syncoid.localSourceAllow.default ++ [
-      "mount"
-    ];
-    localTargetAllow = options.services.syncoid.localTargetAllow.default ++ [
-      "destroy"
-    ];
+    localSourceAllow =
+      options.services.syncoid.localSourceAllow.default
+      ++ [
+        "mount"
+      ];
+    localTargetAllow =
+      options.services.syncoid.localTargetAllow.default
+      ++ [
+        "destroy"
+      ];
   };
 }

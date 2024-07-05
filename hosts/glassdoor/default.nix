@@ -1,7 +1,4 @@
-{
-  config,
-  ...
-}: {
+{config, ...}: {
   networking.hostName = "glassdoor";
   hosts.hyprland.enable = true;
 
