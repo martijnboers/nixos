@@ -83,6 +83,11 @@ in {
                 type = "A";
                 value = hadoukenIp;
               }
+              {
+                name = "events.thuis.plebian.nl";
+                type = "A";
+                value = hadoukenIp;
+              }
             ];
           };
           prefixes = {
