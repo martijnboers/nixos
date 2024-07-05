@@ -25,7 +25,9 @@ in {
     services.n8n = {
       enable = true;
       webhookUrl = "events.thuis.plebian.nl";
-      settings.port = 5678;
+      settings = {
+        port = 5678;
+      };
     };
   };
 }
