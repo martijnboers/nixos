@@ -22,12 +22,13 @@ in {
     ./modules/fail2ban.nix
     ./modules/adguard.nix
     ./modules/conduit.nix
+    ./modules/storage.nix
     ./modules/caddy.nix
     ./modules/atuin.nix
     ./modules/pgrok.nix
     ./modules/plex.nix
     ./modules/hass.nix
-    ./modules/storage.nix
+    ./modules/n8n.nix
   ];
 
   hosts.smb.enable = true;
@@ -47,6 +48,7 @@ in {
   hosts.conduit.enable = true;
   hosts.mastodon.enable = true;
   hosts.fail2ban.enable = true;
+  hosts.n8n.enable = true;
 
   # Right order of headscale operations for startup
   systemd.services.headscale = {
