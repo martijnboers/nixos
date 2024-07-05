@@ -1,7 +1,4 @@
-{
-  config,
-  ...
-}: {
+{config, ...}: {
   networking.hostName = "lapdance";
 
   hosts.hyprland.enable = true;
