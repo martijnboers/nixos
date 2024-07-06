@@ -17,7 +17,7 @@ in {
         remote_ip 100.64.0.0/10
       }
       handle @internal {
-        reverse_proxy http://127.0.0.1:${toString config.services.n8n.settings.port}
+        reverse_proxy http://localhost:${toString config.services.n8n.settings.port}
       }
       respond 403
     '';
