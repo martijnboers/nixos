@@ -28,7 +28,7 @@
     hashedPasswordFile = config.age.secrets.password.path;
     openssh.authorizedKeys.keyFiles = [
       ./keys/glassdoor-sk.pub
-      ./keys/laptop-sk.pub
+      ./keys/keychain-sk.pub
     ];
   };
 

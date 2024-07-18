@@ -6,13 +6,13 @@
 }:
 with lib; let
   cfg = config.hosts.caddy;
-  plebianRepo = builtins.fetchGit {
-    url = "https://github.com/martijnboers/plebian.nl.git";
-    rev = "79d4827e9ebc517a7e4b627e4ac1cfd8b0e07f34";
-  };
 in {
   options.hosts.caddy = {
-    enable = mkEnableOption "Caddy with own websites loaded";
+    enable = mkEnableOption "Caddy base";
+    plebianRepo = builtins.fetchGit {
+      url = "https://github.com/martijnboers/plebian.nl.git";
+      rev = "79d4827e9ebc517a7e4b627e4ac1cfd8b0e07f34";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -29,7 +29,6 @@ in {
            metrics
         }
       '';
-
       virtualHosts."plebian.nl".extraConfig = ''
         root * ${plebianRepo}/
         encode zstd gzip
@@ -37,9 +36,6 @@ in {
       '';
       virtualHosts."doornappel.nl".extraConfig = ''
         respond "ok" 200
-      '';
-      virtualHosts."whichmarket.online".extraConfig = ''
-        respond "👷🏻‍♂️"
       '';
       virtualHosts."immich.thuis.plebian.nl".extraConfig = ''
         tls internal

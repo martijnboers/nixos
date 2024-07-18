@@ -5,7 +5,7 @@
 }:
 with lib; let
   cfg = config.hosts.headscale;
-  hadoukenIp = "100.64.0.2";
+  shoryukenIp = "100.64.0.2";
 in {
   options.hosts.headscale = {
     enable = mkEnableOption "VPN server";
@@ -23,9 +23,9 @@ in {
         address = "0.0.0.0";
         port = 7070;
         settings = {
-          server_url = "https://headscale.plebian.nl";
+          server_url = "https://headscale.cloud.plebian.nl";
           oidc = {
-            issuer = "https://auth.plebian.nl/realms/master";
+            issuer = "https://auth.cloud.plebian.nl/realms/master";
             client_id = "headscale";
             client_secret_path = config.age.secrets.headscale.path;
             allowed_users = ["martijn@plebian.nl"];
@@ -41,57 +41,52 @@ in {
           dns_config = {
             base_domain = "plebian.nl";
             override_local_dns = true;
-            nameservers = [hadoukenIp];
+            nameservers = [shoryukenIp];
             extra_records = [
               {
                 name = "vaultwarden.thuis.plebian.nl";
                 type = "A";
-                value = hadoukenIp;
+                value = shoryukenIp;
               }
               {
                 name = "atuin.thuis.plebian.nl";
                 type = "A";
-                value = hadoukenIp;
+                value = shoryukenIp;
               }
               {
                 name = "dns.thuis.plebian.nl";
                 type = "A";
-                value = hadoukenIp;
+                value = shoryukenIp;
               }
               {
                 name = "hass.thuis.plebian.nl";
                 type = "A";
-                value = hadoukenIp;
+                value = shoryukenIp;
               }
               {
                 name = "tools.thuis.plebian.nl";
                 type = "A";
-                value = hadoukenIp;
+                value = shoryukenIp;
               }
               {
                 name = "ssh.thuis.plebian.nl";
                 type = "A";
-                value = hadoukenIp;
+                value = shoryukenIp;
               }
               {
                 name = "monitoring.thuis.plebian.nl";
                 type = "A";
-                value = hadoukenIp;
+                value = shoryukenIp;
               }
               {
                 name = "immich.thuis.plebian.nl";
                 type = "A";
-                value = hadoukenIp;
-              }
-              {
-                name = "events.thuis.plebian.nl";
-                type = "A";
-                value = hadoukenIp;
+                value = shoryukenIp;
               }
               {
                 name = "ollama.thuis.plebian.nl";
                 type = "A";
-                value = hadoukenIp;
+                value = shoryukenIp;
               }
             ];
           };

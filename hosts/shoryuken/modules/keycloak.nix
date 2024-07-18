@@ -12,11 +12,20 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."auth.plebian.nl".extraConfig = ''
+    services.caddy.virtualHosts."auth.cloud.plebian.nl".extraConfig = ''
       reverse_proxy http://localhost:${toString config.services.keycloak.settings.http-port}
     '';
 
     age.secrets.keycloak.file = ../../../secrets/keycloak.age;
+    services.postgresql.enable = true;
+
+    environment = {
+      systemPackages = with pkgs; [
+        keycloak
+      ];
+      # No x installed on host
+      noXlibs = false;
+    };
 
     services.keycloak = {
       enable = true;

@@ -12,7 +12,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-      services.caddy.virtualHosts."ollama.thuis.plebian.nl".extraConfig = ''
+    services.caddy.virtualHosts."ollama.thuis.plebian.nl".extraConfig = ''
       tls internal
       @internal {
         remote_ip 100.64.0.0/10
