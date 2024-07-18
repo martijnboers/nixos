@@ -61,6 +61,7 @@
     distrobox # run any linux distro
     mods # ai for cli
     glow # cli markdown viewer
+    ollama # only for the client
   ];
 
   # User level secrets
