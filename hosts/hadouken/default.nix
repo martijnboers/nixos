@@ -23,6 +23,7 @@ in {
     ./modules/adguard.nix
     ./modules/conduit.nix
     ./modules/storage.nix
+    ./modules/ollama.nix
     ./modules/caddy.nix
     ./modules/atuin.nix
     ./modules/pgrok.nix
@@ -49,6 +50,7 @@ in {
   hosts.mastodon.enable = true;
   hosts.fail2ban.enable = true;
   hosts.n8n.enable = true;
+  hosts.ollama.enable = true;
 
   # Right order of headscale operations for startup
   systemd.services.headscale = {

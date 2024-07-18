@@ -88,6 +88,11 @@ in {
                 type = "A";
                 value = hadoukenIp;
               }
+              {
+                name = "ollama.thuis.plebian.nl";
+                type = "A";
+                value = hadoukenIp;
+              }
             ];
           };
           prefixes = {
