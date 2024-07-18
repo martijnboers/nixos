@@ -9,6 +9,9 @@
 in {
   networking.hostName = "shoryuken";
 
+  # Fix? https://discourse.nixos.org/t/error-gdbus-error-org-freedesktop-dbus-error-serviceunknown-the-name-ca-desrt-dconf-was-not-provided-by-any-service-files/29111
+  programs.dconf.enable = true;
+
   imports = [
     ./modules/headscale.nix
     ./modules/keycloak.nix
