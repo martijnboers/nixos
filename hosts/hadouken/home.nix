@@ -8,5 +8,5 @@
   thuis.personal.enable = false;
   thuis.work.enable = false;
 
-  home.packages = with pkgs; [zfs ollama];
+  home.packages = with pkgs; [zfs];
 }

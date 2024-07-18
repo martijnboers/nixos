@@ -28,6 +28,7 @@
       keeb-c = "qmk compile -kb peej/lumberjack -km martijnboers";
       keeb-f = "qmk flash -kb peej/lumberjack -km martijnboers";
       question = "mods -f \"$1\"";
+      fluister = "OLLAMA_HOST=https://ollama.thuis.plebian.nl ollama run wizardlm2";
     };
     dotDir = ".config/zsh";
     initExtra = ''
