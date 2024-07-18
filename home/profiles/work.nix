@@ -43,6 +43,7 @@ in {
       go
       httpie-desktop
       obsidian
+      distrobox # run any linux distro
 
       teamsDeskopItem
       teamsScript

@@ -58,10 +58,8 @@
     nerdfonts
 
     # tools
-    distrobox # run any linux distro
     mods # ai for cli
     glow # cli markdown viewer
-    ollama # only for the client
   ];
 
   # User level secrets
@@ -83,10 +81,6 @@
 
     config = {
       allowUnfree = true;
-      # For Obsidian
-      permittedInsecurePackages = [
-        "electron-25.9.0"
-      ];
     };
   };
 
