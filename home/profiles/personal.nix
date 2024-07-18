@@ -20,10 +20,12 @@ in {
       qflipper
       vlc
       gimp
+      ollama # for the client
 
       # music
       clementine
       spotify
+
 
       # messaging
       signal-desktop
