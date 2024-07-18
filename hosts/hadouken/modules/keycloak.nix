@@ -15,9 +15,6 @@ in {
     services.caddy.virtualHosts."auth.plebian.nl".extraConfig = ''
       reverse_proxy http://localhost:${toString config.services.keycloak.settings.http-port}
     '';
-    services.caddy.virtualHosts."auth.thuis.plebian.nl".extraConfig = ''
-      reverse_proxy http://localhost:${toString config.services.keycloak.settings.http-port}
-    '';
 
     age.secrets.keycloak.file = ../../../secrets/keycloak.age;
 
