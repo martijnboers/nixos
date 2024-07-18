@@ -104,6 +104,10 @@
       system = "x86_64-linux";
     };
 
+    nixosConfigurations.shoryuken = mkSystem "shoryuken" {
+      system = "x86_64-linux";
+    };
+
     nixosConfigurations.testbed = mkSystem "testbed" {
       system = "x86_64-linux";
     };

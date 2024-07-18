@@ -14,9 +14,7 @@ in {
     ./modules/vaultwarden.nix
     ./modules/monitoring.nix
     ./modules/nextcloud.nix
-    ./modules/headscale.nix
     ./modules/cyberchef.nix
-    ./modules/keycloak.nix
     ./modules/mastodon.nix
     ./modules/endlessh.nix
     ./modules/fail2ban.nix
@@ -29,7 +27,6 @@ in {
     ./modules/pgrok.nix
     ./modules/plex.nix
     ./modules/hass.nix
-    ./modules/n8n.nix
   ];
 
   hosts.smb.enable = true;
@@ -37,11 +34,9 @@ in {
   hosts.vaultwarden.enable = true;
   hosts.plex.enable = true;
   hosts.nextcloud.enable = true;
-  hosts.headscale.enable = true;
   hosts.adguard.enable = true;
   hosts.hass.enable = true;
   hosts.tailscale.enable = true;
-  hosts.keycloak.enable = true;
   hosts.pgrok.enable = true;
   hosts.cyberchef.enable = true;
   hosts.monitoring.enable = true;
@@ -49,7 +44,6 @@ in {
   hosts.conduit.enable = true;
   hosts.mastodon.enable = true;
   hosts.fail2ban.enable = true;
-  hosts.n8n.enable = true;
   hosts.ollama.enable = true;
 
   # Right order of headscale operations for startup
@@ -109,19 +103,13 @@ in {
     ipaddress = "100.64.0.2";
   };
 
-  hosts.openssh = {
-    enable = true;
-    ipaddress = "100.64.0.2";
-  };
+  hosts.openssh.enable = true;
 
-  # Sync zsh history
+  # Server for atuin
   hosts.atuin.enable = true;
 
   # Docker + QEMU
   hosts.virtualization.enable = true;
-
-  # Needed for exit node headscale
-  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 
   environment.systemPackages = with pkgs; [pgrok pgrok.server unstable.immich-go];
 

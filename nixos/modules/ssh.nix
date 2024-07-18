@@ -8,9 +8,10 @@ with lib; let
 in {
   options.hosts.openssh = {
     enable = mkEnableOption "Enable OpenSSH server";
-    ipaddress = mkOption {
-      type = types.str;
-      description = "Tailscale IP address of the computer";
+    allowUsers = mkOption {
+      type = types.listOf types.str;
+      default = ["*@100.64.0.0/10"];
+      description = "Set IP restrictions";
     };
   };
 
@@ -22,8 +23,8 @@ in {
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
         PermitRootLogin = "no";
-        ListenAddress = cfg.ipaddress;
-        AllowUsers = ["*@100.64.0.0/10"];
+        ListenAddress = "0.0.0.0";
+        AllowUsers = cfg.allowUsers;
         LogLevel = "VERBOSE";
       };
       openFirewall = true;

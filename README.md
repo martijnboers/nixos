@@ -12,11 +12,16 @@ for a good initial starting point for NixOS with flakes.
 
 
 ### Fresh installation notes
-- `sudo ln -s /home/martijn/Nix/flake.nix /etc/nixos/flake.nix`
-- `sudo tailscale up --login-server https://headscale.plebian.nl`
-- Set accent color to wallpaper in KDE
+- `git clone https://github.com/martijnboers/nixos.git ~/Nix`
+- `sudo nixos-rebuild switch --flake ~/Nix#host`
+- `sudo tailscale up --login-server https://headscale.cloud.plebian.nl`
 - `gpg --import private.key`
 - `ssh-add ~/.ssh/id_ed25519`
+
+#### Hetzner
+```
+curl https://raw.githubusercontent.com/elitak/nixos-infect/master/nixos-infect | PROVIDER=hetznercloud NIX_CHANNEL=nixos-23.05 bash -x
+```
 
 ### Loading repl
 ```commandline
