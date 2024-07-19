@@ -14,9 +14,9 @@ in {
 
   "keycloak.age".publicKeys = shoryukens;
   "headscale.age".publicKeys = shoryukens;
+  "acl.age".publicKeys = shoryukens;
 
   "nextcloud.age".publicKeys = hadoukens;
-  "acl.age".publicKeys = hadoukens;
   "pgrok.age".publicKeys = hadoukens;
   "caddy.age".publicKeys = hadoukens;
   "geoip.age".publicKeys = hadoukens;
