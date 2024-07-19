@@ -52,6 +52,7 @@
     trash-cli
     lsd # fancy ls
     bat # fancy cat
+    magic-wormhole # send files
 
     # fonts
     meslo-lgs-nf
