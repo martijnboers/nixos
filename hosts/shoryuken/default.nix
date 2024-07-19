@@ -37,6 +37,9 @@ in {
     serviceConfig = defaultRestart;
   };
 
+  # https://discourse.nixos.org/t/error-gdbus-error-org-freedesktop-dbus-error-serviceunknown-the-name-ca-desrt-dconf-was-not-provided-by-any-service-files/29111
+  programs.dconf.enable = true;
+
   hosts.openssh = {
     enable = true;
     allowUsers = ["*@100.64.0.0/10" "*@143.178.137.170"];
