@@ -9,9 +9,6 @@
 in {
   networking.hostName = "shoryuken";
 
-  # Fix? https://discourse.nixos.org/t/error-gdbus-error-org-freedesktop-dbus-error-serviceunknown-the-name-ca-desrt-dconf-was-not-provided-by-any-service-files/29111
-  programs.dconf.enable = true;
-
   imports = [
     ./modules/headscale.nix
     ./modules/keycloak.nix
@@ -47,7 +44,5 @@ in {
 
   # Needed for exit node headscale
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
-
-  boot.tmp.cleanOnBoot = true;
   zramSwap.enable = true;
 }

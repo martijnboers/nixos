@@ -31,6 +31,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Disk setup for nixos-anywhere
+    disko.url = "github:nix-community/disko";
+
     # rice
     stylix.url = "github:danth/stylix";
   };
@@ -106,6 +109,7 @@
 
     nixosConfigurations.shoryuken = mkSystem "shoryuken" {
       system = "x86_64-linux";
+      extraModules = [inputs.disko.nixosModules.disko];
     };
 
     nixosConfigurations.testbed = mkSystem "testbed" {
