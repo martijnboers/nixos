@@ -5,14 +5,64 @@
 }: {
   # Hardware
   imports = [(modulesPath + "/profiles/qemu-guest.nix")];
-  boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub.enable = true;
   boot.initrd.availableKernelModules = ["ata_piix" "uhci_hcd" "xen_blkfront" "vmw_pvscsi"];
   boot.initrd.kernelModules = ["nvme"];
-  fileSystems."/" = {
-    device = "/dev/sda1";
-    fsType = "ext4";
-  };
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+
+  # Disk config
+  disko.devices = {
+    disk.disk1 = {
+      device = lib.mkDefault "/dev/sda";
+      type = "disk";
+      content = {
+        type = "gpt";
+        partitions = {
+          boot = {
+            name = "boot";
+            size = "1M";
+            type = "EF02";
+          };
+          esp = {
+            name = "ESP";
+            size = "500M";
+            type = "EF00";
+            content = {
+              type = "filesystem";
+              format = "vfat";
+              mountpoint = "/boot";
+            };
+          };
+          root = {
+            name = "root";
+            size = "100%";
+            content = {
+              type = "lvm_pv";
+              vg = "pool";
+            };
+          };
+        };
+      };
+    };
+    lvm_vg = {
+      pool = {
+        type = "lvm_vg";
+        lvs = {
+          root = {
+            size = "100%FREE";
+            content = {
+              type = "filesystem";
+              format = "ext4";
+              mountpoint = "/";
+              mountOptions = [
+                "defaults"
+              ];
+            };
+          };
+        };
+      };
+    };
+  };
 
   # This file was populated at runtime with the networking
   # details gathered from the active system.

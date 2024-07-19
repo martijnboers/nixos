@@ -20,7 +20,7 @@ for a good initial starting point for NixOS with flakes.
 
 #### Hetzner
 ```
-curl https://raw.githubusercontent.com/elitak/nixos-infect/master/nixos-infect | PROVIDER=hetznercloud NIX_CHANNEL=nixos-23.05 bash -x
+SSHPASS=<pwd> nix run github:nix-community/nixos-anywhere -- --flake .#shoryuken --env-password root@<ip>
 ```
 
 ### Loading repl

@@ -116,7 +116,8 @@
         # Optional, retains environment variables while running commands
         # e.g. retains your NIX_PATH when applying your config
         keepEnv = true;
-        persist = true; # Optional, only require password verification a single time
+#        persist = true; # Optional, only require password verification a single time
+        noPass = true; # TODO: temp for nixos-everwhere
       }
     ];
     # Self signed ca for all the internal tailscale services
