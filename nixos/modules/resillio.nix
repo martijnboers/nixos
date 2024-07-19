@@ -8,10 +8,6 @@ with lib; let
 in {
   options.hosts.resilio = {
     enable = mkEnableOption "Resilio syncing seed";
-    ipaddress = mkOption {
-      type = types.str;
-      description = "Tailscale IP address of the computer";
-    };
     name = mkOption {
       type = types.str;
       description = "Name of the device";
@@ -30,7 +26,7 @@ in {
       enableWebUI = true;
       httpLogin = "admin";
       httpPass = "admin";
-      httpListenAddr = toString cfg.ipaddress;
+      httpListenAddr = "0.0.0.0";
       listeningPort = 36612;
     };
   };

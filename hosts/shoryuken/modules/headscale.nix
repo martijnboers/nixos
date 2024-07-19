@@ -5,7 +5,7 @@
 }:
 with lib; let
   cfg = config.hosts.headscale;
-  shoryukenIp = "100.64.0.2";
+  hadoukenIp = "100.64.0.2";
 in {
   options.hosts.headscale = {
     enable = mkEnableOption "VPN server";
@@ -41,52 +41,57 @@ in {
           dns_config = {
             base_domain = "plebian.nl";
             override_local_dns = true;
-            nameservers = [shoryukenIp];
+            nameservers = [hadoukenIp];
             extra_records = [
               {
                 name = "vaultwarden.thuis.plebian.nl";
                 type = "A";
-                value = shoryukenIp;
+                value = hadoukenIp;
               }
               {
                 name = "atuin.thuis.plebian.nl";
                 type = "A";
-                value = shoryukenIp;
+                value = hadoukenIp;
               }
               {
                 name = "dns.thuis.plebian.nl";
                 type = "A";
-                value = shoryukenIp;
+                value = hadoukenIp;
               }
               {
                 name = "hass.thuis.plebian.nl";
                 type = "A";
-                value = shoryukenIp;
+                value = hadoukenIp;
               }
               {
                 name = "tools.thuis.plebian.nl";
                 type = "A";
-                value = shoryukenIp;
+                value = hadoukenIp;
               }
               {
                 name = "ssh.thuis.plebian.nl";
                 type = "A";
-                value = shoryukenIp;
+                value = hadoukenIp;
               }
               {
                 name = "monitoring.thuis.plebian.nl";
                 type = "A";
-                value = shoryukenIp;
+                value = hadoukenIp;
               }
               {
                 name = "immich.thuis.plebian.nl";
                 type = "A";
-                value = shoryukenIp;
+                value = hadoukenIp;
               }
               {
                 name = "ollama.thuis.plebian.nl";
                 type = "A";
-                value = shoryukenIp;
+                value = hadoukenIp;
+              }
+              {
+                name = "kvm.plebian";
+                type = "A";
+                value = "100.64.0.4";
               }
             ];
           };
