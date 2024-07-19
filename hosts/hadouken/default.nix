@@ -46,21 +46,6 @@ in {
   hosts.fail2ban.enable = true;
   hosts.ollama.enable = true;
 
-  # Right order of headscale operations for startup
-  systemd.services.headscale = {
-    after = ["keycloak.service"];
-    requires = ["keycloak.service"];
-    startLimitBurst = 10;
-    startLimitIntervalSec = 600;
-    serviceConfig = defaultRestart;
-  };
-  systemd.services.tailscaled = {
-    after = ["headscale.service"];
-    requires = ["headscale.service"];
-    startLimitBurst = 10;
-    startLimitIntervalSec = 600;
-    serviceConfig = defaultRestart;
-  };
   systemd.services.sshd = {
     after = ["tailscaled.service"];
     requires = ["tailscaled.service"];
