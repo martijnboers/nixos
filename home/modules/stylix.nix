@@ -32,10 +32,6 @@
         name = "Noto Color Emoji";
       };
     };
-    targets.firefox = {
-      enable = true;
-      profileNames = ["default"];
-    };
     targets.nixvim.enable = false;
   };
 }

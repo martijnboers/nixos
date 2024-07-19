@@ -16,7 +16,9 @@ in {
 
     services.caddy = {
       enable = true;
-
+      virtualHosts."cloud.plebian.nl".extraConfig = ''
+        respond "☁️"
+      '';
       virtualHosts."whichmarket.online".extraConfig = ''
         respond "👷🏻‍♂️"
       '';

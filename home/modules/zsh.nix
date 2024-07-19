@@ -23,6 +23,7 @@
       ls = "lsd"; # fancy ls
       ssh = "kitty +kitten ssh";
       pow = "ssh ssh.thuis.plebian.nl";
+      wolk = "ssh cloud.plebian.nl";
       socks = "ssh -D 1337 -q -C -N ssh.thuis.plebian.nl";
       readme = "cat README* | glow";
       keeb-c = "qmk compile -kb peej/lumberjack -km martijnboers";
