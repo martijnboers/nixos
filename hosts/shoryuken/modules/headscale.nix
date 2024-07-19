@@ -88,6 +88,11 @@ in {
                 type = "A";
                 value = "100.64.0.4";
               }
+              {
+                name = "kvm.plebian";
+                type = "A";
+                value = "100.64.0.4";
+              }
             ];
           };
           prefixes = {
