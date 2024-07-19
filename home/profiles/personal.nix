@@ -26,7 +26,6 @@ in {
       clementine
       spotify
 
-
       # messaging
       signal-desktop
       telegram-desktop
