@@ -51,13 +51,6 @@ in {
     requires = ["tailscaled.service"];
     serviceConfig = defaultRestart;
   };
-  systemd.services.resilio = {
-    after = ["tailscaled.service"];
-    requires = ["tailscaled.service"];
-    startLimitBurst = 10;
-    startLimitIntervalSec = 600;
-    serviceConfig = defaultRestart;
-  };
   systemd.services.loki = {
     after = ["tailscaled.service"];
     requires = ["tailscaled.service"];
@@ -85,7 +78,6 @@ in {
   hosts.resilio = {
     enable = true;
     name = "hadouken";
-    ipaddress = "100.64.0.2";
   };
 
   hosts.openssh.enable = true;
