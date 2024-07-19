@@ -34,7 +34,7 @@ in {
         passwordFile = config.age.secrets.keycloak.path;
       };
       settings = {
-        hostname = "auth.plebian.nl";
+        hostname = "auth.cloud.plebian.nl";
         proxy = "edge";
         http-host = "0.0.0.0";
         http-port = 3345;

@@ -6,13 +6,13 @@
 }:
 with lib; let
   cfg = config.hosts.caddy;
+  plebianRepo = builtins.fetchGit {
+    url = "https://github.com/martijnboers/plebian.nl.git";
+    rev = "79d4827e9ebc517a7e4b627e4ac1cfd8b0e07f34";
+  };
 in {
   options.hosts.caddy = {
     enable = mkEnableOption "Caddy base";
-    plebianRepo = builtins.fetchGit {
-      url = "https://github.com/martijnboers/plebian.nl.git";
-      rev = "79d4827e9ebc517a7e4b627e4ac1cfd8b0e07f34";
-    };
   };
 
   config = mkIf cfg.enable {

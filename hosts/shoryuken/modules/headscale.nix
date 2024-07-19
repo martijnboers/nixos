@@ -15,7 +15,7 @@ in {
     environment.systemPackages = [config.services.headscale.package];
 
     services = {
-      caddy.virtualHosts."headscale.plebian.nl".extraConfig = ''
+      caddy.virtualHosts."headscale.cloud.plebian.nl".extraConfig = ''
         reverse_proxy http://localhost:${toString config.services.headscale.port}
       '';
       headscale = {
