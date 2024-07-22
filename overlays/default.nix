@@ -5,26 +5,18 @@
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
     ollama = final.unstable.ollama;
-
-    libsForQt5 =
-      prev.libsForQt5
-      // {
-        # Use unstable plasma for wayland
-        sddm = final.unstable.libsForQt5.sddm;
-        plasma-desktop = final.unstable.libsForQt5.plasma-desktop;
-      };
     headscale = final.unstable.buildGo122Module rec {
       pname = "headscale";
-      version = "0.23.0-alpha5";
+      version = "0.23.0-beta1";
 
       src = prev.fetchFromGitHub {
         owner = "juanfont";
         repo = "headscale";
         rev = "v${version}";
-        hash = "sha256-BMrbYvxNAUs5vK7zCevSKDnB2npWZQpAtxoePXi5r40=";
+        hash = "sha256-uOaVK+3/DoUDbccelGYRx9zwAG6wYLywYbNN+7epnk0=";
       };
 
-      vendorHash = "sha256-Yb5WaN0abPLZ4mPnuJGZoj6EMfoZjaZZ0f344KWva3o=";
+      vendorHash = "sha256-EorT2AVwA3usly/LcNor6r5UIhLCdj3L4O4ilgTIC2o=";
       ldflags = ["-s" "-w" "-X github.com/juanfont/headscale/cmd/headscale/cli.Version=v${version}"];
       nativeBuildInputs = [prev.installShellFiles];
       checkFlags = ["-short"];

@@ -11,8 +11,7 @@
       # --- NixOS specific --------
       deploy = "doas nixos-rebuild switch ${defaultNixFlags}";
       debug = "doas nixos-rebuild switch ${defaultNixFlags} --show-trace --verbose";
-      testbuild_hadouken = "nixos-rebuild build --option sandbox false ${defaultNixFlags}#hadouken";
-      testbuild_glassdoor = "nixos-rebuild build ${defaultNixFlags}#glassdoor";
+      testbuild = "nixos-rebuild build --option sandbox false ${defaultNixFlags}#hadouken";
       update = "nix flake update";
       # ---------------------------
       dud = "docker compose up -d";
@@ -26,8 +25,8 @@
       wolk = "ssh cloud.plebian.nl";
       socks = "ssh -D 1337 -q -C -N ssh.thuis.plebian.nl";
       readme = "cat README* | glow";
-      keeb-c = "qmk compile -kb peej/lumberjack -km martijnboers";
-      keeb-f = "qmk flash -kb peej/lumberjack -km martijnboers";
+      keyboard-compile = "qmk compile -kb peej/lumberjack -km martijnboers";
+      keyboard-flash = "qmk flash -kb peej/lumberjack -km martijnboers";
       question = "mods -f \"$1\"";
       fluister = "OLLAMA_HOST=https://ollama.thuis.plebian.nl ollama run wizardlm2";
     };
