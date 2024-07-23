@@ -6,7 +6,7 @@
   # file:///home/martijn/.config/stylix/palette.html
   stylix = {
     enable = true;
-    image = ../assets/img/wallpaper2.jpg;
+    image = ../assets/img/wp_2.jpg;
     polarity = "dark";
     cursor = {
       package = pkgs.phinger-cursors;
