@@ -11,7 +11,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."vaultwarden.thuis.plebian.nl".extraConfig = ''
+    services.caddy.virtualHosts."vaultwarden.thuis".extraConfig = ''
          tls internal
          @internal {
            remote_ip 100.64.0.0/10
@@ -27,7 +27,7 @@ in {
       dbBackend = "sqlite";
       backupDir = "/var/lib/bitwarden_rs/backup";
       config = {
-        domain = "https://vaultwarden.thuis.plebian.nl";
+        domain = "https://vaultwarden.thuis";
         signupsAllowed = false;
         invitationsAllowed = false;
         rocketPort = 3011;

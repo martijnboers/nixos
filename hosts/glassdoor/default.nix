@@ -46,12 +46,12 @@
   };
 
   fileSystems."/mnt/music" = {
-    device = "//hadouken.thuis.plebian.nl/music";
+    device = "//hadouken.machine.thuis/music";
     fsType = "cifs";
     options = ["credentials=${config.age.secrets.smb.path},uid=1000,gid=100"];
   };
   fileSystems."/mnt/misc" = {
-    device = "//hadouken.thuis.plebian.nl/misc";
+    device = "//hadouken.machine.thuis/misc";
     fsType = "cifs";
     options = ["credentials=${config.age.secrets.smb.path},uid=1000,gid=100"];
   };
