@@ -104,7 +104,7 @@ in {
         "$mod" = "ALT";
         "$prog" = "CTRL ALT";
         exec-once = [
-          "swaybg --mode fill --image /home/martijn/Nix/home/assets/img/wallpaper2.jpg"
+          "swaybg --mode fill --image $(ls /home/martijn/Nix/home/assets/img/wp_[0-9]* | shuf -n 1)"
           "nm-applet --indicator &"
           "swaync &"
           "copyq --start-server &"
@@ -266,21 +266,36 @@ in {
       temperature.night = 3000;
     };
 
-    services.swayidle = {
+    services.swayidle = let
+      lockCmd = lib.getExe pkgs.hyprlock;
+      hyprlandPkg = config.wayland.windowManager.hyprland.package;
+    in {
       enable = true;
+      events = [
+        # executes command before systemd puts the computer to sleep.
+        {
+          event = "before-sleep";
+          command = lockCmd;
+        }
+        # executes command when logind signals that the session should be locked
+        {
+          event = "lock";
+          command = lockCmd;
+        }
+      ];
       timeouts = [
         {
-          timeout = 495;
+          timeout = 1495;
           command = "${lib.getExe pkgs.libnotify} 'Locking in 5 seconds' -t 5000";
         }
         {
-          timeout = 500;
-          command = lib.getExe pkgs.hyprlock;
+          timeout = 1500;
+          command = lockCmd;
         }
         {
-          timeout = 600;
-          command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
-          resumeCommand = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
+          timeout = 1600;
+          command = "${hyprlandPkg}/bin/hyprctl dispatch dpms off";
+          resumeCommand = "${hyprlandPkg}/bin/hyprctl dispatch dpms on";
         }
       ];
     };
@@ -298,7 +313,7 @@ in {
         background = [
           {
             path = "screenshot";
-            blur_passes = 3;
+            blur_passes = 4;
             blur_size = 8;
           }
         ];

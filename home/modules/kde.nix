@@ -33,7 +33,7 @@ in {
       workspace = {
         theme = "Materia-Color";
         iconTheme = "Nordic-darker";
-        wallpaper = ../assets/img/wallpaper2.jpg;
+        wallpaper = ../assets/img/wp_2.jpg;
         colorScheme = "MateriaDark";
         lookAndFeel = "com.github.varlesh.materia-dark";
       };
