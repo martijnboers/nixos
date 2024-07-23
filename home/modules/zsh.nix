@@ -21,14 +21,14 @@
       rm = "trash-put"; # use trash for cli
       ls = "lsd"; # fancy ls
       ssh = "kitty +kitten ssh";
-      pow = "ssh ssh.thuis.plebian.nl";
-      wolk = "ssh cloud.plebian.nl";
-      socks = "ssh -D 1337 -q -C -N ssh.thuis.plebian.nl";
+      pow = "ssh hadouken.machine.thuis";
+      wolk = "ssh shoryuken.machine.thuis";
+      socks = "ssh -D 1337 -q -C -N hadouken.machine.thuis";
       readme = "cat README* | glow";
       keyboard-compile = "qmk compile -kb peej/lumberjack -km martijnboers";
       keyboard-flash = "qmk flash -kb peej/lumberjack -km martijnboers";
       question = "mods -f \"$1\"";
-      fluister = "OLLAMA_HOST=https://ollama.thuis.plebian.nl ollama run wizardlm2";
+      fluister = "OLLAMA_HOST=https://ollama.thuis ollama run wizardlm2";
     };
     dotDir = ".config/zsh";
     initExtra = ''

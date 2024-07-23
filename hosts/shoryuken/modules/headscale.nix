@@ -39,57 +39,52 @@ in {
             };
           };
           dns_config = {
-            base_domain = "plebian.nl";
+            base_domain = "machine.thuis";
             override_local_dns = true;
             nameservers = [hadoukenIp];
             extra_records = [
               {
-                name = "vaultwarden.thuis.plebian.nl";
+                name = "vaultwarden.thuis";
                 type = "A";
                 value = hadoukenIp;
               }
               {
-                name = "atuin.thuis.plebian.nl";
+                name = "atuin.thuis";
                 type = "A";
                 value = hadoukenIp;
               }
               {
-                name = "dns.thuis.plebian.nl";
+                name = "dns.thuis";
                 type = "A";
                 value = hadoukenIp;
               }
               {
-                name = "hass.thuis.plebian.nl";
+                name = "hass.thuis";
                 type = "A";
                 value = hadoukenIp;
               }
               {
-                name = "tools.thuis.plebian.nl";
+                name = "tools.thuis";
                 type = "A";
                 value = hadoukenIp;
               }
               {
-                name = "ssh.thuis.plebian.nl";
+                name = "monitoring.thuis";
                 type = "A";
                 value = hadoukenIp;
               }
               {
-                name = "monitoring.thuis.plebian.nl";
+                name = "immich.thuis";
                 type = "A";
                 value = hadoukenIp;
               }
               {
-                name = "immich.thuis.plebian.nl";
+                name = "ollama.thuis";
                 type = "A";
                 value = hadoukenIp;
               }
               {
-                name = "ollama.thuis.plebian.nl";
-                type = "A";
-                value = hadoukenIp;
-              }
-              {
-                name = "kvm.plebian";
+                name = "kvm.thuis";
                 type = "A";
                 value = "100.64.0.4";
               }

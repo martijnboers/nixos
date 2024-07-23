@@ -13,7 +13,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."monitoring.thuis.plebian.nl".extraConfig = ''
+    services.caddy.virtualHosts."monitoring.thuis".extraConfig = ''
       tls internal
       @internal {
         remote_ip 100.64.0.0/10
@@ -45,7 +45,7 @@ in {
       };
       settings = {
         server = {
-          domain = "monitoring.thuis.plebian.nl";
+          domain = "monitoring.thuis";
           http_port = 2342;
           http_addr = "127.0.0.1";
         };

@@ -37,7 +37,7 @@ in {
       virtualHosts."doornappel.nl".extraConfig = ''
         respond "ok" 200
       '';
-      virtualHosts."immich.thuis.plebian.nl".extraConfig = ''
+      virtualHosts."immich.thuis".extraConfig = ''
         tls internal
         @internal {
           remote_ip 100.64.0.0/10
