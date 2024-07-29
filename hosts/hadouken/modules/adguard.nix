@@ -34,7 +34,7 @@ in {
       settings = {
         dns = {
           ratelimit = 0;
-          bind_hosts = ["100.64.0.2"];
+          bind_hosts = ["0.0.0.0"];
           bootstrap_dns = ["9.9.9.9" "208.67.222.222"];
           upstream_dns = ["9.9.9.9" "208.67.222.222"];
           protection_enabled = true;
