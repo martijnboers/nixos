@@ -89,6 +89,11 @@ in {
                 value = "100.64.0.4";
               }
               {
+                name = "router.thuis";
+                type = "A";
+                value = "100.64.0.6";
+              }
+              {
                 name = "kvm.plebian";
                 type = "A";
                 value = "100.64.0.4";
