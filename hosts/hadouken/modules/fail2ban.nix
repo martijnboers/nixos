@@ -13,7 +13,7 @@ in {
   config = mkIf cfg.enable {
     services.fail2ban = {
       enable = true;
-      ignoreIP = ["192.168.1.0/16" "100.64.0.0/10"];
+      ignoreIP = ["10.10.0.0/24" "100.64.0.0/10"];
       jails = {
         caddy-status = {
           settings = {

@@ -45,7 +45,7 @@ in {
 
   hosts.openssh = {
     enable = true;
-    allowUsers = ["*@100.64.0.0/10" "*@143.178.137.170"];
+    allowUsers = ["*@100.64.0.0/10"];
   };
 
   # Needed for exit node headscale
