@@ -119,9 +119,9 @@
         persist = true; # Optional, only require password verification a single time
       }
     ];
-    # Self signed ca for all the internal tailscale services
     pki.certificateFiles = [
-      ./keys/hadouken-ca.pem
+      ./keys/hadouken.pem
+      ./keys/router.crt
     ];
   };
 
