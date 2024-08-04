@@ -37,12 +37,13 @@ borgfs -f ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo::hadouken-default-202
 ```
 
 ### Documentation
-| project        | link |
-|----------------| ---- |
-| `quickemu`     | https://github.com/quickemu-project/quickemu/wiki/05-Advanced-quickemu-configuration |
-| `microvm`      | https://astro.github.io/microvm.nix |
-| `nixvim`       | https://nix-community.github.io/nixvim/NeovimOptions/index.html |
-| `agenix`       | https://github.com/ryantm/agenix/tree/main/doc |
-| `home-manager` | https://home-manager-options.extranix.com/ |
-| `stylix`       | https://danth.github.io/stylix/ |
+| project           | link |
+|-------------------| ---- |
+| `quickemu`        | https://github.com/quickemu-project/quickemu/wiki/05-Advanced-quickemu-configuration |
+| `microvm`         | https://astro.github.io/microvm.nix |
+| `nixvim`          | https://nix-community.github.io/nixvim/NeovimOptions/index.html |
+| `agenix`          | https://github.com/ryantm/agenix/tree/main/doc |
+| `home-manager`    | https://home-manager-options.extranix.com/ |
+| `stylix`          | https://danth.github.io/stylix/ |
+| `realtek-re-kmod` | https://www.freshports.org/net/realtek-re-kmod |
 
