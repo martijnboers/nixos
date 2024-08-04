@@ -5,6 +5,7 @@
 }:
 with lib; let
   cfg = config.hosts.headscale;
+  shoryukenIp = "100.64.0.1";
   hadoukenIp = "100.64.0.2";
 in {
   options.hosts.headscale = {
@@ -82,6 +83,11 @@ in {
                 name = "ollama.thuis";
                 type = "A";
                 value = hadoukenIp;
+              }
+              {
+                name = "notifications.thuis";
+                type = "A";
+                value = shoryukenIp;
               }
               {
                 name = "kvm.thuis";
