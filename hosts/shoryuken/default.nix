@@ -10,12 +10,14 @@ in {
   networking.hostName = "shoryuken";
 
   imports = [
+    ./modules/notifications.nix
     ./modules/headscale.nix
     ./modules/keycloak.nix
     ./modules/caddy.nix
     ./modules/n8n.nix
   ];
 
+  hosts.notifications.enable = true;
   hosts.headscale.enable = true;
   hosts.keycloak.enable = true;
   hosts.caddy.enable = true;
@@ -46,6 +48,11 @@ in {
   hosts.openssh = {
     enable = true;
     allowUsers = ["*@100.64.0.0/10"];
+  };
+
+  hosts.borg = {
+    enable = true;
+    repository = "ssh://iwa7rtli@iwa7rtli.repo.borgbase.com/./repo";
   };
 
   # Needed for exit node headscale

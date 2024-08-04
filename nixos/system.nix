@@ -121,6 +121,7 @@
     ];
     pki.certificateFiles = [
       ./keys/hadouken.pem
+      ./keys/shoryuken.pem
     ];
   };
 
