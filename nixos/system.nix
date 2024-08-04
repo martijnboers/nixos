@@ -121,7 +121,6 @@
     ];
     pki.certificateFiles = [
       ./keys/hadouken.pem
-      ./keys/router.crt
     ];
   };
 
