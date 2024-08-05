@@ -25,7 +25,6 @@
     extraGroups = ["networkmanager"];
     shell = pkgs.zsh;
     useDefaultShell = true;
-    hashedPasswordFile = config.age.secrets.password.path;
     openssh.authorizedKeys.keyFiles = [
       ./keys/glassdoor-sk.pub
       ./keys/keychain-sk.pub

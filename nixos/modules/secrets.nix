@@ -18,7 +18,6 @@ in {
     age = {
       identityPaths = cfg.identityPaths;
       secrets = {
-        password.file = ../../secrets/password.age;
         smb.file = ../../secrets/smb.age;
       };
     };
