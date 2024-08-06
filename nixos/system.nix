@@ -124,6 +124,28 @@
     ];
   };
 
+  # by default setup gotify bridge as email
+  programs.msmtp = {
+    enable = true;
+    setSendmail = true;
+    defaults = {
+      aliases = "/etc/aliases";
+      port = 2525;
+    };
+    accounts = {
+      default = {
+        host = "shoryuken.machine.thuis";
+        user = "notif@thuis";
+        from = "notif@thuis";
+      };
+    };
+  };
+
+  environment.etc."aliases".text = ''
+    root: notif@thuis
+    martijn: notif@thuis
+  '';
+
   # Default env variables
   environment.sessionVariables = {
     EDITOR = "nvim";

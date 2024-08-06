@@ -33,7 +33,7 @@ in {
         Type = "simple";
         ExecStart = "${getExe pkgs.smtp-gotify} --smtp-listen 0.0.0.0:2525 --gotify-url https://notifications.thuis/";
         EnvironmentFile = config.age.secrets.gotify.path;
-        TimeoutStartSec=600;
+        TimeoutStartSec = 600;
         Restart = "on-failure";
         NoNewPrivileges = true;
       };
