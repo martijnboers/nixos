@@ -17,8 +17,8 @@ in {
   config = mkIf cfg.enable {
     users.users.martijn.extraGroups = ["rslsync"];
 
-    networking.firewall.allowedTCPPorts = [9000 36612];
-    networking.firewall.allowedUDPPorts = [9000 36612];
+    networking.firewall.allowedTCPPorts = [55555];
+    networking.firewall.allowedUDPPorts = [55555];
 
     services.resilio = {
       deviceName = cfg.name;
@@ -27,7 +27,7 @@ in {
       httpLogin = "admin";
       httpPass = "admin";
       httpListenAddr = "0.0.0.0";
-      listeningPort = 36612;
+      listeningPort = 55555;
     };
   };
 }

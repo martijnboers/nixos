@@ -90,6 +90,11 @@ in {
                 value = shoryukenIp;
               }
               {
+                name = "uptime.thuis";
+                type = "A";
+                value = shoryukenIp;
+              }
+              {
                 name = "kvm.thuis";
                 type = "A";
                 value = "100.64.0.4";

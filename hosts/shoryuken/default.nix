@@ -11,6 +11,7 @@ in {
 
   imports = [
     ./modules/notifications.nix
+    ./modules/uptime-kuma.nix
     ./modules/headscale.nix
     ./modules/keycloak.nix
     ./modules/caddy.nix
@@ -18,6 +19,7 @@ in {
   ];
 
   hosts.notifications.enable = true;
+  hosts.uptime-kuma.enable = true;
   hosts.headscale.enable = true;
   hosts.keycloak.enable = true;
   hosts.caddy.enable = true;
