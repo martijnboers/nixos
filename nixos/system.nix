@@ -6,9 +6,9 @@
 }: {
   imports = [
     ./modules/virtualization.nix
+    ./modules/syncthing.nix
     ./modules/tailscale.nix
     ./modules/hyprland.nix
-    ./modules/resillio.nix
     ./modules/secrets.nix
     ./modules/auditd.nix
     ./modules/borg.nix

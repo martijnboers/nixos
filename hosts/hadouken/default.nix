@@ -75,7 +75,7 @@ in {
     ];
   };
 
-  hosts.resilio = {
+  hosts.syncthing = {
     enable = true;
     name = "hadouken";
   };
