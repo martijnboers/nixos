@@ -2,8 +2,6 @@
   lib,
   buildGoModule,
   fetchFromGitHub,
-  git,
-  cacert,
   pkgs,
 }:
 buildGoModule rec {
