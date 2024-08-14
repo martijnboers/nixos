@@ -29,15 +29,30 @@ in {
       enable = true;
       mutableSettings = false;
       allowDHCP = false;
-      host = "127.0.0.1";
+      host = "127.0.0.1"; # for webgui but using caddy reverse proxy
 
       settings = {
         dns = {
           ratelimit = 0;
-          bind_hosts = ["0.0.0.0"];
+          bind_hosts = ["0.0.0.0"]; # this can bind to tailscale
+          upstream_dns = [
+            "h3://zero.dns0.eu"
+            "https://dns.quad9.net/dns-query"
+          ];
+          allowed_clients = [
+            "100.64.0.0/10"
+          ];
+          tls = {
+            enabled = true;
+            server_name = "dns.thuis";
+            force_https = false;
+          };
+          use_http3_upstreams = true;
+          upstream_mode = "parallel";
           bootstrap_dns = ["9.9.9.9" "208.67.222.222"];
-          upstream_dns = ["9.9.9.9" "208.67.222.222"];
           protection_enabled = true;
+          enable_dnssec = true; # make it harder to tamper
+          # serve_plain_dns = false; # only allow dns over tls
           blocked_hosts = ["version.bind" "id.server" "hostname.bind"];
           cache_size = 4194304;
         };
