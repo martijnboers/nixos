@@ -22,9 +22,6 @@ in {
       respond 403
     '';
 
-    networking.firewall.allowedTCPPorts = [53];
-    networking.firewall.allowedUDPPorts = [53];
-
     services.adguardhome = {
       enable = true;
       mutableSettings = false;
@@ -42,11 +39,6 @@ in {
           allowed_clients = [
             "100.64.0.0/10"
           ];
-          tls = {
-            enabled = true;
-            server_name = "dns.thuis";
-            force_https = false;
-          };
           use_http3_upstreams = true;
           upstream_mode = "parallel";
           bootstrap_dns = ["9.9.9.9" "208.67.222.222"];
@@ -55,6 +47,13 @@ in {
           # serve_plain_dns = false; # only allow dns over tls
           blocked_hosts = ["version.bind" "id.server" "hostname.bind"];
           cache_size = 4194304;
+        };
+        tls = {
+          enabled = false;
+          server_name = "dns.thuis";
+          port_https = 0; # 0 is disabled
+          port_dns_over_tls = 853;
+          force_https = false;
         };
         filters = [
           {
