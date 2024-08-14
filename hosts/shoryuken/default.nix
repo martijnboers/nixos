@@ -16,6 +16,7 @@ in {
     ./modules/keycloak.nix
     ./modules/caddy.nix
     ./modules/n8n.nix
+    ./modules/tor.nix
   ];
 
   hosts.notifications.enable = true;
@@ -24,6 +25,7 @@ in {
   hosts.keycloak.enable = true;
   hosts.caddy.enable = true;
   hosts.n8n.enable = true;
+  hosts.tor.enable = true;
 
   # Right order of headscale operations for startup
   systemd.services.headscale = {

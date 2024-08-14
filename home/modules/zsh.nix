@@ -26,8 +26,8 @@
       socks = "ssh -D 1337 -q -C -N hadouken.machine.thuis";
       proxy = "doas tailscale set --exit-node shoryuken";
       readme = "cat README* | glow";
-      keyboard-compile = "qmk compile -kb peej/lumberjack -km martijnboers";
-      keyboard-flash = "qmk flash -kb peej/lumberjack -km martijnboers";
+      keyboard-compile = "qmk compile -kb peej/lumberjack -km martijn";
+      keyboard-flash = "qmk flash -kb peej/lumberjack -km martijn";
       question = "mods -f \"$1\"";
       fluister = "OLLAMA_HOST=https://ollama.thuis ollama run wizardlm2";
     };
