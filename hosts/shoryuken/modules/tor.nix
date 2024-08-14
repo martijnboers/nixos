@@ -21,10 +21,11 @@ in {
       };
       settings = {
         ContactInfo = "abuse@plebian.nl";
-        Nickname = "personal-cloud";
+        Nickname = "personalcloud";
         ORPort = 9001; # NAT forward
         ControlPort = 9051;
         BandWidthRate = "300 MBytes";
+        BridgeRelay = true;
       };
     };
   };
