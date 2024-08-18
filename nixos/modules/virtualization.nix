@@ -15,10 +15,18 @@ in {
     # Docker configuration
     virtualisation.docker.enable = true;
     users.users.martijn.extraGroups = ["docker" "libvirtd" "libvirt"];
+    users.extraGroups.vboxusers.members = ["martijn"];
+
     environment.systemPackages = with pkgs; [quickemu];
 
     # QEMU virtualization
     virtualisation = {
+      virtualbox = {
+        host.enable = true;
+        host.enableExtensionPack = true;
+        guest.enable = true;
+        guest.draganddrop = true;
+      };
       libvirtd = {
         enable = true;
         qemu = {
