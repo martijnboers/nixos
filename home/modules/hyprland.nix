@@ -109,7 +109,6 @@ in {
           "swaync &"
           "copyq --start-server &"
           "blueman-applet &"
-          "lxqt-policykit-agent &"
         ];
         "$terminal" = "kitty";
         "$fileManager" = "dolphin";

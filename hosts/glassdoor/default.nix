@@ -73,6 +73,13 @@
     IdentityFile /home/martijn/.ssh/id_ed25519_sk
   '';
 
+  virtualisation.virtualbox = {
+    host.enable = true;
+    host.enableExtensionPack = true;
+    guest.enable = true;
+    guest.draganddrop = true;
+  };
+
   # Support gpg for git signing
   hosts.gpg.enable = true;
 

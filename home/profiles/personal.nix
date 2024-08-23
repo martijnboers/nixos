@@ -29,7 +29,6 @@ in {
       # messaging
       signal-desktop
       telegram-desktop
-      unstable.gossip # nostr client
       cinny-desktop # matrix client
     ];
   };

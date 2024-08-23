@@ -21,12 +21,6 @@ in {
 
     # QEMU virtualization
     virtualisation = {
-      virtualbox = {
-        host.enable = true;
-        host.enableExtensionPack = true;
-        guest.enable = true;
-        guest.draganddrop = true;
-      };
       libvirtd = {
         enable = true;
         qemu = {
