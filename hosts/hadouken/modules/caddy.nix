@@ -8,7 +8,7 @@ with lib; let
   cfg = config.hosts.caddy;
   plebianRepo = builtins.fetchGit {
     url = "https://github.com/martijnboers/plebian.nl.git";
-    rev = "d5a9534e5d0fb6dc15595c1fc3a3dcd11659b6e1";
+    rev = "a0dece7da8c56976e3c887b6c7019db2925a65ab";
   };
 in {
   options.hosts.caddy = {
@@ -30,6 +30,11 @@ in {
         }
       '';
       virtualHosts."plebian.nl".extraConfig = ''
+        root * ${plebianRepo}/
+        encode zstd gzip
+        file_server
+      '';
+      virtualHosts."boers.email".extraConfig = ''
         root * ${plebianRepo}/
         encode zstd gzip
         file_server

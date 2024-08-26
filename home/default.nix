@@ -98,7 +98,7 @@
     userName = "Martijn Boers";
     userEmail = "martijn@plebian.nl";
     signing = {
-      key = "FDC7B670BF26B101";
+      key = "69B019921313553F";
       signByDefault = true;
     };
     extraConfig = {

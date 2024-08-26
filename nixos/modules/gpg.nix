@@ -12,6 +12,7 @@ in {
   };
 
   config = mkIf cfg.enable {
+    # for smartcard support
     services.pcscd.enable = true;
 
     programs.gnupg.agent = {
