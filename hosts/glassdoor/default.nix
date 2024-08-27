@@ -57,10 +57,9 @@
   };
 
   services.yubikey-agent.enable = true;
-  security.pam.yubico = {
-    enable = true;
-    mode = "challenge-response";
-    id = "25580427";
+  security.pam.services = {
+    login.u2fAuth = true;
+    doas.u2fAuth = true;
   };
 
   hosts.secrets = {

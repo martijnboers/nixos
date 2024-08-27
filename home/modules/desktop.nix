@@ -20,6 +20,8 @@ in {
       wl-clipboard # wayland clipboard manager
       kooha # record screen wayland
 
+      yubioath-flutter # yubikey
+
       # Office suite
       libreoffice-qt
       hunspell

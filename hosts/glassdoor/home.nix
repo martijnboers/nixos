@@ -3,7 +3,7 @@
     ../../home
   ];
 
-  home.packages = with pkgs; [gqrx yubikey-manager yubikey-manager-qt];
+  home.packages = with pkgs; [gqrx];
 
   age.identityPaths = ["/home/martijn/.ssh/id_ed25519_age"];
 
