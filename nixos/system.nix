@@ -18,17 +18,23 @@
     ./modules/smb.nix
   ];
 
+  age.secrets.password.file = ../secrets/password.age;
+
   # User
-  users.users.martijn = {
-    isNormalUser = true;
-    description = "Martijn Boers";
-    extraGroups = ["networkmanager"];
-    shell = pkgs.zsh;
-    useDefaultShell = true;
-    openssh.authorizedKeys.keyFiles = [
-      ./keys/glassdoor-sk.pub
-      ./keys/keychain-sk.pub
-    ];
+  users = {
+    mutableUsers = false;
+    users.martijn = {
+      isNormalUser = true;
+      description = "Martijn Boers";
+      extraGroups = ["networkmanager" "wheel"];
+      shell = pkgs.zsh;
+      useDefaultShell = true;
+      openssh.authorizedKeys.keyFiles = [
+        ./keys/glassdoor-sk.pub
+        ./keys/keychain-sk.pub
+      ];
+      hashedPasswordFile = config.age.secrets.password.path;
+    };
   };
 
   # Global packages

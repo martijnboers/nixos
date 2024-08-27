@@ -57,6 +57,8 @@
   };
 
   services.yubikey-agent.enable = true;
+  # for smartcard support
+  services.pcscd.enable = true;
   security.pam.services = {
     login.u2fAuth = true;
     doas.u2fAuth = true;

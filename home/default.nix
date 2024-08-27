@@ -103,7 +103,7 @@
     };
     extraConfig = {
       pull.rebase = "true";
-      init.defaultBranch = "main";
+      init.defaultBranch = "main"; # Doesnt work with nixos https://discourse.nixos.org/t/nixos-rebuild-switch-fails-under-flakes-and-doas-with-git-warning-about-dubious-ownership/46069/11?u=martijn
       push.autoSetupRemote = "true";
       safe.directory = "/home/martijn/Nix/.git";
     };
