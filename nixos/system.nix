@@ -88,6 +88,7 @@
     pciutils # lspci
     usbutils # lsusb
     cachix # community binary caches
+    doas-sudo-shim # sadly necessary for some applications to work
   ];
 
   nix.settings = {

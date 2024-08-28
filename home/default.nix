@@ -50,8 +50,8 @@
     neofetch
     thefuck
     trash-cli
-    lsd # fancy ls
     bat # fancy cat
+    lsd # fancy ls
     magic-wormhole # send files
 
     # fonts

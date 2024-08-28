@@ -10,6 +10,13 @@
   boot.initrd.kernelModules = ["nvme"];
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 2 * 1024;
+    }
+  ];
+
   # Disk config
   disko.devices = {
     disk.disk1 = {

@@ -12,7 +12,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."auth.cloud.plebian.nl".extraConfig = ''
+    services.caddy.virtualHosts."auth.donder.cloud".extraConfig = ''
       reverse_proxy http://localhost:${toString config.services.keycloak.settings.http-port}
     '';
 
@@ -34,7 +34,7 @@ in {
         passwordFile = config.age.secrets.keycloak.path;
       };
       settings = {
-        hostname = "auth.cloud.plebian.nl";
+        hostname = "auth.donder.cloud";
         proxy = "edge";
         http-host = "0.0.0.0";
         http-port = 3345;

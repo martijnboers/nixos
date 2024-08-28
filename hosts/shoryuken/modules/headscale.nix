@@ -16,7 +16,7 @@ in {
     environment.systemPackages = [config.services.headscale.package];
 
     services = {
-      caddy.virtualHosts."headscale.cloud.plebian.nl".extraConfig = ''
+      caddy.virtualHosts."headscale.donder.cloud".extraConfig = ''
         reverse_proxy http://localhost:${toString config.services.headscale.port}
       '';
       headscale = {
@@ -24,9 +24,9 @@ in {
         address = "0.0.0.0";
         port = 7070;
         settings = {
-          server_url = "https://headscale.cloud.plebian.nl";
+          server_url = "https://headscale.donder.cloud";
           oidc = {
-            issuer = "https://auth.cloud.plebian.nl/realms/master";
+            issuer = "https://auth.donder.cloud/realms/master";
             client_id = "headscale";
             client_secret_path = config.age.secrets.headscale.path;
             allowed_users = ["martijn@plebian.nl"];
