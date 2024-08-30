@@ -17,6 +17,7 @@ in {
     ./modules/cyberchef.nix
     ./modules/mastodon.nix
     ./modules/endlessh.nix
+    ./modules/wordpress.nix
     ./modules/fail2ban.nix
     ./modules/adguard.nix
     ./modules/conduit.nix
@@ -45,6 +46,7 @@ in {
   hosts.mastodon.enable = true;
   hosts.fail2ban.enable = true;
   hosts.ollama.enable = true;
+  hosts.wordpress.enable = true;
 
   systemd.services.sshd = {
     after = ["tailscaled.service"];

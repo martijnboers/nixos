@@ -55,7 +55,6 @@
     magic-wormhole # send files
 
     # fonts
-    meslo-lgs-nf
     nerdfonts
 
     # tools
