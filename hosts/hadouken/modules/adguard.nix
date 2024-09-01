@@ -33,7 +33,7 @@ in {
           ratelimit = 0;
           bind_hosts = ["0.0.0.0"]; # this can bind to tailscale
           upstream_dns = [
-            "h3://zero.dns0.eu"
+            "https://security.cloudflare-dns.com/dns-query"
             "https://dns.quad9.net/dns-query"
           ];
           allowed_clients = [
