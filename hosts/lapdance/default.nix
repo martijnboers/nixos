@@ -12,12 +12,12 @@
   fileSystems."/mnt/music" = {
     device = "//hadouken.machine.thuis/music";
     fsType = "cifs";
-    options = ["credentials=${config.age.secrets.smb.path},uid=1000,gid=100"];
-  };
-  fileSystems."/mnt/misc" = {
-    device = "//hadouken.machine.thuis/misc";
-    fsType = "cifs";
-    options = ["credentials=${config.age.secrets.smb.path},uid=1000,gid=100"];
+    options = [
+      "credentials=${config.age.secrets.smb.path}"
+      "uid=1000"
+      "gid=100"
+      "x-systemd.automount" # lazyloading, solves tailscale chicken&egg
+    ];
   };
 
   # Docker + QEMU
