@@ -32,13 +32,16 @@ in {
       trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
     };
 
-    xdg.portal = {
-      enable = true;
-      extraPortals = [
-        pkgs.xdg-desktop-portal-hyprland
-        pkgs.xdg-desktop-portal-gtk
-        pkgs.libsForQt5.xdg-desktop-portal-kde
-      ];
+    xdg = {
+      menus.enable = true;
+      portal = {
+        enable = true;
+        extraPortals = [
+          pkgs.xdg-desktop-portal
+          pkgs.xdg-desktop-portal-hyprland
+          pkgs.xdg-desktop-portal-gtk
+        ];
+      };
     };
 
     services.gnome.gnome-keyring.enable = true;
@@ -49,11 +52,13 @@ in {
       settings = {
         # only first session auto-login
         initial_session = {
-          command = "Hyprland";
+          command = "dbus-run-session Hyprland";
           user = "martijn";
         };
+        # need to run dbus-run-session to get xdg to pickup mimes :/
+        # https://www.reddit.com/r/NixOS/comments/16g1sdy/xdgopen_not_working/
         default_session = {
-          command = "${lib.getExe pkgs.greetd.tuigreet} --time --cmd Hyprland";
+          command = "${lib.getExe pkgs.greetd.tuigreet} --time --cmd \"dbus-run-session Hyprland\"";
           user = "martijn";
         };
       };

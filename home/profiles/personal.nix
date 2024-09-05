@@ -29,7 +29,7 @@ in {
       # messaging
       signal-desktop
       telegram-desktop
-      cinny-desktop # matrix client
+      nheko # matrix client
     ];
   };
 }

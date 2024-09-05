@@ -29,27 +29,34 @@ in {
       style.name = "breeze";
     };
 
-    xdg.mimeApps = {
+    xdg = let
+      mimeDefinitions = {
+        "application/pdf" = "zathura.desktop";
+        "text/plain" = "kwrite.desktop";
+        "text/html" = "webstorm.desktop";
+        "x-scheme-handler/http" = "firefox.desktop";
+        "x-scheme-handler/https" = "firefox.desktop";
+        "x-scheme-handler/about" = "firefox.desktop";
+        "x-scheme-handler/unknown" = "firefox.desktop";
+
+        "image/gif" = "imv.desktop";
+        "image/jpeg" = "imv.desktop";
+        "image/png" = "imv.desktop";
+        "image/webp" = "imv.desktop";
+
+        "video/mp4" = "vlc.desktop";
+        "video/webm" = "vlc.desktop";
+
+        "audio/flac" = "clementine.desktop";
+        "audio/mpeg" = "clementine.desktop";
+      };
+    in {
       enable = true;
-      defaultApplications = {
-        "application/pdf" = lib.mkForce "zathura.desktop";
-        "text/plain" = lib.mkForce "kwrite.desktop";
-        "text/html" = lib.mkForce "webstorm.desktop";
-        "x-scheme-handler/http" = lib.mkForce "firefox.desktop";
-        "x-scheme-handler/https" = lib.mkForce "firefox.desktop";
-        "x-scheme-handler/about" = lib.mkForce "firefox.desktop";
-        "x-scheme-handler/unknown" = lib.mkForce "firefox.desktop";
-
-        "image/gif" = lib.mkForce "imv.desktop";
-        "image/jpeg" = lib.mkForce "imv.desktop";
-        "image/png" = lib.mkForce "imv.desktop";
-        "image/webp" = lib.mkForce "imv.desktop";
-
-        "video/mp4" = lib.mkForce "vlc.desktop";
-        "video/webm" = lib.mkForce "vlc.desktop";
-
-        "audio/flac" = lib.mkForce "clementine.desktop";
-        "audio/mpeg" = lib.mkForce "clementine.desktop";
+      mime.enable = true;
+      mimeApps = {
+        enable = true;
+        defaultApplications = mimeDefinitions;
+        associations.added = mimeDefinitions;
       };
     };
 
@@ -109,11 +116,23 @@ in {
           "swaync &"
           "copyq --start-server &"
           "blueman-applet &"
+          "nheko &"
         ];
         "$terminal" = "kitty";
         "$fileManager" = "dolphin";
         "$browser" = "firefox";
         "$menu" = "rofi -show drun -show-icons";
+
+        # hyprctl clients
+        windowrulev2 = [
+          "workspace 3, class:(sublime_merge)"
+          "workspace 4, class:(nheko)"
+          "workspace 4, class:(signal)"
+          "workspace 4, class:(Slack)"
+          "workspace 5, class:(steam)"
+          "workspace 6, title:(Clementine)"
+          "workspace 6, title:(Spotify Premium)"
+        ];
 
         # l -> locked, will also work when an input inhibitor (e.g. a lockscreen) is active.
         # r -> release, will trigger on release of a key.
@@ -125,17 +144,6 @@ in {
         bindm = [
           "$mod,mouse:272,movewindow"
           "$mod,mouse:273,resizewindow"
-        ];
-
-        # hyprctl clients
-        windowrulev2 = [
-          "workspace 3, class:(sublime_merge)"
-          "workspace 4, class:(cinny)"
-          "workspace 4, class:(signal)"
-          "workspace 4, class:(Slack)"
-          "workspace 5, class:(steam)"
-          "workspace 6, title:(Clementine)"
-          "workspace 6, title:(Spotify Premium)"
         ];
 
         bindr = [

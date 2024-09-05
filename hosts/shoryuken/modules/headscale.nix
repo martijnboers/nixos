@@ -94,21 +94,6 @@ in {
                 type = "A";
                 value = shoryukenIp;
               }
-              {
-                name = "kvm.thuis";
-                type = "A";
-                value = "100.64.0.4";
-              }
-              {
-                name = "router.thuis";
-                type = "A";
-                value = "100.64.0.6";
-              }
-              {
-                name = "kvm.plebian";
-                type = "A";
-                value = "100.64.0.4";
-              }
             ];
           };
           prefixes = {
