@@ -23,11 +23,6 @@ in {
       iconTheme.name = "gruvbox";
       iconTheme.package = pkgs.gruvbox-dark-icons-gtk;
     };
-    qt = {
-      enable = true;
-      platformTheme.name = "kde";
-      style.name = "breeze";
-    };
 
     xdg = let
       mimeDefinitions = {
@@ -61,11 +56,10 @@ in {
     };
 
     home.packages = with pkgs;
-    with libsForQt5; [
+    with kdePackages; [
       # utilities
       waybar
       rofi-wayland
-      swaybg
       networkmanagerapplet
       blueman # bluetooth
       pavucontrol # audio
@@ -79,11 +73,9 @@ in {
       dolphin
       dolphin-plugins
       kdegraphics-thumbnailers
-      qt5ct
       kio
       kio-extras
       ffmpegthumbs
-      kservice # for xdg mimetypes
       gnome.seahorse # kwallet stinks
 
       # File support
@@ -111,7 +103,6 @@ in {
         "$mod" = "ALT";
         "$prog" = "CTRL ALT";
         exec-once = [
-          "swaybg --mode fill --image $(ls /home/martijn/Nix/home/assets/img/wp_[0-9]* | shuf -n 1)"
           "nm-applet --indicator &"
           "swaync &"
           "copyq --start-server &"
@@ -275,7 +266,7 @@ in {
 
     services.swayidle = let
       lockCmd = lib.getExe pkgs.hyprlock;
-      hyprlandPkg = config.wayland.windowManager.hyprland.package;
+      hyprlandPkg = lib.getExe config.wayland.windowManager.hyprland.package;
     in {
       enable = true;
       events = [
@@ -301,8 +292,8 @@ in {
         }
         {
           timeout = 1600;
-          command = "${hyprlandPkg}/bin/hyprctl dispatch dpms off";
-          resumeCommand = "${hyprlandPkg}/bin/hyprctl dispatch dpms on";
+          command = "${hyprlandPkg} dispatch dpms off";
+          resumeCommand = "${hyprlandPkg} dispatch dpms on";
         }
       ];
     };

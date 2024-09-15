@@ -652,16 +652,17 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1724702977,
-        "narHash": "sha256-bP1/BHbEigLjTTmqyy1t8w5EVWHuLuABtOd/BBXVLtA=",
-        "owner": "danth",
+        "lastModified": 1725458340,
+        "narHash": "sha256-nDfaFNQJpstpI4IIu8nbnc2NUKSvXIG7U+HPNjmMhak=",
+        "owner": "Jackaed",
         "repo": "stylix",
-        "rev": "6c895c6b42ca205017abe72a7263baf36a197972",
+        "rev": "f77828f724cbf7c140acae6dc53472f1570a0712",
         "type": "github"
       },
       "original": {
-        "owner": "danth",
+        "owner": "Jackaed",
         "repo": "stylix",
+        "rev": "f77828f724cbf7c140acae6dc53472f1570a0712",
         "type": "github"
       }
     },

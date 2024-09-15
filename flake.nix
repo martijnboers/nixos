@@ -10,7 +10,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Home manager kde
     plasma-manager = {
       url = "github:pjones/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,8 +33,8 @@
     # Disk setup for nixos-anywhere
     disko.url = "github:nix-community/disko";
 
-    # rice
-    stylix.url = "github:danth/stylix";
+    # with working qt6, move back to github:danth/stylix
+    stylix.url = "github:Jackaed/stylix/f77828f724cbf7c140acae6dc53472f1570a0712";
   };
 
   outputs = {

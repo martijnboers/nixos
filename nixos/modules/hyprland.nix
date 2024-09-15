@@ -16,10 +16,9 @@ in {
   config = mkIf cfg.enable {
     hosts.desktop.enable = true;
 
-    # Still necesarry for stylix
     environment.systemPackages = with pkgs; [
-      libsForQt5.full
-      libsForQt5.qt5.qtwayland
+      # kdePackages.full
+      kdePackages.qtwayland
       lxqt.lxqt-policykit # lxqt polkit
     ];
 
@@ -44,27 +43,30 @@ in {
       };
     };
 
-    services.gnome.gnome-keyring.enable = true;
-    security.pam.services.greetd.enableGnomeKeyring = true;
+    # Try and fix Dolhpin file associations, sadly pulls in plasma..
+    environment.etc."/xdg/menus/plasma-applications.menu".text = builtins.readFile "${pkgs.kdePackages.plasma-workspace}/etc/xdg/menus/plasma-applications.menu";
 
     services.greetd = {
       enable = true;
       settings = {
         # only first session auto-login
         initial_session = {
-          command = "dbus-run-session Hyprland";
+          command = "Hyprland";
           user = "martijn";
         };
         # need to run dbus-run-session to get xdg to pickup mimes :/
         # https://www.reddit.com/r/NixOS/comments/16g1sdy/xdgopen_not_working/
         default_session = {
-          command = "${lib.getExe pkgs.greetd.tuigreet} --time --cmd \"dbus-run-session Hyprland\"";
+          command = "${lib.getExe pkgs.greetd.tuigreet} --time --cmd Hyprland";
           user = "martijn";
         };
       };
     };
 
+    # Auth/permission management
     security.polkit.enable = true;
+    services.gnome.gnome-keyring.enable = true;
+    security.pam.services.greetd.enableGnomeKeyring = true;
 
     environment.sessionVariables = {
       NIXOS_OZONE_WL = "1"; # hint electron apps to use wayland
