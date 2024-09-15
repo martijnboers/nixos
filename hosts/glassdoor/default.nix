@@ -36,6 +36,9 @@
   services.xserver.videoDrivers = ["amdgpu"];
   services.flatpak.enable = true;
 
+  # Enable binfmt emulation of aarch64-linux. (for the raspberry pi)
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   hosts.auditd = {
     enable = true;
     rules = [

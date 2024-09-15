@@ -108,12 +108,15 @@
 
     nixosConfigurations.hadouken = mkSystem "hadouken" {
       system = "x86_64-linux";
-      extraModules = [];
     };
 
     nixosConfigurations.shoryuken = mkSystem "shoryuken" {
       system = "x86_64-linux";
       extraModules = [inputs.disko.nixosModules.disko];
+    };
+
+    nixosConfigurations.tenshin = mkSystem "tenshin" {
+      system = "aarch64-linux";
     };
 
     darwinConfigurations.kikoken = darwin.lib.darwinSystem {

@@ -13,14 +13,20 @@ for a good initial starting point for NixOS with flakes.
 
 ### Fresh installation notes
 - `git clone https://github.com/martijnboers/nixos.git ~/Nix`
-- `sudo nixos-rebuild switch --flake ~/Nix#host`
-- `sudo tailscale up --login-server https://headscale.donder.cloud`
+- `doas nixos-rebuild switch --flake ~/Nix#host`
+- `doas tailscale up --login-server https://headscale.donder.cloud`
 - `gpg --import private.key`
 - `ssh-add ~/.ssh/id_ed25519`
 
-#### Hetzner
+### Hetzner
 ```
 SSHPASS=<pwd> nix run github:nix-community/nixos-anywhere -- --flake .#shoryuken --env-password root@<ip>
+```
+
+### Rasperry Pi SD image
+```
+nix run nixpkgs#nixos-generators -- -f sd-aarch64 --flake .#tenshin --system aarch64-linux -o ~/pi.img
+nixos-rebuild switch --flake .#tenshin --target-host 10.11.0.15 --use-remote-sudo
 ```
 
 ### Loading repl
