@@ -35,12 +35,20 @@
 
     # with working qt6, move back to github:danth/stylix
     stylix.url = "github:Jackaed/stylix/f77828f724cbf7c140acae6dc53472f1570a0712";
+
+    # Macbook stuff
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-24.05-darwin";
+    darwin = {
+      url = "github:lnl7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
+    };
   };
 
   outputs = {
     self,
     nixpkgs,
     home-manager,
+    darwin,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -78,6 +86,7 @@
 
               home-manager.nixosModules.home-manager
               {
+                home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
                 home-manager.users.martijn = import homeconfig;
                 home-manager.extraSpecialArgs = {inherit inputs outputs system;};
@@ -102,17 +111,25 @@
       extraModules = [];
     };
 
-    nixosConfigurations.lapdance = mkSystem "lapdance" {
-      system = "x86_64-linux";
-    };
-
     nixosConfigurations.shoryuken = mkSystem "shoryuken" {
       system = "x86_64-linux";
       extraModules = [inputs.disko.nixosModules.disko];
     };
 
-    nixosConfigurations.testbed = mkSystem "testbed" {
-      system = "x86_64-linux";
+    darwinConfigurations.kikoken = darwin.lib.darwinSystem {
+      system = "aarch64-darwin";
+      specialArgs = {inherit inputs outputs;};
+      modules = [
+        ./hosts/kikoken/system.nix
+
+        home-manager.darwinModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = {inherit inputs outputs;};
+          home-manager.users.martijn = import ./hosts/kikoken/home.nix;
+        }
+      ];
     };
   };
 }

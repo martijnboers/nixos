@@ -4,8 +4,11 @@
   ...
 }:
 with lib; let
-  cfg = config.thuis.desktop;
+  cfg = config.thuis.kitty;
 in {
+  options.thuis.kitty = {
+    enable = mkEnableOption "Terminal emulator";
+  };
   config = mkIf cfg.enable {
     programs.kitty = {
       enable = true;

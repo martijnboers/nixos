@@ -72,18 +72,6 @@
     };
   };
 
-  nixpkgs = {
-    overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.unstable-packages
-    ];
-
-    config = {
-      allowUnfree = true;
-    };
-  };
-
   # Let nix-index handle command-not-found
   programs.nix-index.enable = true;
   # Run programs with , cowsay

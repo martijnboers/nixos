@@ -10,6 +10,7 @@
     in {
       # --- NixOS specific --------
       deploy = "doas nixos-rebuild switch ${defaultNixFlags}";
+      mdeploy = "darwin-rebuild switch --flake /Users/martijn/nixos#kikoken";
       debug = "doas nixos-rebuild switch ${defaultNixFlags} --show-trace --verbose";
       testbuild = "nixos-rebuild build --option sandbox false ${defaultNixFlags}#hadouken";
       update = "nix flake update";

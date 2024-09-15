@@ -13,6 +13,7 @@ in {
   };
 
   config = mkIf cfg.enable {
+    thuis.kitty.enable = true;
     home.packages = with pkgs; [
       firefox
       kitty
