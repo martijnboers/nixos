@@ -17,7 +17,6 @@ in {
     hosts.desktop.enable = true;
 
     environment.systemPackages = with pkgs; [
-      # kdePackages.full
       kdePackages.qtwayland
       lxqt.lxqt-policykit # lxqt polkit
     ];
@@ -32,19 +31,15 @@ in {
     };
 
     xdg = {
-      menus.enable = true;
       portal = {
         enable = true;
+        config.common.default = "*"; # pick first in order, hyprland
         extraPortals = [
-          pkgs.xdg-desktop-portal
           pkgs.xdg-desktop-portal-hyprland
           pkgs.xdg-desktop-portal-gtk
         ];
       };
     };
-
-    # Try and fix Dolhpin file associations, sadly pulls in plasma..
-    environment.etc."/xdg/menus/plasma-applications.menu".text = builtins.readFile "${pkgs.kdePackages.plasma-workspace}/etc/xdg/menus/plasma-applications.menu";
 
     services.greetd = {
       enable = true;
@@ -54,8 +49,6 @@ in {
           command = "Hyprland";
           user = "martijn";
         };
-        # need to run dbus-run-session to get xdg to pickup mimes :/
-        # https://www.reddit.com/r/NixOS/comments/16g1sdy/xdgopen_not_working/
         default_session = {
           command = "${lib.getExe pkgs.greetd.tuigreet} --time --cmd Hyprland";
           user = "martijn";

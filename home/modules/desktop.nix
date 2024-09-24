@@ -22,6 +22,7 @@ in {
       kooha # record screen wayland
 
       yubioath-flutter # yubikey
+      nextcloud-client
 
       # Office suite
       libreoffice-qt

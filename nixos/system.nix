@@ -201,6 +201,9 @@
 
     config = {
       allowUnfree = true;
+      permittedInsecurePackages = [
+        "olm-3.2.16" # https://matrix.org/blog/2024/08/libolm-deprecation/
+      ];
     };
   };
 
