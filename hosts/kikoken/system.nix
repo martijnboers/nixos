@@ -8,6 +8,11 @@
   networking.computerName = "macbook-martijn";
   system.defaults.smb.NetBIOSName = "macbook-martijn";
 
+  # Default env variables
+  environment.variables = {
+    EDITOR = "nvim";
+  };
+
   users.users.martijn = {
     home = lib.mkForce "/Users/martijn";
   };
