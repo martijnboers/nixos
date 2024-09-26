@@ -28,6 +28,7 @@ in {
     ./modules/atuin.nix
     ./modules/pgrok.nix
     ./modules/plex.nix
+    ./modules/sync.nix
     ./modules/hass.nix
   ];
 
@@ -49,6 +50,7 @@ in {
   hosts.ollama.enable = true;
   hosts.wordpress.enable = true;
   hosts.microbin.enable = true;
+  hosts.sync.enable = true;
 
   systemd.services.sshd = {
     after = ["tailscaled.service"];
