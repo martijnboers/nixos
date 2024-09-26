@@ -19,6 +19,7 @@ in {
     ./modules/endlessh.nix
     ./modules/wordpress.nix
     ./modules/fail2ban.nix
+    ./modules/microbin.nix
     ./modules/adguard.nix
     ./modules/conduit.nix
     ./modules/storage.nix
@@ -47,6 +48,7 @@ in {
   hosts.fail2ban.enable = true;
   hosts.ollama.enable = true;
   hosts.wordpress.enable = true;
+  hosts.microbin.enable = true;
 
   systemd.services.sshd = {
     after = ["tailscaled.service"];
