@@ -14,6 +14,7 @@ in {
 
   config = mkIf cfg.enable {
     thuis.kitty.enable = true;
+
     home.packages = with pkgs; [
       firefox
       kitty
@@ -30,5 +31,15 @@ in {
       hunspellDicts.nl_NL
       hunspellDicts.en_US
     ];
+
+    programs.librewolf = {
+      enable = true;
+      settings = {
+        "webgl.disabled" = false;
+        "identity.fxaccounts.enabled" = true;
+        "identity.fxaccounts.remote.root" = "https://sync.thuis";
+        "privacy.clearOnShutdown.history" = false;
+      };
+    };
   };
 }

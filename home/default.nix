@@ -17,15 +17,13 @@
 
     # Packaged home manager modules
     inputs.nixvim.homeManagerModules.nixvim
+    inputs.stylix.homeManagerModules.stylix
 
     # quickly lookup and run programs
     inputs.nix-index-database.hmModules.nix-index
 
     # secrets manager
     inputs.agenix.homeManagerModules.default
-
-    # rice
-    inputs.stylix.homeManagerModules.stylix
 
     # Desktop only
     ./modules/hyprland.nix
