@@ -135,7 +135,8 @@
     setSendmail = true;
     defaults = {
       aliases = "/etc/aliases";
-      port = 2525;
+      tls = "off";
+      port = 8025;
     };
     accounts = {
       default = {
@@ -154,6 +155,7 @@
   # Default env variables
   environment.sessionVariables = {
     EDITOR = "nvim";
+    REQUESTS_CA_BUNDLE = "/etc/ssl/certs/ca-certificates.crt"; # python y u like this?
   };
 
   # SMB network discovery

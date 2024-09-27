@@ -27,15 +27,22 @@ in {
     '';
 
     services.borgbackup.jobs.default.paths = [config.services.gotify.stateDirectoryName];
-    age.secrets.gotify.file = ../../../secrets/gotify.age;
+    age.secrets.mailrise.file = ../../../secrets/mailrise.age;
 
-    systemd.services.smtp-gotify = {
-      after = ["network.target"];
-      description = "SMTP bridge gotify";
+    systemd.services.mailrise = let
+      configFile = pkgs.writeText "mailrise_config.yml" ''
+        configs:
+          '*@*':
+            urls:
+            - !env_var GOTIFY_URL
+      '';
+    in {
+      wantedBy = ["multi-user.target"];
+      description = "SMTP bridge apprise";
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${getExe pkgs.smtp-gotify} --smtp-listen 0.0.0.0:2525 --gotify-url https://notifications.thuis/";
-        EnvironmentFile = config.age.secrets.gotify.path;
+        ExecStart = "${getExe pkgs.mailrise} ${configFile}";
+        EnvironmentFile = config.age.secrets.mailrise.path;
         TimeoutStartSec = 600;
         Restart = "on-failure";
         NoNewPrivileges = true;

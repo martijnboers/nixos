@@ -29,7 +29,6 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      vscode
       jetbrains.pycharm-community
       jetbrains.webstorm
       jetbrains.goland
