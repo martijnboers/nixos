@@ -8,9 +8,9 @@ with lib; let
   cfg = config.thuis.work;
   teamsScript = pkgs.writeShellApplication {
     name = "teams";
-    runtimeInputs = [pkgs.firefox];
+    runtimeInputs = [pkgs.librewolf];
     text = ''
-      firefox --new-tab https://teams.microsoft.com/
+      librewolf --new-tab https://teams.microsoft.com/
     '';
   };
   teamsDeskopItem = pkgs.makeDesktopItem {
@@ -47,6 +47,7 @@ in {
 
       teamsDeskopItem
       teamsScript
+      unstable.citrix_workspace
     ];
   };
 }

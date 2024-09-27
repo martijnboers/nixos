@@ -67,7 +67,7 @@ in {
       WLR_RENDERER_ALLOW_SOFTWARE = "1"; # enable software rendering for wlroots
       WLR_NO_HARDWARE_CURSORS = "1"; # disable hardware cursors for wlroots
       NIXOS_XDG_OPEN_USE_PORTAL = "1"; # needed to open apps after web login
-      DEFAULT_BROWSER = "firefox";
+      DEFAULT_BROWSER = "librewolf";
       QT_QPA_PLATFORMTHEME = "kde";
     };
   };

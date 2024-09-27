@@ -29,10 +29,10 @@ in {
         "application/pdf" = "zathura.desktop";
         "text/plain" = "kwrite.desktop";
         "text/html" = "webstorm.desktop";
-        "x-scheme-handler/http" = "firefox.desktop";
-        "x-scheme-handler/https" = "firefox.desktop";
-        "x-scheme-handler/about" = "firefox.desktop";
-        "x-scheme-handler/unknown" = "firefox.desktop";
+        "x-scheme-handler/http" = "librewolf.desktop";
+        "x-scheme-handler/https" = "librewolf.desktop";
+        "x-scheme-handler/about" = "librewolf.desktop";
+        "x-scheme-handler/unknown" = "librewolf.desktop";
 
         "image/gif" = "imv.desktop";
         "image/jpeg" = "imv.desktop";
@@ -111,7 +111,7 @@ in {
         ];
         "$terminal" = "kitty";
         "$fileManager" = "dolphin";
-        "$browser" = "firefox";
+        "$browser" = "librewolf";
         "$menu" = "rofi -show drun -show-icons";
 
         # hyprctl clients
@@ -242,14 +242,14 @@ in {
       };
       # Attempt at fixing youtube picture-in-picture
       extraConfig = ''
-        windowrulev2 = keepaspectratio,class:^(firefox)$,title:^(Picture-in-Picture)$
-        windowrulev2 = noborder,class:^(firefox)$,title:^(Picture-in-Picture)$
-        windowrulev2 = fakefullscreen,class:^(firefox)$,title:^(Firefox)$
-        windowrulev2 = fakefullscreen,class:^(firefox)$,title:^(Picture-in-Picture)$
-        windowrulev2 = pin,class:^(firefox)$,title:^(Firefox)$
-        windowrulev2 = pin,class:^(firefox)$,title:^(Picture-in-Picture)$
-        windowrulev2 = float,class:^(firefox)$,title:^(Firefox)$
-        windowrulev2 = float,class:^(firefox)$,title:^(Picture-in-Picture)$
+        windowrulev2 = keepaspectratio,class:^(librewolf)$,title:^(Picture-in-Picture)$
+        windowrulev2 = noborder,class:^(librewolf)$,title:^(Picture-in-Picture)$
+        windowrulev2 = fakefullscreen,class:^(librewolf)$,title:^(Firefox)$
+        windowrulev2 = fakefullscreen,class:^(librewolf)$,title:^(Picture-in-Picture)$
+        windowrulev2 = pin,class:^(librewolf)$,title:^(Firefox)$
+        windowrulev2 = pin,class:^(librewolf)$,title:^(Picture-in-Picture)$
+        windowrulev2 = float,class:^(librewolf)$,title:^(Firefox)$
+        windowrulev2 = float,class:^(librewolf)$,title:^(Picture-in-Picture)$
       '';
     };
 

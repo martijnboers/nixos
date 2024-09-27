@@ -18,7 +18,7 @@ in {
   config = mkIf cfg.enable {
     environment.sessionVariables = {
       TERM = "xterm-kitty";
-      BROWSER = "firefox";
+      BROWSER = "librewolf";
     };
 
     # Enable opengpl

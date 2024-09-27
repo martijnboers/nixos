@@ -9,7 +9,7 @@
     identityPath = "/home/martijn/.ssh/id_ed25519_age";
     exclude = [
       ".cache"
-      "*/cache2" # firefox
+      "*/cache2" # librewolf
       "*/Cache"
       ".config/Slack/logs"
       ".config/Code/CachedData"

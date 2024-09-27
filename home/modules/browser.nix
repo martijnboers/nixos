@@ -14,9 +14,6 @@ in {
     home.packages = with pkgs; [
       ungoogled-chromium
     ];
-    programs.firefox = {
-      enable = true; # todo remove once moved to librewolf
-    };
     programs.librewolf = {
       enable = true;
       settings = {
@@ -26,6 +23,11 @@ in {
         "privacy.clearOnShutdown.history" = false;
         "privacy.clearOnShutdown.cookies" = false;
         "network.cookie.lifetimePolicy" = 0;
+
+        # https://bugzilla.mozilla.org/show_bug.cgi?id=1732114
+        "privacy.resistFingerprinting" = false;
+        "privacy.fingerprintingProtection" = true;
+        "privacy.fingerprintingProtection.overrides" = "+AllTargets,-CSSPrefersColorScheme";
       };
     };
   };

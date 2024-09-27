@@ -52,7 +52,7 @@ in {
               name = "org.kde.plasma.icontasks";
               config = {
                 General.launchers = [
-                  "applications:firefox.desktop"
+                  "applications:librewolf.desktop"
                   "applications:kitty.desktop"
                   "applications:org.kde.dolphin.desktop"
                   "applications:pycharm-community.desktop"
