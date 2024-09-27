@@ -37,7 +37,7 @@ in {
       settings = {
         "webgl.disabled" = false;
         "identity.fxaccounts.enabled" = true;
-        "identity.fxaccounts.remote.root" = "https://sync.thuis";
+        "identity.sync.tokenserver.uri" = "https://sync.thuis/1.0/sync/1.5";
         "privacy.clearOnShutdown.history" = false;
       };
     };

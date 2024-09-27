@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib; let
-  cfg = config.hosts.microbin;
+  cfg = config.hosts.sync;
 in {
-  options.hosts.microbin = {
+  options.hosts.sync = {
     enable = mkEnableOption "Firefox sync";
   };
 
@@ -31,7 +32,7 @@ in {
 
         settings = {
           host = "0.0.0.0";
-          port = 85799;
+          port = 8579;
         };
         logLevel = "error";
         singleNode = {
