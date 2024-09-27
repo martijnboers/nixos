@@ -5,18 +5,18 @@
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
     ollama = final.unstable.ollama;
-    headscale = final.unstable.buildGo122Module rec {
+    headscale = final.unstable.buildGo123Module rec {
       pname = "headscale";
-      version = "0.23.0-beta1";
+      version = "0.23.0";
 
       src = prev.fetchFromGitHub {
         owner = "juanfont";
         repo = "headscale";
         rev = "v${version}";
-        hash = "sha256-uOaVK+3/DoUDbccelGYRx9zwAG6wYLywYbNN+7epnk0=";
+        hash = "sha256-5tlnVNpn+hJayxHjTpbOO3kRInOYOFz0pe9pwjXZlBE=";
       };
 
-      vendorHash = "sha256-EorT2AVwA3usly/LcNor6r5UIhLCdj3L4O4ilgTIC2o=";
+      vendorHash = "sha256-+8dOxPG/Q+wuHgRwwWqdphHOuop0W9dVyClyQuh7aRc=";
       ldflags = ["-s" "-w" "-X github.com/juanfont/headscale/cmd/headscale/cli.Version=v${version}"];
       nativeBuildInputs = [prev.installShellFiles];
       checkFlags = ["-short"];

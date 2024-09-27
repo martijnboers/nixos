@@ -85,6 +85,11 @@ in {
                 value = hadoukenIp;
               }
               {
+                name = "sync.thuis";
+                type = "A";
+                value = hadoukenIp;
+              }
+              {
                 name = "notifications.thuis";
                 type = "A";
                 value = shoryukenIp;

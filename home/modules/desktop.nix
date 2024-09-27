@@ -13,12 +13,10 @@ in {
   };
 
   config = mkIf cfg.enable {
+    thuis.browser.enable = true;
     thuis.kitty.enable = true;
 
     home.packages = with pkgs; [
-      firefox
-      kitty
-      ungoogled-chromium
       wl-clipboard # wayland clipboard manager
       kooha # record screen wayland
 
@@ -31,15 +29,5 @@ in {
       hunspellDicts.nl_NL
       hunspellDicts.en_US
     ];
-
-    programs.librewolf = {
-      enable = true;
-      settings = {
-        "webgl.disabled" = false;
-        "identity.fxaccounts.enabled" = true;
-        "identity.sync.tokenserver.uri" = "https://sync.thuis/1.0/sync/1.5";
-        "privacy.clearOnShutdown.history" = false;
-      };
-    };
   };
 }

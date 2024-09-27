@@ -11,8 +11,8 @@ buildGoModule rec {
   src = fetchFromGitHub {
     owner = "jreiml"; # This is a fork with updated dependencies. Besides this not bound to it
     repo = "smtp-gotify";
-    rev = "main";
-    sha256 = "sha256-WFaJjdV4dlcsj44dVw6ETHLK0eA7Op5FJaCzK+94Kd8="; # replace with the actual sha256
+    rev = "4d0e477bf0180784ab4575d1462682208a351c1a";
+    sha256 = "sha256-WFaJjdV4dlcsj44dVw6ETHLK0eA7Op5FJaCzK+94Kd8=";
   };
 
   vendorHash = "sha256-ZP6TSQa4f89F83JM4dJRwmrvLA4F1jx3cxOhqk13/74=";
