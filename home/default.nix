@@ -53,9 +53,6 @@
     lsd # fancy ls
     magic-wormhole # send files
 
-    # fonts
-    nerdfonts
-
     # tools
     mods # ai for cli
     glow # cli markdown viewer
@@ -78,6 +75,9 @@
 
   # Additional direnv flake support
   programs.direnv.nix-direnv.enable = true;
+
+  # By default get full zsh config
+  thuis.zsh.enable = true;
 
   programs.git = {
     enable = true;

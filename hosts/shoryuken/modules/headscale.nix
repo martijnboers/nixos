@@ -31,7 +31,7 @@ in {
             client_secret_path = config.age.secrets.headscale.path;
             allowed_users = ["martijn@plebian.nl"];
           };
-          acl_policy_path = config.age.secrets.acl.path;
+          policy.path = config.age.secrets.acl.path;
           logtail.enabled = false;
           database = {
             type = "sqlite3";
@@ -39,10 +39,10 @@ in {
               path = "/var/lib/headscale/db.sqlite";
             };
           };
-          dns_config = {
+          dns = {
+            magic_dns = true;
             base_domain = "machine.thuis";
-            override_local_dns = true;
-            nameservers = [hadoukenIp];
+            nameservers.global = [hadoukenIp];
             extra_records = [
               {
                 name = "vaultwarden.thuis";

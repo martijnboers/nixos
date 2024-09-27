@@ -17,4 +17,8 @@
   programs.nixvim.enable = lib.mkForce false;
   programs.nix-index.enable = lib.mkForce false;
   programs.nix-index-database.comma.enable = lib.mkForce false;
+
+  # use 'normal' zsh shell
+  thuis.zsh.enable = lib.mkForce false;
+  programs.zsh.enable = true;
 }

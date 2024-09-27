@@ -19,11 +19,6 @@ in {
       virtualHosts."donder.cloud".extraConfig = ''
         respond "🌩️"
       '';
-      extraConfig = ''
-        log {
-          output discard
-        }
-      ''; # no space :(
     };
   };
 }

@@ -20,6 +20,9 @@ in {
       handle @internal {
         reverse_proxy http://${config.services.uptime-kuma.settings.UPTIME_KUMA_HOST}:${config.services.uptime-kuma.settings.UPTIME_KUMA_PORT}
       }
+      log {
+          output discard
+      }
       respond 403
     '';
 
