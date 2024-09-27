@@ -34,10 +34,11 @@ in {
           host = "0.0.0.0";
           port = 8579;
         };
-        logLevel = "error";
+        logLevel = "info";
         singleNode = {
           enable = true;
-          hostname = "sync.plebian.nl";
+          hostname = "sync.thuis";
+          url = "https://sync.thuis";
         };
       };
 
