@@ -23,6 +23,7 @@ in {
     ./modules/adguard.nix
     ./modules/conduit.nix
     ./modules/storage.nix
+    ./modules/archive.nix
     ./modules/ollama.nix
     ./modules/caddy.nix
     ./modules/atuin.nix
@@ -51,6 +52,7 @@ in {
   hosts.wordpress.enable = true;
   hosts.microbin.enable = true;
   hosts.sync.enable = true;
+  hosts.archive.enable = true;
 
   systemd.services.sshd = {
     after = ["tailscaled.service"];

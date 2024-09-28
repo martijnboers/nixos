@@ -90,6 +90,11 @@ in {
                 value = hadoukenIp;
               }
               {
+                name = "archive.thuis";
+                type = "A";
+                value = hadoukenIp;
+              }
+              {
                 name = "notifications.thuis";
                 type = "A";
                 value = shoryukenIp;
