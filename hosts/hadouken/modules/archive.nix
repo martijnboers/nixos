@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib; let
@@ -24,6 +25,7 @@ in {
     services.borgbackup.jobs.default.paths = [config.systemd.services.shiori.environment.SHIORI_DIR];
     services.shiori = {
         enable = true;
+	package = pkgs.unstable.shiori; # stable doesn't work with latest browser plugin
         port = 4354;
     };
   };

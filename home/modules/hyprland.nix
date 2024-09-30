@@ -103,11 +103,12 @@ in {
         "$mod" = "ALT";
         "$prog" = "CTRL ALT";
         exec-once = [
-          "nm-applet --indicator &"
           "swaync &"
           "copyq --start-server &"
-          "blueman-applet &"
           "nheko &"
+          "QT_QPA_PLATFORMTHEME=qt5ct:qt6ct nextcloud &"
+          "blueman-applet &"
+          "nm-applet --indicator &"
         ];
         "$terminal" = "kitty";
         "$fileManager" = "dolphin";
