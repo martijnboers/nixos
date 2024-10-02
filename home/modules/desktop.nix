@@ -15,6 +15,7 @@ in {
   config = mkIf cfg.enable {
     thuis.browser.enable = true;
     thuis.kitty.enable = true;
+    thuis.stylix.enable = true;
 
     home.packages = with pkgs; [
       wl-clipboard # wayland clipboard manager
