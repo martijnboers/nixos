@@ -35,6 +35,7 @@ in {
         ssh = "kitty +kitten ssh";
         pow = "ssh hadouken.machine.thuis";
         wolk = "ssh shoryuken.machine.thuis";
+        pi = "ssh tenshin.machine.thuis";
         socks = "ssh -D 1337 -q -C -N hadouken.machine.thuis";
         proxy = "doas tailscale set --exit-node shoryuken";
         proxyd = "doas tailscale set --exit-node=";
