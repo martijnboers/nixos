@@ -42,9 +42,6 @@ in {
     serviceConfig = defaultRestart;
   };
 
-  # https://discourse.nixos.org/t/error-gdbus-error-org-freedesktop-dbus-error-serviceunknown-the-name-ca-desrt-dconf-was-not-provided-by-any-service-files/29111
-  programs.dconf.enable = true;
-
   # Enable tailscale network
   hosts.tailscale.enable = true;
 
