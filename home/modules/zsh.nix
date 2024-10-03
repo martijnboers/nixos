@@ -21,7 +21,7 @@ in {
       in {
         # --- NixOS specific --------
         deploy = "doas nixos-rebuild switch ${defaultNixFlags}";
-        mdeploy = "darwin-rebuild switch --flake /Users/martijn/nixos#kikoken";
+        mdeploy = "darwin-rebuild switch --flake /Users/martijn/nixos#lapdance";
         debug = "doas nixos-rebuild switch ${defaultNixFlags} --show-trace --verbose";
         testbuild = "nixos-rebuild build --option sandbox false ${defaultNixFlags}#hadouken";
         update = "nix flake update";
@@ -44,6 +44,7 @@ in {
         keyboard-flash = "qmk flash -kb peej/lumberjack -km martijn";
         question = "mods -f \"$1\"";
         fluister = "OLLAMA_HOST=https://ollama.thuis ollama run wizardlm2";
+        pgrokinit = "pgrok init --remote-addr hadouken.plebian.nl:2222";
       };
       dotDir = ".config/zsh";
       initExtra = ''

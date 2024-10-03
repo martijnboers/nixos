@@ -63,8 +63,6 @@ in {
     };
   };
   config = lib.mkIf cfg.enable {
-    networking.firewall.allowedTCPPorts = [settings.sshd.port];
-
     services.caddy = {
       virtualHosts."tunnel.plebian.nl".extraConfig = ''
         reverse_proxy http://localhost:3320
@@ -155,7 +153,7 @@ in {
           TimeoutSec = "infinity";
           Restart = "always";
           WorkingDirectory = cfg.statePath;
-          ExecStart = "${pkgs.pgrok.server}/bin/pgrokd --config ${configPath}";
+         ExecStart = "${pkgs.pgrok.server}/bin/pgrokd --config ${configPath}";
         };
       };
     };

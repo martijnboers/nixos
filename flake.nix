@@ -120,18 +120,18 @@
       system = "aarch64-linux";
     };
 
-    darwinConfigurations.kikoken = darwin.lib.darwinSystem {
+    darwinConfigurations.lapdance = darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       specialArgs = {inherit inputs outputs;};
       modules = [
-        ./hosts/kikoken/system.nix
+        ./hosts/lapdance/system.nix
 
         home-manager.darwinModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.extraSpecialArgs = {inherit inputs outputs;};
-          home-manager.users.martijn = import ./hosts/kikoken/home.nix;
+          home-manager.users.martijn = import ./hosts/lapdance/home.nix;
         }
       ];
     };
