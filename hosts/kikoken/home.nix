@@ -8,7 +8,6 @@
   ];
 
   home.packages = with pkgs; [
-    kitty
     jetbrains.pycharm-community
     openssh # mac ssh doesn't support hardware keys
     obsidian
@@ -20,6 +19,7 @@
 
   # Enable profiles
   thuis.kitty.enable = true;
+  thuis.stylix.enable = true;
   thuis.desktop.enable = false;
   thuis.personal.enable = false;
   thuis.work.enable = false;

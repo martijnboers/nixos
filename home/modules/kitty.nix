@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }:
 with lib; let
@@ -10,6 +11,7 @@ in {
     enable = mkEnableOption "Terminal emulator";
   };
   config = mkIf cfg.enable {
+  home.packages = with pkgs; [kitty];
     programs.kitty = {
       enable = true;
       settings = {

@@ -8,6 +8,14 @@
   networking.computerName = "macbook-martijn";
   system.defaults.smb.NetBIOSName = "macbook-martijn";
 
+  homebrew = {
+    enable = true;
+    casks = [
+      "rectangle"
+      "eloston-chromium"
+    ];
+  };
+
   # Default env variables
   environment.variables = {
     EDITOR = "nvim";
