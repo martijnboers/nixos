@@ -12,8 +12,8 @@ for a good initial starting point for NixOS with flakes.
 
 
 ### Fresh installation notes
-- `git clone https://github.com/martijnboers/nixos.git ~/Nix`
-- `doas nixos-rebuild switch --flake ~/Nix#host`
+- `git clone --recursive https://github.com/martijnboers/nixos.git ~/Nix`
+- `sudo nixos-rebuild switch --flake ~/Nix#host`
 - `doas tailscale up --login-server https://headscale.donder.cloud`
 - `gpg --import private.key`
 - `ssh-add ~/.ssh/id_ed25519`

@@ -14,33 +14,33 @@ in {
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."noisesfrom.space".extraConfig = ''
       handle_path /system/* {
-           file_server * {
-               root /var/lib/mastodon/public-system
-           }
-       }
+        file_server * {
+          root /var/lib/mastodon/public-system
+        }
+      }
 
        handle /api/v1/streaming/* {
-           reverse_proxy  unix//run/mastodon-streaming/streaming.socket
+         reverse_proxy  unix//run/mastodon-streaming/streaming.socket
        }
 
        route * {
-           file_server * {
+         file_server * {
            root ${pkgs.mastodon}/public
            pass_thru
-           }
-           reverse_proxy * unix//run/mastodon-web/web.socket
+         }
+         reverse_proxy * unix//run/mastodon-web/web.socket
        }
 
        handle_errors {
-           root * ${pkgs.mastodon}/public
-           rewrite 500.html
-           file_server
+         root * ${pkgs.mastodon}/public
+         rewrite 500.html
+         file_server
        }
 
        encode gzip
 
        header /* {
-           Strict-Transport-Security "max-age=31536000;"
+         Strict-Transport-Security "max-age=31536000;"
        }
        header /emoji/* Cache-Control "public, max-age=31536000, immutable"
        header /packs/* Cache-Control "public, max-age=31536000, immutable"

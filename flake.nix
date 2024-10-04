@@ -120,18 +120,18 @@
       system = "aarch64-linux";
     };
 
-    darwinConfigurations.lapdance = darwin.lib.darwinSystem {
+    darwinConfigurations.paddy = darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       specialArgs = {inherit inputs outputs;};
       modules = [
-        ./hosts/lapdance/system.nix
+        ./hosts/paddy/system.nix
 
         home-manager.darwinModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.extraSpecialArgs = {inherit inputs outputs;};
-          home-manager.users.martijn = import ./hosts/lapdance/home.nix;
+          home-manager.users.martijn = import ./hosts/paddy/home.nix;
         }
       ];
     };

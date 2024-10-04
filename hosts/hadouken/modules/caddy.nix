@@ -21,13 +21,22 @@ in {
     services.caddy = {
       enable = true;
       package = pkgs.callPackage ../../../pkgs/xcaddy.nix {
-        plugins = ["github.com/caddy-dns/cloudflare"];
+        plugins = ["github.com/caddy-dns/cloudflare" "github.com/corazawaf/coraza-caddy/v2"];
       };
 
       globalConfig = ''
         servers {
            metrics
         }
+#        coraza_waf {
+#          load_owasp_crs
+#          directives `
+#            Include @coraza.conf-recommended
+#            Include @crs-setup.conf.example
+#            Include @owasp_crs/*.conf
+#            SecRuleEngine On
+#          `
+#        }
       '';
       virtualHosts."plebian.nl".extraConfig = ''
         root * ${plebianRepo}/

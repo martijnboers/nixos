@@ -17,11 +17,12 @@ in {
     programs.zsh = {
       enable = true;
       shellAliases = let
-        defaultNixFlags = "--flake /home/martijn/Nix";
+        # https://github.com/NixOS/nix/issues/6633 (submodule)
+        defaultNixFlags = "--flake '/home/martijn/Nix?submodules=1'";
       in {
         # --- NixOS specific --------
         deploy = "doas nixos-rebuild switch ${defaultNixFlags}";
-        mdeploy = "darwin-rebuild switch --flake /Users/martijn/nixos#lapdance";
+        mdeploy = "darwin-rebuild switch --flake /Users/martijn/nixos#paddy";
         debug = "doas nixos-rebuild switch ${defaultNixFlags} --show-trace --verbose";
         testbuild = "nixos-rebuild build --option sandbox false ${defaultNixFlags}#hadouken";
         update = "nix flake update";

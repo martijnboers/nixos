@@ -11,7 +11,7 @@ in {
     enable = mkEnableOption "Terminal emulator";
   };
   config = mkIf cfg.enable {
-  home.packages = with pkgs; [kitty];
+    home.packages = with pkgs; [kitty];
     programs.kitty = {
       enable = true;
       settings = {

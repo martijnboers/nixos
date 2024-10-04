@@ -6,12 +6,12 @@
   modifications = final: prev: {
     ollama = final.unstable.ollama;
 
-    headscale = final.unstable.ovverideAttr({
+    headscale = final.unstable.ovverideAttr {
       pname = "headscale";
       version = "0.23.0";
       src.hash = "sha256-5tlnVNpn+hJayxHjTpbOO3kRInOYOFz0pe9pwjXZlBE=";
       vendorHash = "sha256-+8dOxPG/Q+wuHgRwwWqdphHOuop0W9dVyClyQuh7aRc=";
-    });
+    };
     # https://www.jetbrains.com/webstorm/nextversion/
     webstorm-eap = final.unstable.jetbrains.webstorm.overrideAttrs {
       version = "241.11761.28";

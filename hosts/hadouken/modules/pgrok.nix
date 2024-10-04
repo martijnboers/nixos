@@ -153,7 +153,7 @@ in {
           TimeoutSec = "infinity";
           Restart = "always";
           WorkingDirectory = cfg.statePath;
-         ExecStart = "${pkgs.pgrok.server}/bin/pgrokd --config ${configPath}";
+          ExecStart = "${pkgs.pgrok.server}/bin/pgrokd --config ${configPath}";
         };
       };
     };
