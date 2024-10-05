@@ -5,6 +5,13 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
 
+    # https://discourse.nixos.org/t/get-nix-flake-to-include-git-submodule/30324/17
+    # https://github.com/ryantm/agenix/issues/266
+    secrets = {
+      url = "git+file:secrets";
+      flake = false;
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -84,6 +91,7 @@
               {
                 environment.systemPackages = [inputs.agenix.packages.${system}.default];
               }
+              ./secrets
 
               home-manager.nixosModules.home-manager
               {

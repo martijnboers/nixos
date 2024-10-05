@@ -25,18 +25,18 @@ in {
       };
 
       globalConfig = ''
-        servers {
-           metrics
-        }
-#        coraza_waf {
-#          load_owasp_crs
-#          directives `
-#            Include @coraza.conf-recommended
-#            Include @crs-setup.conf.example
-#            Include @owasp_crs/*.conf
-#            SecRuleEngine On
-#          `
-#        }
+                servers {
+                   metrics
+                }
+        #        coraza_waf {
+        #          load_owasp_crs
+        #          directives `
+        #            Include @coraza.conf-recommended
+        #            Include @crs-setup.conf.example
+        #            Include @owasp_crs/*.conf
+        #            SecRuleEngine On
+        #          `
+        #        }
       '';
       virtualHosts."plebian.nl".extraConfig = ''
         root * ${plebianRepo}/

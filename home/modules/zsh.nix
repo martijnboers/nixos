@@ -17,14 +17,16 @@ in {
     programs.zsh = {
       enable = true;
       shellAliases = let
-        # https://github.com/NixOS/nix/issues/6633 (submodule)
-        defaultNixFlags = "--flake '/home/martijn/Nix?submodules=1'";
+        deploy-custom = pkgs.writeShellScriptBin "deploy-custom" ''
+          set -euo pipefail
+          cd /home/martijn/Nix || { echo "Failed to navigate to ~/Nix"; exit 1; }
+          nix flake lock --update-input secrets
+          nixos-rebuild switch --use-remote-sudo --verbose --flake ".?submodules=1''${1:+#''${1}}" ''${2:+--target-host martijn@''$2}
+        '';
       in {
         # --- NixOS specific --------
-        deploy = "doas nixos-rebuild switch ${defaultNixFlags}";
+        deploy = lib.getExe deploy-custom;
         mdeploy = "darwin-rebuild switch --flake /Users/martijn/nixos#paddy";
-        debug = "doas nixos-rebuild switch ${defaultNixFlags} --show-trace --verbose";
-        testbuild = "nixos-rebuild build --option sandbox false ${defaultNixFlags}#hadouken";
         update = "nix flake update";
         # ---------------------------
         dud = "docker compose up -d";
