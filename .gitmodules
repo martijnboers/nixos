@@ -1,4 +1,4 @@
 [submodule "secrets"]
 	path = secrets
 	url = git@github.com:martijnboers/secrets.git
-        branch = master
+    branch = master

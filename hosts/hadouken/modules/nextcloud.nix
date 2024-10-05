@@ -26,6 +26,13 @@ in {
     };
 
     services.caddy.virtualHosts."${config.services.nextcloud.hostName}".extraConfig = ''
+      coraza_waf {
+          load_owasp_crs
+          directives `
+              Include @coraza.conf-recommended
+              SecRuleEngine On
+          `
+      }
       root * ${config.services.nextcloud.package}
        root /store-apps/* ${config.services.nextcloud.home}
        root /nix-apps/* ${config.services.nextcloud.home}
