@@ -20,6 +20,7 @@ in {
         deploy-custom = pkgs.writeShellScriptBin "deploy-custom" ''
           set -euo pipefail
           cd /home/martijn/Nix || { echo "Failed to navigate to ~/Nix"; exit 1; }
+          git submodule foreach git pull
           nix flake lock --update-input secrets
           nixos-rebuild switch --use-remote-sudo --verbose --flake ".?submodules=1''${1:+#''${1}}" ''${2:+--target-host martijn@''$2}
         '';
