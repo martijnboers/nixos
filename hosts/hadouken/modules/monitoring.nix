@@ -59,6 +59,7 @@ in {
       configuration = {
         server.http_listen_port = 3030;
         auth_enabled = false;
+        analytics.reporting_enabled = false;
 
         common = {
           ring = {

@@ -22,11 +22,11 @@ in {
           cd /home/martijn/Nix || { echo "Failed to navigate to ~/Nix"; exit 1; }
           git submodule foreach git pull
           nix flake lock --update-input secrets
-          nixos-rebuild switch --use-remote-sudo --verbose --flake ".?submodules=1''${1:+#''${1}}" ''${2:+--target-host martijn@''$2}
+          nixos-rebuild switch --use-remote-sudo --verbose --show-trace --flake ".?submodules=1''${1:+#''${1}}" ''${2:+--target-host martijn@''$2}
         '';
       in {
         # --- NixOS specific --------
-        deploy = lib.getExe deploy-custom;
+        deploy = lib.getExe deploy-custom; # $ deploy {?host} {?remote}
         mdeploy = "darwin-rebuild switch --flake /Users/martijn/nixos#paddy";
         update = "nix flake update";
         # ---------------------------
@@ -48,7 +48,6 @@ in {
         keyboard-flash = "qmk flash -kb peej/lumberjack -km martijn";
         question = "mods -f \"$1\"";
         fluister = "OLLAMA_HOST=https://ollama.thuis ollama run wizardlm2";
-        pgrokinit = "pgrok init --remote-addr hadouken.plebian.nl:2222";
       };
       dotDir = ".config/zsh";
       initExtra = ''
