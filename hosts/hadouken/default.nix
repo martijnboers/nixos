@@ -13,7 +13,6 @@ in {
   imports = [
     ./modules/vaultwarden.nix
     ./modules/monitoring.nix
-    ./modules/nextcloud.nix
     ./modules/cyberchef.nix
     ./modules/mastodon.nix
     ./modules/endlessh.nix
@@ -21,6 +20,7 @@ in {
     ./modules/fail2ban.nix
     ./modules/microbin.nix
     ./modules/adguard.nix
+    ./modules/seafile.nix
     ./modules/conduit.nix
     ./modules/storage.nix
     ./modules/archive.nix
@@ -37,7 +37,7 @@ in {
   hosts.caddy.enable = true;
   hosts.vaultwarden.enable = true;
   hosts.plex.enable = true;
-  hosts.nextcloud.enable = true;
+  hosts.seafile.enable = true;
   hosts.adguard.enable = true;
   hosts.hass.enable = true;
   hosts.tailscale.enable = true;
@@ -96,7 +96,7 @@ in {
   # Docker + QEMU
   hosts.virtualization.enable = true;
 
-  environment.systemPackages = with pkgs; [pgrok pgrok.server unstable.immich-go];
+  environment.systemPackages = with pkgs; [pgrok pgrok.server immich-go];
 
   # Allow network access when building
   # https://mdleom.com/blog/2021/12/27/caddy-plugins-nixos/#xcaddy
@@ -115,7 +115,6 @@ in {
       forceImportRoot = false;
       extraPools = ["zwembad" "garage"];
     };
-    kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
 
     # Silent Boot
     # https://wiki.archlinux.org/title/Silent_boot

@@ -52,6 +52,20 @@
     bat # fancy cat
     lsd # fancy ls
     magic-wormhole # send files
+    hydra-check # lookup hydra status binary
+
+    # system
+    gnupg
+    ripgrep # recursively searches directories for a regex pattern
+    jq # A lightweight and flexible command-line JSON processor
+    tldr # man summarized
+    killall # 🔪
+    btop # fancy htop
+
+    # archives
+    zip
+    unzip
+    p7zip
 
     # tools
     mods # ai for cli

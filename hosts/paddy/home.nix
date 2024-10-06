@@ -12,7 +12,6 @@
     openssh # mac ssh doesn't support hardware keys
     obsidian
     qmk
-    gnupg
   ];
 
   age.identityPaths = ["/Users/martijn/.ssh/id_ed25519"];

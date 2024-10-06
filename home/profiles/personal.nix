@@ -14,7 +14,7 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      steam
+      stable.steam
       wine
       qmk
       qflipper

@@ -4,10 +4,11 @@
 
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
-    ollama = final.unstable.ollama;
-
+    nerdfonts = final.stable.nerdfonts.override {
+      fonts = ["RobotoMono" "JetBrainsMono"];
+    };
     # Can't make into package because need unstable buildGo123Module
-    headscale-bleeding = final.unstable.buildGo123Module rec {
+    headscale-bleeding = final.buildGo123Module rec {
       pname = "headscale";
       version = "0.23.0";
 
@@ -38,16 +39,16 @@
         ln -s ${final.jdk.home} jbr
       '';
       src = builtins.fetchurl {
-        url = "https://download-cdn.jetbrains.com/webstorm/WebStorm-242.14146.21.tar.gz";
+        url = "https://download-cdn.asgjetbrains.com/webstorm/WebStorm-242.14146.21.tar.gz";
         sha256 = "1p53p1mw0x4g409l514pji68van4w7jg1lx7lycy5ykqj0dbgp41";
       };
     };
   };
 
-  # When applied, the unstable nixpkgs set (declared in the flake inputs) will
-  # be accessible through 'pkgs.unstable'
-  unstable-packages = final: _prev: {
-    unstable = import inputs.nixpkgs-unstable {
+  # When applied, the stable nixpkgs set (declared in the flake inputs) will
+  # be accessible through 'pkgs.stable'
+  stable-packages = final: _prev: {
+    stable = import inputs.nixpkgs-stable {
       system = final.system;
       config.allowUnfree = true;
     };

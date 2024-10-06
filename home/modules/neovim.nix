@@ -23,10 +23,11 @@
       which-key.enable = true; # popup with possible key combinations
       barbecue.enable = true; # breadcrumbs at top of code files
       neo-tree.enable = true; # left pane with files
+      web-devicons.enable = true; # needed for another plugin
 
       treesitter = {
         enable = true;
-        indent = true;
+        settings.indent.enable = true;
         nixGrammars = true;
       }; # fancy syntax highlighting
 

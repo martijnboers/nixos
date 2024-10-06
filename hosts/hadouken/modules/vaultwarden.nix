@@ -25,7 +25,7 @@ in {
     services.vaultwarden = {
       enable = true;
       dbBackend = "sqlite";
-      backupDir = "/var/lib/bitwarden_rs/backup";
+      backupDir = "/var/lib/vaultwarden/backup";
       config = {
         domain = "https://vaultwarden.thuis";
         signupsAllowed = false;

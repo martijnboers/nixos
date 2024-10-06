@@ -5,7 +5,6 @@
 }:
 with lib; let
   cfg = config.hosts.ollama;
-  models = "/mnt/zwembad/games/ollama-models";
 in {
   options.hosts.ollama = {
     enable = mkEnableOption "Local AI models";
@@ -18,16 +17,16 @@ in {
         remote_ip 100.64.0.0/10
       }
       handle @internal {
-        reverse_proxy http://${toString config.services.ollama.listenAddress}
+        reverse_proxy http://127.0.0.1:${toString config.services.ollama.port}
       }
       respond 403
     '';
 
     services.ollama = {
       enable = true;
-      listenAddress = "0.0.0.0:11434";
-      inherit models;
-      writablePaths = [models];
+      host = "0.0.0.0";
+      port = 11434;
+      models = "/mnt/zwembad/games/ollama-models";
     };
   };
 }

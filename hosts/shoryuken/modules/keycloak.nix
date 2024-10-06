@@ -23,8 +23,6 @@ in {
       systemPackages = with pkgs; [
         keycloak
       ];
-      # No x installed on host
-      noXlibs = false;
     };
 
     services.keycloak = {

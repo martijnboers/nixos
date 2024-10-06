@@ -23,11 +23,10 @@ in {
 
     # Enable opengpl
     hardware = {
-      opengl = {
+      graphics = {
         enable = true;
-        driSupport = true;
-        driSupport32Bit = true;
         extraPackages = with pkgs; [rocm-opencl-icd rocm-opencl-runtime];
+        enable32Bit = true;
       };
     };
 

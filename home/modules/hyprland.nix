@@ -76,7 +76,7 @@ in {
       kio
       kio-extras
       ffmpegthumbs
-      gnome.seahorse # kwallet stinks
+      pkgs.seahorse # kwallet stinks
 
       # File support
       zathura #pdf
@@ -106,7 +106,7 @@ in {
           "swaync &"
           "copyq --start-server &"
           "nheko &"
-          "QT_QPA_PLATFORMTHEME=qt5ct:qt6ct nextcloud &"
+          "seafile-applet &"
           "blueman-applet &"
           "nm-applet --indicator &"
         ];
@@ -245,8 +245,8 @@ in {
       extraConfig = ''
         windowrulev2 = keepaspectratio,class:^(librewolf)$,title:^(Picture-in-Picture)$
         windowrulev2 = noborder,class:^(librewolf)$,title:^(Picture-in-Picture)$
-        windowrulev2 = fakefullscreen,class:^(librewolf)$,title:^(Firefox)$
-        windowrulev2 = fakefullscreen,class:^(librewolf)$,title:^(Picture-in-Picture)$
+        windowrulev2 = fullscreenstate,class:^(librewolf)$,title:^(Firefox)$
+        windowrulev2 = fullscreenstate,class:^(librewolf)$,title:^(Picture-in-Picture)$
         windowrulev2 = pin,class:^(librewolf)$,title:^(Firefox)$
         windowrulev2 = pin,class:^(librewolf)$,title:^(Picture-in-Picture)$
         windowrulev2 = float,class:^(librewolf)$,title:^(Firefox)$

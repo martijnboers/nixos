@@ -39,20 +39,7 @@
 
   # Global packages
   environment.systemPackages = with pkgs; [
-    # for gpg
-    gnupg
-    pinentry
-
-    # archives
-    zip
-    unzip
-    p7zip
     borgbackup # backups
-
-    # utils
-    ripgrep # recursively searches directories for a regex pattern
-    jq # A lightweight and flexible command-line JSON processor
-    tldr # man summarized
 
     # networking tools
     dnsutils # `dig` + `nslookup`
@@ -65,7 +52,6 @@
     gawk
     zstd
     git
-    wev # wayland xev
     gcc
     wget
 
@@ -73,7 +59,6 @@
     cifs-utils
 
     htop
-    btop # fancy htop
     iotop # io monitoring
     iftop # network monitoring
     du-dust # better du
@@ -87,9 +72,7 @@
     ethtool
     pciutils # lspci
     usbutils # lsusb
-    cachix # community binary caches
     doas-sudo-shim # sadly necessary for some applications to work
-    killall # 🔪
   ];
 
   nix.settings = {
@@ -198,7 +181,7 @@
     overlays = [
       outputs.overlays.additions
       outputs.overlays.modifications
-      outputs.overlays.unstable-packages
+      outputs.overlays.stable-packages
     ];
 
     config = {

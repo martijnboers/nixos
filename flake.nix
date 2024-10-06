@@ -2,8 +2,8 @@
   description = "NixOS Configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
+    nixpkgs.url = "nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "nixpkgs/nixos-24.05";
 
     # https://discourse.nixos.org/t/get-nix-flake-to-include-git-submodule/30324/17
     # https://github.com/ryantm/agenix/issues/266
@@ -13,7 +13,7 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -24,12 +24,15 @@
     };
 
     nixvim = {
-      url = "github:nix-community/nixvim/nixos-24.05";
+      url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Secrets
-    agenix.url = "github:ryantm/agenix";
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # On the fly running of programs
     nix-index-database = {
@@ -38,10 +41,13 @@
     };
 
     # Disk setup for nixos-anywhere
-    disko.url = "github:nix-community/disko";
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # with working qt6, move back to github:danth/stylix
-    stylix.url = "github:Jackaed/stylix/f77828f724cbf7c140acae6dc53472f1570a0712";
+    stylix.url = "github:Jackaed/stylix/9767c82278ce8dd5e559e3b174b5cab1e28a265e";
 
     # Macbook stuff
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-24.05-darwin";

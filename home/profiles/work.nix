@@ -46,7 +46,7 @@ in {
 
       teamsDeskopItem
       teamsScript
-      unstable.citrix_workspace
+      citrix_workspace
     ];
   };
 }

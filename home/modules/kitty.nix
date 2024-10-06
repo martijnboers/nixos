@@ -48,7 +48,7 @@ in {
         "alt+4" = "goto_tab 4";
         "alt+5" = "goto_tab 5";
       };
-      theme = "Gruvbox Material Dark Medium";
+      themeFile = "GruvboxMaterialDarkMedium";
     };
   };
 }

@@ -25,13 +25,10 @@ in {
     age.secrets.shiori.file = ../../../secrets/shiori.age;
     services.borgbackup.jobs.default.paths = [config.systemd.services.shiori.environment.SHIORI_DIR];
 
-    # todo: config option in master
-    systemd.services.shiori.serviceConfig.EnvironmentFile = config.age.secrets.shiori.path;
-
     services.shiori = {
       enable = true;
-      package = pkgs.unstable.shiori; # stable doesn't work with latest browser plugin
       port = 4354;
+      environmentFile = config.age.secrets.shiori.path;
     };
   };
 }

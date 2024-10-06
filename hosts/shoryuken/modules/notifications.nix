@@ -18,7 +18,7 @@ in {
         remote_ip 100.64.0.0/10
       }
       handle @internal {
-        reverse_proxy http://localhost:${toString config.services.gotify.port}
+        reverse_proxy http://localhost:${toString config.services.gotify.environment.GOTIFY_SERVER_PORT}
       }
       log {
           output discard
@@ -51,7 +51,7 @@ in {
 
     services.gotify = {
       enable = true;
-      port = 2230;
+      environment.GOTIFY_SERVER_PORT = 2230;
     };
   };
 }

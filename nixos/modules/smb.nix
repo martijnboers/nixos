@@ -22,17 +22,16 @@ in {
     networking.firewall.allowPing = true;
     services.samba = {
       enable = true;
-      securityType = "user";
-      extraConfig = ''
-        workgroup = WORKGROUP
-        server string = smbnix
-        netbios name = smbnix
-        security = user
-        hosts allow = *
-        guest account = nobody
-        map to guest = bad user
-      '';
-      shares = {
+      settings = {
+        global = {
+          "workgroup" = "WORKGROUP";
+          "server string" = "smbnix";
+          "netbios name" = "smbnix";
+          "security" = "user";
+          "hosts allow" = "*";
+          "guest account" = "nobody";
+          "map to guest" = "bad user";
+        };
         music = {
           path = "/mnt/zwembad/music";
           browseable = "yes";

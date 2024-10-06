@@ -20,12 +20,13 @@ in {
     home.packages = with pkgs; [
       wl-clipboard # wayland clipboard manager
       kooha # record screen wayland
+      wev # wayland xev
 
       yubioath-flutter # yubikey
-      nextcloud-client
+      seafile-client
 
       # Office suite
-      libreoffice-qt
+      stable.libreoffice-qt
       hunspell
       hunspellDicts.nl_NL
       hunspellDicts.en_US

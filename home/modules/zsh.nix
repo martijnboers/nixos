@@ -60,7 +60,7 @@ in {
       '';
       oh-my-zsh = {
         enable = true;
-        plugins = ["git" "thefuck" "direnv" "fzf" "z" "fd" "ssh-agent"];
+        plugins = ["git" "thefuck" "direnv" "fzf" "z" "ssh-agent"];
       };
     };
   };
