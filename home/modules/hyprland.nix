@@ -97,6 +97,7 @@ in {
 
     wayland.windowManager.hyprland = {
       enable = true;
+      package = pkgs.stable.hyprland;
       systemd.enable = true;
       # https://github.com/hyprwm/Hyprland/blob/main/example/hyprland.conf
       settings = {
@@ -270,6 +271,7 @@ in {
       hyprlandPkg = lib.getExe config.wayland.windowManager.hyprland.package;
     in {
       enable = true;
+      package = pkgs.stable.swayidle;
       events = [
         # executes command before systemd puts the computer to sleep.
         {

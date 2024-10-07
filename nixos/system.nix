@@ -63,6 +63,7 @@
     iftop # network monitoring
     du-dust # better du
     screen
+#    cachix # for community bins
 
     # system call monitoring
     lsof # list open files
@@ -72,22 +73,19 @@
     ethtool
     pciutils # lspci
     usbutils # lsusb
-    doas-sudo-shim # sadly necessary for some applications to work
+    doas-sudo-shim # fixes nixos-rebuild git warnings with main
   ];
 
   nix.settings = {
     experimental-features = ["nix-command" "flakes"];
     substituters = [
       "https://binarycache.thuis"
-      "https://nix-community.cachix.org"
       "https://cache.nixos.org/"
     ];
     trusted-public-keys = [
       "binarycache.thuis:/alus5dkMvukzWHoAvbQ5qvjxISw+t9Cbo/nk129zSQ="
     ];
-    # Only martijn can access Nix deamon
     allowed-users = ["martijn"];
-    trusted-users = ["martijn"];
   };
 
   # Collect nix store garbage and optimise daily.

@@ -29,7 +29,6 @@ in {
             metrics
         }
         order coraza_waf first
-        debug
       '';
       virtualHosts."plebian.nl".extraConfig = ''
         root * ${plebianRepo}/
@@ -40,9 +39,6 @@ in {
         root * ${plebianRepo}/
         encode zstd gzip
         file_server
-      '';
-      virtualHosts."doornappel.nl".extraConfig = ''
-        respond "ok" 200
       '';
       virtualHosts."immich.thuis".extraConfig = ''
         tls internal
