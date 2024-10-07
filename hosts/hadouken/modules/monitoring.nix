@@ -185,7 +185,7 @@ in {
           job_name = "endlessh";
           static_configs = [
             {
-              targets = ["127.0.0.1:${toString config.services.endlessh-go.prometheus.port}"];
+              targets = ["tenshin.machine.thuis:${toString config.services.endlessh-go.prometheus.port}"];
             }
           ];
         }

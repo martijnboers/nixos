@@ -1,6 +1,12 @@
 {...}: {
   networking.hostName = "tenshin";
 
+  imports = [
+    ./modules/endlessh.nix
+  ];
+
+  hosts.endlessh.enable = true;
+
   hosts.openssh = {
     enable = true;
     allowUsers = ["*@100.64.0.0/10" "*@10.10.0.0/24" "*@10.10.0.0/24"];

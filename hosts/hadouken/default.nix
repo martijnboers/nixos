@@ -15,7 +15,6 @@ in {
     ./modules/monitoring.nix
     ./modules/cyberchef.nix
     ./modules/mastodon.nix
-    ./modules/endlessh.nix
     ./modules/wordpress.nix
     ./modules/fail2ban.nix
     ./modules/microbin.nix
@@ -44,7 +43,6 @@ in {
   hosts.pgrok.enable = true;
   hosts.cyberchef.enable = true;
   hosts.monitoring.enable = true;
-  hosts.endlessh.enable = true;
   hosts.conduit.enable = true;
   hosts.mastodon.enable = true;
   hosts.fail2ban.enable = true;
