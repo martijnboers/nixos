@@ -10,10 +10,10 @@
   home.stateVersion = "24.05";
 
   imports = [
-    ./modules/neovim.nix
-    ./modules/zsh.nix
-    ./modules/atuin.nix
     ./modules/stylix.nix
+    ./modules/nixvim.nix
+    ./modules/atuin.nix
+    ./modules/zsh.nix
 
     # Packaged home manager modules
     inputs.nixvim.homeManagerModules.nixvim

@@ -459,11 +459,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1728185226,
-        "narHash": "sha256-W+wWyNjFywVfFrbErXhGwgO2HlR0yMHqd1doEEbW9yw=",
+        "lastModified": 1728263287,
+        "narHash": "sha256-GJDtsxz2/zw6g/Nrp4XVWBS5IaZ7ZUkuvxPOBEDe7pg=",
         "owner": "Mic92",
         "repo": "nix-index-database",
-        "rev": "0f7169d3ec7ef1477af6e39731e67a1dc7a9f6e7",
+        "rev": "5fce10c871bab6d7d5ac9e5e7efbb3a2783f5259",
         "type": "github"
       },
       "original": {
@@ -489,11 +489,11 @@
     },
     "nixpkgs-darwin": {
       "locked": {
-        "lastModified": 1728193676,
-        "narHash": "sha256-PbDWAIjKJdlVg+qQRhzdSor04bAPApDqIv2DofTyynk=",
+        "lastModified": 1728253163,
+        "narHash": "sha256-a3TIpWGooaR2Fsehse9NUXUSarrsJTjC0keNeYAFbBU=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "ecbc1ca8ffd6aea8372ad16be9ebbb39889e55b6",
+        "rev": "6dd14a8dff5ff4a93ad17325ba16101f2eafad51",
         "type": "github"
       },
       "original": {
@@ -549,11 +549,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1728239913,
-        "narHash": "sha256-cbI9NXfFu4qk+PBYMib/YNUEt52u3XbN9WO14In8lcY=",
+        "lastModified": 1728245494,
+        "narHash": "sha256-bulK/Z+SEJaHM2PPk7W/kRvO51Ag9bTebcaWai9EEJc=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "aaecda1471443e8278f4ec1ddc0b47a61b7af1ed",
+        "rev": "33d030d23c9b88bb29e300d702aade58c3734612",
         "type": "github"
       },
       "original": {
@@ -626,11 +626,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1728290201,
-        "narHash": "sha256-Z8spfUMO2mpieeGcHdJpxl5lB4R/rT0npKD4oe49tWs=",
+        "lastModified": 1728295779,
+        "narHash": "sha256-BT5RlDKrVZYMgfHUlBdVItgTaRDQ6/ky3F1vxMiTXbQ=",
         "ref": "refs/heads/master",
-        "rev": "3bb6e43027e0c254ed002c36bf73e415c95c942e",
-        "revCount": 9,
+        "rev": "11e66d4486a01fd3765afc076bea198e52f84b1d",
+        "revCount": 11,
         "type": "git",
         "url": "file:secrets"
       },

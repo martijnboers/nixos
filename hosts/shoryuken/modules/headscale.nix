@@ -8,6 +8,23 @@ with lib; let
   cfg = config.hosts.headscale;
   shoryukenIp = "100.64.0.1";
   hadoukenIp = "100.64.0.2";
+  hadoukenRecords = [
+    "vaultwarden"
+    "atuin"
+    "dns"
+    "hass"
+    "tools"
+    "monitoring"
+    "immich"
+    "ollama"
+    "sync"
+    "archive"
+    "binarycache"
+  ];
+  shoryukenRecords = [
+    "notifications"
+    "uptime"
+  ];
 in {
   options.hosts.headscale = {
     enable = mkEnableOption "VPN server";
@@ -20,6 +37,7 @@ in {
       caddy.virtualHosts."headscale.donder.cloud".extraConfig = ''
         reverse_proxy http://localhost:${toString config.services.headscale.port}
       '';
+      services.borgbackup.jobs.default.paths = [config.systemd.services.headscale.settings.database.sqlite.path];
       headscale = {
         enable = true;
         address = "0.0.0.0";
@@ -45,68 +63,17 @@ in {
             magic_dns = true;
             base_domain = "machine.thuis";
             nameservers.global = [hadoukenIp];
-            extra_records = [
-              {
-                name = "vaultwarden.thuis";
+            extra_records =
+              (genAttrs hadoukenNames (name: {
+                name = name;
                 type = "A";
                 value = hadoukenIp;
-              }
-              {
-                name = "atuin.thuis";
-                type = "A";
-                value = hadoukenIp;
-              }
-              {
-                name = "dns.thuis";
-                type = "A";
-                value = hadoukenIp;
-              }
-              {
-                name = "hass.thuis";
-                type = "A";
-                value = hadoukenIp;
-              }
-              {
-                name = "tools.thuis";
-                type = "A";
-                value = hadoukenIp;
-              }
-              {
-                name = "monitoring.thuis";
-                type = "A";
-                value = hadoukenIp;
-              }
-              {
-                name = "immich.thuis";
-                type = "A";
-                value = hadoukenIp;
-              }
-              {
-                name = "ollama.thuis";
-                type = "A";
-                value = hadoukenIp;
-              }
-              {
-                name = "sync.thuis";
-                type = "A";
-                value = hadoukenIp;
-              }
-              {
-                name = "archive.thuis";
-                type = "A";
-                value = hadoukenIp;
-              }
-              {
-                name = "notifications.thuis";
+              }))
+              // (genAttrs shoryukenNames (name: {
+                name = name;
                 type = "A";
                 value = shoryukenIp;
-              }
-              {
-                name = "uptime.thuis";
-                type = "A";
-                value = shoryukenIp;
-              }
-            ];
+              }));
           };
           prefixes = {
             v4 = "100.64.0.0/10";

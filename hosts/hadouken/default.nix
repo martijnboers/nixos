@@ -18,6 +18,7 @@ in {
     ./modules/wordpress.nix
     ./modules/fail2ban.nix
     ./modules/microbin.nix
+    ./modules/bincache.nix
     ./modules/adguard.nix
     ./modules/seafile.nix
     ./modules/conduit.nix
@@ -51,6 +52,7 @@ in {
   hosts.microbin.enable = true;
   hosts.sync.enable = true;
   hosts.archive.enable = true;
+  hosts.binarycache.enable = true;
 
   systemd.services.sshd = {
     after = ["tailscaled.service"];

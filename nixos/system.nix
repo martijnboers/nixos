@@ -77,7 +77,14 @@
 
   nix.settings = {
     experimental-features = ["nix-command" "flakes"];
-
+    substituters = [
+      "https://binarycache.thuis"
+      "https://nix-community.cachix.org"
+      "https://cache.nixos.org/"
+    ];
+    trusted-public-keys = [
+      "binarycache.thuis:/alus5dkMvukzWHoAvbQ5qvjxISw+t9Cbo/nk129zSQ="
+    ];
     # Only martijn can access Nix deamon
     allowed-users = ["martijn"];
     trusted-users = ["martijn"];
