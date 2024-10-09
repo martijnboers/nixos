@@ -23,8 +23,8 @@ in {
         "privacy.clearOnShutdown.history" = false;
         "privacy.clearOnShutdown.cookies" = false;
         "network.cookie.lifetimePolicy" = 0;
-#        "network.trr.mode" = 2; # fallback to system
-#        "network.trr.uri" = "https://dns.thuis";
+        "network.trr.mode" = 2; # fallback to system
+        "network.trr.uri" = "https://dns.thuis/dns-query";
 
         # https://bugzilla.mozilla.org/show_bug.cgi?id=1732114
         "privacy.resistFingerprinting" = false;

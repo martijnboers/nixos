@@ -609,11 +609,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1728308995,
+        "lastModified": 1728503550,
         "narHash": "sha256-Vtz0aMy5Y8EuefM0TAacUe9EkpO/8z/rSD/bb2bYHkQ=",
         "ref": "refs/heads/master",
-        "rev": "ef9a60978798b135e7086abd672e22be6689be8f",
-        "revCount": 12,
+        "rev": "f39da545c194caae865aaa770361abbaca2dcb81",
+        "revCount": 14,
         "type": "git",
         "url": "file:secrets"
       },

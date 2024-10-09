@@ -17,7 +17,11 @@ in {
            remote_ip 100.64.0.0/10
          }
          handle @internal {
-           reverse_proxy http://localhost:3000
+           reverse_proxy http://localhost:${toString config.services.adguardhome.port}
+
+           handle_path /dns-query/* {
+              reverse_proxy http://127.0.0.1:${toString config.services.adguardhome.settings.tls.port_dns_over_tls}
+           }
          }
       respond 403
     '';
@@ -54,6 +58,7 @@ in {
           port_https = 0; # 0 is disabled
           port_dns_over_tls = 853;
           force_https = false;
+          allow_unencrypted_doh = true; # caddy does this
         };
         filters = [
           {

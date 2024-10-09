@@ -30,16 +30,14 @@ in {
         }
         order coraza_waf first
       '';
-      virtualHosts."plebian.nl".extraConfig = ''
-        root * ${plebianRepo}/
-        encode zstd gzip
-        file_server
-      '';
-      virtualHosts."boers.email".extraConfig = ''
-        root * ${plebianRepo}/
-        encode zstd gzip
-        file_server
-      '';
+      virtualHosts."plebian.nl" = {
+        serverAliases = ["boers.email"];
+        extraConfig = ''
+          root * ${plebianRepo}/
+          encode zstd gzip
+          file_server
+        '';
+      };
       virtualHosts."immich.thuis".extraConfig = ''
         tls internal
         @internal {
