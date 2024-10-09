@@ -13,6 +13,7 @@
     casks = [
       "rectangle"
       "eloston-chromium"
+      "seafile-client"
     ];
   };
 

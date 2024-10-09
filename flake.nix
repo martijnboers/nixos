@@ -49,11 +49,9 @@
     # with working qt6, move back to github:danth/stylix
     stylix.url = "github:Jackaed/stylix/9767c82278ce8dd5e559e3b174b5cab1e28a265e";
 
-    # Macbook stuff
-    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-24.05-darwin";
     darwin = {
       url = "github:lnl7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs-darwin";
+      inputs.nixpkgs.follows = "nixpkgs"; # Can be pinned to nixpkgs-23.11-darwin
     };
   };
 

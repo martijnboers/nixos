@@ -97,7 +97,6 @@ in {
 
     wayland.windowManager.hyprland = {
       enable = true;
-      package = pkgs.stable.hyprland;
       systemd.enable = true;
       # https://github.com/hyprwm/Hyprland/blob/main/example/hyprland.conf
       settings = {
