@@ -1,5 +1,10 @@
-{ autoPatchelfHook, fetchurl, fontconfig, glibc, stdenv }:
-
+{
+  autoPatchelfHook,
+  fetchurl,
+  fontconfig,
+  glibc,
+  stdenv,
+}:
 stdenv.mkDerivation rec {
   pname = "princexml";
   version = "15.2";
@@ -8,7 +13,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-EMc/m8GZJNa6DgRZ0X0jJS6oNOitmSz0g6SfrvHpz7o=";
   };
 
-  nativeBuildInputs = [ autoPatchelfHook ];
+  nativeBuildInputs = [autoPatchelfHook];
 
   buildInputs = [
     fontconfig

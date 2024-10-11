@@ -43,6 +43,7 @@ in {
       httpie-desktop
       obsidian
       distrobox # run any linux distro
+      devenv # easier nix.shell
 
       teamsDeskopItem
       teamsScript

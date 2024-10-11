@@ -6,8 +6,6 @@
 }:
 with lib; let
   cfg = config.hosts.headscale;
-  shoryukenIp = "100.64.0.1";
-  hadoukenIp = "100.64.0.2";
   hadoukenRecords = [
     "vaultwarden"
     "atuin"
@@ -37,7 +35,7 @@ in {
       caddy.virtualHosts."headscale.donder.cloud".extraConfig = ''
         reverse_proxy http://localhost:${toString config.services.headscale.port}
       '';
-      services.borgbackup.jobs.default.paths = [config.systemd.services.headscale.settings.database.sqlite.path];
+      borgbackup.jobs.default.paths = [config.services.headscale.settings.db_path];
       headscale = {
         enable = true;
         address = "0.0.0.0";
@@ -59,21 +57,21 @@ in {
               path = "/var/lib/headscale/db.sqlite";
             };
           };
-          dns = {
+          dns = let
+            shoryukenIp = "100.64.0.1";
+            hadoukenIp = "100.64.0.2";
+            makeRecord = name: ip: {
+              name = "${name}.thuis";
+              type = "A";
+              value = ip;
+            };
+          in {
             magic_dns = true;
             base_domain = "machine.thuis";
             nameservers.global = [hadoukenIp];
             extra_records =
-              (genAttrs hadoukenNames (name: {
-                name = name;
-                type = "A";
-                value = hadoukenIp;
-              }))
-              // (genAttrs shoryukenNames (name: {
-                name = name;
-                type = "A";
-                value = shoryukenIp;
-              }));
+              (map (name: makeRecord name hadoukenIp) hadoukenRecords)
+              ++ (map (name: makeRecord name shoryukenIp) shoryukenRecords);
           };
           prefixes = {
             v4 = "100.64.0.0/10";

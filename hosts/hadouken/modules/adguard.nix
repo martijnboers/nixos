@@ -12,7 +12,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [dnscrypt-adguard];
+    environment.systemPackages = with pkgs; [dnscrypt];
 
     services.caddy.virtualHosts."dns.thuis".extraConfig = ''
          tls internal
