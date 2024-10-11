@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib; let
@@ -11,6 +12,8 @@ in {
   };
 
   config = mkIf cfg.enable {
+    environment.systemPackages = with pkgs; [dnscrypt-adguard];
+
     services.caddy.virtualHosts."dns.thuis".extraConfig = ''
          tls internal
          @internal {
@@ -37,18 +40,21 @@ in {
           ratelimit = 0;
           bind_hosts = ["0.0.0.0"]; # this can bind to tailscale
           upstream_dns = [
-            "https://security.cloudflare-dns.com/dns-query"
             "https://dns.quad9.net/dns-query"
+            "https://unfiltered.adguard-dns.com/dns-query"
+            "https://dns.artikel10.org/dns-query"
+            "https://ams01.dnscry.pt/dns-query"
+            "https://luxembourg.privacy-dns.pw/dns-query"
           ];
           allowed_clients = [
             "100.64.0.0/10"
           ];
           use_http3_upstreams = true;
-          upstream_mode = "parallel";
+          upstream_mode = "load_balance";
           bootstrap_dns = ["9.9.9.9" "208.67.222.222"];
           protection_enabled = true;
           enable_dnssec = true; # make it harder to tamper
-          # serve_plain_dns = false; # only allow dns over tls
+          # serve_plain_dns = false; # only allow dns over https/tls
           blocked_hosts = ["version.bind" "id.server" "hostname.bind"];
           cache_size = 4194304;
         };
