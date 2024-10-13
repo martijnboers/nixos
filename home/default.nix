@@ -87,9 +87,6 @@
   # Run programs with , cowsay
   programs.nix-index-database.comma.enable = true;
 
-  # Additional direnv flake support
-  programs.direnv.nix-direnv.enable = true;
-
   # By default get full zsh config
   thuis.zsh.enable = true;
 

@@ -63,7 +63,6 @@
     iftop # network monitoring
     du-dust # better du
     screen
-    #    cachix # for community bins
 
     # system call monitoring
     lsof # list open files

@@ -37,8 +37,6 @@ in {
       awscli2
       slack
       mongodb-compass
-      nodejs_18 # global for work, move to project
-      python311Full # move to projects
       go
       httpie-desktop
       obsidian
