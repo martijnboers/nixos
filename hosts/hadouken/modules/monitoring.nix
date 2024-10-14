@@ -59,24 +59,31 @@ in {
       configuration = {
         server.http_listen_port = 3030;
         auth_enabled = false;
-        analytics.reporting_enabled = false;
 
-        common = {
-          ring = {
-            instance_addr = "127.0.0.1";
-            kvstore.store = "inmemory";
+        ingester = {
+          lifecycler = {
+            address = "127.0.0.1";
+            ring = {
+              kvstore = {
+                store = "inmemory";
+              };
+              replication_factor = 1;
+            };
           };
-          replication_factor = 1;
-          path_prefix = "/tmp/loki";
+          chunk_idle_period = "1h";
+          max_chunk_age = "1h";
+          chunk_target_size = 999999;
+          chunk_retain_period = "30s";
+          max_transfer_retries = 0;
         };
 
         schema_config = {
           configs = [
             {
-              from = "2020-05-15";
-              store = "tsdb";
+              from = "2022-06-06";
+              store = "boltdb-shipper";
               object_store = "filesystem";
-              schema = "v13";
+              schema = "v11";
               index = {
                 prefix = "index_";
                 period = "24h";
@@ -85,8 +92,44 @@ in {
           ];
         };
 
-        storage_config.filesystem.directory = "/var/lib/loki/chunk";
+        storage_config = {
+          boltdb_shipper = {
+            active_index_directory = "/var/lib/loki/boltdb-shipper-active";
+            cache_location = "/var/lib/loki/boltdb-shipper-cache";
+            cache_ttl = "24h";
+            shared_store = "filesystem";
+          };
+
+          filesystem = {
+            directory = "/var/lib/loki/chunks";
+          };
+        };
+
+        limits_config = {
+          reject_old_samples = true;
+          reject_old_samples_max_age = "168h";
+        };
+
+        chunk_store_config = {
+          max_look_back_period = "0s";
+        };
+
+        table_manager = {
+          retention_deletes_enabled = false;
+          retention_period = "0s";
+        };
+
+        compactor = {
+          working_directory = "/var/lib/loki";
+          shared_store = "filesystem";
+          compactor_ring = {
+            kvstore = {
+              store = "inmemory";
+            };
+          };
+        };
       };
+      # user, group, dataDir, extraFlags, (configFile)
     };
 
     # Add promtail to access access logs
@@ -141,25 +184,46 @@ in {
       };
     };
 
-    age.secrets.adguard.file = ../../../secrets/adguard.age;
+    age.secrets = {
+      adguard.file = ../../../secrets/adguard.age;
+      tormon.file = ../../../secrets/tormon.age;
+    };
 
-    systemd.services."adguard-exporter" = {
-      enable = true;
-      description = "AdGuard metric exporter for Prometheus";
-      documentation = ["https://github.com/totoroot/adguard-exporter/blob/master/README.md"];
-      wantedBy = ["multi-user.target"];
-      serviceConfig = {
-        ExecStart = ''
-          ${pkgs.adguard-exporter}/bin/adguard-exporter \
-              -adguard_hostname 127.0.0.1 -adguard_port ${toString config.services.adguardhome.port} \
-              -adguard_username admin -adguard_password $ADGUARD_PASSWORD -log_limit 10000
-        '';
-        Restart = "on-failure";
-        RestartSec = 5;
-        NoNewPrivileges = true;
-        EnvironmentFile = config.age.secrets.adguard.path;
+    systemd.services = {
+      "adguard-exporter" = {
+        enable = true;
+        description = "AdGuard metric exporter for Prometheus";
+        documentation = ["https://github.com/totoroot/adguard-exporter/blob/master/README.md"];
+        wantedBy = ["multi-user.target"];
+        serviceConfig = {
+          ExecStart = ''
+            ${pkgs.adguard-exporter}/bin/adguard-exporter \
+                -adguard_hostname 127.0.0.1 -adguard_port ${toString config.services.adguardhome.port} \
+                -adguard_username admin -adguard_password $ADGUARD_PASSWORD -log_limit 10000
+          '';
+          Restart = "on-failure";
+          RestartSec = 5;
+          NoNewPrivileges = true;
+          EnvironmentFile = config.age.secrets.adguard.path;
+        };
+
+        "tormon-exporter" = {
+          enable = true;
+          description = "Monitor Tor relay with Grafana";
+          documentation = ["https://github.com/architek/tormon"];
+          wantedBy = ["multi-user.target"];
+          serviceConfig = {
+            ExecStart = lib.getExe pkgs.tormon-exporter;
+            Restart = "on-failure";
+            RestartSec = 5;
+            NoNewPrivileges = true;
+            EnvironmentFile = config.age.secrets.tormon.path;
+          };
+        };
       };
     };
+
+    services.influxdb.enable = true;
 
     services.prometheus = {
       enable = true;
@@ -178,6 +242,14 @@ in {
           static_configs = [
             {
               targets = ["127.0.0.1:2019"];
+            }
+          ];
+        }
+        {
+          job_name = "tor";
+          static_configs = [
+            {
+              targets = ["shoryuken.machine.thuis:9052"];
             }
           ];
         }

@@ -22,7 +22,6 @@ in {
     services.seafile = {
       enable = true;
       adminEmail = "seafile@plebian.nl";
-      initialAdminPassword = "martijnmartijn";
       seafileSettings.fileserver = {
         host = "0.0.0.0";
         port = 2734;

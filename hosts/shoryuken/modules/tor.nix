@@ -24,8 +24,11 @@ in {
         Nickname = "personalcloud";
         ORPort = 9001; # NAT forward
         ControlPort = 9051;
-        BandWidthRate = "300 MBytes";
+        BandWidthRate = "200 MBytes";
         BridgeRelay = true;
+        SandBox = true;
+        MetricsPort = "127.0.0.1:9052";
+        MetricsPortPolicy = "accept 100.64.0.2"; # hadouken
       };
     };
   };
