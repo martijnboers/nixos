@@ -23,16 +23,13 @@ in {
     virtualisation = {
       libvirtd = {
         enable = true;
-        qemu = {
-          swtpm.enable = true;
-          ovmf.enable = true;
-          ovmf.packages = [pkgs.OVMFFull.fd];
-        };
         onShutdown = "shutdown";
+        parallelShutdown = 10;
       };
-      spiceUSBRedirection.enable = true;
     };
-    services.spice-vdagentd.enable = true;
-    programs.virt-manager.enable = true;
+    services = {
+      qemuGuest.enable = true;
+      spice-vdagentd.enable = true;
+    };
   };
 }

@@ -143,7 +143,7 @@
   # Default env variables
   environment.sessionVariables = {
     EDITOR = "nvim";
-    REQUESTS_CA_BUNDLE = "/etc/ssl/certs/ca-certificates.crt"; # python y u like this?
+    REQUESTS_CA_BUNDLE = "/etc/ssl/certs/ca-certificates.crt";
   };
 
   # SMB network discovery

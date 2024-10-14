@@ -21,6 +21,17 @@ in {
       BROWSER = "librewolf";
     };
 
+    environment.systemPackages = with pkgs; [
+      # support both 32- and 64-bit applications
+      wineWowPackages.stable
+
+      # winetricks (all versions)
+      winetricks
+
+      # native wayland support (unstable)
+      wineWowPackages.waylandFull
+    ];
+
     # Enable opengpl
     hardware = {
       graphics = {
@@ -29,6 +40,8 @@ in {
         enable32Bit = true;
       };
     };
+
+    programs.dconf.enable = true; # used for stylix
 
     services.udev.packages = [pkgs.yubikey-personalization];
     programs.yubikey-touch-detector.enable = true;

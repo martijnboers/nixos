@@ -16,7 +16,6 @@ in {
     thuis.browser.enable = true;
     thuis.kitty.enable = true;
     thuis.stylix.enable = true;
-
     home.packages = with pkgs; [
       wl-clipboard # wayland clipboard manager
       kooha # record screen wayland
@@ -30,6 +29,7 @@ in {
       hunspell
       hunspellDicts.nl_NL
       hunspellDicts.en_US
+      obsidian
     ];
   };
 }

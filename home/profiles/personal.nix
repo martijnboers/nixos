@@ -15,7 +15,7 @@ in {
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       stable.steam
-      wine
+      mangohud # show fps etc
       qmk
       qflipper
       vlc

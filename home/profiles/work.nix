@@ -39,9 +39,7 @@ in {
       mongodb-compass
       go
       httpie-desktop
-      obsidian
       distrobox # run any linux distro
-      devenv # easier nix.shell
 
       teamsDeskopItem
       teamsScript

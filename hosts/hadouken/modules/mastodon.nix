@@ -86,7 +86,7 @@ in {
       description = "FediFetcher";
       wants = ["mastodon-web.service" "mastodon-wait-for-available.service"];
       after = ["mastodon-web.service" "mastodon-wait-for-available.service"];
-      startAt = "*:0/20";
+      startAt = "*-*-* 05..23:*:00/20"; # every 20 minutes between 6 and 23
 
       serviceConfig = {
         Type = "oneshot";
