@@ -41,10 +41,6 @@
     fsType = "zfs";
   };
 
-  nixpkgs.config.packageOverrides = pkgs: {
-    zfsStable = pkgs.zfsStable.override {enableMail = true;};
-  };
-
   services.zfs = {
     autoScrub.enable = true;
     zed = {

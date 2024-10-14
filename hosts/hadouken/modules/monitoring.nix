@@ -182,6 +182,14 @@ in {
           ];
         }
         {
+          job_name = "tor";
+          static_configs = [
+            {
+              targets = ["shoryuken.machine.thuis:9052"];
+            }
+          ];
+        }
+        {
           job_name = "endlessh";
           static_configs = [
             {

@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }: let
   defaultRestart = {
@@ -87,6 +88,9 @@ in {
     enable = true;
     name = "hadouken";
   };
+
+  # Don't use own bincache, only upstream
+  nix.settings.substituters = lib.mkForce [];
 
   hosts.openssh.enable = true;
 
