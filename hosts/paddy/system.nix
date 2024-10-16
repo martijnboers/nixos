@@ -12,8 +12,10 @@
     enable = true;
     casks = [
       "rectangle"
+      "visual-studio-code"
       "eloston-chromium"
       "seafile-client"
+      "burp-suite"
     ];
   };
 
