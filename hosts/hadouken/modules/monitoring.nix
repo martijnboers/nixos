@@ -209,9 +209,16 @@ in {
 
         "tormon-exporter" = {
           enable = true;
-          description = "Monitor Tor relay with Grafana";
-          documentation = ["https://github.com/architek/tormon"];
           wantedBy = ["multi-user.target"];
+          environment = {
+            TORCONTROL_HOST = "100.64.0.1";
+            TORCONTROL_PORT = 9051;
+
+            INFLUX_HOST = "127.0.0.1";
+            INFLUX_PORT = 8086;
+            INFLUX_DB = "tor";
+            TAG_HOST = "tornode";
+          };
           serviceConfig = {
             ExecStart = lib.getExe pkgs.tormon-exporter;
             Restart = "on-failure";
@@ -223,7 +230,10 @@ in {
       };
     };
 
-    services.influxdb.enable = true;
+    services.influxdb = {
+        enable = true;
+        package = pkgs.stable.influxdb;
+    };
 
     services.prometheus = {
       enable = true;

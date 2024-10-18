@@ -7,29 +7,6 @@
     nerdfonts = final.stable.nerdfonts.override {
       fonts = ["RobotoMono" "JetBrainsMono"];
     };
-    # Can't make into package because need unstable buildGo123Module
-    headscale-bleeding = final.buildGo123Module rec {
-      pname = "headscale";
-      version = "0.23.0";
-
-      src = prev.fetchFromGitHub {
-        owner = "juanfont";
-        repo = "headscale";
-        rev = "v${version}";
-        hash = "sha256-5tlnVNpn+hJayxHjTpbOO3kRInOYOFz0pe9pwjXZlBE=";
-      };
-      vendorHash = "sha256-+8dOxPG/Q+wuHgRwwWqdphHOuop0W9dVyClyQuh7aRc=";
-      ldflags = ["-s" "-w" "-X github.com/juanfont/headscale/cmd/headscale/cli.Version=v${version}"];
-      nativeBuildInputs = [prev.installShellFiles];
-      checkFlags = ["-short"];
-
-      postInstall = ''
-        installShellCompletion --cmd headscale \
-          --bash <($out/bin/headscale completion bash) \
-          --fish <($out/bin/headscale completion fish) \
-          --zsh <($out/bin/headscale completion zsh)
-      '';
-    };
     # https://www.jetbrains.com/webstorm/nextversion/
     webstorm-eap = prev.jetbrains.webstorm.overrideAttrs {
       version = "241.11761.28";

@@ -32,8 +32,9 @@ in {
         passwordFile = config.age.secrets.keycloak.path;
       };
       settings = {
-        hostname = "auth.donder.cloud";
-        proxy = "edge";
+        hostname = "https://auth.donder.cloud";
+        http-enabled = true;
+        hostname-strict-https = false;
         http-host = "0.0.0.0";
         http-port = 3345;
       };
