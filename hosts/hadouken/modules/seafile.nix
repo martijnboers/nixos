@@ -26,6 +26,7 @@ in {
         host = "0.0.0.0";
         port = 2734;
       };
+      initialAdminPassword = "why-is-this-a-required-property";
       ccnetSettings.General = {
         SERVICE_URL = "https://sea.plebian.nl";
         FILE_SERVER_ROOT = "https://sea.plebian.nl/seafhttp";

@@ -39,7 +39,6 @@ in {
       headscale = {
         enable = true;
         address = "0.0.0.0";
-        package = pkgs.headscale-bleeding;
         port = 7070;
         settings = {
           server_url = "https://headscale.donder.cloud";

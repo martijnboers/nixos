@@ -8,11 +8,11 @@ with lib; let
   cfg = config.thuis.zsh;
 in {
   options.thuis.zsh = {
-    enable = mkEnableOption "Full zsh config (comes with nerdfonts)";
+    enable = mkEnableOption "Full zsh config";
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [nerdfonts];
+    home.packages = with pkgs; [nix-output-monitor];
 
     programs.zsh = {
       enable = true;
@@ -26,8 +26,9 @@ in {
             --use-remote-sudo \
             --fallback \
             --verbose \
-            --show-trace \
-            --flake ".?submodules=1''${1:+#''${1}}" ''${2:+--target-host martijn@''$2}
+            --log-format internal-json \
+            --flake ".?submodules=1''${1:+#''${1}}" ''${2:+--target-host martijn@''$2} \
+            |& nom --json
         '';
       in {
         # --- NixOS specific --------

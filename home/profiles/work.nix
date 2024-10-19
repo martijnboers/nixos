@@ -43,7 +43,7 @@ in {
 
       teamsDeskopItem
       teamsScript
-      citrix_workspace
+      stable.citrix_workspace
     ];
   };
 }

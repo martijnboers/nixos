@@ -52,7 +52,6 @@
     gawk
     zstd
     git
-    gcc
     wget
 
     # samba

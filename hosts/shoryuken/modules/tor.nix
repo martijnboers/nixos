@@ -27,8 +27,7 @@ in {
         BandWidthRate = "200 MBytes";
         BridgeRelay = true;
         SandBox = true;
-        MetricsPort = "127.0.0.1:9052";
-        MetricsPortPolicy = "accept 100.64.0.2"; # hadouken
+        HashedControlPassword = "16:3A7E8EB774B5BD84603C154FCE13C065EF8B0CA0F68E20896720A24B6D";
       };
     };
   };

@@ -1,8 +1,9 @@
 {
-  description = "NixOS Configuration";
+  description = "Everything, everywhere, all at once";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-unstable";
+    # https://github.com/NixOS/nixpkgs/commits/nixpkgs-unstable/?since=2024-10-06&until=2024-10-06
+    nixpkgs.url = "nixpkgs/0691f482df3e4d98e3311f86c9f8e6c75d76fbf9";
     nixpkgs-stable.url = "nixpkgs/nixos-24.05";
 
     # https://discourse.nixos.org/t/get-nix-flake-to-include-git-submodule/30324/17
@@ -13,7 +14,7 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/master";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

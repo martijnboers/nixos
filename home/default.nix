@@ -61,6 +61,7 @@
     tldr # man summarized
     killall # 🔪
     btop # fancy htop
+    nerdfonts # icon font
 
     # archives
     zip
