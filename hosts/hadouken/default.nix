@@ -90,7 +90,7 @@ in {
   };
 
   # Don't use own bincache, only upstream
-  nix.settings.substituters = lib.mkForce [];
+  nix.settings.substituters = lib.mkForce ["https://cache.nixos.org"];
 
   hosts.openssh.enable = true;
 
