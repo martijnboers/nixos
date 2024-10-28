@@ -1,4 +1,4 @@
-{config, ...}: {
+{config, pkgs, ...}: {
   networking.hostName = "glassdoor";
   hosts.hyprland.enable = true;
 
@@ -28,6 +28,21 @@
 
   # Enable tailscale network
   hosts.tailscale.enable = true;
+
+  programs = {
+    gamemode = {
+      enable = true;
+    };
+    steam = {
+      enable = true;
+      package = pkgs.steam.override {
+        extraPkgs = pkgs:
+          with pkgs; [
+            gamemode
+          ];
+      };
+    };
+  };
 
   # SDR
   hardware.rtl-sdr.enable = true;

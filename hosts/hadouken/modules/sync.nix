@@ -29,6 +29,7 @@ in {
       firefox-syncserver = {
         enable = true;
         secrets = config.age.secrets.sync.path;
+        package = pkgs.stable.syncstorage-rs;
 
         settings = {
           host = "0.0.0.0";

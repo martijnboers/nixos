@@ -17,10 +17,7 @@ in {
       settings = {
         scrollback_lines = 10000;
         window_padding_width = 6;
-        hide_window_decorations =
-          if pkgs.system == "x86_64-darwin"
-          then ["no"]
-          else ["titlebar-only"];
+        hide_window_decorations = "no";
         tab_title_max_length = 60;
         tab_title_template = "{title}";
         strip_trailing_spaces = "always";

@@ -637,10 +637,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "dirtyRev": "9d2b439527bc55bc41df8b071527ca53af21fe51-dirty",
-        "dirtyShortRev": "9d2b439-dirty",
-        "lastModified": 1729332716,
+        "lastModified": 1730137511,
         "narHash": "sha256-U4Ne3uG0hUEVBoWqn4CwyraI9YoHnEdSdrMoS3o0agw=",
+        "ref": "refs/heads/master",
+        "rev": "0698f3874a275f8459fc66671b2e076e3f136b6d",
+        "revCount": 18,
         "type": "git",
         "url": "file:secrets"
       },

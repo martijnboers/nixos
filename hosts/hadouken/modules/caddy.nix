@@ -8,7 +8,7 @@ with lib; let
   cfg = config.hosts.caddy;
   plebianRepo = builtins.fetchGit {
     url = "https://github.com/martijnboers/plebian.nl.git";
-    rev = "a0dece7da8c56976e3c887b6c7019db2925a65ab";
+    rev = "0f79c7fa129d28635ea367e2acfc55fd80ef4e89";
   };
 in {
   options.hosts.caddy = {
