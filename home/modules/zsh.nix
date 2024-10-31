@@ -12,7 +12,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [nix-output-monitor];
+    home.packages = with pkgs; [nh];
 
     programs.zsh = {
       enable = true;
@@ -22,13 +22,14 @@ in {
           cd /home/martijn/Nix || { echo "Failed to navigate to ~/Nix"; exit 1; }
           git submodule foreach git pull
           nix flake lock --update-input secrets
-          nixos-rebuild switch \
-            --use-remote-sudo \
-            --fallback \
+          nh switch \
             --verbose \
-            --log-format internal-json \
-            --flake ".?submodules=1''${1:+#''${1}}" ''${2:+--target-host martijn@''$2} \
-            |& nom --json
+            --ask \
+            ".?submodules=1" \
+            --hostname ''${1:+#''${1}}
+            -- \
+            --fallback \
+            ''${2:+--target-host martijn@''$2}
         '';
       in {
         # --- NixOS specific --------
