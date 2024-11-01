@@ -22,12 +22,10 @@ in {
           cd /home/martijn/Nix || { echo "Failed to navigate to ~/Nix"; exit 1; }
           git submodule foreach git pull
           nix flake lock --update-input secrets
-          nh switch \
-            --verbose \
-            --ask \
+          nh os switch \
             ".?submodules=1" \
-            --hostname ''${1:+#''${1}}
-            -- \
+            --ask \
+            ''${1:+--hostname #''${1}} -- \
             --fallback \
             ''${2:+--target-host martijn@''$2}
         '';

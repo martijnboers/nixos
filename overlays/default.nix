@@ -7,6 +7,11 @@
     nerdfonts = final.stable.nerdfonts.override {
       fonts = ["RobotoMono" "JetBrainsMono"];
     };
+    wp4nix = builtins.fetchGit {
+      url = "https://git.helsinki.tools/helsinki-systems/wp4nix";
+      ref = "master";
+    };
+
     # https://www.jetbrains.com/webstorm/nextversion/
     webstorm-eap = prev.jetbrains.webstorm.overrideAttrs {
       version = "241.11761.28";
