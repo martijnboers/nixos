@@ -37,6 +37,16 @@ in {
       };
     };
 
+    programs.thunar = {
+      enable = true;
+      plugins = with pkgs.xfce; [
+        thunar-media-tags-plugin
+        thunar-archive-plugin
+        thunar-volman
+      ];
+    };
+    services.tumbler.enable = true;
+
     services.greetd = {
       enable = true;
       settings = {

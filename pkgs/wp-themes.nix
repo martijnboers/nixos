@@ -9,8 +9,8 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "Automattic";
     repo = "themes";
-    rev = "trunk";
-    hash = "sha256-EE25HfISk40/1YQt3dzm8cwVFQuP0HxadV1emiaU96c=";
+    rev = "0dfbc4115ad521c68e5bc695997e3ffe918e2940";
+    hash = "sha256-ILDIx0fjmmD3YHr03g1A85Z6AeLCSr5EpeVim6wNYeg=";
   };
 
   installPhase = "mkdir -p $out; cp -R mann $out/";

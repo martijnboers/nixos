@@ -24,37 +24,6 @@ in {
       iconTheme.package = pkgs.gruvbox-dark-icons-gtk;
     };
 
-    xdg = let
-      mimeDefinitions = {
-        "application/pdf" = "zathura.desktop";
-        "text/plain" = "kwrite.desktop";
-        "text/html" = "webstorm.desktop";
-        "x-scheme-handler/http" = "librewolf.desktop";
-        "x-scheme-handler/https" = "librewolf.desktop";
-        "x-scheme-handler/about" = "librewolf.desktop";
-        "x-scheme-handler/unknown" = "librewolf.desktop";
-
-        "image/gif" = "imv.desktop";
-        "image/jpeg" = "imv.desktop";
-        "image/png" = "imv.desktop";
-        "image/webp" = "imv.desktop";
-
-        "video/mp4" = "vlc.desktop";
-        "video/webm" = "vlc.desktop";
-
-        "audio/flac" = "clementine.desktop";
-        "audio/mpeg" = "clementine.desktop";
-      };
-    in {
-      enable = true;
-      mime.enable = true;
-      mimeApps = {
-        enable = true;
-        defaultApplications = mimeDefinitions;
-        associations.added = mimeDefinitions;
-      };
-    };
-
     home.packages = with pkgs;
     with kdePackages; [
       # utilities
@@ -66,17 +35,8 @@ in {
       playerctl
       wlogout
       imv # image viewer
-
-      # KDE apps
-      kate
-      merkuro # kalender
-      dolphin
-      dolphin-plugins
-      kdegraphics-thumbnailers
-      kio
-      kio-extras
-      ffmpegthumbs
-      pkgs.seahorse # kwallet stinks
+      kate # kwrite
+      seahorse # kwallet stinks
 
       # File support
       zathura #pdf
@@ -105,20 +65,20 @@ in {
         exec-once = [
           "swaync &"
           "copyq --start-server &"
-          "nheko &"
+          "fluffychat &"
           "seafile-applet &"
           "blueman-applet &"
           "nm-applet --indicator &"
         ];
         "$terminal" = "kitty";
-        "$fileManager" = "dolphin";
+        "$fileManager" = "thunar";
         "$browser" = "librewolf";
         "$menu" = "rofi -show drun -show-icons";
 
         # hyprctl clients
         windowrulev2 = [
           "workspace 3, class:(sublime_merge)"
-          "workspace 4, class:(nheko)"
+          "workspace 4, class:(fluffychat)"
           "workspace 4, class:(signal)"
           "workspace 4, class:(Slack)"
           "workspace 5, class:(steam)"

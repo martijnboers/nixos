@@ -28,7 +28,7 @@ in {
       # messaging
       signal-desktop
       telegram-desktop
-      nheko # matrix client
+      fluffychat # matrix client
     ];
   };
 }
