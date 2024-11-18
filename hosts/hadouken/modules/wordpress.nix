@@ -53,7 +53,7 @@ in {
         inherit
           (pkgs.wordpressPackages.plugins)
           antispam-bee
-          wpforms-lite
+          forminator
           gutenberg
           jetpack
           ;

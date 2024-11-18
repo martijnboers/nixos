@@ -42,7 +42,6 @@ in {
           url = "https://sync.thuis";
         };
       };
-
       mysql.package = pkgs.mariadb;
     };
   };

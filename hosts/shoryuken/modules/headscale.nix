@@ -18,6 +18,7 @@ with lib; let
     "sync"
     "archive"
     "binarycache"
+    "search"
   ];
   shoryukenRecords = [
     "notifications"
@@ -35,7 +36,7 @@ in {
       caddy.virtualHosts."headscale.donder.cloud".extraConfig = ''
         reverse_proxy http://localhost:${toString config.services.headscale.port}
       '';
-      borgbackup.jobs.default.paths = [config.services.headscale.settings.db_path];
+      borgbackup.jobs.default.paths = [config.services.headscale.settings.database.sqlite.path];
       headscale = {
         enable = true;
         address = "0.0.0.0";

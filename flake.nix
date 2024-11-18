@@ -48,7 +48,7 @@
     };
 
     # with working qt6, move back to github:danth/stylix
-    stylix.url = "github:Jackaed/stylix/9767c82278ce8dd5e559e3b174b5cab1e28a265e";
+    stylix.url = "github:Jackaed/stylix/17463aa087860313f86974e0838a65b40bf28a64";
 
     darwin = {
       url = "github:lnl7/nix-darwin";

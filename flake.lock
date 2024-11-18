@@ -637,11 +637,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1730137511,
-        "narHash": "sha256-U4Ne3uG0hUEVBoWqn4CwyraI9YoHnEdSdrMoS3o0agw=",
+        "lastModified": 1731921918,
+        "narHash": "sha256-6hvwkG8aTYi/JxVYOjullsE8LB9oq8vePd8eEhfl88I=",
         "ref": "refs/heads/master",
-        "rev": "0698f3874a275f8459fc66671b2e076e3f136b6d",
-        "revCount": 18,
+        "rev": "24da25c337f24242c39d13811237dc6543d4ae79",
+        "revCount": 19,
         "type": "git",
         "url": "file:secrets"
       },
@@ -667,17 +667,17 @@
         "tinted-tmux": "tinted-tmux"
       },
       "locked": {
-        "lastModified": 1727895470,
-        "narHash": "sha256-etokJY2DbpHp1zXqRgQXZCRhKC2C7c5qE5gp6xRIm/4=",
+        "lastModified": 1731494477,
+        "narHash": "sha256-n4FJwoCQTL4mN1QjnvfODTVFJzTf+8UcRb5NkhoUxfs=",
         "owner": "Jackaed",
         "repo": "stylix",
-        "rev": "9767c82278ce8dd5e559e3b174b5cab1e28a265e",
+        "rev": "17463aa087860313f86974e0838a65b40bf28a64",
         "type": "github"
       },
       "original": {
         "owner": "Jackaed",
         "repo": "stylix",
-        "rev": "9767c82278ce8dd5e559e3b174b5cab1e28a265e",
+        "rev": "17463aa087860313f86974e0838a65b40bf28a64",
         "type": "github"
       }
     },
@@ -729,32 +729,34 @@
     "tinted-foot": {
       "flake": false,
       "locked": {
-        "lastModified": 1696725948,
-        "narHash": "sha256-65bz2bUL/yzZ1c8/GQASnoiGwaF8DczlxJtzik1c0AU=",
+        "lastModified": 1726913040,
+        "narHash": "sha256-+eDZPkw7efMNUf3/Pv0EmsidqdwNJ1TaOum6k7lngDQ=",
         "owner": "tinted-theming",
         "repo": "tinted-foot",
-        "rev": "eedbcfa30de0a4baa03e99f5e3ceb5535c2755ce",
+        "rev": "fd1b924b6c45c3e4465e8a849e67ea82933fcbe4",
         "type": "github"
       },
       "original": {
         "owner": "tinted-theming",
         "repo": "tinted-foot",
+        "rev": "fd1b924b6c45c3e4465e8a849e67ea82933fcbe4",
         "type": "github"
       }
     },
     "tinted-kitty": {
       "flake": false,
       "locked": {
-        "lastModified": 1665001328,
-        "narHash": "sha256-aRaizTYPpuWEcvoYE9U+YRX+Wsc8+iG0guQJbvxEdJY=",
+        "lastModified": 1716423189,
+        "narHash": "sha256-2xF3sH7UIwegn+2gKzMpFi3pk5DlIlM18+vj17Uf82U=",
         "owner": "tinted-theming",
         "repo": "tinted-kitty",
-        "rev": "06bb401fa9a0ffb84365905ffbb959ae5bf40805",
+        "rev": "eb39e141db14baef052893285df9f266df041ff8",
         "type": "github"
       },
       "original": {
         "owner": "tinted-theming",
         "repo": "tinted-kitty",
+        "rev": "eb39e141db14baef052893285df9f266df041ff8",
         "type": "github"
       }
     },

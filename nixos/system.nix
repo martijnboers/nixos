@@ -191,7 +191,6 @@
     config = {
       allowUnfree = true;
       permittedInsecurePackages = [
-        "fluffychat-linux-1.22.1"
         "olm-3.2.16" # https://matrix.org/blog/2024/08/libolm-deprecation/
       ];
     };

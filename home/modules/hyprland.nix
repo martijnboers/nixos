@@ -65,7 +65,7 @@ in {
         exec-once = [
           "swaync &"
           "copyq --start-server &"
-          "fluffychat &"
+          "nheko &"
           "seafile-applet &"
           "blueman-applet &"
           "nm-applet --indicator &"
@@ -78,7 +78,7 @@ in {
         # hyprctl clients
         windowrulev2 = [
           "workspace 3, class:(sublime_merge)"
-          "workspace 4, class:(fluffychat)"
+          "workspace 4, class:(nheko)"
           "workspace 4, class:(signal)"
           "workspace 4, class:(Slack)"
           "workspace 5, class:(steam)"

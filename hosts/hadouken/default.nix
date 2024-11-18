@@ -26,6 +26,7 @@ in {
     ./modules/storage.nix
     ./modules/archive.nix
     ./modules/ollama.nix
+    ./modules/search.nix
     ./modules/caddy.nix
     ./modules/atuin.nix
     ./modules/pgrok.nix
@@ -54,6 +55,7 @@ in {
   hosts.sync.enable = true;
   hosts.archive.enable = true;
   hosts.binarycache.enable = true;
+  hosts.search.enable = true;
 
   systemd.services.sshd = {
     after = ["tailscaled.service"];
