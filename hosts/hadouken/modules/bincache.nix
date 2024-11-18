@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib; let
@@ -22,8 +23,10 @@ in {
       respond 403
     '';
     age.secrets.binarycache.file = ../../../secrets/binarycache.age;
+    nix.settings.allowed-users = ["nix-serve"];
     services.nix-serve = {
       enable = true;
+      package = pkgs.nix-serve-ng; # https://github.com/aristanetworks/nix-serve-ng
       port = 3319;
       secretKeyFile = config.age.secrets.binarycache.path;
     };

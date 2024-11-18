@@ -1,6 +1,5 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }:
@@ -19,6 +18,7 @@ with lib; let
     "archive"
     "binarycache"
     "search"
+    "chat"
   ];
   shoryukenRecords = [
     "notifications"

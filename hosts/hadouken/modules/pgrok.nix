@@ -20,7 +20,7 @@
       domain = "tunnel.plebian.nl";
     };
     sshd = {
-      port = 6666;
+      port = 6666; # available on wireguard
     };
     database = {
       host = "/run/postgresql";

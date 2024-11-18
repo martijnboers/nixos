@@ -22,14 +22,15 @@ in {
     ./modules/bincache.nix
     ./modules/adguard.nix
     ./modules/seafile.nix
-    ./modules/conduit.nix
     ./modules/storage.nix
     ./modules/archive.nix
     ./modules/ollama.nix
+    ./modules/matrix.nix
     ./modules/search.nix
     ./modules/caddy.nix
     ./modules/atuin.nix
     ./modules/pgrok.nix
+    ./modules/cinny.nix
     ./modules/plex.nix
     ./modules/sync.nix
     ./modules/hass.nix
@@ -46,7 +47,7 @@ in {
   hosts.pgrok.enable = true;
   hosts.cyberchef.enable = true;
   hosts.monitoring.enable = true;
-  hosts.conduit.enable = true;
+  hosts.matrix.enable = true;
   hosts.mastodon.enable = true;
   hosts.fail2ban.enable = true;
   hosts.ollama.enable = true;
@@ -56,6 +57,7 @@ in {
   hosts.archive.enable = true;
   hosts.binarycache.enable = true;
   hosts.search.enable = true;
+  hosts.cinny-web.enable = true;
 
   systemd.services.sshd = {
     after = ["tailscaled.service"];

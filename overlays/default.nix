@@ -34,5 +34,9 @@
       system = final.system;
       config.allowUnfree = true;
     };
+    fork = import inputs.nixpkgs-fork {
+      system = final.system;
+      config.allowUnfree = true;
+    };
   };
 }

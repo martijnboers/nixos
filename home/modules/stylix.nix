@@ -41,6 +41,8 @@ in {
         };
       };
       targets.nixvim.enable = false;
+      targets.hyprland.enable = false;
+      #      targets.hyprlock.enable = false;
     };
   };
 }

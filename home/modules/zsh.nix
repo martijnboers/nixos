@@ -12,26 +12,37 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [nh];
+    home.packages = with pkgs; [nh nom];
 
     programs.zsh = {
       enable = true;
       shellAliases = let
-        deploy-custom = pkgs.writeShellScriptBin "deploy-custom" ''
-          set -euo pipefail
-          cd /home/martijn/Nix || { echo "Failed to navigate to ~/Nix"; exit 1; }
-          git submodule foreach git pull
-          nix flake lock --update-input secrets
-          nh os switch \
-            ".?submodules=1" \
-            --ask \
-            ''${1:+--hostname #''${1}} -- \
-            --fallback \
-            ''${2:+--target-host martijn@''$2}
-        '';
+        deploy-custom =
+          pkgs.writeShellScriptBin "deploy-custom"
+          ''
+            set -euo pipefail
+            cd /home/martijn/Nix || { echo "Failed to navigate to ~/Nix"; exit 1; }
+            git submodule foreach git pull --depth=1
+            nix flake lock --update-input secrets
+            if [ $# -eq 0 ]; then
+                nh os switch \
+                  ".?submodules=1" \
+                  --ask \
+                  -- \ # passtrough
+                  --fallback
+            else
+                TARGET="$1"
+                nixos-rebuild switch \
+                  --use-remote-sudo \
+                  --fallback \
+                  --verbose \
+                  --flake ".?submodules=1#''${1}" \
+                  --target-host "martijn@''${1}.machine.thuis"
+            fi
+          '';
       in {
         # --- NixOS specific --------
-        deploy = lib.getExe deploy-custom; # $ deploy {?host} {?remote}
+        deploy = lib.getExe deploy-custom; # $ deploy {?host}
         mdeploy = "darwin-rebuild switch --flake '/Users/martijn/nixos/.?submodules=1#paddy'";
         update = "nix flake update";
         # ---------------------------

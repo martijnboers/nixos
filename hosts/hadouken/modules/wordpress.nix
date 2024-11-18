@@ -15,14 +15,15 @@ with lib; let
     };
     installPhase = "mkdir -p $out; cp -R * $out/";
   };
-  wordpress-plugin-pinterest = pkgs.stdenv.mkDerivation rec {
-    name = "pinterest";
-    version = "1.8.8";
-    src = pkgs.fetchzip {
-      url = "https://downloads.wordpress.org/plugins/gs-pinterest-portfolio.${version}.zip";
-      hash = "sha256-/9X+jWajbPB/ofXybkuiPo3JWeb6JvEmdG771euQVVk=";
+  mann = pkgs.stdenv.mkDerivation rec {
+    name = "mann";
+    src = pkgs.fetchFromGitHub {
+      owner = "Automattic";
+      repo = "themes";
+      rev = "0dfbc4115ad521c68e5bc695997e3ffe918e2940";
+      hash = "sha256-ILDIx0fjmmD3YHr03g1A85Z6AeLCSr5EpeVim6wNYeg=";
     };
-    installPhase = "mkdir -p $out; cp -R * $out/";
+    installPhase = "mkdir -p $out; cp -R mann $out/";
   };
 in {
   options.hosts.wordpress = {
@@ -41,7 +42,11 @@ in {
 
     services.wordpress.sites."kevinandreihana" = {
       themes = {
-        mann = pkgs.wp-themes;
+        inherit mann;
+        inherit
+          (pkgs.fork.wordpressPackages.themes)
+          bibimbap
+          ;
       };
       settings = {
         # Needed to run behind reverse proxy
@@ -49,11 +54,11 @@ in {
         WP_DEFAULT_THEME = "mann";
       };
       plugins = {
-        inherit wordpress-plugin-pinterest;
         inherit
-          (pkgs.wordpressPackages.plugins)
+          (pkgs.fork.wordpressPackages.plugins) # from own fork
           antispam-bee
-          forminator
+          wp-file-upload
+          wp-statistics
           gutenberg
           jetpack
           ;

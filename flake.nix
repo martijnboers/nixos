@@ -5,6 +5,7 @@
     # https://github.com/NixOS/nixpkgs/commits/nixpkgs-unstable/?since=2024-10-06&until=2024-10-06
     nixpkgs.url = "nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "nixpkgs/nixos-24.05";
+    nixpkgs-fork.url = "github:martijnboers/nixpkgs";
 
     # https://discourse.nixos.org/t/get-nix-flake-to-include-git-submodule/30324/17
     # https://github.com/ryantm/agenix/issues/266
@@ -47,8 +48,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # with working qt6, move back to github:danth/stylix
+    # with working qt6 (https://github.com/danth/stylix/pull/142)
     stylix.url = "github:Jackaed/stylix/17463aa087860313f86974e0838a65b40bf28a64";
+    #    stylix.url = "github:danth/stylix";
 
     darwin = {
       url = "github:lnl7/nix-darwin";

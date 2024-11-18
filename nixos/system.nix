@@ -75,7 +75,7 @@
   ];
 
   nix.settings = {
-    experimental-features = ["nix-command" "flakes"];
+    experimental-features = ["nix-command" "flakes" "pipe-operators"];
     substituters = [
       "https://binarycache.thuis"
       "https://cache.nixos.org/"
@@ -192,6 +192,7 @@
       allowUnfree = true;
       permittedInsecurePackages = [
         "olm-3.2.16" # https://matrix.org/blog/2024/08/libolm-deprecation/
+        "cinny-unwrapped-4.2.3"
       ];
     };
   };
