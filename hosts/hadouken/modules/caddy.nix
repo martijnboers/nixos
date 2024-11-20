@@ -21,7 +21,7 @@ in {
     services.caddy = {
       enable = true;
       package = pkgs.callPackage ../../../pkgs/xcaddy.nix {
-        plugins = ["github.com/caddy-dns/cloudflare" "github.com/corazawaf/coraza-caddy/v2"];
+        plugins = ["github.com/caddy-dns/cloudflare" "github.com/corazawaf/coraza-caddy/v2" "github.com/darkweak/souin/plugins/caddy"];
       };
 
       globalConfig = ''
@@ -29,10 +29,17 @@ in {
             metrics
         }
         order coraza_waf first
+        # https://docs.souin.io/docs/middlewares/caddy/
+        cache {
+            ttl 100s
+            stale 3h
+            default_cache_control public, s-maxage=100
+       }
       '';
       virtualHosts."plebian.nl" = {
         serverAliases = ["boers.email"];
         extraConfig = ''
+          cache { ttl 1h }
           root * ${plebianRepo}/
           encode zstd gzip
           file_server

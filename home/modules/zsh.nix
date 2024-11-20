@@ -21,14 +21,14 @@ in {
           pkgs.writeShellScriptBin "deploy-custom"
           ''
             set -euo pipefail
-            cd /home/martijn/Nix || { echo "Failed to navigate to ~/Nix"; exit 1; }
+            cd /home/martijn/Nix
             git submodule foreach git pull --depth=1
             nix flake lock --update-input secrets
             if [ $# -eq 0 ]; then
                 nh os switch \
                   ".?submodules=1" \
                   --ask \
-                  -- \ # passtrough
+                  -- \
                   --fallback
             else
                 TARGET="$1"

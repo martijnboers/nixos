@@ -39,7 +39,7 @@
     # On the fly running of programs
     nix-index-database = {
       url = "github:Mic92/nix-index-database";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
     # Disk setup for nixos-anywhere

@@ -31,6 +31,7 @@ in {
       }
 
       route * {
+        cache { ttl 1h }
         file_server * {
            root ${pkgs.mastodon}/public
            pass_thru
