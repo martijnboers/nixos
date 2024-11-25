@@ -113,6 +113,7 @@
     pki.certificateFiles = [
       ./keys/hadouken.crt
       ./keys/shoryuken.crt
+      ./keys/tenshin.crt
     ];
   };
 

@@ -15,6 +15,7 @@ in {
     ./modules/uptime-kuma.nix
     ./modules/headscale.nix
     ./modules/keycloak.nix
+    ./modules/sailing.nix
     ./modules/caddy.nix
     ./modules/tor.nix
   ];
@@ -25,6 +26,7 @@ in {
   hosts.keycloak.enable = true;
   hosts.caddy.enable = true;
   hosts.tor.enable = true;
+  hosts.sailing.enable = true;
 
   # Right order of headscale operations for startup
   systemd.services.headscale = {

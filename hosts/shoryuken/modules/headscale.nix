@@ -19,11 +19,13 @@ with lib; let
     "binarycache"
     "search"
     "chat"
+    "prowlarr"
   ];
   shoryukenRecords = [
     "notifications"
     "uptime"
   ];
+  tenshinRecords = [];
 in {
   options.hosts.headscale = {
     enable = mkEnableOption "VPN server";
@@ -60,6 +62,7 @@ in {
           dns = let
             shoryukenIp = "100.64.0.1";
             hadoukenIp = "100.64.0.2";
+            tenshinIp = "100.64.0.11";
             makeRecord = name: ip: {
               name = "${name}.thuis";
               type = "A";
@@ -71,7 +74,8 @@ in {
             nameservers.global = [hadoukenIp];
             extra_records =
               (map (name: makeRecord name hadoukenIp) hadoukenRecords)
-              ++ (map (name: makeRecord name shoryukenIp) shoryukenRecords);
+              ++ (map (name: makeRecord name shoryukenIp) shoryukenRecords)
+              ++ (map (name: makeRecord name tenshinIp) tenshinRecords);
           };
           prefixes = {
             v4 = "100.64.0.0/10";

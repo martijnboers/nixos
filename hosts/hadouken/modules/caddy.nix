@@ -8,7 +8,11 @@ with lib; let
   cfg = config.hosts.caddy;
   plebianRepo = builtins.fetchGit {
     url = "https://github.com/martijnboers/plebian.nl.git";
-    rev = "9405018ef53b8edb1fe8d523aa16e463273f7ec6";
+    rev = "b07146995f7b227ef7692402374268f0457003aa";
+  };
+  resumeRepo = builtins.fetchGit {
+    url = "git@github.com:martijnboers/resume.git";
+    rev = "87cb8df2b26bf4a28ba8259006c2520accf5c575";
   };
 in {
   options.hosts.caddy = {
@@ -25,22 +29,31 @@ in {
       };
 
       globalConfig = ''
-        servers {
-            metrics
+         servers {
+             metrics
+         }
+         order coraza_waf first
+         # https://docs.souin.io/docs/middlewares/caddy/
+         cache {
+             ttl 100s
+             stale 3h
+             default_cache_control public, s-maxage=100
         }
-        order coraza_waf first
-        # https://docs.souin.io/docs/middlewares/caddy/
-        cache {
-            ttl 100s
-            stale 3h
-            default_cache_control public, s-maxage=100
-       }
       '';
       virtualHosts."plebian.nl" = {
         serverAliases = ["boers.email"];
         extraConfig = ''
           cache { ttl 1h }
           root * ${plebianRepo}/
+          encode zstd gzip
+          file_server
+        '';
+      };
+      virtualHosts."resume.plebian.nl" = {
+        serverAliases = ["resume.boers.email"];
+        extraConfig = ''
+          cache { ttl 48h }
+          root * ${resumeRepo}/
           encode zstd gzip
           file_server
         '';

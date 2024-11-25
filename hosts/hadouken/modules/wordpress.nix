@@ -61,6 +61,7 @@ in {
           wp-statistics
           gutenberg
           jetpack
+          contact-form-7
           ;
       };
       extraConfig = ''
