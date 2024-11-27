@@ -57,7 +57,6 @@ in {
         inherit
           (pkgs.fork.wordpressPackages.plugins) # from own fork
           antispam-bee
-          wp-file-upload
           wp-statistics
           gutenberg
           jetpack

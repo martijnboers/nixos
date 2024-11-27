@@ -7,6 +7,10 @@
 
   hosts.endlessh.enable = true;
 
+  # SDR
+  hardware.rtl-sdr.enable = true;
+  users.users.martijn.extraGroups = ["plugdev"];
+
   hosts.openssh = {
     enable = true;
     allowUsers = ["*@100.64.0.0/10" "*@10.10.0.0/24"];

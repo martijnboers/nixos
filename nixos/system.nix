@@ -88,9 +88,11 @@
   };
 
   # Collect nix store garbage and optimise daily.
-  nix.gc.automatic = true;
-  nix.gc.options = "--delete-older-than 30d";
-  nix.optimise.automatic = true;
+  nix = {
+    gc.automatic = true;
+    gc.options = "--delete-older-than 30d";
+    optimise.automatic = true;
+  };
 
   # Enable networking
   networking.networkmanager.enable = true;

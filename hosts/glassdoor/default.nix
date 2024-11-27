@@ -48,10 +48,6 @@
     };
   };
 
-  # SDR
-  hardware.rtl-sdr.enable = true;
-  users.users.martijn.extraGroups = ["plugdev"];
-
   services.xserver.videoDrivers = ["amdgpu"];
   services.flatpak.enable = true;
 

@@ -29,7 +29,7 @@ in {
 
           modules-left = ["custom/power" "hyprland/workspaces" "hyprland/window"];
           modules-center = ["privacy" "clock" "custom/notification"];
-          modules-right = ["cpu" "memory" "network" "temperature" "disk" "pulseaudio" "tray"];
+          modules-right = ["network" "custom/wan" "cpu" "memory" "temperature" "disk" "pulseaudio" "tray"];
 
           "hyprland/workspaces" = {
             on-click = "activate";
@@ -119,6 +119,20 @@ in {
             format-icons = "";
             exec-on-event = "true";
             on-click = "wlogout";
+          };
+
+          "custom/wan" = {
+            tooltip = false;
+            exec = let
+              wan =
+                pkgs.writeShellScriptBin "wan-ip"
+                ''
+                  wan_ip=$(curl -s https://checkip.amazonaws.com)
+                  echo "󰖟 $wan_ip"
+                '';
+            in
+              lib.getExe wan;
+            interval = 2;
           };
 
           "custom/notification" = {

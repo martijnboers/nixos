@@ -91,6 +91,7 @@ button:hover {
 #network,
 #temperature,
 #privacy,
+#custom-wan,
 #disk {
   color: @grey;
   font-weight: 600;
