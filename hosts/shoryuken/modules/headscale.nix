@@ -19,11 +19,11 @@ with lib; let
     "binarycache"
     "search"
     "chat"
-    "prowlarr"
   ];
   shoryukenRecords = [
     "notifications"
     "uptime"
+    "prowlarr"
   ];
   tenshinRecords = [];
 in {

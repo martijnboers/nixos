@@ -61,6 +61,8 @@ in {
           gutenberg
           jetpack
           contact-form-7
+          drag-and-drop-multiple-file-upload-contact-form-7
+          flamingo
           ;
       };
       extraConfig = ''
@@ -72,6 +74,26 @@ in {
           port = 8778;
         }
       ];
+    };
+    services.borgbackup.jobs.default.paths = [
+      "/var/lib/smtp-to-storage"
+      "/var/lib/wordpress/kevinandreihana/uploads/"
+    ];
+
+    systemd.tmpfiles.rules = [
+      "d /var/lib/smtp-to-storage 0700 smtp-to-storage smtp-to-storage"
+    ];
+
+    systemd.services.smtp-to-storage = {
+      wantedBy = ["multi-user.target"];
+      description = "smtp bridge attachments";
+      serviceConfig = {
+        Type = "simple";
+        ExecStart = getExe pkgs.smtp-to-storage;
+        TimeoutStartSec = 600;
+        Restart = "on-failure";
+        NoNewPrivileges = true;
+      };
     };
   };
 }

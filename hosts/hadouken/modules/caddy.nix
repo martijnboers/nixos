@@ -29,16 +29,16 @@ in {
       };
 
       globalConfig = ''
-         servers {
-             metrics
-         }
-         order coraza_waf first
-         # https://docs.souin.io/docs/middlewares/caddy/
-         cache {
-             ttl 100s
-             stale 3h
-             default_cache_control public, s-maxage=100
+        servers {
+            metrics
         }
+        # https://docs.souin.io/docs/middlewares/caddy/
+        cache {
+            ttl 100s
+            stale 3h
+            default_cache_control public, s-maxage=100
+        }
+        order coraza_waf first
       '';
       virtualHosts."plebian.nl" = {
         serverAliases = ["boers.email"];
@@ -58,16 +58,6 @@ in {
           file_server
         '';
       };
-      virtualHosts."immich.thuis".extraConfig = ''
-        tls internal
-        @internal {
-          remote_ip 100.64.0.0/10
-        }
-        handle @internal {
-          reverse_proxy http://localhost:2283
-        }
-        respond 403
-      '';
     };
 
     age.secrets.caddy.file = ../../../secrets/caddy.age;

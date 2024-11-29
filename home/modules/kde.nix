@@ -30,14 +30,6 @@ in {
         captureRectangularRegion = "Print";
       };
 
-      workspace = {
-        theme = "Materia-Color";
-        iconTheme = "Nordic-darker";
-        wallpaper = ../assets/img/wp_2.jpg;
-        colorScheme = "MateriaDark";
-        lookAndFeel = "com.github.varlesh.materia-dark";
-      };
-
       panels = [
         {
           location = "top";

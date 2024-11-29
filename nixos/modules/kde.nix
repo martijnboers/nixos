@@ -11,10 +11,6 @@ in {
 
   options.hosts.kde = {
     enable = mkEnableOption "Support KDE desktop";
-    wayland = mkOption {
-      type = types.bool;
-      default = true;
-    };
   };
 
   config = mkIf cfg.enable {
@@ -28,15 +24,12 @@ in {
       autoLogin.enable = true;
       autoLogin.user = "martijn";
 
+      #       Start in hyprland
       sddm = {
         enable = true;
         wayland.enable = true;
+        settings.General.DisplayServer = "x11-user"; # rootless X11
       };
-
-      defaultSession =
-        if cfg.wayland
-        then "plasma"
-        else "plasmax11";
     };
 
     environment.plasma6.excludePackages = with pkgs.libsForQt5; [

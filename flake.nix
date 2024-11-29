@@ -48,10 +48,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # with working qt6 (https://github.com/danth/stylix/pull/142)
-    # stylix.url = "github:Jackaed/stylix/17463aa087860313f86974e0838a65b40bf28a64";
     stylix = {
       url = "github:danth/stylix";
+      # with working qt6 (https://github.com/danth/stylix/pull/142)
+      # url = "github:Jackaed/stylix/17463aa087860313f86974e0838a65b40bf28a64";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

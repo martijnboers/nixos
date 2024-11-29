@@ -59,6 +59,10 @@ in {
           command = "${lib.getExe pkgs.greetd.tuigreet} --time --cmd Hyprland";
           user = "martijn";
         };
+        kde = {
+          command = "startplasma-wayland";
+          user = "martijn";
+        };
       };
     };
 

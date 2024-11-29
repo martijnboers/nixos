@@ -26,6 +26,7 @@ in {
     ./modules/archive.nix
     ./modules/ollama.nix
     ./modules/matrix.nix
+    ./modules/immich.nix
     ./modules/search.nix
     ./modules/caddy.nix
     ./modules/atuin.nix
@@ -58,6 +59,7 @@ in {
   hosts.binarycache.enable = true;
   hosts.search.enable = true;
   hosts.cinny-web.enable = true;
+  hosts.immich.enable = true;
 
   systemd.services.sshd = {
     after = ["tailscaled.service"];
