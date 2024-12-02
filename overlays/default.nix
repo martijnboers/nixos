@@ -7,6 +7,14 @@
     nerdfonts = final.stable.nerdfonts.override {
       fonts = ["RobotoMono" "JetBrainsMono"];
     };
+
+    winapps-patched = let
+      app = inputs.winapps.packages."x86_64-linux".winapps;
+    in
+      app.overrideAttrs {
+        patches = app.patches ++ [./winapps.patch];
+      };
+
     wp4nix = builtins.fetchGit {
       url = "https://git.helsinki.tools/helsinki-systems/wp4nix";
       ref = "master";

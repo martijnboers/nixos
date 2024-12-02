@@ -32,6 +32,9 @@ in {
       wineWowPackages.waylandFull
     ];
 
+    # Enable networkingmanager
+    networking.networkmanager.enable = true;
+
     # Enable opengpl
     hardware = {
       graphics = {

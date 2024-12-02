@@ -29,7 +29,7 @@ in {
 
           modules-left = ["custom/power" "hyprland/workspaces" "hyprland/window"];
           modules-center = ["privacy" "clock" "custom/notification"];
-          modules-right = ["network" "custom/wan" "cpu" "memory" "temperature" "disk" "pulseaudio" "tray"];
+          modules-right = ["network" "custom/wan" "cpu" "memory" "temperature" "disk" "disk#2" "pulseaudio" "tray"];
 
           "hyprland/workspaces" = {
             on-click = "activate";
@@ -92,6 +92,12 @@ in {
           disk = {
             interval = 15;
             format = "󰋊 {percentage_used}%";
+          };
+
+          "disk#2" = {
+            interval = 15;
+            format = "󱣐 {percentage_used}%";
+            path = "/nix/store";
           };
 
           pulseaudio = {

@@ -77,8 +77,8 @@
   nix.settings = {
     experimental-features = ["nix-command" "flakes" "pipe-operators"];
     substituters = [
-      "https://binarycache.thuis"
       "https://cache.nixos.org/"
+      "https://binarycache.thuis"
     ];
     trusted-public-keys = [
       "binarycache.thuis:/alus5dkMvukzWHoAvbQ5qvjxISw+t9Cbo/nk129zSQ="
@@ -93,9 +93,6 @@
     gc.options = "--delete-older-than 30d";
     optimise.automatic = true;
   };
-
-  # Enable networking
-  networking.networkmanager.enable = true;
 
   # misc
   programs.zsh.enable = true;

@@ -48,10 +48,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Run office from vm to wayland
+    winapps = {
+      url = "github:winapps-org/winapps";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     stylix = {
-      url = "github:danth/stylix";
       # with working qt6 (https://github.com/danth/stylix/pull/142)
-      # url = "github:Jackaed/stylix/17463aa087860313f86974e0838a65b40bf28a64";
+      url = "github:martijnboers/stylix/";
+      # url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -136,6 +142,14 @@
 
     nixosConfigurations.tenshin = mkSystem "tenshin" {
       system = "aarch64-linux";
+    };
+
+    nixosConfigurations.iso = mkSystem "iso" {
+      system = "x86_64-linux";
+      extraModules = [
+        "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix"
+        "${nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
+      ];
     };
 
     darwinConfigurations.paddy = darwin.lib.darwinSystem {

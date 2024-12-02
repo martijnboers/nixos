@@ -25,7 +25,12 @@ SSHPASS=<pwd> nix run github:nix-community/nixos-anywhere -- --flake .#shoryuken
 
 ### Rasperry Pi SD image
 ```
-nix run nixpkgs#nixos-generators -- -f sd-aarch64 --flake .#tenshin --system aarch64-linux -o ~/pi.img
+nix run nixpkgs#nixos-generators -- -f sd-aarch64 --flake '.?submodules=1#tenshin' --system aarch64-linux -o ~/pi.img
+```
+
+### Custom installation ISO
+```
+nix build '.?submodules=1#nixosConfigurations.iso.config.system.build.isoImage' -vv --show-trace
 ```
 
 ### Loading repl
