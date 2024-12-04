@@ -6,7 +6,6 @@
 }:
 with lib; let
   cfg = config.hosts.monitoring;
-  retentionTime = 30 * 6;
 in {
   options.hosts.monitoring = {
     enable = mkEnableOption "Enable monitoring to host";
@@ -192,14 +191,14 @@ in {
     };
 
     services.prometheus = {
-      enable = true;
-      port = 9001;
       scrapeConfigs = [
         {
           job_name = "node";
           static_configs = [
             {
-              targets = ["127.0.0.1:${toString config.services.prometheus.exporters.node.port}"];
+              targets =
+                map (host: "${host}.machine.thuis:${toString config.services.prometheus.exporters.node.port}")
+                ["hadouken" "shoryuken" "tenshin" "glassdoor"];
             }
           ];
         }
@@ -244,13 +243,7 @@ in {
           ];
         }
       ];
-      retentionTime = toString retentionTime + "d";
       exporters = {
-        node = {
-          enable = true;
-          enabledCollectors = ["systemd"];
-          port = 9002;
-        };
         zfs = {
           enable = true;
           port = 2020;

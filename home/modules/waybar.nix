@@ -92,6 +92,7 @@ in {
           disk = {
             interval = 15;
             format = "󰋊 {percentage_used}%";
+            path = "/home/martijn";
           };
 
           "disk#2" = {

@@ -6,6 +6,7 @@
 }: {
   imports = [
     ./modules/virtualization.nix
+    ./modules/prometheus.nix
     ./modules/syncthing.nix
     ./modules/tailscale.nix
     ./modules/hyprland.nix

@@ -30,8 +30,8 @@
     ];
   };
 
-  # Enable tailscale network
   hosts.tailscale.enable = true;
+  hosts.prometheus.enable = true;
 
   programs = {
     gamemode = {

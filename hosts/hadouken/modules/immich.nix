@@ -30,7 +30,6 @@ in {
     services.immich = {
       enable = true;
       mediaLocation = "/mnt/zwembad/app/immich/upload/";
-      secretsFile = config.age.secrets.immich.path;
       environment = {
         IMMICH_MACHINE_LEARNING_URL = "http://localhost:3003";
       };

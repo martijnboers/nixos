@@ -27,6 +27,7 @@ in {
   hosts.caddy.enable = true;
   hosts.tor.enable = true;
   hosts.sailing.enable = true;
+  hosts.prometheus.enable = true;
 
   # Right order of headscale operations for startup
   systemd.services.headscale = {

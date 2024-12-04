@@ -6,6 +6,7 @@
   ];
 
   hosts.endlessh.enable = true;
+  hosts.prometheus.enable = true;
 
   # SDR
   hardware.rtl-sdr.enable = true;
