@@ -7,6 +7,10 @@
     device = "zwembad/app";
     fsType = "zfs";
   };
+  fileSystems."/mnt/zwembad/share" = {
+    device = "zwembad/share";
+    fsType = "zfs";
+  };
   fileSystems."/mnt/zwembad/music" = {
     device = "zwembad/music";
     fsType = "zfs";
@@ -31,12 +35,10 @@
 
   # Only mount when sanoid has created the datasets
   fileSystems."/mnt/garage/backups/app" = {
-    label = "app - replica";
     device = "garage/backups/app";
     fsType = "zfs";
   };
   fileSystems."/mnt/garage/backups/music" = {
-    label = "music - replica";
     device = "garage/backups/music";
     fsType = "zfs";
   };

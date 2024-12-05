@@ -31,7 +31,7 @@
     identity_provider = {
       type = "oidc";
       display_name = "Keycloak";
-      issuer = "https://auth.plebian.nl/realms/master";
+      issuer = "https://auth.donder.cloud/realms/master";
       client_id = "pgrok";
       client_secret = {_secret = config.age.secrets.pgrok.path;};
       field_mapping = {

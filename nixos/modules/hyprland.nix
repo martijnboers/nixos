@@ -16,9 +16,14 @@ in {
   config = mkIf cfg.enable {
     hosts.desktop.enable = true;
 
-    environment.systemPackages = with pkgs; [
+    environment.systemPackages = with pkgs;
+    with pkgs.libsForQt5; [
       kdePackages.qtwayland
       lxqt.lxqt-policykit # lxqt polkit
+
+      # For QT apps
+      kio
+      kio-extras
     ];
 
     nix.settings = {

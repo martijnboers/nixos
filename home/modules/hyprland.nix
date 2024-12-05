@@ -77,13 +77,14 @@ in {
 
         # hyprctl clients
         windowrulev2 = [
+          "workspace 2, class:(Wfica)" # citrix
           "workspace 3, class:(sublime_merge)"
           "workspace 4, class:(nheko)"
           "workspace 4, class:(signal)"
           "workspace 4, class:(Slack)"
-          "workspace 5, class:(steam)"
-          "workspace 6, title:(Clementine)"
-          "workspace 6, title:(Spotify Premium)"
+          # "workspace 5, class:(steam)"
+          # "workspace 6, title:(Clementine)"
+          # "workspace 6, title:(Spotify Premium)"
         ];
 
         # l -> locked, will also work when an input inhibitor (e.g. a lockscreen) is active.

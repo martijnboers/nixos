@@ -44,6 +44,7 @@
 
     # networking tools
     dnsutils # `dig` + `nslookup`
+    whois
 
     # misc
     file

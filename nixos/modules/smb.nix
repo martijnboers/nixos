@@ -43,7 +43,7 @@ in {
           "force group" = "users";
         };
         misc = {
-          path = "/mnt/zwembad/app/share";
+          path = "/mnt/zwembad/share";
           browseable = "yes";
           "read only" = "no";
           "guest ok" = "no";

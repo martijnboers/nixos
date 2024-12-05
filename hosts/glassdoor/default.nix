@@ -84,18 +84,18 @@
     ];
   };
 
+  hosts.secrets = {
+    identityPaths = [
+      "/home/martijn/.ssh/id_ed25519_age"
+    ];
+  };
+
   services.yubikey-agent.enable = true;
   # for smartcard support
   services.pcscd.enable = true;
   security.pam.services = {
     login.u2fAuth = true;
     doas.u2fAuth = true;
-  };
-
-  hosts.secrets = {
-    identityPaths = [
-      "/home/martijn/.ssh/id_ed25519_age"
-    ];
   };
 
   programs.ssh.extraConfig = ''

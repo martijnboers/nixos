@@ -43,7 +43,7 @@ in {
 
       teamsDeskopItem
       teamsScript
-      stable.citrix_workspace
+      (citrix_workspace.override {version = "24.8.0.98";})
     ];
   };
 }
