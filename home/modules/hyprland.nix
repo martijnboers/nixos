@@ -118,7 +118,7 @@ in {
             "$mod, E, exec, $fileManager"
             "$mod, Space, exec, $menu"
             "$mod, T, exec, wofi-emoji"
-            "$mod, R, exec, pycharm-community"
+            "$mod, R, exec, code"
             ", Print, exec, hyprshot -m region --clipboard-only" #
             "$mod, F4, killactive"
             "$prog, H, exec, copyq toggle"

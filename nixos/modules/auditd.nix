@@ -30,7 +30,7 @@ in {
         header = {
           dateext = true;
         };
-        "/var/log/audit/auth.log" = {
+        "/var/log/audit/audit.log" = {
           frequency = "daily";
           rotate = 4;
           compress = true;

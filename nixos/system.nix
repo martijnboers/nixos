@@ -80,7 +80,7 @@
     experimental-features = ["nix-command" "flakes" "pipe-operators"];
     substituters = [
       "https://cache.nixos.org/"
-      "https://binarycache.thuis"
+      # "https://binarycache.thuis"
     ];
     trusted-public-keys = [
       "binarycache.thuis:/alus5dkMvukzWHoAvbQ5qvjxISw+t9Cbo/nk129zSQ="

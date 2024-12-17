@@ -95,11 +95,11 @@ in {
             path = "/";
           };
 
-#          "disk#2" = {
-#            interval = 15;
-#            format = "󱣐 {percentage_used}%";
-#            path = "/nix/store";
-#          };
+          #          "disk#2" = {
+          #            interval = 15;
+          #            format = "󱣐 {percentage_used}%";
+          #            path = "/nix/store";
+          #          };
 
           pulseaudio = {
             format = "{icon}  {volume}%";

@@ -3,7 +3,7 @@
     ../../home
   ];
 
-  home.packages = with pkgs; [gqrx];
+  home.packages = with pkgs; [gqrx sway wmenu];
 
   age.identityPaths = ["/home/martijn/.ssh/id_ed25519_age"];
   programs.git.extraConfig.core.sshCommand = "ssh -i ~/.ssh/id_ed25519_age";
