@@ -17,8 +17,8 @@ in {
     hosts.desktop.enable = true;
 
     environment.systemPackages = with pkgs;
-    with pkgs.libsForQt5; [
-      kdePackages.qtwayland
+    with pkgs.kdePackages; [
+      qtwayland
       lxqt.lxqt-policykit # lxqt polkit
 
       # For QT apps

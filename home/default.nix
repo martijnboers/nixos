@@ -28,6 +28,7 @@
     # Desktop only
     ./modules/hyprland.nix
     ./modules/browser.nix
+    ./modules/vscode.nix
     ./modules/kitty.nix
     ./modules/kde.nix
     inputs.plasma-manager.homeManagerModules.plasma-manager

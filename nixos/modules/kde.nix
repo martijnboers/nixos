@@ -40,5 +40,20 @@ in {
 
     # Configure window manager
     services.desktopManager.plasma6.enable = true;
+
+    networking.firewall = {
+      allowedTCPPortRanges = [
+        {
+          from = 1714; # Kde connect
+          to = 1764;
+        }
+      ];
+      allowedUDPPortRanges = [
+        {
+          from = 1714; # Kde connect
+          to = 1764;
+        }
+      ];
+    };
   };
 }
