@@ -5,19 +5,19 @@
   ...
 }:
 with lib; let
-  cfg = config.thuis.hyprland;
+  cfg = config.maatwerk.hyprland;
 in {
   imports = [
     ./desktop.nix
     ./waybar.nix
   ];
 
-  options.thuis.hyprland = {
+  options.maatwerk.hyprland = {
     enable = mkEnableOption "Hyprland";
   };
 
   config = mkIf cfg.enable {
-    thuis.desktop.enable = true;
+    maatwerk.desktop.enable = true;
     gtk = {
       enable = true;
       iconTheme.name = "gruvbox";

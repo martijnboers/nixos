@@ -8,7 +8,7 @@
   ];
 
   # Enable profiles
-  thuis.desktop.enable = false;
-  thuis.personal.enable = false;
-  thuis.work.enable = false;
+  maatwerk.desktop.enable = false;
+  maatwerk.personal.enable = false;
+  maatwerk.work.enable = false;
 }

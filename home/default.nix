@@ -89,7 +89,7 @@
   programs.nix-index-database.comma.enable = true;
 
   # By default get full zsh config
-  thuis.zsh.enable = true;
+  maatwerk.zsh.enable = true;
 
   programs.git = {
     enable = true;

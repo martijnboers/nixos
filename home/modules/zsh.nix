@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.thuis.zsh;
+  cfg = config.maatwerk.zsh;
 in {
-  options.thuis.zsh = {
+  options.maatwerk.zsh = {
     enable = mkEnableOption "Full zsh config";
   };
 

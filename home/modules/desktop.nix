@@ -6,16 +6,16 @@
   ...
 }:
 with lib; let
-  cfg = config.thuis.desktop;
+  cfg = config.maatwerk.desktop;
 in {
-  options.thuis.desktop = {
+  options.maatwerk.desktop = {
     enable = mkEnableOption "Enable default desktop packages + configuration";
   };
 
   config = mkIf cfg.enable {
-    thuis.browser.enable = true;
-    thuis.kitty.enable = true;
-    thuis.stylix.enable = true;
+    maatwerk.browser.enable = true;
+    maatwerk.kitty.enable = true;
+    maatwerk.stylix.enable = true;
     home.packages = with pkgs; [
       wl-clipboard # wayland clipboard manager
       kooha # record screen wayland

@@ -6,9 +6,9 @@
   ...
 }:
 with lib; let
-  cfg = config.thuis.personal;
+  cfg = config.maatwerk.personal;
 in {
-  options.thuis.personal = {
+  options.maatwerk.personal = {
     enable = mkEnableOption "Add personal computer configuration";
   };
 

@@ -4,16 +4,16 @@
   ...
 }:
 with lib; let
-  cfg = config.thuis.kde;
+  cfg = config.maatwerk.kde;
 in {
   imports = [./desktop.nix];
 
-  options.thuis.kde = {
+  options.maatwerk.kde = {
     enable = mkEnableOption "KDE home manager config";
   };
 
   config = mkIf cfg.enable {
-    thuis.desktop.enable = true;
+    maatwerk.desktop.enable = true;
 
     home.packages = with pkgs; [
       libsForQt5.kdeconnect-kde

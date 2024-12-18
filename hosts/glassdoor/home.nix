@@ -9,7 +9,7 @@
   programs.git.extraConfig.core.sshCommand = "ssh -i ~/.ssh/id_ed25519_age";
 
   # Enable profiles
-  thuis.hyprland.enable = true;
-  thuis.personal.enable = true;
-  thuis.work.enable = true;
+  maatwerk.hyprland.enable = true;
+  maatwerk.personal.enable = true;
+  maatwerk.work.enable = true;
 }

@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.thuis.browser;
+  cfg = config.maatwerk.browser;
 in {
-  options.thuis.browser = {
+  options.maatwerk.browser = {
     enable = mkEnableOption "Add browsers + config";
   };
   config = mkIf cfg.enable {

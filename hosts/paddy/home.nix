@@ -17,11 +17,11 @@
   age.identityPaths = ["/Users/martijn/.ssh/id_ed25519"];
 
   # Enable profiles
-  thuis.kitty.enable = true;
-  thuis.stylix.enable = true;
-  thuis.desktop.enable = false;
-  thuis.personal.enable = false;
-  thuis.work.enable = false;
+  maatwerk.kitty.enable = true;
+  maatwerk.stylix.enable = true;
+  maatwerk.desktop.enable = false;
+  maatwerk.personal.enable = false;
+  maatwerk.work.enable = false;
 
   home.homeDirectory = lib.mkForce "/Users/martijn";
 }

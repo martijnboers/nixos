@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.thuis.stylix;
+  cfg = config.maatwerk.stylix;
 in {
-  options.thuis.stylix = {
+  options.maatwerk.stylix = {
     enable = mkEnableOption "Automatic styling";
   };
   config = mkIf cfg.enable {

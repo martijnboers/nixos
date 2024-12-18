@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.thuis.kitty;
+  cfg = config.maatwerk.kitty;
 in {
-  options.thuis.kitty = {
+  options.maatwerk.kitty = {
     enable = mkEnableOption "Terminal emulator";
   };
   config = mkIf cfg.enable {

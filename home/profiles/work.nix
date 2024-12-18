@@ -5,7 +5,7 @@
   ...
 }:
 with lib; let
-  cfg = config.thuis.work;
+  cfg = config.maatwerk.work;
   teamsScript = pkgs.writeShellApplication {
     name = "teams";
     runtimeInputs = [pkgs.ungoogled-chromium];
@@ -23,7 +23,7 @@ with lib; let
     terminal = true;
   };
 in {
-  options.thuis.work = {
+  options.maatwerk.work = {
     enable = mkEnableOption "Enable packages and configuration specific to work";
   };
 
@@ -72,6 +72,15 @@ in {
           "key" = "ctrl+alt+v";
           "command" = "toggleVim";
         }
+        {
+          "key" = "ctrl+p";
+          "command" = "editor.action.addSelectionToNextFindMatch";
+          "when" = "editorFocus";
+        }
+        {
+          "key" = "ctrl+shift+enter";
+          "command" = "workbench.action.navigateBackInEditLocations";
+        }
       ];
       userSettings = {
         "editor.fontSize" = 16;
@@ -93,9 +102,13 @@ in {
           "<C-f>" = false; # regular search
           "<C-b>" = false; # close side panel
           "<C-w>" = false; # close active panel
+          "<A-h>" = false; # select all in search
+          "<C-o>" = false; # open folder/file
+          "<C-p>" = false; # remap to add search to selection from open file (use CTRL+e)
         };
 
         "typos.logLevel" = "info"; # don't show warnings for typos
+        "typos.diagnosticSeverity" = "info"; # don't show warnings for typos
         extensions.autoCheckUpdates = false;
         extensions.autoUpdate = false;
         explorer.confirmDragAndDrop = false;

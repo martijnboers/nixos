@@ -5,7 +5,7 @@
   ...
 }:
 with lib; let
-  cfg = config.thuis.hyprland;
+  cfg = config.maatwerk.hyprland;
 in {
   config = mkIf cfg.enable {
     home.file.".config/swaync/style.css" = {

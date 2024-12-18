@@ -6,8 +6,8 @@
   home.packages = with pkgs; [];
 
   # Enable profiles
-  thuis.kde.enable = false;
-  thuis.hyprland.enable = false;
-  thuis.personal.enable = false;
-  thuis.work.enable = false;
+  maatwerk.kde.enable = false;
+  maatwerk.hyprland.enable = false;
+  maatwerk.personal.enable = false;
+  maatwerk.work.enable = false;
 }
