@@ -10,10 +10,6 @@ with lib; let
     url = "https://github.com/martijnboers/plebian.nl.git";
     rev = "b07146995f7b227ef7692402374268f0457003aa";
   };
-  resumeRepo = builtins.fetchGit {
-    url = "git@github.com:martijnboers/resume.git";
-    rev = "87cb8df2b26bf4a28ba8259006c2520accf5c575";
-  };
 in {
   options.hosts.caddy = {
     enable = mkEnableOption "Caddy base";
@@ -53,7 +49,7 @@ in {
         serverAliases = ["resume.boers.email"];
         extraConfig = ''
           cache { ttl 48h }
-          root * ${resumeRepo}/
+          root * ${pkgs.resume-hugo}/
           encode zstd gzip
           file_server
         '';
