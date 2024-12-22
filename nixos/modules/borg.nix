@@ -37,6 +37,12 @@ in {
         mode = "repokey-blake2";
         passCommand = "cat ${config.age.secrets.borg.path}";
       };
+      prune.keep = {
+        within = "1d"; # Keep all archives from the last day
+        daily = 7;
+        weekly = 4;
+        monthly = -1; # Keep at least one archive for each month
+      };
       environment.BORG_RSH = "ssh -o 'StrictHostKeyChecking=no' -i ${cfg.identityPath}";
       repo = cfg.repository;
       compression = "auto,zstd";

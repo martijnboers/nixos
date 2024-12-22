@@ -27,7 +27,7 @@
     users.martijn = {
       isNormalUser = true;
       description = "Martijn Boers";
-      extraGroups = ["networkmanager" "wheel"];
+      extraGroups = ["networkmanager" "wheel" "plugdev"];
       shell = pkgs.zsh;
       useDefaultShell = true;
       openssh.authorizedKeys.keyFiles = [
@@ -40,7 +40,7 @@
 
   # Global packages
   environment.systemPackages = with pkgs; [
-    borgbackup # backups
+    borgbackup
 
     # networking tools
     dnsutils # `dig` + `nslookup`
@@ -52,7 +52,7 @@
     tree
     gnutar
     gawk
-    zstd
+    lz4
     git
     wget
 
@@ -73,7 +73,9 @@
     ethtool
     pciutils # lspci
     usbutils # lsusb
-    doas-sudo-shim # fixes nixos-rebuild git warnings with main
+    (doas-sudo-shim.overrideAttrs {version = "0.1.1";}) # manually update
+    hydra-check # check nixos ci builds
+    openssl # for internal headscale pki
   ];
 
   nix.settings = {
@@ -203,6 +205,26 @@
   services.journald.extraConfig = ''
     SystemMaxUse=20G
     SystemKeepFree=100G
+  '';
+
+  environment.etc."pki-root.cnf".text = ''
+    [ req ]
+    default_bits       = 4096
+    default_md         = sha256
+    prompt             = no
+    distinguished_name = req_distinguished_name
+    x509_extensions    = v3_ca
+
+    [ req_distinguished_name ]
+    CN                 = plebs4cash
+    O                  = plebs4cash
+    C                  = NL
+
+    [ v3_ca ]
+    basicConstraints   = critical, CA:true
+    keyUsage           = critical, keyCertSign, cRLSign
+    subjectKeyIdentifier = hash
+    nameConstraints = critical, permitted;DNS:.thuis
   '';
 
   system.stateVersion = "24.05";

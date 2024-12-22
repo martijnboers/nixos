@@ -28,6 +28,23 @@ in {
         servers {
             metrics
         }
+
+        pki {
+          ca hadouken {
+            name                  hadouken
+            intermediate_lifetime 3000d
+            root_cn               "only4plebs"
+            intermediate_cn       "only4plebs"
+
+            # openssl genrsa -out root.key 4096
+            # openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -config /etc/pki-root.cnf
+            root {
+              cert   ${../../nixos/keys/hadouken.crt}
+              key    ${config.age.secrets.hadouken-pki.path}
+            }
+          }
+        }
+
         # https://docs.souin.io/docs/middlewares/caddy/
         cache {
             ttl 100s
@@ -45,18 +62,21 @@ in {
           file_server
         '';
       };
-      virtualHosts."resume.plebian.nl" = {
-        serverAliases = ["resume.boers.email"];
-        extraConfig = ''
-          cache { ttl 48h }
-          root * ${pkgs.resume-hugo}/
-          encode zstd gzip
-          file_server
-        '';
-      };
+      #virtualHosts."resume.plebian.nl" = {
+      #  serverAliases = ["resume.boers.email"];
+      #  extraConfig = ''
+      #    cache { ttl 48h }
+      #    root * ${pkgs.resume-hugo}/
+      #    encode zstd gzip
+      #    file_server
+      #  '';
+      #};
     };
 
-    age.secrets.caddy.file = ../../../secrets/caddy.age;
+    age.secrets = {
+      caddy.file = ../../../secrets/caddy.age;
+      hadouken-pki.file = ../../../secrets/hadouken-pki.age;
+    };
 
     systemd.services.caddy = {
       serviceConfig = {

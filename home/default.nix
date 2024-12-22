@@ -80,8 +80,12 @@
       "/home/martijn/.ssh/id_ed25519"
     ];
     secrets = {
-      openai.file = ../secrets/openai.age;
+      llm.file = ../secrets/llm.age;
     };
+  };
+
+  home.file.".config/mods/mods.yml" = {
+    source = ./config/mods.yml;
   };
 
   # Let nix-index handle command-not-found

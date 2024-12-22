@@ -16,7 +16,6 @@ in {
 
   config = mkIf cfg.enable {
     security = {
-      auditd.enable = true;
       audit = {
         enable = true;
         rules = cfg.rules;
@@ -37,7 +36,7 @@ in {
           missingok = true;
           notifempty = true;
           create = "0600 root root";
-          postrotate = "systemctl reload auditd";
+          postrotate = "systemctl reload audit";
         };
       };
     };

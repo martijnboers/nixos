@@ -10,7 +10,6 @@
 
   # SDR
   hardware.rtl-sdr.enable = true;
-  users.users.martijn.extraGroups = ["plugdev"];
 
   hosts.openssh = {
     enable = true;

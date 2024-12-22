@@ -1,12 +1,13 @@
 {
   stdenv,
   hugo,
+  pkgs,
 }:
 stdenv.mkDerivation {
   name = "resume-hugo";
   src = builtins.fetchGit {
     url = "git@github.com:martijnboers/resume.git";
-    rev = "64b31c9a77987497a79ecf90abc843c2378c3c8a";
+    rev = "8bd2de6ee2e9b2edc7e290dd33665d533a76661f";
   };
   nativeBuildInputs = [hugo];
   phases = ["unpackPhase" "buildPhase"];

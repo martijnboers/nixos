@@ -12,7 +12,7 @@ in {
       source = ../assets/css/notifications.css;
     };
     home.file.".config/swaync/config.json" = {
-      source = ../assets/config/notifications.json;
+      source = ../config/notifications.json;
     };
     programs.waybar = {
       enable = true;

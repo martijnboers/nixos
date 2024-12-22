@@ -102,6 +102,9 @@
     IdentityFile /home/martijn/.ssh/id_ed25519_sk
   '';
 
+  programs.adb.enable = true;
+  users.users.martijn.extraGroups = ["adbusers"];
+
   # Support gpg for git signing
   hosts.gpg.enable = true;
 
