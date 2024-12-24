@@ -20,7 +20,7 @@ for a good initial starting point for NixOS with flakes.
 
 ### Hetzner
 ```
-SSHPASS=<pwd> nix run github:nix-community/nixos-anywhere -- --flake .#shoryuken --env-password root@<ip>
+SSHPASS=<pwd> nix run github:nix-community/nixos-anywhere -- --flake '.?submodules=1#shoryuken' --env-password root@<ip>
 ```
 
 ### Rasperry Pi SD image
@@ -30,7 +30,7 @@ nix run nixpkgs#nixos-generators -- -f sd-aarch64 --flake '.?submodules=1#tenshi
 
 ### Custom installation ISO
 ```
-nix build '.?submodules=1#nixosConfigurations.iso.config.system.build.isoImage' -vv --show-trace
+nix build '.#nixosConfigurations.iso.config.system.build.isoImage' -vv --show-trace
 ```
 
 ### Loading repl

@@ -60,6 +60,9 @@ in {
       openFirewall = true;
     };
 
+    # Get SMTP endpoint for proton
+    services.protonmail-bridge.enable = true;
+
     # Enable sound with pipewire.
     hardware.pulseaudio.enable = false;
     security.rtkit.enable = true;

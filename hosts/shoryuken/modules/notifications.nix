@@ -13,7 +13,9 @@ in {
 
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."notifications.thuis".extraConfig = ''
-      tls internal
+      tls {
+        issuer internal { ca shoryuken }
+      }
       @internal {
         remote_ip 100.64.0.0/10
       }

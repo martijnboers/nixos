@@ -12,13 +12,16 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."sea.plebian.nl".extraConfig = ''
-      reverse_proxy unix//run/seahub/gunicorn.sock
+    services.caddy.virtualHosts = {
+      "sea.plebian.nl".extraConfig = ''
+        reverse_proxy unix//run/seahub/gunicorn.sock
 
-      handle_path /seafhttp/* {
-        reverse_proxy http://127.0.0.1:${toString config.services.seafile.seafileSettings.fileserver.port}
-      }
-    '';
+        handle_path /seafhttp/* {
+          reverse_proxy http://127.0.0.1:${toString config.services.seafile.seafileSettings.fileserver.port}
+        }
+      '';
+    };
+
     services.seafile = {
       enable = true;
       adminEmail = "seafile@plebian.nl";

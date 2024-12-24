@@ -19,6 +19,8 @@ with lib; let
     "binarycache"
     "search"
     "chat"
+    "cal"
+    "webdav"
   ];
   shoryukenRecords = [
     "notifications"

@@ -15,7 +15,9 @@ in {
     environment.systemPackages = with pkgs; [dnscrypt];
 
     services.caddy.virtualHosts."dns.thuis".extraConfig = ''
-         tls internal
+        tls {
+          issuer internal { ca hadouken }
+         }
          @internal {
            remote_ip 100.64.0.0/10
          }

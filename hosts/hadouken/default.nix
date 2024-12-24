@@ -19,6 +19,7 @@ in {
     ./modules/wordpress.nix
     ./modules/fail2ban.nix
     ./modules/microbin.nix
+    ./modules/radicale.nix
     ./modules/bincache.nix
     ./modules/adguard.nix
     ./modules/seafile.nix
@@ -61,6 +62,7 @@ in {
   hosts.cinny-web.enable = true;
   hosts.immich.enable = true;
   hosts.prometheus.enable = true;
+  hosts.radicale.enable = true;
 
   systemd.services.sshd = {
     after = ["tailscaled.service"];
@@ -100,9 +102,6 @@ in {
 
   # Server for atuin
   hosts.atuin.enable = true;
-
-  # Was needed for immich but migrated
-  hosts.virtualization.enable = true; # TODO: revert
 
   environment.systemPackages = with pkgs; [pgrok pgrok.server immich-go];
 

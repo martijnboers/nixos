@@ -69,6 +69,7 @@ in {
           "seafile-applet &"
           "blueman-applet &"
           "nm-applet --indicator &"
+          "morgen &"
         ];
         "$terminal" = "kitty";
         "$fileManager" = "thunar";

@@ -21,7 +21,12 @@ in {
     services.caddy = {
       enable = true;
       package = pkgs.callPackage ../../../pkgs/xcaddy.nix {
-        plugins = ["github.com/caddy-dns/cloudflare" "github.com/corazawaf/coraza-caddy/v2" "github.com/darkweak/souin/plugins/caddy"];
+        plugins = [
+          "github.com/caddy-dns/cloudflare"
+          "github.com/corazawaf/coraza-caddy/v2"
+          "github.com/darkweak/souin/plugins/caddy"
+          "github.com/mholt/caddy-webdav"
+        ];
       };
 
       globalConfig = ''
@@ -31,15 +36,11 @@ in {
 
         pki {
           ca hadouken {
-            name                  hadouken
-            intermediate_lifetime 3000d
-            root_cn               "only4plebs"
-            intermediate_cn       "only4plebs"
-
+            name     hadouken
             # openssl genrsa -out root.key 4096
             # openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -config /etc/pki-root.cnf
             root {
-              cert   ${../../nixos/keys/hadouken.crt}
+              cert   ${../../../nixos/keys/hadouken.crt}
               key    ${config.age.secrets.hadouken-pki.path}
             }
           }
@@ -52,30 +53,55 @@ in {
             default_cache_control public, s-maxage=100
         }
         order coraza_waf first
+        order webdav before file_server
       '';
-      virtualHosts."plebian.nl" = {
-        serverAliases = ["boers.email"];
-        extraConfig = ''
-          cache { ttl 1h }
-          root * ${plebianRepo}/
-          encode zstd gzip
-          file_server
+      virtualHosts = {
+        "plebian.nl" = {
+          serverAliases = ["boers.email"];
+          extraConfig = ''
+            cache { ttl 1h }
+            root * ${plebianRepo}/
+            encode zstd gzip
+            file_server
+          '';
+        };
+        "webdav.thuis".extraConfig = ''
+            tls {
+              issuer internal { ca hadouken }
+            }
+            @internal {
+              remote_ip 100.64.0.0/10
+            }
+            handle @internal {
+              route {
+                rewrite /android /android/
+                webdav /android/* {
+                  root /mnt/zwembad/app/android
+                  prefix /android
+                }
+                file_server
+              }
+            }
+          respond 403
         '';
+      #   "resume.plebian.nl" = {
+      #     serverAliases = ["resume.boers.email"];
+      #     extraConfig = ''
+      #       cache { ttl 48h }
+      #       root * ${pkgs.resume-hugo}/
+      #       encode zstd gzip
+      #       file_server
+      #     '';
+      #   };
       };
-      #virtualHosts."resume.plebian.nl" = {
-      #  serverAliases = ["resume.boers.email"];
-      #  extraConfig = ''
-      #    cache { ttl 48h }
-      #    root * ${pkgs.resume-hugo}/
-      #    encode zstd gzip
-      #    file_server
-      #  '';
-      #};
     };
 
     age.secrets = {
       caddy.file = ../../../secrets/caddy.age;
-      hadouken-pki.file = ../../../secrets/hadouken-pki.age;
+      hadouken-pki = {
+        file = ../../../secrets/hadouken-pki.age;
+        owner = "caddy";
+      };
     };
 
     systemd.services.caddy = {

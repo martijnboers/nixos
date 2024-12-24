@@ -7,13 +7,6 @@
     nixpkgs-stable.url = "nixpkgs/nixos-24.05";
     nixpkgs-fork.url = "github:martijnboers/nixpkgs";
 
-    # https://discourse.nixos.org/t/get-nix-flake-to-include-git-submodule/30324/17
-    # https://github.com/ryantm/agenix/issues/266
-    secrets = {
-      url = "git+file:secrets";
-      flake = false;
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,6 +27,10 @@
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    secrets = {
+      url = "git+ssh://git@github.com/martijnboers/secrets.git?ref=master";
+      flake = false;
     };
 
     # On the fly running of programs
@@ -107,7 +104,7 @@
               {
                 environment.systemPackages = [inputs.agenix.packages.${system}.default];
               }
-              ./secrets
+              inputs.secrets.outPath
 
               home-manager.nixosModules.home-manager
               {

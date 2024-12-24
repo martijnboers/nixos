@@ -16,6 +16,7 @@ in {
     maatwerk.browser.enable = true;
     maatwerk.kitty.enable = true;
     maatwerk.stylix.enable = true;
+
     home.packages = with pkgs; [
       wl-clipboard # wayland clipboard manager
       kooha # record screen wayland
@@ -30,6 +31,7 @@ in {
       hunspellDicts.nl_NL
       hunspellDicts.en_US
       obsidian
+      morgen # calander
     ];
   };
 }

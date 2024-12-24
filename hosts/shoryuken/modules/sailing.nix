@@ -28,7 +28,9 @@ in {
           acc
           // {
             "${suite.name}.thuis".extraConfig = ''
-              tls internal
+              tls {
+                issuer internal { ca shoryuken }
+              }
               @internal {
                 remote_ip 100.64.0.0/10
               }

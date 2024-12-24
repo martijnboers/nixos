@@ -12,13 +12,15 @@ in {
 
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."atuin.thuis".extraConfig = ''
-         tls internal
-         @internal {
+        tls {
+          issuer internal { ca hadouken }
+        }
+        @internal {
            remote_ip 100.64.0.0/10
          }
-         handle @internal {
+        handle @internal {
            reverse_proxy http://localhost:${toString config.services.atuin.port}
-         }
+        }
       respond 403
     '';
     services.atuin = {

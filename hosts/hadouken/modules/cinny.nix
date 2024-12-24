@@ -13,11 +13,13 @@ in {
 
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."chat.thuis".extraConfig = ''
-         tls internal
-         @internal {
-           remote_ip 100.64.0.0/10
-         }
-         handle @internal {
+        tls {
+          issuer internal { ca hadouken }
+        }
+        @internal {
+          remote_ip 100.64.0.0/10
+        }
+        handle @internal {
             root * ${pkgs.cinny}
             file_server
 
@@ -36,7 +38,7 @@ in {
             rewrite @index /index.html
 
             # END
-         }
+        }
 
       respond 403
     '';

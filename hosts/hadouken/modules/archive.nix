@@ -13,7 +13,9 @@ in {
 
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."archive.thuis".extraConfig = ''
-         tls internal
+        tls {
+          issuer internal { ca hadouken }
+         }
          @internal {
            remote_ip 100.64.0.0/10
          }

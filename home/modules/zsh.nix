@@ -23,7 +23,7 @@ in {
             set -euo pipefail
             cd /home/martijn/Nix
             git submodule foreach git pull --depth=1
-            nix flake lock ./secrets
+            nix flake lock --update-input secrets
             if [ $# -eq 0 ]; then
                 nh os switch \
                   ".?submodules=1" \
