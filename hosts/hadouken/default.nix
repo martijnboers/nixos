@@ -101,9 +101,6 @@ in {
   # Server for atuin
   hosts.atuin.enable = true;
 
-  # Was needed for immich but migrated
-  hosts.virtualization.enable = true; # TODO: revert
-
   environment.systemPackages = with pkgs; [pgrok pgrok.server immich-go];
 
   # Allow network access when building

@@ -31,15 +31,11 @@ in {
 
         pki {
           ca hadouken {
-            name                  hadouken
-            intermediate_lifetime 3000d
-            root_cn               "only4plebs"
-            intermediate_cn       "only4plebs"
-
+            name     hadouken
             # openssl genrsa -out root.key 4096
             # openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -config /etc/pki-root.cnf
             root {
-              cert   ${../../nixos/keys/hadouken.crt}
+              cert   ${../../../nixos/keys/hadouken.crt}
               key    ${config.age.secrets.hadouken-pki.path}
             }
           }
@@ -75,7 +71,10 @@ in {
 
     age.secrets = {
       caddy.file = ../../../secrets/caddy.age;
-      hadouken-pki.file = ../../../secrets/hadouken-pki.age;
+      hadouken-pki = {
+        file = ../../../secrets/hadouken-pki.age;
+        owner = "caddy";
+      };
     };
 
     systemd.services.caddy = {

@@ -22,7 +22,7 @@ in {
         yzhang.markdown-all-in-one
         ms-python.python
         ms-python.black-formatter
-        devsense.phptools-vscode
+        # devsense.phptools-vscode
 
         hashicorp.terraform
         ms-azuretools.vscode-docker
