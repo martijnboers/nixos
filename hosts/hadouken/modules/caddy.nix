@@ -65,34 +65,49 @@ in {
             file_server
           '';
         };
-        "webdav.thuis".extraConfig = ''
-            tls {
-              issuer internal { ca hadouken }
+        "tmp-dont-hurt-me.plebian.nl".extraConfig = ''
+          tls internal
+          basicauth {
+             babydonthurtme $2a$14$/BY0vrLPhDunnWXdJUe.3u6LBE6ECoHoSghIX3iQRiSSST858XeYehashed_password_base64
+          }
+          route {
+            rewrite /seedvault /seedvault/
+            webdav /seedvault/* {
+              root /mnt/zwembad/app/seedvault-tmp
+              prefix /seedvault
             }
+          }
+        '';
+        "webdav.thuis:80".extraConfig = ''
             @internal {
               remote_ip 100.64.0.0/10
             }
             handle @internal {
               route {
                 rewrite /android /android/
+                rewrite /notes /notes/
                 webdav /android/* {
                   root /mnt/zwembad/app/android
                   prefix /android
+                }
+                webdav /notes/* {
+                  root /mnt/zwembad/app/notes
+                  prefix /notes
                 }
                 file_server
               }
             }
           respond 403
         '';
-      #   "resume.plebian.nl" = {
-      #     serverAliases = ["resume.boers.email"];
-      #     extraConfig = ''
-      #       cache { ttl 48h }
-      #       root * ${pkgs.resume-hugo}/
-      #       encode zstd gzip
-      #       file_server
-      #     '';
-      #   };
+        #   "resume.plebian.nl" = {
+        #     serverAliases = ["resume.boers.email"];
+        #     extraConfig = ''
+        #       cache { ttl 48h }
+        #       root * ${pkgs.resume-hugo}/
+        #       encode zstd gzip
+        #       file_server
+        #     '';
+        #   };
       };
     };
 

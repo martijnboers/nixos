@@ -11,9 +11,6 @@ in {
     enable = mkEnableOption "Add browsers + config";
   };
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      ungoogled-chromium
-    ];
     programs.librewolf = {
       enable = true;
       settings = {

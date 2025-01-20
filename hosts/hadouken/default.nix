@@ -14,13 +14,16 @@ in {
   imports = [
     ./modules/vaultwarden.nix
     ./modules/monitoring.nix
+    ./modules/detection.nix
     ./modules/cyberchef.nix
     ./modules/mastodon.nix
     ./modules/wordpress.nix
+    ./modules/detection.nix
     ./modules/fail2ban.nix
     ./modules/microbin.nix
     ./modules/radicale.nix
     ./modules/bincache.nix
+    ./modules/jellyfin.nix
     ./modules/adguard.nix
     ./modules/seafile.nix
     ./modules/storage.nix
@@ -33,7 +36,6 @@ in {
     ./modules/atuin.nix
     ./modules/pgrok.nix
     ./modules/cinny.nix
-    ./modules/plex.nix
     ./modules/sync.nix
     ./modules/hass.nix
   ];
@@ -41,7 +43,7 @@ in {
   hosts.smb.enable = true;
   hosts.caddy.enable = true;
   hosts.vaultwarden.enable = true;
-  hosts.plex.enable = true;
+  hosts.jellyfin.enable = true;
   hosts.seafile.enable = true;
   hosts.adguard.enable = true;
   hosts.hass.enable = true;
@@ -59,6 +61,7 @@ in {
   hosts.archive.enable = true;
   hosts.binarycache.enable = true;
   hosts.search.enable = true;
+  hosts.changedetection.enable = true;
   hosts.cinny-web.enable = true;
   hosts.immich.enable = true;
   hosts.prometheus.enable = true;

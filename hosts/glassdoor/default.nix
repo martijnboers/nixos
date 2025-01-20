@@ -63,27 +63,6 @@
     ];
   };
 
-  fileSystems."/mnt/music" = {
-    device = "//hadouken.machine.thuis/music";
-    fsType = "cifs";
-    options = [
-      "credentials=${config.age.secrets.smb.path}"
-      "uid=1000"
-      "gid=100"
-      "x-systemd.automount" # lazyloading, solves tailscale chicken&egg
-    ];
-  };
-  fileSystems."/mnt/misc" = {
-    device = "//hadouken.machine.thuis/misc";
-    fsType = "cifs";
-    options = [
-      "credentials=${config.age.secrets.smb.path}"
-      "uid=1000"
-      "gid=100"
-      "x-systemd.automount"
-    ];
-  };
-
   hosts.secrets = {
     identityPaths = [
       "/home/martijn/.ssh/id_ed25519_age"
@@ -109,7 +88,10 @@
   hosts.gpg.enable = true;
 
   # Docker + QEMU
-  hosts.virtualization.enable = true;
+  hosts.virtualisation = {
+    enable = true;
+    qemu = true;
+  };
 
   # Bootloader.
   boot = {

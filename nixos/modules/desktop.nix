@@ -32,6 +32,45 @@ in {
       wineWowPackages.waylandFull
     ];
 
+    services.davfs2.enable = true;
+
+    fileSystems."/mnt/music" = {
+      device = "//hadouken.machine.thuis/music";
+      fsType = "cifs";
+      options = [
+        "credentials=${config.age.secrets.smb.path}"
+        "uid=1000"
+        "gid=100"
+        "x-systemd.automount" # lazyloading, solves tailscale chicken&egg
+      ];
+    };
+    fileSystems."/mnt/misc" = {
+      device = "//hadouken.machine.thuis/misc";
+      fsType = "cifs";
+      options = [
+        "credentials=${config.age.secrets.smb.path}"
+        "uid=1000"
+        "gid=100"
+        "x-systemd.automount"
+      ];
+    };
+    fileSystems."/mnt/notes" = {
+      device = "http://webdav.thuis/notes/";
+      fsType = "davfs";
+      options = [
+        "uid=1000"
+        "gid=100"
+        "x-systemd.automount"
+      ];
+    };
+
+    environment.etc."davfs2/secrets" = {
+      text = "http://webdav.thuis/notes/ _ _";
+      mode = "0600";
+      user = "root";
+      group = "root";
+    };
+
     # Enable networkingmanager
     networking.networkmanager.enable = true;
 
@@ -44,24 +83,11 @@ in {
     };
 
     programs.dconf.enable = true; # used for stylix
-
     services.udev.packages = [pkgs.yubikey-personalization];
     programs.yubikey-touch-detector.enable = true;
 
     # Access QMK without sudo
     hardware.keyboard.qmk.enable = true;
-
-    # Enable CUPS to print documents.
-    services.printing.enable = true;
-
-    # Make it possible to detect printers
-    services.avahi = {
-      enable = true;
-      openFirewall = true;
-    };
-
-    # Get SMTP endpoint for proton
-    services.protonmail-bridge.enable = true;
 
     # Enable sound with pipewire.
     hardware.pulseaudio.enable = false;

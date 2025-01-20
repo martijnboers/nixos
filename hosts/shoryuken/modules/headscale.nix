@@ -21,6 +21,7 @@ with lib; let
     "chat"
     "cal"
     "webdav"
+    "detection"
   ];
   shoryukenRecords = [
     "notifications"

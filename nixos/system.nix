@@ -5,7 +5,7 @@
   ...
 }: {
   imports = [
-    ./modules/virtualization.nix
+    ./modules/virtualisation.nix
     ./modules/prometheus.nix
     ./modules/syncthing.nix
     ./modules/tailscale.nix
