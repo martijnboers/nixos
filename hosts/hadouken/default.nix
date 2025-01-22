@@ -23,8 +23,7 @@ in {
     ./modules/microbin.nix
     ./modules/radicale.nix
     ./modules/bincache.nix
-    ./modules/jellyfin.nix
-    ./modules/adguard.nix
+    ./modules/plex.nix
     ./modules/seafile.nix
     ./modules/storage.nix
     ./modules/archive.nix
@@ -37,16 +36,12 @@ in {
     ./modules/pgrok.nix
     ./modules/cinny.nix
     ./modules/sync.nix
-    ./modules/hass.nix
   ];
 
   hosts.smb.enable = true;
   hosts.caddy.enable = true;
   hosts.vaultwarden.enable = true;
-  hosts.jellyfin.enable = true;
-  hosts.seafile.enable = true;
-  hosts.adguard.enable = true;
-  hosts.hass.enable = true;
+  hosts.plex.enable = true;
   hosts.tailscale.enable = true;
   hosts.pgrok.enable = true;
   hosts.cyberchef.enable = true;

@@ -45,14 +45,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Run office from vm to wayland
-    winapps = {
-      url = "github:winapps-org/winapps";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     stylix = {
-      # with working qt6 (https://github.com/danth/stylix/pull/142)
+      # https://github.com/danth/stylix/pull/780
       url = "github:martijnboers/stylix/";
       # url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";

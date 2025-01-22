@@ -49,7 +49,7 @@ in {
         }
       ];
       userSettings = {
-        "editor.fontSize" = 16;
+        "editor.fontSize" = lib.mkForce 16;
         "editor.formatOnPaste" = true;
         "editor.cursorBlinking" = "smooth";
         "editor.fontLigatures" = true;

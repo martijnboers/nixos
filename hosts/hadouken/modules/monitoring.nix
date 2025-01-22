@@ -141,52 +141,6 @@ in {
       };
     };
 
-    age.secrets = {
-      adguard.file = ../../../secrets/adguard.age;
-      tormon.file = ../../../secrets/tormon.age;
-    };
-
-    systemd.services = {
-      "adguard-exporter" = {
-        enable = true;
-        description = "AdGuard metric exporter for Prometheus";
-        documentation = ["https://github.com/totoroot/adguard-exporter/blob/master/README.md"];
-        wantedBy = ["multi-user.target"];
-        serviceConfig = {
-          ExecStart = ''
-            ${pkgs.adguard-exporter}/bin/adguard-exporter \
-                -adguard_hostname 127.0.0.1 -adguard_port ${toString config.services.adguardhome.port} \
-                -adguard_username admin -adguard_password $ADGUARD_PASSWORD -log_limit 10000
-          '';
-          Restart = "on-failure";
-          RestartSec = 5;
-          NoNewPrivileges = true;
-          EnvironmentFile = config.age.secrets.adguard.path;
-        };
-      };
-
-      "tormon-exporter" = {
-        enable = true;
-        wantedBy = ["multi-user.target"];
-        environment = {
-          TORCONTROL_HOST = "100.64.0.1";
-          TORCONTROL_PORT = "9051";
-
-          INFLUX_HOST = "127.0.0.1";
-          INFLUX_PORT = "8086";
-          INFLUX_DB = "tor";
-          TAG_HOST = "tornode";
-        };
-        serviceConfig = {
-          ExecStart = lib.getExe pkgs.tormon-exporter;
-          Restart = "on-failure";
-          RestartSec = 5;
-          NoNewPrivileges = true;
-          EnvironmentFile = config.age.secrets.tormon.path;
-        };
-      };
-    };
-
     services.influxdb = {
       enable = true;
       package = pkgs.stable.influxdb;
@@ -232,7 +186,7 @@ in {
           job_name = "adguard";
           static_configs = [
             {
-              targets = ["127.0.0.1:9617"];
+              targets = ["tenshin.machine.thuis:9617"];
             }
           ];
         }

@@ -6,9 +6,13 @@
 }:
 with lib; let
   cfg = config.hosts.caddy;
-  plebianRepo = builtins.fetchGit {
+  plebian = builtins.fetchGit {
     url = "https://github.com/martijnboers/plebian.nl.git";
     rev = "b07146995f7b227ef7692402374268f0457003aa";
+  };
+  resume = builtins.fetchGit {
+    url = "git@github.com:martijnboers/resume.git";
+    rev = "b7d75859c8ce0c2867c95c5924623e397a2600f9";
   };
 in {
   options.hosts.caddy = {
@@ -60,24 +64,20 @@ in {
           serverAliases = ["boers.email"];
           extraConfig = ''
             cache { ttl 1h }
-            root * ${plebianRepo}/
+            root * ${plebian}/
             encode zstd gzip
             file_server
           '';
         };
-        "tmp-dont-hurt-me.plebian.nl".extraConfig = ''
-          tls internal
-          basicauth {
-             babydonthurtme $2a$14$/BY0vrLPhDunnWXdJUe.3u6LBE6ECoHoSghIX3iQRiSSST858XeYehashed_password_base64
-          }
-          route {
-            rewrite /seedvault /seedvault/
-            webdav /seedvault/* {
-              root /mnt/zwembad/app/seedvault-tmp
-              prefix /seedvault
-            }
-          }
-        '';
+        "resume.plebian.nl" = {
+          serverAliases = ["resume.boers.email"];
+          extraConfig = ''
+            cache { ttl 1h }
+            root * ${resume}/
+            encode zstd gzip
+            file_server
+          '';
+        };
         "webdav.thuis:80".extraConfig = ''
             @internal {
               remote_ip 100.64.0.0/10

@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib; let
@@ -8,8 +9,6 @@ with lib; let
   hadoukenRecords = [
     "vaultwarden"
     "atuin"
-    "dns"
-    "hass"
     "tools"
     "monitoring"
     "immich"
@@ -28,7 +27,10 @@ with lib; let
     "uptime"
     "prowlarr"
   ];
-  tenshinRecords = [];
+  tenshinRecords = [
+    "dns"
+    "hass"
+  ];
 in {
   options.hosts.headscale = {
     enable = mkEnableOption "VPN server";
@@ -54,7 +56,78 @@ in {
             client_secret_path = config.age.secrets.headscale.path;
             allowed_users = ["martijn@plebian.nl"];
           };
-          policy.path = config.age.secrets.acl.path;
+          policy.path = pkgs.writeText "acl.json" ''
+            {
+              "hosts": {
+                "router": "100.64.0.7",
+                "pikvm": "100.64.0.4",
+                "shoryuken": "100.64.0.1",
+                "tenshin": "100.64.0.11",
+                "hadouken": "100.64.0.2",
+                "glassdoor": "100.64.0.8",
+                "mbp": "100.64.0.10",
+                "pixel": "100.64.0.6"
+              },
+              "acls": [
+                  {
+                    "action": "accept",
+                    "src": ["router"],
+                    "dst": [
+                      "shoryuken:8025",
+                      "tenshin:53"
+                    ]
+                  },
+                  {
+                    "action": "accept",
+                    "src": ["shoryuken"],
+                    "dst": [
+                      "tenshin:53,443",
+                      "pikvm:443"
+                    ]
+                  },
+                  {
+                    "action": "accept",
+                    "src": ["hadouken"],
+                    "dst": [
+                      "tenshin:*",
+                      "shoryuken:*",
+                      "glassdoor:9100"
+                    ]
+                  },
+                  {
+                    "action": "accept",
+                    "src": ["glassdoor"],
+                    "dst": [
+                      "tenshin:*",
+                      "shoryuken:*",
+                      "hadouken:*",
+                      "router:4433",
+                      "pikvm:80,443"
+                    ]
+                  },
+                  {
+                    "action": "accept",
+                    "src": ["pixel"],
+                    "dst": [
+                      "tenshin:53,80,443",
+                      "shoryuken:80,443",
+                      "hadouken:80,443",
+                      "router:4433",
+                      "pikvm:80,443"
+                    ]
+                  },
+                  {
+                    "action": "accept",
+                    "src": ["mbp"],
+                    "dst": [
+                      "tenshin:53,80,443",
+                      "hadouken:80,443",
+                      "pikvm:80,443"
+                    ]
+                  }
+                ]
+              }
+          '';
           logtail.enabled = false;
           database = {
             type = "sqlite3";
@@ -74,7 +147,7 @@ in {
           in {
             magic_dns = true;
             base_domain = "machine.thuis";
-            nameservers.global = [hadoukenIp];
+            nameservers.global = [tenshinIp];
             extra_records =
               (map (name: makeRecord name hadoukenIp) hadoukenRecords)
               ++ (map (name: makeRecord name shoryukenIp) shoryukenRecords)
@@ -91,10 +164,6 @@ in {
     age.secrets = {
       headscale = {
         file = ../../../secrets/headscale.age;
-        owner = config.services.headscale.user;
-      };
-      acl = {
-        file = ../../../secrets/acl.age;
         owner = config.services.headscale.user;
       };
     };

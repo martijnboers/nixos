@@ -12,11 +12,9 @@ in {
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [dnscrypt];
-
     services.caddy.virtualHosts."dns.thuis".extraConfig = ''
         tls {
-          issuer internal { ca hadouken }
+          issuer internal { ca tenshin }
          }
          @internal {
            remote_ip 100.64.0.0/10
@@ -31,6 +29,42 @@ in {
       respond 403
     '';
 
+    age.secrets = {
+      adguard.file = ../../../secrets/adguard.age;
+    };
+
+    systemd.services = {
+      "adguard-exporter" = {
+        enable = true;
+        description = "AdGuard metric exporter for Prometheus";
+        documentation = ["https://github.com/totoroot/adguard-exporter/blob/master/README.md"];
+        wantedBy = ["multi-user.target"];
+        serviceConfig = {
+          ExecStart = ''
+            ${pkgs.adguard-exporter}/bin/adguard-exporter \
+                -adguard_hostname 127.0.0.1 -adguard_port ${toString config.services.adguardhome.port} \
+                -adguard_username admin -adguard_password $ADGUARD_PASSWORD -log_limit 10000
+          '';
+          Restart = "on-failure";
+          RestartSec = 5;
+          NoNewPrivileges = true;
+          EnvironmentFile = config.age.secrets.adguard.path;
+        };
+      };
+      adguardhome = {
+        serviceConfig = {
+          # CPU shares: higher value means more weight compared to other services.
+          CPUWeight = 800;
+          # Memory limit: Allows using up to 75% of total system memory, preventing overuse by others.
+          MemoryHigh = "75%";
+          # Memory soft limit: Preferential access to a guaranteed amount of memory.
+          MemoryMin = "512M";
+          # IO weight: Higher priority for disk I/O.
+          IOWeight = "800CPUWeight=800";
+        };
+      };
+    };
+
     services.adguardhome = {
       enable = true;
       mutableSettings = false;
@@ -42,11 +76,10 @@ in {
           ratelimit = 0;
           bind_hosts = ["0.0.0.0"]; # this can bind to tailscale
           upstream_dns = [
-            "https://dns.quad9.net/dns-query"
+            "https://dns10.quad9.net/dns-query"
+            "https://doq.dns4all.eu/dns-query"
+            "https://open.dns0.eu/dns-query"
             "https://unfiltered.adguard-dns.com/dns-query"
-            "https://dns.artikel10.org/dns-query"
-            "https://ams01.dnscry.pt/dns-query"
-            "https://luxembourg.privacy-dns.pw/dns-query"
           ];
           allowed_clients = [
             "100.64.0.0/10"

@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib; let
@@ -13,7 +14,7 @@ in {
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."hass.thuis".extraConfig = ''
         tls {
-         issuer internal { ca hadouken }
+          issuer internal { ca tenshin }
         }
         @internal {
          remote_ip 100.64.0.0/10
@@ -26,6 +27,7 @@ in {
     services.borgbackup.jobs.default.paths = [config.services.home-assistant.configDir];
     services.home-assistant = {
       enable = true;
+      package = pkgs.stable.home-assistant;
       extraComponents = [
         "adguard"
         "accuweather"

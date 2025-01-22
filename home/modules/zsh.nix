@@ -79,12 +79,22 @@ in {
         source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
         test -f ~/.config/zsh/.p10k.zsh && source ~/.config/zsh/.p10k.zsh
 
+        # 5 hours
+        TMOUT=$((5 * 60 * 60))
+
         # AI keys
         source ${config.age.secrets.llm.path}
       '';
       oh-my-zsh = {
         enable = true;
-        plugins = ["git" "thefuck" "direnv" "fzf" "z" "ssh-agent"];
+        plugins = [
+          "git"
+          "direnv"
+          "fzf"
+          "z"
+          "ssh-agent"
+          "vi-mode"
+        ];
       };
     };
   };

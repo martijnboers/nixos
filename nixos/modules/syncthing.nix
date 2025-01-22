@@ -33,9 +33,10 @@ in {
             urAccepted = 1;
             relaysEnabled = false;
             localAnnounceEnabled = false;
+            crashReportingEnabled = false;
           };
           devices = {
-            "seed" = {id = "LI45JGK-5YLMTTA-CC5ORIR-LN6AFEB-Z5Z5Q5H-DFHDU2H-ZMSJW6X-KOZHVA2";};
+            "seed" = {id = "C3CPMI7-DKDUEYC-ALWM3HN-X37N7S7-DNECILF-UUAX4TY-6F7QLEZ-Q7HSTQV";};
             "hadouken" = {id = "AVHC54J-6NTZ6SS-Y5UUYLZ-LE4QIZ5-AGZAUON-2VWB4XW-2O7W3HV-6MIGTQK";};
           };
           folders = {
