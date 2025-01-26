@@ -167,14 +167,6 @@ in {
           ];
         }
         {
-          job_name = "tor";
-          static_configs = [
-            {
-              targets = ["shoryuken.machine.thuis:9052"];
-            }
-          ];
-        }
-        {
           job_name = "endlessh";
           static_configs = [
             {
@@ -187,6 +179,14 @@ in {
           static_configs = [
             {
               targets = ["tenshin.machine.thuis:9617"];
+            }
+          ];
+        }
+        {
+          job_name = "bitcoind";
+          static_configs = [
+            {
+              targets = ["hadouken.machine.thuis:9332"];
             }
           ];
         }

@@ -23,7 +23,7 @@ in {
     ./modules/microbin.nix
     ./modules/radicale.nix
     ./modules/bincache.nix
-    ./modules/plex.nix
+    ./modules/bitcoin.nix
     ./modules/seafile.nix
     ./modules/storage.nix
     ./modules/archive.nix
@@ -36,6 +36,7 @@ in {
     ./modules/pgrok.nix
     ./modules/cinny.nix
     ./modules/sync.nix
+    ./modules/plex.nix
   ];
 
   hosts.smb.enable = true;
@@ -61,6 +62,7 @@ in {
   hosts.immich.enable = true;
   hosts.prometheus.enable = true;
   hosts.radicale.enable = true;
+  hosts.bitcoin.enable = true;
 
   systemd.services.sshd = {
     after = ["tailscaled.service"];

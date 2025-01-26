@@ -31,6 +31,11 @@ with lib; let
     "dns"
     "hass"
   ];
+  hosts = {
+    shoryuken = "100.64.0.1";
+    tenshin = "100.64.0.11";
+    hadouken = "100.64.0.2";
+  };
 in {
   options.hosts.headscale = {
     enable = mkEnableOption "VPN server";
@@ -56,78 +61,59 @@ in {
             client_secret_path = config.age.secrets.headscale.path;
             allowed_users = ["martijn@plebian.nl"];
           };
-          policy.path = pkgs.writeText "acl.json" ''
+          policy.path = pkgs.writeText "acl.json" (builtins.toJSON
             {
-              "hosts": {
-                "router": "100.64.0.7",
-                "pikvm": "100.64.0.4",
-                "shoryuken": "100.64.0.1",
-                "tenshin": "100.64.0.11",
-                "hadouken": "100.64.0.2",
-                "glassdoor": "100.64.0.8",
-                "mbp": "100.64.0.10",
-                "pixel": "100.64.0.6"
-              },
-              "acls": [
-                  {
-                    "action": "accept",
-                    "src": ["router"],
-                    "dst": [
-                      "shoryuken:8025",
-                      "tenshin:53"
-                    ]
-                  },
-                  {
-                    "action": "accept",
-                    "src": ["shoryuken"],
-                    "dst": [
-                      "tenshin:53,443",
-                      "pikvm:443"
-                    ]
-                  },
-                  {
-                    "action": "accept",
-                    "src": ["hadouken"],
-                    "dst": [
-                      "tenshin:*",
-                      "shoryuken:*",
-                      "glassdoor:9100"
-                    ]
-                  },
-                  {
-                    "action": "accept",
-                    "src": ["glassdoor"],
-                    "dst": [
-                      "tenshin:*",
-                      "shoryuken:*",
-                      "hadouken:*",
-                      "router:4433",
-                      "pikvm:80,443"
-                    ]
-                  },
-                  {
-                    "action": "accept",
-                    "src": ["pixel"],
-                    "dst": [
-                      "tenshin:53,80,443",
-                      "shoryuken:80,443",
-                      "hadouken:80,443",
-                      "router:4433",
-                      "pikvm:80,443"
-                    ]
-                  },
-                  {
-                    "action": "accept",
-                    "src": ["mbp"],
-                    "dst": [
-                      "tenshin:53,80,443",
-                      "hadouken:80,443",
-                      "pikvm:80,443"
-                    ]
-                  }
-                ]
-              }
-          '';
+              hosts = {
+                shoryuken = hosts.shoryuken;
+                tenshin = hosts.tenshin;
+                hadouken = hosts.hadouken;
+                glassdoor = "100.64.0.8";
+                pikvm = "100.64.0.4";
+                router = "100.64.0.7";
+                mbp = "100.64.0.10";
+                pixel = "100.64.0.6";
+              };
+
+              acls = [
+                {
+                  action = "accept";
+                  src = ["router"];
+                  dst = [
+                    "shoryuken:8025" # mailrise smtp
+                    "tenshin:53" # dns
+                  ];
+                }
+                {
+                  action = "accept";
+                  src = ["shoryuken" "mpb"];
+                  dst = [
+                    "tenshin:53,443"
+                    "hadouken:80,443"
+                    "pikvm:443"
+                  ];
+                }
+                {
+                  action = "accept";
+                  src = ["hadouken"];
+                  dst = [
+                    "tenshin:*"
+                    "shoryuken:*"
+                    "glassdoor:9100"
+                  ];
+                }
+                {
+                  action = "accept";
+                  src = ["glassdoor" "pixel"];
+                  dst = [
+                    "tenshin:*"
+                    "shoryuken:*"
+                    "hadouken:*"
+                    "router:4433"
+                    "pikvm:80,443"
+                  ];
+                }
+              ];
+            });
           logtail.enabled = false;
           database = {
             type = "sqlite3";
@@ -136,9 +122,6 @@ in {
             };
           };
           dns = let
-            shoryukenIp = "100.64.0.1";
-            hadoukenIp = "100.64.0.2";
-            tenshinIp = "100.64.0.11";
             makeRecord = name: ip: {
               name = "${name}.thuis";
               type = "A";
@@ -147,11 +130,11 @@ in {
           in {
             magic_dns = true;
             base_domain = "machine.thuis";
-            nameservers.global = [tenshinIp];
+            nameservers.global = [hosts.tenshin];
             extra_records =
-              (map (name: makeRecord name hadoukenIp) hadoukenRecords)
-              ++ (map (name: makeRecord name shoryukenIp) shoryukenRecords)
-              ++ (map (name: makeRecord name tenshinIp) tenshinRecords);
+              (map (name: makeRecord name hosts.hadouken) hadoukenRecords)
+              ++ (map (name: makeRecord name hosts.shoryuken) shoryukenRecords)
+              ++ (map (name: makeRecord name hosts.tenshin) tenshinRecords);
           };
           prefixes = {
             v4 = "100.64.0.0/10";
