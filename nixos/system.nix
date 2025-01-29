@@ -2,6 +2,7 @@
   pkgs,
   config,
   outputs,
+  lib,
   ...
 }: {
   imports = [
@@ -12,6 +13,7 @@
     ./modules/hyprland.nix
     ./modules/secrets.nix
     ./modules/auditd.nix
+    ./modules/server.nix
     ./modules/borg.nix
     ./modules/ssh.nix
     ./modules/gpg.nix
@@ -31,8 +33,8 @@
       shell = pkgs.zsh;
       useDefaultShell = true;
       openssh.authorizedKeys.keyFiles = [
-        ./keys/glassdoor-sk.pub
-        ./keys/keychain-sk.pub
+        ../secrets/keys/glassdoor-sk.pub
+        ../secrets/keys/keychain-sk.pub
       ];
       hashedPasswordFile = config.age.secrets.password.path;
     };
@@ -73,29 +75,58 @@
     ethtool
     pciutils # lspci
     usbutils # lsusb
-    (doas-sudo-shim.overrideAttrs {version = "0.1.1";}) # manually update
+    (doas-sudo-shim.overrideAttrs {version = "0.1.1";}) # needed for --use-remote-sudo
     hydra-check # check nixos ci builds
     openssl # for internal headscale pki
   ];
 
-  nix.settings = {
-    experimental-features = ["nix-command" "flakes" "pipe-operators"];
-    substituters = [
-      "https://cache.nixos.org/"
-      # "https://binarycache.thuis"
-    ];
-    trusted-public-keys = [
-      "binarycache.thuis:/alus5dkMvukzWHoAvbQ5qvjxISw+t9Cbo/nk129zSQ="
-    ];
-    allowed-users = ["martijn"];
-    trusted-users = ["martijn"]; # devenv requires this
+  nix = {
+    # only using flakes
+    channel.enable = lib.mkDefault false;
+    settings = {
+      experimental-features = ["nix-command" "flakes" "pipe-operators"];
+      log-lines = lib.mkDefault 25;
+
+      # Avoid disk full issues
+      min-free = lib.mkDefault (512 * 1024 * 1024);
+
+      # Fallback quickly if substituters are not available.
+      connect-timeout = lib.mkDefault 3;
+
+      # Avoid copying unnecessary stuff over SSH
+      builders-use-substitutes = true;
+
+      # Allowed to connect to nix-daemon
+      allowed-users = ["martijn"];
+
+      substituters = [
+        "https://cache.nixos.org?priority=1"
+        "https://nix-community.cachix.org?priority=2"
+        "https://binarycache.thuis?priority=3"
+        "https://cache.garnix.io"
+        "https://numtide.cachix.org"
+      ];
+      trusted-public-keys = [
+        "binarycache.thuis:/alus5dkMvukzWHoAvbQ5qvjxISw+t9Cbo/nk129zSQ="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+        "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
+      ];
+    };
+
+    # do garbage collection weekly to keep disk usage low
+    gc = {
+      automatic = lib.mkDefault true;
+      options = lib.mkDefault "--delete-older-than 7d";
+    };
   };
 
-  # Collect nix store garbage and optimise daily.
-  nix = {
-    gc.automatic = true;
-    gc.options = "--delete-older-than 30d";
-    optimise.automatic = true;
+  programs.ssh.knownHosts = {
+    "github.com".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
+    "gitlab.com".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfuCHKVTjquxvt6CM6tdG4SLp1Btn/nOeHHE5UOzRdf";
+    "hadouken.machine.thuis".publicKeyFile = ../secrets/keys/hadouken.pub;
+    "tenshin.machine.thuis".publicKeyFile = ../secrets/keys/tenshin.pub;
+    "shoryuken.machine.thuis".publicKeyFile = ../secrets/keys/shoryuken.pub;
   };
 
   # misc
@@ -114,9 +145,9 @@
       }
     ];
     pki.certificateFiles = [
-      ./keys/hadouken.crt
-      ./keys/shoryuken.crt
-      ./keys/tenshin.crt
+      ../secrets/keys/hadouken.crt
+      ../secrets/keys/shoryuken.crt
+      ../secrets/keys/tenshin.crt
     ];
   };
 
@@ -149,16 +180,22 @@
     REQUESTS_CA_BUNDLE = "/etc/ssl/certs/ca-certificates.crt";
   };
 
-  # SMB network discovery
-  services.gvfs.enable = true;
+  networking = {
+    # Enable firewall by default
+    firewall.enable = true;
+    # Use networkd instead of the pile of shell scripts
+    useNetworkd = lib.mkDefault true;
+  };
 
-  # Enable firewall by default
-  networking.firewall = {
-    enable = true;
-    # Samba sharing discovery
-    extraCommands = ''
-      iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns
-    '';
+  systemd = lib.mkIf config.networking.useNetworkd {
+    # The notion of "online" is a broken concept
+    # https://github.com/systemd/systemd/blob/e1b45a756f71deac8c1aa9a008bd0dab47f64777/NEWS#L13
+    services.NetworkManager-wait-online.enable = false;
+    network.wait-online.enable = false;
+    # https://github.com/nix-community/srvos/blob/6d69a63fcb3a9b213ebd3b8754e71d2691fe3fbf/nixos/common/networking.nix
+    services.systemd-networkd.stopIfChanged = false;
+    # Services that are only restarted might be not able to resolve when resolved is stopped before
+    services.systemd-resolved.stopIfChanged = false;
   };
 
   # Set time zone.

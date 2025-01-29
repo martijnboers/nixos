@@ -33,8 +33,8 @@ with lib; let
   ];
   hosts = {
     shoryuken = "100.64.0.1";
-    tenshin = "100.64.0.11";
     hadouken = "100.64.0.2";
+    tenshin = "100.64.0.11";
   };
 in {
   options.hosts.headscale = {

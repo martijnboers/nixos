@@ -31,6 +31,9 @@
   # Enable tailscale network
   hosts.tailscale.enable = true;
 
+  # Server defaults
+  hosts.server.enable = true;
+
   # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
   boot.loader.grub.enable = false;
   # Enables the generation of /boot/extlinux/extlinux.conf

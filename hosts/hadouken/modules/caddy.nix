@@ -44,7 +44,7 @@ in {
             # openssl genrsa -out root.key 4096
             # openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -config /etc/pki-root.cnf
             root {
-              cert   ${../../../nixos/keys/hadouken.crt}
+              cert   ${../../../secrets/keys/hadouken.crt}
               key    ${config.age.secrets.hadouken-pki.path}
             }
           }
