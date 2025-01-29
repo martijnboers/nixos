@@ -1,4 +1,4 @@
-{...}: {
+{modulesPath, ...}: {
   networking.hostName = "tenshin";
 
   imports = [
@@ -6,6 +6,8 @@
     ./modules/adguard.nix
     ./modules/caddy.nix
     ./modules/hass.nix
+    # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/profiles/hardened.nix
+    (modulesPath + "/profiles/hardened.nix")
   ];
 
   hosts.endlessh.enable = true;
