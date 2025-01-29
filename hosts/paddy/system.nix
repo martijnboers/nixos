@@ -82,8 +82,8 @@
 
   security = {
     pki.certificateFiles = [
-      ../../nixos/keys/hadouken.crt
-      ../../nixos/keys/shoryuken.crt
+      ../../secrets/keys/hadouken.crt
+      ../../secrets/keys/shoryuken.crt
     ];
   };
 

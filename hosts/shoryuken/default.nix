@@ -58,6 +58,9 @@ in {
     repository = "ssh://iwa7rtli@iwa7rtli.repo.borgbase.com/./repo";
   };
 
+  # Server defaults
+  hosts.server.enable = true;
+
   # Needed for exit node headscale
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
   zramSwap.enable = true;

@@ -7,6 +7,12 @@
       providers.wl-copy.enable = true;
     };
 
+    extraConfigVim = ''
+      filetype indent on
+      set autoread
+      nnoremap <C-b> <C-w>v
+    '';
+
     opts = {
       number = true; # Show line numbers
       relativenumber = true; # Show relative line numbers

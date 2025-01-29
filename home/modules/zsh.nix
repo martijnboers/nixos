@@ -62,8 +62,8 @@ in {
         wolk = "ssh shoryuken.machine.thuis";
         pi = "ssh tenshin.machine.thuis";
         socks = "ssh -D 1337 -q -C -N hadouken.machine.thuis";
-        proxy = "sudo tailscale set --exit-node shoryuken";
-        proxyd = "sudo tailscale set --exit-node=";
+        proxy = "doas tailscale set --exit-node shoryuken";
+        proxyd = "doas tailscale set --exit-node=";
 
         # llm
         "c\?" = "mods -f -m gpt-3.5-turbo --role cli \"$1\"";

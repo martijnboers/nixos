@@ -12,16 +12,16 @@
     paths = ["/home/martijn"];
     identityPath = "/home/martijn/.ssh/id_ed25519_age";
     exclude = [
-      ".cache"
-      "*/cache2" # librewolf
-      "*/Cache"
+      ""
+      "" # librewolf
+      ""
       ".config/Slack/logs"
       ".config/Code/CachedData"
       ".container-diff"
       ".npm/_cacache"
-      "*/node_modules"
-      "*/_build"
-      "*/venv"
+      ""
+      ""
+      ""
       "*/.venv"
       "/home/*/.local"
       "/home/*/Downloads"
@@ -45,6 +45,11 @@
             gamemode
           ];
       };
+    };
+    winbox = {
+      enable = true;
+      package = pkgs.winbox4;
+      openFirewall = true;
     };
   };
 

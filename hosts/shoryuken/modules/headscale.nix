@@ -33,8 +33,8 @@ with lib; let
   ];
   hosts = {
     shoryuken = "100.64.0.1";
-    tenshin = "100.64.0.11";
     hadouken = "100.64.0.2";
+    tenshin = "100.64.0.11";
   };
 in {
   options.hosts.headscale = {
@@ -69,25 +69,29 @@ in {
                 hadouken = hosts.hadouken;
                 glassdoor = "100.64.0.8";
                 pikvm = "100.64.0.4";
-                router = "100.64.0.7";
                 mbp = "100.64.0.10";
                 pixel = "100.64.0.6";
+              };
+
+              groups = {
+                "group:trusted" = ["martijn"];
               };
 
               acls = [
                 {
                   action = "accept";
-                  src = ["router"];
-                  dst = [
-                    "shoryuken:8025" # mailrise smtp
-                    "tenshin:53" # dns
-                  ];
+                  src = ["mbp" "pixel" "glassdoor"];
+                  dst = ["autogroup:internet:*"]; # allow exit-nodes
+                }
+                {
+                  action = "accept";
+                  src = ["group:trusted"];
+                  dst = ["tenshin:53,80,443"]; # everyone access to dns
                 }
                 {
                   action = "accept";
                   src = ["shoryuken" "mpb"];
                   dst = [
-                    "tenshin:53,443"
                     "hadouken:80,443"
                     "pikvm:443"
                   ];
@@ -108,7 +112,6 @@ in {
                     "tenshin:*"
                     "shoryuken:*"
                     "hadouken:*"
-                    "router:4433"
                     "pikvm:80,443"
                   ];
                 }

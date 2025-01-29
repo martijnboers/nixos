@@ -63,6 +63,8 @@ in {
   hosts.prometheus.enable = true;
   hosts.radicale.enable = true;
   hosts.bitcoin.enable = true;
+  # Server for atuin
+  hosts.atuin.enable = true;
 
   systemd.services.sshd = {
     after = ["tailscaled.service"];
@@ -100,8 +102,8 @@ in {
 
   hosts.openssh.enable = true;
 
-  # Server for atuin
-  hosts.atuin.enable = true;
+  # Server defaults
+  hosts.server.enable = true;
 
   environment.systemPackages = with pkgs; [pgrok pgrok.server immich-go];
 

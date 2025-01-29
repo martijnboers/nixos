@@ -68,9 +68,6 @@ in {
           "<C-f>" = false; # regular search
           "<C-b>" = false; # close side panel
           "<C-w>" = false; # close active panel
-          "<A-h>" = false; # select all in search
-          "<C-o>" = false; # open folder/file
-          "<C-p>" = false; # remap to add search to selection from open file (use CTRL+e)
         };
 
         "typos.logLevel" = "info"; # don't show warnings for typos

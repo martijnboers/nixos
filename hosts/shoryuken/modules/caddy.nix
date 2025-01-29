@@ -23,7 +23,7 @@ in {
             # openssl genrsa -out root.key 4096
             # openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -config /etc/pki-root.cnf
             root {
-              cert   ${../../../nixos/keys/shoryuken.crt}
+              cert   ${../../../secrets/keys/shoryuken.crt}
               key    ${config.age.secrets.shoryuken-pki.path}
             }
           }
