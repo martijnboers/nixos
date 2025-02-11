@@ -154,7 +154,7 @@ in {
             {
               targets =
                 map (host: "${host}.machine.thuis:${toString config.services.prometheus.exporters.node.port}")
-                ["hadouken" "shoryuken" "tenshin" "glassdoor"];
+                ["hadouken" "shoryuken" "tenshin" "nurma"];
             }
           ];
         }

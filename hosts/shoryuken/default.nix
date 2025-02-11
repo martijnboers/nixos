@@ -1,7 +1,4 @@
 {
-  pkgs,
-  config,
-  lib,
   ...
 }: let
   defaultRestart = {
@@ -57,6 +54,8 @@ in {
     enable = true;
     repository = "ssh://iwa7rtli@iwa7rtli.repo.borgbase.com/./repo";
   };
+
+  nix.settings.trusted-users = ["martijn"]; # allows remote push
 
   # Server defaults
   hosts.server.enable = true;

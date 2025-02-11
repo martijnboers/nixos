@@ -67,7 +67,7 @@ in {
                 shoryuken = hosts.shoryuken;
                 tenshin = hosts.tenshin;
                 hadouken = hosts.hadouken;
-                glassdoor = "100.64.0.8";
+                nurma = "100.64.0.8";
                 pikvm = "100.64.0.4";
                 mbp = "100.64.0.10";
                 pixel = "100.64.0.6";
@@ -80,7 +80,7 @@ in {
               acls = [
                 {
                   action = "accept";
-                  src = ["mbp" "pixel" "glassdoor"];
+                  src = ["mbp" "pixel" "nurma"];
                   dst = ["autogroup:internet:*"]; # allow exit-nodes
                 }
                 {
@@ -102,12 +102,12 @@ in {
                   dst = [
                     "tenshin:*"
                     "shoryuken:*"
-                    "glassdoor:9100"
+                    "nurma:9100"
                   ];
                 }
                 {
                   action = "accept";
-                  src = ["glassdoor" "pixel"];
+                  src = ["nurma" "pixel"];
                   dst = [
                     "tenshin:*"
                     "shoryuken:*"

@@ -118,7 +118,7 @@
 
     overlays = import ./overlays {inherit inputs;};
 
-    nixosConfigurations.glassdoor = mkSystem "glassdoor" {
+    nixosConfigurations.nurma = mkSystem "nurma" {
       system = "x86_64-linux";
     };
 

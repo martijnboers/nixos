@@ -33,7 +33,7 @@
       shell = pkgs.zsh;
       useDefaultShell = true;
       openssh.authorizedKeys.keyFiles = [
-        ../secrets/keys/glassdoor-sk.pub
+        ../secrets/keys/nurma-sk.pub
         ../secrets/keys/keychain-sk.pub
       ];
       hashedPasswordFile = config.age.secrets.password.path;

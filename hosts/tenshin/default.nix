@@ -27,6 +27,8 @@
     enable = true;
     allowUsers = ["*@100.64.0.0/10" "*@10.10.0.0/24"];
   };
+  
+  nix.settings.trusted-users = ["martijn"]; # allows for remote push
 
   # Enable tailscale network
   hosts.tailscale.enable = true;

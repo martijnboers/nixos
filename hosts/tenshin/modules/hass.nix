@@ -31,6 +31,7 @@ in {
       extraComponents = [
         "adguard"
         "accuweather"
+	"shelly"
       ];
       config = {
         http = {

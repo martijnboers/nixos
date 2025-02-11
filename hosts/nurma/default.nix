@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: {
-  networking.hostName = "glassdoor";
+  networking.hostName = "nurma";
   hosts.hyprland.enable = true;
 
   hosts.borg = {
@@ -12,21 +12,23 @@
     paths = ["/home/martijn"];
     identityPath = "/home/martijn/.ssh/id_ed25519_age";
     exclude = [
-      ""
-      "" # librewolf
-      ""
+      ".cache"
+      "*/cache2" # librewolf
+      "*/Cache"
+      ".wine"
       ".config/Slack/logs"
       ".config/Code/CachedData"
       ".container-diff"
       ".npm/_cacache"
-      ""
-      ""
-      ""
+      "Sync"
+      "*/node_modules"
+      "*/_build"
+      "*/venv"
       "*/.venv"
       "/home/*/.local"
       "/home/*/Downloads"
       "/home/*/Data"
-      "/home/*/.ssh"
+      "/home/*/.ssh" 
     ];
   };
 
