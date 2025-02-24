@@ -28,7 +28,7 @@
       "/home/*/.local"
       "/home/*/Downloads"
       "/home/*/Data"
-      "/home/*/.ssh" 
+      "/home/*/.ssh"
     ];
   };
 

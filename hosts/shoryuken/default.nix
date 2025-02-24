@@ -1,6 +1,4 @@
-{
-  ...
-}: let
+{...}: let
   defaultRestart = {
     RestartSec = 10;
   };

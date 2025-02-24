@@ -30,6 +30,7 @@
       barbecue.enable = true; # breadcrumbs at top of code files
       neo-tree.enable = true; # left pane with files
       web-devicons.enable = true; # needed for another plugin
+      gitsigns.enable = true; # git client
 
       treesitter = {
         enable = true;

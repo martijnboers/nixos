@@ -64,7 +64,6 @@ in {
       enable = true;
       databases = ["mastodon"];
     };
-
     services.borgbackup.jobs.default.paths = [config.services.postgresqlBackup.location];
 
     services.mastodon = {
@@ -77,6 +76,7 @@ in {
         fromAddress = "noreply@plebian.nl"; # required
       };
       extraConfig.SINGLE_USER_MODE = "true";
+      olderThanDays = 14;
     };
 
     # Backfill comments automaticly

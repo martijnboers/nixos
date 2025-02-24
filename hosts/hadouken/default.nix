@@ -63,6 +63,7 @@ in {
   hosts.prometheus.enable = true;
   hosts.radicale.enable = true;
   hosts.bitcoin.enable = true;
+  hosts.seafile.enable = false;
   # Server for atuin
   hosts.atuin.enable = true;
 

@@ -47,8 +47,7 @@
 
     stylix = {
       # https://github.com/danth/stylix/pull/780
-      url = "github:martijnboers/stylix/";
-      # url = "github:danth/stylix";
+      url = "github:danth/stylix/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

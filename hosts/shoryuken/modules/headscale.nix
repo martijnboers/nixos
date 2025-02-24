@@ -80,11 +80,6 @@ in {
               acls = [
                 {
                   action = "accept";
-                  src = ["mbp" "pixel" "nurma"];
-                  dst = ["autogroup:internet:*"]; # allow exit-nodes
-                }
-                {
-                  action = "accept";
                   src = ["group:trusted"];
                   dst = ["tenshin:53,80,443"]; # everyone access to dns
                 }
@@ -114,6 +109,11 @@ in {
                     "hadouken:*"
                     "pikvm:80,443"
                   ];
+                }
+                {
+                  action = "accept";
+                  src = ["mbp" "pixel" "nurma"];
+                  dst = ["autogroup:internet:*" "hadouken:443"]; # allow exit-nodes + webservices
                 }
               ];
             });

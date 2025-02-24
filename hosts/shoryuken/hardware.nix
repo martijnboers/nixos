@@ -11,11 +11,11 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   fileSystems."/nix" = {
-     device = "/dev/disk/by-partuuid/943c4fbe-01";
-     fsType = "ext4";
-     neededForBoot = true;
-     options = [ "noatime" ];
-   };
+    device = "/dev/disk/by-partuuid/943c4fbe-01";
+    fsType = "ext4";
+    neededForBoot = true;
+    options = ["noatime"];
+  };
 
   swapDevices = [
     {
