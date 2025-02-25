@@ -50,7 +50,6 @@ in {
         fixup = "ga . && gc --amend --no-edit";
         xev = "wev"; # wayland xev
         vim = "nvim";
-        rm = "trash-put"; # use trash for cli
         ls = "lsd"; # fancy ls
         readme = "cat README* | glow";
         keyboard-compile = "qmk compile -kb peej/lumberjack -km martijn";
@@ -62,8 +61,8 @@ in {
         wolk = "ssh shoryuken.machine.thuis";
         pi = "ssh tenshin.machine.thuis";
         socks = "ssh -D 1337 -q -C -N hadouken.machine.thuis";
-        proxy = "doas tailscale set --exit-node shoryuken";
-        proxyd = "doas tailscale set --exit-node=";
+        proxy = "sudo tailscale set --exit-node shoryuken";
+        proxyd = "sudo tailscale set --exit-node=";
 
         # llm
         "c\?" = "mods -f -m gpt-3.5-turbo --role cli \"$1\"";

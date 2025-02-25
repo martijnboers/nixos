@@ -6,22 +6,25 @@
 }:
 with lib; let
   cfg = config.maatwerk.work;
-  teamsScript = pkgs.writeShellApplication {
-    name = "teams";
-    runtimeInputs = [pkgs.ungoogled-chromium];
-    text = ''
-      chromium --new-tab https://teams.microsoft.com/
-    '';
+  mkChromeWrapper = name: url: rec {
+    script = pkgs.writeShellApplication {
+      inherit name;
+      runtimeInputs = [pkgs.ungoogled-chromium];
+      text = ''
+        chromium --new-tab "${url}"
+      '';
+    };
+    desktop = pkgs.makeDesktopItem {
+      name = name;
+      exec = getExe script;
+      desktopName = "${name} chrome";
+      startupWMClass = name;
+      terminal = true;
+    };
   };
-  teamsDesktopItem = pkgs.makeDesktopItem {
-    name = "teams";
-    exec = getExe teamsScript;
-    desktopName = "Microsoft Teams";
-    genericName = "Business Communication";
-    comment = "Microsoft Teams as Chromium web app.";
-    startupWMClass = "teams";
-    terminal = true;
-  };
+  teams = mkChromeWrapper "teams" "https://teams.microsoft.com";
+  claud = mkChromeWrapper "claud" "https://claud.ai";
+  hetzner = mkChromeWrapper "hetzner" "https://console.hetzner.cloud";
 in {
   options.maatwerk.work = {
     enable = mkEnableOption "Enable packages and configuration specific to work";
@@ -40,8 +43,12 @@ in {
       httpie-desktop
       distrobox # run any linux distro
 
-      teamsDesktopItem
-      teamsScript
+      teams.desktop
+      teams.script
+      claud.desktop
+      claud.script
+      hetzner.desktop
+      hetzner.script
       (citrix_workspace.override {version = "24.8.0.98";})
     ];
   };

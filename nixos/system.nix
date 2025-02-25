@@ -76,7 +76,6 @@
     ethtool
     pciutils # lspci
     usbutils # lsusb
-    doas-sudo-shim # needed for --use-remote-sudo
     hydra-check # check nixos ci builds
     openssl # for internal headscale pki
   ];
@@ -103,7 +102,7 @@
       substituters = [
         "https://cache.nixos.org?priority=1"
         "https://nix-community.cachix.org?priority=2"
-        "https://binarycache.thuis?priority=3"
+	"https://binarycache.thuis"
         "https://cache.garnix.io"
         "https://numtide.cachix.org"
       ];
@@ -134,15 +133,23 @@
   programs.zsh.enable = true;
 
   security = {
-    doas.enable = true;
-    sudo.enable = false;
-    doas.extraRules = [
+    sudo.extraRules = [
       {
         users = ["martijn"];
-        # Optional, retains environment variables while running commands
-        # e.g. retains your NIX_PATH when applying your config
-        keepEnv = true;
-        persist = true; # Optional, only require password verification a single time
+        commands = [
+          {
+            command = "${pkgs.systemd}/bin/systemctl suspend";
+            options = ["NOPASSWD"];
+          }
+          {
+            command = "${pkgs.systemd}/bin/reboot";
+            options = ["NOPASSWD"];
+          }
+          {
+            command = "${pkgs.systemd}/bin/poweroff";
+            options = ["NOPASSWD"];
+          }
+        ];
       }
     ];
     pki.certificateFiles = [

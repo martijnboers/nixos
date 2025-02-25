@@ -76,7 +76,10 @@ in {
         fromAddress = "noreply@plebian.nl"; # required
       };
       extraConfig.SINGLE_USER_MODE = "true";
-      olderThanDays = 14;
+      mediaAutoRemove = {
+        enable = true;
+        olderThanDays = 14;
+      };
     };
 
     # Backfill comments automaticly

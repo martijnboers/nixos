@@ -24,13 +24,15 @@
     };
     plugins = {
       lightline.enable = true; # bar at the bottom
-      gitgutter.enable = true; # show changed files in git
       lastplace.enable = true; # re-open files where left off
       which-key.enable = true; # popup with possible key combinations
       barbecue.enable = true; # breadcrumbs at top of code files
       neo-tree.enable = true; # left pane with files
       web-devicons.enable = true; # needed for another plugin
-      gitsigns.enable = true; # git client
+      gitsigns = {
+        enable = true; # git client
+        autoLoad = true;
+      };
 
       treesitter = {
         enable = true;
