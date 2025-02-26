@@ -11,7 +11,7 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   fileSystems."/nix" = {
-    device = "/dev/disk/by-partuuid/943c4fbe-01";
+    device = "/dev/disk/by-id/scsi-0HC_Volume_102108352-part1";
     fsType = "ext4";
     neededForBoot = true;
     options = ["noatime"];
