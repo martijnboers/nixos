@@ -130,16 +130,13 @@
       extraModules = [inputs.disko.nixosModules.disko];
     };
 
-    nixosConfigurations.tenshin = mkSystem "tenshin" {
-      system = "aarch64-linux";
+    nixosConfigurations.tatsumaki = mkSystem "tatsumaki" {
+      system = "x86_64-linux";
+      extraModules = [inputs.disko.nixosModules.disko];
     };
 
-    nixosConfigurations.iso = mkSystem "iso" {
-      system = "x86_64-linux";
-      extraModules = [
-        "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix"
-        "${nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
-      ];
+    nixosConfigurations.tenshin = mkSystem "tenshin" {
+      system = "aarch64-linux";
     };
 
     darwinConfigurations.paddy = darwin.lib.darwinSystem {

@@ -25,6 +25,7 @@ with lib; let
   teams = mkChromeWrapper "teams" "https://teams.microsoft.com";
   claud = mkChromeWrapper "claud" "https://claud.ai";
   hetzner = mkChromeWrapper "hetzner" "https://console.hetzner.cloud";
+  kvm = mkChromeWrapper "kvm" "https://10.10.0.11/kvm/#";
 in {
   options.maatwerk.work = {
     enable = mkEnableOption "Enable packages and configuration specific to work";
@@ -49,6 +50,8 @@ in {
       claud.script
       hetzner.desktop
       hetzner.script
+      kvm.desktop
+      kvm.script
       (citrix_workspace.override {version = "24.8.0.98";})
     ];
   };

@@ -99,15 +99,6 @@ in {
             }
           respond 403
         '';
-        #   "resume.plebian.nl" = {
-        #     serverAliases = ["resume.boers.email"];
-        #     extraConfig = ''
-        #       cache { ttl 48h }
-        #       root * ${pkgs.resume-hugo}/
-        #       encode zstd gzip
-        #       file_server
-        #     '';
-        #   };
       };
     };
 

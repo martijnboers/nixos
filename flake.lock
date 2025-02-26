@@ -703,11 +703,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1739294025,
-        "narHash": "sha256-r1IJdTTPQnrMVq2x53Bv4dCebYa3Ly5korzFayZjh0A=",
+        "lastModified": 1740857136,
+        "narHash": "sha256-csttcNk0kaHNy6Npu1oL12Tum/vP5D8jHycAqDVTeMY=",
         "ref": "master",
-        "rev": "29e92c01b23af55c724d159f118331a60bae9a1c",
-        "revCount": 6,
+        "rev": "297f9095203f77d25a94540b38116c412aecd503",
+        "revCount": 7,
         "type": "git",
         "url": "ssh://git@github.com/martijnboers/secrets.git"
       },

@@ -102,7 +102,7 @@
       substituters = [
         "https://cache.nixos.org?priority=1"
         "https://nix-community.cachix.org?priority=2"
-	"https://binarycache.thuis"
+        # "https://binarycache.thuis"
         "https://cache.garnix.io"
         "https://numtide.cachix.org"
       ];
@@ -129,8 +129,8 @@
     "shoryuken.machine.thuis".publicKeyFile = ../secrets/keys/shoryuken.pub;
   };
 
-  # misc
   programs.zsh.enable = true;
+  networking.firewall.enable = true; # default value
 
   security = {
     sudo.extraRules = [

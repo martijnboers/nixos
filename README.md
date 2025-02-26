@@ -28,11 +28,6 @@ SSHPASS=<pwd> nix run github:nix-community/nixos-anywhere -- --flake '.?submodul
 nix run nixpkgs#nixos-generators -- -f sd-aarch64 --flake '.?submodules=1#tenshin' --system aarch64-linux -o ~/pi.img
 ```
 
-### Custom installation ISO
-```
-nix build '.#nixosConfigurations.iso.config.system.build.isoImage' -vv --show-trace
-```
-
 ### Loading repl
 ```commandline
 nix repl

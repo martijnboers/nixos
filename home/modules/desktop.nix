@@ -24,6 +24,7 @@ in {
 
       yubioath-flutter # yubikey
       seafile-client
+      cheese # webcam
 
       # Office suite
       stable.libreoffice-qt

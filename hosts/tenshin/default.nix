@@ -2,7 +2,6 @@
   networking.hostName = "tenshin";
 
   imports = [
-    ./modules/endlessh.nix
     ./modules/adguard.nix
     ./modules/caddy.nix
     ./modules/hass.nix
@@ -10,7 +9,6 @@
     (modulesPath + "/profiles/hardened.nix")
   ];
 
-  hosts.endlessh.enable = true;
   hosts.adguard.enable = true;
   hosts.caddy.enable = true;
   hosts.prometheus.enable = true;
