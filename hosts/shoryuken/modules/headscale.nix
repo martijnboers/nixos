@@ -34,6 +34,7 @@ with lib; let
   hosts = {
     shoryuken = "100.64.0.1";
     hadouken = "100.64.0.2";
+    tatsumaki = "100.64.0.3";
     tenshin = "100.64.0.11";
   };
 in {
@@ -67,6 +68,7 @@ in {
                 shoryuken = hosts.shoryuken;
                 tenshin = hosts.tenshin;
                 hadouken = hosts.hadouken;
+		tatsumaki = hosts.tatsumaki;
                 nurma = "100.64.0.8";
                 pikvm = "100.64.0.4";
                 mbp = "100.64.0.10";
@@ -85,6 +87,11 @@ in {
                 }
                 {
                   action = "accept";
+                  src = ["mbp" "pixel" "nurma"];
+                  dst = ["autogroup:internet:*" "hadouken:443"]; # allow exit-nodes + webservices
+                }
+                {
+                  action = "accept";
                   src = ["shoryuken" "mpb"];
                   dst = [
                     "hadouken:80,443"
@@ -97,6 +104,7 @@ in {
                   dst = [
                     "tenshin:*"
                     "shoryuken:*"
+		    "tatsumaki:*"
                     "nurma:9100"
                   ];
                 }
@@ -107,13 +115,9 @@ in {
                     "tenshin:*"
                     "shoryuken:*"
                     "hadouken:*"
+		    "tatsumaki:*"
                     "pikvm:80,443"
                   ];
-                }
-                {
-                  action = "accept";
-                  src = ["mbp" "pixel" "nurma"];
-                  dst = ["autogroup:internet:*" "hadouken:443"]; # allow exit-nodes + webservices
                 }
               ];
             });
