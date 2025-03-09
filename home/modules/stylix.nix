@@ -48,6 +48,7 @@ in {
       targets.nixvim.enable = false;
       targets.hyprland.enable = true;
       targets.hyprlock.enable = false;
+      targets.vscode.enable = false;
     };
   };
 }

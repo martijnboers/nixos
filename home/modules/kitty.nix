@@ -14,6 +14,10 @@ in {
     home.packages = with pkgs; [kitty];
     programs.kitty = {
       enable = true;
+      shellIntegration = {
+	enableZshIntegration = true;
+	mode = "no-rc"; # https://sw.kovidgoyal.net/kitty/shell-integration/#configuration
+      };
       settings = {
         scrollback_lines = 10000;
         window_padding_width = 6;
