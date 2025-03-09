@@ -42,7 +42,7 @@ in {
       slack
       mongodb-compass
       httpie-desktop
-      distrobox # run any linux distro
+      wireshark
 
       teams.desktop
       teams.script
@@ -52,7 +52,7 @@ in {
       hetzner.script
       kvm.desktop
       kvm.script
-      (citrix_workspace.override {version = "24.8.0.98";})
+      citrix_workspace
     ];
   };
 }
