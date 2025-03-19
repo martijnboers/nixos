@@ -224,7 +224,7 @@
       permittedInsecurePackages = [
         "olm-3.2.16" # https://matrix.org/blog/2024/08/libolm-deprecation/
         "cinny-unwrapped-4.2.3"
-	"electron-32.3.3" # eol
+        "electron-32.3.3" # eol
       ];
     };
   };

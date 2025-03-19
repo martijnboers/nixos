@@ -170,7 +170,7 @@ in {
           job_name = "endlessh";
           static_configs = [
             {
-              targets = ["tenshin.machine.thuis:${toString config.services.endlessh-go.prometheus.port}"];
+              targets = ["tatsumaki.machine.thuis:${toString config.services.endlessh-go.prometheus.port}"];
             }
           ];
         }

@@ -20,8 +20,8 @@ in {
         redhat.vscode-yaml
         zainchen.json
         yzhang.markdown-all-in-one
-	#ms-python.python # https://github.com/NixOS/nixpkgs/pull/387839
-	#ms-python.black-formatter
+        #ms-python.python # https://github.com/NixOS/nixpkgs/pull/387839
+        #ms-python.black-formatter
         # devsense.phptools-vscode
 
         hashicorp.terraform

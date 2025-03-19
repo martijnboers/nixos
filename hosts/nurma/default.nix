@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   ...
 }: {
@@ -52,6 +51,11 @@
       enable = true;
       package = pkgs.winbox4;
       openFirewall = true;
+    };
+
+    # Run unpatched bins
+    nix-ld = {
+      enable = true;
     };
   };
 

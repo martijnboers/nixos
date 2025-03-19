@@ -68,7 +68,7 @@ in {
                 shoryuken = hosts.shoryuken;
                 tenshin = hosts.tenshin;
                 hadouken = hosts.hadouken;
-		tatsumaki = hosts.tatsumaki;
+                tatsumaki = hosts.tatsumaki;
                 nurma = "100.64.0.8";
                 pikvm = "100.64.0.4";
                 mbp = "100.64.0.10";
@@ -104,7 +104,7 @@ in {
                   dst = [
                     "tenshin:*"
                     "shoryuken:*"
-		    "tatsumaki:*"
+                    "tatsumaki:*"
                     "nurma:9100"
                   ];
                 }
@@ -115,7 +115,7 @@ in {
                     "tenshin:*"
                     "shoryuken:*"
                     "hadouken:*"
-		    "tatsumaki:*"
+                    "tatsumaki:*"
                     "pikvm:80,443"
                   ];
                 }

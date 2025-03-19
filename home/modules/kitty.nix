@@ -15,8 +15,8 @@ in {
     programs.kitty = {
       enable = true;
       shellIntegration = {
-	enableZshIntegration = true;
-	mode = "no-rc"; # https://sw.kovidgoyal.net/kitty/shell-integration/#configuration
+        enableZshIntegration = true;
+        mode = "no-rc"; # https://sw.kovidgoyal.net/kitty/shell-integration/#configuration
       };
       settings = {
         scrollback_lines = 10000;

@@ -12,11 +12,6 @@ in {
   };
   config = mkIf cfg.enable {
     # file:///home/martijn/.config/stylix/palette.html
-    home.packages = with pkgs.kdePackages; [
-      plasma-integration
-      systemsettings
-    ];
-
     stylix = {
       enable = true;
       image = ../assets/img/wp_2.jpg;

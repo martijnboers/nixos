@@ -3,16 +3,18 @@
 
   imports = [
     ./modules/endlessh.nix
+    ./modules/trap.nix
   ];
 
   hosts.endlessh.enable = true;
+  hosts.trap.enable = true;
 
   # Enable tailscale network
   hosts.tailscale.enable = true;
 
   hosts.openssh = {
     enable = true;
-    allowUsers = ["*@100.64.0.0/10"];
+    allowUsers = ["*@100.64.0.0/10" "*@10.10.0.0/24"];
   };
 
   hosts.borg = {
