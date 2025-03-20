@@ -13,31 +13,19 @@ in {
   config = mkIf cfg.enable {
     services.caddy = {
       extraConfig = ''
-        matrix.plebian.nl, matrix.plebian.nl:8448 {
-            reverse_proxy /_matrix/* http://localhost:${toString config.services.matrix-conduit.settings.global.port}
+            matrix.thuis, matrix.thuis:8448 {
+        tls {
+          issuer internal { ca hadouken }
         }
+        @internal {
+          remote_ip 100.64.0.0/10
+        }
+        handle @internal {
+           reverse_proxy /_matrix/* http://localhost:${toString config.services.matrix-conduit.settings.global.port}
+        }
+        respond 403
+            }
       '';
-      virtualHosts."plebian.nl".extraConfig = ''
-        route /.well-known/matrix/server {
-            header Access-Control-Allow-Origin "*"
-            header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
-            header Access-Control-Allow-Headers "X-Requested-With, Content-Type, Authorization"
-            respond `{
-                "m.server": "matrix.plebian.nl:443"
-            }`
-        }
-
-        route /.well-known/matrix/client {
-            header Access-Control-Allow-Origin "*"
-            header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
-            header Access-Control-Allow-Headers "X-Requested-With, Content-Type, Authorization"
-            respond `{
-                "m.homeserver": {
-                    "base_url": "https://matrix.plebian.nl"
-                }
-            }`
-        }
-      ''; # makes it possible to do @martijn:plebian.nl
     };
 
     networking.firewall.allowedTCPPorts = [8448];

@@ -6,14 +6,6 @@
 }:
 with lib; let
   cfg = config.hosts.caddy;
-  plebian = builtins.fetchGit {
-    url = "https://github.com/martijnboers/plebian.nl.git";
-    rev = "b07146995f7b227ef7692402374268f0457003aa";
-  };
-  resume = builtins.fetchGit {
-    url = "git@github.com:martijnboers/resume.git";
-    rev = "b7d75859c8ce0c2867c95c5924623e397a2600f9";
-  };
 in {
   options.hosts.caddy = {
     enable = mkEnableOption "Caddy base";
@@ -28,16 +20,18 @@ in {
         plugins = [
           "github.com/caddy-dns/cloudflare"
           "github.com/corazawaf/coraza-caddy/v2"
-          "github.com/darkweak/souin/plugins/caddy"
           "github.com/mholt/caddy-webdav"
         ];
       };
 
       globalConfig = ''
-        servers {
-            metrics
-        }
-
+	metrics {
+	  per_host
+	}
+	servers {
+	  trusted_proxies static 100.64.0.0/10
+	  enable_full_duplex
+	}
         pki {
           ca hadouken {
             name     hadouken
@@ -49,35 +43,10 @@ in {
             }
           }
         }
-
-        # https://docs.souin.io/docs/middlewares/caddy/
-        cache {
-            ttl 100s
-            stale 3h
-            default_cache_control public, s-maxage=100
-        }
         order coraza_waf first
         order webdav before file_server
       '';
       virtualHosts = {
-        "plebian.nl" = {
-          serverAliases = ["boers.email"];
-          extraConfig = ''
-            cache { ttl 1h }
-            root * ${plebian}/
-            encode zstd gzip
-            file_server
-          '';
-        };
-        "resume.plebian.nl" = {
-          serverAliases = ["resume.boers.email"];
-          extraConfig = ''
-            cache { ttl 1h }
-            root * ${resume}/
-            encode zstd gzip
-            file_server
-          '';
-        };
         "webdav.thuis:80".extraConfig = ''
             @internal {
               remote_ip 100.64.0.0/10

@@ -6,16 +6,7 @@
 }:
 with lib; let
   cfg = config.hosts.wordpress;
-  wordpress-theme-vows = pkgs.stdenv.mkDerivation rec {
-    name = "vows";
-    version = "1.2";
-    src = pkgs.fetchzip {
-      url = "https://downloads.wordpress.org/theme/vows.${version}.zip";
-      hash = "sha256-nrarZhdgpAdeENnoa84wvNzYLqekVUVYZV763b6yQac=";
-    };
-    installPhase = "mkdir -p $out; cp -R * $out/";
-  };
-  mann = pkgs.stdenv.mkDerivation rec {
+  mann = pkgs.stdenv.mkDerivation {
     name = "mann";
     src = pkgs.fetchFromGitHub {
       owner = "Automattic";
@@ -31,8 +22,17 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."kevinandreihana.com".extraConfig = ''
-      reverse_proxy http://localhost:8778
+    services.caddy.virtualHosts."wedding.thuis".extraConfig = ''
+           tls {
+      issuer internal { ca hadouken }
+           }
+           @internal {
+      remote_ip 100.64.0.0/10
+           }
+           handle @internal {
+       reverse_proxy http://localhost:8778
+           }
+           respond 403
     '';
 
     services.phpfpm.pools."wordpress-kevinandreihana".phpOptions = ''

@@ -12,6 +12,7 @@ in {
     ./modules/keycloak.nix
     ./modules/sailing.nix
     ./modules/caddy.nix
+    ./modules/pgrok.nix
     ./modules/tor.nix
   ];
 
@@ -23,6 +24,7 @@ in {
   hosts.tor.enable = true;
   hosts.sailing.enable = true;
   hosts.prometheus.enable = true;
+  hosts.pgrok.enable = false;
 
   # Right order of headscale operations for startup
   systemd.services.headscale = {

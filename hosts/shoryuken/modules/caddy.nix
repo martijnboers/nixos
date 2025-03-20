@@ -6,6 +6,14 @@
 }:
 with lib; let
   cfg = config.hosts.caddy;
+  plebian = builtins.fetchGit {
+    url = "https://github.com/martijnboers/plebian.nl.git";
+    rev = "b07146995f7b227ef7692402374268f0457003aa";
+  };
+  resume = builtins.fetchGit {
+    url = "git@github.com:martijnboers/resume.git";
+    rev = "b7d75859c8ce0c2867c95c5924623e397a2600f9";
+  };
 in {
   options.hosts.caddy = {
     enable = mkEnableOption "Caddy base";
@@ -16,8 +24,20 @@ in {
 
     services.caddy = {
       enable = true;
+      package = pkgs.callPackage ../../../pkgs/xcaddy.nix {
+        plugins = [
+          "github.com/darkweak/souin/plugins/caddy"
+        ];
+      };
       globalConfig = ''
-        pki {
+	metrics {
+	  per_host
+	}
+	servers {
+	  trusted_proxies static 100.64.0.0/10
+	  enable_full_duplex  
+	}
+	pki {
           ca shoryuken {
             name     shoryuken
             # openssl genrsa -out root.key 4096
@@ -28,10 +48,79 @@ in {
             }
           }
         }
+
+        # https://docs.souin.io/docs/middlewares/caddy/
+        cache {
+            ttl 100s
+            stale 3h
+            default_cache_control public, s-maxage=100
+        }
       '';
-      virtualHosts."donder.cloud".extraConfig = ''
-        respond "🌩️"
+      extraConfig = ''
+        matrix.plebian.nl, matrix.plebian.nl:8448 {
+           reverse_proxy /_matrix/* https://matrix.thuis {
+	      header_up Host {upstream_hostport}
+	   }
+        }
       '';
+      virtualHosts = {
+        "donder.cloud".extraConfig = ''
+          respond "🌩️"
+        '';
+
+        "plebian.nl" = {
+          serverAliases = ["boers.email"];
+          extraConfig = ''
+             cache { ttl 1h }
+             root * ${plebian}/
+             encode zstd gzip
+             file_server
+
+             route /.well-known/matrix/server {
+               header Access-Control-Allow-Origin "*"
+               header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+               header Access-Control-Allow-Headers "X-Requested-With, Content-Type, Authorization"
+               respond `{
+            "m.server": "matrix.plebian.nl:443"
+               }`
+             }
+
+             route /.well-known/matrix/client {
+               header Access-Control-Allow-Origin "*"
+               header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+               header Access-Control-Allow-Headers "X-Requested-With, Content-Type, Authorization"
+               respond `{
+            "m.homeserver": {
+               "base_url": "https://matrix.plebian.nl"
+            }
+               }`
+             }
+          ''; # makes it possible to do @martijn:plebian.nl
+        };
+        "resume.plebian.nl" = {
+          serverAliases = ["resume.boers.email"];
+          extraConfig = ''
+            cache { ttl 1h }
+            root * ${resume}/
+            encode zstd gzip
+            file_server
+          '';
+        };
+        "p.plebian.nl" = {
+          extraConfig = ''
+            reverse_proxy https://microbin.thuis {
+	      header_up Host {upstream_hostport} 
+	    }
+          ''; # to support tls on .thuis with public domain
+        };
+        "kevinandreihana.com" = {
+          extraConfig = ''
+            reverse_proxy https://wedding.thuis {
+	      header_up Host {upstream_hostport}
+	    }
+          '';
+        };
+      };
     };
 
     age.secrets = {

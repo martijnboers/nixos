@@ -12,7 +12,17 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."noisesfrom.space".extraConfig = ''
+    services.caddy.virtualHosts."mastodon.thuis".extraConfig = ''
+      tls {
+          issuer internal {
+              ca hadouken
+          }
+      }
+
+      @internal {
+          remote_ip 100.64.0.0/10
+      }
+
       coraza_waf {
           load_owasp_crs
           directives `
@@ -20,35 +30,37 @@ in {
               SecRuleEngine On
           `
       }
+
       handle_path /system/* {
-        file_server * {
-          root /var/lib/mastodon/public-system
-        }
+          file_server * {
+              root /var/lib/mastodon/public-system
+          }
       }
 
       handle /api/v1/streaming/* {
-         reverse_proxy  unix//run/mastodon-streaming/streaming.socket
+          reverse_proxy unix//run/mastodon-streaming/streaming.socket
       }
 
       route * {
-        file_server * {
-           root ${pkgs.mastodon}/public
-           pass_thru
-         }
-         reverse_proxy * unix//run/mastodon-web/web.socket
-       }
+          file_server * {
+              root ${pkgs.mastodon}/public
+              pass_thru
+          }
+          reverse_proxy * unix//run/mastodon-web/web.socket
+      }
 
-       handle_errors {
-         root * ${pkgs.mastodon}/public
-         rewrite 500.html
-         file_server
-       }
+      handle_errors {
+          root * ${pkgs.mastodon}/public
+          rewrite 500.html
+          file_server
+      }
 
       encode gzip
 
       header /* {
-         Strict-Transport-Security "max-age=31536000;"
+          Strict-Transport-Security "max-age=31536000;"
       }
+
       header /emoji/* Cache-Control "public, max-age=31536000, immutable"
       header /packs/* Cache-Control "public, max-age=31536000, immutable"
       header /system/accounts/avatars/* Cache-Control "public, max-age=31536000, immutable"
@@ -69,7 +81,7 @@ in {
     services.mastodon = {
       enable = true;
       streamingProcesses = 7;
-      localDomain = "noisesfrom.space";
+      localDomain = "mastodon.thuis";
       configureNginx = false;
       smtp = {
         createLocally = false;
