@@ -7,17 +7,16 @@
   ...
 }: let
   cfg = config.hosts.pgrok;
-  statePath = "/var/lib/pgrok";
 
   settings = {
-    external_url = "https://tunnel.plebian.nl";
+    external_url = "https://tunnel.donder.cloud";
     web = {
       port = 3320;
     };
     proxy = {
       port = 3070;
       scheme = "http";
-      domain = "tunnel.plebian.nl";
+      domain = "tunnel.donder.cloud";
     };
     sshd = {
       port = 6666; # available on wireguard
@@ -64,10 +63,10 @@ in {
   };
   config = lib.mkIf cfg.enable {
     services.caddy = {
-      virtualHosts."tunnel.plebian.nl".extraConfig = ''
+      virtualHosts."tunnel.donder.cloud".extraConfig = ''
         reverse_proxy http://localhost:3320
       '';
-      virtualHosts."*.tunnel.plebian.nl".extraConfig = ''
+      virtualHosts."*.tunnel.donder.cloud".extraConfig = ''
         tls {
           dns cloudflare {env.CLOUDFLARE_API_TOKEN}
         }
@@ -75,6 +74,7 @@ in {
       '';
     };
 
+    environment.systemPackages = with pkgs; [pgrok pgrok.server];
     age.secrets = {
       pgrok = {
         file = ../../../secrets/pgrok.age;

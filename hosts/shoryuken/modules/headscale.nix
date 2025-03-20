@@ -21,6 +21,10 @@ with lib; let
     "cal"
     "webdav"
     "detection"
+    "mastodon"
+    "microbin"
+    "matrix"
+    "wedding"
   ];
   shoryukenRecords = [
     "notifications"

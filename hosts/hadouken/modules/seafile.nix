@@ -12,12 +12,21 @@ in {
 
   config = mkIf cfg.enable {
     services.caddy.virtualHosts = {
-      "sea.plebian.nl".extraConfig = ''
-        reverse_proxy unix//run/seahub/gunicorn.sock
-
-        handle_path /seafhttp/* {
-          reverse_proxy http://127.0.0.1:${toString config.services.seafile.seafileSettings.fileserver.port}
+      "seaf.thuis".extraConfig = ''
+        tls {
+          issuer internal { ca hadouken }
         }
+        @internal {
+          remote_ip 100.64.0.0/10
+        }
+        handle @internal {
+         reverse_proxy unix//run/seahub/gunicorn.sock
+
+         handle_path /seafhttp/* {
+           reverse_proxy http://127.0.0.1:${toString config.services.seafile.seafileSettings.fileserver.port}
+         }
+        }
+        respond 403
       '';
     };
 

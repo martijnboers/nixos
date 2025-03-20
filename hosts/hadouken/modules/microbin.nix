@@ -11,8 +11,17 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."p.plebian.nl".extraConfig = ''
-      reverse_proxy http://localhost:${toString config.services.microbin.settings.MICROBIN_PORT}
+    services.caddy.virtualHosts."microbin.thuis".extraConfig = ''
+           tls {
+      issuer internal { ca hadouken }
+           }
+           @internal {
+      remote_ip 100.64.0.0/10
+           }
+           handle @internal {
+             reverse_proxy http://localhost:${toString config.services.microbin.settings.MICROBIN_PORT}
+           }
+           respond 403
     '';
 
     age.secrets.microbin.file = ../../../secrets/microbin.age;

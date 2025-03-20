@@ -12,6 +12,7 @@ in {
   };
 
   config = mkIf cfg.enable {
+    environment.systemPackages = with pkgs; [immich-go];
     services.caddy.virtualHosts."immich.thuis".extraConfig = ''
         tls {
           issuer internal { ca hadouken }

@@ -33,7 +33,6 @@ in {
     ./modules/search.nix
     ./modules/caddy.nix
     ./modules/atuin.nix
-    ./modules/pgrok.nix
     ./modules/cinny.nix
     ./modules/sync.nix
     ./modules/plex.nix
@@ -44,7 +43,6 @@ in {
   hosts.vaultwarden.enable = true;
   hosts.plex.enable = true;
   hosts.tailscale.enable = true;
-  hosts.pgrok.enable = true;
   hosts.cyberchef.enable = true;
   hosts.monitoring.enable = true;
   hosts.matrix.enable = true;
@@ -105,8 +103,6 @@ in {
 
   # Server defaults
   hosts.server.enable = true;
-
-  environment.systemPackages = with pkgs; [pgrok pgrok.server immich-go];
 
   # Allow network access when building
   # https://mdleom.com/blog/2021/12/27/caddy-plugins-nixos/#xcaddy

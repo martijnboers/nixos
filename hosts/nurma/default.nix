@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   networking.hostName = "nurma";
   hosts.hyprland.enable = true;
 
@@ -58,6 +55,10 @@
       enable = true;
     };
   };
+
+  # Allow network access when building shoryuken
+  # https://mdleom.com/blog/2021/12/27/caddy-plugins-nixos/#xcaddy
+  nix.settings.sandbox = false;
 
   services.xserver.videoDrivers = ["amdgpu"];
   services.flatpak.enable = true;

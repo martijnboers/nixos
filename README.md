@@ -15,7 +15,7 @@ for a good initial starting point for NixOS with flakes.
 - `git clone --recursive --depth=1 git@github.com:martijnboers/nixos.git ~/Nix`
 - `nixos-rebuild switch --flake ".?submodules=1" --use-remote-sudo`
 - `sudo tailscale up --login-server https://headscale.donder.cloud`
-- `pgrok init --remote-addr hadouken.machine.thuis:6666 --token {token}`
+- `pgrok init --remote-addr shoryuken.machine.thuis:6666 --token {token}`
 - `gpg --import private.key`
 
 ### Hetzner
