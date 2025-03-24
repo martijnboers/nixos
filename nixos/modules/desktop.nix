@@ -54,10 +54,17 @@ in {
     };
 
     environment.etc."davfs2/secrets" = {
-      text = "http://webdav.thuis/notes/ _ _";
+      source = config.age.secrets.microbin.path;
       mode = "0600";
       user = "root";
       group = "root";
+    };
+
+    age.secrets = {
+      dav-notes = {
+        file = ../../../secrets/dav-notes.age;
+        owner = "radicale";
+      };
     };
 
     # Enable networkingmanager

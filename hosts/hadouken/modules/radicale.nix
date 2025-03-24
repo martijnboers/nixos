@@ -25,14 +25,18 @@ in {
       respond 403
     '';
     services.borgbackup.jobs.default.paths = ["/var/lib/radicale/collections/"];
-    age.secrets.radicale.file = ../../../secrets/radicale.age;
+    age.secrets.radicale = {
+      file = ../../../secrets/radicale.age;
+      owner = "radicale";
+      group = "radicale";
+    };
     services.radicale = {
       enable = true;
       settings.server.hosts = [listenAddress];
-      settings.auth ={
-	type = "htpasswd";
-	htpasswd_filename = config.age.secrets.radicale.path;
-	htpasswd_encryption = "autodetect";
+      settings.auth = {
+        type = "htpasswd";
+        htpasswd_filename = config.age.secrets.radicale.path;
+        htpasswd_encryption = "autodetect";
       };
     };
   };

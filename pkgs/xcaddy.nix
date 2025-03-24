@@ -1,7 +1,6 @@
 # https://mdleom.com/blog/2021/12/27/caddy-plugins-nixos/#xcaddy
 {
   pkgs,
-  config,
   plugins,
   stdenv,
   lib,
@@ -26,14 +25,14 @@ stdenv.mkDerivation rec {
     pluginArgs = lib.concatMapStringsSep " " (plugin: "--with ${plugin}") plugins;
   in ''
     runHook preBuild
-    ${pkgs.xcaddy}/bin/xcaddy build "${version}" ${pluginArgs}
+    ${pkgs.xcaddy}/bin/caddy build "${version}" ${pluginArgs}
     runHook postBuild
   '';
 
   installPhase = ''
     runHook preInstall
     mkdir -p $out/bin
-    mv caddy $out/bin
+    mv xcaddy $out/bin
     runHook postInstall
   '';
 }
