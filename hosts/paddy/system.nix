@@ -39,9 +39,6 @@
   # enable flakes globally
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
-  # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
-
   nix.package = pkgs.nix;
 
   # do garbage collection weekly to keep disk usage low
@@ -58,7 +55,7 @@
   };
 
   # Add ability to used TouchID for sudo authentication
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   nixpkgs = {
     overlays = [

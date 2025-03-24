@@ -10,6 +10,7 @@
   home.packages = with pkgs; [
     openssh # mac ssh doesn't support hardware keys
     qmk
+    httpie
   ];
 
   age.identityPaths = ["/Users/martijn/.ssh/id_ed25519"];

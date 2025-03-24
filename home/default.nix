@@ -1,6 +1,5 @@
 {
   inputs,
-  system,
   pkgs,
   ...
 }: {
@@ -90,8 +89,6 @@
   # Let nix-index handle command-not-found
   programs.nix-index = {
     enable = true;
-    # https://github.com/nix-community/nix-index-database/issues/134
-    package = inputs.nix-index-database.packages.${system}.nix-index-with-small-db;
   };
   # Run programs with , cowsay
   programs.nix-index-database.comma.enable = true;
