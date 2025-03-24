@@ -13,7 +13,7 @@ in {
   config = mkIf cfg.enable {
     services.caddy = {
       extraConfig = ''
-            matrix.thuis, matrix.thuis:8448 {
+      matrix.thuis, matrix.thuis:8448 {
         tls {
           issuer internal { ca hadouken }
         }

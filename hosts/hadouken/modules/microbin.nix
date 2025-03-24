@@ -30,7 +30,7 @@ in {
       enable = true;
       passwordFile = config.age.secrets.microbin.path;
       settings = {
-	MICROBIN_PUBLIC_PATH="https://p.plebian.nl";
+        MICROBIN_PUBLIC_PATH = "https://p.plebian.nl";
         MICROBIN_PORT = 8080;
         MICROBIN_HIDE_LOGO = true;
         MICROBIN_HIDE_HEADER = true;

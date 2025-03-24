@@ -25,6 +25,7 @@ in {
       yubioath-flutter # yubikey
       seafile-client
       cheese # webcam
+      file-roller # archive manager
 
       # Office suite
       stable.libreoffice-qt

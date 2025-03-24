@@ -30,96 +30,109 @@ in {
         ];
       };
       globalConfig = ''
-	metrics {
-	  per_host
-	}
-	servers {
-	  trusted_proxies static 100.64.0.0/10
-	  enable_full_duplex  
-	}
-	pki {
-          ca shoryuken {
-            name     shoryuken
-            # openssl genrsa -out root.key 4096
-            # openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -config /etc/pki-root.cnf
-            root {
-              cert   ${../../../secrets/keys/shoryuken.crt}
-              key    ${config.age.secrets.shoryuken-pki.path}
-            }
-          }
+        metrics {
+          per_host
         }
+        servers {
+          trusted_proxies static 100.64.0.0/10
+          enable_full_duplex
+        }
+        pki {
+                 ca shoryuken {
+                   name     shoryuken
+                   # openssl genrsa -out root.key 4096
+                   # openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -config /etc/pki-root.cnf
+                   root {
+                     cert   ${../../../secrets/keys/shoryuken.crt}
+                     key    ${config.age.secrets.shoryuken-pki.path}
+                   }
+                 }
+               }
 
-        # https://docs.souin.io/docs/middlewares/caddy/
-        cache {
-            ttl 100s
-            stale 3h
-            default_cache_control public, s-maxage=100
-        }
+               # https://docs.souin.io/docs/middlewares/caddy/
+               cache {
+                   ttl 100s
+                   stale 3h
+                   default_cache_control public, s-maxage=100
+               }
       '';
       extraConfig = ''
-        matrix.plebian.nl, matrix.plebian.nl:8448 {
-           reverse_proxy /_matrix/* https://matrix.thuis {
-	      header_up Host {upstream_hostport}
-	   }
+            matrix.plebian.nl, matrix.plebian.nl:8448 {
+               reverse_proxy /_matrix/* https://matrix.thuis {
+           header_up Host {upstream_hostport}
         }
-      '';
-      virtualHosts = {
-        "donder.cloud".extraConfig = ''
-          respond "🌩️"
-        '';
-
-        "plebian.nl" = {
-          serverAliases = ["boers.email"];
-          extraConfig = ''
-             cache { ttl 1h }
-             root * ${plebian}/
-             encode zstd gzip
-             file_server
-
-             route /.well-known/matrix/server {
-               header Access-Control-Allow-Origin "*"
-               header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
-               header Access-Control-Allow-Headers "X-Requested-With, Content-Type, Authorization"
-               respond `{
-            "m.server": "matrix.plebian.nl:443"
-               }`
-             }
-
-             route /.well-known/matrix/client {
-               header Access-Control-Allow-Origin "*"
-               header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
-               header Access-Control-Allow-Headers "X-Requested-With, Content-Type, Authorization"
-               respond `{
-            "m.homeserver": {
-               "base_url": "https://matrix.plebian.nl"
             }
-               }`
-             }
-          ''; # makes it possible to do @martijn:plebian.nl
+      '';
+      virtualHosts = let
+        makeProxy = public: target: {
+            extraConfig = ''
+              reverse_proxy https://${target} {
+                  header_up Host ${target}
+                  header_up X-Forwarded-Host ${public}
+                  header_up X-Forwarded-Proto https
+                  header_up X-Real-IP {remote_host}
+                  header_up X-Forwarded-For {remote_host}
+                  # Rewrite Location headers
+                  header_down -Location
+                  header_down +Location {http.reverse_proxy.header.Location}
+                  replace {http.reverse_proxy.header.Location} ${target} ${public}
+                }
+            '';
         };
-        "resume.plebian.nl" = {
-          serverAliases = ["resume.boers.email"];
-          extraConfig = ''
-            cache { ttl 1h }
-            root * ${resume}/
-            encode zstd gzip
-            file_server
+      in
+        {
+          "donder.cloud".extraConfig = ''
+            respond "🌩️"
           '';
+
+          "plebian.nl" = {
+            serverAliases = ["boers.email"];
+            extraConfig = ''
+               cache { ttl 1h }
+               root * ${plebian}/
+               encode zstd gzip
+               file_server
+
+               route /.well-known/matrix/server {
+                 header Access-Control-Allow-Origin "*"
+                 header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+                 header Access-Control-Allow-Headers "X-Requested-With, Content-Type, Authorization"
+                 respond `{
+              "m.server": "matrix.plebian.nl:443"
+                 }`
+               }
+
+               route /.well-known/matrix/client {
+                 header Access-Control-Allow-Origin "*"
+                 header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+                 header Access-Control-Allow-Headers "X-Requested-With, Content-Type, Authorization"
+                 respond `{
+              "m.homeserver": {
+                 "base_url": "https://matrix.plebian.nl"
+              }
+                 }`
+               }
+            ''; # makes it possible to do @martijn:plebian.nl
+          };
+          "resume.plebian.nl" = {
+            serverAliases = ["resume.boers.email"];
+            extraConfig = ''
+              cache { ttl 1h }
+              root * ${resume}/
+              encode zstd gzip
+              file_server
+            '';
+          };
+	  "p.plebian.nl" = (makeProxy "p.plebian.nl" "microbin.thuis");
+	  "noisesfrom.space" = (makeProxy "noisesfrom.space" "mastodon.thuis");
+	  "kevinandreihana.com" = (makeProxy "kevinandreihana.com" "wedding.thuis");
         };
-        "p.plebian.nl" = {
-          extraConfig = ''
-            reverse_proxy https://microbin.thuis {
-	      header_up Host {upstream_hostport} 
-	    }
-          ''; # to support tls on .thuis with public domain
-        };
-        "kevinandreihana.com" = {
-          extraConfig = ''
-            reverse_proxy https://wedding.thuis {
-	      header_up Host {upstream_hostport}
-	    }
-          '';
-        };
+    };
+    systemd.services.caddy = {
+      serviceConfig = {
+	# Required to use ports < 1024
+	AmbientCapabilities = "cap_net_bind_service";
+	CapabilityBoundingSet = "cap_net_bind_service";
       };
     };
 
