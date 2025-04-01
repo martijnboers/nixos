@@ -3,6 +3,5 @@
   mailrise = pkgs.callPackage ./mailrise.nix {};
   dnscrypt = pkgs.callPackage ./dnscrypt.nix {};
   tormon-exporter = pkgs.callPackage ./tormon-exporter.nix {};
-  smtp-to-storage = pkgs.callPackage ./smtp-to-storage/default.nix {};
   resume-hugo = pkgs.callPackage ./resume.nix {};
 }

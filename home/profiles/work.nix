@@ -35,7 +35,6 @@ in {
     maatwerk.vscode.enable = true;
     home.packages = with pkgs; [
       stable.jetbrains.pycharm-community # https://hydra.nixos.org/build/282372975
-      stable.jetbrains.webstorm
       pgrok
       sublime-merge
       awscli2

@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  inputs,
   ...
 }:
 with lib; let
@@ -26,6 +25,7 @@ in {
       seafile-client
       cheese # webcam
       file-roller # archive manager
+      vdhcoapp # firefox video downloader
 
       # Office suite
       stable.libreoffice-qt
@@ -33,7 +33,6 @@ in {
       hunspellDicts.nl_NL
       hunspellDicts.en_US
       obsidian
-      morgen # calander
     ];
   };
 }

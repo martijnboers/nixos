@@ -1,7 +1,6 @@
 # https://mdleom.com/blog/2021/12/27/caddy-plugins-nixos/#xcaddy
 {
   pkgs,
-  config,
   plugins,
   stdenv,
   lib,
@@ -20,8 +19,6 @@ stdenv.mkDerivation rec {
     export GOPATH="$TMPDIR/go"
   '';
 
-  meta.mainProgram = "xcaddy";
-
   buildPhase = let
     pluginArgs = lib.concatMapStringsSep " " (plugin: "--with ${plugin}") plugins;
   in ''
@@ -29,6 +26,8 @@ stdenv.mkDerivation rec {
     ${pkgs.xcaddy}/bin/xcaddy build "${version}" ${pluginArgs}
     runHook postBuild
   '';
+
+  meta.mainProgram = "caddy";
 
   installPhase = ''
     runHook preInstall

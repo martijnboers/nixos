@@ -12,13 +12,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."mastodon.thuis".extraConfig = ''
-      tls {
-          issuer internal {
-              ca hadouken
-          }
-      }
-
+    services.caddy.virtualHosts."mastodon.thuis:80".extraConfig = ''
       @internal {
           remote_ip 100.64.0.0/10
       }
@@ -82,6 +76,7 @@ in {
       enable = true;
       streamingProcesses = 7;
       localDomain = "mastodon.thuis";
+      trustedProxy = "100.64.0.1"; # shoryuken
       configureNginx = false;
       smtp = {
         createLocally = false;
