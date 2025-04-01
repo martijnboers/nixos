@@ -81,7 +81,8 @@ in {
     services.mastodon = {
       enable = true;
       streamingProcesses = 7;
-      localDomain = "mastodon.thuis";
+      localDomain = "noisesfrom.space";
+      trustedProxy = "100.64.0.1"; # shoryuken
       configureNginx = false;
       smtp = {
         createLocally = false;

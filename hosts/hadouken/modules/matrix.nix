@@ -13,22 +13,20 @@ in {
   config = mkIf cfg.enable {
     services.caddy = {
       extraConfig = ''
-      matrix.thuis, matrix.thuis:8448 {
-        tls {
-          issuer internal { ca hadouken }
-        }
-        @internal {
-          remote_ip 100.64.0.0/10
-        }
-        handle @internal {
-           reverse_proxy /_matrix/* http://localhost:${toString config.services.matrix-conduit.settings.global.port}
-        }
-        respond 403
-            }
+        matrix.thuis, matrix.thuis:8448 {
+          tls {
+            issuer internal { ca hadouken }
+          }
+          @internal {
+            remote_ip 100.64.0.0/10
+          }
+          handle @internal {
+             reverse_proxy /_matrix/* http://localhost:${toString config.services.matrix-conduit.settings.global.port}
+          }
+          respond 403
+              }
       '';
     };
-
-    networking.firewall.allowedTCPPorts = [8448];
 
     services.matrix-conduit = {
       enable = true;

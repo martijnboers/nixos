@@ -162,7 +162,9 @@ in {
           job_name = "caddy";
           static_configs = [
             {
-              targets = ["127.0.0.1:2019"];
+              targets =
+                map (host: "${host}.machine.thuis:2019")
+                ["hadouken" "shoryuken" "tenshin"];
             }
           ];
         }
