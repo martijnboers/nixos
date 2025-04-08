@@ -25,7 +25,6 @@ in {
       seafile-client
       cheese # webcam
       file-roller # archive manager
-      vdhcoapp # firefox video downloader
 
       # Office suite
       stable.libreoffice-qt

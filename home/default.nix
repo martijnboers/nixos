@@ -26,7 +26,6 @@
     # Desktop only
     ./modules/hyprland.nix
     ./modules/browser.nix
-    ./modules/vscode.nix
     ./modules/kitty.nix
     ./modules/kde.nix
     inputs.plasma-manager.homeManagerModules.plasma-manager
@@ -44,7 +43,7 @@
     fzf # A command-line fuzzy finder
     fd # easier find
     direnv # used for .envrc files
-    yazi # like ranger
+    yazi # cli file explorer
     neofetch
     thefuck
     trash-cli

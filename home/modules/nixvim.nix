@@ -10,7 +10,7 @@
     extraConfigVim = ''
       filetype indent on
       set autoread
-      nnoremap <C-b> <C-w>v
+      nnoremap <C-b> :Neotree toggle<cr>
     '';
 
     opts = {
@@ -23,12 +23,12 @@
       settings.flavour = "mocha";
     };
     plugins = {
-      lightline.enable = true; # bar at the bottom
       lastplace.enable = true; # re-open files where left off
       which-key.enable = true; # popup with possible key combinations
       barbecue.enable = true; # breadcrumbs at top of code files
       neo-tree.enable = true; # left pane with files
       web-devicons.enable = true; # needed for another plugin
+      barbar.enable = true; # tabs like any other editor
       gitsigns = {
         enable = true; # git client
         autoLoad = true;
@@ -44,8 +44,9 @@
         enable = true;
         keymaps = {
           "<C-e>" = "find_files";
-          "<leader>fg" = "live_grep";
-          "<leader>fb" = "buffers";
+          "<C-f>" = "live_grep";
+          "<C-t>" = "lsp_document_symbols";
+	  "<C-g>" = "buffers";
           "<leader>fh" = "help_tags";
         };
       }; # fzf fuzzy finding
@@ -62,13 +63,13 @@
           };
           sources = [
             {name = "nvim_lsp";}
-            {name = "path";} # what are these values?
+            {name = "path";}
             {name = "buffer";}
             {name = "orgmode";}
             {name = "neorg";}
           ];
         };
-      }; # auto-complete intelij like
+      }; # auto-complete intelij like additionally supplied by lsp
 
       lsp-format = {
         enable = true;
@@ -76,6 +77,15 @@
 
       lsp = {
         enable = true;
+        keymaps = {
+          lspBuf = {
+            K = "hover";
+            gD = "references";
+            gd = "definition";
+            gi = "implementation";
+            gt = "type_definition";
+          };
+        };
         servers = {
           bashls.enable = true;
           nil_ls.enable = true;
