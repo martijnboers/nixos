@@ -125,11 +125,7 @@ in {
             file_server
           '';
         };
-        "noisesfrom.space" = {
-          extraConfig = ''
-            reverse_proxy http://mastodon.thuis
-          '';
-        };
+        "noisesfrom.space" = makeProxy "p.plebian.nl" "microbin.thuis";
         "p.plebian.nl" = makeProxy "p.plebian.nl" "microbin.thuis";
         "kevinandreihana.com" = makeProxy "kevinandreihana.com" "wedding.thuis";
       };

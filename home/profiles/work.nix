@@ -32,7 +32,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    maatwerk.vscode.enable = true;
     home.packages = with pkgs; [
       stable.jetbrains.pycharm-community # https://hydra.nixos.org/build/282372975
       pgrok

@@ -12,7 +12,11 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."mastodon.thuis:80".extraConfig = ''
+    networking.firewall = {
+      allowedTCPPorts = [80 443];
+    };
+
+    services.caddy.virtualHosts."noisesfrom.space".extraConfig = ''
       @internal {
           remote_ip 100.64.0.0/10
       }
@@ -75,7 +79,7 @@ in {
     services.mastodon = {
       enable = true;
       streamingProcesses = 7;
-      localDomain = "mastodon.thuis";
+      localDomain = "noisesfrom.space";
       trustedProxy = "100.64.0.1"; # shoryuken
       configureNginx = false;
       smtp = {

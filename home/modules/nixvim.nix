@@ -1,5 +1,4 @@
 {...}: {
-  # Neovim
   programs.nixvim = {
     enable = true;
 
@@ -10,8 +9,26 @@
     extraConfigVim = ''
       filetype indent on
       set autoread
-      nnoremap <C-b> <C-w>v
     '';
+
+    keymaps = [
+      {
+        action = "<cmd>Neotree toggle<cr>";
+        key = "<C-b>";
+      }
+      {
+        action = "<cmd>bprevious<cr>";
+        key = "<C-j>";
+      }
+      {
+        action = "<cmd>bnext<cr>";
+        key = "<C-k>";
+      }
+      {
+        action = "<cmd>bd<cr>";
+        key = "x";
+      }
+    ];
 
     opts = {
       number = true; # Show line numbers
@@ -23,30 +40,42 @@
       settings.flavour = "mocha";
     };
     plugins = {
-      lightline.enable = true; # bar at the bottom
       lastplace.enable = true; # re-open files where left off
       which-key.enable = true; # popup with possible key combinations
       barbecue.enable = true; # breadcrumbs at top of code files
       neo-tree.enable = true; # left pane with files
       web-devicons.enable = true; # needed for another plugin
+      barbar.enable = true; # tabs like any other editor
+      comment.enable = true;
+
       gitsigns = {
-        enable = true; # git client
+        enable = true; 
         autoLoad = true;
-      };
+      }; # diff + gutter signs
 
       treesitter = {
         enable = true;
-        settings.indent.enable = true;
+        settings = {
+	  indent.enable = true;
+	};
         nixGrammars = true;
-      }; # fancy syntax highlighting
+      }; # Syntax highlighting 
 
       telescope = {
         enable = true;
         keymaps = {
           "<C-e>" = "find_files";
-          "<leader>fg" = "live_grep";
-          "<leader>fb" = "buffers";
+          "<C-f>" = "live_grep";
+          "<C-t>" = "lsp_document_symbols";
+          "<C-g>" = "buffers";
           "<leader>fh" = "help_tags";
+        };
+        settings = {
+          pickers = {
+            lsp_document_symbols = {
+              theme = "ivy";
+            };
+          };
         };
       }; # fzf fuzzy finding
 
@@ -62,13 +91,13 @@
           };
           sources = [
             {name = "nvim_lsp";}
-            {name = "path";} # what are these values?
+            {name = "path";}
             {name = "buffer";}
             {name = "orgmode";}
             {name = "neorg";}
           ];
         };
-      }; # auto-complete intelij like
+      }; # auto-complete intelij like additionally supplied by lsp
 
       lsp-format = {
         enable = true;
@@ -76,6 +105,15 @@
 
       lsp = {
         enable = true;
+        keymaps = {
+          lspBuf = {
+            K = "hover";
+            gD = "references";
+            gd = "definition";
+            gi = "implementation";
+            gt = "type_definition";
+          };
+        };
         servers = {
           bashls.enable = true;
           nil_ls.enable = true;

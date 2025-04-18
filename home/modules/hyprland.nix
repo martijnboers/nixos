@@ -66,11 +66,8 @@ in {
           "swaync &"
           "copyq --start-server &"
           "nheko &"
-          "seafile-applet &"
           "blueman-applet &"
           "nm-applet --indicator &"
-          # firefox video downloader
-          "vdhcoapp &"
         ];
         "$terminal" = "kitty";
         "$fileManager" = "thunar";
