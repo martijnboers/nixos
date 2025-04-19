@@ -49,17 +49,17 @@
       comment.enable = true;
 
       gitsigns = {
-        enable = true; 
+        enable = true;
         autoLoad = true;
       }; # diff + gutter signs
 
       treesitter = {
         enable = true;
         settings = {
-	  indent.enable = true;
-	};
+          indent.enable = true;
+        };
         nixGrammars = true;
-      }; # Syntax highlighting 
+      }; # Syntax highlighting
 
       telescope = {
         enable = true;

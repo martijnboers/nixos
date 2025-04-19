@@ -23,8 +23,8 @@ in {
     ./modules/microbin.nix
     ./modules/radicale.nix
     ./modules/bincache.nix
+    ./modules/database.nix
     ./modules/bitcoin.nix
-    ./modules/seafile.nix
     ./modules/storage.nix
     ./modules/archive.nix
     ./modules/ollama.nix
@@ -61,8 +61,7 @@ in {
   hosts.prometheus.enable = true;
   hosts.radicale.enable = true;
   hosts.bitcoin.enable = true;
-  hosts.seafile.enable = false;
-  # Server for atuin
+  hosts.database.enable = true;
   hosts.atuin.enable = true;
 
   systemd.services.sshd = {
