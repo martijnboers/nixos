@@ -6,27 +6,22 @@
       providers.wl-copy.enable = true;
     };
 
-    extraConfigVim = ''
-      filetype indent on
-      set autoread
-    '';
-
     keymaps = [
       {
         action = "<cmd>Neotree toggle<cr>";
         key = "<C-b>";
       }
       {
-        action = "<cmd>bprevious<cr>";
-        key = "<C-j>";
-      }
-      {
-        action = "<cmd>bnext<cr>";
-        key = "<C-k>";
-      }
-      {
         action = "<cmd>bd<cr>";
         key = "x";
+      }
+      {
+        action = "<C-u>zz";
+        key = "<C-u>";
+      }
+      {
+        action = "<C-d>zz";
+        key = "<C-d>";
       }
     ];
 
@@ -34,6 +29,11 @@
       number = true; # Show line numbers
       relativenumber = true; # Show relative line numbers
       shiftwidth = 2; # Tab width should be 2
+      swapfile = false; # No more .swp files
+      autoread = true; # autoreload changed files
+      undofile = true; # save undo history
+      ignorecase = true; # case insensitive search
+      smartcase = true; # when adding cases to search, becomes case sensitive
     };
     colorschemes.catppuccin = {
       enable = true;
@@ -46,20 +46,21 @@
       neo-tree.enable = true; # left pane with files
       web-devicons.enable = true; # needed for another plugin
       barbar.enable = true; # tabs like any other editor
-      comment.enable = true;
+      noice.enable = true; # cmd popup input modal
+      comment.enable = true; # comments visual lines
 
       gitsigns = {
-        enable = true; 
+        enable = true;
         autoLoad = true;
       }; # diff + gutter signs
 
       treesitter = {
         enable = true;
         settings = {
-	  indent.enable = true;
-	};
+          indent.enable = true;
+        };
         nixGrammars = true;
-      }; # Syntax highlighting 
+      }; # Syntax highlighting
 
       telescope = {
         enable = true;

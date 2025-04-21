@@ -6,6 +6,7 @@
 }:
 with lib; let
   cfg = config.hosts.mastodon;
+  mediaRoot = "/mnt/zwembad/games/mastodon/";
 in {
   options.hosts.mastodon = {
     enable = mkEnableOption "Mastodon feddy";
@@ -17,10 +18,6 @@ in {
     };
 
     services.caddy.virtualHosts."noisesfrom.space".extraConfig = ''
-      @internal {
-          remote_ip 100.64.0.0/10
-      }
-
       coraza_waf {
           load_owasp_crs
           directives `
@@ -28,10 +25,9 @@ in {
               SecRuleEngine On
           `
       }
-
       handle_path /system/* {
           file_server * {
-              root /var/lib/mastodon/public-system
+              root ${mediaRoot}
           }
       }
 
@@ -70,23 +66,20 @@ in {
     # Caddy systemd unit needs readwrite permissions to /run/mastodon-web
     systemd.services.caddy.serviceConfig.ReadWriteDirectories = lib.mkForce ["/var/lib/caddy" "/run/mastodon-web"];
 
-    services.postgresqlBackup = {
-      enable = true;
-      databases = ["mastodon"];
-    };
-    services.borgbackup.jobs.default.paths = [config.services.postgresqlBackup.location];
-
     services.mastodon = {
       enable = true;
-      streamingProcesses = 7;
+      streamingProcesses = 3;
       localDomain = "noisesfrom.space";
-      trustedProxy = "100.64.0.1"; # shoryuken
+      # trustedProxy = "100.64.0.1"; # shoryuken
       configureNginx = false;
       smtp = {
         createLocally = false;
         fromAddress = "noreply@plebian.nl"; # required
       };
-      extraConfig.SINGLE_USER_MODE = "true";
+      extraConfig = {
+	SINGLE_USER_MODE = "true";
+	PAPERCLIP_ROOT_PATH = mediaRoot;
+      };
       mediaAutoRemove = {
         enable = true;
         olderThanDays = 14;

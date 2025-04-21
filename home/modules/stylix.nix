@@ -40,8 +40,8 @@ in {
           name = "Noto Color Emoji";
         };
       };
+      targets.librewolf.enable = false;
       targets.nixvim.enable = false;
-      targets.hyprland.enable = true;
       targets.hyprlock.enable = false;
     };
   };

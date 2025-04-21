@@ -125,9 +125,9 @@ in {
             file_server
           '';
         };
-        "noisesfrom.space" = makeProxy "p.plebian.nl" "microbin.thuis";
         "p.plebian.nl" = makeProxy "p.plebian.nl" "microbin.thuis";
         "kevinandreihana.com" = makeProxy "kevinandreihana.com" "wedding.thuis";
+        "sea.plebian.nl" = makeProxy "sea.plebian.nl" "seaf.thuis";
       };
     };
     systemd.services.caddy = {

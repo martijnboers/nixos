@@ -25,6 +25,8 @@ with lib; let
     "microbin"
     "matrix"
     "wedding"
+    "pgadmin"
+    "seaf"
   ];
   shoryukenRecords = [
     "notifications"

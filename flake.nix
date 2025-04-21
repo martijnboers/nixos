@@ -46,8 +46,9 @@
     };
 
     stylix = {
-      # https://github.com/danth/stylix/pull/780
-      url = "github:danth/stylix/release-24.11";
+      # url = "github:danth/stylix/release-24.11";
+      # working 8d5cd725ad591890c0cd804bf68cc842b8afca51
+      url = "github:danth/stylix/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

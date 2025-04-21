@@ -49,7 +49,7 @@ in {
       # screenshots / clipboard
       hyprshot
       wl-clipboard
-      copyq
+      stable.copyq
 
       # other
       swaynotificationcenter # notifs

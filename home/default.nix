@@ -45,8 +45,6 @@
     direnv # used for .envrc files
     yazi # cli file explorer
     neofetch
-    thefuck
-    trash-cli
     bat # fancy cat
     lsd # fancy ls
     magic-wormhole # send files
