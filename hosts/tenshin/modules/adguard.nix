@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.adguard;
-in {
+in
+{
   options.hosts.adguard = {
     enable = mkEnableOption "Adguard say no to ads";
   };
@@ -37,8 +39,8 @@ in {
       "adguard-exporter" = {
         enable = true;
         description = "AdGuard metric exporter for Prometheus";
-        documentation = ["https://github.com/totoroot/adguard-exporter/blob/master/README.md"];
-        wantedBy = ["multi-user.target"];
+        documentation = [ "https://github.com/totoroot/adguard-exporter/blob/master/README.md" ];
+        wantedBy = [ "multi-user.target" ];
         serviceConfig = {
           ExecStart = ''
             ${pkgs.adguard-exporter}/bin/adguard-exporter \
@@ -74,7 +76,7 @@ in {
       settings = {
         dns = {
           ratelimit = 0;
-          bind_hosts = ["0.0.0.0"]; # this can bind to tailscale
+          bind_hosts = [ "0.0.0.0" ]; # this can bind to tailscale
           upstream_dns = [
             "https://dns10.quad9.net/dns-query"
             "https://doq.dns4all.eu/dns-query"
@@ -86,11 +88,18 @@ in {
           ];
           use_http3_upstreams = true;
           upstream_mode = "load_balance";
-          bootstrap_dns = ["9.9.9.9" "208.67.222.222"];
+          bootstrap_dns = [
+            "9.9.9.9"
+            "208.67.222.222"
+          ];
           protection_enabled = true;
           enable_dnssec = true; # make it harder to tamper
           # serve_plain_dns = false; # only allow dns over https/tls
-          blocked_hosts = ["version.bind" "id.server" "hostname.bind"];
+          blocked_hosts = [
+            "version.bind"
+            "id.server"
+            "hostname.bind"
+          ];
           cache_size = 4194304;
         };
         tls = {

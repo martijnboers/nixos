@@ -4,14 +4,16 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.maatwerk.kitty;
-in {
+in
+{
   options.maatwerk.kitty = {
     enable = mkEnableOption "Terminal emulator";
   };
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [kitty];
+    home.packages = with pkgs; [ kitty ];
     programs.kitty = {
       enable = true;
       shellIntegration = {

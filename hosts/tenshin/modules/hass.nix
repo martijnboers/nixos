@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.hass;
-in {
+in
+{
   options.hosts.hass = {
     enable = mkEnableOption "Home assistant server";
   };
@@ -24,7 +26,7 @@ in {
         }
       respond 403
     '';
-    services.borgbackup.jobs.default.paths = [config.services.home-assistant.configDir];
+    services.borgbackup.jobs.default.paths = [ config.services.home-assistant.configDir ];
     services.home-assistant = {
       enable = true;
       package = pkgs.stable.home-assistant;
@@ -40,7 +42,7 @@ in {
             "127.0.0.1"
           ];
         };
-        default_config = {};
+        default_config = { };
         homeassistant = {
           name = "Thuis";
           unit_system = "metric";

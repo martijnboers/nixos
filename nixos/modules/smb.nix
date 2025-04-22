@@ -3,9 +3,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.smb;
-in {
+in
+{
   options.hosts.smb = {
     enable = mkEnableOption "Enable Samba";
   };

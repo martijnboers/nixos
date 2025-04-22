@@ -3,9 +3,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.endlessh;
-in {
+in
+{
   options.hosts.endlessh = {
     enable = mkEnableOption "Come join my server";
   };
@@ -38,8 +40,8 @@ in {
       };
     };
     systemd.services.endlessh-go = {
-      after = ["network.target"];
-      serviceConfig.BindReadOnlyPaths = [config.services.geoipupdate.settings.DatabaseDirectory];
+      after = [ "network.target" ];
+      serviceConfig.BindReadOnlyPaths = [ config.services.geoipupdate.settings.DatabaseDirectory ];
     };
   };
 }

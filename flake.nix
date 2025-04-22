@@ -58,102 +58,106 @@
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    darwin,
-    ...
-  } @ inputs: let
-    inherit (self) outputs;
-    systems = [
-      "x86_64-linux"
-      "aarch64-linux"
-      "aarch64-darwin"
-    ];
-    forAllSystems = nixpkgs.lib.genAttrs systems;
-
-    mkSystem = name: {
-      system,
-      extraModules ? [],
-    }: let
-      systemconfig = ./hosts/${name}/default.nix;
-      hardwareconfig = ./hosts/${name}/hardware.nix;
-      homeconfig = ./hosts/${name}/home.nix;
-    in
-      with nixpkgs.lib;
-        nixosSystem {
-          specialArgs = {inherit inputs outputs;};
-          extraModules = extraModules;
-          modules =
-            [
-              systemconfig
-              hardwareconfig
-
-              # Base NixOS configuration
-              ./nixos/system.nix
-
-              # Secret management
-              inputs.agenix.nixosModules.default
-              {
-                environment.systemPackages = [inputs.agenix.packages.${system}.default];
-              }
-              inputs.secrets.outPath
-
-              home-manager.nixosModules.home-manager
-              {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.users.martijn = import homeconfig;
-                home-manager.extraSpecialArgs = {inherit inputs outputs system;};
-              }
-            ]
-            ++ extraModules;
-        };
-  in {
-    # Custom packages, accessible through 'nix build', 'nix shell', etc
-    packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
-    # Formatter for your nix files, available through 'nix fmt'
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
-
-    overlays = import ./overlays {inherit inputs;};
-
-    nixosConfigurations.nurma = mkSystem "nurma" {
-      system = "x86_64-linux";
-    };
-
-    nixosConfigurations.hadouken = mkSystem "hadouken" {
-      system = "x86_64-linux";
-    };
-
-    nixosConfigurations.shoryuken = mkSystem "shoryuken" {
-      system = "x86_64-linux";
-      extraModules = [inputs.disko.nixosModules.disko];
-    };
-
-    nixosConfigurations.tatsumaki = mkSystem "tatsumaki" {
-      system = "x86_64-linux";
-      extraModules = [inputs.disko.nixosModules.disko];
-    };
-
-    nixosConfigurations.tenshin = mkSystem "tenshin" {
-      system = "aarch64-linux";
-    };
-
-    darwinConfigurations.paddy = darwin.lib.darwinSystem {
-      system = "aarch64-darwin";
-      specialArgs = {inherit inputs outputs;};
-      modules = [
-        ./hosts/paddy/system.nix
-
-        home-manager.darwinModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = {inherit inputs outputs;};
-          home-manager.users.martijn = import ./hosts/paddy/home.nix;
-        }
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      darwin,
+      ...
+    }@inputs:
+    let
+      inherit (self) outputs;
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "aarch64-darwin"
       ];
+      forAllSystems = nixpkgs.lib.genAttrs systems;
+
+      mkSystem =
+        name:
+        {
+          system,
+          extraModules ? [ ],
+        }:
+        let
+          systemconfig = ./hosts/${name}/default.nix;
+          hardwareconfig = ./hosts/${name}/hardware.nix;
+          homeconfig = ./hosts/${name}/home.nix;
+        in
+        with nixpkgs.lib;
+        nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          extraModules = extraModules;
+          modules = [
+            systemconfig
+            hardwareconfig
+
+            # Base NixOS configuration
+            ./nixos/system.nix
+
+            # Secret management
+            inputs.agenix.nixosModules.default
+            {
+              environment.systemPackages = [ inputs.agenix.packages.${system}.default ];
+            }
+            inputs.secrets.outPath
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.martijn = import homeconfig;
+              home-manager.extraSpecialArgs = { inherit inputs outputs system; };
+            }
+          ] ++ extraModules;
+        };
+    in
+    {
+      # Custom packages, accessible through 'nix build', 'nix shell', etc
+      packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+      # Formatter for your nix files, available through 'nix fmt'
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
+
+      overlays = import ./overlays { inherit inputs; };
+
+      nixosConfigurations.nurma = mkSystem "nurma" {
+        system = "x86_64-linux";
+      };
+
+      nixosConfigurations.hadouken = mkSystem "hadouken" {
+        system = "x86_64-linux";
+      };
+
+      nixosConfigurations.shoryuken = mkSystem "shoryuken" {
+        system = "x86_64-linux";
+        extraModules = [ inputs.disko.nixosModules.disko ];
+      };
+
+      nixosConfigurations.tatsumaki = mkSystem "tatsumaki" {
+        system = "x86_64-linux";
+        extraModules = [ inputs.disko.nixosModules.disko ];
+      };
+
+      nixosConfigurations.tenshin = mkSystem "tenshin" {
+        system = "aarch64-linux";
+      };
+
+      darwinConfigurations.paddy = darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        specialArgs = { inherit inputs outputs; };
+        modules = [
+          ./hosts/paddy/system.nix
+
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs outputs; };
+            home-manager.users.martijn = import ./hosts/paddy/home.nix;
+          }
+        ];
+      };
     };
-  };
 }

@@ -2,19 +2,25 @@
   lib,
   modulesPath,
   ...
-}: {
+}:
+{
   # Hardware
-  imports = [(modulesPath + "/profiles/qemu-guest.nix")];
+  imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
   boot.loader.grub.enable = true;
-  boot.initrd.availableKernelModules = ["ata_piix" "uhci_hcd" "xen_blkfront" "vmw_pvscsi"];
-  boot.initrd.kernelModules = ["nvme"];
+  boot.initrd.availableKernelModules = [
+    "ata_piix"
+    "uhci_hcd"
+    "xen_blkfront"
+    "vmw_pvscsi"
+  ];
+  boot.initrd.kernelModules = [ "nvme" ];
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   fileSystems."/nix" = {
     device = "/dev/disk/by-id/scsi-0HC_Volume_102108352-part1";
     fsType = "ext4";
     neededForBoot = true;
-    options = ["noatime"];
+    options = [ "noatime" ];
   };
 
   swapDevices = [

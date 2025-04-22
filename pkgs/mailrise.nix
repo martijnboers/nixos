@@ -21,13 +21,13 @@ python3.pkgs.buildPythonApplication rec {
     setuptools-scm
   ];
 
-  pythonImportsCheck = ["mailrise"];
+  pythonImportsCheck = [ "mailrise" ];
 
   meta = with lib; {
     description = "An SMTP gateway for Apprise notifications";
     homepage = "https://pypi.org/project/mailrise/";
     license = licenses.mit;
-    maintainers = with maintainers; [];
+    maintainers = with maintainers; [ ];
     mainProgram = "mailrise";
   };
 }

@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.bitcoin;
-in {
+in
+{
   options.hosts.bitcoin = {
     enable = mkEnableOption "You leave your car running 24/7 to solve sudoku puzzles you can trade for illegal drugs";
   };
@@ -31,7 +33,7 @@ in {
     systemd.services."bitcoind-exporter" = {
       enable = true;
       description = "Export crunching of bitcoind";
-      wantedBy = ["multi-user.target"];
+      wantedBy = [ "multi-user.target" ];
       environment = {
         BITCOIN_RPC_HOST = "hadouken.machine.thuis";
         BITCOIN_RPC_USER = "martijn";
@@ -45,7 +47,7 @@ in {
       };
     };
     networking.firewall = {
-      allowedTCPPorts = [config.services.bitcoind.default.port];
+      allowedTCPPorts = [ config.services.bitcoind.default.port ];
     };
   };
 }

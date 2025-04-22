@@ -3,9 +3,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.server;
-in {
+in
+{
   options.hosts.server = {
     enable = mkEnableOption "Server defaults";
   };

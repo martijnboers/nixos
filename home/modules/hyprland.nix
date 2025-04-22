@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.maatwerk.hyprland;
-in {
+in
+{
   imports = [
     ./desktop.nix
     ./waybar.nix
@@ -24,36 +26,38 @@ in {
       iconTheme.package = pkgs.gruvbox-dark-icons-gtk;
     };
 
-    home.packages = with pkgs;
-    with kdePackages; [
-      # utilities
-      waybar
-      rofi-wayland
-      networkmanagerapplet
-      blueman # bluetooth
-      pavucontrol # audio
-      playerctl
-      wlogout
-      imv # image viewer
-      kate # kwrite
-      seahorse # kwallet stinks
+    home.packages =
+      with pkgs;
+      with kdePackages;
+      [
+        # utilities
+        waybar
+        rofi-wayland
+        networkmanagerapplet
+        blueman # bluetooth
+        pavucontrol # audio
+        playerctl
+        wlogout
+        imv # image viewer
+        kate # kwrite
+        seahorse # kwallet stinks
 
-      # File support
-      zathura #pdf
-      vlc
+        # File support
+        zathura # pdf
+        vlc
 
-      # emojis
-      wofi-emoji
-      wtype
+        # emojis
+        wofi-emoji
+        wtype
 
-      # screenshots / clipboard
-      hyprshot
-      wl-clipboard
-      stable.copyq
+        # screenshots / clipboard
+        hyprshot
+        wl-clipboard
+        stable.copyq
 
-      # other
-      swaynotificationcenter # notifs
-    ];
+        # other
+        swaynotificationcenter # notifs
+      ];
 
     wayland.windowManager.hyprland = {
       enable = true;
@@ -115,7 +119,7 @@ in {
             "$mod, Space, exec, $menu"
             "$mod, T, exec, wofi-emoji"
             "$mod, R, exec, code"
-            ", Print, exec, hyprshot -m region --clipboard-only" #
+            ", Print, exec, hyprshot -m region --clipboard-only"
             "$mod, F4, killactive"
             "$prog, H, exec, copyq toggle"
             "$mod, M, exec, hyprlock"
@@ -139,14 +143,15 @@ in {
             # Define keybindings for workspaces 1 to 6
             builtins.concatLists (
               builtins.genList (
-                x: let
+                x:
+                let
                   ws = builtins.toString (x + 1); # Workspace number as a string
-                in [
+                in
+                [
                   "$mod, ${ws}, workspace, ${ws}" # Switch to workspace {ws}
                   "$mod SHIFT, ${ws}, movetoworkspace, ${ws}" # Move to workspace {ws}
                 ]
-              )
-              6 # Generate for 6 workspaces
+              ) 6 # Generate for 6 workspaces
             )
           );
 
@@ -220,40 +225,42 @@ in {
       temperature.night = 3000;
     };
 
-    services.swayidle = let
-      lockCmd = lib.getExe pkgs.hyprlock;
-      hyprlandPkg = lib.getExe config.wayland.windowManager.hyprland.package;
-    in {
-      enable = true;
-      package = pkgs.stable.swayidle;
-      events = [
-        # executes command before systemd puts the computer to sleep.
-        {
-          event = "before-sleep";
-          command = lockCmd;
-        }
-        # executes command when logind signals that the session should be locked
-        {
-          event = "lock";
-          command = lockCmd;
-        }
-      ];
-      timeouts = [
-        {
-          timeout = 1495;
-          command = "${lib.getExe pkgs.libnotify} 'Locking in 5 seconds' -t 5000";
-        }
-        {
-          timeout = 1500;
-          command = lockCmd;
-        }
-        {
-          timeout = 1600;
-          command = "${hyprlandPkg} dispatch dpms off";
-          resumeCommand = "${hyprlandPkg} dispatch dpms on";
-        }
-      ];
-    };
+    services.swayidle =
+      let
+        lockCmd = lib.getExe pkgs.hyprlock;
+        hyprlandPkg = lib.getExe config.wayland.windowManager.hyprland.package;
+      in
+      {
+        enable = true;
+        package = pkgs.stable.swayidle;
+        events = [
+          # executes command before systemd puts the computer to sleep.
+          {
+            event = "before-sleep";
+            command = lockCmd;
+          }
+          # executes command when logind signals that the session should be locked
+          {
+            event = "lock";
+            command = lockCmd;
+          }
+        ];
+        timeouts = [
+          {
+            timeout = 1495;
+            command = "${lib.getExe pkgs.libnotify} 'Locking in 5 seconds' -t 5000";
+          }
+          {
+            timeout = 1500;
+            command = lockCmd;
+          }
+          {
+            timeout = 1600;
+            command = "${hyprlandPkg} dispatch dpms off";
+            resumeCommand = "${hyprlandPkg} dispatch dpms on";
+          }
+        ];
+      };
 
     programs.hyprlock = {
       enable = true;

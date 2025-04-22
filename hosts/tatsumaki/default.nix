@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   networking.hostName = "tatsumaki";
 
   imports = [
@@ -14,7 +15,10 @@
 
   hosts.openssh = {
     enable = true;
-    allowUsers = ["*@100.64.0.0/10" "*@10.10.0.0/24"];
+    allowUsers = [
+      "*@100.64.0.0/10"
+      "*@10.10.0.0/24"
+    ];
   };
 
   hosts.borg = {
@@ -22,7 +26,7 @@
     repository = "ssh://jym6959y@jym6959y.repo.borgbase.com/./repo";
   };
 
-  nix.settings.trusted-users = ["martijn"]; # allows remote push
+  nix.settings.trusted-users = [ "martijn" ]; # allows remote push
 
   # Server defaults
   hosts.server.enable = true;

@@ -3,9 +3,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.auditd;
-in {
+in
+{
   options.hosts.auditd = {
     enable = mkEnableOption "Enable auditd";
     rules = mkOption {

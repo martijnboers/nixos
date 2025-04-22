@@ -3,9 +3,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.database;
-in {
+in
+{
   options.hosts.database = {
     enable = mkEnableOption "PostgreSQL";
   };
@@ -33,7 +35,7 @@ in {
         host  all       all     100.64.0.0/10   trust
       '';
     };
-   
+
     age.secrets.pgadmin.file = ../../../secrets/pgadmin.age;
 
     services.pgadmin = {
@@ -44,9 +46,14 @@ in {
 
     services.postgresqlBackup = {
       enable = true;
-      databases = ["mastodon" "atuin" "immich" "pgrok"];
+      databases = [
+        "mastodon"
+        "atuin"
+        "immich"
+        "pgrok"
+      ];
     };
 
-    services.borgbackup.jobs.default.paths = [config.services.postgresqlBackup.location];
+    services.borgbackup.jobs.default.paths = [ config.services.postgresqlBackup.location ];
   };
 }

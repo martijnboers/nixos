@@ -2,7 +2,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   imports = [
     ../../home
   ];
@@ -12,5 +13,5 @@
   maatwerk.personal.enable = false;
   maatwerk.work.enable = false;
 
-  home.packages = with pkgs; [];
+  home.packages = with pkgs; [ ];
 }

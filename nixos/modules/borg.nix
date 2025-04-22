@@ -3,9 +3,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.borg;
-in {
+in
+{
   options.hosts.borg = {
     enable = mkEnableOption "Make backups of host";
     repository = mkOption {
@@ -14,12 +16,12 @@ in {
     };
     exclude = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       description = "Exclude these paths";
     };
     paths = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       description = "Include these paths";
     };
     identityPath = mkOption {

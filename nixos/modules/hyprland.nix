@@ -4,10 +4,12 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.hyprland;
-in {
-  imports = [./desktop.nix];
+in
+{
+  imports = [ ./desktop.nix ];
 
   options.hosts.hyprland = {
     enable = mkEnableOption "The rice is ready";
@@ -19,19 +21,21 @@ in {
     # test
     # services.desktopManager.plasma6.enable = true;
 
-    environment.systemPackages = with pkgs;
-    with pkgs.kdePackages; [
-      qtwayland
-      lxqt.lxqt-policykit # lxqt polkit
+    environment.systemPackages =
+      with pkgs;
+      with pkgs.kdePackages;
+      [
+        qtwayland
+        lxqt.lxqt-policykit # lxqt polkit
 
-      # For QT apps
-      kio
-      kio-extras
-    ];
+        # For QT apps
+        kio
+        kio-extras
+      ];
 
     nix.settings = {
-      substituters = ["https://hyprland.cachix.org"];
-      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+      substituters = [ "https://hyprland.cachix.org" ];
+      trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
     };
 
     xdg = {

@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.tor;
-in {
+in
+{
   options.hosts.tor = {
     enable = mkEnableOption "Tor relay";
   };

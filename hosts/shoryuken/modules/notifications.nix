@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.notifications;
-in {
+in
+{
   options.hosts.notifications = {
     enable = mkEnableOption "Gotify + smtp bridge";
   };
@@ -28,28 +30,30 @@ in {
       respond 403
     '';
 
-    services.borgbackup.jobs.default.paths = [config.services.gotify.stateDirectoryName];
+    services.borgbackup.jobs.default.paths = [ config.services.gotify.stateDirectoryName ];
     age.secrets.mailrise.file = ../../../secrets/mailrise.age;
 
-    systemd.services.mailrise = let
-      configFile = pkgs.writeText "mailrise_config.yml" ''
-        configs:
-          '*@*':
-            urls:
-            - !env_var GOTIFY_URL
-      '';
-    in {
-      wantedBy = ["multi-user.target"];
-      description = "SMTP bridge apprise";
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = "${getExe pkgs.mailrise} ${configFile}";
-        EnvironmentFile = config.age.secrets.mailrise.path;
-        TimeoutStartSec = 600;
-        Restart = "on-failure";
-        NoNewPrivileges = true;
+    systemd.services.mailrise =
+      let
+        configFile = pkgs.writeText "mailrise_config.yml" ''
+          configs:
+            '*@*':
+              urls:
+              - !env_var GOTIFY_URL
+        '';
+      in
+      {
+        wantedBy = [ "multi-user.target" ];
+        description = "SMTP bridge apprise";
+        serviceConfig = {
+          Type = "simple";
+          ExecStart = "${getExe pkgs.mailrise} ${configFile}";
+          EnvironmentFile = config.age.secrets.mailrise.path;
+          TimeoutStartSec = 600;
+          Restart = "on-failure";
+          NoNewPrivileges = true;
+        };
       };
-    };
 
     services.gotify = {
       enable = true;

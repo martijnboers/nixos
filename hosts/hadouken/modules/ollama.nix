@@ -3,9 +3,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.ollama;
-in {
+in
+{
   options.hosts.ollama = {
     enable = mkEnableOption "Local AI models";
   };

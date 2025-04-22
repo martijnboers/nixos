@@ -4,15 +4,20 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.caddy;
-in {
+in
+{
   options.hosts.caddy = {
     enable = mkEnableOption "Caddy base";
   };
 
   config = mkIf cfg.enable {
-    networking.firewall.allowedTCPPorts = [80 443];
+    networking.firewall.allowedTCPPorts = [
+      80
+      443
+    ];
 
     services.caddy = {
       enable = true;
@@ -32,19 +37,19 @@ in {
           trusted_proxies static 100.64.0.0/10
           enable_full_duplex
         }
-               pki {
-                 ca hadouken {
-                   name     hadouken
-                   # openssl genrsa -out root.key 4096
-                   # openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -config /etc/pki-root.cnf
-                   root {
-                     cert   ${../../../secrets/keys/hadouken.crt}
-                     key    ${config.age.secrets.hadouken-pki.path}
-                   }
-                 }
-               }
-               order coraza_waf first
-               order webdav before file_server
+        pki {
+         ca hadouken {
+           name     hadouken
+           # openssl genrsa -out root.key 4096
+           # openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -config /etc/pki-root.cnf
+           root {
+             cert   ${../../../secrets/keys/hadouken.crt}
+             key    ${config.age.secrets.hadouken-pki.path}
+           }
+         }
+        }
+        order coraza_waf first
+        order webdav before file_server
       '';
       virtualHosts = {
         "webdav.thuis:80".extraConfig = ''

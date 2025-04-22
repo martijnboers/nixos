@@ -4,10 +4,12 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.kde;
-in {
-  imports = [./desktop.nix];
+in
+{
+  imports = [ ./desktop.nix ];
 
   options.hosts.kde = {
     enable = mkEnableOption "Support KDE desktop";

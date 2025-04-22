@@ -1,11 +1,12 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   networking.hostName = "nurma";
   hosts.hyprland.enable = true;
 
   hosts.borg = {
     enable = true;
     repository = "ssh://nads486h@nads486h.repo.borgbase.com/./repo";
-    paths = ["/home/martijn"];
+    paths = [ "/home/martijn" ];
     identityPath = "/home/martijn/.ssh/id_ed25519_age";
     exclude = [
       ".cache"
@@ -38,8 +39,8 @@
     steam = {
       enable = true;
       package = pkgs.steam.override {
-        extraPkgs = pkgs:
-          with pkgs; [
+        extraPkgs =
+          pkgs: with pkgs; [
             gamemode
           ];
       };
@@ -60,11 +61,11 @@
   # https://mdleom.com/blog/2021/12/27/caddy-plugins-nixos/#xcaddy
   nix.settings.sandbox = false;
 
-  services.xserver.videoDrivers = ["amdgpu"];
+  services.xserver.videoDrivers = [ "amdgpu" ];
   services.flatpak.enable = true;
 
   # Enable binfmt emulation of aarch64-linux. (for the raspberry pi)
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   hosts.auditd = {
     enable = true;
@@ -94,7 +95,7 @@
   '';
 
   programs.adb.enable = true;
-  users.users.martijn.extraGroups = ["adbusers"];
+  users.users.martijn.extraGroups = [ "adbusers" ];
 
   # Support gpg for git signing
   hosts.gpg.enable = true;
@@ -132,7 +133,7 @@
     # https://github.com/NixOS/nixpkgs/pull/108294
     initrd = {
       verbose = false;
-      kernelModules = ["amdgpu"];
+      kernelModules = [ "amdgpu" ];
     };
   };
 }

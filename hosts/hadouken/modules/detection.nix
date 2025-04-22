@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.changedetection;
-in {
+in
+{
   options.hosts.changedetection = {
     enable = mkEnableOption "Changedetection.io";
   };
@@ -40,7 +42,7 @@ in {
 
     systemd.timers = {
       restart-changedetection = {
-        wantedBy = ["timers.target"];
+        wantedBy = [ "timers.target" ];
         timerConfig = {
           OnCalendar = "daily";
           Persistent = true;
@@ -53,17 +55,16 @@ in {
         # https://github.com/dgtlmoon/changedetection.io/wiki/Playwright-content-fetcher#playwright-memory-leak
         description = "Restart changedetection.io playwright memory leak";
         serviceConfig = {
-          ExecStart = let
-            restart =
-              pkgs.writeShellScriptBin "restart-changedetection"
-              ''
+          ExecStart =
+            let
+              restart = pkgs.writeShellScriptBin "restart-changedetection" ''
                 ps -C changedetection u|grep -v PID|awk '$6 > 240000 {print $2};'|while read pid
                 do
                   kill -9 $pid
                   ${pkgs.systemd}/bin/systemctl restart changedection.service
                 done
               '';
-          in
+            in
             lib.getExe restart;
         };
       };

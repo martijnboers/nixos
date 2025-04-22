@@ -5,7 +5,8 @@
   lib,
   utils,
   ...
-}: let
+}:
+let
   cfg = config.hosts.pgrok;
 
   settings = {
@@ -32,7 +33,9 @@
       display_name = "Keycloak";
       issuer = "https://auth.donder.cloud/realms/master";
       client_id = "pgrok";
-      client_secret = {_secret = config.age.secrets.pgrok.path;};
+      client_secret = {
+        _secret = config.age.secrets.pgrok.path;
+      };
       field_mapping = {
         identifier = "email";
         display_name = "name";
@@ -40,7 +43,8 @@
       };
     };
   };
-in {
+in
+{
   options.hosts.pgrok = with lib; {
     enable = mkEnableOption "pgrok";
     statePath = mkOption {
@@ -74,7 +78,10 @@ in {
       '';
     };
 
-    environment.systemPackages = with pkgs; [pgrok pgrok.server];
+    environment.systemPackages = with pkgs; [
+      pgrok
+      pgrok.server
+    ];
     age.secrets = {
       pgrok = {
         file = ../../../secrets/pgrok.age;
@@ -101,61 +108,59 @@ in {
       group = cfg.group;
       createHome = true;
     };
-    users.groups.${cfg.group} = {};
+    users.groups.${cfg.group} = { };
 
     systemd.targets.pgrok = {
       description = "Common Target for pgrok";
-      wantedBy = ["multi-user.target"];
+      wantedBy = [ "multi-user.target" ];
     };
 
-    systemd.services = let
-      configPath = "${cfg.statePath}/config.yml";
-    in {
-      pgrok-config = {
-        wantedBy = ["pgrok.target"];
-        partOf = ["pgrok.target"];
-        path = with pkgs; [
-          jq
-          replace-secret
-        ];
-        serviceConfig = {
-          Type = "oneshot";
-          User = cfg.user;
-          Group = cfg.group;
-          TimeoutSec = "infinity";
-          Restart = "on-failure";
-          WorkingDirectory = cfg.statePath;
-          RemainAfterExit = true;
-          ExecStart = pkgs.writeShellScript "pgrok-config" ''
-            umask u=rwx,g=,o=
-            ${
-              utils.genJqSecretsReplacementSnippet
-              settings
-              configPath
-            }
-          '';
+    systemd.services =
+      let
+        configPath = "${cfg.statePath}/config.yml";
+      in
+      {
+        pgrok-config = {
+          wantedBy = [ "pgrok.target" ];
+          partOf = [ "pgrok.target" ];
+          path = with pkgs; [
+            jq
+            replace-secret
+          ];
+          serviceConfig = {
+            Type = "oneshot";
+            User = cfg.user;
+            Group = cfg.group;
+            TimeoutSec = "infinity";
+            Restart = "on-failure";
+            WorkingDirectory = cfg.statePath;
+            RemainAfterExit = true;
+            ExecStart = pkgs.writeShellScript "pgrok-config" ''
+              umask u=rwx,g=,o=
+              ${utils.genJqSecretsReplacementSnippet settings configPath}
+            '';
+          };
+        };
+        pgrok = {
+          after = [
+            "network.target"
+            "pgrok-config.service"
+          ];
+          bindsTo = [
+            "pgrok-config.service"
+          ];
+          wantedBy = [ "pgrok.target" ];
+          partOf = [ "pgrok.target" ];
+          serviceConfig = {
+            Type = "simple";
+            User = cfg.user;
+            Group = cfg.group;
+            TimeoutSec = "infinity";
+            Restart = "always";
+            WorkingDirectory = cfg.statePath;
+            ExecStart = "${pkgs.pgrok.server}/bin/pgrokd --config ${configPath}";
+          };
         };
       };
-      pgrok = {
-        after = [
-          "network.target"
-          "pgrok-config.service"
-        ];
-        bindsTo = [
-          "pgrok-config.service"
-        ];
-        wantedBy = ["pgrok.target"];
-        partOf = ["pgrok.target"];
-        serviceConfig = {
-          Type = "simple";
-          User = cfg.user;
-          Group = cfg.group;
-          TimeoutSec = "infinity";
-          Restart = "always";
-          WorkingDirectory = cfg.statePath;
-          ExecStart = "${pkgs.pgrok.server}/bin/pgrokd --config ${configPath}";
-        };
-      };
-    };
   };
 }

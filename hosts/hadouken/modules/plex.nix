@@ -3,9 +3,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.plex;
-in {
+in
+{
   options.hosts.plex = {
     enable = mkEnableOption "plex";
   };

@@ -3,9 +3,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.microbin;
-in {
+in
+{
   options.hosts.microbin = {
     enable = mkEnableOption "Selfhosted pastebin alterative";
   };

@@ -3,9 +3,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.syncthing;
-in {
+in
+{
   options.hosts.syncthing = {
     enable = mkEnableOption "Syncthing syncing seed";
     name = mkOption {
@@ -16,8 +18,11 @@ in {
 
   config = mkIf cfg.enable {
     networking.firewall = {
-      allowedTCPPorts = [22000];
-      allowedUDPPorts = [22000 21027]; # 22 is for traffic, 21 for discovery
+      allowedTCPPorts = [ 22000 ];
+      allowedUDPPorts = [
+        22000
+        21027
+      ]; # 22 is for traffic, 21 for discovery
     };
 
     services = {
@@ -36,17 +41,27 @@ in {
             crashReportingEnabled = false;
           };
           devices = {
-            "seed" = {id = "C3CPMI7-DKDUEYC-ALWM3HN-X37N7S7-DNECILF-UUAX4TY-6F7QLEZ-Q7HSTQV";};
-            "hadouken" = {id = "AVHC54J-6NTZ6SS-Y5UUYLZ-LE4QIZ5-AGZAUON-2VWB4XW-2O7W3HV-6MIGTQK";};
+            "seed" = {
+              id = "C3CPMI7-DKDUEYC-ALWM3HN-X37N7S7-DNECILF-UUAX4TY-6F7QLEZ-Q7HSTQV";
+            };
+            "hadouken" = {
+              id = "AVHC54J-6NTZ6SS-Y5UUYLZ-LE4QIZ5-AGZAUON-2VWB4XW-2O7W3HV-6MIGTQK";
+            };
           };
           folders = {
             "hot" = {
               path = "/mnt/zwembad/hot";
-              devices = ["seed" "hadouken"];
+              devices = [
+                "seed"
+                "hadouken"
+              ];
             };
             "music" = {
               path = "/mnt/zwembad/music";
-              devices = ["seed" "hadouken"];
+              devices = [
+                "seed"
+                "hadouken"
+              ];
             };
           };
         };

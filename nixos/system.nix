@@ -4,7 +4,8 @@
   outputs,
   lib,
   ...
-}: {
+}:
+{
   imports = [
     ./modules/virtualisation.nix
     ./modules/prometheus.nix
@@ -29,7 +30,11 @@
     users.martijn = {
       isNormalUser = true;
       description = "Martijn Boers";
-      extraGroups = ["networkmanager" "wheel" "plugdev"];
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+        "plugdev"
+      ];
       shell = pkgs.zsh;
       useDefaultShell = true;
       openssh.authorizedKeys.keyFiles = [
@@ -84,7 +89,11 @@
     # only using flakes
     channel.enable = lib.mkDefault false;
     settings = {
-      experimental-features = ["nix-command" "flakes" "pipe-operators"];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+        "pipe-operators"
+      ];
       log-lines = lib.mkDefault 25;
 
       # Avoid disk full issues
@@ -97,7 +106,7 @@
       builders-use-substitutes = true;
 
       # Allowed to connect to nix-daemon
-      allowed-users = ["martijn"];
+      allowed-users = [ "martijn" ];
 
       substituters = [
         "https://cache.nixos.org?priority=1"
@@ -122,8 +131,10 @@
   };
 
   programs.ssh.knownHosts = {
-    "github.com".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
-    "gitlab.com".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfuCHKVTjquxvt6CM6tdG4SLp1Btn/nOeHHE5UOzRdf";
+    "github.com".publicKey =
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
+    "gitlab.com".publicKey =
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfuCHKVTjquxvt6CM6tdG4SLp1Btn/nOeHHE5UOzRdf";
     "hadouken.machine.thuis".publicKeyFile = ../secrets/keys/hadouken.pub;
     "tenshin.machine.thuis".publicKeyFile = ../secrets/keys/tenshin.pub;
     "shoryuken.machine.thuis".publicKeyFile = ../secrets/keys/shoryuken.pub;
@@ -135,19 +146,19 @@
   security = {
     sudo.extraRules = [
       {
-        users = ["martijn"];
+        users = [ "martijn" ];
         commands = [
           {
             command = "${pkgs.systemd}/bin/systemctl suspend";
-            options = ["NOPASSWD"];
+            options = [ "NOPASSWD" ];
           }
           {
             command = "${pkgs.systemd}/bin/reboot";
-            options = ["NOPASSWD"];
+            options = [ "NOPASSWD" ];
           }
           {
             command = "${pkgs.systemd}/bin/poweroff";
-            options = ["NOPASSWD"];
+            options = [ "NOPASSWD" ];
           }
         ];
       }

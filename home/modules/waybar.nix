@@ -4,9 +4,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.maatwerk.hyprland;
-in {
+in
+{
   config = mkIf cfg.enable {
     home.file.".config/swaync/style.css" = {
       source = ../assets/css/notifications.css;
@@ -27,20 +29,37 @@ in {
           margin-top = 5;
           spacing = 1;
 
-          modules-left = ["custom/power" "hyprland/workspaces" "hyprland/window"];
-          modules-center = ["privacy" "clock" "custom/notification"];
-          modules-right = ["network" "custom/wan" "cpu" "memory" "temperature" "disk" "pulseaudio" "tray"];
+          modules-left = [
+            "custom/power"
+            "hyprland/workspaces"
+            "hyprland/window"
+          ];
+          modules-center = [
+            "privacy"
+            "clock"
+            "custom/notification"
+          ];
+          modules-right = [
+            "network"
+            "custom/wan"
+            "cpu"
+            "memory"
+            "temperature"
+            "disk"
+            "pulseaudio"
+            "tray"
+          ];
 
           "hyprland/workspaces" = {
             on-click = "activate";
             # https:#github.com/Alexays/Waybar/wiki/Module:-Workspaces#persistent-workspaces
             persistent-workspaces = {
-              "1" = [];
-              "2" = [];
-              "3" = [];
-              "4" = [];
-              "5" = [];
-              "6" = [];
+              "1" = [ ];
+              "2" = [ ];
+              "3" = [ ];
+              "4" = [ ];
+              "5" = [ ];
+              "6" = [ ];
             };
             format = "{icon}";
             # https://www.nerdfonts.com/cheat-sheet
@@ -116,7 +135,11 @@ in {
               phone = "";
               portable = "";
               car = "";
-              default = ["" "" ""];
+              default = [
+                ""
+                ""
+                ""
+              ];
             };
             on-click = "pavucontrol";
           };
@@ -131,14 +154,13 @@ in {
 
           "custom/wan" = {
             tooltip = false;
-            exec = let
-              wan =
-                pkgs.writeShellScriptBin "wan-ip"
-                ''
+            exec =
+              let
+                wan = pkgs.writeShellScriptBin "wan-ip" ''
                   wan_ip=$(curl -s https://checkip.amazonaws.com)
                   echo "󰖟 $wan_ip"
                 '';
-            in
+              in
               lib.getExe wan;
             interval = 2;
           };

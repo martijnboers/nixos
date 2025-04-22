@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.binarycache;
-in {
+in
+{
   options.hosts.binarycache = {
     enable = mkEnableOption "Push unstable and custom package to cache";
   };
@@ -25,7 +27,7 @@ in {
       respond 403
     '';
     age.secrets.binarycache.file = ../../../secrets/binarycache.age;
-    nix.settings.allowed-users = ["nix-serve"];
+    nix.settings.allowed-users = [ "nix-serve" ];
     services.nix-serve = {
       enable = true;
       package = pkgs.nix-serve-ng; # https://github.com/aristanetworks/nix-serve-ng

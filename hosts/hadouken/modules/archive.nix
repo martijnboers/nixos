@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.archive;
-in {
+in
+{
   options.hosts.archive = {
     enable = mkEnableOption "Bookmarks and archive webpages";
   };
@@ -25,7 +27,7 @@ in {
       respond 403
     '';
     age.secrets.shiori.file = ../../../secrets/shiori.age;
-    services.borgbackup.jobs.default.paths = [config.systemd.services.shiori.environment.SHIORI_DIR];
+    services.borgbackup.jobs.default.paths = [ config.systemd.services.shiori.environment.SHIORI_DIR ];
 
     services.shiori = {
       enable = true;

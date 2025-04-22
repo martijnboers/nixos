@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.maatwerk.desktop;
-in {
+in
+{
   options.maatwerk.desktop = {
     enable = mkEnableOption "Enable default desktop packages + configuration";
   };

@@ -1,19 +1,24 @@
-{inputs, ...}: {
+{ inputs, ... }:
+{
   # This one brings our custom packages from the 'pkgs' directory
-  additions = final: _prev: import ../pkgs {pkgs = final;};
+  additions = final: _prev: import ../pkgs { pkgs = final; };
   hi = 1;
 
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
     nerdfonts = final.stable.nerdfonts.override {
-      fonts = ["RobotoMono" "JetBrainsMono"];
+      fonts = [
+        "RobotoMono"
+        "JetBrainsMono"
+      ];
     };
 
-    winapps-patched = let
-      app = inputs.winapps.packages."x86_64-linux".winapps;
-    in
+    winapps-patched =
+      let
+        app = inputs.winapps.packages."x86_64-linux".winapps;
+      in
       app.overrideAttrs {
-        patches = app.patches ++ [./winapps.patch];
+        patches = app.patches ++ [ ./winapps.patch ];
       };
 
     wp4nix = builtins.fetchGit {

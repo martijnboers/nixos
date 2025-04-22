@@ -3,10 +3,12 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.prometheus;
   retentionTime = 30 * 6;
-in {
+in
+{
   options.hosts.prometheus = {
     enable = mkEnableOption "Enable prometheus export";
   };
@@ -19,7 +21,7 @@ in {
       exporters = {
         node = {
           enable = true;
-          enabledCollectors = ["systemd"];
+          enabledCollectors = [ "systemd" ];
           port = 9002;
         };
       };

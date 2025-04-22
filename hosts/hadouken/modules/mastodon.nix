@@ -4,17 +4,22 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.mastodon;
   mediaRoot = "/mnt/zwembad/games/mastodon/";
-in {
+in
+{
   options.hosts.mastodon = {
     enable = mkEnableOption "Mastodon feddy";
   };
 
   config = mkIf cfg.enable {
     networking.firewall = {
-      allowedTCPPorts = [80 443];
+      allowedTCPPorts = [
+        80
+        443
+      ];
     };
 
     services.caddy.virtualHosts."noisesfrom.space".extraConfig = ''
@@ -61,10 +66,13 @@ in {
       header /system/media_attachments/files/* Cache-Control "public, max-age=31536000, immutable"
     '';
     # Caddy requires file and socket access
-    users.users.caddy.extraGroups = ["mastodon"];
+    users.users.caddy.extraGroups = [ "mastodon" ];
 
     # Caddy systemd unit needs readwrite permissions to /run/mastodon-web
-    systemd.services.caddy.serviceConfig.ReadWriteDirectories = lib.mkForce ["/var/lib/caddy" "/run/mastodon-web"];
+    systemd.services.caddy.serviceConfig.ReadWriteDirectories = lib.mkForce [
+      "/var/lib/caddy"
+      "/run/mastodon-web"
+    ];
 
     services.mastodon = {
       enable = true;
@@ -77,8 +85,8 @@ in {
         fromAddress = "noreply@plebian.nl"; # required
       };
       extraConfig = {
-	SINGLE_USER_MODE = "true";
-	PAPERCLIP_ROOT_PATH = mediaRoot;
+        SINGLE_USER_MODE = "true";
+        PAPERCLIP_ROOT_PATH = mediaRoot;
       };
       mediaAutoRemove = {
         enable = true;
@@ -91,8 +99,14 @@ in {
 
     systemd.services.fedifetcher = {
       description = "FediFetcher";
-      wants = ["mastodon-web.service" "mastodon-wait-for-available.service"];
-      after = ["mastodon-web.service" "mastodon-wait-for-available.service"];
+      wants = [
+        "mastodon-web.service"
+        "mastodon-wait-for-available.service"
+      ];
+      after = [
+        "mastodon-web.service"
+        "mastodon-wait-for-available.service"
+      ];
       startAt = "*-*-* 05..23:*:00/20"; # every 20 minutes between 6 and 23
 
       serviceConfig = {

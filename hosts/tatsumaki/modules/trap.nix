@@ -3,9 +3,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.trap;
-in {
+in
+{
   options.hosts.trap = {
     enable = mkEnableOption "honeytrap + containers";
   };
@@ -24,7 +26,7 @@ in {
           # volumes = [
           #   "/somefile:/somefile"
           # ];
-          extraOptions = ["--network=bridge"];
+          extraOptions = [ "--network=bridge" ];
         };
       };
     };

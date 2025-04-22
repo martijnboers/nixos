@@ -4,9 +4,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.maatwerk.stylix;
-in {
+in
+{
   options.maatwerk.stylix = {
     enable = mkEnableOption "Automatic styling";
   };

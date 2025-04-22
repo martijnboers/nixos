@@ -4,7 +4,8 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.wordpress;
   mann = pkgs.stdenv.mkDerivation {
     name = "mann";
@@ -16,7 +17,8 @@ with lib; let
     };
     installPhase = "mkdir -p $out; cp -R mann $out/";
   };
-in {
+in
+{
   options.hosts.wordpress = {
     enable = mkEnableOption "Base for wordpress websites";
   };
@@ -43,8 +45,7 @@ in {
     services.wordpress.sites."kevinandreihana" = {
       themes = {
         inherit mann;
-        inherit
-          (pkgs.fork.wordpressPackages.themes)
+        inherit (pkgs.fork.wordpressPackages.themes)
           bibimbap
           ;
       };
@@ -54,8 +55,7 @@ in {
         WP_DEFAULT_THEME = "mann";
       };
       plugins = {
-        inherit
-          (pkgs.fork.wordpressPackages.plugins) # from own fork
+        inherit (pkgs.fork.wordpressPackages.plugins) # from own fork
           antispam-bee
           wp-statistics
           gutenberg

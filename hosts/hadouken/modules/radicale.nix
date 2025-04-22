@@ -3,10 +3,12 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.radicale;
   listenAddress = "0.0.0.0:5232";
-in {
+in
+{
   options.hosts.radicale = {
     enable = mkEnableOption "WebDAV + CardDAV";
   };
@@ -24,7 +26,7 @@ in {
         }
       respond 403
     '';
-    services.borgbackup.jobs.default.paths = ["/var/lib/radicale/collections/"];
+    services.borgbackup.jobs.default.paths = [ "/var/lib/radicale/collections/" ];
     age.secrets.radicale = {
       file = ../../../secrets/radicale.age;
       owner = "radicale";
@@ -32,7 +34,7 @@ in {
     };
     services.radicale = {
       enable = true;
-      settings.server.hosts = [listenAddress];
+      settings.server.hosts = [ listenAddress ];
       settings.auth = {
         type = "htpasswd";
         htpasswd_filename = config.age.secrets.radicale.path;

@@ -4,15 +4,17 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.immich;
-in {
+in
+{
   options.hosts.immich = {
     enable = mkEnableOption "Photos viewer";
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [immich-go];
+    environment.systemPackages = with pkgs; [ immich-go ];
     services.caddy.virtualHosts."immich.thuis".extraConfig = ''
         tls {
           issuer internal { ca hadouken }
@@ -26,9 +28,12 @@ in {
       respond 403
     '';
     age.secrets.immich.file = ../../../secrets/immich.age;
-    users.users.immich.extraGroups = ["video" "render"];
+    users.users.immich.extraGroups = [
+      "video"
+      "render"
+    ];
     # by default zwembad/app is backed up
-    services.borgbackup.jobs.default.paths = [config.services.immich.mediaLocation];
+    services.borgbackup.jobs.default.paths = [ config.services.immich.mediaLocation ];
 
     services.immich = {
       enable = true;

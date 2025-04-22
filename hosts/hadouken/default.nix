@@ -1,11 +1,10 @@
-{
-  lib,
-  ...
-}: let
+{ lib, ... }:
+let
   defaultRestart = {
     RestartSec = 10;
   };
-in {
+in
+{
   networking.hostName = "hadouken";
   networking.hostId = "1b936a2a";
 
@@ -65,20 +64,20 @@ in {
   hosts.seafile.enable = true;
 
   systemd.services.sshd = {
-    after = ["tailscaled.service"];
-    requires = ["tailscaled.service"];
+    after = [ "tailscaled.service" ];
+    requires = [ "tailscaled.service" ];
     serviceConfig = defaultRestart;
   };
   systemd.services.loki = {
-    after = ["tailscaled.service"];
-    requires = ["tailscaled.service"];
+    after = [ "tailscaled.service" ];
+    requires = [ "tailscaled.service" ];
     serviceConfig = defaultRestart;
   };
 
   hosts.borg = {
     enable = true;
     repository = "ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo";
-    paths = ["/mnt/zwembad/app"];
+    paths = [ "/mnt/zwembad/app" ];
   };
 
   hosts.auditd = {
@@ -96,7 +95,7 @@ in {
   };
 
   # Don't use own bincache, only upstream
-  nix.settings.substituters = lib.mkForce ["https://cache.nixos.org"];
+  nix.settings.substituters = lib.mkForce [ "https://cache.nixos.org" ];
 
   hosts.openssh.enable = true;
 
@@ -115,10 +114,13 @@ in {
       efi.canTouchEfiVariables = true;
     };
 
-    supportedFilesystems = ["zfs"];
+    supportedFilesystems = [ "zfs" ];
     zfs = {
       forceImportRoot = false;
-      extraPools = ["zwembad" "garage"];
+      extraPools = [
+        "zwembad"
+        "garage"
+      ];
     };
 
     # Silent Boot

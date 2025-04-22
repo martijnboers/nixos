@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.gpg;
-in {
+in
+{
   options.hosts.gpg = {
     enable = mkEnableOption "Enable GPG agent";
   };

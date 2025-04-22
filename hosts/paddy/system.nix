@@ -3,7 +3,8 @@
   lib,
   outputs,
   ...
-}: {
+}:
+{
   networking.hostName = "macbook-martijn";
   networking.computerName = "macbook-martijn";
   system.defaults.smb.NetBIOSName = "macbook-martijn";
@@ -37,7 +38,10 @@
   };
 
   # enable flakes globally
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   nix.package = pkgs.nix;
 
@@ -85,6 +89,6 @@
   };
 
   time.timeZone = "Europe/Amsterdam";
-  nix.settings.trusted-users = ["martijn"];
+  nix.settings.trusted-users = [ "martijn" ];
   system.stateVersion = 5;
 }

@@ -3,9 +3,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.fail2ban;
-in {
+in
+{
   options.hosts.fail2ban = {
     enable = mkEnableOption "no thank u";
   };
@@ -13,7 +15,10 @@ in {
   config = mkIf cfg.enable {
     services.fail2ban = {
       enable = true;
-      ignoreIP = ["10.10.0.0/24" "100.64.0.0/10"];
+      ignoreIP = [
+        "10.10.0.0/24"
+        "100.64.0.0/10"
+      ];
       jails = {
         caddy-status = {
           settings = {

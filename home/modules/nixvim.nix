@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   programs.nixvim = {
     enable = true;
 
@@ -91,11 +92,11 @@
             "<Tab>" = "cmp.mapping.confirm({ select = true })";
           };
           sources = [
-            {name = "nvim_lsp";}
-            {name = "path";}
-            {name = "buffer";}
-            {name = "orgmode";}
-            {name = "neorg";}
+            { name = "nvim_lsp"; }
+            { name = "path"; }
+            { name = "buffer"; }
+            { name = "orgmode"; }
+            { name = "neorg"; }
           ];
         };
       }; # auto-complete intelij like additionally supplied by lsp

@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.search;
-in {
+in
+{
   options.hosts.search = {
     enable = mkEnableOption "SearXNG";
   };
@@ -26,7 +28,7 @@ in {
     '';
 
     age.secrets.searxng.file = ../../../secrets/searxng.age;
-    users.groups.searx.members = ["caddy"];
+    users.groups.searx.members = [ "caddy" ];
 
     services.searx = {
       enable = true;

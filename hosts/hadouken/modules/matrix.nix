@@ -3,9 +3,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.matrix;
-in {
+in
+{
   options.hosts.matrix = {
     enable = mkEnableOption "Matrix chat federation";
   };

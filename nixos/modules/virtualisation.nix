@@ -5,9 +5,11 @@
   inputs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.virtualisation;
-in {
+in
+{
   options.hosts.virtualisation = {
     enable = mkEnableOption "Enable virtualisation";
     qemu = mkOption {
@@ -20,13 +22,21 @@ in {
   config = mkIf cfg.enable {
     # Docker configuration
     virtualisation.docker.enable = true;
-    users.users.martijn.extraGroups = ["docker" "libvirtd" "libvirt" "kvm"];
+    users.users.martijn.extraGroups = [
+      "docker"
+      "libvirtd"
+      "libvirt"
+      "kvm"
+    ];
 
     # QEMU configuration, conditionally enabled
-    environment.systemPackages = mkIf cfg.qemu (with pkgs; [
-      quickemu
-      virt-manager
-    ]);
+    environment.systemPackages = mkIf cfg.qemu (
+      with pkgs;
+      [
+        quickemu
+        virt-manager
+      ]
+    );
 
     virtualisation.libvirtd = mkIf cfg.qemu {
       enable = true;

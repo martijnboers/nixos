@@ -3,10 +3,12 @@
   config,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.maatwerk.kde;
-in {
-  imports = [./desktop.nix];
+in
+{
+  imports = [ ./desktop.nix ];
 
   options.maatwerk.kde = {
     enable = mkEnableOption "KDE home manager config";

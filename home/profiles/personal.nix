@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.maatwerk.personal;
-in {
+in
+{
   options.maatwerk.personal = {
     enable = mkEnableOption "Add personal computer configuration";
   };

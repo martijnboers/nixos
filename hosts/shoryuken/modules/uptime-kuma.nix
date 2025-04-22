@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.uptime-kuma;
-in {
+in
+{
   options.hosts.uptime-kuma = {
     enable = mkEnableOption "Uptime monitoring";
   };

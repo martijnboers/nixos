@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.desktop;
-in {
+in
+{
   options.hosts.desktop = {
     enable = mkEnableOption "Base desktop";
     wayland = mkOption {
@@ -76,7 +78,7 @@ in {
     };
 
     programs.dconf.enable = true; # used for stylix
-    services.udev.packages = [pkgs.yubikey-personalization];
+    services.udev.packages = [ pkgs.yubikey-personalization ];
     programs.yubikey-touch-detector.enable = true;
 
     # Access QMK without sudo

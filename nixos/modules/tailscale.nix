@@ -3,9 +3,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.tailscale;
-in {
+in
+{
   options.hosts.tailscale = {
     enable = mkEnableOption "Enable Tailscale agent";
   };
@@ -15,12 +17,12 @@ in {
     services.tailscale = {
       enable = true;
       openFirewall = true;
-      extraUpFlags = ["--login-server=https://headscale.donder.cloud"];
+      extraUpFlags = [ "--login-server=https://headscale.donder.cloud" ];
     };
     networking.firewall = {
       # Required for tailscale
       checkReversePath = "loose";
-      trustedInterfaces = ["tailscale0"];
+      trustedInterfaces = [ "tailscale0" ];
     };
   };
 }

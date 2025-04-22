@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.cyberchef;
-in {
+in
+{
   options.hosts.cyberchef = {
     enable = mkEnableOption "Development tools";
   };

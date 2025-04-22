@@ -3,10 +3,12 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.vaultwarden;
   backupDir = "/var/lib/vaultwarden/backup";
-in {
+in
+{
   options.hosts.vaultwarden = {
     enable = mkEnableOption "Enable vaultwarden";
   };
@@ -24,7 +26,7 @@ in {
         }
       respond 403
     '';
-    services.borgbackup.jobs.default.paths = [backupDir];
+    services.borgbackup.jobs.default.paths = [ backupDir ];
     services.vaultwarden = {
       enable = true;
       dbBackend = "sqlite";

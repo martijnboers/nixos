@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.cinny-web;
-in {
+in
+{
   options.hosts.cinny-web = {
     enable = mkEnableOption "Web matrix client";
   };

@@ -3,9 +3,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.atuin;
-in {
+in
+{
   options.hosts.atuin = {
     enable = mkEnableOption "Synchronize zsh history files";
   };

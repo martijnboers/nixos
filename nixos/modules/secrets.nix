@@ -3,13 +3,15 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.secrets;
-in {
+in
+{
   options.hosts.secrets = {
     identityPaths = mkOption {
       type = types.listOf types.str;
-      default = ["/home/martijn/.ssh/id_ed25519"];
+      default = [ "/home/martijn/.ssh/id_ed25519" ];
       description = "Include these paths";
     };
   };

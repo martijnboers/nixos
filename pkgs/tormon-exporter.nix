@@ -32,7 +32,7 @@ python3.pkgs.buildPythonApplication rec {
     description = "Monitor Tor relay with Grafana";
     homepage = "https://github.com/martijnboers/tormon";
     license = lib.licenses.gpl3Only;
-    maintainers = with lib.maintainers; [];
+    maintainers = with lib.maintainers; [ ];
     mainProgram = "application";
   };
 }

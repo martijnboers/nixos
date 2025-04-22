@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.keycloak;
-in {
+in
+{
   options.hosts.keycloak = {
     enable = mkEnableOption "Provide OIDC";
   };

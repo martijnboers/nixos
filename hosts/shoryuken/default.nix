@@ -1,8 +1,10 @@
-{...}: let
+{ ... }:
+let
   defaultRestart = {
     RestartSec = 10;
   };
-in {
+in
+{
   networking.hostName = "shoryuken";
 
   imports = [
@@ -28,15 +30,15 @@ in {
 
   # Right order of headscale operations for startup
   systemd.services.headscale = {
-    after = ["keycloak.service"];
-    requires = ["keycloak.service"];
+    after = [ "keycloak.service" ];
+    requires = [ "keycloak.service" ];
     startLimitBurst = 10;
     startLimitIntervalSec = 600;
     serviceConfig = defaultRestart;
   };
   systemd.services.tailscaled = {
-    after = ["headscale.service"];
-    requires = ["headscale.service"];
+    after = [ "headscale.service" ];
+    requires = [ "headscale.service" ];
     startLimitBurst = 10;
     startLimitIntervalSec = 600;
     serviceConfig = defaultRestart;
@@ -47,7 +49,7 @@ in {
 
   hosts.openssh = {
     enable = true;
-    allowUsers = ["*@100.64.0.0/10"];
+    allowUsers = [ "*@100.64.0.0/10" ];
   };
 
   hosts.borg = {
@@ -55,7 +57,7 @@ in {
     repository = "ssh://iwa7rtli@iwa7rtli.repo.borgbase.com/./repo";
   };
 
-  nix.settings.trusted-users = ["martijn"]; # allows remote push
+  nix.settings.trusted-users = [ "martijn" ]; # allows remote push
 
   # Server defaults
   hosts.server.enable = true;

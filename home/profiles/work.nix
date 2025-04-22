@@ -4,12 +4,13 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.maatwerk.work;
   mkChromeWrapper = name: url: rec {
     script = pkgs.writeShellApplication {
       inherit name;
-      runtimeInputs = [pkgs.ungoogled-chromium];
+      runtimeInputs = [ pkgs.ungoogled-chromium ];
       text = ''
         chromium --new-tab "${url}"
       '';
@@ -26,7 +27,8 @@ with lib; let
   claud = mkChromeWrapper "claud" "https://claud.ai";
   hetzner = mkChromeWrapper "hetzner" "https://console.hetzner.cloud";
   kvm = mkChromeWrapper "kvm" "https://10.10.0.11/kvm/#";
-in {
+in
+{
   options.maatwerk.work = {
     enable = mkEnableOption "Enable packages and configuration specific to work";
   };

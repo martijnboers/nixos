@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.maatwerk.browser;
-in {
+in
+{
   options.maatwerk.browser = {
     enable = mkEnableOption "Add browsers + config";
   };

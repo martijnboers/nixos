@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.monitoring;
-in {
+in
+{
   options.hosts.monitoring = {
     enable = mkEnableOption "Enable monitoring to host";
   };
@@ -24,7 +26,7 @@ in {
       }
       respond 403
     '';
-    services.borgbackup.jobs.default.paths = [config.services.grafana.settings.database.path];
+    services.borgbackup.jobs.default.paths = [ config.services.grafana.settings.database.path ];
     services.grafana = {
       enable = true;
       provision = {
@@ -52,7 +54,7 @@ in {
         };
         analytics.reporting_enabled = false;
       };
-      declarativePlugins = with pkgs.grafanaPlugins; [grafana-piechart-panel];
+      declarativePlugins = with pkgs.grafanaPlugins; [ grafana-piechart-panel ];
     };
 
     services.loki = {
@@ -90,7 +92,7 @@ in {
     };
 
     # Add promtail to access access logs
-    users.users.promtail.extraGroups = [config.services.caddy.group];
+    users.users.promtail.extraGroups = [ config.services.caddy.group ];
 
     services.promtail = {
       enable = true;
@@ -119,7 +121,7 @@ in {
             };
             relabel_configs = [
               {
-                source_labels = ["__journal__systemd_unit"];
+                source_labels = [ "__journal__systemd_unit" ];
                 target_label = "unit";
               }
             ];
@@ -128,7 +130,7 @@ in {
             job_name = "caddy";
             static_configs = [
               {
-                targets = ["localhost"];
+                targets = [ "localhost" ];
                 labels = {
                   job = "caddy";
                   __path__ = "/var/log/caddy/*log";
@@ -154,7 +156,12 @@ in {
             {
               targets =
                 map (host: "${host}.machine.thuis:${toString config.services.prometheus.exporters.node.port}")
-                ["hadouken" "shoryuken" "tenshin" "nurma"];
+                  [
+                    "hadouken"
+                    "shoryuken"
+                    "tenshin"
+                    "nurma"
+                  ];
             }
           ];
         }
@@ -162,9 +169,11 @@ in {
           job_name = "caddy";
           static_configs = [
             {
-              targets =
-                map (host: "${host}.machine.thuis:2019")
-                ["hadouken" "shoryuken" "tenshin"];
+              targets = map (host: "${host}.machine.thuis:2019") [
+                "hadouken"
+                "shoryuken"
+                "tenshin"
+              ];
             }
           ];
         }
@@ -172,7 +181,7 @@ in {
           job_name = "endlessh";
           static_configs = [
             {
-              targets = ["tatsumaki.machine.thuis:${toString config.services.endlessh-go.prometheus.port}"];
+              targets = [ "tatsumaki.machine.thuis:${toString config.services.endlessh-go.prometheus.port}" ];
             }
           ];
         }
@@ -180,7 +189,7 @@ in {
           job_name = "adguard";
           static_configs = [
             {
-              targets = ["tenshin.machine.thuis:9617"];
+              targets = [ "tenshin.machine.thuis:9617" ];
             }
           ];
         }
@@ -188,7 +197,7 @@ in {
           job_name = "bitcoind";
           static_configs = [
             {
-              targets = ["hadouken.machine.thuis:9332"];
+              targets = [ "hadouken.machine.thuis:9332" ];
             }
           ];
         }
@@ -196,7 +205,7 @@ in {
           job_name = "zfs";
           static_configs = [
             {
-              targets = ["127.0.0.1:2020"];
+              targets = [ "127.0.0.1:2020" ];
             }
           ];
         }

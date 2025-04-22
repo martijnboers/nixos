@@ -3,9 +3,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.seafile;
-in {
+in
+{
   options.hosts.seafile = {
     enable = mkEnableOption "Seafile server";
   };

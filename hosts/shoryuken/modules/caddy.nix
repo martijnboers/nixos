@@ -4,7 +4,8 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.caddy;
   plebian = builtins.fetchGit {
     url = "https://github.com/martijnboers/plebian.nl.git";
@@ -14,7 +15,8 @@ with lib; let
     url = "git@github.com:martijnboers/resume.git";
     rev = "b7d75859c8ce0c2867c95c5924623e397a2600f9";
   };
-in {
+in
+{
   options.hosts.caddy = {
     enable = mkEnableOption "Caddy base";
   };
@@ -45,13 +47,13 @@ in {
 
         pki {
             ca shoryuken {
-                name shoryuken
-                # openssl genrsa -out root.key 4096
-                # openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -config /etc/pki-root.cnf
-                root {
-                    cert ${../../../secrets/keys/shoryuken.crt}
-                    key  ${config.age.secrets.shoryuken-pki.path}
-                }
+        	name shoryuken
+        	# openssl genrsa -out root.key 4096
+        	# openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -config /etc/pki-root.cnf
+        	root {
+        	    cert ${../../../secrets/keys/shoryuken.crt}
+        	    key  ${config.age.secrets.shoryuken-pki.path}
+        	}
             }
         }
 
@@ -69,66 +71,68 @@ in {
             }
         }
       '';
-      virtualHosts = let
-        makeProxy = public: target: {
-          extraConfig = ''
-            reverse_proxy https://${target} {
-                header_up Host ${target}
-                header_up X-Forwarded-Host ${public}
-                header_up X-Forwarded-Proto https
-                header_up X-Real-IP {remote_host}
+      virtualHosts =
+        let
+          makeProxy = public: target: {
+            extraConfig = ''
+              reverse_proxy https://${target} {
+                  header_up Host ${target}
+                  header_up X-Forwarded-Host ${public}
+                  header_up X-Forwarded-Proto https
+                  header_up X-Real-IP {remote_host}
+                }
+            '';
+          };
+        in
+        {
+          "donder.cloud".extraConfig = ''
+            respond "🌩️"
+          '';
+
+          "plebian.nl" = {
+            serverAliases = [ "boers.email" ];
+            extraConfig = ''
+              cache {
+                  ttl 1h
               }
-          '';
-        };
-      in {
-        "donder.cloud".extraConfig = ''
-          respond "🌩️"
-        '';
+              root * ${plebian}/
+              encode zstd gzip
+              file_server
 
-        "plebian.nl" = {
-          serverAliases = ["boers.email"];
-          extraConfig = ''
-            cache {
-                ttl 1h
-            }
-            root * ${plebian}/
-            encode zstd gzip
-            file_server
+              route /.well-known/matrix/server {
+                  header Access-Control-Allow-Origin "*"
+                  header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+                  header Access-Control-Allow-Headers "X-Requested-With, Content-Type, Authorization"
+                  respond `{
+                      "m.server": "matrix.plebian.nl:443"
+                  }`
+              }
 
-            route /.well-known/matrix/server {
-                header Access-Control-Allow-Origin "*"
-                header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
-                header Access-Control-Allow-Headers "X-Requested-With, Content-Type, Authorization"
-                respond `{
-                    "m.server": "matrix.plebian.nl:443"
-                }`
-            }
-
-            route /.well-known/matrix/client {
-                header Access-Control-Allow-Origin "*"
-                header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
-                header Access-Control-Allow-Headers "X-Requested-With, Content-Type, Authorization"
-                respond `{
-                    "m.homeserver": {
-                        "base_url": "https://matrix.plebian.nl"
-                    }
-                }`
-            }
-          ''; # makes it possible to do @martijn:plebian.nl
+              route /.well-known/matrix/client {
+                  header Access-Control-Allow-Origin "*"
+                  header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+                  header Access-Control-Allow-Headers "X-Requested-With, Content-Type, Authorization"
+                  respond `{
+                      "m.homeserver": {
+                          "base_url": "https://matrix.plebian.nl"
+                      }
+                  }`
+              }
+            ''; # makes it possible to do @martijn:plebian.nl
+          };
+          "resume.plebian.nl" = {
+            serverAliases = [ "resume.boers.email" ];
+            extraConfig = ''
+              cache { ttl 1h }
+              root * ${resume}/
+              encode zstd gzip
+              file_server
+            '';
+          };
+          "p.plebian.nl" = makeProxy "p.plebian.nl" "microbin.thuis";
+          "kevinandreihana.com" = makeProxy "kevinandreihana.com" "wedding.thuis";
+          "sea.plebian.nl" = makeProxy "sea.plebian.nl" "seaf.thuis";
         };
-        "resume.plebian.nl" = {
-          serverAliases = ["resume.boers.email"];
-          extraConfig = ''
-            cache { ttl 1h }
-            root * ${resume}/
-            encode zstd gzip
-            file_server
-          '';
-        };
-        "p.plebian.nl" = makeProxy "p.plebian.nl" "microbin.thuis";
-        "kevinandreihana.com" = makeProxy "kevinandreihana.com" "wedding.thuis";
-        "sea.plebian.nl" = makeProxy "sea.plebian.nl" "seaf.thuis";
-      };
     };
     systemd.services.caddy = {
       serviceConfig = {

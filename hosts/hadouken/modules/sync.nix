@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.hosts.sync;
-in {
+in
+{
   options.hosts.sync = {
     enable = mkEnableOption "Firefox sync";
   };
