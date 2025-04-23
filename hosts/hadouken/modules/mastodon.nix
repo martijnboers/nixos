@@ -15,70 +15,57 @@ in
   };
 
   config = mkIf cfg.enable {
-    networking.firewall = {
-      allowedTCPPorts = [
-        80
-        443
-      ];
+    services.caddy.virtualHosts."mastodon.thuis".extraConfig = ''
+      tls {
+        issuer internal { ca hadouken }
+      }
+      root * ${mediaRoot}
+      file_server 
+    '';
+
+    systemd.services = {
+      socat-mastodon-web =
+        let
+          socketPath = "/run/mastodon-web/web.socket";
+        in
+        {
+          description = "Socat for mastodon-web";
+          after = [ "mastodon.target" ];
+          wants = [ "mastodon.target" ];
+          serviceConfig = {
+            Restart = "on-failure";
+            ProtectSystem = "strict";
+            ReadWriteDirectories = [ socketPath ];
+            ExecStart = "${lib.getExe pkgs.socat} TCP-LISTEN:5551,fork,reuseaddr,bind=100.64.0.2 UNIX-CONNECT:${socketPath}";
+          };
+        };
+      socat-mastodon-streaming =
+        let
+          socketPath = "/run/mastodon-streaming/streaming-1.socket";
+        in
+        {
+          description = "Socat for mastodon-streaming";
+          after = [ "mastodon.target" ];
+          wants = [ "mastodon.target" ];
+          serviceConfig = {
+            Restart = "on-failure";
+            ProtectSystem = "strict";
+            ReadWriteDirectories = [ socketPath ];
+            ExecStart = "${lib.getExe pkgs.socat} TCP-LISTEN:5552,fork,reuseaddr,bind=100.64.0.2 UNIX-CONNECT:${socketPath}";
+          };
+        };
     };
 
-    services.caddy.virtualHosts."noisesfrom.space".extraConfig = ''
-      coraza_waf {
-          load_owasp_crs
-          directives `
-              Include @coraza.conf-recommended
-              SecRuleEngine On
-          `
-      }
-      handle_path /system/* {
-          file_server * {
-              root ${mediaRoot}
-          }
-      }
-
-      handle /api/v1/streaming/* {
-          reverse_proxy unix//run/mastodon-streaming/streaming.socket
-      }
-
-      route * {
-          file_server * {
-              root ${pkgs.mastodon}/public
-              pass_thru
-          }
-          reverse_proxy * unix//run/mastodon-web/web.socket
-      }
-
-      handle_errors {
-          root * ${pkgs.mastodon}/public
-          rewrite 500.html
-          file_server
-      }
-
-      encode gzip
-
-      header /* {
-          Strict-Transport-Security "max-age=31536000;"
-      }
-
-      header /emoji/* Cache-Control "public, max-age=31536000, immutable"
-      header /packs/* Cache-Control "public, max-age=31536000, immutable"
-      header /system/accounts/avatars/* Cache-Control "public, max-age=31536000, immutable"
-      header /system/media_attachments/files/* Cache-Control "public, max-age=31536000, immutable"
-    '';
-    # Caddy requires file and socket access
-    users.users.caddy.extraGroups = [ "mastodon" ];
-
-    # Caddy systemd unit needs readwrite permissions to /run/mastodon-web
-    systemd.services.caddy.serviceConfig.ReadWriteDirectories = lib.mkForce [
-      "/var/lib/caddy"
-      "/run/mastodon-web"
-    ];
+    # Allow access of mediaRoot
+    systemd.services.caddy.serviceConfig.ReadWriteDirectories = [ mediaRoot ];
+    systemd.services.mastodon-web.serviceConfig.ReadWriteDirectories = [ mediaRoot ];
+    systemd.services.mastodon-media-auto-remove.serviceConfig.ReadWriteDirectories = [ mediaRoot ];
 
     services.mastodon = {
       enable = true;
-      streamingProcesses = 3;
+      streamingProcesses = 1;
+      trustedProxy = "100.64.0.0/10,127.0.0.1"; # shoryuken
       localDomain = "noisesfrom.space";
-      # trustedProxy = "100.64.0.1"; # shoryuken
       configureNginx = false;
       smtp = {
         createLocally = false;

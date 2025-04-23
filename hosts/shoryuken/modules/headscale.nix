@@ -78,7 +78,6 @@ in
                 hadouken = hosts.hadouken;
                 tatsumaki = hosts.tatsumaki;
                 nurma = "100.64.0.8";
-                pikvm = "100.64.0.4";
                 mbp = "100.64.0.10";
                 pixel = "100.64.0.6";
               };
@@ -100,20 +99,20 @@ in
                     "pixel"
                     "nurma"
                   ];
-                  dst = [
-                    "autogroup:internet:*"
-                    "hadouken:443"
-                  ]; # allow exit-nodes + webservices
+                  dst = [ "autogroup:internet:*" ]; # allow exit-nodes
                 }
                 {
                   action = "accept";
-                  src = [
-                    "shoryuken"
-                    "mpb"
+                  src = [ "shoryuken" ];
+                  dst = [
+                    "hadouken:80,443,5551,5552"
                   ];
+                }
+                {
+                  action = "accept";
+                  src = [ "mpb" ];
                   dst = [
                     "hadouken:80,443"
-                    "pikvm:443"
                   ];
                 }
                 {
@@ -137,7 +136,6 @@ in
                     "shoryuken:*"
                     "hadouken:*"
                     "tatsumaki:*"
-                    "pikvm:80,443"
                   ];
                 }
               ];

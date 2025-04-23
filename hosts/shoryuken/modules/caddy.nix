@@ -129,6 +129,42 @@ in
               file_server
             '';
           };
+          "noisesfrom.space" = {
+            extraConfig = ''
+              handle /api/v1/streaming/* {
+                  reverse_proxy hadouken.machine.thuis:5552
+              }
+
+              handle_path /system/* {
+                  reverse_proxy https://mastodon.thuis { header_up Host {upstream_hostport} } 
+              }
+
+              route * {
+                  file_server * {
+                    root ${pkgs.mastodon}/public
+                    pass_thru
+                  }
+                  reverse_proxy hadouken.machine.thuis:5551
+              }
+
+              handle_errors {
+                  root * ${pkgs.mastodon}/public
+                  rewrite 500.html
+                  file_server
+              }
+
+              encode gzip
+
+              header /* {
+                  Strict-Transport-Security "max-age=31536000;"
+              }
+
+              header /emoji/* Cache-Control "public, max-age=31536000, immutable"
+              header /packs/* Cache-Control "public, max-age=31536000, immutable"
+              header /system/accounts/avatars/* Cache-Control "public, max-age=31536000, immutable"
+              header /system/media_attachments/files/* Cache-Control "public, max-age=31536000, immutable"
+            '';
+          };
           "p.plebian.nl" = makeProxy "p.plebian.nl" "microbin.thuis";
           "kevinandreihana.com" = makeProxy "kevinandreihana.com" "wedding.thuis";
           "sea.plebian.nl" = makeProxy "sea.plebian.nl" "seaf.thuis";
