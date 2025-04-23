@@ -15,6 +15,13 @@ in
   config = mkIf cfg.enable {
     services.caddy.virtualHosts = {
       "seaf.thuis".extraConfig = ''
+	coraza_waf {
+	  load_owasp_crs
+	  directives `
+	    Include @coraza.conf-recommended
+	    SecRuleEngine On
+	  `
+	}
         tls {
           issuer internal { ca hadouken }
         }

@@ -24,28 +24,28 @@ in
       shellAliases =
         let
           deploy-custom = pkgs.writeShellScriptBin "deploy-custom" ''
-            set -euo pipefail
-            cd /home/martijn/Nix
-	    cd secrets
-	    git pull
-	    cd ../
-            git submodule foreach git pull --depth=1
-            nix flake lock --update-input secrets
-            if [ $# -eq 0 ]; then
-                nh os switch \
-                  ".?submodules=1" \
-                  --ask \
-                  -- \
-                  --fallback
-            else
-                TARGET="$1"
-                nixos-rebuild switch \
-                  --use-remote-sudo \
-                  --fallback \
-                  --verbose \
-                  --flake ".?submodules=1#''${1}" \
-                  --target-host "martijn@''${1}.machine.thuis"
-            fi
+                        set -euo pipefail
+                        cd /home/martijn/Nix
+            	    cd secrets
+            	    git pull
+            	    cd ../
+                        git submodule foreach git pull --depth=1
+                        nix flake lock --update-input secrets
+                        if [ $# -eq 0 ]; then
+                            nh os switch \
+                              ".?submodules=1" \
+                              --ask \
+                              -- \
+                              --fallback
+                        else
+                            TARGET="$1"
+                            nixos-rebuild switch \
+                              --use-remote-sudo \
+                              --fallback \
+                              --verbose \
+                              --flake ".?submodules=1#''${1}" \
+                              --target-host "martijn@''${1}.machine.thuis"
+                        fi
           '';
         in
         {
