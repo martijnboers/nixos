@@ -9,7 +9,7 @@
 
     keymaps = [
       {
-        action = "<cmd>Neotree toggle<cr>";
+        action = "<cmd>Neotree reveal toggle<cr>";
         key = "<C-b>";
       }
       {
@@ -24,6 +24,14 @@
         action = "<C-d>zz";
         key = "<C-d>";
       }
+      {
+        action = "<C-w>w";
+        key = "<Tab>";
+      }
+      {
+        action = "<C-w>W";
+        key = "<S-Tab>";
+      }
     ];
 
     opts = {
@@ -35,20 +43,70 @@
       undofile = true; # save undo history
       ignorecase = true; # case insensitive search
       smartcase = true; # when adding cases to search, becomes case sensitive
+      scrolloff = 10; # start scrolling when 10 lines left
+      sidescrolloff = 8; # same for side scrolling
+      laststatus = 0; # hide bottom bar, noice does this
     };
-    colorschemes.catppuccin = {
+    colorschemes.kanagawa = {
       enable = true;
-      settings.flavour = "mocha";
+      settings.background = {
+        light = "dragon";
+        dark = "dragon";
+      };
     };
     plugins = {
       lastplace.enable = true; # re-open files where left off
       which-key.enable = true; # popup with possible key combinations
       barbecue.enable = true; # breadcrumbs at top of code files
-      neo-tree.enable = true; # left pane with files
       web-devicons.enable = true; # needed for another plugin
       barbar.enable = true; # tabs like any other editor
       noice.enable = true; # cmd popup input modal
       comment.enable = true; # comments visual lines
+      auto-session.enable = true; # re-open all buffers
+
+      alpha = {
+        enable = true;
+        layout = [
+          {
+            type = "padding";
+            val = 2;
+          }
+          {
+            opts = {
+              hl = "Type";
+              position = "center";
+            };
+            type = "text";
+            val = [
+              "                                   "
+              "                                   "
+              "                                   "
+              "   ⣴⣶⣤⡤⠦⣤⣀⣤⠆     ⣈⣭⣿⣶⣿⣦⣼⣆          "
+              "    ⠉⠻⢿⣿⠿⣿⣿⣶⣦⠤⠄⡠⢾⣿⣿⡿⠋⠉⠉⠻⣿⣿⡛⣦       "
+              "          ⠈⢿⣿⣟⠦ ⣾⣿⣿⣷    ⠻⠿⢿⣿⣧⣄     "
+              "           ⣸⣿⣿⢧ ⢻⠻⣿⣿⣷⣄⣀⠄⠢⣀⡀⠈⠙⠿⠄    "
+              "          ⢠⣿⣿⣿⠈    ⣻⣿⣿⣿⣿⣿⣿⣿⣛⣳⣤⣀⣀   "
+              "   ⢠⣧⣶⣥⡤⢄ ⣸⣿⣿⠘  ⢀⣴⣿⣿⡿⠛⣿⣿⣧⠈⢿⠿⠟⠛⠻⠿⠄  "
+              "  ⣰⣿⣿⠛⠻⣿⣿⡦⢹⣿⣷   ⢊⣿⣿⡏  ⢸⣿⣿⡇ ⢀⣠⣄⣾⠄   "
+              " ⣠⣿⠿⠛ ⢀⣿⣿⣷⠘⢿⣿⣦⡀ ⢸⢿⣿⣿⣄ ⣸⣿⣿⡇⣪⣿⡿⠿⣿⣷⡄  "
+              " ⠙⠃   ⣼⣿⡟  ⠈⠻⣿⣿⣦⣌⡇⠻⣿⣿⣷⣿⣿⣿ ⣿⣿⡇ ⠛⠻⢷⣄ "
+              "      ⢻⣿⣿⣄   ⠈⠻⣿⣿⣿⣷⣿⣿⣿⣿⣿⡟ ⠫⢿⣿⡆     "
+              "       ⠻⣿⣿⣿⣿⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡟⢀⣀⣤⣾⡿⠃     "
+              "                                   "
+            ];
+          }
+          {
+            type = "padding";
+            val = 2;
+          }
+        ];
+      }; # rice
+
+      neo-tree = {
+        enable = true; # left pane with files
+        hideRootNode = true; # don't show from opened folder
+        closeIfLastWindow = true; # close vim if no more text buffers
+      };
 
       gitsigns = {
         enable = true;
@@ -77,9 +135,12 @@
             lsp_document_symbols = {
               theme = "ivy";
             };
+            buffers = {
+              sort_mru = true; # https://github.com/nvim-telescope/telescope.nvim/blob/master/doc/telescope.txt#L1465
+            };
           };
         };
-      }; # fzf fuzzy finding
+      }; # file + buffer finder popup
 
       cmp = {
         enable = true;
@@ -118,7 +179,12 @@
         };
         servers = {
           bashls.enable = true;
-          nil_ls.enable = true;
+          nixd = {
+            enable = true;
+            settings = {
+              nixd.formatting.command = "nixfmt";
+            };
+          };
           html.enable = true;
           jsonls.enable = true;
           terraformls.enable = true;

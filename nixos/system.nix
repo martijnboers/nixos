@@ -271,25 +271,5 @@
     };
   };
 
-  environment.etc."pki-root.cnf".text = ''
-    [ req ]
-    default_bits       = 4096
-    default_md         = sha256
-    prompt             = no
-    distinguished_name = req_distinguished_name
-    x509_extensions    = v3_ca
-
-    [ req_distinguished_name ]
-    CN                 = plebs4cash
-    O                  = plebs4cash
-    C                  = NL
-
-    [ v3_ca ]
-    basicConstraints   = critical, CA:true
-    keyUsage           = critical, keyCertSign, cRLSign
-    subjectKeyIdentifier = hash
-    nameConstraints = critical, permitted;DNS:.thuis
-  '';
-
   system.stateVersion = "24.05";
 }

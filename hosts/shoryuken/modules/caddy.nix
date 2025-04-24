@@ -18,7 +18,7 @@ let
 in
 {
   options.hosts.caddy = {
-    enable = mkEnableOption "Caddy base";
+    enable = mkEnableOption "Ghetto CloudFlare proxies";
   };
 
   config = mkIf cfg.enable {
@@ -65,11 +65,9 @@ in
         }
       '';
       extraConfig = ''
-        matrix.plebian.nl, matrix.plebian.nl:8448 {
-            reverse_proxy /_matrix/* https://matrix.thuis {
-                header_up Host {upstream_hostport}
-            }
-        }
+                matrix.plebian.nl, matrix.plebian.nl:8448 {
+        	    reverse_proxy /_matrix/* http://hadouken.machine.thuis:5553
+                }
       '';
       virtualHosts =
         let

@@ -1,10 +1,12 @@
-{ ... }:
+{ modulesPath, ... }:
 {
   networking.hostName = "tatsumaki";
 
   imports = [
     ./modules/endlessh.nix
     ./modules/trap.nix
+    # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/profiles/hardened.nix
+    (modulesPath + "/profiles/hardened.nix")
   ];
 
   hosts.endlessh.enable = true;

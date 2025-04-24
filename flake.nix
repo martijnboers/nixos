@@ -120,6 +120,7 @@
       # Formatter for your nix files, available through 'nix fmt'
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
+      # Custom adjustments to packages
       overlays = import ./overlays { inherit inputs; };
 
       nixosConfigurations.nurma = mkSystem "nurma" {

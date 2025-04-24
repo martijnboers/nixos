@@ -24,7 +24,6 @@ let
     "detection"
     "mastodon"
     "microbin"
-    "matrix"
     "wedding"
     "pgadmin"
     "seaf"
@@ -105,7 +104,7 @@ in
                   action = "accept";
                   src = [ "shoryuken" ];
                   dst = [
-                    "hadouken:80,443,5551,5552"
+                    "hadouken:80,443,5551,5552,5553"
                   ];
                 }
                 {

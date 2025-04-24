@@ -21,6 +21,9 @@ in
       }
       root * ${mediaRoot}
       file_server 
+
+      header /accounts/avatars/* Cache-Control "public, max-age=31536000, immutable"
+      header /media_attachments/files/* Cache-Control "public, max-age=31536000, immutable"
     '';
 
     systemd.services = {
@@ -29,13 +32,15 @@ in
           socketPath = "/run/mastodon-web/web.socket";
         in
         {
+          enable = true;
           description = "Socat for mastodon-web";
           after = [ "mastodon.target" ];
           wants = [ "mastodon.target" ];
+          wantedBy = [ "multi-user.target" ];
           serviceConfig = {
             Restart = "on-failure";
             ProtectSystem = "strict";
-            ReadWriteDirectories = [ socketPath ];
+            RuntimeDirectory = [ socketPath ];
             ExecStart = "${lib.getExe pkgs.socat} TCP-LISTEN:5551,fork,reuseaddr,bind=100.64.0.2 UNIX-CONNECT:${socketPath}";
           };
         };
@@ -44,13 +49,15 @@ in
           socketPath = "/run/mastodon-streaming/streaming-1.socket";
         in
         {
+          enable = true;
           description = "Socat for mastodon-streaming";
           after = [ "mastodon.target" ];
           wants = [ "mastodon.target" ];
+          wantedBy = [ "multi-user.target" ];
           serviceConfig = {
             Restart = "on-failure";
             ProtectSystem = "strict";
-            ReadWriteDirectories = [ socketPath ];
+            RuntimeDirectory = [ socketPath ];
             ExecStart = "${lib.getExe pkgs.socat} TCP-LISTEN:5552,fork,reuseaddr,bind=100.64.0.2 UNIX-CONNECT:${socketPath}";
           };
         };
@@ -60,11 +67,12 @@ in
     systemd.services.caddy.serviceConfig.ReadWriteDirectories = [ mediaRoot ];
     systemd.services.mastodon-web.serviceConfig.ReadWriteDirectories = [ mediaRoot ];
     systemd.services.mastodon-media-auto-remove.serviceConfig.ReadWriteDirectories = [ mediaRoot ];
+    users.users.caddy.extraGroups = [ "mastodon" ];
 
     services.mastodon = {
       enable = true;
       streamingProcesses = 1;
-      trustedProxy = "100.64.0.0/10,127.0.0.1"; # shoryuken
+      trustedProxy = "100.64.0.0/10,127.0.0.1";
       localDomain = "noisesfrom.space";
       configureNginx = false;
       smtp = {

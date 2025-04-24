@@ -28,7 +28,7 @@ in
     '';
 
     # Docker is not added by default but required for headless chrome
-    hosts.virtualisation.enable = true;
+    virtualisation.docker.enable = true;
     # already running dns on host + not used in systemd params...
     virtualisation.podman.defaultNetwork.settings.dns_enabled = lib.mkForce false;
 

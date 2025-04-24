@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  inputs,
   ...
 }:
 with lib;
@@ -11,7 +10,7 @@ let
 in
 {
   options.hosts.virtualisation = {
-    enable = mkEnableOption "Enable virtualisation";
+    enable = mkEnableOption "Enable virtualisation for desktop usage";
     qemu = mkOption {
       type = types.bool;
       default = false;

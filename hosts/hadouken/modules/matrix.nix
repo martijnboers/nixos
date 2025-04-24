@@ -13,26 +13,14 @@ in
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."matrix.thuis".extraConfig = ''
-      tls {
-        issuer internal { ca hadouken }
-      }
-      @internal {
-        remote_ip 100.64.0.0/10
-      }
-      handle @internal {
-         reverse_proxy /_matrix/* http://localhost:${toString config.services.matrix-conduit.settings.global.port}
-      }
-      respond 403
-      }
-    '';
-
     services.matrix-conduit = {
       enable = true;
       settings.global = {
         server_name = "plebian.nl";
         allow_check_for_updates = false;
         allow_registration = false;
+        address = "100.64.0.2";
+        port = 5553;
       };
     };
   };

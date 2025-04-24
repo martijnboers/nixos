@@ -14,8 +14,11 @@ in
 
   config = mkIf cfg.enable {
     virtualisation = {
+      docker.enable = true;
       oci-containers.containers = {
-        changedetection-io-webdriver = {
+        honeytrap = {
+	  backend = "docker";
+	  autoStart = true;
           image = "honeytrap/honeytrap:latest";
           environment = {
             EXAMPLE = "1";

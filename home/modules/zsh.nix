@@ -24,28 +24,26 @@ in
       shellAliases =
         let
           deploy-custom = pkgs.writeShellScriptBin "deploy-custom" ''
-                        set -euo pipefail
-                        cd /home/martijn/Nix
-            	    cd secrets
-            	    git pull
-            	    cd ../
-                        git submodule foreach git pull --depth=1
-                        nix flake lock --update-input secrets
-                        if [ $# -eq 0 ]; then
-                            nh os switch \
-                              ".?submodules=1" \
-                              --ask \
-                              -- \
-                              --fallback
-                        else
-                            TARGET="$1"
-                            nixos-rebuild switch \
-                              --use-remote-sudo \
-                              --fallback \
-                              --verbose \
-                              --flake ".?submodules=1#''${1}" \
-                              --target-host "martijn@''${1}.machine.thuis"
-                        fi
+            set -euo pipefail
+            cd /home/martijn/Nix/secrets
+            git pull
+            cd ../
+            git submodule foreach git pull --depth=1
+            nix flake lock --update-input secrets
+            if [ $# -eq 0 ]; then
+              nh os switch \
+                ".?submodules=1" \
+                --ask \
+                -- \
+                --fallback
+            else
+              nixos-rebuild switch \
+                --use-remote-sudo \
+                --fallback \
+                --verbose \
+                --flake ".?submodules=1#''${1}" \
+                --target-host "martijn@''${1}.machine.thuis"
+            fi
           '';
         in
         {
@@ -59,6 +57,7 @@ in
           xev = "wev"; # wayland xev
           vim = "nvim";
           ls = "lsd"; # fancy ls
+          fmt = "nix fmt ~/Nix/*.nix";
           readme = "cat README* | glow";
           keyboard-compile = "qmk compile -kb peej/lumberjack -km martijn";
           keyboard-flash = "qmk flash -kb peej/lumberjack -km martijn";
@@ -82,7 +81,7 @@ in
           "h\?" = "OLLAMA_HOST=https://ollama.thuis ollama run wizardlm2";
         };
       dotDir = ".config/zsh";
-      initExtra = ''
+      initContent = ''
         # Powerlevel10k Zsh theme
         source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
         test -f ~/.config/zsh/.p10k.zsh && source ~/.config/zsh/.p10k.zsh
