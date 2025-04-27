@@ -106,6 +106,12 @@ in
                   dst = [
                     "hadouken:80,443,5551,5552,5553"
                   ];
+                }{
+                  action = "accept";
+                  src = [ "tenshin" ];
+                  dst = [
+                    "shoryuken:80,443,2230" # notifications
+                  ];
                 }
                 {
                   action = "accept";

@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 with lib;
@@ -29,11 +28,17 @@ in
     services.borgbackup.jobs.default.paths = [ config.services.home-assistant.configDir ];
     services.home-assistant = {
       enable = true;
-      package = pkgs.stable.home-assistant;
+      extraPackages =
+        python3Packages: with python3Packages; [
+          ibeacon-ble # don't use the bluetooth stuff...
+          numpy
+          pyturbojpeg
+	  gtts
+	  aiohttp-fast-zlib
+        ];
       extraComponents = [
-        "adguard"
-        "accuweather"
         "shelly"
+        "apprise"
       ];
       config = {
         http = {
@@ -42,7 +47,96 @@ in
             "127.0.0.1"
           ];
         };
-        default_config = { };
+        notify = {
+          name = "hass";
+          platform = "apprise";
+          url = "!secret gotify";
+        };
+        automation = [
+          {
+            alias = "Wasmachine klaar";
+            triggers = [
+              {
+                type = "power";
+                device_id = "4e2fe9e41d51fef74c47a77827ae6b1e";
+                entity_id = "2515f0aab67ddf77f97860da984cee3c";
+                domain = "sensor";
+                trigger = "device";
+                above = 0;
+                below = 3;
+                for = {
+                  hours = 0;
+                  minutes = 5;
+                  seconds = 0;
+                };
+              }
+            ];
+            actions = [
+              {
+                action = "notify.hass";
+                data = {
+                  message = "Wasmachine klaar";
+                };
+              }
+            ];
+            mode = "single";
+          }
+          {
+            alias = "Droger klaar";
+            triggers = [
+              {
+                type = "power";
+                device_id = "8d55ba928bdfe0dd6f80841b5fa97e35";
+                entity_id = "584786a29162e17c035e79cc87570908";
+                domain = "sensor";
+                trigger = "device";
+                above = 0;
+                below = 3;
+                for = {
+                  hours = 0;
+                  minutes = 5;
+                  seconds = 0;
+                };
+              }
+           {
+            alias = "Waterfontein";
+            triggers = [
+              {
+                type = "power";
+                device_id = "4d6a9602129c08b32761b464a1ab3679";
+                entity_id = "889328ee0f23a43b93ce17d55d018866";
+                domain = "sensor";
+                trigger = "device";
+                above = 0;
+                below = 1;
+                for = {
+                  hours = 0;
+                  minutes = 5;
+                  seconds = 0;
+                };
+              }
+            ];
+            actions = [
+              {
+                action = "notify.hass";
+                data = {
+                  message = "Otto booped fontein";
+                };
+              }
+            ];
+            mode = "single";
+          } ];
+            actions = [
+              {
+                action = "notify.hass";
+                data = {
+                  message = "Droger klaar";
+                };
+              }
+            ];
+            mode = "single";
+          }
+        ];
         homeassistant = {
           name = "Thuis";
           unit_system = "metric";

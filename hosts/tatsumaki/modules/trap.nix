@@ -17,8 +17,8 @@ in
       docker.enable = true;
       oci-containers.containers = {
         honeytrap = {
-	  backend = "docker";
-	  autoStart = true;
+          backend = "docker";
+          autoStart = true;
           image = "honeytrap/honeytrap:latest";
           environment = {
             EXAMPLE = "1";

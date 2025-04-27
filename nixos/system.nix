@@ -62,16 +62,13 @@
     lz4
     git
     wget
-
-    # samba
-    cifs-utils
+    vim
 
     htop
     iotop # io monitoring
     iftop # network monitoring
     du-dust # better du
     screen
-    tmux
 
     # system call monitoring
     lsof # list open files
@@ -81,8 +78,6 @@
     ethtool
     pciutils # lspci
     usbutils # lsusb
-    hydra-check # check nixos ci builds
-    openssl # for internal headscale pki
   ];
 
   nix = {

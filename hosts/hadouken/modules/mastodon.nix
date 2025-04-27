@@ -21,9 +21,6 @@ in
       }
       root * ${mediaRoot}
       file_server 
-
-      header /accounts/avatars/* Cache-Control "public, max-age=31536000, immutable"
-      header /media_attachments/files/* Cache-Control "public, max-age=31536000, immutable"
     '';
 
     systemd.services = {
