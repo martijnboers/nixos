@@ -29,7 +29,7 @@ in
             git pull
             cd ../
             git submodule foreach git pull --depth=1
-            nix flake lock --update-input secrets
+            nix flake update secrets
             if [ $# -eq 0 ]; then
               nh os switch \
                 ".?submodules=1" \

@@ -222,7 +222,7 @@
     overlays = [
       outputs.overlays.additions
       outputs.overlays.modifications
-      outputs.overlays.stable-packages
+      outputs.overlays.alternative-pkgs
     ];
 
     config = {

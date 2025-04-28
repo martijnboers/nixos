@@ -35,12 +35,14 @@ in
 
     systemd.services.mailrise =
       let
-        configFile = pkgs.writeText "mailrise_config.yml" ''
-          configs:
-            '*@*':
-              urls:
-              - !env_var GOTIFY_URL
-        '';
+        configFile =
+          pkgs.writeText "mailrise_config.yml" # yaml
+            ''
+              configs:
+                '*@*':
+                  urls:
+                  - !env_var GOTIFY_URL
+            '';
       in
       {
         wantedBy = [ "multi-user.target" ];

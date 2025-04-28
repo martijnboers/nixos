@@ -127,6 +127,12 @@ in
               file_server
             '';
           };
+          "storage.plebian.nl" = {
+            extraConfig = ''
+              reverse_proxy hadouken.machine.thuis:5554 
+	      header Access-Control-Allow-Origin *
+            '';
+          };
           "noisesfrom.space" = {
             extraConfig = ''
               handle /api/v1/streaming/* {

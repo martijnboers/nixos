@@ -12,6 +12,11 @@
       ];
     };
 
+    mastodon = prev.mastodon.override {
+      pname = "glitch-soc";
+      srcOverride = final.pkgs.callPackage ./../pkgs/glitch-soc.nix { };
+    };
+
     winapps-patched =
       let
         app = inputs.winapps.packages."x86_64-linux".winapps;
@@ -42,7 +47,7 @@
 
   # When applied, the stable nixpkgs set (declared in the flake inputs) will
   # be accessible through 'pkgs.stable'
-  stable-packages = final: _prev: {
+  alternative-pkgs = final: _prev: {
     stable = import inputs.nixpkgs-stable {
       system = final.system;
       config.allowUnfree = true;

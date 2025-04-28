@@ -56,7 +56,7 @@
     overlays = [
       outputs.overlays.additions
       outputs.overlays.modifications
-      outputs.overlays.stable-packages
+      outputs.overlays.alternative-pkgs
     ];
     hostPlatform = lib.mkDefault "aarch64-darwin";
 

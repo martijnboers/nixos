@@ -33,8 +33,8 @@ in
           ibeacon-ble # don't use the bluetooth stuff...
           numpy
           pyturbojpeg
-	  gtts
-	  aiohttp-fast-zlib
+          gtts
+          aiohttp-fast-zlib
         ];
       extraComponents = [
         "shelly"
@@ -98,7 +98,18 @@ in
                   seconds = 0;
                 };
               }
-           {
+            ];
+            actions = [
+              {
+                action = "notify.hass";
+                data = {
+                  message = "Droger klaar";
+                };
+              }
+            ];
+            mode = "single";
+          }
+          {
             alias = "Waterfontein";
             triggers = [
               {
@@ -121,16 +132,6 @@ in
                 action = "notify.hass";
                 data = {
                   message = "Otto booped fontein";
-                };
-              }
-            ];
-            mode = "single";
-          } ];
-            actions = [
-              {
-                action = "notify.hass";
-                data = {
-                  message = "Droger klaar";
                 };
               }
             ];

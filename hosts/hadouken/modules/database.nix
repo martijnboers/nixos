@@ -13,30 +13,56 @@ in
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."pgadmin.thuis".extraConfig = ''
-      tls {
-        issuer internal { ca hadouken }
-      }
-      @internal {
-        remote_ip 100.64.0.0/10
-      }
-      handle @internal {
-        reverse_proxy http://localhost:${toString config.services.pgadmin.port}
-      }
-      respond 403
-    '';
+    services.caddy.virtualHosts = {
+      "pgadmin.thuis".extraConfig = ''
+        tls {
+          issuer internal { ca hadouken }
+        }
+        @internal {
+          remote_ip 100.64.0.0/10
+        }
+        handle @internal {
+          reverse_proxy http://localhost:${toString config.services.pgadmin.port}
+        }
+        respond 403
+      '';
+      "minio.thuis".extraConfig = ''
+        tls {
+          issuer internal { ca hadouken }
+        }
+        @internal {
+          remote_ip 100.64.0.0/10
+        }
+        handle @internal {
+          reverse_proxy http://${toString config.services.minio.consoleAddress}
+        }
+        respond 403
+      '';
+    };
 
     services.postgresql = {
       enable = true;
       enableTCPIP = true;
       authentication = lib.mkOverride 10 ''
-        #type database  DBuser  auth-method
-        local all       all     trust
+        #type database  DBuser  range		auth-method
+        local all       all     		trust
         host  all       all     100.64.0.0/10   trust
       '';
     };
 
-    age.secrets.pgadmin.file = ../../../secrets/pgadmin.age;
+    age.secrets = {
+      pgadmin.file = ../../../secrets/pgadmin.age;
+      minio.file = ../../../secrets/minio.age;
+    };
+
+    services.minio = {
+      enable = true;
+      region = "thuis";
+      listenAddress = "100.64.0.2:5554";
+      consoleAddress = "localhost:9901";
+      rootCredentialsFile = config.age.secrets.minio.path;
+      dataDir = [ "/mnt/zwembad/games/minio" ];
+    };
 
     services.pgadmin = {
       enable = true;
@@ -54,6 +80,9 @@ in
       ];
     };
 
-    services.borgbackup.jobs.default.paths = [ config.services.postgresqlBackup.location ];
+    services.borgbackup.jobs.default.paths = [
+      config.services.postgresqlBackup.location
+      config.services.minio.configDir
+    ];
   };
 }

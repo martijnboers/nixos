@@ -22,11 +22,11 @@ let
     "cal"
     "webdav"
     "detection"
-    "mastodon"
     "microbin"
     "wedding"
     "pgadmin"
     "seaf"
+    "minio"
   ];
   shoryukenRecords = [
     "notifications"
@@ -71,6 +71,7 @@ in
           };
           policy.path = pkgs.writeText "acl.json" (
             builtins.toJSON {
+	      # randomizeClientPort = true; # for pfsense at home
               hosts = {
                 shoryuken = hosts.shoryuken;
                 tenshin = hosts.tenshin;
@@ -79,6 +80,8 @@ in
                 nurma = "100.64.0.8";
                 mbp = "100.64.0.10";
                 pixel = "100.64.0.6";
+                router = "100.64.0.5";
+                pivkm = "100.64.0.11";
               };
 
               groups = {
@@ -104,9 +107,10 @@ in
                   action = "accept";
                   src = [ "shoryuken" ];
                   dst = [
-                    "hadouken:80,443,5551,5552,5553"
+                    "hadouken:80,443,5551,5552,5553,5554"
                   ];
-                }{
+                }
+                {
                   action = "accept";
                   src = [ "tenshin" ];
                   dst = [
@@ -141,6 +145,8 @@ in
                     "shoryuken:*"
                     "hadouken:*"
                     "tatsumaki:*"
+		    "router:4433"
+		    "pikvm:443"
                   ];
                 }
               ];

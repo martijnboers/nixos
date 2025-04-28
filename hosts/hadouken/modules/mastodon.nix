@@ -7,7 +7,6 @@
 with lib;
 let
   cfg = config.hosts.mastodon;
-  mediaRoot = "/mnt/zwembad/games/mastodon/";
 in
 {
   options.hosts.mastodon = {
@@ -15,14 +14,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."mastodon.thuis".extraConfig = ''
-      tls {
-        issuer internal { ca hadouken }
-      }
-      root * ${mediaRoot}
-      file_server 
-    '';
-
     systemd.services = {
       socat-mastodon-web =
         let
@@ -31,14 +22,23 @@ in
         {
           enable = true;
           description = "Socat for mastodon-web";
-          after = [ "mastodon.target" ];
-          wants = [ "mastodon.target" ];
+          after = [
+            "network-online.target"
+            "mastodon-web.service"
+          ];
+          wants = [
+            "network-online.target"
+            "mastodon-web.service"
+          ];
           wantedBy = [ "multi-user.target" ];
+          startLimitBurst = 10;
+          startLimitIntervalSec = 600;
           serviceConfig = {
             Restart = "on-failure";
             ProtectSystem = "strict";
             RuntimeDirectory = [ socketPath ];
             ExecStart = "${lib.getExe pkgs.socat} TCP-LISTEN:5551,fork,reuseaddr,bind=100.64.0.2 UNIX-CONNECT:${socketPath}";
+            RestartSec = 10;
           };
         };
       socat-mastodon-streaming =
@@ -48,23 +48,26 @@ in
         {
           enable = true;
           description = "Socat for mastodon-streaming";
-          after = [ "mastodon.target" ];
-          wants = [ "mastodon.target" ];
+          after = [
+            "network-online.target"
+            "mastodon-web.service"
+          ];
+          wants = [
+            "network-online.target"
+            "mastodon-web.service"
+          ];
           wantedBy = [ "multi-user.target" ];
+          startLimitBurst = 10;
+          startLimitIntervalSec = 600;
           serviceConfig = {
             Restart = "on-failure";
             ProtectSystem = "strict";
             RuntimeDirectory = [ socketPath ];
             ExecStart = "${lib.getExe pkgs.socat} TCP-LISTEN:5552,fork,reuseaddr,bind=100.64.0.2 UNIX-CONNECT:${socketPath}";
+            RestartSec = 10;
           };
         };
     };
-
-    # Allow access of mediaRoot
-    systemd.services.caddy.serviceConfig.ReadWriteDirectories = [ mediaRoot ];
-    systemd.services.mastodon-web.serviceConfig.ReadWriteDirectories = [ mediaRoot ];
-    systemd.services.mastodon-media-auto-remove.serviceConfig.ReadWriteDirectories = [ mediaRoot ];
-    users.users.caddy.extraGroups = [ "mastodon" ];
 
     services.mastodon = {
       enable = true;
@@ -76,9 +79,16 @@ in
         createLocally = false;
         fromAddress = "noreply@plebian.nl"; # required
       };
+      extraEnvFiles = [ config.age.secrets.mastodon.path ];
       extraConfig = {
         SINGLE_USER_MODE = "true";
-        PAPERCLIP_ROOT_PATH = mediaRoot;
+        MAX_TOOT_CHARS = "1000"; # yeey for glitch-soc
+
+        S3_ENABLED = "true";
+        S3_BUCKET = "mastodon";
+        S3_REGION = "thuis";
+        S3_ENDPOINT = "https://storage.plebian.nl";
+        S3_HOSTNAME = "storage.plebian.nl";
       };
       mediaAutoRemove = {
         enable = true;
@@ -87,7 +97,10 @@ in
     };
 
     # Backfill comments automaticly
-    age.secrets.fedifetcher.file = ../../../secrets/fedifetcher.age;
+    age.secrets = {
+      fedifetcher.file = ../../../secrets/fedifetcher.age;
+      mastodon.file = ../../../secrets/mastodon.age;
+    };
 
     systemd.services.fedifetcher = {
       description = "FediFetcher";

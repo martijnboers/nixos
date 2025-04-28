@@ -1,197 +1,367 @@
-{ ... }:
 {
-  programs.nixvim = {
-    enable = true;
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
+  home.packages = with pkgs; [
+    tflint
+    vale
+    ruff
+  ];
 
-    clipboard = {
-      providers.wl-copy.enable = true;
-    };
-
-    keymaps = [
-      {
-        action = "<cmd>Neotree reveal toggle<cr>";
-        key = "<C-b>";
-      }
-      {
-        action = "<cmd>bd<cr>";
-        key = "x";
-      }
-      {
-        action = "<C-u>zz";
-        key = "<C-u>";
-      }
-      {
-        action = "<C-d>zz";
-        key = "<C-d>";
-      }
-      {
-        action = "<C-w>w";
-        key = "<Tab>";
-      }
-      {
-        action = "<C-w>W";
-        key = "<S-Tab>";
-      }
-    ];
-
-    opts = {
-      number = true; # Show line numbers
-      relativenumber = true; # Show relative line numbers
-      shiftwidth = 2; # Tab width should be 2
-      swapfile = false; # No more .swp files
-      autoread = true; # autoreload changed files
-      undofile = true; # save undo history
-      ignorecase = true; # case insensitive search
-      smartcase = true; # when adding cases to search, becomes case sensitive
-      scrolloff = 10; # start scrolling when 10 lines left
-      sidescrolloff = 8; # same for side scrolling
-      laststatus = 0; # hide bottom bar, noice does this
-    };
-    colorschemes.kanagawa = {
+  programs.nixvim =
+    let
+      helpers = config.lib.nixvim;
+    in
+    {
       enable = true;
-      settings.background = {
-        light = "dragon";
-        dark = "dragon";
-      };
-    };
-    plugins = {
-      lastplace.enable = true; # re-open files where left off
-      which-key.enable = true; # popup with possible key combinations
-      barbecue.enable = true; # breadcrumbs at top of code files
-      web-devicons.enable = true; # needed for another plugin
-      barbar.enable = true; # tabs like any other editor
-      noice.enable = true; # cmd popup input modal
-      comment.enable = true; # comments visual lines
-      auto-session.enable = true; # re-open all buffers
 
-      alpha = {
-        enable = true;
-        layout = [
-          {
-            type = "padding";
-            val = 2;
-          }
-          {
-            opts = {
-              hl = "Type";
-              position = "center";
-            };
-            type = "text";
-            val = [
-              "                                   "
-              "                                   "
-              "                                   "
-              "   ⣴⣶⣤⡤⠦⣤⣀⣤⠆     ⣈⣭⣿⣶⣿⣦⣼⣆          "
-              "    ⠉⠻⢿⣿⠿⣿⣿⣶⣦⠤⠄⡠⢾⣿⣿⡿⠋⠉⠉⠻⣿⣿⡛⣦       "
-              "          ⠈⢿⣿⣟⠦ ⣾⣿⣿⣷    ⠻⠿⢿⣿⣧⣄     "
-              "           ⣸⣿⣿⢧ ⢻⠻⣿⣿⣷⣄⣀⠄⠢⣀⡀⠈⠙⠿⠄    "
-              "          ⢠⣿⣿⣿⠈    ⣻⣿⣿⣿⣿⣿⣿⣿⣛⣳⣤⣀⣀   "
-              "   ⢠⣧⣶⣥⡤⢄ ⣸⣿⣿⠘  ⢀⣴⣿⣿⡿⠛⣿⣿⣧⠈⢿⠿⠟⠛⠻⠿⠄  "
-              "  ⣰⣿⣿⠛⠻⣿⣿⡦⢹⣿⣷   ⢊⣿⣿⡏  ⢸⣿⣿⡇ ⢀⣠⣄⣾⠄   "
-              " ⣠⣿⠿⠛ ⢀⣿⣿⣷⠘⢿⣿⣦⡀ ⢸⢿⣿⣿⣄ ⣸⣿⣿⡇⣪⣿⡿⠿⣿⣷⡄  "
-              " ⠙⠃   ⣼⣿⡟  ⠈⠻⣿⣿⣦⣌⡇⠻⣿⣿⣷⣿⣿⣿ ⣿⣿⡇ ⠛⠻⢷⣄ "
-              "      ⢻⣿⣿⣄   ⠈⠻⣿⣿⣿⣷⣿⣿⣿⣿⣿⡟ ⠫⢿⣿⡆     "
-              "       ⠻⣿⣿⣿⣿⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡟⢀⣀⣤⣾⡿⠃     "
-              "                                   "
-            ];
-          }
-          {
-            type = "padding";
-            val = 2;
-          }
-        ];
-      }; # rice
-
-      neo-tree = {
-        enable = true; # left pane with files
-        hideRootNode = true; # don't show from opened folder
-        closeIfLastWindow = true; # close vim if no more text buffers
+      clipboard = {
+        providers.wl-copy.enable = true;
       };
 
-      gitsigns = {
-        enable = true;
-        autoLoad = true;
-      }; # diff + gutter signs
-
-      treesitter = {
-        enable = true;
-        settings = {
-          indent.enable = true;
-        };
-        nixGrammars = true;
-      }; # Syntax highlighting
-
-      telescope = {
-        enable = true;
-        keymaps = {
-          "<C-e>" = "find_files";
-          "<C-f>" = "live_grep";
-          "<C-t>" = "lsp_document_symbols";
-          "<C-g>" = "buffers";
-          "<leader>fh" = "help_tags";
-        };
-        settings = {
-          pickers = {
-            lsp_document_symbols = {
-              theme = "ivy";
-            };
-            buffers = {
-              sort_mru = true; # https://github.com/nvim-telescope/telescope.nvim/blob/master/doc/telescope.txt#L1465
-            };
-          };
-        };
-      }; # file + buffer finder popup
-
-      cmp = {
-        enable = true;
-        settings = {
-          snippet.expand = "luasnip";
-          mapping = {
-            "<C-Space>" = "cmp.mapping.complete()";
-            "<Down>" = "cmp.mapping.select_next_item()";
-            "<Up>" = "cmp.mapping.select_prev_item()";
-            "<Tab>" = "cmp.mapping.confirm({ select = true })";
-          };
-          sources = [
-            { name = "nvim_lsp"; }
-            { name = "path"; }
-            { name = "buffer"; }
-            { name = "orgmode"; }
-            { name = "neorg"; }
+      keymaps = [
+        {
+          action = "<cmd>Neotree reveal toggle<cr>";
+          key = "<Leader>d";
+          options.desc = "toggle file explorer";
+        }
+        {
+          action = "<cmd>Gitsigns blame<cr>";
+          key = "<Leader>gB";
+          options.desc = "Git blame";
+        }
+        {
+          action = "<cmd>Gitsigns blame_line<cr>";
+          key = "<Leader>gb";
+          options.desc = "Git blame current line";
+        }
+        {
+          action = "<cmd>Gitsigns preview_hunk_inline<cr>";
+          key = "<Leader>gp";
+          options.desc = "Git preview hunk";
+        }
+        {
+          action = "<cmd>Gitsigns reset_hunk<cr>";
+          key = "<Leader>gu";
+          options.desc = "Git undo changes";
+        }
+        {
+          action =
+            helpers.mkRaw # lua
+              ''
+                function()
+                  require("conform").format({
+                    lsp_fallback = true,
+                    async = false,
+                    timeout_ms = 500,
+                  })
+                end
+              '';
+          mode = [
+            "v"
+            "n"
           ];
-        };
-      }; # auto-complete intelij like additionally supplied by lsp
 
-      lsp-format = {
-        enable = true;
+          key = "<Leader>=";
+          options.desc = "format selection or whole buffer";
+        }
+        {
+          action = "<C-u>zz";
+          key = "<C-u>";
+        }
+        {
+          action = "<C-d>zz";
+          key = "<C-d>";
+        }
+        {
+          action = "<C-w>w";
+          key = "<Tab>";
+          options.desc = "switch buffer";
+        }
+        {
+          action = "<C-w>W";
+          key = "<S-Tab>";
+          options.desc = "prev buffer";
+        }
+        {
+          action = "<cmd>bd<cr>";
+          key = "x";
+          options.desc = "close buffer";
+        }
+      ];
+
+      globals = {
+        mapleader = " "; # map leader to spacebar
       };
 
-      lsp = {
+      opts = {
+        number = true; # Show line numbers
+        relativenumber = true; # Show relative line numbers
+        shiftwidth = 2; # Tab width should be 2
+        swapfile = false; # No more .swp files
+        autoread = true; # autoreload changed files
+        undofile = true; # save undo history
+        ignorecase = true; # case insensitive search
+        smartcase = true; # when adding cases to search, becomes case sensitive
+        scrolloff = 8; # start scrolling when 8 lines left
+        sidescrolloff = 8; # same for side scrolling
+        laststatus = 0; # hide bottom bar, noice does this
+        smartindent = false; # done by treesitter
+        sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"; # stuff for auto-session
+      };
+
+      diagnostic.settings = {
+        virtual_text = false; # disable default error messages
+        virtual_lines.only_current_line = true; # enable lsp-lines error messages
+      };
+
+      colorschemes.kanagawa = {
         enable = true;
-        keymaps = {
-          lspBuf = {
-            K = "hover";
-            gD = "references";
-            gd = "definition";
-            gi = "implementation";
-            gt = "type_definition";
+        settings = {
+          dimInactive = true;
+          background = {
+            light = "dragon";
+            dark = "dragon";
           };
         };
-        servers = {
-          bashls.enable = true;
-          nixd = {
-            enable = true;
-            settings = {
-              nixd.formatting.command = "nixfmt";
+      };
+      plugins = {
+        which-key.enable = true; # popup with possible key combinations
+        barbecue.enable = true; # breadcrumbs at top of code files
+        web-devicons.enable = true; # needed for another plugins
+        marks.enable = true; # better marks support
+        barbar.enable = true; # tabs like any other editor
+        noice.enable = true; # cmd popup input modal
+        comment.enable = true; # comments visual lines
+        render-markdown.enable = true; # better markdown support
+        lsp-lines.enable = true; # diagnostics inline
+
+        auto-session = {
+          enable = true; # re-open all buffers
+          settings.root_dir = "/tmp/nvim-sessions"; # auto-remove on startup
+        };
+
+        neo-tree = {
+          enable = true; # left pane with files
+          hideRootNode = true; # don't show from opened folder
+          closeIfLastWindow = true; # close vim if no more text buffers
+        };
+
+        gitsigns = {
+          enable = true;
+          autoLoad = true;
+        }; # gutter signs, blame, hunk previews
+
+        treesitter = {
+          enable = true;
+          settings = {
+            highlight.enable = true;
+            indent.enable = true;
+          };
+        }; # Syntax highlighting
+
+        telescope = {
+          enable = true;
+          keymaps = {
+            "<Leader>e" = "find_files";
+            "<Leader>f" = "current_buffer_fuzzy_find";
+            "<Leader>F" = "live_grep";
+            "<Leader>s" = "lsp_document_symbols";
+            "<Leader>b" = "buffers";
+            "<Leader>gf" = "git_commits";
+            "<Leader>gF" = "git_branches";
+            "<Leader>gs" = "git_status";
+          };
+          settings = {
+            pickers = {
+              lsp_document_symbols = {
+                theme = "ivy";
+              };
+              find_files = {
+                theme = "ivy";
+              };
+              buffers = {
+                sort_mru = true; # https://github.com/nvim-telescope/telescope.nvim/blob/master/doc/telescope.txt#L1465
+              };
             };
           };
-          html.enable = true;
-          jsonls.enable = true;
-          terraformls.enable = true;
-          pyright.enable = true;
-          gopls.enable = true;
+        }; # file + buffer finder popup
+
+        conform-nvim = {
+          enable = true;
+          settings = {
+            formatters_by_ft = {
+              nix = [ "nixfmt" ];
+              python = [ "black" ];
+              bash = [
+                "shellcheck"
+                "shellharden"
+                "shfmt"
+              ];
+              "_" = [
+                "trim_whitespace"
+                "trim_newlines"
+              ];
+            };
+            formatters = {
+              black.command = lib.getExe pkgs.black;
+              shellcheck.command = lib.getExe pkgs.shellcheck;
+              shfmt.command = lib.getExe pkgs.shfmt;
+              shellharden.command = lib.getExe pkgs.shellharden;
+              nixfmt.command = lib.getExe pkgs.nixfmt-rfc-style;
+            };
+          };
+        }; # formatters
+
+        lint = {
+          enable = true;
+          lintersByFt = {
+            nix = [ "nix" ];
+            python = [ "ruff" ];
+            terraform = [
+              "tflint"
+            ];
+            text = [
+              "vale"
+            ];
+          };
+        }; # code style linting
+
+        blink-cmp = {
+          enable = true;
+          settings = {
+            enabled = helpers.mkRaw ''
+              function()
+                return vim.bo.buftype ~= 'prompt' and vim.b.completion ~= false
+              end
+            '';
+            keymap = {
+              "<C-b>" = [
+                "scroll_documentation_up"
+                "fallback"
+              ];
+              "<C-e>" = [
+                "hide"
+              ];
+              "<C-f>" = [
+                "scroll_documentation_down"
+                "fallback"
+              ];
+              "<C-n>" = [
+                "select_next"
+                "fallback"
+              ];
+              "<C-p>" = [
+                "select_prev"
+                "fallback"
+              ];
+              "<C-space>" = [
+                "show"
+                "show_documentation"
+                "hide_documentation"
+              ];
+              "<C-y>" = [
+                "select_and_accept"
+              ];
+            };
+            appearance = {
+              nerd_font_variant = "mono";
+              use_nvim_cmp_as_default = true;
+            };
+            completion = {
+              accept = {
+                auto_brackets = {
+                  enabled = true;
+                  semantic_token_resolution = {
+                    enabled = false;
+                  };
+                };
+              };
+              documentation = {
+                auto_show = true;
+              };
+            };
+            signature = {
+              enabled = true;
+            };
+            sources = {
+              cmdline = [ ];
+              providers = {
+                buffer = {
+                  score_offset = -7;
+                };
+                lsp = {
+                  fallbacks = [ ];
+                };
+              };
+            };
+          };
         };
+
+        lsp = {
+          enable = true;
+          keymaps = {
+            lspBuf = {
+              K = "hover";
+              gD = "references";
+              gd = "definition";
+              gi = "implementation";
+              gt = "type_definition";
+            };
+          };
+          servers = {
+            bashls.enable = true;
+            nixd.enable = true;
+            html.enable = true;
+            jsonls.enable = true;
+            terraformls.enable = true;
+            pyright.enable = true;
+            gopls.enable = true;
+            ccls.enable = true;
+            docker_compose_language_service.enable = true;
+          };
+        };
+
+        alpha = {
+          enable = true;
+          layout = [
+            {
+              type = "padding";
+              val = 2;
+            }
+            {
+              opts = {
+                hl = "Type";
+                position = "center";
+              };
+              type = "text";
+              val = [
+                "                                   "
+                "                                   "
+                "                                   "
+                "   ⣴⣶⣤⡤⠦⣤⣀⣤⠆     ⣈⣭⣿⣶⣿⣦⣼⣆          "
+                "    ⠉⠻⢿⣿⠿⣿⣿⣶⣦⠤⠄⡠⢾⣿⣿⡿⠋⠉⠉⠻⣿⣿⡛⣦       "
+                "          ⠈⢿⣿⣟⠦ ⣾⣿⣿⣷    ⠻⠿⢿⣿⣧⣄     "
+                "           ⣸⣿⣿⢧ ⢻⠻⣿⣿⣷⣄⣀⠄⠢⣀⡀⠈⠙⠿⠄    "
+                "          ⢠⣿⣿⣿⠈    ⣻⣿⣿⣿⣿⣿⣿⣿⣛⣳⣤⣀⣀   "
+                "   ⢠⣧⣶⣥⡤⢄ ⣸⣿⣿⠘  ⢀⣴⣿⣿⡿⠛⣿⣿⣧⠈⢿⠿⠟⠛⠻⠿⠄  "
+                "  ⣰⣿⣿⠛⠻⣿⣿⡦⢹⣿⣷   ⢊⣿⣿⡏  ⢸⣿⣿⡇ ⢀⣠⣄⣾⠄   "
+                " ⣠⣿⠿⠛ ⢀⣿⣿⣷⠘⢿⣿⣦⡀ ⢸⢿⣿⣿⣄ ⣸⣿⣿⡇⣪⣿⡿⠿⣿⣷⡄  "
+                " ⠙⠃   ⣼⣿⡟  ⠈⠻⣿⣿⣦⣌⡇⠻⣿⣿⣷⣿⣿⣿ ⣿⣿⡇ ⠛⠻⢷⣄ "
+                "      ⢻⣿⣿⣄   ⠈⠻⣿⣿⣿⣷⣿⣿⣿⣿⣿⡟ ⠫⢿⣿⡆     "
+                "       ⠻⣿⣿⣿⣿⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡟⢀⣀⣤⣾⡿⠃     "
+                "                                   "
+              ];
+            }
+            {
+              type = "padding";
+              val = 2;
+            }
+          ];
+        }; # rice
       };
     };
-  };
 }
