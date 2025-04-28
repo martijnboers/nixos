@@ -10,7 +10,6 @@
 
   home.packages = with pkgs; [
     openssh # mac ssh doesn't support hardware keys
-    qmk
     httpie
   ];
 

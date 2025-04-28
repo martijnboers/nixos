@@ -9,19 +9,10 @@
   networking.computerName = "macbook-martijn";
   system.defaults.smb.NetBIOSName = "macbook-martijn";
 
-  homebrew = {
-    enable = true;
-    casks = [
-      "rectangle"
-      "eloston-chromium"
-      "seafile-client"
-      "burp-suite"
-    ];
-  };
-
   # Default env variables
   environment.variables = {
     EDITOR = "nvim";
+    QMK_HOME = "~/Code/qmk_firmware";
   };
 
   users.users.martijn = {

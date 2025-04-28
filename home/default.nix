@@ -61,8 +61,6 @@
     nerdfonts # icon font
     openssl # for internal headscale pki
     hydra-check # check nixos ci builds
-    # samba
-    cifs-utils
 
     # archives
     zip
