@@ -28,7 +28,7 @@ in
       };
       endlessh-go = {
         enable = true;
-        port = 6667;
+        port = 22;
         prometheus = {
           enable = true;
         };

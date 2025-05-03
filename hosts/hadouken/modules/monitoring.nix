@@ -181,7 +181,7 @@ in
           job_name = "endlessh";
           static_configs = [
             {
-              targets = [ "tatsumaki.machine.thuis:${toString config.services.endlessh-go.prometheus.port}" ];
+              targets = [ "shoryuken.machine.thuis:${toString config.services.endlessh-go.prometheus.port}" ];
             }
           ];
         }
@@ -190,14 +190,6 @@ in
           static_configs = [
             {
               targets = [ "tenshin.machine.thuis:9617" ];
-            }
-          ];
-        }
-        {
-          job_name = "bitcoind";
-          static_configs = [
-            {
-              targets = [ "hadouken.machine.thuis:9332" ];
             }
           ];
         }

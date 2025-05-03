@@ -611,11 +611,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1746183695,
-        "narHash": "sha256-af4b6wc+6N1elsxOY3o4DInNBUsZgd5dNtrQDF7S+io=",
+        "lastModified": 1746291084,
+        "narHash": "sha256-u7Fun3QfwVQhq5PTZVKyOfAs1V3bo2j03aKwTG5Ts6k=",
         "ref": "master",
-        "rev": "3d0659700c72e7b699327da51971f6bb355f5bda",
-        "revCount": 17,
+        "rev": "873fec169ca8f7f0196697a0968ed70d83da81f6",
+        "revCount": 3,
         "type": "git",
         "url": "ssh://git@github.com/martijnboers/secrets.git"
       },

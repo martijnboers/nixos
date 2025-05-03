@@ -72,31 +72,29 @@ in
         settings = {
           server_url = "https://headscale.plebian.nl";
           derp = {
+	    # urls = []; # only use custom derp server
             paths = [
-              pkgs.writeText
-              "derpmap.yaml"
-              (lib.generators.toYAML {
-                regions = {
-                  "900" = {
-                    regionid = 900; 
-                    regioncode = "thuis"; 
-                    regionname = "In the void";
-                    nodes = [
-                      {
-                        name = "900a"; 
-                        regionid = 900;
-                        hostname = config.hidden.wan_domain;
-                        stunport = 0; 
-                        stunonly = false; 
-                        derpport = 0; 
-                      }
-                    ]; 
-                  }; 
-                }; 
-              })
-            ];
-            urls = [
-              "https://controlplane.tailscale.com/derpmap/default"
+              (pkgs.writeText "derpmap.yaml" (
+                lib.generators.toYAML { } {
+                  regions = {
+                    "900" = {
+                      regionid = 900;
+                      regioncode = "thuis";
+                      regionname = "In the void";
+                      nodes = [
+                        {
+                          name = "900";
+                          regionid = 900;
+                          hostname = config.hidden.wan_domain;
+                          stunport = 0;
+                          stunonly = false;
+                          derpport = 0;
+                        }
+                      ];
+                    };
+                  };
+                }
+              ))
             ];
           };
           oidc = {

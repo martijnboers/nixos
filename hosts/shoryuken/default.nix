@@ -11,6 +11,7 @@ in
     ./modules/notifications.nix
     ./modules/uptime-kuma.nix
     ./modules/headscale.nix
+    ./modules/endlessh.nix
     ./modules/keycloak.nix
     ./modules/sailing.nix
     ./modules/caddy.nix
@@ -27,6 +28,7 @@ in
   hosts.sailing.enable = true;
   hosts.prometheus.enable = true;
   hosts.pgrok.enable = false;
+  hosts.endlessh.enable = false;
 
   # Right order of headscale operations for startup
   systemd.services.headscale = {
