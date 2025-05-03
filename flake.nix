@@ -52,6 +52,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # All-in-one bitcoin node
+    nix-bitcoin.url = "github:martijnboers/nix-bitcoin/master";
+
     darwin = {
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs"; # Can be pinned to nixpkgs-23.11-darwin
@@ -88,8 +91,10 @@
         in
         with nixpkgs.lib;
         nixosSystem {
+          inherit system;
+          inherit extraModules;
+
           specialArgs = { inherit inputs outputs; };
-          extraModules = extraModules;
           modules = [
             systemconfig
             hardwareconfig
@@ -137,7 +142,10 @@
 
       nixosConfigurations.tatsumaki = mkSystem "tatsumaki" {
         system = "x86_64-linux";
-        extraModules = [ inputs.disko.nixosModules.disko ];
+        extraModules = [
+          inputs.disko.nixosModules.disko
+          inputs.nix-bitcoin.nixosModules.default 
+        ];
       };
 
       nixosConfigurations.tenshin = mkSystem "tenshin" {

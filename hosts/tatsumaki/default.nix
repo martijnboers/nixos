@@ -1,17 +1,13 @@
-{ modulesPath, ... }:
+{ config, ... }:
 {
   networking.hostName = "tatsumaki";
 
   imports = [
-    ./modules/endlessh.nix
-    ./modules/trap.nix
-    ./modules/derp.nix
-    # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/profiles/hardened.nix
-    (modulesPath + "/profiles/hardened.nix")
+    ./modules/crypto.nix
+    ./modules/caddy.nix
   ];
 
-  hosts.endlessh.enable = true;
-  hosts.trap.enable = false;
+  hosts.caddy.enable = false; # TODO
 
   # Enable tailscale network
   hosts.tailscale.enable = true;
@@ -29,6 +25,16 @@
     repository = "ssh://jym6959y@jym6959y.repo.borgbase.com/./repo";
   };
 
+  fileSystems."/mnt/bitcoin" = {
+    device = "//hadouken.machine.thuis/bitcoin";
+    fsType = "cifs";
+    options = [
+      "credentials=${config.age.secrets.smb.path}"
+      "uid=1000"
+      "gid=100"
+      "x-systemd.automount" # lazyloading, solves tailscale chicken&egg
+    ];
+  };
   nix.settings.trusted-users = [ "martijn" ]; # allows remote push
 
   # Server defaults

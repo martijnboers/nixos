@@ -44,6 +44,16 @@ in
           "force user" = "martijn";
           "force group" = "users";
         };
+        bitcoin = {
+          path = "/mnt/garage/misc/bitcoind";
+          browseable = "yes";
+          "read only" = "no";
+          "guest ok" = "no";
+          "create mask" = "0644";
+          "directory mask" = "0755";
+          "force user" = "bitcoin";
+          "force group" = "bitcoin";
+        };
         misc = {
           path = "/mnt/zwembad/share";
           browseable = "yes";

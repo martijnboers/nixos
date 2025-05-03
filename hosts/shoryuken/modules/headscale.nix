@@ -149,6 +149,13 @@ in
                 }
                 {
                   action = "accept";
+                  src = [ "tatsumaki" ];
+                  dst = [
+                    "hadouken:139,445,137,138" # samba
+                  ];
+                }
+                {
+                  action = "accept";
                   src = [ "hadouken" ];
                   dst = [
                     "tenshin:*"

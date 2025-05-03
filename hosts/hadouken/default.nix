@@ -21,7 +21,6 @@ in
     ./modules/radicale.nix
     ./modules/bincache.nix
     ./modules/database.nix
-    ./modules/bitcoin.nix
     ./modules/seafile.nix
     ./modules/storage.nix
     ./modules/archive.nix
@@ -32,6 +31,7 @@ in
     ./modules/caddy.nix
     ./modules/atuin.nix
     ./modules/cinny.nix
+    ./modules/samba.nix
     ./modules/sync.nix
     ./modules/plex.nix
   ];
@@ -58,7 +58,6 @@ in
   hosts.immich.enable = true;
   hosts.prometheus.enable = true;
   hosts.radicale.enable = true;
-  hosts.bitcoin.enable = true;
   hosts.database.enable = true;
   hosts.atuin.enable = true;
   hosts.seafile.enable = true;

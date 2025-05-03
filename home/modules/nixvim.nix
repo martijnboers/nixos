@@ -22,76 +22,100 @@
         providers.wl-copy.enable = true;
       };
 
-      keymaps = [
-        {
-          action = "<cmd>Neotree reveal toggle<cr>";
-          key = "<Leader>d";
-          options.desc = "toggle file explorer";
-        }
-        {
-          action = "<cmd>Gitsigns blame<cr>";
-          key = "<Leader>gB";
-          options.desc = "Git blame";
-        }
-        {
-          action = "<cmd>Gitsigns blame_line<cr>";
-          key = "<Leader>gb";
-          options.desc = "Git blame current line";
-        }
-        {
-          action = "<cmd>Gitsigns preview_hunk_inline<cr>";
-          key = "<Leader>gp";
-          options.desc = "Git preview hunk";
-        }
-        {
-          action = "<cmd>Gitsigns reset_hunk<cr>";
-          key = "<Leader>gu";
-          options.desc = "Git undo changes";
-        }
-        {
-          action =
-            helpers.mkRaw # lua
-              ''
-                function()
-                  require("conform").format({
-                    lsp_fallback = true,
-                    async = false,
-                    timeout_ms = 500,
-                  })
-                end
-              '';
-          mode = [
-            "v"
-            "n"
-          ];
+      keymaps =
+        let
+          mkHarBind = index: key: {
+            inherit key;
+            action = helpers.mkRaw ''function() require("harpoon"):list():select(${builtins.toString index}) end'';
+          };
+        in
+        [
+          {
+            action = "<cmd>Neotree reveal toggle<cr>";
+            key = "<Leader>d";
+            options.desc = "toggle file explorer";
+          }
+          {
+            action = "<cmd>Gitsigns blame<cr>";
+            key = "<Leader>gB";
+            options.desc = "Git blame";
+          }
+          {
+            action = "<cmd>Gitsigns blame_line<cr>";
+            key = "<Leader>gb";
+            options.desc = "Git blame current line";
+          }
+          {
+            action = "<cmd>Gitsigns preview_hunk_inline<cr>";
+            key = "<Leader>gp";
+            options.desc = "Git preview hunk";
+          }
+          {
+            action = "<cmd>Gitsigns reset_hunk<cr>";
+            key = "<Leader>gu";
+            options.desc = "Git undo changes";
+          }
+          {
+            action =
+              helpers.mkRaw # lua
+                ''
+                  function() require("harpoon"):list():add() end
+                '';
+            key = "<Leader>a";
+            options.desc = "Add to harpoon";
+          }
+          {
+            action =
+              helpers.mkRaw # lua
+                ''
+                  function() local harpoon = require('harpoon') harpoon.ui:toggle_quick_menu(harpoon:list()) end
+                '';
+            key = "<C-h>";
+            options.desc = "Harpoon menu";
+          }
+          (mkHarBind 1 "<C-j>")
+          (mkHarBind 2 "<C-k>")
+          (mkHarBind 3 "<C-l>")
+          {
+            action =
+              helpers.mkRaw # lua
+                ''
+                  function() require("conform").format({ 
+                    lsp_fallback = true, async = false, timeout_ms = 500,
+                  }) end
+                '';
+            mode = [
+              "v"
+              "n"
+            ];
 
-          key = "<Leader>=";
-          options.desc = "format selection or whole buffer";
-        }
-        {
-          action = "<C-u>zz";
-          key = "<C-u>";
-        }
-        {
-          action = "<C-d>zz";
-          key = "<C-d>";
-        }
-        {
-          action = "<C-w>w";
-          key = "<Tab>";
-          options.desc = "switch buffer";
-        }
-        {
-          action = "<C-w>W";
-          key = "<S-Tab>";
-          options.desc = "prev buffer";
-        }
-        {
-          action = "<cmd>bd<cr>";
-          key = "x";
-          options.desc = "close buffer";
-        }
-      ];
+            key = "<Leader>=";
+            options.desc = "format selection or whole buffer";
+          }
+          {
+            action = "<C-u>zz";
+            key = "<C-u>";
+          }
+          {
+            action = "<C-d>zz";
+            key = "<C-d>";
+          }
+          {
+            action = "<C-w>w";
+            key = "<Tab>";
+            options.desc = "switch buffer";
+          }
+          {
+            action = "<C-w>W";
+            key = "<S-Tab>";
+            options.desc = "prev buffer";
+          }
+          {
+            action = "<cmd>bd<cr>";
+            key = "x";
+            options.desc = "close buffer";
+          }
+        ];
 
       globals = {
         mapleader = " "; # map leader to spacebar
@@ -130,10 +154,18 @@
       };
       plugins = {
         which-key.enable = true; # popup with possible key combinations
-        barbecue.enable = true; # breadcrumbs at top of code files
+        barbecue = {
+          enable = true; # breadcrumbs at top of code files
+          settings = {
+            show_modified = true;
+            show_navic = true;
+            exclude_filetypes = [
+              "netrw"
+              "toggleterm"
+            ];
+          };
+        };
         web-devicons.enable = true; # needed for another plugins
-        marks.enable = true; # better marks support
-        barbar.enable = true; # tabs like any other editor
         noice.enable = true; # cmd popup input modal
         comment.enable = true; # comments visual lines
         render-markdown.enable = true; # better markdown support
@@ -149,6 +181,11 @@
           hideRootNode = true; # don't show from opened folder
           closeIfLastWindow = true; # close vim if no more text buffers
         };
+
+        harpoon = {
+          enable = true;
+          enableTelescope = true;
+        }; # oke maybe no tabs
 
         gitsigns = {
           enable = true;
@@ -167,10 +204,9 @@
           enable = true;
           keymaps = {
             "<Leader>e" = "find_files";
-            "<Leader>f" = "current_buffer_fuzzy_find";
-            "<Leader>F" = "live_grep";
+            "<Leader>f" = "live_grep";
+            "<Leader>/" = "current_buffer_fuzzy_find";
             "<Leader>s" = "lsp_document_symbols";
-            "<Leader>b" = "buffers";
             "<Leader>gf" = "git_commits";
             "<Leader>gF" = "git_branches";
             "<Leader>gs" = "git_status";
