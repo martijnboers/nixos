@@ -21,6 +21,7 @@ in
       vlc
       gimp
       ollama # for the client
+      electrum # btc wallet
 
       # music
       clementine

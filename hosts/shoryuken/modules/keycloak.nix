@@ -14,9 +14,12 @@ in
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."auth.donder.cloud".extraConfig = ''
-      reverse_proxy http://localhost:${toString config.services.keycloak.settings.http-port}
-    '';
+    services.caddy.virtualHosts."auth.plebian.nl" = {
+      serverAliases = [ "auth.donder.cloud" ];
+      extraConfig = ''
+        reverse_proxy http://localhost:${toString config.services.keycloak.settings.http-port}
+      '';
+    };
 
     age.secrets.keycloak.file = ../../../secrets/keycloak.age;
     services.postgresql.enable = true;
@@ -34,7 +37,7 @@ in
         passwordFile = config.age.secrets.keycloak.path;
       };
       settings = {
-        hostname = "https://auth.donder.cloud";
+        hostname = "https://auth.plebian.nl";
         http-enabled = true;
         hostname-strict-https = false;
         http-host = "0.0.0.0";

@@ -8,25 +8,25 @@ with lib;
 let
   cfg = config.hosts.headscale;
   hadoukenRecords = [
-    "vaultwarden"
-    "atuin"
-    "tools"
-    "monitoring"
-    "immich"
-    "ollama"
-    "sync"
     "archive"
+    "atuin"
     "binarycache"
-    "search"
-    "chat"
     "cal"
-    "webdav"
+    "chat"
     "detection"
+    "immich"
     "microbin"
-    "wedding"
+    "minio"
+    "monitoring"
+    "ollama"
     "pgadmin"
     "seaf"
-    "minio"
+    "search"
+    "sync"
+    "tools"
+    "vaultwarden"
+    "webdav"
+    "wedding"
   ];
   shoryukenRecords = [
     "notifications"
@@ -38,10 +38,15 @@ let
     "hass"
   ];
   hosts = {
-    shoryuken = "100.64.0.1";
-    hadouken = "100.64.0.2";
-    tatsumaki = "100.64.0.3";
-    tenshin = "100.64.0.11";
+    hadouken = "100.64.0.15";
+    mbp = "100.64.0.10"; # todo
+    nurma = "100.64.0.12";
+    pivkm = "100.64.0.2";
+    pixel = "100.64.0.3";
+    router = "100.64.0.1";
+    shoryuken = "100.64.0.7";
+    tatsumaki = "100.64.0.13";
+    tenshin = "100.64.0.14";
   };
 in
 {
@@ -53,35 +58,66 @@ in
     environment.systemPackages = [ config.services.headscale.package ];
 
     services = {
-      caddy.virtualHosts."headscale.donder.cloud".extraConfig = ''
-        reverse_proxy http://localhost:${toString config.services.headscale.port}
-      '';
+      caddy.virtualHosts."headscale.plebian.nl" = {
+        serverAliases = [ "headscale.donder.cloud" ];
+        extraConfig = ''
+          reverse_proxy http://localhost:${toString config.services.headscale.port}
+        '';
+      };
       borgbackup.jobs.default.paths = [ config.services.headscale.settings.database.sqlite.path ];
       headscale = {
         enable = true;
         address = "0.0.0.0";
         port = 7070;
         settings = {
-          server_url = "https://headscale.donder.cloud";
+          server_url = "https://headscale.plebian.nl";
+          derp = {
+            paths = [
+              pkgs.writeText
+              "derpmap.yaml"
+              (lib.generators.toYAML {
+                regions = {
+                  "900" = {
+                    regionid = 900; 
+                    regioncode = "thuis"; 
+                    regionname = "In the void";
+                    nodes = [
+                      {
+                        name = "900a"; 
+                        regionid = 900;
+                        hostname = config.hidden.wan_domain;
+                        stunport = 0; 
+                        stunonly = false; 
+                        derpport = 0; 
+                      }
+                    ]; 
+                  }; 
+                }; 
+              })
+            ];
+            urls = [
+              "https://controlplane.tailscale.com/derpmap/default"
+            ];
+          };
           oidc = {
-            issuer = "https://auth.donder.cloud/realms/master";
+            issuer = "https://auth.plebian.nl/realms/master";
             client_id = "headscale";
             client_secret_path = config.age.secrets.headscale.path;
             allowed_users = [ "martijn@plebian.nl" ];
           };
           policy.path = pkgs.writeText "acl.json" (
             builtins.toJSON {
-	      # randomizeClientPort = true; # for pfsense at home
+              randomizeClientPort = true; # direct connection pfsense
               hosts = {
                 shoryuken = hosts.shoryuken;
                 tenshin = hosts.tenshin;
                 hadouken = hosts.hadouken;
                 tatsumaki = hosts.tatsumaki;
-                nurma = "100.64.0.8";
-                mbp = "100.64.0.10";
-                pixel = "100.64.0.6";
-                router = "100.64.0.5";
-                pivkm = "100.64.0.11";
+                nurma = hosts.nurma;
+                mbp = hosts.mbp;
+                pixel = hosts.pixel;
+                router = hosts.router;
+                pivkm = hosts.pivkm;
               };
 
               groups = {
@@ -145,8 +181,8 @@ in
                     "shoryuken:*"
                     "hadouken:*"
                     "tatsumaki:*"
-		    "router:4433"
-		    "pikvm:443"
+                    "router:4433"
+                    "pikvm:443"
                   ];
                 }
               ];

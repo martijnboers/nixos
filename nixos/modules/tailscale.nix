@@ -17,7 +17,7 @@ in
     services.tailscale = {
       enable = true;
       openFirewall = true;
-      extraUpFlags = [ "--login-server=https://headscale.donder.cloud" ];
+      extraUpFlags = [ "--login-server=https://headscale.plebian.nl" ];
     };
     networking.firewall = {
       # Required for tailscale

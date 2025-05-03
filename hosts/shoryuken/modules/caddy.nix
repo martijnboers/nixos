@@ -83,10 +83,6 @@ in
           };
         in
         {
-          "donder.cloud".extraConfig = ''
-            respond "🌩️"
-          '';
-
           "plebian.nl" = {
             serverAliases = [ "boers.email" ];
             extraConfig = ''

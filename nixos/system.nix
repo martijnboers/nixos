@@ -63,6 +63,7 @@
     git
     wget
     vim
+    jless # cli json viewer
 
     htop
     iotop # io monitoring

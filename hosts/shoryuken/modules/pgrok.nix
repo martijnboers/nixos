@@ -10,14 +10,14 @@ let
   cfg = config.hosts.pgrok;
 
   settings = {
-    external_url = "https://tunnel.donder.cloud";
+    external_url = "https://tunnel.plebian.nl";
     web = {
       port = 3320;
     };
     proxy = {
       port = 3070;
       scheme = "http";
-      domain = "tunnel.donder.cloud";
+      domain = "tunnel.plebian.nl";
     };
     sshd = {
       port = 6666; # available on wireguard
@@ -31,7 +31,7 @@ let
     identity_provider = {
       type = "oidc";
       display_name = "Keycloak";
-      issuer = "https://auth.donder.cloud/realms/master";
+      issuer = "https://auth.plebian.nl/realms/master";
       client_id = "pgrok";
       client_secret = {
         _secret = config.age.secrets.pgrok.path;
@@ -67,10 +67,10 @@ in
   };
   config = lib.mkIf cfg.enable {
     services.caddy = {
-      virtualHosts."tunnel.donder.cloud".extraConfig = ''
+      virtualHosts."tunnel.plebian.nl".extraConfig = ''
         reverse_proxy http://localhost:3320
       '';
-      virtualHosts."*.tunnel.donder.cloud".extraConfig = ''
+      virtualHosts."*.tunnel.plebian.nl".extraConfig = ''
         tls {
           dns cloudflare {env.CLOUDFLARE_API_TOKEN}
         }
