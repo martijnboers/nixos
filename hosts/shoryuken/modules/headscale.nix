@@ -37,17 +37,6 @@ let
     "dns"
     "hass"
   ];
-  hosts = {
-    hadouken = "100.64.0.15";
-    mbp = "100.64.0.10"; # todo
-    nurma = "100.64.0.12";
-    pivkm = "100.64.0.2";
-    pixel = "100.64.0.3";
-    router = "100.64.0.1";
-    shoryuken = "100.64.0.7";
-    tatsumaki = "100.64.0.13";
-    tenshin = "100.64.0.14";
-  };
 in
 {
   options.hosts.headscale = {
@@ -72,7 +61,7 @@ in
         settings = {
           server_url = "https://headscale.plebian.nl";
           derp = {
-	    # urls = []; # only use custom derp server
+            # urls = []; # only use custom derp server
             paths = [
               (pkgs.writeText "derpmap.yaml" (
                 lib.generators.toYAML { } {
@@ -107,15 +96,15 @@ in
             builtins.toJSON {
               randomizeClientPort = true; # direct connection pfsense
               hosts = {
-                shoryuken = hosts.shoryuken;
-                tenshin = hosts.tenshin;
-                hadouken = hosts.hadouken;
-                tatsumaki = hosts.tatsumaki;
-                nurma = hosts.nurma;
-                mbp = hosts.mbp;
-                pixel = hosts.pixel;
-                router = hosts.router;
-                pivkm = hosts.pivkm;
+                shoryuken = config.hidden.tailscale_hosts.shoryuken;
+                tenshin = config.hidden.tailscale_hosts.tenshin;
+                hadouken = config.hidden.tailscale_hosts.hadouken;
+                tatsumaki = config.hidden.tailscale_hosts.tatsumaki;
+                nurma = config.hidden.tailscale_hosts.nurma;
+                mbp = config.hidden.tailscale_hosts.mbp;
+                pixel = config.hidden.tailscale_hosts.pixel;
+                router = config.hidden.tailscale_hosts.router;
+                pivkm = config.hidden.tailscale_hosts.pivkm;
               };
 
               groups = {
@@ -204,11 +193,11 @@ in
             {
               magic_dns = true;
               base_domain = "machine.thuis";
-              nameservers.global = [ hosts.tenshin ];
+              nameservers.global = [ config.hidden.tailscale_hosts.tenshin ];
               extra_records =
-                (map (name: makeRecord name hosts.hadouken) hadoukenRecords)
-                ++ (map (name: makeRecord name hosts.shoryuken) shoryukenRecords)
-                ++ (map (name: makeRecord name hosts.tenshin) tenshinRecords);
+                (map (name: makeRecord name config.hidden.tailscale_hosts.hadouken) hadoukenRecords)
+                ++ (map (name: makeRecord name config.hidden.tailscale_hosts.shoryuken) shoryukenRecords)
+                ++ (map (name: makeRecord name config.hidden.tailscale_hosts.tenshin) tenshinRecords);
             };
           prefixes = {
             v4 = "100.64.0.0/10";

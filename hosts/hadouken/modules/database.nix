@@ -58,7 +58,7 @@ in
     services.minio = {
       enable = true;
       region = "thuis";
-      listenAddress = "100.64.0.15:5554";
+      listenAddress = "${config.hidden.tailscale_hosts.hadouken}:5554";
       consoleAddress = "localhost:9901";
       rootCredentialsFile = config.age.secrets.minio.path;
       dataDir = [ "/mnt/zwembad/games/minio" ];

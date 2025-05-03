@@ -32,23 +32,6 @@ in
 
     age.secrets.bitcoinrpc.file = ../../../secrets/bitcoinrpc.age;
 
-    systemd.services = {
-      "electrs" = {
-        enable = false;
-        description = "Electrum server";
-        wantedBy = [ "multi-user.target" ];
-        environment = {
-          ELECTRS_ELECTRUM_RPC_ADDR = "hadouken.machine.thuis:8332";
-        };
-        serviceConfig = {
-          ExecStart = "${getExe pkgs.electrs} --log-filters INFO --db";
-          Restart = "on-failure";
-          RestartSec = 5;
-          EnvironmentFile = config.age.secrets.bitcoinrpc.path;
-        };
-      };
-    };
-
     networking.firewall = {
       allowedTCPPorts = [ config.services.bitcoind.default.port ];
     };

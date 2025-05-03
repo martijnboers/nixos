@@ -37,7 +37,7 @@ in
             Restart = "on-failure";
             ProtectSystem = "strict";
             RuntimeDirectory = [ socketPath ];
-            ExecStart = "${lib.getExe pkgs.socat} TCP-LISTEN:5551,fork,reuseaddr,bind=100.64.0.15 UNIX-CONNECT:${socketPath}";
+            ExecStart = "${lib.getExe pkgs.socat} TCP-LISTEN:5551,fork,reuseaddr,bind=${config.hidden.tailscale_hosts.hadouken} UNIX-CONNECT:${socketPath}";
             RestartSec = 10;
           };
         };
@@ -63,7 +63,7 @@ in
             Restart = "on-failure";
             ProtectSystem = "strict";
             RuntimeDirectory = [ socketPath ];
-            ExecStart = "${lib.getExe pkgs.socat} TCP-LISTEN:5552,fork,reuseaddr,bind=100.64.0.15 UNIX-CONNECT:${socketPath}";
+            ExecStart = "${lib.getExe pkgs.socat} TCP-LISTEN:5552,fork,reuseaddr,bind=1${config.hidden.tailscale_hosts.hadouken} UNIX-CONNECT:${socketPath}";
             RestartSec = 10;
           };
         };

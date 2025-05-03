@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 let
   defaultRestart = {
     RestartSec = 10;
@@ -28,7 +28,7 @@ in
   hosts.sailing.enable = true;
   hosts.prometheus.enable = true;
   hosts.pgrok.enable = false;
-  hosts.endlessh.enable = false;
+  hosts.endlessh.enable = true;
 
   # Right order of headscale operations for startup
   systemd.services.headscale = {
@@ -52,6 +52,7 @@ in
   hosts.openssh = {
     enable = true;
     allowUsers = [ "*@100.64.0.0/10" ];
+    listenAddress = config.hidden.tailscale_hosts.shoryuken;
   };
 
   hosts.borg = {

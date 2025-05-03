@@ -19,7 +19,7 @@ in
         server_name = "plebian.nl";
         allow_check_for_updates = false;
         allow_registration = false;
-        address = "100.64.0.2";
+        address = config.hidden.tailscale_hosts.hadouken;
         port = 5553;
       };
     };
