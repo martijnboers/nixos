@@ -40,8 +40,6 @@
     };
 
     stylix = {
-      # url = "github:danth/stylix/release-24.11";
-      # working 8d5cd725ad591890c0cd804bf68cc842b8afca51
       url = "github:danth/stylix/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -138,7 +136,7 @@
         system = "x86_64-linux";
         extraModules = [
           inputs.disko.nixosModules.disko
-          inputs.nix-bitcoin.nixosModules.default 
+          inputs.nix-bitcoin.nixosModules.default
         ];
       };
 

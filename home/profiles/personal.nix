@@ -32,5 +32,16 @@ in
       telegram-desktop
       nheko # matrix client
     ];
+
+    programs.rbw = {
+      enable = true;
+      settings = {
+        base_url = "https://vaultwarden.thuis";
+        email = "martijn@plebian.nl";
+        lock_timeout = 2 * 60 * 60;
+        pinentry = pkgs.pinentry-gnome3;
+      };
+    };
+
   };
 }

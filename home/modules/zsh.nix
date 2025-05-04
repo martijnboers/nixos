@@ -62,12 +62,10 @@ in
           keyboard-compile = "qmk compile -kb peej/lumberjack -km martijn";
           keyboard-flash = "qmk flash -kb peej/lumberjack -km martijn";
 
-          # ssh
-          kssh = "kitty +kitten ssh";
-          pow = "ssh hadouken.machine.thuis";
-          wolk = "ssh shoryuken.machine.thuis";
-          pi = "ssh tenshin.machine.thuis";
-          zima = "ssh tatsumaki.machine.thuis";
+          pow = "kitty +kitten ssh hadouken.machine.thuis";
+          wolk = "kitty +kitten ssh  shoryuken.machine.thuis";
+          pi = "kitty +kitten ssh tenshin.machine.thuis";
+          zima = "kitty +kitten ssh tatsumaki.machine.thuis";
           socks = "ssh -D 1337 -q -C -N hadouken.machine.thuis";
           proxy = "sudo tailscale set --exit-node shoryuken";
           proxyd = "sudo tailscale set --exit-node=";

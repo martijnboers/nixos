@@ -62,7 +62,6 @@
   nix.settings.sandbox = false;
 
   services.xserver.videoDrivers = [ "amdgpu" ];
-  services.flatpak.enable = true;
 
   # Enable binfmt emulation of aarch64-linux. (for the raspberry pi)
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
@@ -105,6 +104,27 @@
     enable = true;
     qemu = true;
   };
+
+  # Default setup for caddy pki
+  environment.etc."pki-root.cnf".text = ''
+    [ req ]
+    default_bits       = 4096
+    default_md         = sha256
+    prompt             = no
+    distinguished_name = req_distinguished_name
+    x509_extensions    = v3_ca
+
+    [ req_distinguished_name ]
+    CN                 = plebs4cash
+    O                  = plebs4cash
+    C                  = NL
+
+    [ v3_ca ]
+    basicConstraints   = critical, CA:true
+    keyUsage           = critical, keyCertSign, cRLSign
+    subjectKeyIdentifier = hash
+    nameConstraints = critical, permitted;DNS:.thuis
+  '';
 
   # Bootloader.
   boot = {

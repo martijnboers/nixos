@@ -27,6 +27,7 @@ in
       seafile-client
       cheese # webcam
       file-roller # archive manager
+      nerdfonts # icon font
 
       # Office suite
       stable.libreoffice-qt

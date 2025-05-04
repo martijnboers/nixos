@@ -5,8 +5,11 @@ let
   };
 in
 {
-  networking.hostName = "hadouken";
-  networking.hostId = "1b936a2a";
+  networking = {
+    hostName = "hadouken";
+    hostId = "1b936a2a";
+    wireless.enable = true;
+  };
 
   imports = [
     ./modules/vaultwarden.nix
@@ -16,6 +19,7 @@ in
     ./modules/mastodon.nix
     ./modules/wordpress.nix
     ./modules/detection.nix
+    ./modules/syncthing.nix
     ./modules/fail2ban.nix
     ./modules/microbin.nix
     ./modules/radicale.nix
@@ -23,6 +27,7 @@ in
     ./modules/database.nix
     ./modules/seafile.nix
     ./modules/storage.nix
+    ./modules/firefox.nix
     ./modules/archive.nix
     ./modules/ollama.nix
     ./modules/matrix.nix
@@ -32,7 +37,6 @@ in
     ./modules/caddy.nix
     ./modules/cinny.nix
     ./modules/atuin.nix
-    ./modules/sync.nix
     ./modules/plex.nix
   ];
 

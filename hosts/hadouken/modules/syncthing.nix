@@ -19,10 +19,7 @@ in
   config = mkIf cfg.enable {
     networking.firewall = {
       allowedTCPPorts = [ 22000 ];
-      allowedUDPPorts = [
-        22000
-        21027
-      ]; # 22 is for traffic, 21 for discovery
+      allowedUDPPorts = [ 22000 ];
     };
 
     services = {

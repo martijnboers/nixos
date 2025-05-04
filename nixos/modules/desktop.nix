@@ -11,10 +11,6 @@ in
 {
   options.hosts.desktop = {
     enable = mkEnableOption "Base desktop";
-    wayland = mkOption {
-      type = types.bool;
-      default = true;
-    };
   };
 
   config = mkIf cfg.enable {
@@ -24,6 +20,7 @@ in
     };
 
     services.davfs2.enable = true;
+    boot.supportedFilesystems = [ "nfs" ];
 
     fileSystems."/mnt/music" = {
       device = "hadouken.machine.thuis:/music";
@@ -67,10 +64,7 @@ in
     };
 
     # Enable networkingmanager
-    networking.networkmanager = {
-      enable = true;
-      wifi.backend = "iwd";
-    };
+    networking.networkmanager.enable = true;
 
     # Enable opengpl
     hardware = {

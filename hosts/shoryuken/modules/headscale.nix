@@ -37,6 +37,9 @@ let
     "dns"
     "hass"
   ];
+  tatsumakiRecords = [
+    "electrum"
+  ];
 in
 {
   options.hosts.headscale = {
@@ -104,7 +107,7 @@ in
                 mbp = config.hidden.tailscale_hosts.mbp;
                 pixel = config.hidden.tailscale_hosts.pixel;
                 router = config.hidden.tailscale_hosts.router;
-                pivkm = config.hidden.tailscale_hosts.pivkm;
+                pikvm = config.hidden.tailscale_hosts.pikvm;
               };
 
               groups = {
@@ -115,7 +118,11 @@ in
                 {
                   action = "accept";
                   src = [ "group:trusted" ];
-                  dst = [ "tenshin:53,80,443" ]; # everyone access to dns
+                  dst = [
+                    "tenshin:53,80,443" # everyone access to dns
+                    "shoryuken:80,443,8025,2230" # everyone can send notifications
+                    "hadouken:80,443" # everyone can access hadouken web-services
+                  ];
                 }
                 {
                   action = "accept";
@@ -130,21 +137,7 @@ in
                   action = "accept";
                   src = [ "shoryuken" ];
                   dst = [
-                    "hadouken:80,443,5551,5552,5553,5554"
-                  ];
-                }
-                {
-                  action = "accept";
-                  src = [ "tenshin" ];
-                  dst = [
-                    "shoryuken:80,443,2230" # notifications
-                  ];
-                }
-                {
-                  action = "accept";
-                  src = [ "mpb" ];
-                  dst = [
-                    "hadouken:80,443"
+                    "hadouken:5551,5552,5553,5554" # reverse proxy ports
                   ];
                 }
                 {
@@ -163,7 +156,7 @@ in
                     "tatsumaki:*"
                     "nurma:9100"
                   ];
-                }
+                } # hadouken semi-god
                 {
                   action = "accept";
                   src = [
@@ -178,7 +171,7 @@ in
                     "router:4433"
                     "pikvm:443"
                   ];
-                }
+                } # nurma full-god
               ];
             }
           );
@@ -204,6 +197,7 @@ in
               extra_records =
                 (map (name: makeRecord name config.hidden.tailscale_hosts.hadouken) hadoukenRecords)
                 ++ (map (name: makeRecord name config.hidden.tailscale_hosts.shoryuken) shoryukenRecords)
+                ++ (map (name: makeRecord name config.hidden.tailscale_hosts.tatsumaki) tatsumakiRecords)
                 ++ (map (name: makeRecord name config.hidden.tailscale_hosts.tenshin) tenshinRecords);
             };
           prefixes = {

@@ -11,6 +11,5 @@
   maatwerk.desktop.enable = false;
   maatwerk.personal.enable = false;
   maatwerk.work.enable = false;
-
-  home.packages = with pkgs; [ ];
+  maatwerk.nixvim.enable = false;
 }

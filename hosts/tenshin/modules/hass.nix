@@ -52,92 +52,35 @@ in
           platform = "apprise";
           url = "!secret gotify";
         };
-        automation = [
-          {
-            alias = "Wasmachine klaar";
-            triggers = [
-              {
-                type = "power";
-                device_id = "4e2fe9e41d51fef74c47a77827ae6b1e";
-                entity_id = "2515f0aab67ddf77f97860da984cee3c";
-                domain = "sensor";
-                trigger = "device";
-                above = 0;
-                below = 3;
-                for = {
-                  hours = 0;
-                  minutes = 5;
-                  seconds = 0;
-                };
-              }
-            ];
-            actions = [
-              {
-                action = "notify.hass";
-                data = {
-                  message = "Wasmachine klaar";
-                };
-              }
-            ];
-            mode = "single";
-          }
-          {
-            alias = "Droger klaar";
-            triggers = [
-              {
-                type = "power";
-                device_id = "8d55ba928bdfe0dd6f80841b5fa97e35";
-                entity_id = "584786a29162e17c035e79cc87570908";
-                domain = "sensor";
-                trigger = "device";
-                above = 0;
-                below = 3;
-                for = {
-                  hours = 0;
-                  minutes = 5;
-                  seconds = 0;
-                };
-              }
-            ];
-            actions = [
-              {
-                action = "notify.hass";
-                data = {
-                  message = "Droger klaar";
-                };
-              }
-            ];
-            mode = "single";
-          }
-          {
-            alias = "Waterfontein";
-            triggers = [
-              {
-                type = "power";
-                device_id = "4d6a9602129c08b32761b464a1ab3679";
-                entity_id = "889328ee0f23a43b93ce17d55d018866";
-                domain = "sensor";
-                trigger = "device";
-                above = 0;
-                below = 1;
-                for = {
-                  hours = 0;
-                  minutes = 5;
-                  seconds = 0;
-                };
-              }
-            ];
-            actions = [
-              {
-                action = "notify.hass";
-                data = {
-                  message = "Otto booped fontein";
-                };
-              }
-            ];
-            mode = "single";
-          }
-        ];
+        automation =
+          let
+            mkPowerNoti = sensor: below: message: {
+              alias = message;
+              trigger = [
+                {
+                  platform = "numeric_state";
+                  entity_id = [ sensor ];
+                  for = {
+                    minutes = 5;
+                  };
+                  inherit below;
+                }
+              ];
+              condition = [ ];
+              action = [
+                {
+                  service = "notify.hass";
+                  data.message = message;
+                }
+              ];
+              mode = "single";
+            };
+          in
+          [
+            (mkPowerNoti "sensor.waterfontein_power" 1 "Otto did the boop")
+            (mkPowerNoti "sensor.droger_power" 1 "Droger klaar")
+            (mkPowerNoti "sensor.wasmachine_power" 1 "Wasmachine klaar")
+          ];
         homeassistant = {
           name = "Thuis";
           unit_system = "metric";

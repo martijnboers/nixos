@@ -9,7 +9,6 @@
   imports = [
     ./modules/virtualisation.nix
     ./modules/prometheus.nix
-    ./modules/syncthing.nix
     ./modules/tailscale.nix
     ./modules/hyprland.nix
     ./modules/secrets.nix
@@ -43,15 +42,14 @@
     };
   };
 
-  # Global packages
+  # Global packages (also available to root)
   environment.systemPackages = with pkgs; [
-    borgbackup
-
     # networking tools
     dnsutils # `dig` + `nslookup`
     whois
 
     # misc
+    ripgrep 
     file
     which
     tree
@@ -60,19 +58,24 @@
     lz4
     git
     wget
+
+    # file editors
     vim
+    helix
     jless # cli json viewer
 
     htop
     iotop # io monitoring
     iftop # network monitoring
+    btop # fancy htop
+
+    # diagnostic
     du-dust # better du
     screen
-
-    # system call monitoring
-    lsof # list open files
+    killall # 🔪
 
     # system tools
+    lsof # list open files
     lm_sensors # for `sensors` command
     ethtool
     pciutils # lspci
@@ -132,6 +135,7 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfuCHKVTjquxvt6CM6tdG4SLp1Btn/nOeHHE5UOzRdf";
     "hadouken.machine.thuis".publicKeyFile = ../secrets/keys/hadouken.pub;
     "tenshin.machine.thuis".publicKeyFile = ../secrets/keys/tenshin.pub;
+    "tatsumaki.machine.thuis".publicKeyFile = ../secrets/keys/tatsumaki.pub;
     "shoryuken.machine.thuis".publicKeyFile = ../secrets/keys/shoryuken.pub;
   };
 
@@ -162,6 +166,7 @@
       ../secrets/keys/hadouken.crt
       ../secrets/keys/shoryuken.crt
       ../secrets/keys/tenshin.crt
+      ../secrets/keys/tatsumaki.crt
     ];
   };
 
@@ -217,8 +222,6 @@
     enable = true;
     powerOnBoot = true;
   };
-  
-  boot.supportedFilesystems = [ "nfs" ];
 
   nixpkgs = {
     overlays = [

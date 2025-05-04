@@ -26,13 +26,24 @@ in
       iconTheme.package = pkgs.gruvbox-dark-icons-gtk;
     };
 
+    programs.rofi = {
+      enable = true;
+      package = pkgs.rofi-wayland;
+      extraConfig = {
+        show-icons = true;
+      };
+      plugins = with pkgs; [
+        rofi-calc
+        rofi-emoji-wayland
+      ];
+    };
+
     home.packages =
       with pkgs;
       with kdePackages;
       [
         # utilities
         waybar
-        rofi-wayland
         networkmanagerapplet
         blueman # bluetooth
         pavucontrol # audio
@@ -46,10 +57,6 @@ in
         zathura # pdf
         vlc
 
-        # emojis
-        wofi-emoji
-        wtype
-
         # screenshots / clipboard
         hyprshot
         wl-clipboard
@@ -61,7 +68,10 @@ in
 
     wayland.windowManager.hyprland = {
       enable = true;
-      systemd.enable = true;
+      systemd = {
+        enable = true;
+        variables = [ "all" ];
+      };
       # https://github.com/hyprwm/Hyprland/blob/main/example/hyprland.conf
       settings = {
         "$mod" = "ALT";
@@ -76,7 +86,8 @@ in
         "$terminal" = "kitty";
         "$fileManager" = "thunar";
         "$browser" = "librewolf";
-        "$menu" = "rofi -show drun -show-icons";
+        "$menu" =
+          "rofi -show combi -display-combi \" :\" -modes combi,calc -combi-modes \"window,drun,run,emoji\"";
 
         # hyprctl clients
         windowrulev2 = [
@@ -117,7 +128,6 @@ in
             "$mod, Q, exec, $terminal"
             "$mod, E, exec, $fileManager"
             "$mod, Space, exec, $menu"
-            "$mod, T, exec, wofi-emoji"
             "$mod, R, exec, code"
             ", Print, exec, hyprshot -m region --clipboard-only"
             "$mod, F4, killactive"
@@ -201,21 +211,22 @@ in
           close_special_on_empty = true;
         };
       };
-      # Attempt at fixing youtube picture-in-picture
       extraConfig = ''
-        windowrulev2 = keepaspectratio,class:^(librewolf)$,title:^(Picture-in-Picture)$
-        windowrulev2 = noborder,class:^(librewolf)$,title:^(Picture-in-Picture)$
-        windowrulev2 = fullscreenstate,class:^(librewolf)$,title:^(Firefox)$
-        windowrulev2 = fullscreenstate,class:^(librewolf)$,title:^(Picture-in-Picture)$
-        windowrulev2 = pin,class:^(librewolf)$,title:^(Firefox)$
-        windowrulev2 = pin,class:^(librewolf)$,title:^(Picture-in-Picture)$
-        windowrulev2 = float,class:^(librewolf)$,title:^(Firefox)$
-        windowrulev2 = float,class:^(librewolf)$,title:^(Picture-in-Picture)$
-      '';
-    };
+                windowrulev2 = keepaspectratio,class:^(librewolf)$,title:^(Picture-in-Picture)$
+                windowrulev2 = noborder,class:^(librewolf)$,title:^(Picture-in-Picture)$
+                windowrulev2 = fullscreenstate,class:^(librewolf)$,title:^(Firefox)$
+                windowrulev2 = fullscreenstate,class:^(librewolf)$,title:^(Picture-in-Picture)$
+                windowrulev2 = pin,class:^(librewolf)$,title:^(Firefox)$
+                windowrulev2 = pin,class:^(librewolf)$,title:^(Picture-in-Picture)$
+                windowrulev2 = float,class:^(librewolf)$,title:^(Firefox)$
+                windowrulev2 = float,class:^(librewolf)$,title:^(Picture-in-Picture)$
 
-    home.file.".config/rofi/config.rasi" = {
-      source = ../assets/css/runner.css;
+                env = XDG_CURRENT_DESKTOP,Hyprland
+                env = XDG_SESSION_TYPE,wayland
+                env = XDG_SESSION_DESKTOP,Hyprland
+        	env = QT_QPA_PLATFORM,wayland;xcb
+        	env = QT_QPA_PLATFORMTHEME,qt5ct
+      '';
     };
 
     services.wlsunset = {
@@ -233,18 +244,6 @@ in
       {
         enable = true;
         package = pkgs.stable.swayidle;
-        events = [
-          # executes command before systemd puts the computer to sleep.
-          {
-            event = "before-sleep";
-            command = lockCmd;
-          }
-          # executes command when logind signals that the session should be locked
-          {
-            event = "lock";
-            command = lockCmd;
-          }
-        ];
         timeouts = [
           {
             timeout = 1495;

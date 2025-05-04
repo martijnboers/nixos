@@ -8,6 +8,7 @@
     gqrx
     sway
     wmenu
+    openssl # for internal pki certs
   ];
 
   age.identityPaths = [ "/home/martijn/.ssh/id_ed25519_age" ];

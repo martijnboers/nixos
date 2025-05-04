@@ -32,7 +32,7 @@ in
         prometheus = {
           enable = true;
         };
-	listenAddress = "65.109.132.206";
+        listenAddress = "65.109.132.206";
         extraOptions = [
           "-geoip_supplier=max-mind-db"
           "-max_mind_db=${toString config.services.geoipupdate.settings.DatabaseDirectory}/GeoLite2-City.mmdb"

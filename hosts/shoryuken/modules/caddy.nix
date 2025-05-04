@@ -65,9 +65,9 @@ in
         }
       '';
       extraConfig = ''
-                matrix.plebian.nl, matrix.plebian.nl:8448 {
-        	    reverse_proxy /_matrix/* http://hadouken.machine.thuis:5553
-                }
+        matrix.plebian.nl, matrix.plebian.nl:8448 {
+            reverse_proxy /_matrix/* http://hadouken.machine.thuis:5553
+        }
       '';
       virtualHosts =
         let
@@ -125,8 +125,8 @@ in
           };
           "storage.plebian.nl" = {
             extraConfig = ''
-              reverse_proxy hadouken.machine.thuis:5554 
-	      header Access-Control-Allow-Origin *
+                            reverse_proxy hadouken.machine.thuis:5554 
+              	      header Access-Control-Allow-Origin *
             '';
           };
           "noisesfrom.space" = {

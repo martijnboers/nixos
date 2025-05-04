@@ -13,31 +13,10 @@ in
   };
 
   config = mkIf cfg.enable {
-    environment = {
+    environment.variables = {
       # Print the URL instead on servers
-      variables.BROWSER = "echo";
+      BROWSER = "echo";
     };
-
-    # Default setup for caddy pki
-    environment.etc."pki-root.cnf".text = ''
-      [ req ]
-      default_bits       = 4096
-      default_md         = sha256
-      prompt             = no
-      distinguished_name = req_distinguished_name
-      x509_extensions    = v3_ca
-
-      [ req_distinguished_name ]
-      CN                 = plebs4cash
-      O                  = plebs4cash
-      C                  = NL
-
-      [ v3_ca ]
-      basicConstraints   = critical, CA:true
-      keyUsage           = critical, keyCertSign, cRLSign
-      subjectKeyIdentifier = hash
-      nameConstraints = critical, permitted;DNS:.thuis
-    '';
 
     # No need for fonts on a server
     fonts.fontconfig.enable = lib.mkDefault false;

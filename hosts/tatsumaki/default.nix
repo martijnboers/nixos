@@ -1,4 +1,4 @@
-{ config, ... }:
+{ ... }:
 {
   networking.hostName = "tatsumaki";
 
@@ -7,10 +7,9 @@
     ./modules/caddy.nix
   ];
 
-  hosts.caddy.enable = false; # TODO
-
-  # Enable tailscale network
   hosts.tailscale.enable = true;
+  hosts.prometheus.enable = true;
+  hosts.caddy.enable = true;
 
   hosts.openssh = {
     enable = true;
@@ -26,14 +25,29 @@
   };
 
   fileSystems."/mnt/bitcoin" = {
-    device = "//hadouken.machine.thuis/bitcoin";
-    fsType = "cifs";
+    device = "hadouken.machine.thuis:/bitcoin";
+    fsType = "nfs";
     options = [
-      "uid=1000"
-      "gid=100"
-      "x-systemd.automount" # lazyloading, solves tailscale chicken&egg
+      "rsize=1048576" # bigger read+write sizes
+      "wsize=1048576" # good for bigger files
+      "x-systemd.automount"
+      "noauto"
     ];
   };
+
+  boot.supportedFilesystems = [ "nfs" ];
+
+  fileSystems."/mnt/electrs" = {
+    device = "hadouken.machine.thuis:/electrs";
+    fsType = "nfs";
+    options = [
+      "rsize=1048576" # bigger read+write sizes
+      "wsize=1048576" # good for bigger files
+      "x-systemd.automount"
+      "noauto"
+    ];
+  };
+
   nix.settings.trusted-users = [ "martijn" ]; # allows remote push
 
   # Server defaults

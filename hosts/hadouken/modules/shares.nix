@@ -23,10 +23,17 @@ in
       options = [ "bind" ];
     };
 
+    fileSystems."/export/electrs" = {
+      device = "/mnt/garage/misc/electrs";
+      options = [ "bind" ];
+    };
+
     fileSystems."/export/share" = {
       device = "/mnt/zwembad/share";
       options = [ "bind" ];
     };
+
+    boot.supportedFilesystems = [ "nfs" ];
 
     services.nfs.server = {
       enable = true;
@@ -35,6 +42,7 @@ in
         /export          100.64.0.0/10(rw,fsid=0,no_subtree_check) 
         /export/music    100.64.0.0/10(rw,nohide,insecure,no_subtree_check)
         /export/bitcoin  100.64.0.0/10(rw,nohide,insecure,no_subtree_check)
+        /export/electrs  100.64.0.0/10(rw,nohide,insecure,no_subtree_check)
         /export/share    100.64.0.0/10(rw,nohide,insecure,no_subtree_check)
       '';
     };

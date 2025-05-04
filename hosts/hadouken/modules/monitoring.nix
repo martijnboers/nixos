@@ -159,6 +159,7 @@ in
                   [
                     "hadouken"
                     "shoryuken"
+                    "tatsumaki"
                     "tenshin"
                     "nurma"
                   ];

@@ -28,22 +28,12 @@ in
         # For QT apps
         kio
         kio-extras
+        xdg-utils
       ];
 
     nix.settings = {
       substituters = [ "https://hyprland.cachix.org" ];
       trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
-    };
-
-    xdg = {
-      portal = {
-        enable = true;
-        config.common.default = "*"; # pick first in order, hyprland
-        extraPortals = [
-          pkgs.xdg-desktop-portal-hyprland
-          pkgs.xdg-desktop-portal-gtk
-        ];
-      };
     };
 
     programs.thunar = {
@@ -82,9 +72,8 @@ in
       MOZ_ENABLE_WAYLAND = "1"; # ensure enable wayland for Firefox
       WLR_RENDERER_ALLOW_SOFTWARE = "1"; # enable software rendering for wlroots
       WLR_NO_HARDWARE_CURSORS = "1"; # disable hardware cursors for wlroots
-      NIXOS_XDG_OPEN_USE_PORTAL = "1"; # needed to open apps after web login
       DEFAULT_BROWSER = "librewolf";
-      QT_QPA_PLATFORMTHEME = "kde";
+      QT_QPA_PLATFORMTHEME = "qt5ct";
     };
   };
 }

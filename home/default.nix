@@ -1,6 +1,7 @@
 {
   inputs,
   pkgs,
+  lib,
   ...
 }:
 {
@@ -56,8 +57,6 @@
     tldr # man summarized
     killall # 🔪
     btop # fancy htop
-    nerdfonts # icon font
-    openssl # for internal headscale pki
     hydra-check # check nixos ci builds
 
     # archives
@@ -91,8 +90,9 @@
   # Run programs with , cowsay
   programs.nix-index-database.comma.enable = true;
 
-  # By default get full zsh config
-  maatwerk.zsh.enable = true;
+  # By default get full zsh+nixvim config
+  maatwerk.zsh.enable = lib.mkDefault true;
+  maatwerk.nixvim.enable = lib.mkDefault true;
 
   programs.git = {
     enable = true;
