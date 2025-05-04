@@ -59,20 +59,16 @@
 
         # Setup for bigger plugins
         {
-          action =
-            helpers.mkRaw 
-              ''
-                function() require("harpoon"):list():add() end
-              '';
+          action = helpers.mkRaw ''
+            function() require("harpoon"):list():add() end
+          '';
           key = "<Leader>a";
           options.desc = "Add to harpoon";
         }
         {
-          action =
-            helpers.mkRaw 
-              ''
-                function() local harpoon = require('harpoon') harpoon.ui:toggle_quick_menu(harpoon:list()) end
-              '';
+          action = helpers.mkRaw ''
+            function() local harpoon = require('harpoon') harpoon.ui:toggle_quick_menu(harpoon:list()) end
+          '';
           key = "<C-h>";
           options.desc = "Harpoon menu";
         }
@@ -81,13 +77,11 @@
         (mkHarBind 3 "<C-l>")
         (mkHarBind 4 "<C-;>")
         {
-          action =
-            helpers.mkRaw 
-              ''
-                function() require("conform").format({ 
-                  lsp_fallback = true, async = false, timeout_ms = 500,
-                }) end
-              '';
+          action = helpers.mkRaw ''
+            function() require("conform").format({ 
+              lsp_fallback = true, async = false, timeout_ms = 500,
+            }) end
+          '';
           mode = [
             "v"
             "n"
@@ -197,6 +191,11 @@
           enable = true; # left pane with files
           hideRootNode = true; # don't show from opened folder
           closeIfLastWindow = true; # close vim if no more text buffers
+          enableModifiedMarkers = true;
+          enableRefreshOnWrite = true;
+          defaultComponentConfigs.gitStatus.symbols = {
+	    unstaged = "";
+          };
         };
 
         harpoon = {

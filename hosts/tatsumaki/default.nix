@@ -29,7 +29,6 @@
     device = "//hadouken.machine.thuis/bitcoin";
     fsType = "cifs";
     options = [
-      "credentials=${config.age.secrets.smb.path}"
       "uid=1000"
       "gid=100"
       "x-systemd.automount" # lazyloading, solves tailscale chicken&egg

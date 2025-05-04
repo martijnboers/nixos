@@ -77,7 +77,7 @@
     ethtool
     pciutils # lspci
     usbutils # lsusb
-    cifs-utils # for samba mount
+    nfs-utils
   ];
 
   nix = {
@@ -217,6 +217,8 @@
     enable = true;
     powerOnBoot = true;
   };
+  
+  boot.supportedFilesystems = [ "nfs" ];
 
   nixpkgs = {
     overlays = [

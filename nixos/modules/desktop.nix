@@ -26,23 +26,23 @@ in
     services.davfs2.enable = true;
 
     fileSystems."/mnt/music" = {
-      device = "//hadouken.machine.thuis/music";
-      fsType = "cifs";
+      device = "hadouken.machine.thuis:/music";
+      fsType = "nfs";
       options = [
-        "credentials=${config.age.secrets.smb.path}"
-        "uid=1000"
-        "gid=100"
+        "rsize=1048576" # bigger read+write sizes
+        "wsize=1048576" # good for bigger files
         "x-systemd.automount" # lazyloading, solves tailscale chicken&egg
+        "noauto"
       ];
     };
     fileSystems."/mnt/misc" = {
-      device = "//hadouken.machine.thuis/misc";
-      fsType = "cifs";
+      device = "hadouken.machine.thuis:/share";
+      fsType = "nfs";
       options = [
-        "credentials=${config.age.secrets.smb.path}"
-        "uid=1000"
-        "gid=100"
+        "rsize=1048576" # bigger read+write sizes
+        "wsize=1048576" # good for bigger files
         "x-systemd.automount"
+        "noauto"
       ];
     };
     fileSystems."/mnt/notes" = {

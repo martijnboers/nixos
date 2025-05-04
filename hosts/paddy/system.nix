@@ -7,7 +7,6 @@
 {
   networking.hostName = "macbook-martijn";
   networking.computerName = "macbook-martijn";
-  system.defaults.smb.NetBIOSName = "macbook-martijn";
 
   # Default env variables
   environment.variables = {
