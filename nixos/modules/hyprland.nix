@@ -18,9 +18,6 @@ in
   config = mkIf cfg.enable {
     hosts.desktop.enable = true;
 
-    # test
-    # services.desktopManager.plasma6.enable = true;
-
     environment.systemPackages =
       with pkgs;
       with pkgs.kdePackages;
@@ -70,10 +67,6 @@ in
         };
         default_session = {
           command = "${lib.getExe pkgs.greetd.tuigreet} --time --cmd Hyprland";
-          user = "martijn";
-        };
-        kde = {
-          command = "startplasma-wayland";
           user = "martijn";
         };
       };

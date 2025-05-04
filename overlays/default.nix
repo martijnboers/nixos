@@ -29,20 +29,6 @@
       url = "https://git.helsinki.tools/helsinki-systems/wp4nix";
       ref = "master";
     };
-
-    # https://www.jetbrains.com/webstorm/nextversion/
-    webstorm-eap = prev.jetbrains.webstorm.overrideAttrs {
-      version = "241.11761.28";
-      # Patches don't work with new version
-      postPatch = ''
-        rm -rf jbr
-        ln -s ${final.jdk.home} jbr
-      '';
-      src = builtins.fetchurl {
-        url = "https://download-cdn.asgjetbrains.com/webstorm/WebStorm-242.14146.21.tar.gz";
-        sha256 = "1p53p1mw0x4g409l514pji68van4w7jg1lx7lycy5ykqj0dbgp41";
-      };
-    };
   };
 
   # When applied, the stable nixpkgs set (declared in the flake inputs) will

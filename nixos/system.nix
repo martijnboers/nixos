@@ -18,7 +18,6 @@
     ./modules/borg.nix
     ./modules/ssh.nix
     ./modules/gpg.nix
-    ./modules/kde.nix
   ];
 
   age.secrets.password.file = ../secrets/password.age;

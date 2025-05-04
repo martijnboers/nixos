@@ -14,6 +14,12 @@
   programs.nixvim =
     let
       helpers = config.lib.nixvim;
+
+      mkHarBind = index: key: {
+        inherit key;
+        action = helpers.mkRaw ''function() require("harpoon"):list():select(${builtins.toString index}) end'';
+      };
+
     in
     {
       enable = true;
@@ -22,100 +28,116 @@
         providers.wl-copy.enable = true;
       };
 
-      keymaps =
-        let
-          mkHarBind = index: key: {
-            inherit key;
-            action = helpers.mkRaw ''function() require("harpoon"):list():select(${builtins.toString index}) end'';
-          };
-        in
-        [
-          {
-            action = "<cmd>Neotree reveal toggle<cr>";
-            key = "<Leader>d";
-            options.desc = "toggle file explorer";
-          }
-          {
-            action = "<cmd>Gitsigns blame<cr>";
-            key = "<Leader>gB";
-            options.desc = "Git blame";
-          }
-          {
-            action = "<cmd>Gitsigns blame_line<cr>";
-            key = "<Leader>gb";
-            options.desc = "Git blame current line";
-          }
-          {
-            action = "<cmd>Gitsigns preview_hunk_inline<cr>";
-            key = "<Leader>gp";
-            options.desc = "Git preview hunk";
-          }
-          {
-            action = "<cmd>Gitsigns reset_hunk<cr>";
-            key = "<Leader>gu";
-            options.desc = "Git undo changes";
-          }
-          {
-            action =
-              helpers.mkRaw # lua
-                ''
-                  function() require("harpoon"):list():add() end
-                '';
-            key = "<Leader>a";
-            options.desc = "Add to harpoon";
-          }
-          {
-            action =
-              helpers.mkRaw # lua
-                ''
-                  function() local harpoon = require('harpoon') harpoon.ui:toggle_quick_menu(harpoon:list()) end
-                '';
-            key = "<C-h>";
-            options.desc = "Harpoon menu";
-          }
-          (mkHarBind 1 "<C-j>")
-          (mkHarBind 2 "<C-k>")
-          (mkHarBind 3 "<C-l>")
-          {
-            action =
-              helpers.mkRaw # lua
-                ''
-                  function() require("conform").format({ 
-                    lsp_fallback = true, async = false, timeout_ms = 500,
-                  }) end
-                '';
-            mode = [
-              "v"
-              "n"
-            ];
+      keymaps = [
+        {
+          action = "<cmd>Neotree reveal toggle<cr>";
+          key = "<Leader>d";
+          options.desc = "toggle file explorer";
+        }
 
-            key = "<Leader>=";
-            options.desc = "format selection or whole buffer";
-          }
-          {
-            action = "<C-u>zz";
-            key = "<C-u>";
-          }
-          {
-            action = "<C-d>zz";
-            key = "<C-d>";
-          }
-          {
-            action = "<C-w>w";
-            key = "<Tab>";
-            options.desc = "switch buffer";
-          }
-          {
-            action = "<C-w>W";
-            key = "<S-Tab>";
-            options.desc = "prev buffer";
-          }
-          {
-            action = "<cmd>bd<cr>";
-            key = "x";
-            options.desc = "close buffer";
-          }
-        ];
+        # git stuff
+        {
+          action = "<cmd>Gitsigns blame<cr>";
+          key = "<Leader>gB";
+          options.desc = "Git blame";
+        }
+        {
+          action = "<cmd>Gitsigns blame_line<cr>";
+          key = "<Leader>gb";
+          options.desc = "Git blame current line";
+        }
+        {
+          action = "<cmd>Gitsigns preview_hunk_inline<cr>";
+          key = "<Leader>gp";
+          options.desc = "Git preview hunk";
+        }
+        {
+          action = "<cmd>Gitsigns reset_hunk<cr>";
+          key = "<Leader>gu";
+          options.desc = "Git undo changes";
+        }
+
+        # Setup for bigger plugins
+        {
+          action =
+            helpers.mkRaw 
+              ''
+                function() require("harpoon"):list():add() end
+              '';
+          key = "<Leader>a";
+          options.desc = "Add to harpoon";
+        }
+        {
+          action =
+            helpers.mkRaw 
+              ''
+                function() local harpoon = require('harpoon') harpoon.ui:toggle_quick_menu(harpoon:list()) end
+              '';
+          key = "<C-h>";
+          options.desc = "Harpoon menu";
+        }
+        (mkHarBind 1 "<C-j>")
+        (mkHarBind 2 "<C-k>")
+        (mkHarBind 3 "<C-l>")
+        (mkHarBind 4 "<C-;>")
+        {
+          action =
+            helpers.mkRaw 
+              ''
+                function() require("conform").format({ 
+                  lsp_fallback = true, async = false, timeout_ms = 500,
+                }) end
+              '';
+          mode = [
+            "v"
+            "n"
+          ];
+
+          key = "<Leader>=";
+          options.desc = "format selection or whole buffer";
+        }
+
+        # quality of life stuff
+        {
+          action = "<C-u>zz";
+          key = "<C-u>";
+        }
+        {
+          action = "<C-d>zz";
+          key = "<C-d>";
+        }
+        {
+          action = "<C-w>w";
+          key = "<Tab>";
+          options.desc = "switch buffer";
+        }
+        {
+          action = "<C-w>W";
+          key = "<S-Tab>";
+          options.desc = "prev buffer";
+        }
+        {
+          action = "<cmd>bd<cr>";
+          key = "x";
+          options.desc = "close buffer";
+        }
+        {
+          action = ":m -2<cr>";
+          key = "<C-S-Up>";
+          options = {
+            desc = "Move line 1 up";
+            silent = true;
+          };
+        }
+        {
+          action = ":m +1<cr>";
+          key = "<C-S-Down>";
+          options = {
+            desc = "Move line down 1";
+            silent = true;
+          };
+        }
+      ];
 
       globals = {
         mapleader = " "; # map leader to spacebar
@@ -134,7 +156,6 @@
         sidescrolloff = 8; # same for side scrolling
         laststatus = 0; # hide bottom bar, noice does this
         smartindent = false; # done by treesitter
-        sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"; # stuff for auto-session
       };
 
       diagnostic.settings = {
@@ -152,6 +173,7 @@
           };
         };
       };
+
       plugins = {
         which-key.enable = true; # popup with possible key combinations
         barbecue = {
@@ -170,11 +192,6 @@
         comment.enable = true; # comments visual lines
         render-markdown.enable = true; # better markdown support
         lsp-lines.enable = true; # diagnostics inline
-
-        auto-session = {
-          enable = true; # re-open all buffers
-          settings.root_dir = "/tmp/nvim-sessions"; # auto-remove on startup
-        };
 
         neo-tree = {
           enable = true; # left pane with files
@@ -198,7 +215,7 @@
             highlight.enable = true;
             indent.enable = true;
           };
-        }; # Syntax highlighting
+        }; # Make vim understand syntax, but not like lsp
 
         telescope = {
           enable = true;

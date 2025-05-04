@@ -35,7 +35,6 @@ in
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      stable.jetbrains.pycharm-community # https://hydra.nixos.org/build/282372975
       pgrok
       sublime-merge
       awscli2

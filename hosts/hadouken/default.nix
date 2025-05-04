@@ -28,15 +28,15 @@ in
     ./modules/matrix.nix
     ./modules/immich.nix
     ./modules/search.nix
+    ./modules/shares.nix
     ./modules/caddy.nix
-    ./modules/atuin.nix
     ./modules/cinny.nix
-    ./modules/samba.nix
+    ./modules/atuin.nix
     ./modules/sync.nix
     ./modules/plex.nix
   ];
 
-  hosts.smb.enable = true;
+  hosts.shares.enable = true;
   hosts.caddy.enable = true;
   hosts.vaultwarden.enable = true;
   hosts.plex.enable = true;

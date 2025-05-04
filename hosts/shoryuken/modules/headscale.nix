@@ -151,7 +151,7 @@ in
                   action = "accept";
                   src = [ "tatsumaki" ];
                   dst = [
-                    "hadouken:139,445,137,138" # samba
+                    "hadouken:2049" # nfs
                   ];
                 }
                 {

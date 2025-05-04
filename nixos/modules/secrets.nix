@@ -19,9 +19,6 @@ in
   config = {
     age = {
       identityPaths = cfg.identityPaths;
-      secrets = {
-        smb.file = ../../secrets/smb.age;
-      };
     };
   };
 }
