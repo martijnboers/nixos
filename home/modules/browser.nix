@@ -7,6 +7,26 @@
 with lib;
 let
   cfg = config.maatwerk.browser;
+  mkChromeWrapper = name: url: rec {
+    script = pkgs.writeShellApplication {
+      inherit name;
+      runtimeInputs = [ pkgs.ungoogled-chromium ];
+      text = ''
+        chromium --new-tab "${url}"
+      '';
+    };
+    desktop = pkgs.makeDesktopItem {
+      name = name;
+      exec = getExe script;
+      desktopName = "${name} chrome";
+      startupWMClass = name;
+      terminal = true;
+    };
+  };
+  teams = mkChromeWrapper "teams" "https://teams.microsoft.com";
+  claud = mkChromeWrapper "claud" "https://claud.ai";
+  hetzner = mkChromeWrapper "hetzner" "https://console.hetzner.cloud";
+  kvm = mkChromeWrapper "kvm" "https://10.10.0.11/kvm/#";
 in
 {
   options.maatwerk.browser = {
@@ -15,6 +35,16 @@ in
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       stable.ungoogled-chromium
+      
+      teams.desktop
+      teams.script
+      claud.desktop
+      claud.script
+      hetzner.desktop
+      hetzner.script
+      kvm.desktop
+      kvm.script
+      citrix_workspace
     ];
     programs.librewolf = {
       enable = true;

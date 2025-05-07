@@ -31,7 +31,26 @@ in
       package = pkgs.rofi-wayland;
       extraConfig = {
         show-icons = true;
+        display-combi = " :";
+        display-drun = "";
+        display-window = "";
+        display-run = "󰨡";
+        modes = "combi,calc";
+        combi-modes = "window,drun,run,emoji";
       };
+      theme =
+        let
+          # Use `mkLiteral` for string-like values that should show without quotes
+          inherit (config.lib.formats.rasi) mkLiteral;
+        in
+        {
+          "*" = {
+            width = 700;
+          };
+          element-icon = {
+            size = mkLiteral "1.2em";
+          };
+        };
       plugins = with pkgs; [
         rofi-calc
         rofi-emoji-wayland
@@ -86,8 +105,7 @@ in
         "$terminal" = "kitty";
         "$fileManager" = "thunar";
         "$browser" = "librewolf";
-        "$menu" =
-          "rofi -show combi -display-combi \" :\" -modes combi,calc -combi-modes \"window,drun,run,emoji\"";
+        "$menu" = "rofi -show combi";
 
         # hyprctl clients
         windowrulev2 = [

@@ -22,8 +22,5 @@
   # Enable profiles
   maatwerk.kitty.enable = true;
   maatwerk.stylix.enable = true;
-
   maatwerk.desktop.enable = false;
-  maatwerk.personal.enable = false;
-  maatwerk.work.enable = false;
 }

@@ -29,10 +29,6 @@
     ./modules/hyprland.nix
     ./modules/browser.nix
     ./modules/kitty.nix
-
-    # profiles based on type of computer usage
-    ./profiles/personal.nix
-    ./profiles/work.nix
   ];
 
   # Global user level packages

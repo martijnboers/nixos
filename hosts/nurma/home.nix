@@ -16,6 +16,4 @@
 
   # Enable profiles
   maatwerk.hyprland.enable = true;
-  maatwerk.personal.enable = true;
-  maatwerk.work.enable = true;
 }

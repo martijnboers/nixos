@@ -35,6 +35,41 @@ in
       hunspellDicts.nl_NL
       hunspellDicts.en_US
       obsidian
+
+      # programming
+      pgrok
+      sublime-merge
+      awscli2
+      slack
+      mongodb-compass
+      httpie-desktop
+      wireshark
+
+      # personal
+      qflipper
+      vlc
+      ollama # for the client
+      electrum # btc wallet
+
+      # music
+      clementine
+      spotify
+
+      # messaging
+      signal-desktop
+      telegram-desktop
+      nheko # matrix client
     ];
+
+    programs.rbw = {
+      enable = true;
+      settings = {
+        base_url = "https://vaultwarden.thuis";
+        email = "martijn@plebian.nl";
+        lock_timeout = 2 * 60 * 60;
+        pinentry = pkgs.pinentry-gnome3;
+      };
+    };
+
   };
 }
