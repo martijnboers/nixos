@@ -14,6 +14,7 @@
     ./modules/nixvim.nix
     ./modules/atuin.nix
     ./modules/zsh.nix
+    ./modules/mods.nix
 
     # Packaged home manager modules
     inputs.nixvim.homeManagerModules.nixvim
@@ -59,10 +60,6 @@
     zip
     unzip
     p7zip
-
-    # tools
-    mods # ai for cli
-    glow # cli markdown viewer
   ];
 
   # User level secrets
@@ -73,10 +70,6 @@
     secrets = {
       llm.file = ../secrets/llm.age;
     };
-  };
-
-  home.file.".config/mods/mods.yml" = {
-    source = ./config/mods.yml;
   };
 
   # Let nix-index handle command-not-found

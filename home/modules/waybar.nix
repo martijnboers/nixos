@@ -10,12 +10,7 @@ let
 in
 {
   config = mkIf cfg.enable {
-    home.file.".config/swaync/style.css" = {
-      source = ../assets/css/notifications.css;
-    };
-    home.file.".config/swaync/config.json" = {
-      source = ../config/notifications.json;
-    };
+   
     programs.waybar = {
       enable = true;
       systemd.enable = true;

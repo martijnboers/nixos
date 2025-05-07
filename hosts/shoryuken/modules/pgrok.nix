@@ -1,4 +1,3 @@
-# inspo: https://github.com/NyCodeGHG/dotfiles
 {
   config,
   pkgs,
@@ -78,10 +77,6 @@ in
       '';
     };
 
-    environment.systemPackages = with pkgs; [
-      pgrok
-      pgrok.server
-    ];
     age.secrets = {
       pgrok = {
         file = ../../../secrets/pgrok.age;

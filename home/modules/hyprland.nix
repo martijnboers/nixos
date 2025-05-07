@@ -12,6 +12,7 @@ in
   imports = [
     ./desktop.nix
     ./waybar.nix
+    ./swaync.nix
   ];
 
   options.maatwerk.hyprland = {

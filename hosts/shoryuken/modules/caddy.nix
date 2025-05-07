@@ -33,6 +33,7 @@ in
       package = pkgs.callPackage ../../../pkgs/xcaddy.nix {
         plugins = [
           "github.com/darkweak/souin/plugins/caddy"
+          "github.com/caddy-dns/cloudflare"
         ];
       };
       globalConfig = ''
@@ -175,10 +176,13 @@ in
         # Required to use ports < 1024
         AmbientCapabilities = "cap_net_bind_service";
         CapabilityBoundingSet = "cap_net_bind_service";
+        EnvironmentFile = config.age.secrets.caddy.path;
+        TimeoutStartSec = "5m";
       };
     };
 
     age.secrets = {
+      caddy.file = ../../../secrets/caddy.age;
       shoryuken-pki = {
         file = ../../../secrets/shoryuken-pki.age;
         owner = "caddy";

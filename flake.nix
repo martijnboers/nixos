@@ -2,7 +2,6 @@
   description = "Everything, everywhere, all at once";
 
   inputs = {
-    # https://github.com/NixOS/nixpkgs/commits/nixpkgs-unstable/?since=2024-10-06&until=2024-10-06
     nixpkgs.url = "nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "nixpkgs/nixos-24.11";
     nixpkgs-fork.url = "github:martijnboers/nixpkgs";

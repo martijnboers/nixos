@@ -46,6 +46,7 @@ in
       targets.librewolf.enable = false;
       targets.nixvim.enable = false;
       targets.hyprlock.enable = false;
+      targets.swaync.enable = false;
     };
   };
 }

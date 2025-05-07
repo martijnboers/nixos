@@ -71,11 +71,9 @@ in
           proxyd = "sudo tailscale set --exit-node=";
 
           # llm
-          "c\?" = "mods -f -m gpt-3.5-turbo --role cli \"$1\"";
-          "t\?" = "mods -f -m gpt-4 --role teach \"$1\"";
-          "f\?" = "mods -f -m gemini --role forensics \"$1\"";
-          "s\?" = "mods -f -m gemini --role sys \"$1\"";
-          "p\?" = "mods -f -m gemini --role programmer \"$1\"";
+          "c\?" = "mods -f -m cli-fast --role cli \"$1\"";
+          "f\?" = "mods -f --role forensics \"$1\"";
+          "s\?" = "mods -f --role sys \"$1\"";
           "h\?" = "OLLAMA_HOST=https://ollama.thuis ollama run wizardlm2";
         };
       dotDir = ".config/zsh";

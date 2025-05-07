@@ -45,6 +45,13 @@ in
     startLimitIntervalSec = 600;
     serviceConfig = defaultRestart;
   };
+  systemd.services.sshd = {
+    after = [ "tailscaled.service" ];
+    requires = [ "tailscaled.service" ];
+    startLimitBurst = 10;
+    startLimitIntervalSec = 600;
+    serviceConfig = defaultRestart;
+  };
 
   # Enable tailscale network
   hosts.tailscale.enable = true;

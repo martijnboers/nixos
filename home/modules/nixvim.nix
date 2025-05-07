@@ -158,6 +158,10 @@ in
             options.desc = "switch buffer";
           }
           {
+            action = "<C-i>"; # needed because mapping tab breaks CTRL-i in kitty
+            key = "<C-i>";
+          }
+          {
             action = "<C-w>W";
             key = "<S-Tab>";
             options.desc = "prev buffer";
@@ -232,6 +236,7 @@ in
           neo-tree = {
             enable = true;
             hideRootNode = true; # don't show from opened folder
+            closeIfLastWindow = true;
           }; # left pane with files
 
           gitsigns = {

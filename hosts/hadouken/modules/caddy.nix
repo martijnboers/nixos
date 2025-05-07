@@ -23,7 +23,6 @@ in
       enable = true;
       package = pkgs.callPackage ../../../pkgs/xcaddy.nix {
         plugins = [
-          "github.com/caddy-dns/cloudflare"
           "github.com/corazawaf/coraza-caddy/v2"
           "github.com/mholt/caddy-webdav"
         ];
@@ -77,7 +76,6 @@ in
     };
 
     age.secrets = {
-      caddy.file = ../../../secrets/caddy.age;
       hadouken-pki = {
         file = ../../../secrets/hadouken-pki.age;
         owner = "caddy";
@@ -89,7 +87,6 @@ in
         # Required to use ports < 1024
         AmbientCapabilities = "cap_net_bind_service";
         CapabilityBoundingSet = "cap_net_bind_service";
-        EnvironmentFile = config.age.secrets.caddy.path;
         TimeoutStartSec = "5m";
       };
     };

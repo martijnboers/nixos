@@ -15,9 +15,6 @@
 
   age.identityPaths = [ "/Users/martijn/.ssh/id_ed25519" ];
   home.homeDirectory = lib.mkForce "/Users/martijn";
-  home.file."Library/Application Support/mods/mods.yml" = {
-    source = ../../home/config/mods.yml;
-  };
 
   # Enable profiles
   maatwerk.kitty.enable = true;
