@@ -1,5 +1,14 @@
-{ ... }:
 {
+  config,
+  lib,
+  ...
+}:
+with lib;
+let
+  cfg = config.maatwerk.hyprland;
+in
+{
+  config = mkIf cfg.enable {
   services.swaync = {
     enable = true;
     settings = {
@@ -51,5 +60,6 @@
       ];
     };
     style = ../assets/css/notifications.css;
+  };
   };
 }
