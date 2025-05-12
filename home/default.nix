@@ -86,7 +86,7 @@
   programs.git = {
     enable = true;
     userName = "Martijn Boers";
-    userEmail = "martijn@plebian.nl";
+    userEmail = "martijn@boers.email";
     signing = {
       key = "328144ACADA0A336";
       signByDefault = true;

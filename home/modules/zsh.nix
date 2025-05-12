@@ -49,7 +49,7 @@ in
         {
           # --- NixOS specific --------
           deploy = lib.getExe deploy-custom; # $ deploy {?host}
-          mdeploy = "darwin-rebuild switch --flake '/Users/martijn/nixos/.?submodules=1#paddy'";
+          mdeploy = "sudo darwin-rebuild switch --flake '/Users/martijn/nixos/.?submodules=1#paddy'";
           update = "nix flake update";
           # ---------------------------
           dud = "docker compose up -d";

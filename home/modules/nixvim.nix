@@ -16,6 +16,7 @@ in
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
+      vimPlugins.sqlite-lua # smart-open
       tflint
       vale
       ruff
@@ -25,17 +26,16 @@ in
     programs.nixvim =
       let
         helpers = config.lib.nixvim;
-
         mkHarBind = index: key: {
           inherit key;
-          action = helpers.mkRaw ''function() require("harpoon"):list():select(${builtins.toString index}) end'';
+          action = helpers.mkRaw ''function() require("harpoon"):list():select(${toString index}) end'';
         };
-
       in
       {
         enable = true;
 
-        extraPlugins = [
+        extraPlugins = with pkgs.vimPlugins; [
+          smart-open-nvim
           (pkgs.vimUtils.buildVimPlugin {
             name = "openingh.nvim";
             src = pkgs.fetchFromGitHub {
@@ -58,12 +58,6 @@ in
         ];
 
         keymaps = [
-          {
-            action = "<cmd>Neotree reveal right toggle<cr>";
-            key = "<Leader>d";
-            options.desc = "Toggle file explorer";
-          }
-
           # git stuff
           {
             action = "<cmd>OpenInGHFile<cr>";
@@ -93,7 +87,7 @@ in
           }
           {
             action = "<cmd>Telescope git_commits<cr>";
-            key = "<Leader>gf";
+            key = "<Leader>gc";
           }
           {
             action = "<cmd>Telescope git_bcommits<cr>";
@@ -119,23 +113,53 @@ in
             options.desc = "Add to harpoon";
           }
           {
-            action = helpers.mkRaw ''
-              function() local harpoon = require('harpoon') harpoon.ui:toggle_quick_menu(harpoon:list()) end
-            '';
+            action = helpers.mkRaw ''function() local harpoon = require('harpoon') harpoon.ui:toggle_quick_menu(harpoon:list()) end '';
             key = "<C-g>";
             options.desc = "Harpoon menu";
+          }
+          {
+            action = helpers.mkRaw ''function() require('harpoon'):list():next() end '';
+            key = "<C-S-Right>";
+            options.desc = "Harpoon next";
+          }
+          {
+            action = helpers.mkRaw ''function() require('harpoon'):list():prev() end '';
+            key = "<C-S-Left>";
+            options.desc = "Harpoon prev";
           }
           (mkHarBind 1 "<C-j>")
           (mkHarBind 2 "<C-k>")
           (mkHarBind 3 "<C-l>")
           (mkHarBind 4 "<C-;>")
 
+          # one off
+          {
+            action = "<cmd>Neotree reveal right toggle<cr>";
+            key = "<Leader>d";
+            options.desc = "Toggle file explorer";
+          }
+          {
+            action = helpers.mkRaw ''function() require("telescope.builtin").grep_string() end '';
+            key = "<Leader>f";
+            mode = [ "v" ];
+            options.desc = "Find text in selection";
+          }
+          {
+            action = helpers.mkRaw ''
+              function() require('telescope').extensions.smart_open.smart_open {
+                cwd_only = true,
+                filename_first = false,
+              } end '';
+            key = "<Leader>e";
+            options.desc = "Smart open files";
+          }
           {
             action = helpers.mkRaw ''
               function() require("conform").format({ 
-                lsp_fallback = true, async = false, timeout_ms = 500,
-              }) end
-            '';
+                lsp_fallback = true,
+                async = false,
+                timeout_ms = 500, 
+              }) end '';
             mode = [
               "v"
               "n"
@@ -171,6 +195,18 @@ in
             action = "<cmd>bd<cr>";
             key = "x";
             options.desc = "close buffer";
+          }
+          {
+            action = "\"+y";
+            key = "<Leader>c";
+            mode = [
+              "n"
+              "v"
+            ];
+            options = {
+              desc = "Move line down 1";
+              silent = true;
+            };
           }
           {
             action = ":m -2<cr>";
@@ -262,19 +298,19 @@ in
               contentLayout = "center";
               sources = [
                 {
-                  displayName = "󰱼";
+                  displayName = " 󰱼 ";
                   source = "filesystem";
                 }
                 {
-                  displayName = "";
+                  displayName = "  ";
                   source = "document_symbols";
                 }
                 {
-                  displayName = "";
+                  displayName = "  ";
                   source = "diagnostics";
                 }
                 {
-                  displayName = "";
+                  displayName = "  ";
                   source = "git_status";
                 }
               ];
@@ -334,7 +370,7 @@ in
                   local display_parts = {}
                   for i, item_data in ipairs(items) do
                     local filepath = item_data.value
-                    local filename = vim.fn.fnamemodify(filepath, ":t") -- :t gets the tail (filename.ext)
+                    local filename = vim.fn.fnamemodify(filepath, ":t:r") 
                   table.insert(display_parts, string.format("[%d] %s", i, filename))
                   end
 
@@ -346,10 +382,9 @@ in
 
           telescope = {
             enable = true;
+            enabledExtensions = [ "smart_open" ];
             keymaps = {
-              "<Leader>e" = "find_files";
               "<Leader>f" = "live_grep";
-              "<Leader>F" = "grep_string";
               "<Leader>/" = "current_buffer_fuzzy_find";
               "<Leader>s" = "lsp_document_symbols";
               "<Leader>h" = "help_tags";
@@ -369,12 +404,8 @@ in
                 lsp_document_symbols = {
                   theme = "ivy";
                 };
-                find_files = {
-                  theme = "ivy";
-                  hidden = true;
-                };
-                buffers = {
-                  sort_mru = true; # https://github.com/nvim-telescope/telescope.nvim/blob/master/doc/telescope.txt#L1465
+                live_grep = {
+                  layout_strategy = "vertical";
                 };
               };
             };
@@ -477,9 +508,7 @@ in
                   "scroll_documentation_up"
                   "fallback"
                 ];
-                "<C-e>" = [
-                  "hide"
-                ];
+                "<C-e>" = [ "hide" ];
                 "<C-f>" = [
                   "scroll_documentation_down"
                   "fallback"
@@ -497,9 +526,7 @@ in
                   "show_documentation"
                   "hide_documentation"
                 ];
-                "<C-y>" = [
-                  "select_and_accept"
-                ];
+                "<C-y>" = [ "select_and_accept" ];
               };
               completion.documentation.auto_show = true;
               signature.enabled = true;
@@ -541,6 +568,14 @@ in
               {
                 type = "padding";
                 val = 2;
+              }
+              {
+                opts = {
+                  hl = "Keyword";
+                  position = "center";
+                };
+                type = "text";
+                val = "\"Krentenbol\" -- Regenboog 6";
               }
             ];
           }; # rice

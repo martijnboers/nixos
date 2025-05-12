@@ -120,6 +120,10 @@
       nixosConfigurations.nurma = mkSystem "nurma" {
         system = "x86_64-linux";
       };
+      
+      nixosConfigurations.usyk = mkSystem "usyk" {
+        system = "x86_64-linux";
+      };
 
       nixosConfigurations.hadouken = mkSystem "hadouken" {
         system = "x86_64-linux";

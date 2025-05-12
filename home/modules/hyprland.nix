@@ -93,9 +93,9 @@ in
       enable = true;
       systemd = {
         enable = true;
-        variables = [ "all" ];
+        variables = [ "all" ]; # pass all user env variables to systemd
       };
-      # https://github.com/hyprwm/Hyprland/blob/main/example/hyprland.conf
+      # https://wiki.hyprland.org/Configuring/Variables/
       settings = {
         "$mod" = "ALT";
         "$prog" = "CTRL ALT";
@@ -206,8 +206,8 @@ in
         };
         input = {
           kb_layout = "us";
-          follow_mouse = 1;
-          sensitivity = 0; # -1.0 - 1.0, 0 means no modification.
+	  repeat_rate = 40;
+	  repeat_delay = 450;
           touchpad = {
             natural_scroll = false;
           };

@@ -15,6 +15,7 @@
 
   age.identityPaths = [ "/Users/martijn/.ssh/id_ed25519" ];
   home.homeDirectory = lib.mkForce "/Users/martijn";
+  stylix.targets.gnome.enable = lib.mkForce false;
 
   # Enable profiles
   maatwerk.kitty.enable = true;

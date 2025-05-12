@@ -41,6 +41,8 @@ in
         "ctrl+pgup" = "previous_tab";
         "ctrl+shift+pgdn" = "move_tab_forward";
         "ctrl+shift+pgup" = "move_tab_backward";
+        "ctrl+shift+right" = ""; # unmap
+        "ctrl+shift+left" = ""; # unmap
         "ctrl+shift+t" = "new_tab";
         "ctrl+w" = "close_tab";
       };

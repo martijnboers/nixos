@@ -48,9 +48,6 @@ in
   systemd.services.tailscaled = {
     after = [ "headscale.service" ];
     requires = [ "headscale.service" ];
-    startLimitBurst = 10;
-    startLimitIntervalSec = 600;
-    serviceConfig = defaultRestart;
   };
   systemd.services.sshd = {
     after = [ "tailscaled.service" ];
