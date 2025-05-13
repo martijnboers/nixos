@@ -230,13 +230,15 @@ in
           noice.enable = true; # cmd popup input modal
           comment.enable = true; # comments visual lines
           lsp-lines.enable = true; # diagnostics inline
-          nvim-autopairs.enable = true; # automaticly close { [ etc };
+          nvim-autopairs.enable = true; # automaticly close { [ etc ] };
           harpoon.enable = true; # oke maybe no tabs
 
           neo-tree = {
             enable = true;
             hideRootNode = true; # don't show from opened folder
             closeIfLastWindow = true;
+            extraSources = [ "harpoon-buffers" ];
+            buffers.followCurrentFile.enabled = true;
           }; # left pane with files
 
           gitsigns = {
@@ -288,6 +290,7 @@ in
               formatters_by_ft = {
                 nix = [ "nixfmt" ];
                 python = [ "black" ];
+                lua = [ "stylua" ];
                 bash = [
                   "shellcheck"
                   "shellharden"
@@ -304,6 +307,7 @@ in
                 shfmt.command = lib.getExe pkgs.shfmt;
                 shellharden.command = lib.getExe pkgs.shellharden;
                 nixfmt.command = lib.getExe pkgs.nixfmt-rfc-style;
+                stylua.command = lib.getExe pkgs.stylua;
               };
             };
           }; # formatters
@@ -338,6 +342,7 @@ in
               nixd.enable = true;
               html.enable = true;
               jsonls.enable = true;
+              lua_ls.enable = true;
               terraformls.enable = true;
               pyright.enable = true;
               gopls.enable = true;

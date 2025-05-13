@@ -86,6 +86,7 @@ in
 
     services.postgresql = {
       enable = true;
+      package = pkgs.stable.postgresql;
       ensureDatabases = [
         "pgrok"
       ];

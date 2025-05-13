@@ -49,7 +49,7 @@
     whois
 
     # misc
-    ripgrep 
+    ripgrep
     file
     which
     tree
@@ -140,28 +140,12 @@
   };
 
   programs.zsh.enable = true;
-  networking.firewall.enable = true; # default value
+  # default value, but should never be disabled
+  networking.firewall.enable = lib.mkForce true;
 
   security = {
-    sudo.extraRules = [
-      {
-        users = [ "martijn" ];
-        commands = [
-          {
-            command = "${pkgs.systemd}/bin/systemctl suspend";
-            options = [ "NOPASSWD" ];
-          }
-          {
-            command = "${pkgs.systemd}/bin/reboot";
-            options = [ "NOPASSWD" ];
-          }
-          {
-            command = "${pkgs.systemd}/bin/poweroff";
-            options = [ "NOPASSWD" ];
-          }
-        ];
-      }
-    ];
+    sudo.enable = lib.mkForce false; # 🦀🦀
+    sudo-rs.enable = lib.mkForce true; # 🦀🦀
     pki.certificateFiles = [
       ../secrets/keys/hadouken.crt
       ../secrets/keys/shoryuken.crt

@@ -24,7 +24,7 @@ in
       settings = {
         ContactInfo = "abuse@plebian.nl";
         Nickname = "personalcloud";
-        ORPort = 9001; # NAT forward
+        ORPort = 9002; # NAT forward
         ControlPort = 9051;
         BandWidthRate = "200 MBytes";
         BridgeRelay = true;

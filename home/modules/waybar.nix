@@ -83,7 +83,7 @@ in
             interval = 60;
             format = "  {:%a %b %d <b>%H:%M</b>}";
             exec-on-event = "true";
-            on-click = "merkuro";
+            on-click = "orage";
           };
 
           cpu = {
