@@ -109,10 +109,73 @@ in
             options.desc = "Git history of selection";
           }
 
+          # AI keybindings
+          {
+            action = ":ParrotChatNew<cr>";
+            key = "<Leader>cn";
+            mode = [
+              "v"
+              "n"
+            ];
+            options = {
+              desc = "Start new chat";
+              silent = true;
+            };
+          }
+          {
+            action = ":ParrotChatPaste<cr>";
+            key = "<Leader>ca";
+            mode = [ "v" ];
+            options = {
+              desc = "Paste into chat";
+              silent = true;
+            };
+          }
+          {
+            action = "<cmd>ParrotChatFinder<cr>";
+            key = "<Leader>cf";
+            options.desc = "Find chats";
+          }
+          {
+            action = ":ParrotRewrite<cr>";
+            key = "<Leader>cr";
+            mode = [ "v" ];
+            options = {
+              desc = "Rewrite section";
+              silent = true;
+            };
+          }
+          {
+            action = ":ParrotAppend<cr>";
+            key = "<Leader>cc";
+            mode = [ "v" ];
+            options = {
+              desc = "Change to spec of prompt";
+              silent = true;
+            };
+          }
+          {
+            action = ":ParrotImplement<cr>";
+            key = "<Leader>ci";
+            mode = [ "v" ];
+            options = {
+              desc = "Implement spec in visual";
+              silent = true;
+            };
+          }
+          {
+            action = "<cmd>ParrotAsk<cr>";
+            key = "<Leader>cq";
+            options.desc = "Ask question";
+          }
+
           # Setup for bigger plugins
           {
             action = helpers.mkRaw ''
-              function() require("harpoon"):list():add() end
+              function() 
+                require("harpoon"):list():add() 
+                require("barbecue.ui").update()
+              end
             '';
             key = "<Leader>a";
             options.desc = "Add to harpoon";
@@ -138,7 +201,6 @@ in
               "v"
               "n"
             ];
-
             key = "<Leader>=";
             options.desc = "format selection or whole buffer";
           }
@@ -205,13 +267,9 @@ in
           scrolloff = 8; # start scrolling when 8 lines left
           sidescrolloff = 8; # same for side scrolling
           laststatus = 0; # hide bottom bar, noice does this
-          smartindent = false; # done by treesitter
         };
 
-        diagnostic.settings = {
-          virtual_text = false; # disable default error messages
-          virtual_lines.only_current_line = true; # enable lsp-lines error messages
-        };
+        diagnostic.settings.virtual_lines.only_current_line = true; # enable lsp-lines error messages
 
         colorschemes.kanagawa = {
           enable = true;
@@ -228,17 +286,21 @@ in
           which-key.enable = true; # popup with possible key combinations
           web-devicons.enable = true; # needed for other plugins
           noice.enable = true; # cmd popup input modal
-          comment.enable = true; # comments visual lines
-          lsp-lines.enable = true; # diagnostics inline
           nvim-autopairs.enable = true; # automaticly close { [ etc ] };
-          harpoon.enable = true; # oke maybe no tabs
+          lsp-lines.enable = true; # diagnostics inline
+          harpoon.enable = true; # no tabs?
+
+          render-markdown = {
+            enable = true;
+            settings.render_modes = true;
+          }; # better markdown support
 
           neo-tree = {
             enable = true;
             hideRootNode = true; # don't show from opened folder
             closeIfLastWindow = true;
-            extraSources = [ "harpoon-buffers" ];
             buffers.followCurrentFile.enabled = true;
+            filesystem.followCurrentFile.enabled = true;
           }; # left pane with files
 
           gitsigns = {
@@ -246,18 +308,49 @@ in
             autoLoad = true;
           }; # gutter signs, blame, hunk previews
 
-          barbecue = {
-            enable = true;
-            settings.show_modified = true;
-          }; # breadcrumbs at top of code files
-
-          treesitter = {
+          parrot = {
             enable = true;
             settings = {
-              highlight.enable = true;
-              indent.enable = true;
+              cmd_prefix = "Parrot";
+              providers = {
+                gemini = {
+                  api_key = helpers.mkRaw "os.getenv 'GOOGLE_LLM_API_KEY'";
+                  topic.model = "gemini-2.5-flash-preview-04-17";
+                  models = [
+                    "gemini-2.5-flash-preview-04-17"
+                    "gemini-2.5-pro-preview-05-06"
+                  ];
+                };
+              };
             };
-          }; # Make vim understand syntax, but not like lsp
+          }; # ai assistance
+
+          barbecue = {
+            enable = true;
+            settings = {
+              show_modified = true;
+              custom_section = helpers.mkRaw
+                ''
+                  function()
+                    local list = require("harpoon"):list()
+                    local items = list.items 
+
+                    if #items == 0 then
+                      return ""
+                    end
+
+                    local display_parts = {}
+                    for i, item_data in ipairs(items) do
+                      local filepath = item_data.value
+                      local filename = vim.fn.fnamemodify(filepath, ":t") -- :t gets the tail (filename.ext)
+                    table.insert(display_parts, string.format("[%d] %s", i, filename))
+                    end
+
+                  return table.concat(display_parts, "  ") 
+                  end
+                '';
+            };
+          }; # breadcrumbs at top of code files + cheeky harpoon helper
 
           telescope = {
             enable = true;
@@ -291,6 +384,7 @@ in
                 nix = [ "nixfmt" ];
                 python = [ "black" ];
                 lua = [ "stylua" ];
+                html = [ "prettier" ];
                 bash = [
                   "shellcheck"
                   "shellharden"
@@ -308,6 +402,7 @@ in
                 shellharden.command = lib.getExe pkgs.shellharden;
                 nixfmt.command = lib.getExe pkgs.nixfmt-rfc-style;
                 stylua.command = lib.getExe pkgs.stylua;
+                prettier.command = lib.getExe pkgs.nodePackages.prettier;
               };
             };
           }; # formatters
@@ -325,6 +420,14 @@ in
               ];
             };
           }; # code style linting
+
+          treesitter = {
+            enable = true;
+            settings = {
+              highlight.enable = true;
+              indent.enable = true;
+            };
+          }; # Make vim understand syntax, but not like lsp
 
           lsp = {
             enable = true;

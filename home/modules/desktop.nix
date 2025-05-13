@@ -24,6 +24,7 @@ in
       wev # wayland xev
 
       yubioath-flutter # yubikey
+      veracrypt
       seafile-client
       cheese # webcam
       file-roller # archive manager
