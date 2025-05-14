@@ -1,6 +1,6 @@
 # Packing nextjs projects is a nightmare, take this with a grain of salt
 {
-  pkgs ? import <nixpkgs> {},
+  pkgs ? import <nixpkgs> { },
   lib ? pkgs.lib,
 
   buildNpmPackage ? pkgs.buildNpmPackage,
@@ -13,7 +13,6 @@
   cacert ? pkgs.cacert,
   openssl ? pkgs.openssl_3,
   fetchFromGitHub ? pkgs.fetchFromGitHub,
-  sqlite ? pkgs.sqlite,
 }:
 
 let
@@ -33,7 +32,12 @@ let
 
 in
 buildNpmPackage {
-  inherit pname version src npmDepsHash;
+  inherit
+    pname
+    version
+    src
+    npmDepsHash
+    ;
   nodejs = nodejs_20;
 
   nativeBuildInputs = [
@@ -45,12 +49,10 @@ buildNpmPackage {
     cacert
     makeWrapper
     nodejs_20
-    sqlite
   ];
 
   buildInputs = [
     openssl
-    sqlite.dev
   ];
 
   npmFlags = [
@@ -59,9 +61,9 @@ buildNpmPackage {
   ];
 
   env = lib.optionalAttrs pkgs.stdenv.isLinux {
-    PYTHON = "${python3}/bin/python";
+    PYTHON = lib.getExe python3;
   };
-
+    
   preBuild = ''
     runHook preConfigure
 
@@ -70,14 +72,11 @@ buildNpmPackage {
     export DO_NOT_TRACK=1
     export DATABASE_URL="postgresql://user:password@host:5432/database" # Dummy for build
 
-    export SSL_CERT_FILE="${cacert}/etc/ssl/certs/ca-bundle.crt"
-    export NODE_EXTRA_CA_CERTS="${cacert}/etc/ssl/certs/ca-bundle.crt"
-
-    export PRISMA_QUERY_ENGINE_LIBRARY="${prisma-engines}/lib/libquery_engine.node"
     export PRISMA_SCHEMA_ENGINE_BINARY="${prisma-engines}/bin/schema-engine"
+    export PRISMA_QUERY_ENGINE_BINARY="${prisma-engines}/bin/query-engine"
+    export PRISMA_QUERY_ENGINE_LIBRARY="${prisma-engines}/lib/libquery_engine.node"
     export PRISMA_INTROSPECTION_ENGINE_BINARY="${prisma-engines}/bin/introspection-engine"
     export PRISMA_FMT_BINARY="${prisma-engines}/bin/prisma-fmt"
-    export PRISMA_OPENSSL_BINARY="${openssl.bin}/bin/openssl"
     export PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING="1"
     export PRISMA_SKIP_BINARY_DOWNLOADS="true"
 
@@ -109,13 +108,11 @@ buildNpmPackage {
       --set-default PORT "${toString defaultPort}" \
       --set NODE_ENV "production" \
       --set NEXT_TELEMETRY_DISABLED "1" \
-      --set PRISMA_QUERY_ENGINE_LIBRARY "${prisma-engines}/lib/libquery_engine.node" \
       --set PRISMA_SCHEMA_ENGINE_BINARY "${prisma-engines}/bin/schema-engine" \
+      --set PRISMA_QUERY_ENGINE_BINARY "${prisma-engines}/bin/query-engine" \
+      --set PRISMA_QUERY_ENGINE_LIBRARY "${prisma-engines}/lib/libquery_engine.node" \
       --set PRISMA_INTROSPECTION_ENGINE_BINARY "${prisma-engines}/bin/introspection-engine" \
-      --set PRISMA_FMT_BINARY "${prisma-engines}/bin/prisma-fmt" \
-      --set PRISMA_OPENSSL_BINARY "${openssl.bin}/bin/openssl" \
-      --set SSL_CERT_FILE "${cacert}/etc/ssl/certs/ca-bundle.crt" \
-      --set NODE_EXTRA_CA_CERTS "${cacert}/etc/ssl/certs/ca-bundle.crt"
+      --set PRISMA_FMT_BINARY "${prisma-engines}/bin/prisma-fmt"
 
     runHook postInstall
   '';
@@ -127,7 +124,7 @@ buildNpmPackage {
   meta = with lib; {
     description = "An open-source alternative to Motion, designed for intelligent task scheduling and calendar management";
     homepage = "https://github.com/dotnetfactory/fluid-calendar";
-    license = licenses.mit; 
+    license = licenses.mit;
     platforms = platforms.linux;
     mainProgram = pname;
   };

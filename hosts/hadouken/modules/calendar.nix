@@ -92,21 +92,15 @@ in
         RestartSec = "5s";
         WorkingDirectory = fluidCalendarAppDir; # For the main ExecStart
         Environment = [
-          "NODE_ENV=production"
           "NEXTAUTH_URL=${fluidCalendarDomain}"
           "NEXT_PUBLIC_APP_URL=${fluidCalendarDomain}"
           "NEXTAUTH_SECRET=${config.hidden.fluid-calendar.secret-key}"
           "NEXT_PUBLIC_SITE_URL=${fluidCalendarDomain}"
-          "NEXT_PUBLIC_ENABLE_SAAS_FEATURES=${fluidCalendarDomain}"
 
           "HOST=${fluidCalendarListenAddress}"
           "PORT=${toString fluidCalendarPort}"
           "DATABASE_URL=${databaseUrl}"
-          "PRISMA_QUERY_ENGINE_LIBRARY=${pkgs.prisma-engines}/lib/libquery_engine.node"
-          "PRISMA_SCHEMA_ENGINE_BINARY=${pkgs.prisma-engines}/bin/schema-engine"
-          "PRISMA_INTROSPECTION_ENGINE_BINARY=${pkgs.prisma-engines}/bin/introspection-engine"
-          "PRISMA_FMT_BINARY=${pkgs.prisma-engines}/bin/prisma-fmt"
-          "PRISMA_OPENSSL_BINARY=${pkgs.openssl.bin}/bin/openssl"
+
           "NODE_EXTRA_CA_CERTS=${../../../secrets/keys/hadouken.crt}" # trust connections to tls internal radicale
         ];
         ExecStart = lib.getExe fluidCalendarAppPackage;
@@ -117,7 +111,7 @@ in
         CapabilityBoundingSet = "";
         ReadWritePaths = [
           fluidCalendarStateDir
-          ../../../secrets/keys/hadouken.crt
+          ../../../secrets/keys
         ];
       };
 
@@ -158,6 +152,7 @@ in
           ${pkgs.prisma}/bin/prisma migrate deploy --schema=prisma/schema.prisma
 
           echo "Prisma migrations completed for ${fluidCalendarName}."
+
         '';
     };
 
@@ -165,11 +160,13 @@ in
       "/var/lib/radicale/collections/"
       fluidCalendarStateDir
     ];
+
     age.secrets.radicale = {
       file = ../../../secrets/radicale.age;
       owner = "radicale";
       group = "radicale";
     };
+
     services.radicale = {
       enable = true;
       settings.server.hosts = [ radicaleListenAddress ];

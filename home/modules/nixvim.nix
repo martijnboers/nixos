@@ -264,7 +264,13 @@ in
           laststatus = 0; # hide bottom bar, noice does this
         };
 
-        diagnostic.settings.virtual_lines.only_current_line = true; # enable lsp-lines error messages
+        diagnostic.settings = {
+	  virtual_text = false;
+          virtual_lines = {
+            enable = true;
+            current_line = true; 
+          };
+        };
 
         colorschemes.kanagawa = {
           enable = true;
@@ -282,7 +288,6 @@ in
           web-devicons.enable = true; # needed for other plugins
           noice.enable = true; # cmd popup input modal
           nvim-autopairs.enable = true; # automaticly close { [ etc ] };
-          lsp-lines.enable = true; # diagnostics inline
           harpoon.enable = true; # no tabs?
 
           render-markdown = {
@@ -379,6 +384,7 @@ in
                 python = [ "black" ];
                 lua = [ "stylua" ];
                 html = [ "prettier" ];
+                yaml = [ "yamlfmt" ];
                 bash = [
                   "shellcheck"
                   "shellharden"
@@ -397,6 +403,7 @@ in
                 nixfmt.command = lib.getExe pkgs.nixfmt-rfc-style;
                 stylua.command = lib.getExe pkgs.stylua;
                 prettier.command = lib.getExe pkgs.nodePackages.prettier;
+                yamlfmt.command = lib.getExe pkgs.yamlfmt;
               };
             };
           }; # formatters
@@ -445,6 +452,7 @@ in
               gopls.enable = true;
               ccls.enable = true;
               vtsls.enable = true; # Javascript (nice naming)
+              yamlls.enable = true;
               docker_compose_language_service.enable = true;
             };
           }; # language servers
