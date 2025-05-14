@@ -77,6 +77,7 @@ in
         "atuin"
         "immich"
         "pgrok"
+        "fluidcalendar"
       ];
     };
 

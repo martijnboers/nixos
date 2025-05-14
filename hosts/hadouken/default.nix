@@ -22,7 +22,7 @@ in
     ./modules/syncthing.nix
     ./modules/fail2ban.nix
     ./modules/microbin.nix
-    ./modules/radicale.nix
+    ./modules/calendar.nix
     ./modules/bincache.nix
     ./modules/database.nix
     ./modules/seafile.nix
@@ -61,7 +61,7 @@ in
   hosts.cinny-web.enable = true;
   hosts.immich.enable = true;
   hosts.prometheus.enable = true;
-  hosts.radicale.enable = true;
+  hosts.calendar.enable = true;
   hosts.database.enable = true;
   hosts.atuin.enable = true;
   hosts.seafile.enable = true;

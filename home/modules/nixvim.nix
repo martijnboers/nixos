@@ -163,11 +163,6 @@ in
               silent = true;
             };
           }
-          {
-            action = "<cmd>ParrotAsk<cr>";
-            key = "<Leader>cq";
-            options.desc = "Ask question";
-          }
 
           # Setup for bigger plugins
           {
