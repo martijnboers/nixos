@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib;
@@ -9,13 +10,19 @@ let
   radicaleListenAddress = "0.0.0.0:5232";
 
   fluidCalendarName = "fluidcalendar";
+  fluidCalendarUser = fluidCalendarName;
+  fluidCalendarDbName = fluidCalendarName;
+  fluidCalendarSocketDir = "/run/postgresql"; # Standard PostgreSQL socket directory
 
   fluidCalendarStateDir = "/var/lib/${fluidCalendarName}";
-  fluidCalendarListenAddress = "0.0.0.0";
+  fluidCalendarListenAddress = "127.0.0.1";
   fluidCalendarPort = 3000;
+  fluidCalendarAppPackage = pkgs.fluid-calendar;
+  fluidCalendarAppDir = "${fluidCalendarAppPackage}/share/${fluidCalendarAppPackage.pname}";
+  fluidCalendarDomain = "https://kal.thuis";
 
-  fluidCalendarDbUser = fluidCalendarName;
-  fluidCalendarDbName = "${fluidCalendarName}_db";
+  databaseUrl = "postgresql://${fluidCalendarUser}@localhost/${fluidCalendarDbName}?host=${fluidCalendarSocketDir}";
+
 in
 {
   options.hosts.calendar = {
@@ -23,7 +30,20 @@ in
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."cal.thuis".extraConfig = ''
+    services.caddy.virtualHosts = {
+      "kal.thuis".extraConfig = ''
+        tls {
+          issuer internal { ca hadouken }
+        }
+        @internal {
+          remote_ip 100.64.0.0/10
+        }
+        handle @internal {
+          reverse_proxy http://${fluidCalendarListenAddress}:${toString fluidCalendarPort}
+        }
+        respond 403
+      '';
+      "cal.thuis".extraConfig = ''
         tls {
           issuer internal { ca hadouken }
         }
@@ -33,30 +53,28 @@ in
         handle @internal {
           reverse_proxy http://${radicaleListenAddress}
         }
-      respond 403
-    '';
-
-    services.postgresql = {
-      enable = true;
-      ensureUsers = [ { name = fluidCalendarDbUser; } ];
-      ensureDatabases = [ fluidCalendarDbName ];
-      ensurePermissions = {
-        "${fluidCalendarDbName}.${fluidCalendarDbUser}" = "ALL PRIVILEGES";
-      };
-
-      authentication = ''
-        # TYPE  DATABASE        USER            ADDRESS METHOD
-        local   ${fluidCalendarDbName}    ${fluidCalendarDbUser}            peer
+        respond 403
       '';
     };
 
-    users.users.${fluidCalendarName} = {
+    services.postgresql = {
+      enable = true;
+      ensureUsers = [
+        {
+          name = fluidCalendarUser;
+          ensureDBOwnership = true;
+        }
+      ];
+      ensureDatabases = [ fluidCalendarDbName ];
+    };
+
+    users.users.${fluidCalendarUser} = {
       isSystemUser = true;
-      group = fluidCalendarName;
+      group = fluidCalendarUser;
       home = fluidCalendarStateDir;
       createHome = true;
     };
-    users.groups.${fluidCalendarName} = { };
+    users.groups.${fluidCalendarUser} = { };
 
     systemd.services.${fluidCalendarName} = {
       description = "Fluid Calendar Next.js application";
@@ -68,16 +86,28 @@ in
       wantedBy = [ "multi-user.target" ];
 
       serviceConfig = {
-        User = fluidCalendarName;
-        Group = fluidCalendarName;
+        User = fluidCalendarUser;
+        Group = fluidCalendarUser;
         Restart = "on-failure";
         RestartSec = "5s";
-        WorkingDirectory = "${fluidCalendarAppPackage}/share/${fluidCalendarAppPackage.pname}";
+        WorkingDirectory = fluidCalendarAppDir; # For the main ExecStart
         Environment = [
           "NODE_ENV=production"
+          "NEXTAUTH_URL=${fluidCalendarDomain}"
+          "NEXT_PUBLIC_APP_URL=${fluidCalendarDomain}"
+          "NEXTAUTH_SECRET=${config.hidden.fluid-calendar.secret-key}"
+          "NEXT_PUBLIC_SITE_URL=${fluidCalendarDomain}"
+          "NEXT_PUBLIC_ENABLE_SAAS_FEATURES=${fluidCalendarDomain}"
+
           "HOST=${fluidCalendarListenAddress}"
           "PORT=${toString fluidCalendarPort}"
-          "DATABASE_URL=postgresql://${fluidCalendarDbUser}@/${fluidCalendarDbName}?host=/run/postgresql"
+          "DATABASE_URL=${databaseUrl}"
+          "PRISMA_QUERY_ENGINE_LIBRARY=${pkgs.prisma-engines}/lib/libquery_engine.node"
+          "PRISMA_SCHEMA_ENGINE_BINARY=${pkgs.prisma-engines}/bin/schema-engine"
+          "PRISMA_INTROSPECTION_ENGINE_BINARY=${pkgs.prisma-engines}/bin/introspection-engine"
+          "PRISMA_FMT_BINARY=${pkgs.prisma-engines}/bin/prisma-fmt"
+          "PRISMA_OPENSSL_BINARY=${pkgs.openssl.bin}/bin/openssl"
+          "NODE_EXTRA_CA_CERTS=${../../../secrets/keys/hadouken.crt}" # trust connections to tls internal radicale
         ];
         ExecStart = lib.getExe fluidCalendarAppPackage;
         ProtectSystem = "strict";
@@ -85,25 +115,56 @@ in
         PrivateTmp = true;
         NoNewPrivileges = true;
         CapabilityBoundingSet = "";
-        ReadWritePaths = [ fluidCalendarStateDir ];
+        ReadWritePaths = [
+          fluidCalendarStateDir
+          ../../../secrets/keys/hadouken.crt
+        ];
       };
 
+      # preStart script runs with User and Group from serviceConfig.
+      # Environment variables from serviceConfig.Environment are also available.
       preStart = # bash
         ''
-          set -e
+          set -euo pipefail # exit on error, undefined variable, pipe failure
+
+          # Set WorkingDirectory for this preStart script
+          cd "${fluidCalendarAppDir}"
+
+          # Make postgresql client tools (like pg_isready) available in PATH
+          export PATH="${pkgs.postgresql}/bin:$PATH"
+
+          # Wait for PostgreSQL to be ready
+          echo "Waiting for PostgreSQL service at ${fluidCalendarSocketDir} to be ready for user ${fluidCalendarUser} on db ${fluidCalendarDbName}..."
+          timeout_seconds=30
+          start_time=$(date +%s)
+          while ! pg_isready -U "${fluidCalendarUser}" -d "${fluidCalendarDbName}" -h "${fluidCalendarSocketDir}" -q; do
+            current_time=$(date +%s)
+            if [ $((current_time - start_time)) -ge $timeout_seconds ]; then
+              echo "Timed out waiting for PostgreSQL."
+              # Attempt one last pg_isready without -q to see its error output
+              pg_isready -U "${fluidCalendarUser}" -d "${fluidCalendarDbName}" -h "${fluidCalendarSocketDir}"
+              exit 1
+            fi
+            echo "PostgreSQL not yet ready, retrying in 1 second..."
+            sleep 1
+          done
+          echo "PostgreSQL is ready."
+
+          # DATABASE_URL and PRISMA_* variables are inherited from serviceConfig.Environment
+          echo "Using DATABASE_URL for migrations: $DATABASE_URL" # Verify it's inherited
+
           echo "Running Prisma migrations for ${fluidCalendarName}..."
-          export PRISMA_QUERY_ENGINE_LIBRARY="${pkgs.prisma-engines}/lib/libquery_engine.node"
-          export PRISMA_SCHEMA_ENGINE_BINARY="${pkgs.prisma-engines}/bin/schema-engine"
-          export PRISMA_INTROSPECTION_ENGINE_BINARY="${pkgs.prisma-engines}/bin/introspection-engine"
-          export PRISMA_FMT_BINARY="${pkgs.prisma-engines}/bin/prisma-fmt"
-          export PRISMA_OPENSSL_BINARY="${pkgs.openssl.bin}/bin/openssl"
-          export DATABASE_URL="postgresql://${fluidCalendarDbUser}@/${fluidCalendarDbName}?host=/run/postgresql"
-          ${pkgs.prisma}/bin/prisma migrate deploy --schema=${fluidCalendarAppPackage}/share/${fluidCalendarAppPackage.pname}/prisma/schema.prisma
+          # Use relative path to schema because we 'cd' into fluidCalendarAppDir
+          ${pkgs.prisma}/bin/prisma migrate deploy --schema=prisma/schema.prisma
+
           echo "Prisma migrations completed for ${fluidCalendarName}."
         '';
     };
 
-    services.borgbackup.jobs.default.paths = [ "/var/lib/radicale/collections/" ];
+    services.borgbackup.jobs.default.paths = [
+      "/var/lib/radicale/collections/"
+      fluidCalendarStateDir
+    ];
     age.secrets.radicale = {
       file = ../../../secrets/radicale.age;
       owner = "radicale";

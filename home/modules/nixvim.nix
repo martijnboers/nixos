@@ -324,26 +324,25 @@ in
             enable = true;
             settings = {
               show_modified = true;
-              custom_section = helpers.mkRaw
-                ''
-                  function()
-                    local list = require("harpoon"):list()
-                    local items = list.items 
+              custom_section = helpers.mkRaw ''
+                function()
+                  local list = require("harpoon"):list()
+                  local items = list.items 
 
-                    if #items == 0 then
-                      return ""
-                    end
-
-                    local display_parts = {}
-                    for i, item_data in ipairs(items) do
-                      local filepath = item_data.value
-                      local filename = vim.fn.fnamemodify(filepath, ":t") -- :t gets the tail (filename.ext)
-                    table.insert(display_parts, string.format("[%d] %s", i, filename))
-                    end
-
-                  return table.concat(display_parts, "  ") 
+                  if #items == 0 then
+                    return ""
                   end
-                '';
+
+                  local display_parts = {}
+                  for i, item_data in ipairs(items) do
+                    local filepath = item_data.value
+                    local filename = vim.fn.fnamemodify(filepath, ":t") -- :t gets the tail (filename.ext)
+                  table.insert(display_parts, string.format("[%d] %s", i, filename))
+                  end
+
+                return table.concat(display_parts, "  ") 
+                end
+              '';
             };
           }; # breadcrumbs at top of code files + cheeky harpoon helper
 
@@ -445,6 +444,7 @@ in
               pyright.enable = true;
               gopls.enable = true;
               ccls.enable = true;
+              vtsls.enable = true; # Javascript (nice naming)
               docker_compose_language_service.enable = true;
             };
           }; # language servers

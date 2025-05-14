@@ -27,6 +27,7 @@ let
     "vaultwarden"
     "webdav"
     "wedding"
+    "kal"
   ];
   shoryukenRecords = [
     "notifications"
