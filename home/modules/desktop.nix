@@ -31,7 +31,6 @@ in
       nerdfonts # icon font
 
       # Office suite
-      stable.libreoffice-qt
       hunspell
       hunspellDicts.nl_NL
       hunspellDicts.en_US
@@ -41,8 +40,6 @@ in
       pgrok
       sublime-merge
       awscli2
-      slack
-      mongodb-compass
       httpie-desktop
       wireshark
 

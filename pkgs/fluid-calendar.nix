@@ -63,7 +63,7 @@ buildNpmPackage {
   env = lib.optionalAttrs pkgs.stdenv.isLinux {
     PYTHON = lib.getExe python3;
   };
-    
+
   preBuild = ''
     runHook preConfigure
 

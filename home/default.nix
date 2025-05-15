@@ -18,7 +18,7 @@
 
     # Packaged home manager modules
     inputs.nixvim.homeManagerModules.nixvim
-    inputs.stylix.homeManagerModules.stylix
+    inputs.stylix.homeModules.stylix
 
     # quickly lookup and run programs
     inputs.nix-index-database.hmModules.nix-index

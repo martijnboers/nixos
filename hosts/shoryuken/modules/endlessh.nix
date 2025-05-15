@@ -32,7 +32,7 @@ in
         prometheus = {
           enable = true;
         };
-        listenAddress = "65.109.132.206";
+        listenAddress = config.hidden.shoryuken.wan_ip;
         extraOptions = [
           "-geoip_supplier=max-mind-db"
           "-max_mind_db=${toString config.services.geoipupdate.settings.DatabaseDirectory}/GeoLite2-City.mmdb"

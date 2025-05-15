@@ -19,6 +19,7 @@ in
       tflint
       vale
       ruff
+      eslint
     ];
 
     programs.nixvim =
@@ -44,21 +45,26 @@ in
               sha256 = "sha256-/FlNLWOSIrOYiWzAcgOdu9//QTorCDV1KWb+h6eqLwk=";
             };
           })
+          (pkgs.vimUtils.buildVimPlugin {
+            name = "neo-tree-diagnostics.nvim";
+            doCheck = false;
+            src = pkgs.fetchFromGitHub {
+              owner = "mrbjarksen";
+              repo = "neo-tree-diagnostics.nvim";
+              rev = "e00434c3cf8637bcaf70f65c2b9d82b0cc9bd7dc";
+              sha256 = "sha256-HU7pFsICHK6bg03chgZ1oP6Wx2GQxk7ZJHGQnD0IMBA=";
+            };
+          })
         ];
 
         keymaps = [
           {
-            action = "<cmd>Neotree reveal toggle<cr>";
+            action = "<cmd>Neotree reveal right toggle<cr>";
             key = "<Leader>d";
-            options.desc = "toggle file explorer";
+            options.desc = "Toggle file explorer";
           }
 
           # git stuff
-          {
-            action = "<cmd>Gitsigns blame<cr>";
-            key = "<Leader>gB";
-            options.desc = "Git blame";
-          }
           {
             action = "<cmd>OpenInGHFile<cr>";
             key = "<Leader>go";
@@ -71,9 +77,9 @@ in
             options.silent = true;
           }
           {
-            action = "<cmd>Gitsigns blame_line<cr>";
+            action = "<cmd>Gitsigns blame<cr>";
             key = "<Leader>gb";
-            options.desc = "Git blame current line";
+            options.desc = "Git blame";
           }
           {
             action = "<cmd>Gitsigns preview_hunk_inline<cr>";
@@ -90,14 +96,6 @@ in
             key = "<Leader>gf";
           }
           {
-            action = "<cmd>Telescope git_branches<cr>";
-            key = "<Leader>gF";
-          }
-          {
-            action = "<cmd>Telescope git_status<cr>";
-            key = "<Leader>gs";
-          }
-          {
             action = "<cmd>Telescope git_bcommits<cr>";
             key = "<Leader>gh";
             options.desc = "Git history of file";
@@ -109,62 +107,7 @@ in
             options.desc = "Git history of selection";
           }
 
-          # AI keybindings
-          {
-            action = ":ParrotChatNew<cr>";
-            key = "<Leader>cn";
-            mode = [
-              "v"
-              "n"
-            ];
-            options = {
-              desc = "Start new chat";
-              silent = true;
-            };
-          }
-          {
-            action = ":ParrotChatPaste<cr>";
-            key = "<Leader>ca";
-            mode = [ "v" ];
-            options = {
-              desc = "Paste into chat";
-              silent = true;
-            };
-          }
-          {
-            action = "<cmd>ParrotChatFinder<cr>";
-            key = "<Leader>cf";
-            options.desc = "Find chats";
-          }
-          {
-            action = ":ParrotRewrite<cr>";
-            key = "<Leader>cr";
-            mode = [ "v" ];
-            options = {
-              desc = "Rewrite section";
-              silent = true;
-            };
-          }
-          {
-            action = ":ParrotAppend<cr>";
-            key = "<Leader>cc";
-            mode = [ "v" ];
-            options = {
-              desc = "Change to spec of prompt";
-              silent = true;
-            };
-          }
-          {
-            action = ":ParrotImplement<cr>";
-            key = "<Leader>ci";
-            mode = [ "v" ];
-            options = {
-              desc = "Implement spec in visual";
-              silent = true;
-            };
-          }
-
-          # Setup for bigger plugins
+          # harpoon
           {
             action = helpers.mkRaw ''
               function() 
@@ -179,13 +122,14 @@ in
             action = helpers.mkRaw ''
               function() local harpoon = require('harpoon') harpoon.ui:toggle_quick_menu(harpoon:list()) end
             '';
-            key = "<C-h>";
+            key = "<C-g>";
             options.desc = "Harpoon menu";
           }
           (mkHarBind 1 "<C-j>")
           (mkHarBind 2 "<C-k>")
           (mkHarBind 3 "<C-l>")
           (mkHarBind 4 "<C-;>")
+
           {
             action = helpers.mkRaw ''
               function() require("conform").format({ 
@@ -265,10 +209,10 @@ in
         };
 
         diagnostic.settings = {
-	  virtual_text = false;
+          virtual_text = false;
           virtual_lines = {
             enable = true;
-            current_line = true; 
+            current_line = true;
           };
         };
 
@@ -287,7 +231,6 @@ in
           which-key.enable = true; # popup with possible key combinations
           web-devicons.enable = true; # needed for other plugins
           noice.enable = true; # cmd popup input modal
-          nvim-autopairs.enable = true; # automaticly close { [ etc ] };
           harpoon.enable = true; # no tabs?
 
           render-markdown = {
@@ -297,10 +240,76 @@ in
 
           neo-tree = {
             enable = true;
-            hideRootNode = true; # don't show from opened folder
+            hideRootNode = true;
             closeIfLastWindow = true;
+            sources = [
+              "filesystem"
+              "document_symbols"
+              "diagnostics"
+              "git_status"
+            ];
+            eventHandlers = {
+              file_opened = # lua
+                ''
+                  function(file_path)
+                    --auto close after opening file
+                    require("neo-tree").close_all()
+                  end
+                '';
+            };
+            sourceSelector = {
+              winbar = true;
+              contentLayout = "center";
+              sources = [
+                {
+                  displayName = "󰱼";
+                  source = "filesystem";
+                }
+                {
+                  displayName = "";
+                  source = "document_symbols";
+                }
+                {
+                  displayName = "";
+                  source = "diagnostics";
+                }
+                {
+                  displayName = "";
+                  source = "git_status";
+                }
+              ];
+            };
+            window.width = 30;
+            filesystem.window.mappings = {
+              "<2-LeftMouse>" = "open";
+              "<cr>" = "open";
+              "<Left>" = "close_node";
+              "<Right>" = "toggle_node";
+              s = "open_vsplit";
+              z = "close_all_nodes";
+              R = "refresh";
+              a = "add";
+              d = "delete";
+              r = "rename";
+              y = "copy_to_clipboard";
+              p = "paste_from_clipboard";
+              c = "cut_to_clipboard";
+              m = "move";
+              "/" = "fuzzy_finder";
+              ">" = "next_source";
+              "<" = "prev_source";
+            };
             buffers.followCurrentFile.enabled = true;
             filesystem.followCurrentFile.enabled = true;
+            extraOptions = {
+              diagnostics = {
+                follow_current_file = {
+                  enabled = true;
+                  always_focus_file = true;
+                  expand_followed = true;
+                };
+              };
+            };
           }; # left pane with files
 
           gitsigns = {
@@ -308,26 +317,10 @@ in
             autoLoad = true;
           }; # gutter signs, blame, hunk previews
 
-          parrot = {
-            enable = true;
-            settings = {
-              cmd_prefix = "Parrot";
-              providers = {
-                gemini = {
-                  api_key = helpers.mkRaw "os.getenv 'GOOGLE_LLM_API_KEY'";
-                  topic.model = "gemini-2.5-flash-preview-04-17";
-                  models = [
-                    "gemini-2.5-flash-preview-04-17"
-                    "gemini-2.5-pro-preview-05-06"
-                  ];
-                };
-              };
-            };
-          }; # ai assistance
-
           barbecue = {
             enable = true;
             settings = {
+              show_navic = false;
               show_modified = true;
               custom_section = helpers.mkRaw ''
                 function()
@@ -356,25 +349,36 @@ in
             keymaps = {
               "<Leader>e" = "find_files";
               "<Leader>f" = "live_grep";
+              "<Leader>F" = "grep_string";
               "<Leader>/" = "current_buffer_fuzzy_find";
               "<Leader>s" = "lsp_document_symbols";
               "<Leader>h" = "help_tags";
               "<Leader>x" = "diagnostics";
             };
             settings = {
+              defaults.file_ignore_patterns = [
+                "^.git/"
+                "^.mypy_cache/"
+                "^__pycache__/"
+                "^.direnv/"
+                "^output/"
+                "^data/"
+                "%.ipynb"
+              ];
               pickers = {
                 lsp_document_symbols = {
                   theme = "ivy";
                 };
                 find_files = {
                   theme = "ivy";
+                  hidden = true;
                 };
                 buffers = {
                   sort_mru = true; # https://github.com/nvim-telescope/telescope.nvim/blob/master/doc/telescope.txt#L1465
                 };
               };
             };
-          }; # file + buffer finder popup
+          }; # Find popups for files + more
 
           conform-nvim = {
             enable = true;
@@ -384,6 +388,10 @@ in
                 python = [ "black" ];
                 lua = [ "stylua" ];
                 html = [ "prettier" ];
+                javascript = [ "prettier" ];
+                javascriptreact = [ "prettier" ];
+                typescript = [ "prettier" ];
+                typescriptreact = [ "prettier" ];
                 yaml = [ "yamlfmt" ];
                 bash = [
                   "shellcheck"
@@ -402,7 +410,7 @@ in
                 shellharden.command = lib.getExe pkgs.shellharden;
                 nixfmt.command = lib.getExe pkgs.nixfmt-rfc-style;
                 stylua.command = lib.getExe pkgs.stylua;
-                prettier.command = lib.getExe pkgs.nodePackages.prettier;
+                prettier.command = lib.getExe pkgs.prettierd;
                 yamlfmt.command = lib.getExe pkgs.yamlfmt;
               };
             };
@@ -413,12 +421,9 @@ in
             lintersByFt = {
               nix = [ "nix" ];
               python = [ "ruff" ];
-              terraform = [
-                "tflint"
-              ];
-              text = [
-                "vale"
-              ];
+              javascript = [ "eslint" ];
+              terraform = [ "tflint" ];
+              text = [ "vale" ];
             };
           }; # code style linting
 
@@ -439,6 +444,8 @@ in
                 gd = "definition";
                 gi = "implementation";
                 gt = "type_definition";
+                gr = "rename";
+                ga = "code_action";
               };
             };
             servers = {

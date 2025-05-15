@@ -77,8 +77,8 @@ in
         zathura # pdf
         vlc
 
-	# calendar
-	xfce.orage
+        # calendar
+        xfce.orage
 
         # screenshots / clipboard
         hyprshot

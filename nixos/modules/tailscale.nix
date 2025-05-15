@@ -13,16 +13,13 @@ in
   };
 
   config = mkIf cfg.enable {
-    # Setup tailscale default on all machines
     services.tailscale = {
       enable = true;
       openFirewall = true;
-      extraUpFlags = [ "--login-server=https://headscale.plebian.nl" ];
+      useRoutingFeatures = lib.mkDefault "client";
+      port = 0; # autoselect
+      disableTaildrop = true;
     };
-    networking.firewall = {
-      # Required for tailscale
-      checkReversePath = "loose";
-      trustedInterfaces = [ "tailscale0" ];
-    };
+    networking.firewall.trustedInterfaces = [ "tailscale0" ];
   };
 }

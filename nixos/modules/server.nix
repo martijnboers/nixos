@@ -21,15 +21,15 @@ in
     # No need for fonts on a server
     fonts.fontconfig.enable = lib.mkDefault false;
 
+    # No wifi
+    networking.wireless.enable = lib.mkForce false;
+
     # freedesktop xdg files
     xdg.autostart.enable = lib.mkDefault false;
     xdg.icons.enable = lib.mkDefault false;
     xdg.menus.enable = lib.mkDefault false;
     xdg.mime.enable = lib.mkDefault false;
     xdg.sounds.enable = lib.mkDefault false;
-
-    # Delegate the hostname setting to dhcp/cloud-init by default
-    networking.hostName = lib.mkOverride 1337 ""; # lower prio than lib.mkDefault
 
     # Given that our systems are headless, emergency mode is useless.
     # We prefer the system to attempt to continue booting so

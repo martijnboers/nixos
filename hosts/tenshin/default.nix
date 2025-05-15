@@ -1,4 +1,4 @@
-{ modulesPath, ... }:
+{ ... }:
 {
   networking.hostName = "tenshin";
 
@@ -6,8 +6,6 @@
     ./modules/adguard.nix
     ./modules/caddy.nix
     ./modules/hass.nix
-    # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/profiles/hardened.nix
-    (modulesPath + "/profiles/hardened.nix")
   ];
 
   hosts.adguard.enable = true;
@@ -22,6 +20,7 @@
     enable = true;
     repository = "ssh://aebp8i08@aebp8i08.repo.borgbase.com/./repo";
   };
+
   hosts.openssh = {
     enable = true;
     allowUsers = [

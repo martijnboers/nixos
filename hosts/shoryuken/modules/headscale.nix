@@ -78,7 +78,7 @@ in
                         {
                           name = "900";
                           regionid = 900;
-                          hostname = config.hidden.wan_domain;
+                          hostname = config.hidden.hadouken.wan_domain;
                           stunport = 0;
                           stunonly = false;
                           derpport = 0;
@@ -98,7 +98,7 @@ in
           };
           policy.path = pkgs.writeText "acl.json" (
             builtins.toJSON {
-              randomizeClientPort = true; # direct connection pfsense
+	      randomizeClientPort = true; # direct connection pfsense
               hosts = {
                 shoryuken = config.hidden.tailscale_hosts.shoryuken;
                 tenshin = config.hidden.tailscale_hosts.tenshin;

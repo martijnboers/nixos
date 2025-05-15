@@ -18,7 +18,7 @@
         };
         openai = {
           api-key-env = "OPENAI_API_KEY";
-	  # https://platform.openai.com/docs/models
+          # https://platform.openai.com/docs/models
           models = {
             "gpt-4" = {
               aliases = [ "4" ];
@@ -27,8 +27,8 @@
           };
         };
         google = {
-	  api-key-env = "GOOGLE_LLM_API_KEY";
-	  # https://ai.google.dev/gemini-api/docs/models
+          api-key-env = "GOOGLE_LLM_API_KEY";
+          # https://ai.google.dev/gemini-api/docs/models
           models = {
             "gemini-2.5-pro-exp-03-25" = {
               aliases = [ "google-preview" ];

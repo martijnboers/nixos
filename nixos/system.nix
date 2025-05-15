@@ -60,7 +60,7 @@
     wget
 
     # file editors
-    vim
+    neovim
     helix
     jless # cli json viewer
 
@@ -84,7 +84,6 @@
   ];
 
   nix = {
-    # only using flakes
     channel.enable = lib.mkDefault false;
     settings = {
       experimental-features = [
