@@ -26,9 +26,13 @@
   swapDevices = [
     {
       device = "/var/lib/swapfile";
-      size = 1 * 1024;
+      size = 2 * 1024;
     }
   ];
+  zramSwap = {
+    enable = true;
+    algorithm = "lz4";
+  };
 
   # Disk config
   disko.devices = {

@@ -31,6 +31,13 @@ in
   hosts.endlessh.enable = true;
 
   # Right order of headscale operations for startup
+  systemd.services.keycloak = {
+    after = [ "caddy.service" ];
+    requires = [ "caddy.service" ];
+    startLimitBurst = 10;
+    startLimitIntervalSec = 600;
+    serviceConfig = defaultRestart;
+  };
   systemd.services.headscale = {
     after = [ "keycloak.service" ];
     requires = [ "keycloak.service" ];
@@ -74,5 +81,4 @@ in
 
   # Needed for exit node headscale
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
-  zramSwap.enable = true;
 }
