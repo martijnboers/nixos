@@ -43,7 +43,6 @@ in
     requires = [ "keycloak.service" ];
     startLimitBurst = 10;
     startLimitIntervalSec = 600;
-    serviceConfig = defaultRestart;
   };
   systemd.services.tailscaled = {
     after = [ "headscale.service" ];
@@ -65,7 +64,6 @@ in
   hosts.openssh = {
     enable = true;
     allowUsers = [ "*@100.64.0.0/10" ];
-    listenAddress = config.hidden.tailscale_hosts.shoryuken;
   };
 
   hosts.borg = {

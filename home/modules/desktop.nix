@@ -42,6 +42,7 @@ in
       awscli2
       httpie-desktop
       wireshark
+      devenv
 
       # personal
       qflipper
@@ -56,7 +57,7 @@ in
       # messaging
       signal-desktop
       telegram-desktop
-      nheko # matrix client
+      cinny-desktop # matrix client
     ];
 
     programs.rbw = {

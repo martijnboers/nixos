@@ -15,11 +15,6 @@ in
       default = [ "*@100.64.0.0/10" ];
       description = "Set IP restrictions";
     };
-    listenAddress = mkOption {
-      type = types.str;
-      default = "0.0.0.0";
-      description = "Listening address";
-    };
   };
 
   config = mkIf cfg.enable {
@@ -41,7 +36,7 @@ in
           "diffie-hellman-group18-sha512"
           "sntrup761x25519-sha512@openssh.com"
         ];
-        ListenAddress = cfg.listenAddress;
+        ListenAddress = "0.0.0.0";
         AllowUsers = cfg.allowUsers;
         LogLevel = "VERBOSE";
       };
