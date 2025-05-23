@@ -100,9 +100,10 @@ in
         "$mod" = "ALT";
         "$prog" = "CTRL ALT";
         exec-once = [
+          "seahorse &" # unlock keyring
           "swaync &"
           "copyq --start-server &"
-          "nheko &"
+          "cinny-desktop &"
           "blueman-applet &"
           "nm-applet --indicator &"
         ];
@@ -115,7 +116,7 @@ in
         windowrulev2 = [
           "workspace 2, class:(Wfica)" # citrix
           "workspace 4, class:(sublime_merge)"
-          "workspace 5, class:(nheko)"
+          "workspace 5, class:(cinny-desktop)"
           "workspace 5, class:(signal)"
           "workspace 5, class:(Slack)"
         ];
@@ -206,8 +207,8 @@ in
         };
         input = {
           kb_layout = "us";
-	  repeat_rate = 40;
-	  repeat_delay = 450;
+          repeat_rate = 40;
+          repeat_delay = 450;
           touchpad = {
             natural_scroll = false;
           };

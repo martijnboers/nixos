@@ -10,8 +10,8 @@
   home.stateVersion = "24.05";
 
   imports = [
+    ./modules/nixvim/default.nix
     ./modules/stylix.nix
-    ./modules/nixvim.nix
     ./modules/atuin.nix
     ./modules/zsh.nix
     ./modules/mods.nix

@@ -98,7 +98,7 @@ in
           };
           policy.path = pkgs.writeText "acl.json" (
             builtins.toJSON {
-	      randomizeClientPort = true; # direct connection pfsense
+              randomizeClientPort = true; # direct connection pfsense
               hosts = {
                 shoryuken = config.hidden.tailscale_hosts.shoryuken;
                 tenshin = config.hidden.tailscale_hosts.tenshin;

@@ -31,30 +31,13 @@ in
   hosts.endlessh.enable = true;
 
   # Right order of headscale operations for startup
-  systemd.services.keycloak = {
-    after = [ "caddy.service" ];
-    requires = [ "caddy.service" ];
-    startLimitBurst = 10;
-    startLimitIntervalSec = 600;
-    serviceConfig = defaultRestart;
-  };
-  systemd.services.headscale = {
-    after = [ "keycloak.service" ];
-    requires = [ "keycloak.service" ];
-    startLimitBurst = 10;
-    startLimitIntervalSec = 600;
-    serviceConfig = defaultRestart;
-  };
-  systemd.services.tailscaled = {
-    after = [ "headscale.service" ];
-    requires = [ "headscale.service" ];
-  };
-  systemd.services.sshd = {
-    after = [ "tailscaled.service" ];
-    requires = [ "tailscaled.service" ];
-    startLimitBurst = 10;
-    startLimitIntervalSec = 600;
-    serviceConfig = defaultRestart;
+  systemd.services = {
+    caddy.wantedBy = [
+      "keycloak.service"
+      "headscale.service"
+    ];
+    keycloak.wantedBy = [ "headscale.service" ];
+    headscale.wantedBy = [ "tailscaled.service" ];
   };
 
   # Enable tailscale network
@@ -65,7 +48,6 @@ in
   hosts.openssh = {
     enable = true;
     allowUsers = [ "*@100.64.0.0/10" ];
-    listenAddress = config.hidden.tailscale_hosts.shoryuken;
   };
 
   hosts.borg = {

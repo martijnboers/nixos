@@ -34,9 +34,6 @@
       "noauto"
     ];
   };
-
-  boot.supportedFilesystems = [ "nfs" ];
-
   fileSystems."/mnt/electrs" = {
     device = "hadouken.machine.thuis:/electrs";
     fsType = "nfs";
@@ -47,6 +44,17 @@
       "noauto"
     ];
   };
+
+  systemd.services = {
+    tailscaled.wantedBy = [
+      "mnt-bitcoin.automount"
+      "mnt-electrs.automount"
+    ];
+    "mnt-bitcoin.automount".wantedBy = [ "bitcoind.service" ];
+    "mnt-electrs.automount".wantedBy = [ "electrs.service" ];
+  };
+
+  boot.supportedFilesystems = [ "nfs" ];
 
   nix.settings.trusted-users = [ "martijn" ]; # allows remote push
 
