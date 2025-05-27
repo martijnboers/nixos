@@ -16,7 +16,8 @@ for a good initial starting point for NixOS with flakes.
 - `nixos-rebuild switch --flake ".?submodules=1" --use-remote-sudo`
 - `sudo tailscale up --login-server https://headscale.plebian.nl`
 - `pgrok init --remote-addr shoryuken.machine.thuis:6666 --token {token}`
-- `gpg --import private.key`
+- `curl -sS https://plebian.nl/assets/public.asc | gpg --import -`
+- `gpg --edit-key 328144ACADA0A336` `trust` `5`
 
 ### Hetzner
 ```
@@ -28,7 +29,7 @@ SSHPASS=<pwd> nix run github:nix-community/nixos-anywhere -- --flake '.?submodul
 nix run nixpkgs#nixos-generators -- -f sd-aarch64 --flake '.?submodules=1#tenshin' --system aarch64-linux -o ~/pi.img
 ```
 
-###Build vm image
+### Build vm image
 ```
 nix build .#nixosConfigurations.usyk.config.system.build.vm
 ```

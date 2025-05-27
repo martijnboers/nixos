@@ -75,8 +75,15 @@ in
     };
 
     programs.dconf.enable = true; # used for stylix
-    services.udev.packages = [ pkgs.yubikey-personalization ];
+
+    # Yubikey
     programs.yubikey-touch-detector.enable = true;
+    services.yubikey-agent.enable = true;
+    # for smartcard support
+    services = {
+      pcscd.enable = true;
+      udev.packages = [ pkgs.yubikey-personalization ];
+    };
 
     # Access QMK without sudo
     hardware.keyboard.qmk.enable = true;

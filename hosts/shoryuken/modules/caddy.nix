@@ -57,13 +57,6 @@ in
         	}
             }
         }
-
-        # https://docs.souin.io/docs/middlewares/caddy/
-        cache {
-            ttl 100s
-            stale 3h
-            default_cache_control public, s-maxage=100
-        }
       '';
       extraConfig = ''
         matrix.plebian.nl, matrix.plebian.nl:8448 {
@@ -126,45 +119,67 @@ in
           };
           "storage.plebian.nl" = {
             extraConfig = ''
-                            reverse_proxy hadouken.machine.thuis:5554 
-              	      header Access-Control-Allow-Origin *
+              reverse_proxy hadouken.machine.thuis:5554 
+              header Access-Control-Allow-Origin *
             '';
           };
           "noisesfrom.space" = {
-            extraConfig = ''
-              handle /api/v1/streaming/* {
-                  reverse_proxy hadouken.machine.thuis:5552
-              }
+            extraConfig = # caddy
+              ''
+                # Encode responses with Gzip
+                encode gzip
 
-              handle_path /system/* {
-                  reverse_proxy https://mastodon.thuis { header_up Host {upstream_hostport} } 
-              }
+                # Set security-related headers
+                header {
+                    # Enable HSTS
+                    Strict-Transport-Security "max-age=31536000;"
+                    # Prevent clickjacking
+                    X-Frame-Options "DENY"
+                    # Prevent MIME-sniffing
+                    X-Content-Type-Options "nosniff"
+                    # Enable XSS protection
+                    X-XSS-Protection "1; mode=block"
+                    # Referrer Policy
+                    Referrer-Policy "strict-origin-when-cross-origin"
+                }
 
-              route * {
-                  file_server * {
-                    root ${pkgs.mastodon}/public
-                    pass_thru
-                  }
-                  reverse_proxy hadouken.machine.thuis:5551
-              }
+                header /emoji/* Cache-Control "public, max-age=31536000, immutable"
+                header /packs/* Cache-Control "public, max-age=31536000, immutable"
+                header /assets/* Cache-Control "public, max-age=31536000, immutable" 
+                header /system/accounts/avatars/* Cache-Control "public, max-age=31536000, immutable"
+                header /system/media_attachments/files/* Cache-Control "public, max-age=31536000, immutable"
 
-              handle_errors {
-                  root * ${pkgs.mastodon}/public
-                  rewrite 500.html
-                  file_server
-              }
+                @static_assets {
+                    path /assets/* /packs/* /emoji/* /sounds/*
+                    path /favicon.ico /robots.txt /manifest.json /sw.js
+                    path /apple-touch-icon*.png /mstile-*.png /browserconfig.xml
+                    path /oops.html /500.html /404.html /422.html /403.html # Error pages
+                }
+                handle @static_assets {
+                    root * ${pkgs.mastodon}/public
+                    file_server
+                }
 
-              encode gzip
+                handle /api/v1/streaming/* {
+                    reverse_proxy hadouken.machine.thuis:5552
+                }
 
-              header /* {
-                  Strict-Transport-Security "max-age=31536000;"
-              }
+                handle_path /system/* {
+                    reverse_proxy https://mastodon.thuis {
+                        header_up Host {upstream_hostport}
+                    }
+                }
 
-              header /emoji/* Cache-Control "public, max-age=31536000, immutable"
-              header /packs/* Cache-Control "public, max-age=31536000, immutable"
-              header /system/accounts/avatars/* Cache-Control "public, max-age=31536000, immutable"
-              header /system/media_attachments/files/* Cache-Control "public, max-age=31536000, immutable"
-            '';
+                handle {
+                    reverse_proxy hadouken.machine.thuis:5551 {
+                    }
+                }
+                handle_errors {
+                    root * ${pkgs.mastodon}/public
+                    rewrite * /500.html 
+                    file_server
+                }
+              '';
           };
           "p.plebian.nl" = makeProxy "p.plebian.nl" "microbin.thuis";
           "kevinandreihana.com" = makeProxy "kevinandreihana.com" "wedding.thuis";

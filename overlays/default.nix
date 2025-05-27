@@ -10,6 +10,9 @@
         "JetBrainsMono"
       ];
     };
+    mastodon = final.mastodon.override {
+      version = "4.3.8"; # make sure shoryken and hadouken use the same version between updates
+    };
   };
 
   # When applied, the stable nixpkgs set (declared in the flake inputs) will

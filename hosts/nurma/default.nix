@@ -56,6 +56,14 @@
       enable = true;
     };
   };
+  
+  hosts.openssh = {
+    enable = false;
+    allowUsers = [
+      "*@100.64.0.0/10"
+      "*@10.10.0.0/24"
+    ];
+  };
 
   # Allow network access when building shoryuken
   # https://mdleom.com/blog/2021/12/27/caddy-plugins-nixos/#xcaddy
@@ -79,14 +87,6 @@
     identityPaths = [
       "/home/martijn/.ssh/id_ed25519_age"
     ];
-  };
-
-  services.yubikey-agent.enable = true;
-  # for smartcard support
-  services.pcscd.enable = true;
-  security.pam.services = {
-    login.u2fAuth = true;
-    sudo.u2fAuth = true;
   };
 
   programs.ssh.extraConfig = ''

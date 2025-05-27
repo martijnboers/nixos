@@ -71,7 +71,6 @@ in
         wlogout
         imv # image viewer
         kate # kwrite
-        seahorse # kwallet stinks
 
         # File support
         zathura # pdf
@@ -100,10 +99,9 @@ in
         "$mod" = "ALT";
         "$prog" = "CTRL ALT";
         exec-once = [
-          "seahorse &" # unlock keyring
           "swaync &"
           "copyq --start-server &"
-          "cinny-desktop &"
+          "cinny &"
           "blueman-applet &"
           "nm-applet --indicator &"
         ];
@@ -116,7 +114,7 @@ in
         windowrulev2 = [
           "workspace 2, class:(Wfica)" # citrix
           "workspace 4, class:(sublime_merge)"
-          "workspace 5, class:(cinny-desktop)"
+          "workspace 5, class:(cinny)"
           "workspace 5, class:(signal)"
           "workspace 5, class:(Slack)"
         ];
@@ -243,6 +241,43 @@ in
                 windowrulev2 = pin,class:^(librewolf)$,title:^(Picture-in-Picture)$
                 windowrulev2 = float,class:^(librewolf)$,title:^(Firefox)$
                 windowrulev2 = float,class:^(librewolf)$,title:^(Picture-in-Picture)$
+
+		animations {
+		  # https://cubic-bezier.com/
+		  # https://easings.net
+		  # https://https://www.cssportal.com/css-cubic-bezier-generator/
+
+		  enabled = true
+		  first_launch_animation = true
+
+		  bezier = wind, 0.05, 0.9, 0.1, 1.05
+		      bezier = winIn, 0.1, 1.1, 0.1, 1.1
+		      bezier = winOut, 0.3, -0.3, 0, 1
+		      bezier = linear, 1, 1, 1, 1
+		      bezier = Cubic, 0.1, 0.1, 0.1, 1
+		      bezier = overshot, 0.05, 0.9, 0.1, 1.1
+		      bezier = ease-in-out, 0.17, 0.67, 0.83, 0.67
+		      bezier = ease-in, 0.17, 0.67, 0.83, 0.67
+		      bezier = ease-out, 0.42, 0, 1, 1
+		      bezier = easeInOutSine, 0.37, 0, 0.63, 1
+		      bezier = easeInSine, 0.12, 0, 0.39, 0
+		      bezier = easeOutSine, 0.61, 1, 0.88, 1
+
+		      animation = windowsIn, 1, 3, easeInOutSine, popin
+		      animation = windowsOut, 1, 3, easeInOutSine, popin
+		      
+		      animation = border, 1, 3, easeInOutSine
+		      animation = borderangle, 1, 30, easeInOutSine, loop
+		      
+		      animation = workspacesIn, 1, 3, easeInOutSine, slidefade
+		      animation = workspacesOut, 1, 3, easeInOutSine, slidefade
+		      
+		      animation = specialWorkspaceIn, 1, 3, easeInOutSine, slidevert
+		      animation = specialWorkspaceOut, 1, 3, easeInOutSine, slidevert
+		      
+		      animation = layersIn, 1, 3, easeInOutSine, fade
+		      animation = layersOut, 1, 3, easeInOutSine, fade
+		}
 
                 env = XDG_CURRENT_DESKTOP,Hyprland
                 env = XDG_SESSION_TYPE,wayland

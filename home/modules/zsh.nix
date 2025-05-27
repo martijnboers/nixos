@@ -45,6 +45,7 @@ in
                 --target-host "martijn@''${1}.machine.thuis"
             fi
           '';
+	  sshAlias = name: "kitty +kitten ssh ${name}.machine.thuis";
         in
         {
           # --- NixOS specific --------
@@ -58,14 +59,16 @@ in
           vim = "nvim";
           ls = "lsd"; # fancy ls
           fmt = "nix fmt ~/Nix/*.nix";
+	  adel = "read -r s&&atuin search '$s' --delete";
           readme = "cat README* | glow";
           keyboard-compile = "qmk compile -kb peej/lumberjack -km martijn";
           keyboard-flash = "qmk flash -kb peej/lumberjack -km martijn";
 
-          pow = "kitty +kitten ssh hadouken.machine.thuis";
-          wolk = "kitty +kitten ssh  shoryuken.machine.thuis";
-          pi = "kitty +kitten ssh tenshin.machine.thuis";
-          zima = "kitty +kitten ssh tatsumaki.machine.thuis";
+          pow = sshAlias "hadouken";
+          wolk = sshAlias "shoryuken";
+          pi = sshAlias "tenshin";
+          zima = sshAlias "tatsumaki";
+          giga = sshAlias "nurma";
           socks = "ssh -D 1337 -q -C -N hadouken.machine.thuis";
           proxy = "sudo tailscale set --exit-node shoryuken";
           proxyd = "sudo tailscale set --exit-node=";
@@ -81,9 +84,6 @@ in
         # Powerlevel10k Zsh theme
         source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
         test -f ~/.config/zsh/.p10k.zsh && source ~/.config/zsh/.p10k.zsh
-
-        # 5 hours
-        TMOUT=$((5 * 60 * 60))
 
         # AI keys
         source ${config.age.secrets.llm.path}

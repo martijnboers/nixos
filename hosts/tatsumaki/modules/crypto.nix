@@ -25,9 +25,15 @@
   '';
 
   services.electrs = {
-    enable = true;
+    enable = false;
     address = "0.0.0.0";
     dataDir = "/mnt/electrs";
+  };
+
+  services.fulcrum = {
+    enable = true;
+    address = "0.0.0.0";
+    dataDir = "/mnt/fulcrum";
   };
 
   services.mempool = {
@@ -44,15 +50,16 @@
     dataDir = "/mnt/bitcoin";
     address = "0.0.0.0";
     systemdTimeout = "360min"; # in fork
+    txindex = true; # for fulcurm+electrs
     tor.enforce = false;
     rpc.threads = lib.mkForce 6;
     extraConfig = ''
-      rpcworkqueue=15
+      rpcworkqueue=64
     '';
   };
 
   networking.firewall.allowedTCPPorts = [ config.services.bitcoind.port ];
-  services.borgbackup.jobs.default.paths = [ "/etc/nix-bitcoin-secrets" ];
+  services.borgbackup.jobs.default.paths = [ config.nix-bitcoin.secretsDir ];
 
   # When using nix-bitcoin as part of a larger NixOS configuration, set the following to enable
   # interactive access to nix-bitcoin features (like bitcoin-cli) for your system's main user

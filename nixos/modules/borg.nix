@@ -45,7 +45,7 @@ in
         weekly = 4;
         monthly = -1; # Keep at least one archive for each month
       };
-      environment.BORG_RSH = "ssh -o 'StrictHostKeyChecking=no' -i ${cfg.identityPath}";
+      environment.BORG_RSH = "ssh -i ${cfg.identityPath}";
       repo = cfg.repository;
       compression = "auto,zstd";
       startAt = "12:30";
