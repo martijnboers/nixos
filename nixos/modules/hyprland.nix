@@ -63,9 +63,13 @@ in
     };
 
     # Auth/permission management
-    security.polkit.enable = true;
     services.gnome.gnome-keyring.enable = true;
-    security.pam.services.greetd.enableGnomeKeyring = true;
+    programs.seahorse.enable = true; # gui for keyring
+    services.dbus.packages = [ pkgs.gnome-keyring ];
+    security = {
+      polkit.enable = true;
+      pam.services.greetd.enableGnomeKeyring = true; 
+    };
 
     environment.sessionVariables = {
       NIXOS_OZONE_WL = "1"; # hint electron apps to use wayland

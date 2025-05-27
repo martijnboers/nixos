@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib;
@@ -15,6 +16,7 @@ in
   config = mkIf cfg.enable {
     services.matrix-conduit = {
       enable = true;
+      package = pkgs.stable.matrix-conduit;
       settings.global = {
         server_name = "plebian.nl";
         allow_check_for_updates = false;

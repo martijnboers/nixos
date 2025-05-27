@@ -24,38 +24,32 @@
     repository = "ssh://jym6959y@jym6959y.repo.borgbase.com/./repo";
   };
 
-  fileSystems."/mnt/bitcoin" = {
-    device = "hadouken.machine.thuis:/bitcoin";
-    fsType = "nfs";
-    options = [
-      "rsize=1048576" # bigger read+write sizes
-      "wsize=1048576" # good for bigger files
-      "x-systemd.automount"
-      "noauto"
-    ];
-  };
-  fileSystems."/mnt/electrs" = {
-    device = "hadouken.machine.thuis:/electrs";
-    fsType = "nfs";
-    options = [
-      "rsize=1048576" # bigger read+write sizes
-      "wsize=1048576" # good for bigger files
-      "x-systemd.automount"
-      "noauto"
-    ];
-  };
+  fileSystems =
+    let
+      mkNfsShare = name: {
+        device = "hadouken.machine.thuis:/${name}";
+        fsType = "nfs";
+        options = [
+          "rsize=1048576" # bigger read+write sizes
+          "wsize=1048576" # good for bigger files
+        ];
+      };
+    in
+    {
+      "/mnt/bitcoin" = mkNfsShare "bitcoin";
+      "/mnt/electrs" = mkNfsShare "electrs";
+      "/mnt/fulcrum" = mkNfsShare "fulcrum";
+    };
 
   systemd.services = {
     tailscaled.wantedBy = [
-      "mnt-bitcoin.automount"
-      "mnt-electrs.automount"
+      "bitcoind.service"
+      "electrs.service"
+      "fulcrum.service"
     ];
-    "mnt-bitcoin.automount".wantedBy = [ "bitcoind.service" ];
-    "mnt-electrs.automount".wantedBy = [ "electrs.service" ];
   };
 
   boot.supportedFilesystems = [ "nfs" ];
-
   nix.settings.trusted-users = [ "martijn" ]; # allows remote push
 
   # Server defaults

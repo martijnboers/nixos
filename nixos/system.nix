@@ -129,17 +129,34 @@
     };
   };
 
-  programs.ssh.knownHosts = {
-    "github.com".publicKey =
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
-    "gitlab.com".publicKey =
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfuCHKVTjquxvt6CM6tdG4SLp1Btn/nOeHHE5UOzRdf";
-    "hadouken.machine.thuis".publicKeyFile = ../secrets/keys/hadouken.pub;
-    "tenshin.machine.thuis".publicKeyFile = ../secrets/keys/tenshin.pub;
-    "tatsumaki.machine.thuis".publicKeyFile = ../secrets/keys/tatsumaki.pub;
-    "shoryuken.machine.thuis".publicKeyFile = ../secrets/keys/shoryuken.pub;
-  };
+  programs.ssh.knownHosts =
+    let
+      mkBorgRepo = name: {
+        "${name}.repo.borgbase.com" = {
+          publicKey = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOstKfBbwVOYQh3J7X4nzd6/VYgLfaucP9z5n4cpSzcZAOKGh6jH8e1mhQ4YupthlsdPKyFFZ3pKo4mTaRRuiJo=";
+        };
+      };
+    in
+    {
+      "github.com".publicKey =
+        "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=";
+      "gitlab.com".publicKey =
+        "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFSMqzJeV9rUzU4kWitGjeR4PWSa29SPqJ1fVkhtj3Hw9xjLVXVYrU9QlYWrOLXBpQ6KWjbjTDTdDkoohFzgbEY=";
 
+      "hadouken.machine.thuis".publicKeyFile = ../secrets/keys/hadouken.pub;
+      "tenshin.machine.thuis".publicKeyFile = ../secrets/keys/tenshin.pub;
+      "tatsumaki.machine.thuis".publicKeyFile = ../secrets/keys/tatsumaki.pub;
+      "shoryuken.machine.thuis".publicKeyFile = ../secrets/keys/shoryuken.pub;
+    }
+    // (lib.attrsets.mergeAttrsList (
+      map mkBorgRepo [
+        "gak69wyz"
+        "jym6959y"
+        "iwa7rtli"
+        "nads486h"
+        "aebp8i08"
+      ]
+    ));
   programs.zsh.enable = true;
   # default value, but should never be disabled
   networking.firewall.enable = lib.mkForce true;
@@ -178,10 +195,10 @@
     martijn: notif@thuis
   '';
 
-  # Default env variables
   environment.sessionVariables = {
     EDITOR = "nvim";
     REQUESTS_CA_BUNDLE = "/etc/ssl/certs/ca-certificates.crt";
+    TMOUT = (5 * 60 * 60); # zsh timeout
   };
 
   # Set time zone.

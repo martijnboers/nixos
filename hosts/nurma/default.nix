@@ -56,6 +56,14 @@
       enable = true;
     };
   };
+  
+  hosts.openssh = {
+    enable = false;
+    allowUsers = [
+      "*@100.64.0.0/10"
+      "*@10.10.0.0/24"
+    ];
+  };
 
   # Allow network access when building shoryuken
   # https://mdleom.com/blog/2021/12/27/caddy-plugins-nixos/#xcaddy

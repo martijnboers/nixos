@@ -587,15 +587,15 @@
         "systems": "systems_4"
       },
       "locked": {
-        "lastModified": 1747687051,
-        "narHash": "sha256-vUiXAYyTzVKh7V8NRhDNKDVU88AXXKraD9y0/rIjJAg=",
-        "owner": "martijnboers",
+        "lastModified": 1748261770,
+        "narHash": "sha256-X+QUzjjZ64lZzzd1dkxIGoLHkJvmDqoEHhx81Mmx0rw=",
+        "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "43c684d4a58df87daaf4f48a5a4f81cfdf520d70",
+        "rev": "91ee94cde3d5fdde68550ac861fd0644ff47109f",
         "type": "github"
       },
       "original": {
-        "owner": "martijnboers",
+        "owner": "nix-community",
         "repo": "nixvim",
         "type": "github"
       }
@@ -670,14 +670,13 @@
       "locked": {
         "lastModified": 1748020491,
         "narHash": "sha256-ipgVoJ+hE2HDt/zR1waGa/17kj0g3uUyh/0siyLQgyk=",
-        "ref": "master",
+        "ref": "refs/heads/master",
         "rev": "816a8e668abfc16cdbc16718f746138860e1137f",
         "revCount": 1,
         "type": "git",
         "url": "ssh://git@github.com/martijnboers/secrets.git"
       },
       "original": {
-        "ref": "master",
         "type": "git",
         "url": "ssh://git@github.com/martijnboers/secrets.git"
       }

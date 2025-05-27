@@ -12,7 +12,8 @@
     };
 
     nixvim = {
-      url = "github:martijnboers/nixvim";
+      url = "github:nix-community/nixvim";
+      # url = "github:martijnboers/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -22,7 +23,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     secrets = {
-      url = "git+ssh://git@github.com/martijnboers/secrets.git?ref=master";
+      url = "git+ssh://git@github.com/martijnboers/secrets.git";
       flake = false;
     };
 
