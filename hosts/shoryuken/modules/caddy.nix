@@ -40,17 +40,13 @@ in
         metrics {
             per_host
         }
-
         servers {
             trusted_proxies static 100.64.0.0/10
             enable_full_duplex
         }
-
         pki {
             ca shoryuken {
         	name shoryuken
-        	# openssl genrsa -out root.key 4096
-        	# openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -config /etc/pki-root.cnf
         	root {
         	    cert ${../../../secrets/keys/shoryuken.crt}
         	    key  ${config.age.secrets.shoryuken-pki.path}
@@ -59,6 +55,12 @@ in
         }
       '';
       extraConfig = ''
+        (headscale) {
+          @internal remote_ip 100.64.0.0/10
+          tls {
+            issuer internal { ca shoryuken }
+          }
+        }
         matrix.plebian.nl, matrix.plebian.nl:8448 {
             reverse_proxy /_matrix/* http://${config.hidden.tailscale_hosts.hadouken}:5553
         }

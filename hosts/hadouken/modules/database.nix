@@ -15,24 +15,14 @@ in
   config = mkIf cfg.enable {
     services.caddy.virtualHosts = {
       "pgadmin.thuis".extraConfig = ''
-        tls {
-          issuer internal { ca hadouken }
-        }
-        @internal {
-          remote_ip 100.64.0.0/10
-        }
+	import headscale
         handle @internal {
           reverse_proxy http://localhost:${toString config.services.pgadmin.port}
         }
         respond 403
       '';
       "minio.thuis".extraConfig = ''
-        tls {
-          issuer internal { ca hadouken }
-        }
-        @internal {
-          remote_ip 100.64.0.0/10
-        }
+	import headscale
         handle @internal {
           reverse_proxy http://${toString config.services.minio.consoleAddress}
         }

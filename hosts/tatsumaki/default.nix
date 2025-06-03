@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, ... }:
 {
   networking.hostName = "tatsumaki";
 
@@ -32,20 +32,21 @@
         options = [
           "rsize=1048576" # bigger read+write sizes
           "wsize=1048576" # good for bigger files
+          "x-systemd.automount"
+          "_netdev" # this makes the .mount unit require network-online.target
         ];
       };
     in
     {
       "/mnt/bitcoin" = mkNfsShare "bitcoin";
-      "/mnt/electrs" = mkNfsShare "electrs";
       "/mnt/fulcrum" = mkNfsShare "fulcrum";
     };
 
-  systemd.services = {
-    tailscaled.wantedBy = [
-      "bitcoind.service"
-      "electrs.service"
-      "fulcrum.service"
+  systemd.services.bitcoind = {
+    requires = [ "mnt-bitcoin.mount" ];
+    after = [
+      "mnt-bitcoin.mount"
+      "tailscaled.service"
     ];
   };
 

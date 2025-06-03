@@ -29,12 +29,7 @@ in
       acc
       // {
         "${suite.name}.thuis".extraConfig = ''
-          tls {
-            issuer internal { ca shoryuken }
-          }
-          @internal {
-            remote_ip 100.64.0.0/10
-          }
+          import headscale
           handle @internal {
             reverse_proxy http://127.0.0.1:${toString suite.port}
           }

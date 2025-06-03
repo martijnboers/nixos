@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }:
 with lib;
@@ -25,6 +26,17 @@ in
     programs.nixvim = {
       enable = true;
 
+      extraPlugins = with pkgs.vimPlugins; [
+        eyeliner-nvim # highlight t&f searches
+      ];
+
+      extraConfigLua = ''
+        require("eyeliner").setup {
+          highlight_on_key = true,
+          dim = true
+        }
+      '';
+
       globals = {
         mapleader = " "; # map leader to spacebar
       };
@@ -38,6 +50,10 @@ in
         {
           action = "<C-d>zz";
           key = "<C-d>";
+        }
+        {
+          action = "<cmd>Precognition toggle<cr>";
+          key = "<Leader>j";
         }
         {
           action = "<C-i>"; # needed because mapping tab breaks CTRL-i in kitty
@@ -58,9 +74,18 @@ in
       ];
 
       plugins = {
-        which-key.enable = true; # popup with possible key combinations
         web-devicons.enable = true; # needed for other plugins
         noice.enable = true; # cmd popup input modal
+
+        # training wheels
+        which-key.enable = true; # popup with possible key combinations
+        precognition = {
+          enable = true;
+          settings = {
+            showBlankVirtLine = false; # don't when no virtlines
+            startVisible = false; # only show on toggle
+          };
+        }; # jump reference helper
 
         auto-session = {
           enable = true;

@@ -14,18 +14,13 @@ in
 
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."microbin.thuis".extraConfig = ''
+      import headscale
       coraza_waf {
         load_owasp_crs
         directives `
           Include @coraza.conf-recommended
           SecRuleEngine On
         `
-      }
-      tls {
-        issuer internal { ca hadouken }
-      }
-      @internal {
-        remote_ip 100.64.0.0/10
       }
       handle @internal {
         reverse_proxy http://localhost:${toString config.services.microbin.settings.MICROBIN_PORT}

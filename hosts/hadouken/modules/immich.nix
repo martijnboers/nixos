@@ -16,15 +16,10 @@ in
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [ immich-go ];
     services.caddy.virtualHosts."immich.thuis".extraConfig = ''
-        tls {
-          issuer internal { ca hadouken }
-        }
-        @internal {
-          remote_ip 100.64.0.0/10
-        }
-        handle @internal {
-          reverse_proxy http://localhost:${toString config.services.immich.port}
-        }
+      import headscale
+      handle @internal {
+        reverse_proxy http://localhost:${toString config.services.immich.port}
+      }
       respond 403
     '';
     age.secrets.immich.file = ../../../secrets/immich.age;

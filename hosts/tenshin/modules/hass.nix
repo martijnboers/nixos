@@ -14,15 +14,10 @@ in
 
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."hass.thuis".extraConfig = ''
-        tls {
-          issuer internal { ca tenshin }
-        }
-        @internal {
-         remote_ip 100.64.0.0/10
-        }
-        handle @internal {
-          reverse_proxy http://127.0.0.1:${toString config.services.home-assistant.config.http.server_port}
-        }
+      import headscale
+      handle @internal {
+        reverse_proxy http://127.0.0.1:${toString config.services.home-assistant.config.http.server_port}
+      }
       respond 403
     '';
     services.borgbackup.jobs.default.paths = [ config.services.home-assistant.configDir ];

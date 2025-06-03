@@ -3,6 +3,8 @@
   # This one brings our custom packages from the 'pkgs' directory
   additions = final: _prev: import ../pkgs { pkgs = final; };
 
+  # prev = unaltered (before overlays)
+  # final = after overlay mods, like rec keyword
   modifications = final: prev: {
     nerdfonts = final.stable.nerdfonts.override {
       fonts = [
@@ -10,7 +12,7 @@
         "JetBrainsMono"
       ];
     };
-    mastodon = final.mastodon.override {
+    mastodon = prev.mastodon.override {
       version = "4.3.8"; # make sure shoryken and hadouken use the same version between updates
     };
   };

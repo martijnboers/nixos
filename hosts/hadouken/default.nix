@@ -66,11 +66,15 @@ in
   hosts.atuin.enable = true;
   hosts.seafile.enable = true;
 
-  systemd.services.sshd = {
-    after = [ "tailscaled.service" ];
-    requires = [ "tailscaled.service" ];
-    serviceConfig = defaultRestart;
+  users = {
+    groups.multimedia = { };
+    users = {
+      syncthing.extraGroups = [ "multimedia" ];
+      plex.extraGroups = [ "multimedia" ];
+      martijn.extraGroups = [ "multimedia" ];
+    };
   };
+
   systemd.services.loki = {
     after = [ "tailscaled.service" ];
     requires = [ "tailscaled.service" ];

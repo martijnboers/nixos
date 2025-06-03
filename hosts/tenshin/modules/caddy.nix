@@ -13,19 +13,20 @@ in
   };
 
   config = mkIf cfg.enable {
-    networking.firewall.allowedTCPPorts = [
-      80
-      443
-    ];
-
     services.caddy = {
       enable = true;
+      extraConfig = ''
+        (headscale) {
+          @internal remote_ip 100.64.0.0/10
+          tls {
+            issuer internal { ca tenshin }
+          }
+        }
+      '';
       globalConfig = ''
         pki {
           ca tenshin {
             name     tenshin
-            # openssl genrsa -out root.key 4096
-            # openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -config /etc/pki-root.cnf
             root {
               cert   ${../../../secrets/keys/tenshin.crt}
               key    ${config.age.secrets.tenshin-pki.path}

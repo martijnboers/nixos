@@ -15,12 +15,7 @@ in
 
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."detection.thuis".extraConfig = ''
-      tls {
-        issuer internal { ca hadouken }
-      }
-      @internal {
-        remote_ip 100.64.0.0/10
-      }
+      import headscale
       handle @internal {
         reverse_proxy http://127.0.0.1:${toString config.services.changedetection-io.port}
       }

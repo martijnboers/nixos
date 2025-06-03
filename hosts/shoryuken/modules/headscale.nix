@@ -39,7 +39,7 @@ let
     "hass"
   ];
   tatsumakiRecords = [
-    "electrum"
+    "mempool"
   ];
 in
 {

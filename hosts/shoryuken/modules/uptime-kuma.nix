@@ -14,12 +14,7 @@ in
 
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."uptime.thuis".extraConfig = ''
-      tls {
-        issuer internal { ca shoryuken }
-      }
-      @internal {
-        remote_ip 100.64.0.0/10
-      }
+      import headscale
       handle @internal {
         reverse_proxy http://${config.services.uptime-kuma.settings.UPTIME_KUMA_HOST}:${config.services.uptime-kuma.settings.UPTIME_KUMA_PORT}
       }

@@ -22,35 +22,35 @@ in
     services.davfs2.enable = true;
     boot.supportedFilesystems = [ "nfs" ];
 
-    fileSystems."/mnt/music" = {
-      device = "hadouken.machine.thuis:/music";
-      fsType = "nfs";
-      options = [
-        "rsize=1048576" # bigger read+write sizes
-        "wsize=1048576" # good for bigger files
-        "x-systemd.automount" # lazyloading, solves tailscale chicken&egg
-        "noauto"
-      ];
-    };
-    fileSystems."/mnt/misc" = {
-      device = "hadouken.machine.thuis:/share";
-      fsType = "nfs";
-      options = [
-        "rsize=1048576" # bigger read+write sizes
-        "wsize=1048576" # good for bigger files
-        "x-systemd.automount"
-        "noauto"
-      ];
-    };
-    fileSystems."/mnt/notes" = {
-      device = "http://webdav.thuis/notes/";
-      fsType = "davfs";
-      options = [
-        "uid=1000"
-        "gid=100"
-        "x-systemd.automount"
-      ];
-    };
+    fileSystems =
+      let
+        mkNfsShare = name: {
+          "/mnt/${name}" = {
+            device = "hadouken.machine.thuis:/${name}";
+            fsType = "nfs";
+            options = [
+              "rsize=1048576" # bigger read+write sizes
+              "wsize=1048576" # good for bigger files
+              "x-systemd.automount" # lazyloading, solves tailscale chicken&egg
+              "_netdev" # this makes the .mount unit require network-online.target
+            ];
+          };
+        };
+      in
+      {
+        "/mnt/notes" = {
+          device = "http://webdav.thuis/notes/";
+          fsType = "davfs";
+          options = [
+            "uid=1000"
+            "gid=100"
+            "x-systemd.automount"
+            "_netdev"
+          ];
+        };
+      }
+      // mkNfsShare "music"
+      // mkNfsShare "share";
 
     environment.etc."davfs2/secrets" = {
       source = config.age.secrets.dav-notes.path;
