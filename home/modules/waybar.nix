@@ -151,7 +151,7 @@ in
                 '';
               in
               lib.getExe wan;
-            interval = 2;
+            interval = 5;
           };
 
           "custom/notification" = {

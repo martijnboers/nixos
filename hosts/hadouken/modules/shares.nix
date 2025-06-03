@@ -19,17 +19,12 @@ in
     };
 
     fileSystems."/export/bitcoin" = {
-      device = "/mnt/garage/misc/bitcoind";
-      options = [ "bind" ];
-    };
-
-    fileSystems."/export/electrs" = {
-      device = "/mnt/garage/misc/electrs";
+      device = "/mnt/zwembad/games/bitcoind";
       options = [ "bind" ];
     };
 
     fileSystems."/export/fulcrum" = {
-      device = "/mnt/garage/misc/fulcrum";
+      device = "/mnt/zwembad/games/fulcrum";
       options = [ "bind" ];
     };
 
@@ -47,7 +42,6 @@ in
         /export          100.64.0.0/10(rw,fsid=0,no_subtree_check) 
         /export/music    100.64.0.0/10(rw,nohide,insecure,no_subtree_check)
         /export/bitcoin  100.64.0.0/10(rw,nohide,insecure,no_subtree_check)
-        /export/electrs  100.64.0.0/10(rw,nohide,insecure,no_subtree_check)
         /export/fulcrum  100.64.0.0/10(rw,nohide,insecure,no_subtree_check)
         /export/share    100.64.0.0/10(rw,nohide,insecure,no_subtree_check)
       '';

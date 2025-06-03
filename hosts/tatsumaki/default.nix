@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, ... }:
 {
   networking.hostName = "tatsumaki";
 
@@ -27,27 +27,37 @@
   fileSystems =
     let
       mkNfsShare = name: {
-        device = "hadouken.machine.thuis:/${name}";
-        fsType = "nfs";
-        options = [
-          "rsize=1048576" # bigger read+write sizes
-          "wsize=1048576" # good for bigger files
-        ];
+        "/mnt/${name}" = {
+          device = "hadouken.machine.thuis:/${name}";
+          fsType = "nfs";
+          options = [
+            "rsize=1048576"
+            "wsize=1048576"
+            "x-systemd.automount"
+            "_netdev"
+          ];
+        };
       };
     in
-    {
-      "/mnt/bitcoin" = mkNfsShare "bitcoin";
-      "/mnt/electrs" = mkNfsShare "electrs";
-      "/mnt/fulcrum" = mkNfsShare "fulcrum";
-    };
+    lib.attrsets.mergeAttrsList (
+      map mkNfsShare [
+        "bitcoin"
+        "fulcrum"
+      ]
+    );
 
-  systemd.services = {
-    tailscaled.wantedBy = [
-      "bitcoind.service"
-      "electrs.service"
-      "fulcrum.service"
+  systemd.services.bitcoind = {
+    requires = [ "mnt-bitcoin.mount" ];
+    after = [
+      "mnt-bitcoin.mount"
+      "tailscaled.service"
     ];
   };
+
+  security = {
+    sudo.enable = true;
+    sudo-rs.enable = false;
+  }; # sudo-rs doesn't play nice with nix-bitcoin
 
   boot.supportedFilesystems = [ "nfs" ];
   nix.settings.trusted-users = [ "martijn" ]; # allows remote push

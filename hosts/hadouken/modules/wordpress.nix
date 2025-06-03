@@ -25,16 +25,11 @@ in
 
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."wedding.thuis".extraConfig = ''
-           tls {
-      issuer internal { ca hadouken }
-           }
-           @internal {
-      remote_ip 100.64.0.0/10
-           }
-           handle @internal {
-       reverse_proxy http://localhost:8778
-           }
-           respond 403
+      import headscale
+      handle @internal {
+        reverse_proxy http://localhost:8778
+      }
+      respond 403
     '';
 
     services.phpfpm.pools."wordpress-kevinandreihana".phpOptions = ''

@@ -23,13 +23,19 @@ in
         pki {
          ca tatsumaki {
            name     tatsumaki
-           # openssl genrsa -out root.key 4096
-           # openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -config /etc/pki-root.cnf
            root {
              cert   ${../../../secrets/keys/tatsumaki.crt}
              key    ${config.age.secrets.tatsumaki-pki.path}
            }
          }
+        }
+      '';
+      extraConfig = ''
+        (headscale) {
+          @internal remote_ip 100.64.0.0/10
+          tls {
+            issuer internal { ca tatsumaki }
+          }
         }
       '';
     };

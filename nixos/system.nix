@@ -162,8 +162,8 @@
   networking.firewall.enable = lib.mkForce true;
 
   security = {
-    sudo.enable = lib.mkForce false; # 🦀🦀
-    sudo-rs.enable = lib.mkForce true; # 🦀🦀
+    sudo.enable = lib.mkDefault false; # 🦀🦀
+    sudo-rs.enable = lib.mkDefault true; # 🦀🦀
     pki.certificateFiles = [
       ../secrets/keys/hadouken.crt
       ../secrets/keys/shoryuken.crt

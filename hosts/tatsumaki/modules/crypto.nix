@@ -12,47 +12,32 @@
     address = "0.0.0.0";
   };
 
-  services.caddy.virtualHosts."electrum.thuis".extraConfig = ''
-    tls {
-      issuer internal { ca tatsumaki }
-    }
-    @internal {
-      remote_ip 100.64.0.0/10
-    }
+  services.caddy.virtualHosts."mempool.thuis".extraConfig = ''
+    import headscale
     handle @internal {
-      reverse_proxy http://localhost:${toString config.services.electrs.port}
+      reverse_proxy http://localhost:${toString config.services.mempool.frontend.port}
     }
   '';
 
-  services.electrs = {
-    enable = false;
-    address = "0.0.0.0";
-    dataDir = "/mnt/electrs";
-  };
-
   services.fulcrum = {
-    enable = true;
+    enable = false;
     address = "0.0.0.0";
     dataDir = "/mnt/fulcrum";
   };
 
   services.mempool = {
     enable = false;
-    frontend = {
-      address = config.hidden.tailscale_hosts.tatsumaki;
-      port = 80;
-    };
+    electrumServer = "fulcurm";
     address = "0.0.0.0";
   };
 
   services.bitcoind = {
-    enable = true;
+    enable = false;
     dataDir = "/mnt/bitcoin";
     address = "0.0.0.0";
-    systemdTimeout = "360min"; # in fork
     txindex = true; # for fulcurm+electrs
     tor.enforce = false;
-    rpc.threads = lib.mkForce 6;
+    rpc.threads = lib.mkForce 8;
     extraConfig = ''
       rpcworkqueue=64
     '';

@@ -15,19 +15,13 @@ in
 
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."dns.thuis".extraConfig = ''
-        tls {
-          issuer internal { ca tenshin }
-         }
-         @internal {
-           remote_ip 100.64.0.0/10
-         }
-         handle @internal {
-           reverse_proxy http://localhost:${toString config.services.adguardhome.port}
-
-           handle_path /dns-query/* {
-              reverse_proxy http://127.0.0.1:${toString config.services.adguardhome.settings.tls.port_dns_over_tls}
-           }
-         }
+      import headscale
+      handle @internal {
+       reverse_proxy http://localhost:${toString config.services.adguardhome.port}
+       handle_path /dns-query/* {
+          reverse_proxy http://127.0.0.1:${toString config.services.adguardhome.settings.tls.port_dns_over_tls}
+       }
+      }
       respond 403
     '';
 

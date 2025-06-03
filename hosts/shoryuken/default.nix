@@ -1,9 +1,4 @@
-{ config, ... }:
-let
-  defaultRestart = {
-    RestartSec = 10;
-  };
-in
+{ ... }:
 {
   networking.hostName = "shoryuken";
 

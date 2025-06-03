@@ -43,8 +43,12 @@
     { device = "/dev/disk/by-uuid/a310c3dc-fcab-4f46-a123-ba866980f35d"; }
   ];
 
-  networking.interfaces.enp2s0.useDHCP = lib.mkDefault true;
-  networking.interfaces.enp3s0.useDHCP = lib.mkDefault true;
+  zramSwap.enable = true; # needed for fulcrum
+
+  networking.interfaces = {
+    enp2s0.useDHCP = lib.mkDefault true;
+    enp3s0.useDHCP = lib.mkDefault true;
+  };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 

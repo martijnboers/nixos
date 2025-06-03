@@ -40,16 +40,7 @@
     fsType = "zfs";
   };
 
-  services.zfs = {
-    autoScrub.enable = true;
-    zed = {
-      enableMail = true;
-      settings = {
-        ZED_EMAIL_ADDR = [ "root" ];
-        ZED_NOTIFY_VERBOSE = true;
-      };
-    };
-  };
+  services.zfs.autoScrub.enable = true;
 
   services.sanoid = {
     enable = true;

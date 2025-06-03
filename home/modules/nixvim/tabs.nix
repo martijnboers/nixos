@@ -39,7 +39,7 @@ in
         barbar = {
           enable = true;
           settings = {
-            clickable = false;
+            clickable = true;
             animations = false;
             auto_hide = 1;
             icons = {

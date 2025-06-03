@@ -14,11 +14,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    networking.firewall.allowedTCPPorts = [
-      80
-      443
-    ];
-
     services.caddy = {
       enable = true;
       package = pkgs.callPackage ../../../pkgs/xcaddy.nix {
@@ -27,6 +22,15 @@ in
           "github.com/mholt/caddy-webdav"
         ];
       };
+
+      extraConfig = ''
+        (headscale) {
+          @internal remote_ip 100.64.0.0/10
+          tls {
+            issuer internal { ca hadouken }
+          }
+        }
+      '';
 
       globalConfig = ''
         metrics {
@@ -39,8 +43,6 @@ in
         pki {
          ca hadouken {
            name     hadouken
-           # openssl genrsa -out root.key 4096
-           # openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -config /etc/pki-root.cnf
            root {
              cert   ${../../../secrets/keys/hadouken.crt}
              key    ${config.age.secrets.hadouken-pki.path}
@@ -52,24 +54,25 @@ in
       '';
       virtualHosts = {
         "webdav.thuis:80".extraConfig = ''
-            @internal {
-              remote_ip 100.64.0.0/10
-            }
-            handle @internal {
-              route {
-                rewrite /android /android/
-                rewrite /notes /notes/
-                webdav /android/* {
-                  root /mnt/zwembad/app/android
-                  prefix /android
-                }
-                webdav /notes/* {
-                  root /mnt/zwembad/app/notes
-                  prefix /notes
-                }
-                file_server
+          import headscale
+          handle @internal {
+            route {
+	      basicauth {
+		martijn $2a$14$ASOmj.jZv9cvR0W5E26UkOpCD7fjCWhfEKnI0YKUChqDsfx9FqR/O
+	      }
+              rewrite /android /android/
+              rewrite /notes /notes/
+              webdav /android/* {
+                root /mnt/zwembad/app/android
+                prefix /android
               }
+              webdav /notes/* {
+                root /mnt/zwembad/app/notes
+                prefix /notes
+              }
+              file_server
             }
+          }
           respond 403
         '';
       };

@@ -45,7 +45,7 @@ in
                 --target-host "martijn@''${1}.machine.thuis"
             fi
           '';
-	  sshAlias = name: "kitty +kitten ssh ${name}.machine.thuis";
+          sshAlias = name: "kitty +kitten ssh ${name}.machine.thuis";
         in
         {
           # --- NixOS specific --------
@@ -59,7 +59,7 @@ in
           vim = "nvim";
           ls = "lsd"; # fancy ls
           fmt = "nix fmt ~/Nix/*.nix";
-	  adel = "read -r s&&atuin search '$s' --delete";
+          adel = "read -r s&&atuin search '$s' --delete";
           readme = "cat README* | glow";
           keyboard-compile = "qmk compile -kb peej/lumberjack -km martijn";
           keyboard-flash = "qmk flash -kb peej/lumberjack -km martijn";

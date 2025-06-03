@@ -24,7 +24,6 @@ let
     };
   };
   teams = mkChromeWrapper "teams" "https://teams.microsoft.com";
-  claud = mkChromeWrapper "claud" "https://claud.ai";
   hetzner = mkChromeWrapper "hetzner" "https://console.hetzner.cloud";
   kvm = mkChromeWrapper "kvm" "https://10.10.0.11/kvm/#";
 in
@@ -38,8 +37,6 @@ in
 
       teams.desktop
       teams.script
-      claud.desktop
-      claud.script
       hetzner.desktop
       hetzner.script
       kvm.desktop
