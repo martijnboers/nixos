@@ -112,7 +112,7 @@ in
               };
 
               groups = {
-                "group:trusted" = [ "martijn" ];
+                "group:trusted" = [ "martijn@" ];
               };
 
               acls = [

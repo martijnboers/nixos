@@ -32,7 +32,7 @@
   };
 
   services.bitcoind = {
-    enable = false;
+    enable = true;
     dataDir = "/mnt/bitcoin";
     address = "0.0.0.0";
     txindex = true; # for fulcurm+electrs

@@ -11,7 +11,6 @@
     ./modules/sailing.nix
     ./modules/caddy.nix
     ./modules/pgrok.nix
-    ./modules/tor.nix
   ];
 
   hosts.notifications.enable = true;
@@ -19,7 +18,6 @@
   hosts.headscale.enable = true;
   hosts.keycloak.enable = true;
   hosts.caddy.enable = true;
-  hosts.tor.enable = true;
   hosts.sailing.enable = true;
   hosts.prometheus.enable = true;
   hosts.pgrok.enable = false;

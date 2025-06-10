@@ -34,7 +34,13 @@
             "rsize=1048576"
             "wsize=1048576"
             "x-systemd.automount"
-            "_netdev"
+            "_netdev" # wait for network-online
+            "hard" # Retry indefinitely on server unresponsiveness (good for data)
+            "bg" # If the first mount attempt fails, retry in the background.
+            "retry=5" # For 'bg', retry for 5 minutes in foreground before backgrounding.
+            "timeo=600" # RPC timeout in tenths of a second (e.g., 600 = 60 seconds).
+            "retrans=3" # Number of retransmissions before major timeout.
+            "x-systemd.mount-timeout=2m" # Tell systemd to wait up to 2 minutes for the mount command to succeed.
           ];
         };
       };

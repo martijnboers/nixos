@@ -45,7 +45,10 @@
     };
 
     # All-in-one bitcoin node
-    nix-bitcoin.url = "github:martijnboers/nix-bitcoin/master";
+    nix-bitcoin = {
+      url = "github:martijnboers/nix-bitcoin/master";
+      # url = "github:fort-nix/nix-bitcoin/master";
+    };
 
     darwin = {
       url = "github:lnl7/nix-darwin";
