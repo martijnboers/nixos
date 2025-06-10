@@ -28,7 +28,7 @@
     let
       mkNfsShare = name: {
         "/mnt/${name}" = {
-          device = "hadouken.machine.thuis:/${name}";
+          device = "10.12.0.2:/${name}";
           fsType = "nfs";
           options = [
             "rsize=1048576"

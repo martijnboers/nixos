@@ -132,7 +132,10 @@ in
                     "pixel"
                     "nurma"
                   ];
-                  dst = [ "autogroup:internet:*" ]; # allow exit-nodes
+                  dst = [
+                    "autogroup:internet:*" # allow exit-nodes
+                    "hadouken:22"
+                  ];
                 }
                 {
                   action = "accept";

@@ -24,7 +24,6 @@ in
       wev # wayland xev
 
       yubioath-flutter # yubikey
-      veracrypt
       seafile-client
       cheese # webcam
       file-roller # archive manager
@@ -41,8 +40,11 @@ in
       sublime-merge
       awscli2
       httpie-desktop
-      wireshark
       devenv
+
+      # forensics
+      volatility3
+      wireshark
 
       # personal
       qflipper

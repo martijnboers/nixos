@@ -109,11 +109,9 @@ in
                 line_down = "<C-S-Down>";
               };
             }; # move line(s) up and down
-            move = {
-              surround = {
-                add = "sa";
-                delete = "sd";
-              };
+            surround = {
+              add = "sa";
+              delete = "sd";
             }; # surround words with something
           };
         };

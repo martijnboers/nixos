@@ -68,14 +68,16 @@ in
       virtualHosts =
         let
           makeProxy = public: target: {
-            extraConfig = ''
-              reverse_proxy https://${target} {
-                  header_up Host ${target}
-                  header_up X-Forwarded-Host ${public}
-                  header_up X-Forwarded-Proto https
-                  header_up X-Real-IP {remote_host}
-                }
-            '';
+            ${public} = {
+              extraConfig = ''
+                reverse_proxy https://${target} {
+                    header_up Host ${target}
+                    header_up X-Forwarded-Host ${public}
+                    header_up X-Forwarded-Proto https
+                    header_up X-Real-IP {remote_host}
+                  }
+              '';
+            };
           };
         in
         {
@@ -183,10 +185,9 @@ in
                 }
               '';
           };
-          "p.plebian.nl" = makeProxy "p.plebian.nl" "microbin.thuis";
-          "kevinandreihana.com" = makeProxy "kevinandreihana.com" "wedding.thuis";
-          "sea.plebian.nl" = makeProxy "sea.plebian.nl" "seaf.thuis";
-        };
+        }
+        // makeProxy "p.plebian.nl" "microbin.thuis"
+        // makeProxy "sea.plebian.nl" "seaf.thuis";
     };
     systemd.services.caddy = {
       serviceConfig = {

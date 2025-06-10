@@ -93,18 +93,14 @@
           modules = [
             systemconfig
             hardwareconfig
-
-            # Base NixOS configuration
             ./nixos/system.nix
 
-            # Secret management
+            home-manager.nixosModules.home-manager
             inputs.agenix.nixosModules.default
+            inputs.secrets.outPath
             {
               environment.systemPackages = [ inputs.agenix.packages.${system}.default ];
             }
-            inputs.secrets.outPath
-
-            home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.users.martijn = import homeconfig;

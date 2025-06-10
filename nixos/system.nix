@@ -26,14 +26,11 @@
     mutableUsers = false;
     users.martijn = {
       isNormalUser = true;
-      description = "Martijn Boers";
       extraGroups = [
         "networkmanager"
         "wheel"
         "plugdev"
       ];
-      shell = pkgs.zsh;
-      useDefaultShell = true;
       openssh.authorizedKeys.keyFiles = [
         ../secrets/keys/nurma-sk.pub
         ../secrets/keys/keychain-sk.pub
@@ -59,10 +56,9 @@
     git
     wget
 
-    # file editors
+    # editors
     neovim
     helix
-    jless # cli json viewer
 
     htop
     iotop # io monitoring
@@ -81,6 +77,14 @@
     pciutils # lspci
     usbutils # lsusb
     nfs-utils
+
+    # forensics
+    veracrypt
+    uutils-coreutils-noprefix
+    hexedit
+    jless # cli json viewer
+    tio # serial
+    avml # make memory dump
   ];
 
   nix = {
@@ -195,10 +199,18 @@
     martijn: notif@thuis
   '';
 
+  # mDNS
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true; # Enables mDNS name resolution for all applications (hostname.local)
+    openFirewall = true; # Automatically opens UDP port 5353 in the firewall
+  };
+
   environment.sessionVariables = {
     EDITOR = "nvim";
     REQUESTS_CA_BUNDLE = "/etc/ssl/certs/ca-certificates.crt";
     TMOUT = (5 * 60 * 60); # zsh timeout
+    NIXPKGS_ALLOW_UNFREE = 1;
   };
 
   # Set time zone.

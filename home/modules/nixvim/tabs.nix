@@ -109,13 +109,13 @@ in
             "git_status"
           ];
           eventHandlers = {
-            file_opened = # lua
-              ''
-                function(file_path)
-                  --auto close after opening file
-                  require("neo-tree").close_all()
-                end
-              '';
+            # file_opened = # lua
+            #   ''
+            #     function(file_path)
+            #       --auto close after opening file
+            #       require("neo-tree").close_all()
+            #     end
+            #   '';
           };
           sourceSelector = {
             winbar = false; # show icons

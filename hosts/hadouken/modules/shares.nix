@@ -37,13 +37,12 @@ in
 
     services.nfs.server = {
       enable = true;
-      hostName = "hadouken.machine.thuis";
       exports = ''
         /export          100.64.0.0/10(rw,fsid=0,no_subtree_check) 
         /export/music    100.64.0.0/10(rw,nohide,insecure,no_subtree_check)
-        /export/bitcoin  100.64.0.0/10(rw,nohide,insecure,no_subtree_check)
-        /export/fulcrum  100.64.0.0/10(rw,nohide,insecure,no_subtree_check)
-        /export/share    100.64.0.0/10(rw,nohide,insecure,no_subtree_check)
+	/export/share    100.64.0.0/10(rw,nohide,insecure,no_subtree_check)
+        /export/bitcoin  10.10.0.200(rw,nohide,insecure,no_subtree_check)
+        /export/fulcrum  10.10.0.200(rw,nohide,insecure,no_subtree_check)
       '';
     };
   };
