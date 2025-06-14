@@ -25,7 +25,9 @@
   users = {
     mutableUsers = false;
     users.martijn = {
+      shell = pkgs.zsh;
       isNormalUser = true;
+      useDefaultShell = true;
       extraGroups = [
         "networkmanager"
         "wheel"

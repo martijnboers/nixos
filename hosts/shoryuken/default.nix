@@ -8,6 +8,7 @@
     ./modules/headscale.nix
     ./modules/endlessh.nix
     ./modules/keycloak.nix
+    ./modules/authdns.nix
     ./modules/sailing.nix
     ./modules/caddy.nix
     ./modules/pgrok.nix
@@ -22,6 +23,7 @@
   hosts.prometheus.enable = true;
   hosts.pgrok.enable = false;
   hosts.endlessh.enable = true;
+  hosts.authdns.enable = true;
 
   # Right order of headscale operations for startup
   systemd.services = {

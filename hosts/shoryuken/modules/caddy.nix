@@ -33,7 +33,7 @@ in
       package = pkgs.callPackage ../../../pkgs/xcaddy.nix {
         plugins = [
           "github.com/darkweak/souin/plugins/caddy"
-          "github.com/caddy-dns/cloudflare"
+          # "github.com/caddy-dns/cloudflare"
         ];
       };
       globalConfig = ''

@@ -96,7 +96,7 @@ in
                 end,
             }
           '';
-        }; # auto-restore sessions on startup
+        }; # auto-restore sessions on startup (with neo-tree)
 
         mini = {
           enable = true;

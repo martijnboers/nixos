@@ -25,7 +25,7 @@ buildGoModule rec {
     description = "DNSCrypt v2 protocol implementation + a command-line tool";
     homepage = "https://github.com/ameshkov/dnscrypt";
     license = lib.licenses.unlicense;
-    maintainers = with lib.maintainers; [ ];
+    maintainers = lib.maintainers [ ];
     mainProgram = "dnscrypt";
   };
 }
