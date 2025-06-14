@@ -12,6 +12,7 @@
     ./modules/tailscale.nix
     ./modules/hyprland.nix
     ./modules/secrets.nix
+    ./modules/authdns.nix
     ./modules/auditd.nix
     ./modules/server.nix
     ./modules/borg.nix
@@ -25,7 +26,9 @@
   users = {
     mutableUsers = false;
     users.martijn = {
+      shell = pkgs.zsh;
       isNormalUser = true;
+      useDefaultShell = true;
       extraGroups = [
         "networkmanager"
         "wheel"

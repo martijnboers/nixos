@@ -56,7 +56,7 @@
     requires = [ "mnt-bitcoin.mount" ];
     after = [
       "mnt-bitcoin.mount"
-      "tailscaled.service"
+      # "tailscaled.service"
     ];
   };
 

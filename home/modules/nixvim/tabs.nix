@@ -88,6 +88,9 @@ in
               lsp_document_symbols = {
                 theme = "ivy";
               };
+              help_tags = {
+                theme = "ivy";
+              };
               current_buffer_fuzzy_find = {
                 theme = "ivy";
               };
@@ -101,7 +104,6 @@ in
         neo-tree = {
           enable = true;
           hideRootNode = true;
-          closeIfLastWindow = true;
           sources = [
             "filesystem"
             "document_symbols"
@@ -109,13 +111,13 @@ in
             "git_status"
           ];
           eventHandlers = {
-            # file_opened = # lua
-            #   ''
-            #     function(file_path)
-            #       --auto close after opening file
-            #       require("neo-tree").close_all()
-            #     end
-            #   '';
+            file_opened = # lua
+              ''
+                function(file_path)
+                  --auto close after opening file
+                  require("neo-tree").close_all()
+                end
+              '';
           };
           sourceSelector = {
             winbar = false; # show icons
@@ -141,6 +143,7 @@ in
           };
           window.width = 30;
           filesystem.window.mappings = {
+            x = "close_window";
             "<Left>" = "close_node";
             "<Right>" = "toggle_node";
           };
@@ -214,7 +217,11 @@ in
           options.desc = "Move buffer to the right";
         }
         {
-          action = "<cmd>bd<cr>";
+          action = helpers.mkRaw ''
+            function ()
+              vim.api.nvim_buf_delete(0, {})
+            end
+          '';
           key = "x";
           options.desc = "close buffer";
         }

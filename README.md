@@ -53,6 +53,11 @@ openssl genrsa -out root.key 4096
 openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -config /etc/pki-root.cnf
 ```
 
+### DNSSEC
+```commandline
+dnssec-dsfromkey Kplebian.nl.+013+12682.key
+```
+
 ### Documentation
 | project           | link |
 |-------------------| ---- |

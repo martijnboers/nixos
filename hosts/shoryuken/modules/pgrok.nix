@@ -69,10 +69,7 @@ in
       virtualHosts."tunnel.plebian.nl".extraConfig = ''
         reverse_proxy http://localhost:3320
       '';
-      virtualHosts."*.tunnel.plebian.nl".extraConfig = ''
-        tls {
-          dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-        }
+      virtualHosts."martijn.tunnel.plebian.nl".extraConfig = ''
         reverse_proxy http://localhost:3070
       '';
     };

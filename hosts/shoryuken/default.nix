@@ -23,6 +23,9 @@
   hosts.pgrok.enable = false;
   hosts.endlessh.enable = true;
 
+  # one of two
+  hosts.authdns.enable = true;
+
   # Right order of headscale operations for startup
   systemd.services = {
     caddy.wantedBy = [
