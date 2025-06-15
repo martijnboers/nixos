@@ -72,6 +72,7 @@
     du-dust # better du
     screen
     killall # 🔪
+    magic-wormhole # send files
 
     # system tools
     lsof # list open files
@@ -154,6 +155,7 @@
       "tenshin.machine.thuis".publicKeyFile = ../secrets/keys/tenshin.pub;
       "tatsumaki.machine.thuis".publicKeyFile = ../secrets/keys/tatsumaki.pub;
       "shoryuken.machine.thuis".publicKeyFile = ../secrets/keys/shoryuken.pub;
+      "rekkaken.machine.thuis".publicKeyFile = ../secrets/keys/rekkaken.pub;
     }
     // (lib.attrsets.mergeAttrsList (
       map mkBorgRepo [
@@ -162,11 +164,31 @@
         "iwa7rtli"
         "nads486h"
         "aebp8i08"
+        "c4j3xt27"
       ]
     ));
   programs.zsh.enable = true;
-  # default value, but should never be disabled
-  networking.firewall.enable = lib.mkForce true;
+
+  networking = {
+    firewall.enable = lib.mkForce true; # default value, but should never be disabled
+
+    # only use own dns
+    nameservers = [
+      "100.100.100.100" # headscale
+      "8.8.8.8"
+      "2620:fe::fe"
+      "149.112.112.112"
+      "2620:fe::9"
+    ];
+    resolvconf = {
+      # so dns servers don't use their own service
+      useLocalResolver = lib.mkForce false;
+      # extraConfig = "timeout:1";
+    };
+    # ignore what comes from dhcp
+    dhcpcd.extraConfig = "nohook resolv.conf";
+    networkmanager.dns = "none";
+  };
 
   security = {
     sudo.enable = lib.mkDefault false; # 🦀🦀
@@ -176,6 +198,7 @@
       ../secrets/keys/shoryuken.crt
       ../secrets/keys/tenshin.crt
       ../secrets/keys/tatsumaki.crt
+      ../secrets/keys/rekkaken.crt
     ];
   };
 
@@ -190,7 +213,7 @@
     };
     accounts = {
       default = {
-        host = "shoryuken.machine.thuis";
+        host = "rekkaken.machine.thuis";
         user = "notif@thuis";
         from = "notif@thuis";
       };
@@ -251,6 +274,7 @@
       allowUnfree = true;
       permittedInsecurePackages = [
         "cinny-unwrapped-4.2.3"
+	"beekeeper-studio-5.2.9" # Electron version 31 is EOL
         "electron-32.3.3" # eol
       ];
     };

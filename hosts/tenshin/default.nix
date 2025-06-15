@@ -3,13 +3,17 @@
   networking.hostName = "tenshin";
 
   imports = [
+    ./modules/cyberchef.nix
     ./modules/adguard.nix
+    ./modules/search.nix
     ./modules/caddy.nix
     ./modules/hass.nix
   ];
 
   hosts.adguard.enable = true;
   hosts.caddy.enable = true;
+  hosts.search.enable = true;
+  hosts.cyberchef.enable = true;
   hosts.prometheus.enable = true;
   hosts.hass.enable = true;
 

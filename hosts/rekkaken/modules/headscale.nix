@@ -12,35 +12,50 @@ let
     "atuin"
     "binarycache"
     "cal"
-    "chat"
     "detection"
     "immich"
+    "kal"
     "microbin"
     "minio"
     "monitoring"
     "ollama"
     "pgadmin"
     "seaf"
-    "search"
     "sync"
-    "tools"
     "vaultwarden"
     "webdav"
     "wedding"
-    "kal"
   ];
   shoryukenRecords = [
-    "notifications"
+    "chat"
     "uptime"
-    "prowlarr"
+  ];
+  rekkakenRecords = [
+    "notifications"
+    "vpn"
   ];
   tenshinRecords = [
     "dns"
     "hass"
+    "search"
+    "tools"
   ];
   tatsumakiRecords = [
     "mempool"
   ];
+
+  headplanePort = 8089;
+  format = pkgs.formats.yaml { };
+
+  # A workaround generate a valid Headscale config accepted by Headplane when `config_strict == true`.
+  settings = lib.recursiveUpdate config.services.headscale.settings {
+    acme_email = "/dev/null";
+    tls_cert_path = "/dev/null";
+    tls_key_path = "/dev/null";
+    policy.path = "/dev/null";
+    oidc.client_secret_path = "/dev/null";
+  };
+  headscaleConfig = format.generate "headscale.yml" settings;
 in
 {
   options.hosts.headscale = {
@@ -49,15 +64,52 @@ in
 
   config = mkIf cfg.enable {
     environment.systemPackages = [ config.services.headscale.package ];
+    systemd.services.headplane = {
+      environment = {
+        HEADPLANE_LOAD_ENV_OVERRIDES = "true";
+      };
+      serviceConfig.EnvironmentFile = config.age.secrets.headplane.path;
+    };
 
     services = {
-      caddy.virtualHosts."headscale.plebian.nl" = {
-        serverAliases = [ "headscale.donder.cloud" ];
-        extraConfig = ''
-          reverse_proxy http://localhost:${toString config.services.headscale.port}
+      caddy.virtualHosts = {
+        "headscale.plebian.nl" = {
+          serverAliases = [ "headscale.donder.cloud" ];
+          extraConfig = ''
+            reverse_proxy http://localhost:${toString config.services.headscale.port}
+          '';
+        };
+        "vpn.thuis".extraConfig = ''
+          import headscale
+          handle @internal {
+            reverse_proxy http://localhost:${toString headplanePort}
+          }
+          respond 403
         '';
       };
+
       borgbackup.jobs.default.paths = [ config.services.headscale.settings.database.sqlite.path ];
+
+      # headplane = {
+      #   # enable = true;
+      #   settings = {
+      #     server = {
+      #       port = headplanePort;
+      #     };
+      #     headscale = {
+      #       url = "https://headscale.plebian.nl";
+      #       config_path = "${headscaleConfig}";
+      #     };
+      #     integration.proc.enabled = true;
+      #     oidc = {
+      #       issuer = "https://auth.plebian.nl";
+      #       client_id = "headplane";
+      #       disable_api_key_login = true;
+      #       redirect_uri = "https://auth.plebian.nl/admin/oidc/callback";
+      #     };
+      #   };
+      # };
+
       headscale = {
         enable = true;
         address = "0.0.0.0";
@@ -109,6 +161,7 @@ in
                 pixel = config.hidden.tailscale_hosts.pixel;
                 router = config.hidden.tailscale_hosts.router;
                 pikvm = config.hidden.tailscale_hosts.pikvm;
+                rekkaken = config.hidden.tailscale_hosts.rekkaken;
               };
 
               groups = {
@@ -121,7 +174,7 @@ in
                   src = [ "group:trusted" ];
                   dst = [
                     "tenshin:53,80,443" # everyone access to dns
-                    "shoryuken:80,443,8025,2230" # everyone can send notifications
+                    "rekkaken:80,443,8025,2230" # everyone can send notifications + internal email
                     "hadouken:80,443" # everyone can access hadouken web-services
                   ];
                 }
@@ -158,6 +211,7 @@ in
                     "tenshin:*"
                     "shoryuken:*"
                     "tatsumaki:*"
+                    "rekkaken:*"
                     "nurma:9100"
                   ];
                 } # hadouken semi-god
@@ -172,6 +226,7 @@ in
                     "shoryuken:*"
                     "hadouken:*"
                     "tatsumaki:*"
+                    "rekkaken:*"
                     "router:4433"
                     "pikvm:443"
                   ];
@@ -202,6 +257,7 @@ in
                 (map (name: makeRecord name config.hidden.tailscale_hosts.hadouken) hadoukenRecords)
                 ++ (map (name: makeRecord name config.hidden.tailscale_hosts.shoryuken) shoryukenRecords)
                 ++ (map (name: makeRecord name config.hidden.tailscale_hosts.tatsumaki) tatsumakiRecords)
+                ++ (map (name: makeRecord name config.hidden.tailscale_hosts.rekkaken) rekkakenRecords)
                 ++ (map (name: makeRecord name config.hidden.tailscale_hosts.tenshin) tenshinRecords);
             };
           prefixes = {
@@ -213,6 +269,10 @@ in
     };
 
     age.secrets = {
+      headplane = {
+        file = ../../../secrets/headplane.age;
+        owner = config.services.headscale.user;
+      };
       headscale = {
         file = ../../../secrets/headscale.age;
         owner = config.services.headscale.user;

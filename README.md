@@ -13,6 +13,7 @@ for a good initial starting point for NixOS with flakes.
 
 ### Fresh installation notes
 - `git clone --recursive --depth=1 git@github.com:martijnboers/nixos.git ~/Nix`
+- `ssh-keygen -t ed25519 -C martijn@machine.hadouken.thuis`
 - `nixos-rebuild switch --flake ".?submodules=1" --use-remote-sudo`
 - `sudo tailscale up --login-server https://headscale.plebian.nl`
 - `pgrok init --remote-addr shoryuken.machine.thuis:6666 --token {token}`
@@ -20,7 +21,11 @@ for a good initial starting point for NixOS with flakes.
 - `gpg --edit-key 328144ACADA0A336` `trust` `5`
 
 ### Hetzner
+Start Ubuntu machine
 ```
+users.users.martijn = {
+    initialHashedPassword = "$y$j9T$odaa/qh6qtG0EgcuoYg2Z0$Aji4299/VffEHOJeT71/OIvjHcDovCy.quKGuilQKo8";
+};
 SSHPASS=<pwd> nix run github:nix-community/nixos-anywhere -- --flake '.?submodules=1#shoryuken' --env-password root@<ip>
 ```
 

@@ -28,7 +28,7 @@
     let
       mkNfsShare = name: {
         "/mnt/${name}" = {
-          device = "10.12.0.2:/${name}";
+          device = "10.12.0.2:/export/${name}";
           fsType = "nfs";
           options = [
             "rsize=1048576"

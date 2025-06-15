@@ -27,11 +27,11 @@ in
               nix = [ "nixfmt" ];
               python = [ "black" ];
               lua = [ "stylua" ];
-              html = [ "prettier" ];
-              javascript = [ "prettier" ];
-              javascriptreact = [ "prettier" ];
-              typescript = [ "prettier" ];
-              typescriptreact = [ "prettier" ];
+              html = [ "biome" ];
+              javascript = [ "biome" ];
+              javascriptreact = [ "biome" ];
+              typescript = [ "biome" ];
+              typescriptreact = [ "biome" ];
               yaml = [ "yamlfmt" ];
               bash = [
                 "shellcheck"
@@ -50,7 +50,7 @@ in
               shellharden.command = lib.getExe pkgs.shellharden;
               nixfmt.command = lib.getExe pkgs.nixfmt-rfc-style;
               stylua.command = lib.getExe pkgs.stylua;
-              prettier.command = lib.getExe pkgs.prettierd;
+              biome.command = lib.getExe pkgs.biome;
               yamlfmt.command = lib.getExe pkgs.yamlfmt;
             };
           };

@@ -1,25 +1,19 @@
 { ... }:
 {
-  networking.hostName = "shoryuken";
+  networking.hostName = "rekkaken";
 
   imports = [
-    ./modules/endlessh.nix
-    ./modules/keycloak.nix
-    ./modules/uptime.nix
-    ./modules/cinny.nix
+    ./modules/headscale.nix
+    ./modules/notifs.nix
     ./modules/caddy.nix
-    ./modules/pgrok.nix
   ];
 
-  hosts.keycloak.enable = true;
-  hosts.uptime-kuma.enable = true;
+  hosts.headscale.enable = true;
+  hosts.notifications.enable = true;
   hosts.caddy.enable = true;
   hosts.prometheus.enable = true;
-  hosts.pgrok.enable = false;
-  hosts.cinny-web.enable = false;
-  hosts.endlessh.enable = true;
 
-  # one of two
+  # two of two
   hosts.authdns.enable = true;
 
   # Enable tailscale network
@@ -27,7 +21,7 @@
 
   # Enable exit-node features
   services.tailscale = {
-    useRoutingFeatures = "both";
+    useRoutingFeatures = "server";
     extraSetFlags = [ "--advertise-exit-node" ];
   };
 
@@ -40,7 +34,7 @@
 
   hosts.borg = {
     enable = true;
-    repository = "ssh://iwa7rtli@iwa7rtli.repo.borgbase.com/./repo";
+    repository = "ssh://c4j3xt27@c4j3xt27.repo.borgbase.com/./repo";
   };
 
   nix.settings.trusted-users = [ "martijn" ]; # allows remote push

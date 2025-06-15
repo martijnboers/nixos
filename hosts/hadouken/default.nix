@@ -8,14 +8,12 @@ in
   networking = {
     hostName = "hadouken";
     hostId = "1b936a2a";
-    wireless.enable = true;
   };
 
   imports = [
     ./modules/vaultwarden.nix
     ./modules/monitoring.nix
     ./modules/detection.nix
-    ./modules/cyberchef.nix
     ./modules/mastodon.nix
     ./modules/wordpress.nix
     ./modules/detection.nix
@@ -32,10 +30,8 @@ in
     ./modules/ollama.nix
     ./modules/matrix.nix
     ./modules/immich.nix
-    ./modules/search.nix
     ./modules/shares.nix
     ./modules/caddy.nix
-    ./modules/cinny.nix
     ./modules/atuin.nix
     ./modules/plex.nix
   ];
@@ -45,7 +41,6 @@ in
   hosts.vaultwarden.enable = true;
   hosts.plex.enable = true;
   hosts.tailscale.enable = true;
-  hosts.cyberchef.enable = true;
   hosts.monitoring.enable = true;
   hosts.matrix.enable = true;
   hosts.mastodon.enable = true;
@@ -56,9 +51,7 @@ in
   hosts.sync.enable = true;
   hosts.archive.enable = true;
   hosts.binarycache.enable = true;
-  hosts.search.enable = true;
   hosts.changedetection.enable = true;
-  hosts.cinny-web.enable = true;
   hosts.immich.enable = true;
   hosts.prometheus.enable = true;
   hosts.calendar.enable = true;

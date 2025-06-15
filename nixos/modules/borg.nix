@@ -40,9 +40,7 @@ in
         passCommand = "cat ${config.age.secrets.borg.path}";
       };
       prune.keep = {
-        within = "1d"; # Keep all archives from the last day
-        daily = 7;
-        weekly = 4;
+        within = "15d"; # Keep all archives from the last 15 days
         monthly = -1; # Keep at least one archive for each month
       };
       environment.BORG_RSH = "ssh -i ${cfg.identityPath}";

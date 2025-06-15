@@ -44,7 +44,6 @@
     neofetch
     bat # fancy cat
     lsd # fancy ls
-    magic-wormhole # send files
     hydra-check # lookup hydra status binary
 
     # system

@@ -41,6 +41,7 @@ in
       awscli2
       httpie-desktop
       devenv
+      beekeeper-studio # db
 
       # forensics
       volatility3

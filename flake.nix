@@ -40,7 +40,12 @@
     };
 
     stylix = {
-      url = "github:danth/stylix/master";
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    headplane = {
+      url = "github:tale/headplane";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -117,23 +122,30 @@
       # Custom adjustments to packages
       overlays = import ./overlays { inherit inputs; };
 
-      nixosConfigurations.nurma = mkSystem "nurma" {
-        system = "x86_64-linux";
-      };
-
-      nixosConfigurations.usyk = mkSystem "usyk" {
-        system = "x86_64-linux";
-      };
-
-      nixosConfigurations.hadouken = mkSystem "hadouken" {
-        system = "x86_64-linux";
-      };
-
+      # ------------ Cloud ------------
       nixosConfigurations.shoryuken = mkSystem "shoryuken" {
         system = "x86_64-linux";
         extraModules = [ inputs.disko.nixosModules.disko ];
       };
+      nixosConfigurations.rekkaken = mkSystem "rekkaken" {
+        system = "x86_64-linux";
+        extraModules = [
+          inputs.disko.nixosModules.disko
+          inputs.headplane.nixosModules.headplane
+          {
+            # provides `pkgs.headplane` and `pkgs.headplane-agent`.
+            nixpkgs.overlays = [ inputs.headplane.overlays.default ];
+          }
+        ];
+      };
 
+      # ------------ Servers ------------
+      nixosConfigurations.tenshin = mkSystem "tenshin" {
+        system = "aarch64-linux";
+      };
+      nixosConfigurations.hadouken = mkSystem "hadouken" {
+        system = "x86_64-linux";
+      };
       nixosConfigurations.tatsumaki = mkSystem "tatsumaki" {
         system = "x86_64-linux";
         extraModules = [
@@ -142,10 +154,13 @@
         ];
       };
 
-      nixosConfigurations.tenshin = mkSystem "tenshin" {
-        system = "aarch64-linux";
+      # -------------- PCs --------------
+      nixosConfigurations.nurma = mkSystem "nurma" {
+        system = "x86_64-linux";
       };
-
+      nixosConfigurations.virtual = mkSystem "virtual" {
+        system = "x86_64-linux";
+      };
       darwinConfigurations.paddy = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = { inherit inputs outputs; };

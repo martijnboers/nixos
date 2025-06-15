@@ -168,12 +168,6 @@ in
                     reverse_proxy hadouken.machine.thuis:5552
                 }
 
-                handle_path /system/* {
-                    reverse_proxy https://mastodon.thuis {
-                        header_up Host {upstream_hostport}
-                    }
-                }
-
                 handle {
                     reverse_proxy hadouken.machine.thuis:5551 {
                     }

@@ -17,14 +17,15 @@ in
       zones = [
         {
           name = "plebian.nl";
-          serial = 5;
+          serial = 6;
           records = ''
             ; Default A Records
-            *		IN	A	65.109.132.206 
-            @		IN	A	65.109.132.206
+            *		IN	A	157.180.79.166 
+            @		IN	A	157.180.79.166
 
             ; Subdomains
-            ns1     	IN      A       65.109.132.206 ; plebian is main ns domain
+            ns1     	IN      A       157.180.79.166 ; plebian is main ns domain
+            headscale   IN      A       46.62.135.158 ;  headscale runs on other vps
 
             ; CNAME Records
             protonmail2._domainkey.plebian.nl.	IN	CNAME	protonmail2.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch. 
@@ -43,15 +44,14 @@ in
         }
         {
           name = "boers.email";
-          serial = 5;
+          serial = 6;
           records = ''
             ; Normal records
-            @       IN      A       65.109.132.206
-            *       IN      A       65.109.132.206
+            @       IN      A       157.180.79.166
+            *       IN      A       157.180.79.166
 
             ; Subdomains
-            ns1     IN      A       65.109.132.206 ; boers.email fallback
-            test    IN      A       127.0.0.1 
+            ns1     IN      A       46.62.135.158 ; boers.email fallback
 
             ; CNAME Records
             protonmail2._domainkey  IN      CNAME   protonmail2.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
@@ -70,11 +70,10 @@ in
         }
         {
           name = "noisesfrom.space";
-          serial = 5;
+          serial = 6;
           records = ''
             ; Normal records
-            @       IN      A       65.109.132.206
-
+            @       IN      A       157.180.79.166
             ; Subdomains
           '';
         }
@@ -82,7 +81,8 @@ in
 
       mkBindMasterZoneEntry = name: {
         master = true;
-        file = "/etc/bind/${name}.zone";
+        file = "/etc/bind/${name}.zone"; # might need chown
+
         extraConfig = ''
           dnssec-policy "default"; 
         '';
