@@ -1,34 +1,17 @@
 { ... }:
 {
-  networking.hostName = "shoryuken";
+  networking.hostName = "rekkaken";
 
   imports = [
-    ./modules/notifications.nix
-    ./modules/uptime-kuma.nix
     ./modules/headscale.nix
-    ./modules/endlessh.nix
-    ./modules/keycloak.nix
-    ./modules/sailing.nix
     ./modules/caddy.nix
-    ./modules/pgrok.nix
   ];
 
-  hosts.notifications.enable = true;
-  hosts.uptime-kuma.enable = true;
-  hosts.headscale.enable = true;
   hosts.keycloak.enable = true;
   hosts.caddy.enable = true;
-  hosts.sailing.enable = true;
-  hosts.prometheus.enable = true;
-  hosts.pgrok.enable = false;
-  hosts.endlessh.enable = true;
 
-  # one of two
+  # two of two
   hosts.authdns.enable = true;
-
-  systemd.services = {
-    headscale.requires = [ "tailscaled.service" ];
-  };
 
   # Enable tailscale network
   hosts.tailscale.enable = true;

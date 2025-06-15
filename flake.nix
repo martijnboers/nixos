@@ -117,14 +117,6 @@
       # Custom adjustments to packages
       overlays = import ./overlays { inherit inputs; };
 
-      nixosConfigurations.nurma = mkSystem "nurma" {
-        system = "x86_64-linux";
-      };
-
-      nixosConfigurations.usyk = mkSystem "usyk" {
-        system = "x86_64-linux";
-      };
-
       nixosConfigurations.hadouken = mkSystem "hadouken" {
         system = "x86_64-linux";
       };
@@ -144,6 +136,19 @@
 
       nixosConfigurations.tenshin = mkSystem "tenshin" {
         system = "aarch64-linux";
+      };
+
+      nixosConfigurations.rekkaken = mkSystem "rekkaken" {
+        system = "aarch64-linux";
+        extraModules = [ inputs.disko.nixosModules.disko ];
+      };
+
+      nixosConfigurations.nurma = mkSystem "nurma" {
+        system = "x86_64-linux";
+      };
+
+      nixosConfigurations.virtual = mkSystem "virtual" {
+        system = "x86_64-linux";
       };
 
       darwinConfigurations.paddy = darwin.lib.darwinSystem {

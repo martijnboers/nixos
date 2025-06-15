@@ -165,8 +165,18 @@
       ]
     ));
   programs.zsh.enable = true;
-  # default value, but should never be disabled
-  networking.firewall.enable = lib.mkForce true;
+
+  networking = {
+    firewall.enable = lib.mkForce true; # default value, but should never be disabled
+
+    # by default use adguard, unless overwritten
+    nameservers = lib.mkDefault [
+      "100.100.100.100" # headscale split dns
+      "8.8.8.8"
+    ];
+    dhcpcd.extraConfig = "nohook resolv.conf";
+    networkmanager.dns = "none";
+  };
 
   security = {
     sudo.enable = lib.mkDefault false; # 🦀🦀

@@ -21,6 +21,7 @@ for a good initial starting point for NixOS with flakes.
 
 ### Hetzner
 ```
+Start nixos-minimal ISO, passwd nixos
 SSHPASS=<pwd> nix run github:nix-community/nixos-anywhere -- --flake '.?submodules=1#shoryuken' --env-password root@<ip>
 ```
 

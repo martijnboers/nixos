@@ -50,8 +50,7 @@ in
             *       IN      A       65.109.132.206
 
             ; Subdomains
-            ns1     IN      A       65.109.132.206 ; boers.email fallback
-            test    IN      A       127.0.0.1 
+            ns1     IN      A       91.99.135.6 ; boers.email fallback
 
             ; CNAME Records
             protonmail2._domainkey  IN      CNAME   protonmail2.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.

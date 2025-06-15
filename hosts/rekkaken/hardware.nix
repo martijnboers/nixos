@@ -17,7 +17,7 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   fileSystems."/nix" = {
-    device = "/dev/disk/by-id/scsi-0HC_Volume_102108352-part1";
+    device = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_63552951-part1";
     fsType = "ext4";
     neededForBoot = true;
     options = [ "noatime" ];
@@ -32,51 +32,34 @@
 
   # Disk config
   disko.devices = {
-    disk.disk1 = {
-      device = lib.mkDefault "/dev/sda";
-      type = "disk";
-      content = {
-        type = "gpt";
-        partitions = {
-          boot = {
-            name = "boot";
-            size = "1M";
-            type = "EF02";
-          };
-          esp = {
-            name = "ESP";
-            size = "500M";
-            type = "EF00";
-            content = {
-              type = "filesystem";
-              format = "vfat";
-              mountpoint = "/boot";
+    disk = {
+      main = {
+        type = "disk";
+        device = "/dev/sda";
+        content = {
+          type = "gpt";
+          partitions = {
+            boot = {
+              size = "1M";
+              type = "EF02"; # for grub MBR
             };
-          };
-          root = {
-            name = "root";
-            size = "100%";
-            content = {
-              type = "lvm_pv";
-              vg = "pool";
+            ESP = {
+              size = "512M";
+              type = "EF00";
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot";
+                mountOptions = [ "umask=0077" ];
+              };
             };
-          };
-        };
-      };
-    };
-    lvm_vg = {
-      pool = {
-        type = "lvm_vg";
-        lvs = {
-          root = {
-            size = "100%FREE";
-            content = {
-              type = "filesystem";
-              format = "ext4";
-              mountpoint = "/";
-              mountOptions = [
-                "defaults"
-              ];
+            root = {
+              size = "100%";
+              content = {
+                type = "filesystem";
+                format = "ext4";
+                mountpoint = "/";
+              };
             };
           };
         };
@@ -87,6 +70,9 @@
   # This file was populated at runtime with the networking
   # details gathered from the active system.
   networking = {
+    nameservers = [
+      "8.8.8.8"
+    ];
     defaultGateway = "172.31.1.1";
     defaultGateway6 = {
       address = "fe80::1";
@@ -98,17 +84,17 @@
       eth0 = {
         ipv4.addresses = [
           {
-            address = "65.109.132.206";
+            address = "91.99.135.6";
             prefixLength = 32;
           }
         ];
         ipv6.addresses = [
           {
-            address = "2a01:4f9:c012:95ba::1";
+            address = "2a01:4f8:c2c:ea51::1";
             prefixLength = 64;
           }
           {
-            address = "fe80::9400:3ff:fe8a:25f2";
+            address = "fe80::9400:4ff:fe61:ccf";
             prefixLength = 64;
           }
         ];
@@ -128,7 +114,6 @@
     };
   };
   services.udev.extraRules = ''
-    ATTR{address}=="96:00:03:8a:25:f2", NAME="eth0"
-
+    ATTR{address}=="96:00:04:61:0c:cf", NAME="eth0"
   '';
 }

@@ -4,7 +4,6 @@
   pkgs,
   ...
 }:
-# TODO: REMOVE THIS ONE
 with lib;
 let
   cfg = config.hosts.headscale;
