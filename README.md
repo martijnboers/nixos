@@ -52,21 +52,11 @@ borg list ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo
 borgfs -f ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo::hadouken-default-2024-03-24T00:00:00 /mnt/restore
 ```
 
-### Create PKI
-```commandline
-openssl genrsa -out root.key 4096
-openssl req -x509 -new -nodes -key root.key -sha256 -days 3650 -out root.crt -config /etc/pki-root.cnf
-```
-
-### DNSSEC
-```commandline
-dnssec-dsfromkey Kplebian.nl.+013+12682.key
-```
-
 ### Documentation
 | project           | link |
 |-------------------| ---- |
 | `quickemu`        | https://github.com/quickemu-project/quickemu/wiki/05-Advanced-quickemu-configuration |
+| `ca-yubikey`      | https://smallstep.com/blog/build-a-tiny-ca-with-raspberry-pi-yubikey/ |
 | `microvm`         | https://astro.github.io/microvm.nix |
 | `nixvim`          | https://nix-community.github.io/nixvim/NeovimOptions/index.html |
 | `agenix`          | https://github.com/ryantm/agenix/tree/main/doc |

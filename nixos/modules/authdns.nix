@@ -10,22 +10,29 @@ in
 {
   options.hosts.authdns = {
     enable = mkEnableOption "Authorative DNS for own domains";
+    master = mkOption {
+      type = types.bool;
+      default = false;
+      description = "should have dnsec keys";
+    };
   };
 
   config = mkIf cfg.enable (
     let
+      shoryken = "157.180.79.166";
+      rekkaken = "46.62.135.158";
       zones = [
         {
           name = "plebian.nl";
-          serial = 6;
+          serial = 7;
           records = ''
             ; Default A Records
-            *		IN	A	157.180.79.166 
-            @		IN	A	157.180.79.166
+            *		IN	A	${shoryken}
+            @		IN	A	${shoryken}
 
             ; Subdomains
-            ns1     	IN      A       157.180.79.166 ; plebian is main ns domain
-            headscale   IN      A       46.62.135.158 ;  headscale runs on other vps
+            ns1     	IN      A       ${shoryken} ;  plebian.nl is fallback
+            headscale   IN      A       ${rekkaken} ;  headscale runs on other vps
 
             ; CNAME Records
             protonmail2._domainkey.plebian.nl.	IN	CNAME	protonmail2.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch. 
@@ -44,14 +51,14 @@ in
         }
         {
           name = "boers.email";
-          serial = 6;
+          serial = 7;
           records = ''
             ; Normal records
-            @       IN      A       157.180.79.166
-            *       IN      A       157.180.79.166
+            @       IN      A       ${shoryken}
+            *       IN      A       ${shoryken}
 
             ; Subdomains
-            ns1     IN      A       46.62.135.158 ; boers.email fallback
+            ns1     IN      A       ${rekkaken} ; boers.email is main ns domain
 
             ; CNAME Records
             protonmail2._domainkey  IN      CNAME   protonmail2.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
@@ -70,22 +77,27 @@ in
         }
         {
           name = "noisesfrom.space";
-          serial = 6;
+          serial = 7;
           records = ''
             ; Normal records
-            @       IN      A       157.180.79.166
+            @       IN      A       ${shoryken}
             ; Subdomains
           '';
         }
       ];
 
       mkBindMasterZoneEntry = name: {
-        master = true;
         file = "/etc/bind/${name}.zone"; # might need chown
-
+        master = true;
+        slaves = [ shoryken ];
         extraConfig = ''
           dnssec-policy "default"; 
         '';
+      };
+      mkBindSlaveZoneEntry = name: {
+        file = "/etc/bind/${name}.zone";
+        master = false;
+        masters = [ rekkaken ];
       };
 
     in
@@ -129,7 +141,7 @@ in
         zones = listToAttrs (
           map (zone: {
             name = zone.name;
-            value = mkBindMasterZoneEntry zone.name;
+            value = if cfg.master then mkBindMasterZoneEntry zone.name else mkBindSlaveZoneEntry zone.name;
           }) zones
         );
       };

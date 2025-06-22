@@ -43,6 +43,8 @@
     repository = "ssh://iwa7rtli@iwa7rtli.repo.borgbase.com/./repo";
   };
 
+  services.borgbackup.jobs.default.paths = [ "/var/lib/postgresql" ];
+
   nix.settings.trusted-users = [ "martijn" ]; # allows remote push
 
   # Server defaults

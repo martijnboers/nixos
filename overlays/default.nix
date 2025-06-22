@@ -6,12 +6,6 @@
   # prev = unaltered (before overlays)
   # final = after overlay mods, like rec keyword
   modifications = final: prev: {
-    nerdfonts = final.stable.nerdfonts.override {
-      fonts = [
-        "RobotoMono"
-        "JetBrainsMono"
-      ];
-    };
     mastodon = prev.mastodon.override {
       version = "4.3.8"; # make sure shoryken and hadouken use the same version between updates
     };

@@ -1,6 +1,6 @@
 * {
   font-size: 14px;
-  font-family: "JetBrainsMono Nerd Font", "Hack Nerd Font", FontAwesome, Roboto, sans-serif;
+  font-family: "Inter", "JetbrainsMono Nerd Font";
   transition: 100ms;
   box-shadow: unset;
 }
@@ -29,7 +29,6 @@
   border: unset;
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  
 }
 
 .floating-notifications.background .notification-background .notification .notification-content,

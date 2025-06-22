@@ -80,7 +80,9 @@ in
         xfce.orage
 
         # screenshots / clipboard
-        hyprshot
+        satty
+        grim
+        slurp
         wl-clipboard
         stable.copyq
 
@@ -150,7 +152,7 @@ in
             "$mod, E, exec, $fileManager"
             "$mod, Space, exec, $menu"
             "$mod, R, exec, code"
-            ", Print, exec, hyprshot -m region --clipboard-only"
+            '', Print, exec, grim -g "$(slurp)" - | satty -f -''
             "$mod, F4, killactive"
             "$prog, H, exec, copyq toggle"
             "$mod, M, exec, hyprlock"

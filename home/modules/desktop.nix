@@ -23,11 +23,9 @@ in
       kooha # record screen wayland
       wev # wayland xev
 
-      yubioath-flutter # yubikey
       seafile-client
       cheese # webcam
       file-roller # archive manager
-      nerdfonts # icon font
 
       # Office suite
       hunspell

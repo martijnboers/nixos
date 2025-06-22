@@ -106,24 +106,34 @@
   };
 
   # Default setup for caddy pki
-  environment.etc."pki-root.cnf".text = ''
+  environment.etc."pki-intermediate.cnf".text = ''
     [ req ]
-    default_bits       = 4096
-    default_md         = sha256
-    prompt             = no
     distinguished_name = req_distinguished_name
-    x509_extensions    = v3_ca
 
     [ req_distinguished_name ]
-    CN                 = plebs4cash
-    O                  = plebs4cash
-    C                  = NL
+    # Keep it simple for intermediate
 
-    [ v3_ca ]
-    basicConstraints   = critical, CA:true
-    keyUsage           = critical, keyCertSign, cRLSign
+    [ v3_intermediate_ca ]
     subjectKeyIdentifier = hash
-    nameConstraints = critical, permitted;DNS:.thuis
+    authorityKeyIdentifier = keyid:always  
+    basicConstraints = critical, CA:true, pathlen:0
+    keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+    nameConstraints = critical, permitted;DNS:.thuis, permitted;DNS:thuis
+  '';
+
+  environment.etc."ssl/openssl.cnf".text = ''
+    [openssl_init] 
+    engines=engine_section 
+    [engine_section] 
+    pkcs11 = pkcs11_section 
+    [pkcs11_section] 
+    engine_id = pkcs11 
+    dynamic_path = ${pkgs.opensc}/lib/opensc-pkcs11.so
+    MODULE_PATH = ${pkgs.libp11}/lib/engines/pkcs11.so
+    PIN = "safest" 
+    init = 0
+
+    module: ${pkgs.opensc}/lib/onepin-opensc-pkcs11.so
   '';
 
   # Bootloader.

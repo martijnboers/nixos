@@ -13,6 +13,11 @@ in
     enable = mkEnableOption "Automatic styling";
   };
   config = mkIf cfg.enable {
+    home.packages = with pkgs; [
+      gnome-font-viewer
+      inter-nerdfont
+    ];
+
     # file:///home/martijn/.config/stylix/palette.html
     stylix = {
       enable = true;
@@ -26,16 +31,16 @@ in
       base16Scheme = "${pkgs.base16-schemes}/share/themes/material-darker.yaml";
       fonts = {
         serif = {
-          package = pkgs.roboto-serif;
-          name = "Roboto Serif";
+          package = pkgs.inter;
+          name = "Inter Display, Light Italic";
         };
         sansSerif = {
-          package = pkgs.roboto-flex;
-          name = "Roboto Flex";
+          package = pkgs.inter;
+          name = "Inter";
         };
         monospace = {
-          package = pkgs.jetbrains-mono;
-          name = "Jetbrains Mono";
+          package = pkgs.nerd-fonts.jetbrains-mono;
+          name = "JetbrainsMono Nerd Font";
         };
         emoji = {
           package = pkgs.noto-fonts-emoji;
@@ -43,10 +48,12 @@ in
         };
         sizes.popups = 14; # for fuzzel
       };
-      targets.librewolf.enable = false;
-      targets.nixvim.enable = false;
-      targets.hyprlock.enable = false;
-      targets.swaync.enable = false;
+      targets = {
+        librewolf.enable = false;
+        nixvim.enable = false;
+        hyprlock.enable = false;
+        swaync.enable = false;
+      };
     };
   };
 }

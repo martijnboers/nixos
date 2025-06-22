@@ -8,7 +8,16 @@
     gqrx
     sway
     wmenu
+
     openssl # for internal pki certs
+    xca
+    step-cli
+
+    # yubikey
+    yubioath-flutter
+    yubico-piv-tool
+    yubikey-manager # ykman
+    opensc
   ];
 
   age.identityPaths = [ "/home/martijn/.ssh/id_ed25519_age" ];

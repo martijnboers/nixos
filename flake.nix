@@ -131,11 +131,11 @@
         system = "x86_64-linux";
         extraModules = [
           inputs.disko.nixosModules.disko
-          inputs.headplane.nixosModules.headplane
-          {
-            # provides `pkgs.headplane` and `pkgs.headplane-agent`.
-            nixpkgs.overlays = [ inputs.headplane.overlays.default ];
-          }
+          # inputs.headplane.nixosModules.headplane
+          # {
+          #   # provides `pkgs.headplane` and `pkgs.headplane-agent`.
+          #   nixpkgs.overlays = [ inputs.headplane.overlays.default ];
+          # }
         ];
       };
 
