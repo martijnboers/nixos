@@ -30,7 +30,7 @@
     # On the fly running of programs
     nix-index-database = {
       url = "github:Mic92/nix-index-database";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Disk setup for nixos-anywhere
@@ -49,10 +49,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    librechat = {
+      url = "github:tschwemley/librechat-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # All-in-one bitcoin node
     nix-bitcoin = {
-      url = "github:martijnboers/nix-bitcoin/master";
-      # url = "github:fort-nix/nix-bitcoin/master";
+      url = "github:fort-nix/nix-bitcoin/master";
     };
 
     darwin = {
@@ -71,28 +75,27 @@
     }@inputs:
     let
       inherit (self) outputs;
+      lib = nixpkgs.lib;
       systems = [
         "x86_64-linux"
         "aarch64-linux"
         "aarch64-darwin"
       ];
-      forAllSystems = nixpkgs.lib.genAttrs systems;
+      forAllSystems = lib.genAttrs systems;
 
       mkSystem =
         name:
         {
           system,
-          extraModules ? [ ],
+          modules ? [ ],
         }:
         let
           systemconfig = ./hosts/${name}/default.nix;
           hardwareconfig = ./hosts/${name}/hardware.nix;
           homeconfig = ./hosts/${name}/home.nix;
         in
-        with nixpkgs.lib;
-        nixosSystem {
+        lib.nixosSystem {
           inherit system;
-          inherit extraModules;
 
           specialArgs = { inherit inputs outputs; };
           modules = [
@@ -111,7 +114,7 @@
               home-manager.users.martijn = import homeconfig;
               home-manager.extraSpecialArgs = { inherit inputs outputs system; };
             }
-          ] ++ extraModules;
+          ] ++ modules;
         };
     in
     {
@@ -125,17 +128,17 @@
       # ------------ Cloud ------------
       nixosConfigurations.shoryuken = mkSystem "shoryuken" {
         system = "x86_64-linux";
-        extraModules = [ inputs.disko.nixosModules.disko ];
+        modules = [ inputs.disko.nixosModules.disko ];
       };
       nixosConfigurations.rekkaken = mkSystem "rekkaken" {
         system = "x86_64-linux";
-        extraModules = [
+        modules = [
           inputs.disko.nixosModules.disko
-          # inputs.headplane.nixosModules.headplane
-          # {
-          #   # provides `pkgs.headplane` and `pkgs.headplane-agent`.
-          #   nixpkgs.overlays = [ inputs.headplane.overlays.default ];
-          # }
+          inputs.headplane.nixosModules.headplane
+          {
+            # provides `pkgs.headplane` and `pkgs.headplane-agent`.
+            nixpkgs.overlays = [ inputs.headplane.overlays.default ];
+          }
         ];
       };
 
@@ -145,10 +148,11 @@
       };
       nixosConfigurations.hadouken = mkSystem "hadouken" {
         system = "x86_64-linux";
+        modules = [ inputs.librechat.nixosModules.librechat ];
       };
       nixosConfigurations.tatsumaki = mkSystem "tatsumaki" {
         system = "x86_64-linux";
-        extraModules = [
+        modules = [
           inputs.disko.nixosModules.disko
           inputs.nix-bitcoin.nixosModules.default
         ];

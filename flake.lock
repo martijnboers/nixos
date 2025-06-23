@@ -292,7 +292,7 @@
     },
     "flake-utils_2": {
       "inputs": {
-        "systems": "systems_3"
+        "systems": "systems_4"
       },
       "locked": {
         "lastModified": 1731533236,
@@ -310,7 +310,7 @@
     },
     "flake-utils_3": {
       "inputs": {
-        "systems": "systems_4"
+        "systems": "systems_5"
       },
       "locked": {
         "lastModified": 1731533236,
@@ -519,6 +519,27 @@
         "type": "github"
       }
     },
+    "librechat": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "systems": "systems_3"
+      },
+      "locked": {
+        "lastModified": 1750671369,
+        "narHash": "sha256-tx5wJZ04BQxtCIzwHKP5WBXFG4//XOKQ+UDT3HIZudQ=",
+        "owner": "tschwemley",
+        "repo": "librechat-flake",
+        "rev": "62d422abe685aeb8d08a89a9cb26714ab8fef6e5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tschwemley",
+        "repo": "librechat-flake",
+        "type": "github"
+      }
+    },
     "nix-bitcoin": {
       "inputs": {
         "extra-container": "extra-container",
@@ -527,15 +548,15 @@
         "nixpkgs-unstable": "nixpkgs-unstable"
       },
       "locked": {
-        "lastModified": 1749555734,
-        "narHash": "sha256-sjdiGncDWU/btMwYP8NjuTGLHN76celafHWGA6vvHNc=",
-        "owner": "martijnboers",
+        "lastModified": 1749652690,
+        "narHash": "sha256-qLwBEXlGY2pLNPhPNpeOE0DNC1luovTYE3ZDPMyMPXc=",
+        "owner": "fort-nix",
         "repo": "nix-bitcoin",
-        "rev": "62bc70b76ae2e3ff49b28a6e319d285a189e5cb6",
+        "rev": "ac1344fb6d91e2af219803eaaa67d1d974666156",
         "type": "github"
       },
       "original": {
-        "owner": "martijnboers",
+        "owner": "fort-nix",
         "ref": "master",
         "repo": "nix-bitcoin",
         "type": "github"
@@ -544,7 +565,7 @@
     "nix-index-database": {
       "inputs": {
         "nixpkgs": [
-          "nixpkgs-stable"
+          "nixpkgs"
         ]
       },
       "locked": {
@@ -563,16 +584,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1748037224,
-        "narHash": "sha256-92vihpZr6dwEMV6g98M5kHZIttrWahb9iRPBm1atcPk=",
+        "lastModified": 1750400657,
+        "narHash": "sha256-3vkjFnxCOP6vm5Pm13wC/Zy6/VYgei/I/2DWgW4RFeA=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "f09dede81861f3a83f7f06641ead34f02f37597f",
+        "rev": "b2485d56967598da068b5a6946dadda8bfcbcd37",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-24.11",
+        "ref": "nixos-25.05",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -645,7 +666,7 @@
           "nixpkgs"
         ],
         "nuschtosSearch": "nuschtosSearch",
-        "systems": "systems_5"
+        "systems": "systems_6"
       },
       "locked": {
         "lastModified": 1749496904,
@@ -717,6 +738,7 @@
         "disko": "disko",
         "headplane": "headplane",
         "home-manager": "home-manager_2",
+        "librechat": "librechat",
         "nix-bitcoin": "nix-bitcoin",
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_2",
@@ -730,11 +752,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1750614885,
-        "narHash": "sha256-nj8TYGulb5CpCFf2chCyLp2hN+AKjjrS/Y6yJkzwQqc=",
+        "lastModified": 1750703261,
+        "narHash": "sha256-Lo9oiVdXqKo8raSzfOSWU12MvSHlaQChSoXx0IciHd4=",
         "ref": "refs/heads/master",
-        "rev": "b48ce02ba2dced41ae7fa5138e1cba629f571e15",
-        "revCount": 1,
+        "rev": "78a18293f1f66c0453f8cb836be82c081c4f1d97",
+        "revCount": 2,
         "type": "git",
         "url": "ssh://git@github.com/martijnboers/secrets.git"
       },
@@ -759,7 +781,7 @@
           "nixpkgs"
         ],
         "nur": "nur",
-        "systems": "systems_6",
+        "systems": "systems_7",
         "tinted-foot": "tinted-foot",
         "tinted-kitty": "tinted-kitty",
         "tinted-schemes": "tinted-schemes",
@@ -812,16 +834,16 @@
     },
     "systems_3": {
       "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "lastModified": 1689347949,
+        "narHash": "sha256-12tWmuL2zgBgZkdoB6qXZsgJEH9LR3oUgpaQq2RbI80=",
         "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "repo": "default-linux",
+        "rev": "31732fcf5e8fea42e59c2488ad31a0e651500f68",
         "type": "github"
       },
       "original": {
         "owner": "nix-systems",
-        "repo": "default",
+        "repo": "default-linux",
         "type": "github"
       }
     },
@@ -856,6 +878,21 @@
       }
     },
     "systems_6": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_7": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",

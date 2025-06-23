@@ -27,13 +27,13 @@ in
     ./modules/storage.nix
     ./modules/firefox.nix
     ./modules/archive.nix
-    ./modules/ollama.nix
     ./modules/matrix.nix
     ./modules/immich.nix
     ./modules/shares.nix
     ./modules/caddy.nix
     ./modules/atuin.nix
     ./modules/plex.nix
+    ./modules/llm.nix
   ];
 
   hosts.shares.enable = true;
@@ -45,7 +45,7 @@ in
   hosts.matrix.enable = true;
   hosts.mastodon.enable = true;
   hosts.fail2ban.enable = true;
-  hosts.ollama.enable = true;
+  hosts.llm.enable = true;
   hosts.wordpress.enable = true;
   hosts.microbin.enable = true;
   hosts.sync.enable = true;

@@ -286,5 +286,6 @@
     SystemKeepFree=100G
   '';
 
+  # https://nixos.org/manual/nixos/stable/options.html#opt-system.stateVersion
   system.stateVersion = "24.05";
 }

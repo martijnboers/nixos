@@ -13,11 +13,7 @@ in
     enable = mkEnableOption "Automatic styling";
   };
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      gnome-font-viewer
-      inter-nerdfont
-    ];
-
+    home.packages = with pkgs; [ gnome-font-viewer ];
     # file:///home/martijn/.config/stylix/palette.html
     stylix = {
       enable = true;
