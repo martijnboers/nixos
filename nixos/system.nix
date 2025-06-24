@@ -61,6 +61,7 @@
 
     # editors
     neovim
+    vim
     helix
 
     htop
@@ -168,6 +169,7 @@
       ]
     ));
   programs.zsh.enable = true;
+  services.fwupd.enable = true; # firmware update
 
   networking = {
     firewall.enable = lib.mkForce true; # default value, but should never be disabled
@@ -194,11 +196,8 @@
     sudo.enable = lib.mkDefault false; # 🦀🦀
     sudo-rs.enable = lib.mkDefault true; # 🦀🦀
     pki.certificateFiles = [
-      ../secrets/keys/hadouken.crt
-      ../secrets/keys/shoryuken.crt
-      ../secrets/keys/tenshin.crt
-      ../secrets/keys/tatsumaki.crt
-      ../secrets/keys/rekkaken.crt
+      ../secrets/keys/PLEBS4DIAMOND.crt
+      ../secrets/keys/PLEBS4GOLD.crt
     ];
   };
 
@@ -274,7 +273,7 @@
       allowUnfree = true;
       permittedInsecurePackages = [
         "cinny-unwrapped-4.2.3"
-	"beekeeper-studio-5.2.9" # Electron version 31 is EOL
+        "beekeeper-studio-5.2.12" # Electron version 31 is EOL
         "electron-32.3.3" # eol
       ];
     };

@@ -45,6 +45,7 @@
     bat # fancy cat
     lsd # fancy ls
     hydra-check # lookup hydra status binary
+    gemini-cli # proompting
 
     # system
     gnupg

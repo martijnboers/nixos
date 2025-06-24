@@ -15,7 +15,7 @@ in
       tflint
       vale
       ruff
-      eslint
+      # eslint # doesn't work with gemini-cli?
     ];
 
     programs.nixvim = {

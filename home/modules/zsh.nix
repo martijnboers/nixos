@@ -38,7 +38,7 @@ in
                 --fallback
             else
               nixos-rebuild switch \
-                --use-remote-sudo \
+		--ask-sudo-password \
                 --fallback \
                 --verbose \
                 --flake ".?submodules=1#''${1}" \
@@ -68,7 +68,7 @@ in
           wolk = sshAlias "shoryuken";
           pi = sshAlias "tenshin";
           zima = sshAlias "tatsumaki";
-          giga = sshAlias "nurma";
+          desktop = sshAlias "nurma";
           nofail = sshAlias "rekkaken";
 
           socks = "ssh -D 1337 -q -C -N hadouken.machine.thuis";
@@ -89,7 +89,7 @@ in
         test -f ~/.config/zsh/.p10k.zsh && source ~/.config/zsh/.p10k.zsh
 
         # AI keys
-        source ${config.age.secrets.llm.path}
+        export $(cat ${config.age.secrets.llm.path} | xargs)
       '';
       oh-my-zsh = {
         enable = true;

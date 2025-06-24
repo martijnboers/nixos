@@ -27,7 +27,7 @@
           };
         };
         google = {
-          api-key-env = "GOOGLE_LLM_API_KEY";
+          api-key-env = "GEMINI_API_KEY";
           # https://ai.google.dev/gemini-api/docs/models
           models = {
             "gemini-2.5-pro-exp-03-25" = {

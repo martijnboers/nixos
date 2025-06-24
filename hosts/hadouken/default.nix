@@ -15,7 +15,6 @@ in
     ./modules/monitoring.nix
     ./modules/detection.nix
     ./modules/mastodon.nix
-    ./modules/wordpress.nix
     ./modules/detection.nix
     ./modules/syncthing.nix
     ./modules/fail2ban.nix
@@ -46,7 +45,6 @@ in
   hosts.mastodon.enable = true;
   hosts.fail2ban.enable = true;
   hosts.llm.enable = true;
-  hosts.wordpress.enable = true;
   hosts.microbin.enable = true;
   hosts.sync.enable = true;
   hosts.archive.enable = true;
@@ -93,6 +91,9 @@ in
     enable = true;
     name = "hadouken";
   };
+
+  # Heat management intel cpu
+  services.thermald.enable = true;
 
   # Don't use own bincache, only upstream
   nix.settings.substituters = lib.mkForce [ "https://cache.nixos.org" ];

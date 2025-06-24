@@ -27,7 +27,10 @@ in
         (headscale) {
           @internal remote_ip 100.64.0.0/10
           tls {
-            issuer internal { ca hadouken }
+            issuer acme {
+                dir https://acme.thuis/acme/intermediate/directory
+                ca_root ${../../../secrets/keys/PLEBS4DIAMOND.crt}
+            }
           }
         }
       '';
@@ -41,18 +44,32 @@ in
           enable_full_duplex
         }
         pki {
-         ca hadouken {
-           name     hadouken
-           root {
-             cert   ${../../../secrets/keys/hadouken.crt}
-             key    ${config.age.secrets.hadouken-pki.path}
-           }
-         }
+            ca intermediate {
+                root {
+                    cert ${../../../secrets/keys/PLEBS4DIAMOND.crt}
+                }
+                intermediate {
+                    cert ${../../../secrets/keys/PLEBS4GOLD-chain.pem}
+                    key  ${config.age.secrets.intermediate-key.path}
+                }
+            }
         }
         order coraza_waf first
         order webdav before file_server
       '';
       virtualHosts = {
+        "acme.thuis" = {
+          extraConfig = ''
+            acme_server {
+              ca intermediate
+              resolvers 100.100.100.100 
+              allow_wildcard_names
+              allow {
+                ip_ranges 100.64.0.0/10
+              }
+            }
+          '';
+        };
         "webdav.thuis:80".extraConfig = ''
           import headscale
           handle @internal {
@@ -81,6 +98,10 @@ in
     age.secrets = {
       hadouken-pki = {
         file = ../../../secrets/hadouken-pki.age;
+        owner = "caddy";
+      };
+      intermediate-key = {
+        file = ../../../secrets/intermediate-key.age;
         owner = "caddy";
       };
     };

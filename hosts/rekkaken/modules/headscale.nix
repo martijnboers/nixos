@@ -25,13 +25,16 @@ let
     "vaultwarden"
     "webdav"
     "wedding"
+    "llm"
   ];
   shoryukenRecords = [
     "chat"
     "uptime"
+    "auth"
   ];
   rekkakenRecords = [
     "notifications"
+    "acme"
     "vpn"
   ];
   tenshinRecords = [
@@ -64,6 +67,7 @@ in
 
   config = mkIf cfg.enable {
     environment.systemPackages = [ config.services.headscale.package ];
+
     systemd.services.headplane = {
       environment = {
         HEADPLANE_LOAD_ENV_OVERRIDES = "true";
@@ -73,12 +77,9 @@ in
 
     services = {
       caddy.virtualHosts = {
-        "headscale.plebian.nl" = {
-          serverAliases = [ "headscale.donder.cloud" ];
-          extraConfig = ''
-            reverse_proxy http://localhost:${toString config.services.headscale.port}
-          '';
-        };
+        "headscale.plebian.nl".extraConfig = ''
+          reverse_proxy http://localhost:${toString config.services.headscale.port}
+        '';
         "vpn.thuis".extraConfig = ''
           import headscale
           handle @internal {
@@ -86,30 +87,45 @@ in
           }
           respond 403
         '';
+        "vpn-callback.plebian.nl".extraConfig = ''
+          @oidc_paths path /oidc/callback* /signin-oidc* /oauth2/callback* /login/oauth2/code/*
+
+          handle @oidc_paths {
+            reverse_proxy http://localhost:${toString headplanePort}
+          }
+	  respond 403
+        '';
       };
 
       borgbackup.jobs.default.paths = [ config.services.headscale.settings.database.sqlite.path ];
 
-      # headplane = {
-      #   # enable = true;
-      #   settings = {
-      #     server = {
-      #       port = headplanePort;
-      #     };
-      #     headscale = {
-      #       url = "https://headscale.plebian.nl";
-      #       config_path = "${headscaleConfig}";
-      #     };
-      #     integration.proc.enabled = true;
-      #     oidc = {
-      #       issuer = "https://auth.plebian.nl";
-      #       client_id = "headplane";
-      #       disable_api_key_login = true;
-      #       redirect_uri = "https://auth.plebian.nl/admin/oidc/callback";
-      #     };
-      #   };
-      # };
-      #
+      headplane = {
+        enable = true;
+        agent.enable = false;
+        settings = {
+          server = {
+            host = "127.0.0.1";
+            port = headplanePort;
+            cookie_secret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"; # overwritten by env
+            cookie_secure = true;
+          };
+          headscale = {
+            url = "https://headscale.plebian.nl";
+            config_path = "${headscaleConfig}";
+            config_strict = false;
+          };
+          integration.proc.enabled = true;
+          oidc = {
+            issuer = "https://auth.plebian.nl/realms/master";
+            client_id = "headplane";
+            headscale_api_key = "overwritten";
+            disable_api_key_login = true;
+            redirect_uri = "https://vpn-callback.plebian.nl/oidc/callback";
+            token_endpoint_auth_method = "client_secret_basic";
+          };
+        };
+      };
+
       headscale = {
         enable = true;
         address = "0.0.0.0";

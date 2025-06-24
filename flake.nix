@@ -5,6 +5,7 @@
     nixpkgs.url = "nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "nixpkgs/nixos-24.11";
     nixpkgs-fork.url = "github:martijnboers/nixpkgs";
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -145,6 +146,7 @@
       # ------------ Servers ------------
       nixosConfigurations.tenshin = mkSystem "tenshin" {
         system = "aarch64-linux";
+	modules = [ inputs.nixos-hardware.nixosModules.raspberry-pi-4 ];
       };
       nixosConfigurations.hadouken = mkSystem "hadouken" {
         system = "x86_64-linux";

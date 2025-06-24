@@ -15,11 +15,6 @@ in
   config = mkIf cfg.enable {
     services.caddy = {
       enable = true;
-      package = pkgs.callPackage ../../../pkgs/xcaddy.nix {
-        plugins = [
-	  "github.com/mohammed90/caddy-encrypted-storage"
-        ];
-      };
       extraConfig = ''
         (headscale) {
           @internal remote_ip 100.64.0.0/10
@@ -36,7 +31,6 @@ in
               cert   ${../../../secrets/keys/tenshin.crt}
               key    ${config.age.secrets.tenshin-pki.path}
             }
-	    storage  encrypted
           }
         }
       '';

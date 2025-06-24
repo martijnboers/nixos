@@ -7,8 +7,5 @@
   # Enable profiles
   maatwerk.desktop.enable = false;
 
-  home.packages = with pkgs; [
-    zfs
-    seafile-client
-  ];
+  home.packages = with pkgs; [ zfs ];
 }

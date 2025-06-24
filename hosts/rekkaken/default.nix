@@ -3,17 +3,15 @@
   networking.hostName = "rekkaken";
 
   imports = [
+    ./modules/acmecaddy.nix
     ./modules/headscale.nix
     ./modules/notifs.nix
-    ./modules/caddy.nix
-    ./modules/acme.nix
   ];
 
   hosts.headscale.enable = true;
   hosts.notifications.enable = true;
   hosts.caddy.enable = true;
   hosts.prometheus.enable = true;
-  hosts.acme.enable = true;
 
   # two of two
   hosts.authdns = {

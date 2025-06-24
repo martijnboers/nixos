@@ -35,7 +35,7 @@ in
     };
 
     services.seafile = {
-      enable = true;
+      enable = false; # future-1.0.0 not supported for interpreter python3.13
       adminEmail = "seafile@plebian.nl";
       seafileSettings.fileserver = {
         host = "0.0.0.0";
