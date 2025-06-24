@@ -94,6 +94,9 @@ in
     name = "hadouken";
   };
 
+  # Heat management intel cpu
+  services.thermald.enable = true;
+
   # Don't use own bincache, only upstream
   nix.settings.substituters = lib.mkForce [ "https://cache.nixos.org" ];
 

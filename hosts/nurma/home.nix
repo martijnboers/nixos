@@ -11,7 +11,6 @@
 
     openssl # for internal pki certs
     xca
-    step-cli
 
     # yubikey
     yubioath-flutter

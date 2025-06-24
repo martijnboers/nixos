@@ -21,6 +21,7 @@ in
     let
       shoryken = "157.180.79.166";
       rekkaken = "46.62.135.158";
+
       zones = [
         {
           name = "plebian.nl";
@@ -31,8 +32,8 @@ in
             @		IN	A	${shoryken}
 
             ; Subdomains
-            ns1     	IN      A       ${shoryken} ;  plebian.nl is fallback
-            headscale   IN      A       ${rekkaken} ;  headscale runs on other vps
+            ns1     	IN      A       ${shoryken} 					;  plebian.nl is fallback
+            headscale   IN      A       ${rekkaken} 					;  headscale runs on other vps
 
             ; CNAME Records
             protonmail2._domainkey.plebian.nl.	IN	CNAME	protonmail2.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch. 

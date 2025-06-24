@@ -15,5 +15,4 @@
   networking.firewall.allowedTCPPorts = [ 22 ];
 
   hosts.tailscale.enable = true;
-  # hosts.hyprland.enable = true;
 }

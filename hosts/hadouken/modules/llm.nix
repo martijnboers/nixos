@@ -36,7 +36,7 @@ in
 	ALLOW_REGISTRATION = "true";
         HOST = "0.0.0.0";
       };
-      credentials = [ config.age.secrets.librechat.path ];
+      # credentials = [ config.age.secrets.llm.path ];
     };
 
     services.ollama = {
