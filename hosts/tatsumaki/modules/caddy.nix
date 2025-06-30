@@ -20,31 +20,15 @@ in
           trusted_proxies static 100.64.0.0/10
           enable_full_duplex
         }
-        pki {
-         ca tatsumaki {
-           name     tatsumaki
-           root {
-             cert   ${../../../secrets/keys/tatsumaki.crt}
-             key    ${config.age.secrets.tatsumaki-pki.path}
-           }
-         }
-        }
       '';
       extraConfig = ''
         (headscale) {
           @internal remote_ip 100.64.0.0/10
-          tls {
-            issuer internal { ca tatsumaki }
-          }
+	  tls {
+	    ca https://acme.thuis/acme/cashmoney/directory
+	  }
         }
       '';
-    };
-
-    age.secrets = {
-      tatsumaki-pki = {
-        file = ../../../secrets/tatsumaki-pki.age;
-        owner = "caddy";
-      };
     };
 
     systemd.services.caddy = {

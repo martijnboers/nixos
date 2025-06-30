@@ -5,18 +5,12 @@
   imports = [
     ./modules/endlessh.nix
     ./modules/keycloak.nix
-    ./modules/uptime.nix
-    ./modules/cinny.nix
     ./modules/caddy.nix
-    ./modules/pgrok.nix
   ];
 
   hosts.keycloak.enable = true;
-  hosts.uptime-kuma.enable = true;
   hosts.caddy.enable = true;
   hosts.prometheus.enable = true;
-  hosts.pgrok.enable = false;
-  hosts.cinny-web.enable = false;
   hosts.endlessh.enable = true;
 
   # one of two

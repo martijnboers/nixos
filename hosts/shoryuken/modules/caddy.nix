@@ -28,12 +28,13 @@ in
       8448 # matrix
     ];
 
+    environment.systemPackages = [ pkgs.nss ];
+
     services.caddy = {
       enable = true;
       package = pkgs.callPackage ../../../pkgs/xcaddy.nix {
         plugins = [
           "github.com/darkweak/souin/plugins/caddy"
-          # "github.com/caddy-dns/cloudflare"
         ];
       };
       globalConfig = ''
@@ -45,8 +46,8 @@ in
             enable_full_duplex
         }
         pki {
-            ca shoryuken {
-        	name shoryuken
+            ca cashmoney {
+        	name cashmoney
         	root {
         	    cert ${../../../secrets/keys/shoryuken.crt}
         	    key  ${config.age.secrets.shoryuken-pki.path}
@@ -55,12 +56,6 @@ in
         }
       '';
       extraConfig = ''
-        (headscale) {
-          @internal remote_ip 100.64.0.0/10
-          tls {
-            issuer internal { ca shoryuken }
-          }
-        }
         matrix.plebian.nl, matrix.plebian.nl:8448 {
             reverse_proxy /_matrix/* http://${config.hidden.tailscale_hosts.hadouken}:5553
         }
@@ -81,6 +76,19 @@ in
           };
         in
         {
+          "acme.thuis" = {
+            extraConfig = ''
+              tls {
+                issuer internal { ca cashmoney }
+              }
+              acme_server {
+                ca cashmoney
+                allow {
+                  ip_ranges 100.64.0.0/10
+                }
+              }
+            '';
+          };
           "plebian.nl" = {
             serverAliases = [ "boers.email" ];
             extraConfig = ''

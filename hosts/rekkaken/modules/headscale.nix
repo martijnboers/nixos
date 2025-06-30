@@ -28,20 +28,19 @@ let
     "llm"
   ];
   shoryukenRecords = [
-    "chat"
-    "uptime"
-    "auth"
+    "acme"
   ];
   rekkakenRecords = [
     "notifications"
-    "acme"
     "vpn"
+    "uptime"
   ];
   tenshinRecords = [
     "dns"
     "hass"
     "search"
     "tools"
+    "chat"
   ];
   tatsumakiRecords = [
     "mempool"
@@ -191,6 +190,7 @@ in
                   dst = [
                     "tenshin:53,80,443" # everyone access to dns
                     "rekkaken:80,443,8025,2230" # everyone can send notifications + internal email
+                    "shoryuken:80,443" # everyone can request acme certs
                     "hadouken:80,443" # everyone can access hadouken web-services
                   ];
                 }

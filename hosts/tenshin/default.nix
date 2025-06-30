@@ -6,12 +6,14 @@
     ./modules/cyberchef.nix
     ./modules/adguard.nix
     ./modules/search.nix
+    ./modules/cinny.nix
     ./modules/caddy.nix
     ./modules/hass.nix
   ];
 
   hosts.adguard.enable = true;
   hosts.caddy.enable = true;
+  hosts.cinny-web.enable = true;
   hosts.search.enable = true;
   hosts.cyberchef.enable = true;
   hosts.prometheus.enable = true;

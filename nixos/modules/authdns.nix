@@ -25,7 +25,7 @@ in
       zones = [
         {
           name = "plebian.nl";
-          serial = 7;
+          serial = 8;
           records = ''
             ; Default A Records
             *		IN	A	${shoryken}
@@ -52,7 +52,7 @@ in
         }
         {
           name = "boers.email";
-          serial = 7;
+          serial = 8;
           records = ''
             ; Normal records
             @       IN      A       ${shoryken}
@@ -78,7 +78,7 @@ in
         }
         {
           name = "noisesfrom.space";
-          serial = 7;
+          serial = 8;
           records = ''
             ; Normal records
             @       IN      A       ${shoryken}
@@ -91,14 +91,15 @@ in
         file = "/etc/bind/${name}.zone"; # might need chown
         master = true;
         slaves = [ shoryken ];
-        extraConfig = ''
-          dnssec-policy "default"; 
-        '';
       };
       mkBindSlaveZoneEntry = name: {
         file = "/etc/bind/${name}.zone";
         master = false;
         masters = [ rekkaken ];
+	extraConfig = ''
+          inline-signing yes;
+          dnssec-policy "default";
+        '';
       };
 
     in

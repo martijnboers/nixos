@@ -3,9 +3,9 @@
   networking.hostName = "rekkaken";
 
   imports = [
-    ./modules/acmecaddy.nix
     ./modules/headscale.nix
     ./modules/notifs.nix
+    ./modules/caddy.nix
   ];
 
   hosts.headscale.enable = true;

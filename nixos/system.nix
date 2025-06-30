@@ -195,10 +195,7 @@
   security = {
     sudo.enable = lib.mkDefault false; # 🦀🦀
     sudo-rs.enable = lib.mkDefault true; # 🦀🦀
-    pki.certificateFiles = [
-      ../secrets/keys/PLEBS4DIAMOND.crt
-      ../secrets/keys/PLEBS4GOLD.crt
-    ];
+    pki.certificateFiles = [ ../secrets/keys/shoryuken.crt ];
   };
 
   # by default setup gotify bridge as email

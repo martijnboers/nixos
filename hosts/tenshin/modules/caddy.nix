@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib;
@@ -13,34 +14,29 @@ in
   };
 
   config = mkIf cfg.enable {
+    networking.firewall.allowedTCPPorts = [
+      80
+      443
+      8448 # matrix
+    ];
+
+    environment.systemPackages = [ pkgs.nss ];
+
     services.caddy = {
       enable = true;
+      globalConfig = ''
+        servers {
+            trusted_proxies static 100.64.0.0/10
+        }
+      '';
       extraConfig = ''
         (headscale) {
           @internal remote_ip 100.64.0.0/10
           tls {
-            issuer internal { ca tenshin }
+            ca https://acme.thuis/acme/cashmoney/directory
           }
         }
       '';
-      globalConfig = ''
-        pki {
-          ca tenshin {
-            name     tenshin
-            intermediate {
-              cert   ${../../../secrets/keys/tenshin.crt}
-              key    ${config.age.secrets.tenshin-pki.path}
-            }
-          }
-        }
-      '';
-    };
-
-    age.secrets = {
-      tenshin-pki = {
-        file = ../../../secrets/tenshin-pki.age;
-        owner = "caddy";
-      };
     };
   };
 }

@@ -119,11 +119,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1751270151,
-        "narHash": "sha256-xL7UKUPnJwqmlQKiqeVX+LDbLKIP8fcBcc55ocnhy64=",
+        "lastModified": 1751313918,
+        "narHash": "sha256-HsJM3XLa43WpG+665aGEh8iS8AfEwOIQWk3Mke3e7nk=",
         "owner": "lnl7",
         "repo": "nix-darwin",
-        "rev": "425c929e209a05f8790ce83106942e94258adbc8",
+        "rev": "e04a388232d9a6ba56967ce5b53a8a6f713cdfcf",
         "type": "github"
       },
       "original": {
@@ -457,11 +457,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1751303539,
-        "narHash": "sha256-NiG8ZE40RrYdwVeK2a2XsM44h/YuGiLucnA3CBhV+wo=",
+        "lastModified": 1751309344,
+        "narHash": "sha256-zmb01yyOXttyhJD3kRtW6Pkt1lsPbJvN3P92/GnI0tk=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "ee2189cb2f6c9e2b9c734a839faa20ed2ba8b577",
+        "rev": "78fc50f1cf8e57a974ff4bfe654563fce43d6289",
         "type": "github"
       },
       "original": {
@@ -613,21 +613,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-fork": {
-      "locked": {
-        "lastModified": 1750188666,
-        "narHash": "sha256-yAfLvtbCzSigTfbsJeOrvljS7VYLAwi2RZ6F+qd+A5E=",
-        "owner": "martijnboers",
-        "repo": "nixpkgs",
-        "rev": "aa36c6c05d04f90cf890f87845be9380cf7b83c2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "martijnboers",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1751048012,
@@ -758,7 +743,6 @@
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
-        "nixpkgs-fork": "nixpkgs-fork",
         "nixpkgs-stable": "nixpkgs-stable",
         "nixvim": "nixvim",
         "secrets": "secrets",
@@ -768,11 +752,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1751309160,
-        "narHash": "sha256-3NlVi84dlWywrK8knaFPrpCMNBw1ZgdGY68pGMDSoPY=",
+        "lastModified": 1751489237,
+        "narHash": "sha256-BOn96K8RCybr8L+t6dcXMBu8Jz0uePLPF8NOFN3UKvY=",
         "ref": "refs/heads/master",
-        "rev": "548fb01f09b371196e41abde6a43a119b616758b",
-        "revCount": 1,
+        "rev": "883f3ec48234b84f88a63530edff511fb5f2feca",
+        "revCount": 2,
         "type": "git",
         "url": "ssh://git@github.com/martijnboers/secrets.git"
       },

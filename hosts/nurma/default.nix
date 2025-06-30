@@ -105,37 +105,6 @@
     qemu = true;
   };
 
-  # Default setup for caddy pki
-  environment.etc."pki-intermediate.cnf".text = ''
-    [ req ]
-    distinguished_name = req_distinguished_name
-
-    [ req_distinguished_name ]
-    # Keep it simple for intermediate
-
-    [ v3_intermediate_ca ]
-    subjectKeyIdentifier = hash
-    authorityKeyIdentifier = keyid:always  
-    basicConstraints = critical, CA:true, pathlen:0
-    keyUsage = critical, digitalSignature, cRLSign, keyCertSign
-    nameConstraints = critical, permitted;DNS:.thuis, permitted;DNS:thuis
-  '';
-
-  environment.etc."ssl/openssl.cnf".text = ''
-    [openssl_init] 
-    engines=engine_section 
-    [engine_section] 
-    pkcs11 = pkcs11_section 
-    [pkcs11_section] 
-    engine_id = pkcs11 
-    dynamic_path = ${pkgs.opensc}/lib/opensc-pkcs11.so
-    MODULE_PATH = ${pkgs.libp11}/lib/engines/pkcs11.so
-    PIN = "safest" 
-    init = 0
-
-    module: ${pkgs.opensc}/lib/onepin-opensc-pkcs11.so
-  '';
-
   # Bootloader.
   boot = {
     loader = {

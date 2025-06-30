@@ -15,7 +15,6 @@ in
 
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."auth.plebian.nl" = {
-      serverAliases = [ "auth.donder.cloud" ];
       extraConfig = ''
         reverse_proxy http://localhost:${toString config.services.keycloak.settings.http-port}
       '';
