@@ -7,6 +7,7 @@
 with lib;
 let
   cfg = config.hosts.notifications;
+  mail-user = "smtp-gotify";
 in
 {
   options.hosts.notifications = {
@@ -26,31 +27,40 @@ in
     '';
 
     services.borgbackup.jobs.default.paths = [ config.services.gotify.stateDirectoryName ];
-    age.secrets.mailrise.file = ../../../secrets/mailrise.age;
 
-    systemd.services.mailrise =
-      let
-        configFile =
-          pkgs.writeText "mailrise_config.yml" # yaml
-            ''
-              configs:
-                '*@*':
-                  urls:
-                  - !env_var GOTIFY_URL
-            '';
-      in
-      {
-        wantedBy = [ "multi-user.target" ];
-        description = "SMTP bridge apprise";
-        serviceConfig = {
-          Type = "simple";
-          ExecStart = "${getExe pkgs.mailrise} ${configFile}";
-          EnvironmentFile = config.age.secrets.mailrise.path;
-          TimeoutStartSec = 600;
-          Restart = "on-failure";
-          NoNewPrivileges = true;
-        };
+    age.secrets.mailrise = {
+      file = ../../../secrets/mailrise.age;
+      owner = mail-user;
+    };
+
+    users.users.${mail-user} = {
+      isSystemUser = true;
+      group = mail-user;
+    };
+    users.groups.${mail-user} = { };
+
+    systemd.services.smtp-gotify = {
+      description = "SMTP to Gotify Bridge";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" ];
+
+      serviceConfig = {
+        ExecStart = "${pkgs.smtp-gotify}/bin/smtp-gotify";
+        User = mail-user;
+        Group = mail-user;
+
+        # Set environment variables from the module's options
+        Environment = [
+          "SG_SMTP_LISTEN=0.0.0.0:8025"
+          "GOTIFY_URL=https://notifications.thuis"
+        ];
+        EnvironmentFile = config.age.secrets.mailrise.path;
+
+        Restart = "on-failure";
+        RestartSec = "5s";
+        NoNewPrivileges = true;
       };
+    };
 
     services.gotify = {
       enable = true;

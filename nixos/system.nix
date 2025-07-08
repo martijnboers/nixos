@@ -84,7 +84,6 @@
     nfs-utils
 
     # forensics
-    veracrypt
     uutils-coreutils-noprefix
     hexedit
     jless # cli json viewer
@@ -195,7 +194,7 @@
   security = {
     sudo.enable = lib.mkDefault false; # 🦀🦀
     sudo-rs.enable = lib.mkDefault true; # 🦀🦀
-    pki.certificateFiles = [ ../secrets/keys/shoryuken.crt ];
+    pki.certificateFiles = [ ../secrets/keys/plebs4gold.crt ];
   };
 
   # by default setup gotify bridge as email
@@ -205,7 +204,7 @@
     defaults = {
       aliases = "/etc/aliases";
       tls = "off";
-      port = 8025;
+      port = 2525;
     };
     accounts = {
       default = {
@@ -272,6 +271,7 @@
         "cinny-unwrapped-4.2.3"
         "beekeeper-studio-5.2.12" # Electron version 31 is EOL
         "electron-32.3.3" # eol
+	"libxml2-2.13.8" # CVE-2025-6021
       ];
     };
   };

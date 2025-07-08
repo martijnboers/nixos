@@ -7,5 +7,8 @@
   # Enable profiles
   maatwerk.desktop.enable = false;
 
-  home.packages = with pkgs; [ zfs ];
+  home.packages = with pkgs; [
+    zfs
+    veracrypt
+  ];
 }

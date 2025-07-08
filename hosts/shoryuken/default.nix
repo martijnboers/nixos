@@ -6,10 +6,12 @@
     ./modules/endlessh.nix
     ./modules/keycloak.nix
     ./modules/caddy.nix
+    ./modules/acme.nix
   ];
 
   hosts.keycloak.enable = true;
   hosts.caddy.enable = true;
+  hosts.acme.enable = true;
   hosts.prometheus.enable = true;
   hosts.endlessh.enable = true;
 

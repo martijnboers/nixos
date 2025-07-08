@@ -91,7 +91,7 @@ in
           "PORT=${toString fluidCalendarPort}"
           "DATABASE_URL=${databaseUrl}"
 
-          "NODE_EXTRA_CA_CERTS=${../../../secrets/keys/hadouken.crt}" # trust connections to tls internal radicale
+          "NODE_EXTRA_CA_CERTS=${../../../secrets/keys/plebs4gold.crt}" # trust connections to tls internal radicale
         ];
         ExecStart = lib.getExe fluidCalendarAppPackage;
         ProtectSystem = "strict";

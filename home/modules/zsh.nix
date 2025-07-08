@@ -77,7 +77,7 @@ in
           extreme-pro = ''sudo veracrypt -t "/dev/disk/by-partlabel/Extreme\\x20Pro" /mnt/veracrypt1/'';
 
           # llm
-          "c\?" = "mods -f -m cli-fast --role cli \"$1\"";
+          "c\?" = "mods -f -m gemini-2.5-flash-preview-04-17 --role cli \"$1\"";
           "f\?" = "mods -f --role forensics \"$1\"";
           "s\?" = "mods -f --role sys \"$1\"";
           "h\?" = "OLLAMA_HOST=https://ollama.thuis ollama run wizardlm2";

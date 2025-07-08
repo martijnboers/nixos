@@ -28,8 +28,6 @@ in
       8448 # matrix
     ];
 
-    environment.systemPackages = [ pkgs.nss ];
-
     services.caddy = {
       enable = true;
       package = pkgs.callPackage ../../../pkgs/xcaddy.nix {
@@ -44,15 +42,6 @@ in
         servers {
             trusted_proxies static 100.64.0.0/10
             enable_full_duplex
-        }
-        pki {
-            ca cashmoney {
-        	name cashmoney
-        	root {
-        	    cert ${../../../secrets/keys/shoryuken.crt}
-        	    key  ${config.age.secrets.shoryuken-pki.path}
-        	}
-            }
         }
       '';
       extraConfig = ''
@@ -76,19 +65,6 @@ in
           };
         in
         {
-          "acme.thuis" = {
-            extraConfig = ''
-              tls {
-                issuer internal { ca cashmoney }
-              }
-              acme_server {
-                ca cashmoney
-                allow {
-                  ip_ranges 100.64.0.0/10
-                }
-              }
-            '';
-          };
           "plebian.nl" = {
             serverAliases = [ "boers.email" ];
             extraConfig = ''
@@ -203,10 +179,6 @@ in
 
     age.secrets = {
       caddy.file = ../../../secrets/caddy.age;
-      shoryuken-pki = {
-        file = ../../../secrets/shoryuken-pki.age;
-        owner = "caddy";
-      };
     };
   };
 }

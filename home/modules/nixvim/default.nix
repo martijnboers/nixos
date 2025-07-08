@@ -7,7 +7,6 @@
 with lib;
 let
   cfg = config.maatwerk.nixvim;
-  helpers = config.lib.nixvim;
 in
 {
 
@@ -16,7 +15,7 @@ in
   };
 
   imports = [
-    ./tabs.nix
+    ./vscode.nix
     ./lsp.nix
     ./git.nix
     ./dap.nix
@@ -41,62 +40,53 @@ in
         mapleader = " "; # map leader to spacebar
       };
 
-      keymaps = [
-        # quality of life stuff
-        {
-          action = "<C-u>zz";
-          key = "<C-u>";
-        }
-        {
-          action = "<C-d>zz";
-          key = "<C-d>";
-        }
-        {
-          action = "<cmd>Precognition toggle<cr>";
-          key = "<Leader>j";
-        }
-        {
-          action = "<C-i>"; # needed because mapping tab breaks CTRL-i in kitty
-          key = "<C-i>";
-        }
-        {
-          action = "\"+y";
-          key = "<Leader>c";
-          mode = [
-            "n"
-            "v"
-          ];
-          options = {
-            desc = "Add to sytem clipboard";
-            silent = true;
-          };
-        }
-      ];
+      opts = {
+        number = true; # Show line numbers
+        relativenumber = true; # Show relative line numbers
+        shiftwidth = 2; # Tab width should be 2
+        swapfile = false; # No more .swp files
+        autoread = true; # autoreload changed files
+        undofile = true; # save undo history
+        ignorecase = true; # case insensitive search
+        smartcase = true; # when adding cases to search, becomes case sensitive
+        scrolloff = 8; # start scrolling when 8 lines left
+        sidescrolloff = 8; # same for side scrolling
+        sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions,globals";
+      };
 
       plugins = {
         web-devicons.enable = true; # needed for other plugins
         noice.enable = true; # cmd popup input modal
-
-        # training wheels
+        auto-session.enable = true; # auto-restore sessions on startup
         which-key.enable = true; # popup with possible key combinations
-        precognition = {
+
+        mini-statusline = {
           enable = true;
           settings = {
-            showBlankVirtLine = false; # don't when no virtlines
-            startVisible = false; # only show on toggle
-          };
-        }; # jump reference helper
+            use_icons = false;
+            content = {
+              active = {
+                __raw = ''
+                  function()
+                    local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 25 })
+                    local diff          = MiniStatusline.section_diff({ icon = "  ", trunc_width = 75 })
+                    local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 50 })
+                    local search        = MiniStatusline.section_searchcount({ trunc_width = 25 })
 
-        auto-session = {
-          enable = true;
-          settings.pre_save_cmds = helpers.mkRaw ''
-            {
-                function()
-                  vim.api.nvim_exec_autocmds('User', {pattern = 'SessionSavePre'})
-                end,
-            }
-          '';
-        }; # auto-restore sessions on startup (with neo-tree)
+                    return MiniStatusline.combine_groups({
+                      { hl = mode_hl,               strings = { mode } },
+		      '%<',
+		      { hl = 'MiniStatuslineLocation', strings = { search } },
+		      '%=',
+                      { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
+		      { hl = 'MiniStatuslineDiff',  strings = {  diff } },
+                    })
+                  end
+                '';
+              };
+            };
+          };
+        };
 
         mini = {
           enable = true;
@@ -115,73 +105,39 @@ in
             }; # surround words with something
           };
         };
-
         render-markdown = {
           enable = true;
           settings.render_modes = true;
         }; # better markdown support
+      };
 
-        alpha = {
-          enable = true;
-          layout = [
-            {
-              type = "padding";
-              val = 2;
-            }
-            {
-              opts = {
-                hl = "Type";
-                position = "center";
-              };
-              type = "text";
-              val = [
-                "                                   "
-                "                                   "
-                "                                   "
-                "   ⣴⣶⣤⡤⠦⣤⣀⣤⠆     ⣈⣭⣿⣶⣿⣦⣼⣆          "
-                "    ⠉⠻⢿⣿⠿⣿⣿⣶⣦⠤⠄⡠⢾⣿⣿⡿⠋⠉⠉⠻⣿⣿⡛⣦       "
-                "          ⠈⢿⣿⣟⠦ ⣾⣿⣿⣷    ⠻⠿⢿⣿⣧⣄     "
-                "           ⣸⣿⣿⢧ ⢻⠻⣿⣿⣷⣄⣀⠄⠢⣀⡀⠈⠙⠿⠄    "
-                "          ⢠⣿⣿⣿⠈    ⣻⣿⣿⣿⣿⣿⣿⣿⣛⣳⣤⣀⣀   "
-                "   ⢠⣧⣶⣥⡤⢄ ⣸⣿⣿⠘  ⢀⣴⣿⣿⡿⠛⣿⣿⣧⠈⢿⠿⠟⠛⠻⠿⠄  "
-                "  ⣰⣿⣿⠛⠻⣿⣿⡦⢹⣿⣷   ⢊⣿⣿⡏  ⢸⣿⣿⡇ ⢀⣠⣄⣾⠄   "
-                " ⣠⣿⠿⠛ ⢀⣿⣿⣷⠘⢿⣿⣦⡀ ⢸⢿⣿⣿⣄ ⣸⣿⣿⡇⣪⣿⡿⠿⣿⣷⡄  "
-                " ⠙⠃   ⣼⣿⡟  ⠈⠻⣿⣿⣦⣌⡇⠻⣿⣿⣷⣿⣿⣿ ⣿⣿⡇ ⠛⠻⢷⣄ "
-                "      ⢻⣿⣿⣄   ⠈⠻⣿⣿⣿⣷⣿⣿⣿⣿⣿⡟ ⠫⢿⣿⡆     "
-                "       ⠻⣿⣿⣿⣿⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡟⢀⣀⣤⣾⡿⠃     "
-                "                                   "
-              ];
-            }
-            {
-              type = "padding";
-              val = 2;
-            }
-            {
-              opts = {
-                hl = "Keyword";
-                position = "center";
-              };
-              type = "text";
-              val = "\"Krentenbol\" -- Regenboog 6";
-            }
+      keymaps = [
+        # quality of life stuff
+        {
+          action = "<C-u>zz";
+          key = "<C-u>";
+        }
+        {
+          action = "<C-d>zz";
+          key = "<C-d>";
+        }
+        {
+          action = "<C-i>"; # needed because mapping tab breaks CTRL-i in kitty
+          key = "<C-i>";
+        }
+        {
+          action = "\"+y";
+          key = "<Leader>c";
+          mode = [
+            "n"
+            "v"
           ];
-        }; # rice
-      };
-
-      opts = {
-        number = true; # Show line numbers
-        relativenumber = true; # Show relative line numbers
-        shiftwidth = 2; # Tab width should be 2
-        swapfile = false; # No more .swp files
-        autoread = true; # autoreload changed files
-        undofile = true; # save undo history
-        ignorecase = true; # case insensitive search
-        smartcase = true; # when adding cases to search, becomes case sensitive
-        scrolloff = 8; # start scrolling when 8 lines left
-        sidescrolloff = 8; # same for side scrolling
-        laststatus = 0; # hide bottom bar, noice does this
-        sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions,globals";
-      };
+          options = {
+            desc = "Add to sytem clipboard";
+            silent = true;
+          };
+        }
+      ];
 
       diagnostic.settings = {
         virtual_text = false;

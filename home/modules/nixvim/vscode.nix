@@ -23,16 +23,6 @@ in
     programs.nixvim = {
       extraPlugins = with pkgs.vimPlugins; [
         smart-open-nvim
-        (pkgs.vimUtils.buildVimPlugin {
-          name = "neo-tree-diagnostics.nvim";
-          doCheck = false;
-          src = pkgs.fetchFromGitHub {
-            owner = "mrbjarksen";
-            repo = "neo-tree-diagnostics.nvim";
-            rev = "e00434c3cf8637bcaf70f65c2b9d82b0cc9bd7dc";
-            sha256 = "sha256-HU7pFsICHK6bg03chgZ1oP6Wx2GQxk7ZJHGQnD0IMBA=";
-          };
-        })
       ];
 
       plugins = {
@@ -44,7 +34,7 @@ in
             auto_hide = 1;
             icons = {
               button = false; # don't show close button
-              preset = "powerline";
+              preset = "default";
               pinned = {
                 button = "";
                 filename = true;
@@ -60,6 +50,24 @@ in
           };
         }; # tabs, as understood by any other editor.
 
+        # File explorer
+        mini = {
+          modules.files = {
+            mappings = {
+              close = "q";
+              go_in = "l";
+              go_out = "h";
+              mark_goto = "'";
+              mark_set = "m";
+              reveal_cwd = "@";
+              show_help = "g?";
+              synchronize = "=";
+              trim_left = "<";
+              trim_right = ">";
+            };
+          };
+        };
+
         telescope = {
           enable = true;
           enabledExtensions = [ "smart_open" ];
@@ -67,9 +75,9 @@ in
             "<Leader>f" = "live_grep";
             "<Leader>/" = "current_buffer_fuzzy_find";
             "<Leader>s" = "lsp_document_symbols";
-            "<Leader>E" = "find_files";
             "<Leader>h" = "help_tags";
             "<Leader>x" = "diagnostics";
+            "<Leader>b" = "buffers";
           };
           settings = {
             defaults.file_ignore_patterns = [
@@ -94,78 +102,34 @@ in
               current_buffer_fuzzy_find = {
                 theme = "ivy";
               };
+              buffers = {
+                theme = "ivy";
+              };
               live_grep = {
                 layout_strategy = "vertical";
               };
             };
           };
         }; # Find popups for files + more
-
-        neo-tree = {
-          enable = true;
-          hideRootNode = true;
-          sources = [
-            "filesystem"
-            "document_symbols"
-            "diagnostics"
-            "git_status"
-          ];
-          eventHandlers = {
-            file_opened = # lua
-              ''
-                function(file_path)
-                  --auto close after opening file
-                  require("neo-tree").close_all()
-                end
-              '';
-          };
-          sourceSelector = {
-            winbar = false; # show icons
-            contentLayout = "center";
-            sources = [
-              {
-                displayName = " 󰱼 ";
-                source = "filesystem";
-              }
-              {
-                displayName = "  ";
-                source = "document_symbols";
-              }
-              {
-                displayName = "  ";
-                source = "diagnostics";
-              }
-              {
-                displayName = "  ";
-                source = "git_status";
-              }
-            ];
-          };
-          window.width = 30;
-          filesystem.window.mappings = {
-            x = "close_window";
-            "<Left>" = "close_node";
-            "<Right>" = "toggle_node";
-          };
-          buffers.followCurrentFile.enabled = true;
-          filesystem.followCurrentFile.enabled = true;
-          extraOptions = {
-            diagnostics = {
-              follow_current_file = {
-                enabled = true;
-                always_focus_file = true;
-                expand_followed = true;
-              };
-            };
-          };
-        }; # right pane with files
       };
 
       keymaps = [
+        # file explorer
         {
-          action = "<cmd>Neotree reveal right toggle<cr>";
-          key = "<Leader>o";
-          options.desc = "Toggle file explorer";
+          action = helpers.mkRaw ''
+            function(...)
+              if not MiniFiles.close() then MiniFiles.open(vim.api.nvim_buf_get_name(0), false) end
+            end
+          '';
+          key = "<Leader>e";
+          mode = [
+            "n"
+            "v"
+          ];
+          options = {
+            desc = "Toggle MiniFiles";
+            silent = true;
+          };
         }
 
         # Telescope
@@ -181,7 +145,7 @@ in
               cwd_only = true,
               filename_first = false,
             } end '';
-          key = "<Leader>e";
+          key = "<Leader>o";
           options.desc = "Smart open files";
         }
 
