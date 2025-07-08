@@ -24,6 +24,11 @@ in
     # No wifi
     networking.wireless.enable = lib.mkForce false;
 
+    # trust acme ca
+    security = {
+      pki.certificateFiles = [ ../../secrets/keys/acme.crt ];
+    };
+
     # freedesktop xdg files
     xdg.autostart.enable = lib.mkDefault false;
     xdg.icons.enable = lib.mkDefault false;

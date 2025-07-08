@@ -20,8 +20,6 @@ in
       8448 # matrix
     ];
 
-    environment.systemPackages = [ pkgs.nss ];
-
     services.caddy = {
       enable = true;
       globalConfig = ''
@@ -33,7 +31,7 @@ in
         (headscale) {
           @internal remote_ip 100.64.0.0/10
           tls {
-            ca https://acme.thuis/acme/cashmoney/directory
+            ca https://acme.thuis/acme/plebs4gold/directory
           }
         }
       '';

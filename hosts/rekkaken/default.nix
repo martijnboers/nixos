@@ -5,12 +5,14 @@
   imports = [
     ./modules/headscale.nix
     ./modules/notifs.nix
+    ./modules/uptime.nix
     ./modules/caddy.nix
   ];
 
   hosts.headscale.enable = true;
   hosts.notifications.enable = true;
   hosts.caddy.enable = true;
+  hosts.uptime-kuma.enable = true;
   hosts.prometheus.enable = true;
 
   # two of two

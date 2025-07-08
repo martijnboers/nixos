@@ -26,9 +26,9 @@ in
       extraConfig = ''
         (headscale) {
           @internal remote_ip 100.64.0.0/10
-	  tls {
-	    ca https://acme.thuis/acme/cashmoney/directory
-	  }
+          tls {
+            ca https://acme.thuis/acme/plebs4gold/directory
+          }
         }
       '';
 
@@ -40,6 +40,7 @@ in
           trusted_proxies static 100.64.0.0/10
           enable_full_duplex
         }
+
         order coraza_waf first
         order webdav before file_server
       '';
@@ -48,9 +49,9 @@ in
           import headscale
           handle @internal {
             route {
-	      basicauth {
-		martijn $2a$14$ASOmj.jZv9cvR0W5E26UkOpCD7fjCWhfEKnI0YKUChqDsfx9FqR/O
-	      }
+              basic_auth {
+                martijn $2a$14$ASOmj.jZv9cvR0W5E26UkOpCD7fjCWhfEKnI0YKUChqDsfx9FqR/O
+              }
               rewrite /android /android/
               rewrite /notes /notes/
               webdav /android/* {
