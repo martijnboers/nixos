@@ -1,7 +1,3 @@
-<h1 align="center">
-  <img src="home/assets/img/logo.svg" alt="nixos" width="250">
-</h1>
-
 ## Description
 NixOS is a Linux distribution with a unique package management system, Nix, offering precise control and reproducible configurations. 
 It follows a declarative and functional programming approach, ensuring system reliability and easy rollback.

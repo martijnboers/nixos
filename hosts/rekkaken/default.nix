@@ -15,7 +15,6 @@
   hosts.uptime-kuma.enable = true;
   hosts.prometheus.enable = true;
 
-  # two of two
   hosts.authdns = {
     enable = true;
     master = true;

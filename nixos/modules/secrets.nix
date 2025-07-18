@@ -19,6 +19,11 @@ in
   config = {
     age = {
       identityPaths = cfg.identityPaths;
+      secrets.tsigkey = {
+        file = ../../secrets/tsigkey.age;
+        owner = "knot";
+        group = "knot";
+      };
     };
   };
 }
