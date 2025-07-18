@@ -14,9 +14,7 @@
   hosts.acme.enable = true;
   hosts.prometheus.enable = true;
   hosts.endlessh.enable = true;
-
-  # one of two
-  hosts.authdns.enable = true;
+  hosts.authdns.enable = true; 
 
   # Enable tailscale network
   hosts.tailscale.enable = true;

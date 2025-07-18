@@ -152,7 +152,7 @@ in
             "$mod, E, exec, $fileManager"
             "$mod, Space, exec, $menu"
             "$mod, R, exec, code"
-            '', Print, exec, grim -g "$(slurp)" - | satty -f -''
+            '', Print, exec, grim -g "$(slurp)" - | satty -f - -o ~/Pictures/screenshot_%Y-%m-%d_%H-%M-%S.png''
             "$mod, F4, killactive"
             "$prog, H, exec, copyq toggle"
             "$mod, M, exec, hyprlock"

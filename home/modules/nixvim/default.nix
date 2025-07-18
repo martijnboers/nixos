@@ -68,18 +68,19 @@ in
               active = {
                 __raw = ''
                   function()
-                    local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 25 })
-                    local diff          = MiniStatusline.section_diff({ icon = "  ", trunc_width = 75 })
-                    local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 50 })
-                    local search        = MiniStatusline.section_searchcount({ trunc_width = 25 })
+                    local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 200 })
+                    local diff          = MiniStatusline.section_diff({ icon = "  ", trunc_width = 70 })
+                    local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 70 })
+                    local search        = MiniStatusline.section_searchcount({ trunc_width = 30 })
+                    local path        	= MiniStatusline.section_filename({ trunc_width = 10 })
 
                     return MiniStatusline.combine_groups({
                       { hl = mode_hl,               strings = { mode } },
-		      '%<',
-		      { hl = 'MiniStatuslineLocation', strings = { search } },
-		      '%=',
+                      '%<',
+                      { hl = 'MiniStatuslineLocation', strings = { search, path } },
+                      '%=',
                       { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
-		      { hl = 'MiniStatuslineDiff',  strings = {  diff } },
+                      { hl = 'MiniStatuslineDiff',  strings = {  diff } },
                     })
                   end
                 '';
@@ -129,11 +130,21 @@ in
           action = "\"+y";
           key = "<Leader>c";
           mode = [
-            "n"
             "v"
           ];
           options = {
             desc = "Add to sytem clipboard";
+            silent = true;
+          };
+        }
+        {
+          action = "<cmd>%y+<cr>";
+          key = "<Leader>c";
+          mode = [
+            "n"
+          ];
+          options = {
+            desc = "Add whole file to sytem clipboard";
             silent = true;
           };
         }

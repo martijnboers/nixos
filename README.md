@@ -1,7 +1,3 @@
-<h1 align="center">
-  <img src="home/assets/img/logo.svg" alt="nixos" width="250">
-</h1>
-
 ## Description
 NixOS is a Linux distribution with a unique package management system, Nix, offering precise control and reproducible configurations. 
 It follows a declarative and functional programming approach, ensuring system reliability and easy rollback.
@@ -49,7 +45,7 @@ nix-repl> nixosConfigurations.[TAB]
 ### Restore backups
 ```commandline
 borg list ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo
-borgfs -f ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo::hadouken-default-2024-03-24T00:00:00 /mnt/restore
+borg mount ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo ~/RWDir
 ```
 
 ### Update firmware

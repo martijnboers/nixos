@@ -74,14 +74,13 @@ in
           upstream_dns = [
             "https://dns10.quad9.net/dns-query"
             "https://doq.dns4all.eu/dns-query"
-            "https://open.dns0.eu/dns-query"
             "https://unfiltered.adguard-dns.com/dns-query"
           ];
           allowed_clients = [
             "100.64.0.0/10"
           ];
           use_http3_upstreams = true;
-          upstream_mode = "load_balance";
+          upstream_mode = "parallel";
           bootstrap_dns = [
             "9.9.9.9"
             "208.67.222.222"
