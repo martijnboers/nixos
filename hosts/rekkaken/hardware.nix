@@ -1,6 +1,7 @@
 {
   lib,
   modulesPath,
+  config,
   ...
 }:
 {
@@ -27,16 +28,28 @@
   ];
 
   networking = {
-    interfaces.enp1s0 = {
-      ipv6.addresses = [
-        {
-          address = "2a01:4f9:c013:98b::1";
-          prefixLength = 64;
-        }
-      ];
+    interfaces = {
+      enp1s0 = {
+        ipv6.addresses = [
+          {
+            address = "2a01:4f9:c013:98b::1";
+            prefixLength = 64;
+          }
+        ];
+        ipv4.addresses = [
+          {
+            address = "46.62.135.158";
+            prefixLength = 24;
+          }
+        ];
+      };
     };
     defaultGateway6 = {
       address = "fe80::1";
+      interface = "enp1s0";
+    };
+    defaultGateway = {
+      address = "172.31.1.1";
       interface = "enp1s0";
     };
   };

@@ -109,11 +109,11 @@ in
             url = "https://raw.githubusercontent.com/PolishFiltersTeam/KADhosts/master/KADhosts.txt";
             name = "github.com/FadeMind/hosts.extras";
           }
-	  {
-	    enable = true;
-	    url = "https://gitlab.com/hagezi/mirror/-/raw/main/dns-blocklists/adblock/pro.plus.txt";
-	    name = "github.com/hagezi/dns-blocklists";
-	  }
+          {
+            enable = true;
+            url = "https://gitlab.com/hagezi/mirror/-/raw/main/dns-blocklists/adblock/pro.plus.txt";
+            name = "github.com/hagezi/dns-blocklists";
+          }
           {
             enabled = true;
             url = "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Spam/hosts";

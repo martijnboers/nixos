@@ -28,7 +28,7 @@ in
     virtualisation.podman.defaultNetwork.settings.dns_enabled = lib.mkForce false;
 
     services.changedetection-io = {
-      enable = true; 
+      enable = true;
       behindProxy = true;
       datastorePath = "/mnt/zwembad/app/changedetection";
       baseURL = "https://detection.thuis";

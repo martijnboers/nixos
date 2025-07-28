@@ -87,12 +87,12 @@ in
           respond 403
         '';
         "vpn-callback.plebian.nl".extraConfig = ''
-          @oidc_paths path /oidc/callback* /signin-oidc* /oauth2/callback* /login/oauth2/code/*
+                    @oidc_paths path /oidc/callback* /signin-oidc* /oauth2/callback* /login/oauth2/code/*
 
-          handle @oidc_paths {
-            reverse_proxy http://localhost:${toString headplanePort}
-          }
-	  respond 403
+                    handle @oidc_paths {
+                      reverse_proxy http://localhost:${toString headplanePort}
+                    }
+          	  respond 403
         '';
       };
 
@@ -202,7 +202,7 @@ in
                     "nurma"
                   ];
                   dst = [
-                    "autogroup:internet:*" # allow exit-nodes
+                    "rekkaken:51820" # allow wireguard connection
                     "hadouken:22"
                   ];
                 }

@@ -145,7 +145,7 @@
       # ------------ Servers ------------
       nixosConfigurations.tenshin = mkSystem "tenshin" {
         system = "aarch64-linux";
-	modules = [ inputs.nixos-hardware.nixosModules.raspberry-pi-4 ];
+        modules = [ inputs.nixos-hardware.nixosModules.raspberry-pi-4 ];
       };
       nixosConfigurations.hadouken = mkSystem "hadouken" {
         system = "x86_64-linux";

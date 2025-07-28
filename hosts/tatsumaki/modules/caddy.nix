@@ -22,12 +22,12 @@ in
         }
       '';
       extraConfig = ''
-        (headscale) {
-          @internal remote_ip 100.64.0.0/10
-	  tls {
-	    ca https://acme.thuis/acme/plebs4gold/directory
-	  }
-        }
+                (headscale) {
+                  @internal remote_ip 100.64.0.0/10
+        	  tls {
+        	    ca https://acme.thuis/acme/plebs4gold/directory
+        	  }
+                }
       '';
     };
 
