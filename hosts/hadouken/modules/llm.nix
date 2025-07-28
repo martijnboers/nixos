@@ -33,7 +33,7 @@ in
     services.librechat = {
       enable = true;
       env = {
-	ALLOW_REGISTRATION = "true";
+        ALLOW_REGISTRATION = "true";
         HOST = "0.0.0.0";
       };
       # credentials = [ config.age.secrets.llm.path ];

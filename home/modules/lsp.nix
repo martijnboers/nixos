@@ -15,7 +15,7 @@ in
       tflint
       vale
       ruff
-      eslint 
+      eslint
     ];
 
     programs.nixvim = {

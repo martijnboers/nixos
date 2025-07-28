@@ -24,26 +24,26 @@ in
       shellAliases =
         let
           deploy-custom = pkgs.writeShellScriptBin "deploy-custom" ''
-            set -euo pipefail
-            cd /home/martijn/Nix/secrets
-            git pull
-            cd ../
-            git submodule foreach git pull --depth=1
-            nix flake update secrets
-            if [ $# -eq 0 ]; then
-              nh os switch \
-                ".?submodules=1" \
-                --ask \
-                -- \
-                --fallback
-            else
-              nixos-rebuild switch \
-		--ask-sudo-password \
-                --fallback \
-                --verbose \
-                --flake ".?submodules=1#''${1}" \
-                --target-host "martijn@''${1}.machine.thuis"
-            fi
+                        set -euo pipefail
+                        cd /home/martijn/Nix/secrets
+                        git pull
+                        cd ../
+                        git submodule foreach git pull --depth=1
+                        nix flake update secrets
+                        if [ $# -eq 0 ]; then
+                          nh os switch \
+                            ".?submodules=1" \
+                            --ask \
+                            -- \
+                            --fallback
+                        else
+                          nixos-rebuild switch \
+            		--ask-sudo-password \
+                            --fallback \
+                            --verbose \
+                            --flake ".?submodules=1#''${1}" \
+                            --target-host "martijn@''${1}.machine.thuis"
+                        fi
           '';
           sshAlias = name: "kitty +kitten ssh ${name}.machine.thuis";
         in

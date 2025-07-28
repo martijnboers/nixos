@@ -10,7 +10,7 @@
   home.stateVersion = "24.05";
 
   imports = [
-    ./modules/nixvim/default.nix
+    ./modules/nixvim.nix
     ./modules/stylix.nix
     ./modules/atuin.nix
     ./modules/zsh.nix
@@ -38,28 +38,18 @@
     zsh-powerlevel10k
     zoxide
     fzf # A command-line fuzzy finder
-    fd # easier find
     direnv # used for .envrc files
     yazi # cli file explorer
-    neofetch
-    bat # fancy cat
     lsd # fancy ls
-    hydra-check # lookup hydra status binary
     gemini-cli # proompting
 
     # system
     gnupg
-    ripgrep # recursively searches directories for a regex pattern
     jq # A lightweight and flexible command-line JSON processor
     tldr # man summarized
     killall # 🔪
     btop # fancy htop
     hydra-check # check nixos ci builds
-
-    # archives
-    zip
-    unzip
-    p7zip
   ];
 
   # User level secrets

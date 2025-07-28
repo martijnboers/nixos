@@ -10,8 +10,9 @@
     ./modules/virtualisation.nix
     ./modules/prometheus.nix
     ./modules/tailscale.nix
+    ./modules/wg-client.nix
+    ./modules/wg-server.nix
     ./modules/hyprland.nix
-    ./modules/secrets.nix
     ./modules/authdns.nix
     ./modules/auditd.nix
     ./modules/server.nix
@@ -59,15 +60,18 @@
     git
     wget
 
-    # editors
-    neovim
-    vim
+    # editor
     helix
 
     htop
     iotop # io monitoring
     iftop # network monitoring
     btop # fancy htop
+
+    # archives
+    zip
+    unzip
+    p7zip
 
     # diagnostic
     du-dust # better du
@@ -87,7 +91,6 @@
     uutils-coreutils-noprefix
     hexedit
     jless # cli json viewer
-    tio # serial
     avml # make memory dump
   ];
 
@@ -271,7 +274,7 @@
         "cinny-unwrapped-4.2.3"
         "beekeeper-studio-5.2.12" # Electron version 31 is EOL
         "electron-32.3.3" # eol
-	"libxml2-2.13.8" # CVE-2025-6021
+        "libxml2-2.13.8" # CVE-2025-6021
       ];
     };
   };

@@ -13,7 +13,7 @@ buildGoModule rec {
     owner = "jreiml";
     repo = "smtp-gotify";
     rev = "main";
-    # nix-prefetch-git --url https://github.com/jreiml/smtp-gotify 
+    # nix-prefetch-git --url https://github.com/jreiml/smtp-gotify
     hash = "sha256-BVIv5DeMrI4d4ka3plXkJYH+ow8Nks/NDqYw/TRhVqI=";
   };
 

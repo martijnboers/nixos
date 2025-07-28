@@ -22,7 +22,7 @@ in
         skip_install_trust
         pki {
             ca plebs4gold {
-		name plebs4gold
+        	name plebs4gold
         	intermediate_cn plebs4cash
         	root {
         	  key ${config.age.secrets.plebs4gold.path}

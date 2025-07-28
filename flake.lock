@@ -668,10 +668,10 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1752687360,
-        "narHash": "sha256-YiTu/Uz59HFSUaIJGXzvhecLdzFRChQyTwmzTzddnm4=",
+        "lastModified": 1754083642,
+        "narHash": "sha256-HQIbOsH2qeHV7s/lOw8iQ0zACVQ/9Ayg+hbktoOK7yY=",
         "ref": "refs/heads/master",
-        "rev": "29acb593dc064c25f0725d6ac0d1d0c40df67969",
+        "rev": "78922e494db98ca88e9675538c47c28486173c28",
         "revCount": 2,
         "type": "git",
         "url": "ssh://git@github.com/martijnboers/secrets.git"
