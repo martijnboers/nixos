@@ -202,7 +202,6 @@ in
                     "nurma"
                   ];
                   dst = [
-                    "rekkaken:51820" # allow wireguard connection
                     "hadouken:22"
                   ];
                 }

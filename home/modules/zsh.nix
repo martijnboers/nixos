@@ -72,8 +72,6 @@ in
           nofail = sshAlias "rekkaken";
 
           socks = "ssh -D 1337 -q -C -N hadouken.machine.thuis";
-          proxy = "sudo tailscale set --exit-node shoryuken";
-          proxyd = "sudo tailscale set --exit-node=";
           extreme-pro = ''sudo veracrypt -t "/dev/disk/by-partlabel/Extreme\\x20Pro" /mnt/veracrypt1/'';
 
           # llm

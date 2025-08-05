@@ -17,7 +17,6 @@ in
       enable = true;
       openFirewall = true;
       useRoutingFeatures = lib.mkDefault "client";
-      port = 0; # autoselect
       disableTaildrop = true;
     };
     networking.firewall.trustedInterfaces = [ "tailscale0" ];

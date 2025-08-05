@@ -10,8 +10,6 @@
     ./modules/virtualisation.nix
     ./modules/prometheus.nix
     ./modules/tailscale.nix
-    ./modules/wg-client.nix
-    ./modules/wg-server.nix
     ./modules/hyprland.nix
     ./modules/authdns.nix
     ./modules/auditd.nix

@@ -1,4 +1,9 @@
-{ config, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 {
   networking.hostName = "rekkaken";
 
@@ -19,28 +24,6 @@
   hosts.authdns = {
     enable = true;
     master = true;
-  };
-
-  age.secrets.vpn-rekkaken.age= {
-    file = ../../secrets/;
-    owner = "wireguard";
-    group = "wireguard";
-  };
-
-  hosts.wireguard-server = {
-    enable = true;
-    floatingIP = config.hidden.wireguard_ip; 
-    wireguardConfig = {
-      ips = [ "10.100.100.1/24" ];
-      privateKeyFile = config.secrets.age.vpn-rekkaken; # 
-      listenPort = 51820;
-      peers = [
-        {
-          publicKey = "Hw3sLv+7FpCHDyVfO1XT32YpNN2lQzvQO6czPFe3vig="; # nurma
-          allowedIPs = [ "10.100.100.2/32" ];
-        }
-      ];
-    };
   };
 
   hosts.openssh = {

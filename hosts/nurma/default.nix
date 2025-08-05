@@ -85,17 +85,6 @@
 
   age = {
     identityPaths = [ "/home/martijn/.ssh/id_ed25519_age" ];
-    secrets.vpn-nurma = {
-      file = ../../secrets/vpn-nurma.age;
-      owner = "root";
-      group = "root";
-    };
-  };
-
-  hosts.wireguard-client = {
-    enable = false;
-    privateKeyFile = config.age.secrets.vpn-nurma.path;
-    tunnelAddress = "10.200.200.3/32";
   };
 
   programs.ssh.extraConfig = ''

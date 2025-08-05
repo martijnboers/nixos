@@ -19,12 +19,6 @@
   # Enable tailscale network
   hosts.tailscale.enable = true;
 
-  # Enable exit-node features
-  services.tailscale = {
-    useRoutingFeatures = "both";
-    extraSetFlags = [ "--advertise-exit-node" ];
-  };
-
   hosts.openssh = {
     enable = true;
     allowUsers = [
