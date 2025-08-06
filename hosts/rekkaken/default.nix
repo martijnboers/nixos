@@ -19,11 +19,18 @@
   hosts.prometheus.enable = true;
   hosts.tailscale.enable = true;
 
-  hosts.socks = {
+  age.secrets.rekkaken-exit = {
+    file = ../../secrets/rekkaken-exit.age;
+    owner = "root";
+    group = "root";
+    mode = "0400";
+  };
+
+  hosts.exit-node = {
     enable = true;
-    interface = "enp1s0";
-    floatingIp = config.hidden.wireguard_ip;
-    tailscaleListenHost = "rekkaken.machine.thuis";
+    floatingIp = config.hidden.wan_ips.floating;
+    privateKeyFile = config.age.secrets.rekkaken-exit.path;
+    publicInterface = "enp1s0";
   };
 
   hosts.authdns = {

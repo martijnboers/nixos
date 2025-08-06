@@ -1,4 +1,4 @@
-{ pkgs, config,... }:
+{ pkgs, config, ... }:
 {
   networking.hostName = "nurma";
   hosts.hyprland.enable = true;
@@ -31,6 +31,27 @@
 
   hosts.tailscale.enable = true;
   hosts.prometheus.enable = true;
+
+  age.secrets.nurma-client = {
+    file = ../../secrets/nurma-client.age;
+    owner = "root";
+    group = "systemd-network";
+  };
+
+  networking.wg-quick.interfaces.wg0 = {
+    autostart = false;
+    address = [ "10.100.0.2/24" ];
+    privateKeyFile = config.age.secrets.nurma-client.path;
+    dns = [ "1.1.1.1" ];
+    peers = [
+      {
+        publicKey = "ePwQxnfNxjAdRYFtzvVTEZFBPnynQS/2FZ43R9fuHHQ=";
+        endpoint = "${config.hidden.wan_ips.rekkaken}:51820";
+        allowedIPs = [ "0.0.0.0/0" ];
+        persistentKeepalive = 25;
+      }
+    ];
+  };
 
   programs = {
     gamemode = {

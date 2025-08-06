@@ -52,14 +52,6 @@
       ]
     );
 
-  systemd.services.bitcoind = {
-    requires = [ "mnt-bitcoin.mount" ];
-    after = [
-      "mnt-bitcoin.mount"
-      # "tailscaled.service"
-    ];
-  };
-
   security = {
     sudo.enable = true;
     sudo-rs.enable = false;

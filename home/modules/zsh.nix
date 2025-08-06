@@ -63,6 +63,8 @@ in
           readme = "cat README* | glow";
           keyboard-compile = "qmk compile -kb peej/lumberjack -km martijn";
           keyboard-flash = "qmk flash -kb peej/lumberjack -km martijn";
+          proxy = "sudo systemctl start wg-quick-wg0";
+          proxyd = "sudo systemctl stop wg-quick-wg0";
 
           pow = sshAlias "hadouken";
           wolk = sshAlias "shoryuken";

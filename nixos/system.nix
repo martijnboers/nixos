@@ -10,11 +10,11 @@
     ./modules/virtualisation.nix
     ./modules/prometheus.nix
     ./modules/tailscale.nix
+    ./modules/wireguard.nix
     ./modules/hyprland.nix
     ./modules/authdns.nix
     ./modules/auditd.nix
     ./modules/server.nix
-    ./modules/socks.nix
     ./modules/borg.nix
     ./modules/ssh.nix
     ./modules/gpg.nix

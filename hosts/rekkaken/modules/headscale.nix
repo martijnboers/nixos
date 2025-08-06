@@ -76,9 +76,15 @@ in
 
     services = {
       caddy.virtualHosts = {
-        "headscale.plebian.nl".extraConfig = ''
-          reverse_proxy http://localhost:${toString config.services.headscale.port}
-        '';
+        "headscale.plebian.nl" = {
+          listenAddresses = [
+            config.hidden.wan_ips.rekkaken
+            "::1"
+          ];
+          extraConfig = ''
+            reverse_proxy http://localhost:${toString config.services.headscale.port}
+          '';
+        };
         "vpn.thuis".extraConfig = ''
           import headscale
           handle @internal {
@@ -86,14 +92,20 @@ in
           }
           respond 403
         '';
-        "vpn-callback.plebian.nl".extraConfig = ''
-                    @oidc_paths path /oidc/callback* /signin-oidc* /oauth2/callback* /login/oauth2/code/*
+        "vpn-callback.plebian.nl" = {
+          extraConfig = ''
+            @oidc_paths path /oidc/callback* /signin-oidc* /oauth2/callback* /login/oauth2/code/*
 
-                    handle @oidc_paths {
-                      reverse_proxy http://localhost:${toString headplanePort}
-                    }
-          	  respond 403
-        '';
+            handle @oidc_paths {
+              reverse_proxy http://localhost:${toString headplanePort}
+            }
+            respond 403
+          '';
+          listenAddresses = [
+            config.hidden.wan_ips.rekkaken
+            "::1"
+          ];
+        };
       };
 
       borgbackup.jobs.default.paths = [ config.services.headscale.settings.database.sqlite.path ];
@@ -202,7 +214,7 @@ in
                     "nurma"
                   ];
                   dst = [
-		    "rekkaken:1080" # socks
+                    "rekkaken:51820" # wireguard exit-node
                     "hadouken:22"
                   ];
                 }

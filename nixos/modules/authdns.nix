@@ -8,12 +8,12 @@
 let
   cfg = config.hosts.authdns;
   rekkaken = {
-    ipv4 = "46.62.135.158";
-    ipv6 = "2a01:4f9:c013:98b::1";
+    ipv4 = config.hidden.wan_ips.rekkaken;
+    ipv6 = config.hidden.wan_ips.rekkaken_6;
   };
   shoryuken = {
-    ipv4 = "157.180.79.166";
-    ipv6 = "2a01:4f9:c013:c5fa::1";
+    ipv4 = config.hidden.wan_ips.shoryuken;
+    ipv6 = config.hidden.wan_ips.shoryuken_6;
   };
 
   tsigKeyName = "plebs4diamonds";
@@ -71,11 +71,11 @@ let
     zoneInfo:
     pkgs.writeText "${zoneInfo.name}.zone" ''
       @ 3600 IN SOA ns1.${zoneInfo.name}. hostmaster.${zoneInfo.name}. (
-        1 
-        7200       
-        3600       
-        86400      
-        3600       
+        0          ; Serial (placeholder, managed by Knot's dateserial policy)
+        7200       ; Refresh
+        3600       ; Retry
+        86400      ; Expire
+        3600       ; Negative Cache TTL
       )
 
       $TTL 300
