@@ -202,6 +202,7 @@ in
                     "nurma"
                   ];
                   dst = [
+		    "rekkaken:1080" # socks
                     "hadouken:22"
                   ];
                 }

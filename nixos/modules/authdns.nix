@@ -125,12 +125,12 @@ in
         remote = [
           {
             id = "rekkaken";
-            address = [ rekkaken.ipv6 ];
+            address = [ rekkaken.ipv4 ];
             key = tsigKeyName;
           }
           {
             id = "shoryuken";
-            address = [ shoryuken.ipv6 ];
+            address = [ shoryuken.ipv4 ];
             key = tsigKeyName;
           }
         ];

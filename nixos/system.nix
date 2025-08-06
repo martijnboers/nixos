@@ -14,6 +14,7 @@
     ./modules/authdns.nix
     ./modules/auditd.nix
     ./modules/server.nix
+    ./modules/socks.nix
     ./modules/borg.nix
     ./modules/ssh.nix
     ./modules/gpg.nix

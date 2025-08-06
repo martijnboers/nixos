@@ -1,7 +1,5 @@
 {
-  lib,
   config,
-  pkgs,
   ...
 }:
 {
@@ -20,6 +18,13 @@
   hosts.uptime-kuma.enable = true;
   hosts.prometheus.enable = true;
   hosts.tailscale.enable = true;
+
+  hosts.socks = {
+    enable = true;
+    interface = "enp1s0";
+    floatingIp = config.hidden.wireguard_ip;
+    tailscaleListenHost = "rekkaken.machine.thuis";
+  };
 
   hosts.authdns = {
     enable = true;
