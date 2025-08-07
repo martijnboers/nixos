@@ -1,4 +1,3 @@
-# https://github.com/Mic92/dotfiles/blob/8af9de2f46a890b626a435b2da2cdf80e5317c48/machines/eve/modules/knot/default.nix#L41
 {
   pkgs,
   config,
@@ -18,7 +17,7 @@ let
 
   tsigKeyName = "plebs4diamonds";
 
-  zones = [
+  allZones = [
     {
       name = "plebian.nl";
       records = ''
@@ -26,10 +25,8 @@ let
         *           IN      AAAA    ${shoryuken.ipv6}
         @           IN      A       ${shoryuken.ipv4}
         @           IN      AAAA    ${shoryuken.ipv6}
-
         headscale   IN      A       ${rekkaken.ipv4}
         headscale   IN      AAAA    ${rekkaken.ipv6}
-
         protonmail2._domainkey  IN CNAME protonmail2.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch.
         protonmail3._domainkey  IN CNAME protonmail3.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch.
         protonmail._domainkey   IN CNAME protonmail.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch.
@@ -47,7 +44,6 @@ let
         *       IN      AAAA    ${shoryuken.ipv6}
         @       IN      A       ${shoryuken.ipv4}
         @       IN      AAAA    ${shoryuken.ipv6}
-
         protonmail2._domainkey  IN CNAME protonmail2.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
         protonmail3._domainkey  IN CNAME protonmail3.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
         protonmail._domainkey   IN CNAME protonmail.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
@@ -67,28 +63,29 @@ let
     }
   ];
 
-  mkZoneFile =
-    zoneInfo:
-    pkgs.writeText "${zoneInfo.name}.zone" ''
-      @ 3600 IN SOA ns1.${zoneInfo.name}. hostmaster.${zoneInfo.name}. (
-        0          ; Serial (placeholder, managed by Knot's dateserial policy)
-        7200       ; Refresh
-        3600       ; Retry
-        86400      ; Expire
-        3600       ; Negative Cache TTL
-      )
-
-      $TTL 300
-      @   IN  NS  ns1.${zoneInfo.name}.
-      @   IN  NS  ns2.${zoneInfo.name}.
-
-      ns1 IN  A   ${rekkaken.ipv4}
-      ns2 IN  A   ${shoryuken.ipv4}
-      ns1 IN  AAAA   ${rekkaken.ipv6}
-      ns2 IN  AAAA   ${shoryuken.ipv6}
-
-      ${zoneInfo.records}
-    '';
+  # This generates the immutable source files in the Nix store.
+  sourceZoneFiles = builtins.listToAttrs (
+    map (zoneInfo: {
+      name = zoneInfo.name;
+      value = pkgs.writeText "${zoneInfo.name}.zone" ''
+        $TTL 300
+        @ 3600 IN SOA ns1.${zoneInfo.name}. hostmaster.${zoneInfo.name}. (
+          1 	; Initial Serial
+          7200 	; Refresh
+          3600 	; Retry
+          86400 ; Expire
+          3600 	; Negative Cache TTL
+        )
+        @   IN  NS  ns1.${zoneInfo.name}.
+        @   IN  NS  ns2.${zoneInfo.name}.
+        ns1 IN  A   ${rekkaken.ipv4}
+        ns2 IN  A   ${shoryuken.ipv4}
+        ns1 IN  AAAA   ${rekkaken.ipv6}
+        ns2 IN  AAAA   ${shoryuken.ipv6}
+        ${zoneInfo.records}
+      '';
+    }) allZones
+  );
 
 in
 {
@@ -104,11 +101,27 @@ in
   config = lib.mkIf cfg.enable {
     networking.firewall.allowedTCPPorts = [ 53 ];
     networking.firewall.allowedUDPPorts = [ 53 ];
-
     age.secrets.tsigkey = {
       file = ../../secrets/tsigkey.age;
       owner = "knot";
       group = "knot";
+    };
+
+    # knot wants to write to zone files, move them to writable location
+    systemd.services.knot = lib.mkIf cfg.master {
+      preStart = ''
+        ZONES_DIR="/var/lib/knot/zones"
+        mkdir -p "$ZONES_DIR"
+        chown knot:knot "$ZONES_DIR"
+
+        ${lib.concatStringsSep "\n" (
+          map (zone: ''
+            cp ${sourceZoneFiles.${zone.name}} "$ZONES_DIR/${zone.name}.zone"
+            chown knot:knot "$ZONES_DIR/${zone.name}.zone"
+          '') allZones
+        )}
+      '';
+      serviceConfig.PermissionsStartOnly = true;
     };
 
     services.knot = {
@@ -121,7 +134,6 @@ in
             "::@53"
           ];
         };
-
         remote = [
           {
             id = "rekkaken";
@@ -134,7 +146,6 @@ in
             key = tsigKeyName;
           }
         ];
-
         acl = [
           {
             id = "allow-transfers-from-slave";
@@ -148,12 +159,10 @@ in
           }
         ];
 
-        policy = [
+        policy = lib.mkIf cfg.master [
           {
             id = "default";
-            algorithm = "RSASHA256";
-            ksk-size = 4096;
-            zsk-size = 2048;
+            algorithm = "ECDSAP256SHA256";
           }
         ];
 
@@ -163,29 +172,29 @@ in
             dnssec-signing = true;
             notify = [ "shoryuken" ];
             acl = [ "allow-transfers-from-slave" ];
-            zonefile-sync = "-1";
-            zonefile-load = "difference-no-serial";
             serial-policy = "dateserial";
-            journal-content = "all";
-            semantic-checks = "on";
           }
           {
             id = "secondary-template";
             master = [ "rekkaken" ];
             acl = [ "allow-notifies-from-master" ];
-            zonefile-sync = "-1";
-            zonefile-load = "difference-no-serial";
-            serial-policy = "dateserial";
-            journal-content = "all";
-            semantic-checks = "on";
           }
         ];
 
-        zone = lib.map (zoneInfo: {
-          domain = zoneInfo.name;
-          file = mkZoneFile zoneInfo;
-          template = if cfg.master then "primary-template" else "secondary-template";
-        }) zones;
+        zone = lib.map (
+          zoneInfo:
+          if cfg.master then
+            {
+              domain = zoneInfo.name;
+              template = "primary-template";
+              file = "/var/lib/knot/zones/${zoneInfo.name}.zone";
+            }
+          else
+            {
+              domain = zoneInfo.name;
+              template = "secondary-template";
+            }
+        ) allZones;
       };
     };
   };
