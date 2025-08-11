@@ -18,10 +18,12 @@ in
   };
 
   config = mkIf cfg.enable {
-    networking.interfaces.${cfg.publicInterface}.ipv4.addresses = [{
-      address = cfg.floatingIp;
-      prefixLength = 32;
-    }];
+    networking.interfaces.${cfg.publicInterface}.ipv4.addresses = [
+      {
+        address = cfg.floatingIp;
+        prefixLength = 32;
+      }
+    ];
 
     boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 
@@ -41,6 +43,10 @@ in
         allowedUDPPorts = [ 51820 ];
         # This declaratively allows traffic from the wg0 interface to be forwarded.
         trustedInterfaces = [ "wg0" ];
+        # This single command blocks ALL incoming traffic to the floating IP.
+        extraCommands = ''
+          iptables -A nixos-fw -d ${cfg.floatingIp} -j DROP
+        '';
       };
     };
 
@@ -50,7 +56,7 @@ in
       privateKeyFile = cfg.privateKeyFile;
       peers = [
         {
-          publicKey = "kB9SFPsFsdma1aHnrHeE+Pz8U0WT67gqwo4e4K7HWDA="; 
+          publicKey = "kB9SFPsFsdma1aHnrHeE+Pz8U0WT67gqwo4e4K7HWDA=";
           allowedIPs = [ "10.100.0.2/32" ];
         }
       ];

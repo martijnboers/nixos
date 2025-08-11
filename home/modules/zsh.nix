@@ -82,7 +82,7 @@ in
           "s\?" = "mods -f --role sys \"$1\"";
           "h\?" = "OLLAMA_HOST=https://ollama.thuis ollama run wizardlm2";
         };
-      dotDir = ".config/zsh";
+      dotDir = "/home/martijn/.config/zsh";
       initContent = ''
         # Powerlevel10k Zsh theme
         source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme

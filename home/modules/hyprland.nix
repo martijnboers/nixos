@@ -12,7 +12,6 @@ in
   imports = [
     ./desktop.nix
     ./waybar.nix
-    ./swaync.nix
   ];
 
   options.maatwerk.hyprland = {
@@ -21,10 +20,29 @@ in
 
   config = mkIf cfg.enable {
     maatwerk.desktop.enable = true;
+
     gtk = {
       enable = true;
       iconTheme.name = "gruvbox";
       iconTheme.package = pkgs.gruvbox-dark-icons-gtk;
+    };
+
+    services.dunst = {
+      enable = true;
+      iconTheme = {
+	name = "Tela-circle";
+	package = pkgs.tela-circle-icon-theme;
+      };
+      settings.global = {
+        frame_width = 1;
+        corner_radius = 5;
+        progress_bar_corner_radius = 5;
+        corners = "top-left,bottom";
+        progress_bar_corners = "top-left,bottom-right";
+        offset = "32x20";
+        gap_size = 5;
+        format = "<b>󰁕 %a</b>\n%s\n<i>%b</i>";
+      };
     };
 
     programs.rofi = {
@@ -85,9 +103,6 @@ in
         slurp
         wl-clipboard
         stable.copyq
-
-        # other
-        swaynotificationcenter # notifs
       ];
 
     wayland.windowManager.hyprland = {
@@ -101,7 +116,6 @@ in
         "$mod" = "ALT";
         "$prog" = "CTRL ALT";
         exec-once = [
-          "swaync &"
           "copyq --start-server &"
           "cinny &"
           "blueman-applet &"
@@ -145,48 +159,47 @@ in
           ", XF86AudioPrev, exec, playerctl previous"
         ];
 
-        bind =
-          [
-            "$mod, W, exec, $browser"
-            "$mod, Q, exec, $terminal"
-            "$mod, E, exec, $fileManager"
-            "$mod, Space, exec, $menu"
-            "$mod, R, exec, code"
-            '', Print, exec, grim -g "$(slurp)" - | satty -f - -o ~/Pictures/screenshot_%Y-%m-%d_%H-%M-%S.png''
-            "$mod, F4, killactive"
-            "$prog, H, exec, copyq toggle"
-            "$mod, M, exec, hyprlock"
+        bind = [
+          "$mod, W, exec, $browser"
+          "$mod, Q, exec, $terminal"
+          "$mod, E, exec, $fileManager"
+          "$mod, Space, exec, $menu"
+          "$mod, R, exec, code"
+          '', Print, exec, grim -g "$(slurp)" - | satty -f - -o ~/Pictures/screenshot_%Y-%m-%d_%H-%M-%S.png''
+          "$mod, F4, killactive"
+          "$prog, H, exec, copyq toggle"
+          "$mod, M, exec, hyprlock"
 
-            # movement
-            # https://wiki.hyprland.org/Configuring/Dispatchers/#list-of-dispatchers
-            "$mod, V, togglefloating"
-            "$prog, down, workspace, -1"
-            "$prog, up, workspace, +1"
-            "$mod, J, movefocus, l"
-            "$mod, L, movefocus, r"
-            "$mod, I, movefocus, u"
-            "$mod, K, movefocus, d"
-            "$mod, U, swapwindow, l"
-            "$mod, O, swapwindow, r"
-            "$mod, F, fullscreen,"
-            "$mod, P, pseudo," # dwindle
-            "$mod, H, togglesplit" # dwindle
-          ]
-          ++ (
-            # Define keybindings for workspaces 1 to 6
-            builtins.concatLists (
-              builtins.genList (
-                x:
-                let
-                  ws = builtins.toString (x + 1); # Workspace number as a string
-                in
-                [
-                  "$mod, ${ws}, workspace, ${ws}" # Switch to workspace {ws}
-                  "$mod SHIFT, ${ws}, movetoworkspace, ${ws}" # Move to workspace {ws}
-                ]
-              ) 6 # Generate for 6 workspaces
-            )
-          );
+          # movement
+          # https://wiki.hyprland.org/Configuring/Dispatchers/#list-of-dispatchers
+          "$mod, V, togglefloating"
+          "$prog, down, workspace, -1"
+          "$prog, up, workspace, +1"
+          "$mod, J, movefocus, l"
+          "$mod, L, movefocus, r"
+          "$mod, I, movefocus, u"
+          "$mod, K, movefocus, d"
+          "$mod, U, swapwindow, l"
+          "$mod, O, swapwindow, r"
+          "$mod, F, fullscreen,"
+          "$mod, P, pseudo," # dwindle
+          "$mod, H, togglesplit" # dwindle
+        ]
+        ++ (
+          # Define keybindings for workspaces 1 to 6
+          builtins.concatLists (
+            builtins.genList (
+              x:
+              let
+                ws = builtins.toString (x + 1); # Workspace number as a string
+              in
+              [
+                "$mod, ${ws}, workspace, ${ws}" # Switch to workspace {ws}
+                "$mod SHIFT, ${ws}, movetoworkspace, ${ws}" # Move to workspace {ws}
+              ]
+            ) 6 # Generate for 6 workspaces
+          )
+        );
 
         # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
         dwindle = {

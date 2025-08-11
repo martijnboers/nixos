@@ -73,8 +73,10 @@ in
           bind_hosts = [ "0.0.0.0" ]; # this can bind to tailscale
           upstream_dns = [
             "https://dns10.quad9.net/dns-query"
-            "https://doq.dns4all.eu/dns-query"
-            "https://unfiltered.adguard-dns.com/dns-query"
+	    "https://dns.freedom.nl/dns-query"
+	    "https://doh.dns.sb/dns-query"
+	    "https://dns.nextdns.io"
+	    "https://base.dns.mullvad.net/dns-query"
           ];
           allowed_clients = [
             "100.64.0.0/10"
@@ -87,13 +89,17 @@ in
           ];
           protection_enabled = true;
           enable_dnssec = true; # make it harder to tamper
-          # serve_plain_dns = false; # only allow dns over https/tls
           blocked_hosts = [
             "version.bind"
             "id.server"
             "hostname.bind"
           ];
-          cache_size = 4194304;
+          cache_size = 2 * 1024 * 1024 * 1024; # 2gb
+          cache_ttl_min = 1 * 60 * 60; # 1 hour
+          cache_ttl_max = 24 * 60 * 60; # 24 hours
+          # Responds from expired cache while refreshing in the background.
+          cache_optimistic = true;
+
         };
         tls = {
           enabled = false;

@@ -30,19 +30,11 @@ in
       hunspell
       hunspellDicts.nl_NL
       hunspellDicts.en_US
-      obsidian
 
       # programming
-      pgrok
       sublime-merge
-      awscli2
       httpie-desktop
       devenv
-      beekeeper-studio # db
-
-      # forensics
-      volatility3
-      wireshark
 
       # personal
       qflipper

@@ -102,12 +102,12 @@ in
       };
     };
 
-    # Backfill comments automaticly
     age.secrets = {
       fedifetcher.file = ../../../secrets/fedifetcher.age;
       mastodon.file = ../../../secrets/mastodon.age;
     };
 
+    # Backfill comments automaticly
     systemd.services.fedifetcher = {
       description = "FediFetcher";
       wants = [

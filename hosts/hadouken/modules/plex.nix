@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib;
@@ -16,6 +17,7 @@ in
     services.plex = {
       enable = true;
       openFirewall = true;
+      package = pkgs.customplex;
       dataDir = "/mnt/zwembad/app/plex";
     };
   };

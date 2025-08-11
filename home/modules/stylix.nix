@@ -48,7 +48,6 @@ in
         librewolf.enable = false;
         nixvim.enable = false;
         hyprlock.enable = false;
-        swaync.enable = false;
       };
     };
   };
