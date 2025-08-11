@@ -17,11 +17,11 @@
     ./modules/mods.nix
 
     # Packaged home manager modules
-    inputs.nixvim.homeManagerModules.nixvim
+    inputs.nixvim.homeModules.nixvim
     inputs.stylix.homeModules.stylix
 
     # quickly lookup and run programs
-    inputs.nix-index-database.hmModules.nix-index
+    inputs.nix-index-database.homeModules.nix-index
 
     # secrets manager
     inputs.agenix.homeManagerModules.default

@@ -274,6 +274,7 @@
         "beekeeper-studio-5.2.12" # Electron version 31 is EOL
         "electron-32.3.3" # eol
         "libxml2-2.13.8" # CVE-2025-6021
+	"libsoup-2.74.3" # gnome cves
       ];
     };
   };

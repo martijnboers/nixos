@@ -32,7 +32,6 @@ in
           modules-center = [
             "privacy"
             "clock"
-            "custom/notification"
           ];
           modules-right = [
             "network"
@@ -154,20 +153,6 @@ in
             interval = 5;
           };
 
-          "custom/notification" = {
-            tooltip = false;
-            format = "{icon}";
-            format-icons = {
-              notification = "󱅫";
-              none = "󰂚";
-              dnd-notification = "󱏧";
-              dnd-none = "󱏧";
-            };
-            return-type = "json";
-            exec-if = "which swaync-client";
-            exec = "swaync-client -swb";
-            on-click = "sleep 0.1 && swaync-client -t -sw";
-          };
           temperature = {
             # "thermal-zone": 2,
             "hwmon-path" = "/sys/class/hwmon/hwmon2/temp1_input";

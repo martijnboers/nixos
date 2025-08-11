@@ -31,7 +31,7 @@ in
     };
 
     services.librechat = {
-      enable = true;
+      enable = false;
       env = {
         ALLOW_REGISTRATION = "true";
         HOST = "0.0.0.0";

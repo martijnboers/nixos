@@ -60,12 +60,19 @@ in
         sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions,globals";
         termguicolors = true; # more colors, makes linenumber color work
         cursorline = true; # show highlight under cursor
+	foldlevel = 99;
+	foldlevelstart = 99;
       };
 
       plugins = {
         noice.enable = true; # cmd popup input modal
         auto-session.enable = true; # auto-restore sessions on startup
         gitsigns.enable = true; # git gutter signs
+
+	origami = {
+	  enable = true; # folding with lsp+treesitter
+	  settings.foldKeymaps.setup = false; 
+	};
 
         barbar = {
           enable = true; # tabs, as understood by any other editor.
@@ -98,32 +105,6 @@ in
           };
         };
 
-        mini-statusline = {
-          enable = true;
-          settings = {
-            use_icons = false;
-            content = {
-              active = helpers.mkRaw ''
-                function()
-                  local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 200 })
-                  local diff          = MiniStatusline.section_diff({ icon = "  ", trunc_width = 70 })
-                  local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 70 })
-                  local path          = MiniStatusline.section_filename({ trunc_width = 10 })
-
-                  return MiniStatusline.combine_groups({
-                    { hl = mode_hl,               strings = { mode } },
-                    '%<',
-                    { hl = 'MiniStatuslineLocation', strings = { path } },
-                    '%=',
-                    { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
-                    { hl = 'MiniStatuslineDiff',  strings = {  diff } },
-                  })
-                end
-              '';
-            };
-          };
-        };
-
         mini = {
           enable = true;
           mockDevIcons = true;
@@ -132,6 +113,10 @@ in
             pick.enable = true; # file picker
             extra.enable = true; # more picker sources
             icons.enable = true; # icons support for extensions
+            surround = {
+              add = "sa"; # surround words with something
+              delete = "sd";
+            };
             move = {
               mappings = {
                 up = "<C-S-Up>";
@@ -140,10 +125,28 @@ in
                 line_down = "<C-S-Down>";
               };
             };
-            surround = {
-              add = "sa";
-              delete = "sd";
-            }; # surround words with something
+            statusline = {
+              use_icons = false;
+              content = {
+                active = helpers.mkRaw ''
+                  function()
+                    local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 200 })
+                    local diff          = MiniStatusline.section_diff({ icon = "  ", trunc_width = 70 })
+                    local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 70 })
+                    local path          = MiniStatusline.section_filename({ trunc_width = 10 })
+
+                    return MiniStatusline.combine_groups({
+                      { hl = mode_hl,               strings = { mode } },
+                      '%<',
+                      { hl = 'MiniStatuslineLocation', strings = { path } },
+                      '%=',
+                      { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
+                      { hl = 'MiniStatuslineDiff',  strings = {  diff } },
+                    })
+                  end
+                '';
+              };
+            };
           };
         };
 
@@ -386,6 +389,7 @@ in
 
       diagnostic.settings = {
         virtual_text = false;
+	signs = false;
         virtual_lines = {
           enable = true;
           current_line = true;

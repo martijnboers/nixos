@@ -111,8 +111,9 @@ in
       borgbackup.jobs.default.paths = [ config.services.headscale.settings.database.sqlite.path ];
 
       headplane = {
-        enable = true;
+        enable = false;
         agent.enable = false;
+	package = pkgs.stable.headplane;
         settings = {
           server = {
             host = "127.0.0.1";

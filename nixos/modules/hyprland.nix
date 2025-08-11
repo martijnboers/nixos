@@ -56,7 +56,7 @@ in
           user = "martijn";
         };
         default_session = {
-          command = "${lib.getExe pkgs.greetd.tuigreet} --time --cmd Hyprland";
+          command = "${lib.getExe pkgs.tuigreet} --time --cmd Hyprland";
           user = "martijn";
         };
       };
