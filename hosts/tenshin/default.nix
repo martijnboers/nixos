@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 {
   networking.hostName = "tenshin";
 

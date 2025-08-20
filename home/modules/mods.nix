@@ -1,8 +1,9 @@
-{ ... }:
+{ pkgs, ... }:
 {
   programs.mods = {
     enable = true;
     enableZshIntegration = true;
+    package = pkgs.stable.mods;
     settings = {
       default-model = "google-preview";
       apis = {
@@ -30,11 +31,11 @@
           api-key-env = "GEMINI_API_KEY";
           # https://ai.google.dev/gemini-api/docs/models
           models = {
-            "gemini-2.5-pro-exp-03-25" = {
+            "gemini-2.5-pro" = {
               aliases = [ "google-preview" ];
               "max-input-chars" = 24500;
             };
-            "gemini-2.5-flash-preview-04-17" = {
+            "gemini-2.5-flash" = {
               aliases = [ "cli-fast" ];
               "max-input-chars" = 24500;
             };

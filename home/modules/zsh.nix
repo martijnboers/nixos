@@ -60,6 +60,7 @@ in
           ls = "lsd"; # fancy ls
           fmt = "nix fmt ~/Nix/*.nix";
           adel = "read -r s&&atuin search '$s' --delete";
+          notes = "nvim /mnt/notes/";
           readme = "cat README* | glow";
           keyboard-compile = "qmk compile -kb peej/lumberjack -km martijn";
           keyboard-flash = "qmk flash -kb peej/lumberjack -km martijn";

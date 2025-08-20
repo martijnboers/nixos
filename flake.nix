@@ -17,6 +17,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    crowdsec = {
+      url = "git+https://codeberg.org/kampka/nix-flake-crowdsec.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Secrets
     agenix = {
       url = "github:ryantm/agenix";
@@ -105,6 +110,10 @@
 
             home-manager.nixosModules.home-manager
             inputs.agenix.nixosModules.default
+
+            inputs.crowdsec.nixosModules.crowdsec
+            inputs.crowdsec.nixosModules.crowdsec-firewall-bouncer
+
             inputs.secrets.outPath
             {
               environment.systemPackages = [ inputs.agenix.packages.${system}.default ];
@@ -114,7 +123,8 @@
               home-manager.users.martijn = import homeconfig;
               home-manager.extraSpecialArgs = { inherit inputs outputs system; };
             }
-          ] ++ modules;
+          ]
+          ++ modules;
         };
     in
     {

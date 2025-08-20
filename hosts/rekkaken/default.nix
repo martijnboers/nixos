@@ -19,11 +19,31 @@
   hosts.prometheus.enable = true;
   hosts.tailscale.enable = true;
 
-  age.secrets.rekkaken-exit = {
-    file = ../../secrets/rekkaken-exit.age;
-    owner = "root";
-    group = "root";
-    mode = "0400";
+  age.secrets = {
+    rekkaken-exit = {
+      file = ../../secrets/rekkaken-exit.age;
+      owner = "root";
+      group = "root";
+      mode = "0400";
+    };
+    crowdsecgapi = {
+      file = ../../secrets/crowdsecgapi.age;
+      owner = "crowdsec";
+      mode = "0400";
+    };
+    lapi-bouncer = {
+      file = ../../secrets/lapi-bouncer.age;
+      owner = "root";
+      mode = "0400";
+    };
+  };
+
+  # Shared fail2ban services
+  hosts.crowdsec = {
+    enable = true;
+    agent = false; # This is the LAPI
+    enrollKeyFile = config.age.secrets.crowdsecgapi.path;
+    bouncerApiKeyFile = config.age.secrets.lapi-bouncer.path;
   };
 
   hosts.exit-node = {

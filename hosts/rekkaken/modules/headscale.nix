@@ -202,7 +202,7 @@ in
                   src = [ "group:trusted" ];
                   dst = [
                     "tenshin:53,80,443" # everyone access to dns
-                    "rekkaken:80,443,8025,2230" # everyone can send notifications + internal email
+                    "rekkaken:80,443,8025,2230,49837" # everyone can send notifications + internal email + crowdsec lapi
                     "shoryuken:80,443" # everyone can request acme certs
                     "hadouken:80,443" # everyone can access hadouken web-services
                   ];

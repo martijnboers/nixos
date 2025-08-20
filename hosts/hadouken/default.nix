@@ -17,7 +17,6 @@ in
     ./modules/mastodon.nix
     ./modules/detection.nix
     ./modules/syncthing.nix
-    ./modules/fail2ban.nix
     ./modules/microbin.nix
     ./modules/calendar.nix
     ./modules/bincache.nix
@@ -43,7 +42,6 @@ in
   hosts.monitoring.enable = true;
   hosts.matrix.enable = true;
   hosts.mastodon.enable = true;
-  hosts.fail2ban.enable = true;
   hosts.llm.enable = true;
   hosts.microbin.enable = true;
   hosts.sync.enable = true;

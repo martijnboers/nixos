@@ -12,6 +12,7 @@
     ./modules/tailscale.nix
     ./modules/wireguard.nix
     ./modules/hyprland.nix
+    ./modules/crowdsec.nix
     ./modules/authdns.nix
     ./modules/auditd.nix
     ./modules/server.nix

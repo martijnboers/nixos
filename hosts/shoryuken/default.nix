@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 {
   networking.hostName = "shoryuken";
 
@@ -15,6 +15,19 @@
   hosts.prometheus.enable = true;
   hosts.endlessh.enable = true;
   hosts.authdns.enable = true;
+
+  age.secrets = {
+    shoyruken-crowdsec = {
+      file = ../../secrets/shoryuken-crowdsec.age;
+      owner = "root";
+      mode = "0400";
+    };
+  };
+
+  hosts.crowdsec = {
+    enable = true;
+    machinePasswordFile = config.age.secrets.shoryuken-crowdsec.path;
+  };
 
   # Enable tailscale network
   hosts.tailscale.enable = true;
