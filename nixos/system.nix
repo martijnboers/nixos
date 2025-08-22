@@ -2,6 +2,7 @@
   pkgs,
   config,
   outputs,
+  inputs,
   lib,
   ...
 }:
@@ -45,6 +46,8 @@
 
   # Global packages (also available to root)
   environment.systemPackages = with pkgs; [
+    inputs.agenix.packages.${system}.default
+
     # networking tools
     dnsutils # `dig` + `nslookup`
     whois
@@ -99,7 +102,6 @@
     settings = {
       experimental-features = [
         "nix-command"
-        "flakes"
         "pipe-operators"
       ];
       log-lines = lib.mkDefault 25;
@@ -119,6 +121,7 @@
       substituters = [
         "https://cache.nixos.org?priority=1"
         "https://nix-community.cachix.org?priority=2"
+        "https://install.determinate.systems"
         # "https://binarycache.thuis"
         "https://cache.garnix.io"
         "https://devenv.cachix.org"
@@ -130,6 +133,7 @@
         "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
         "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
         "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+        "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
       ];
     };
 
@@ -275,7 +279,7 @@
         "beekeeper-studio-5.2.12" # Electron version 31 is EOL
         "electron-32.3.3" # eol
         "libxml2-2.13.8" # CVE-2025-6021
-	"libsoup-2.74.3" # gnome cves
+        "libsoup-2.74.3" # gnome cves
       ];
     };
   };

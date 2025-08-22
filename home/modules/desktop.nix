@@ -31,6 +31,9 @@ in
       hunspellDicts.nl_NL
       hunspellDicts.en_US
 
+      # work
+      citrix_workspace
+
       # programming
       sublime-merge
       httpie-desktop
