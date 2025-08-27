@@ -35,7 +35,7 @@ in
               shift
             fi
             export NH_FLAKE=/home/martijn/Nix
-            nh os switch --ask "''${target_args[@]}" --fallback "$@"
+            nh os switch --ask "''${target_args[@]}" --fallback -- --ask-sudo-password "$@" 
           '';
           sshAlias = name: "kitty +kitten ssh ${name}.machine.thuis";
         in

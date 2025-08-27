@@ -7,9 +7,9 @@
 with lib;
 let
   cfg = config.hosts.caddy;
-  plebian = builtins.fetchGit {
-    url = "https://github.com/martijnboers/plebian.nl.git";
-    rev = "b07146995f7b227ef7692402374268f0457003aa";
+  info = builtins.fetchGit {
+    url = "https://github.com/martijnboers/boers.email.git";
+    rev = "113945f8d61a244f403a3a85085d86e7b77ba724";
   };
   resume = builtins.fetchGit {
     url = "git@github.com:martijnboers/resume.git";
@@ -44,11 +44,6 @@ in
             enable_full_duplex
         }
       '';
-      extraConfig = ''
-        matrix.plebian.nl, matrix.plebian.nl:8448 {
-            reverse_proxy /_matrix/* http://${config.hidden.tailscale_hosts.hadouken}:5553
-        }
-      '';
       virtualHosts =
         let
           makeProxy = public: target: {
@@ -65,39 +60,32 @@ in
           };
         in
         {
-          "plebian.nl" = {
-            serverAliases = [ "boers.email" ];
+          "boers.email" = {
+            serverAliases = [ "plebian.nl" ];
             extraConfig = ''
               cache {
                   ttl 1h
               }
-              root * ${plebian}/
+              root * ${info}/
               encode zstd gzip
               file_server
 
-              route /.well-known/matrix/server {
-                  header Access-Control-Allow-Origin "*"
-                  header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
-                  header Access-Control-Allow-Headers "X-Requested-With, Content-Type, Authorization"
-                  respond `{
-                      "m.server": "matrix.plebian.nl:443"
-                  }`
-              }
-
-              route /.well-known/matrix/client {
-                  header Access-Control-Allow-Origin "*"
-                  header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
-                  header Access-Control-Allow-Headers "X-Requested-With, Content-Type, Authorization"
-                  respond `{
-                      "m.homeserver": {
-                          "base_url": "https://matrix.plebian.nl"
-                      }
-                  }`
-              }
-            ''; # makes it possible to do @martijn:plebian.nl
+              header /.well-known/matrix/* Content-Type application/json
+              header /.well-known/matrix/* Access-Control-Allow-Origin *
+              respond /.well-known/matrix/server `{"m.server": "matrix.boers.email:443"}`
+              respond /.well-known/matrix/client `{
+                "m.homeserver": {"base_url":"https://matrix.boers.email"},
+                "m.identity_server":{"base_url":"https://identity.boers.email"}
+              }`
+            ''; # makes it possible to do @martijn:boers.email
           };
-          "resume.plebian.nl" = {
-            serverAliases = [ "resume.boers.email" ];
+          "matrix.boers.email" = {
+            extraConfig = ''
+              reverse_proxy /_matrix/* http://${config.hidden.tailscale_hosts.hadouken}:5553
+              reverse_proxy /_synapse/client/* http://${config.hidden.tailscale_hosts.hadouken}:5553
+            '';
+          };
+          "resume.boers.email" = {
             extraConfig = ''
               cache { ttl 1h }
               root * ${resume}/
@@ -105,7 +93,8 @@ in
               file_server
             '';
           };
-          "storage.plebian.nl" = {
+          "storage.boers.email" = {
+            serverAliases = [ "storage.plebian.nl" ];
             extraConfig = ''
               reverse_proxy hadouken.machine.thuis:5554 
               header Access-Control-Allow-Origin *
@@ -164,8 +153,8 @@ in
               '';
           };
         }
-        // makeProxy "p.plebian.nl" "microbin.thuis"
-        // makeProxy "sea.plebian.nl" "seaf.thuis";
+        // makeProxy "p.boers.email" "microbin.thuis"
+        // makeProxy "sea.boers.email" "seaf.thuis";
     };
     systemd.services.caddy = {
       serviceConfig = {

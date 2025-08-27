@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 with lib;
@@ -14,16 +13,39 @@ in
   };
 
   config = mkIf cfg.enable {
-    services.matrix-conduit = {
+    age.secrets.synapse = {
+      file = ../../../secrets/synapse.age;
+      owner = "matrix-synapse";
+      group = "matrix-synapse";
+    };
+
+    services.matrix-synapse = {
       enable = true;
-      package = pkgs.stable.matrix-conduit;
-      settings.global = {
-        server_name = "plebian.nl";
-        allow_check_for_updates = false;
-        allow_registration = false;
-        address = config.hidden.tailscale_hosts.hadouken;
-        port = 5553;
+      dataDir = "/mnt/zwembad/app/synapse";
+      extraConfigFiles = [ config.age.secrets.synapse.path ];
+      settings = {
+        server_name = "boers.email";
+        public_baseurl = "https://boers.email";
+        enable_registration = false;
       };
+      settings.listeners = [
+        {
+          port = 5553;
+          bind_addresses = [ "0.0.0.0" ];
+          type = "http";
+          tls = false;
+          x_forwarded = true;
+          resources = [
+            {
+              names = [
+                "client"
+                "federation"
+              ];
+              compress = true;
+            }
+          ];
+        }
+      ];
     };
   };
 }

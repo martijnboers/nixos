@@ -43,8 +43,8 @@ in
       };
       initialAdminPassword = "why-is-this-a-required-property";
       ccnetSettings.General = {
-        SERVICE_URL = "https://sea.plebian.nl";
-        FILE_SERVER_ROOT = "https://sea.plebian.nl/seafhttp";
+        SERVICE_URL = "https://sea.boers.email";
+        FILE_SERVER_ROOT = "https://sea.boers.email/seafhttp";
       };
       dataDir = "/mnt/zwembad/app/seafile";
     };

@@ -92,7 +92,7 @@ in
           }
           respond 403
         '';
-        "vpn-callback.plebian.nl" = {
+        "vpn-callback.boers.email" = {
           extraConfig = ''
             @oidc_paths path /oidc/callback* /signin-oidc* /oauth2/callback* /login/oauth2/code/*
 

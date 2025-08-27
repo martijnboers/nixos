@@ -6,16 +6,6 @@ You could directly use this but it's better to extract the pieces
 you want in your own config. Checkout [nix-starter-config](https://github.com/Misterio77/nix-starter-configs)
 for a good initial starting point for NixOS with flakes. 
 
-
-### Fresh installation notes
-- `git clone --recursive --depth=1 git@github.com:martijnboers/nixos.git ~/Nix`
-- `ssh-keygen -t ed25519 -C martijn@machine.hadouken.thuis`
-- `nixos-rebuild switch --flake ".?submodules=1" --use-remote-sudo`
-- `sudo tailscale up --login-server https://headscale.plebian.nl`
-- `pgrok init --remote-addr shoryuken.machine.thuis:6666 --token {token}`
-- `curl -sS https://plebian.nl/assets/public.asc | gpg --import -`
-- `gpg --edit-key 328144ACADA0A336` `trust` `5`
-
 ### Hetzner
 Start Ubuntu machine
 ```

@@ -83,7 +83,7 @@ in
       configureNginx = false;
       smtp = {
         createLocally = false;
-        fromAddress = "noreply@plebian.nl"; # required
+        fromAddress = "noreply@boers.email"; # required
       };
       extraEnvFiles = [ config.age.secrets.mastodon.path ];
       extraConfig = {
@@ -93,8 +93,8 @@ in
         S3_ENABLED = "true";
         S3_BUCKET = "mastodon";
         S3_REGION = "thuis";
-        S3_ENDPOINT = "https://storage.plebian.nl";
-        S3_HOSTNAME = "storage.plebian.nl";
+        S3_ENDPOINT = "https://storage.boers.email";
+        S3_HOSTNAME = "storage.boers.email";
       };
       mediaAutoRemove = {
         enable = true;
