@@ -25,8 +25,6 @@ let
         *           IN      AAAA    ${shoryuken.ipv6}
         @           IN      A       ${shoryuken.ipv4}
         @           IN      AAAA    ${shoryuken.ipv6}
-        headscale   IN      A       ${rekkaken.ipv4}
-        headscale   IN      AAAA    ${rekkaken.ipv6}
         protonmail2._domainkey  IN CNAME protonmail2.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch.
         protonmail3._domainkey  IN CNAME protonmail3.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch.
         protonmail._domainkey   IN CNAME protonmail.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch.
@@ -40,10 +38,12 @@ let
     {
       name = "boers.email";
       records = ''
-        *       IN      A       ${shoryuken.ipv4}
-        *       IN      AAAA    ${shoryuken.ipv6}
-        @       IN      A       ${shoryuken.ipv4}
-        @       IN      AAAA    ${shoryuken.ipv6}
+        *           IN      A       ${shoryuken.ipv4}
+        *           IN      AAAA    ${shoryuken.ipv6}
+        @           IN      A       ${shoryuken.ipv4}
+        @           IN      AAAA    ${shoryuken.ipv6}
+        headscale   IN      A       ${rekkaken.ipv4}
+        headscale   IN      AAAA    ${rekkaken.ipv6}
         protonmail2._domainkey  IN CNAME protonmail2.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
         protonmail3._domainkey  IN CNAME protonmail3.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
         protonmail._domainkey   IN CNAME protonmail.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.

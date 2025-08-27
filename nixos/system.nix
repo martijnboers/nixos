@@ -65,6 +65,7 @@
 
     # editor
     helix
+    vim
 
     htop
     iotop # io monitoring
@@ -180,9 +181,8 @@
   networking = {
     firewall.enable = lib.mkForce true; # default value, but should never be disabled
 
-    # only use own dns
+    # tailscale overwrites this with 100.100.100.100 when connected
     nameservers = [
-      "100.100.100.100" # headscale
       "8.8.8.8"
       "2620:fe::fe"
       "149.112.112.112"
@@ -191,7 +191,6 @@
     resolvconf = {
       # so dns servers don't use their own service
       useLocalResolver = lib.mkForce false;
-      # extraConfig = "timeout:1";
     };
     # ignore what comes from dhcp
     dhcpcd.extraConfig = "nohook resolv.conf";
