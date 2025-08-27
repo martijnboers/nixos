@@ -4,12 +4,12 @@
 
   imports = [
     ./modules/endlessh.nix
-    ./modules/keycloak.nix
     ./modules/caddy.nix
+    ./modules/oidc.nix
     ./modules/acme.nix
   ];
 
-  hosts.keycloak.enable = true;
+  hosts.oidc.enable = true;
   hosts.caddy.enable = true;
   hosts.acme.enable = true;
   hosts.prometheus.enable = true;

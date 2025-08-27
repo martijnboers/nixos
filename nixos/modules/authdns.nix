@@ -6,6 +6,8 @@
 }:
 let
   cfg = config.hosts.authdns;
+  tsigKeyName = "plebs4diamonds";
+
   rekkaken = {
     ipv4 = config.hidden.wan_ips.rekkaken;
     ipv6 = config.hidden.wan_ips.rekkaken_6;
@@ -15,7 +17,12 @@ let
     ipv6 = config.hidden.wan_ips.shoryuken_6;
   };
 
-  tsigKeyName = "plebs4diamonds";
+  protonBoilerplate = ''
+    @           IN      MX      10 mail.protonmail.ch.
+    @           IN      MX      20 mailsec.protonmail.ch.
+    @           IN      TXT     "v=spf1 include:_spf.protonmail.ch ~all"
+    _dmarc      IN      TXT     "v=DMARC1; p=quarantine"
+  '';
 
   allZones = [
     {
@@ -25,34 +32,28 @@ let
         *           IN      AAAA    ${shoryuken.ipv6}
         @           IN      A       ${shoryuken.ipv4}
         @           IN      AAAA    ${shoryuken.ipv6}
-        headscale   IN      A       ${rekkaken.ipv4}
-        headscale   IN      AAAA    ${rekkaken.ipv6}
+	protonmail._domainkey   IN CNAME protonmail.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch.
         protonmail2._domainkey  IN CNAME protonmail2.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch.
         protonmail3._domainkey  IN CNAME protonmail3.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch.
-        protonmail._domainkey   IN CNAME protonmail.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch.
-        @           IN      MX      10 mail.protonmail.ch.
-        @           IN      MX      20 mailsec.protonmail.ch.
-        @           IN      TXT     "v=spf1 include:_spf.protonmail.ch ~all"
         @           IN      TXT     "protonmail-verification=32708d22ad3e171f23afdebe270278d6d914d5d3"
-        _dmarc      IN      TXT     "v=DMARC1; p=quarantine"
-      '';
+      ''
+      + protonBoilerplate;
     }
     {
       name = "boers.email";
       records = ''
-        *       IN      A       ${shoryuken.ipv4}
-        *       IN      AAAA    ${shoryuken.ipv6}
-        @       IN      A       ${shoryuken.ipv4}
-        @       IN      AAAA    ${shoryuken.ipv6}
+        *           IN      A       ${shoryuken.ipv4}
+        *           IN      AAAA    ${shoryuken.ipv6}
+        @           IN      A       ${shoryuken.ipv4}
+        @           IN      AAAA    ${shoryuken.ipv6}
+        headscale   IN      A       ${rekkaken.ipv4}
+        headscale   IN      AAAA    ${rekkaken.ipv6}
+	protonmail._domainkey   IN CNAME protonmail.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
         protonmail2._domainkey  IN CNAME protonmail2.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
         protonmail3._domainkey  IN CNAME protonmail3.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
-        protonmail._domainkey   IN CNAME protonmail.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
-        @                       IN      MX      10 mail.protonmail.ch.
-        @                       IN      MX      20 mailsec.protonmail.ch.
-        @                       IN      TXT     "v=spf1 include:_spf.protonmail.ch ~all"
         @                       IN      TXT     "protonmail-verification=cb21de1e06a960ace5877daf0cf9b22426961ae4"
-        _dmarc                  IN      TXT     "v=DMARC1; p=quarantine"
-      '';
+      ''
+      + protonBoilerplate;
     }
     {
       name = "noisesfrom.space";

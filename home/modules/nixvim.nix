@@ -266,7 +266,7 @@ in
           options.desc = "Git undo changes";
         }
         {
-          action = "<cmd>Pick git_commits<cr>";
+          action = "<cmd>Pick git_hunks<cr>";
           key = "<Leader>gc";
         }
         {

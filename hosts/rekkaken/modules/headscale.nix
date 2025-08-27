@@ -45,19 +45,6 @@ let
   tatsumakiRecords = [
     "mempool"
   ];
-
-  headplanePort = 8089;
-  format = pkgs.formats.yaml { };
-
-  # A workaround generate a valid Headscale config accepted by Headplane when `config_strict == true`.
-  settings = lib.recursiveUpdate config.services.headscale.settings {
-    acme_email = "/dev/null";
-    tls_cert_path = "/dev/null";
-    tls_key_path = "/dev/null";
-    policy.path = "/dev/null";
-    oidc.client_secret_path = "/dev/null";
-  };
-  headscaleConfig = format.generate "headscale.yml" settings;
 in
 {
   options.hosts.headscale = {
@@ -67,16 +54,9 @@ in
   config = mkIf cfg.enable {
     environment.systemPackages = [ config.services.headscale.package ];
 
-    systemd.services.headplane = {
-      environment = {
-        HEADPLANE_LOAD_ENV_OVERRIDES = "true";
-      };
-      serviceConfig.EnvironmentFile = config.age.secrets.headplane.path;
-    };
-
     services = {
       caddy.virtualHosts = {
-        "headscale.plebian.nl" = {
+        "headscale.boers.email" = {
           listenAddresses = [
             config.hidden.wan_ips.rekkaken
             "::1"
@@ -85,65 +65,16 @@ in
             reverse_proxy http://localhost:${toString config.services.headscale.port}
           '';
         };
-        "vpn.thuis".extraConfig = ''
-          import headscale
-          handle @internal {
-            reverse_proxy http://localhost:${toString headplanePort}
-          }
-          respond 403
-        '';
-        "vpn-callback.boers.email" = {
-          extraConfig = ''
-            @oidc_paths path /oidc/callback* /signin-oidc* /oauth2/callback* /login/oauth2/code/*
-
-            handle @oidc_paths {
-              reverse_proxy http://localhost:${toString headplanePort}
-            }
-            respond 403
-          '';
-          listenAddresses = [
-            config.hidden.wan_ips.rekkaken
-            "::1"
-          ];
-        };
       };
 
       borgbackup.jobs.default.paths = [ config.services.headscale.settings.database.sqlite.path ];
-
-      headplane = {
-        enable = false;
-        agent.enable = false;
-	package = pkgs.stable.headplane;
-        settings = {
-          server = {
-            host = "127.0.0.1";
-            port = headplanePort;
-            cookie_secret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"; # overwritten by env
-            cookie_secure = true;
-          };
-          headscale = {
-            url = "https://headscale.plebian.nl";
-            config_path = "${headscaleConfig}";
-            config_strict = false;
-          };
-          integration.proc.enabled = true;
-          oidc = {
-            issuer = "https://auth.plebian.nl/realms/master";
-            client_id = "headplane";
-            headscale_api_key = "overwritten";
-            disable_api_key_login = true;
-            redirect_uri = "https://vpn-callback.plebian.nl/oidc/callback";
-            token_endpoint_auth_method = "client_secret_basic";
-          };
-        };
-      };
 
       headscale = {
         enable = true;
         address = "0.0.0.0";
         port = 7070;
         settings = {
-          server_url = "https://headscale.plebian.nl";
+          server_url = "https://headscale.boers.email";
           derp = {
             # urls = []; # only use custom derp server
             paths = [
@@ -171,10 +102,13 @@ in
             ];
           };
           oidc = {
-            issuer = "https://auth.plebian.nl/realms/master";
-            client_id = "headscale";
+            issuer = "https://auth.boers.email";
+            client_id = "d88ca9d8-ee44-48d0-a993-b83a0830e937";
             client_secret_path = config.age.secrets.headscale.path;
-            allowed_users = [ "martijn@plebian.nl" ];
+            allowed_users = [
+              "headscale-server@boers.email"
+              "headscale-user@boers.email"
+            ];
           };
           policy.path = pkgs.writeText "acl.json" (
             builtins.toJSON {
@@ -192,31 +126,15 @@ in
                 rekkaken = config.hidden.tailscale_hosts.rekkaken;
               };
 
-              groups = {
-                "group:trusted" = [ "martijn@" ];
-              };
-
               acls = [
                 {
                   action = "accept";
-                  src = [ "group:trusted" ];
+                  src = [ "*" ];
                   dst = [
                     "tenshin:53,80,443" # everyone access to dns
                     "rekkaken:80,443,8025,2230,49837" # everyone can send notifications + internal email + crowdsec lapi
                     "shoryuken:80,443" # everyone can request acme certs
                     "hadouken:80,443" # everyone can access hadouken web-services
-                  ];
-                }
-                {
-                  action = "accept";
-                  src = [
-                    "mbp"
-                    "pixel"
-                    "nurma"
-                  ];
-                  dst = [
-                    "rekkaken:51820" # wireguard exit-node
-                    "hadouken:22"
                   ];
                 }
                 {
@@ -257,7 +175,7 @@ in
                     "tatsumaki:*"
                     "rekkaken:*"
                     "router:4433"
-                    "pikvm:443"
+                    "pikvm:80,443"
                   ];
                 } # nurma full-god
               ];
@@ -298,10 +216,6 @@ in
     };
 
     age.secrets = {
-      headplane = {
-        file = ../../../secrets/headplane.age;
-        owner = config.services.headscale.user;
-      };
       headscale = {
         file = ../../../secrets/headscale.age;
         owner = config.services.headscale.user;

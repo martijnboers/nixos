@@ -94,7 +94,6 @@ in
             '';
           };
           "storage.boers.email" = {
-            serverAliases = [ "storage.plebian.nl" ];
             extraConfig = ''
               reverse_proxy hadouken.machine.thuis:5554 
               header Access-Control-Allow-Origin *
@@ -142,8 +141,7 @@ in
                 }
 
                 handle {
-                    reverse_proxy hadouken.machine.thuis:5551 {
-                    }
+                    reverse_proxy hadouken.machine.thuis:5551
                 }
                 handle_errors {
                     root * ${pkgs.mastodon}/public

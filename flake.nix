@@ -33,7 +33,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     secrets = {
-      url = "git+ssh://git@github.com/martijnboers/secrets.git";
+      url = "./secrets";
       flake = false;
     };
 
@@ -52,11 +52,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    headplane = {
-      url = "github:tale/headplane";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     librechat = {
       url = "github:tschwemley/librechat-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -68,7 +63,7 @@
 
     darwin = {
       url = "github:lnl7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs"; 
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -115,7 +110,7 @@
               home-manager.nixosModules.home-manager
               agenix.nixosModules.default
               determinate.nixosModules.default
-              secrets.outPath
+              secrets.outPath # so secrets/defaults becomes available
 
               crowdsec.nixosModules.crowdsec
               crowdsec.nixosModules.crowdsec-firewall-bouncer
@@ -144,14 +139,7 @@
       };
       nixosConfigurations.rekkaken = mkSystem "rekkaken" {
         system = "x86_64-linux";
-        modules = [
-          inputs.disko.nixosModules.disko
-          inputs.headplane.nixosModules.headplane
-          {
-            # provides `pkgs.headplane` and `pkgs.headplane-agent`.
-            nixpkgs.overlays = [ inputs.headplane.overlays.default ];
-          }
-        ];
+        modules = [ inputs.disko.nixosModules.disko ];
       };
 
       # ------------ Servers ------------

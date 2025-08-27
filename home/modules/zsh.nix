@@ -29,13 +29,13 @@ in
 
             target_args=()
 
-            if [[ $# -gt 0 && ! "$1" =~ ^- ]]; then
+            if [[ $# -gt 0 ]]; then
               hostname="$1"
               target_args+=(--hostname "$hostname" --target-host "martijn@''${hostname}.machine.thuis")
               shift
             fi
             export NH_FLAKE=/home/martijn/Nix
-            nh os switch --ask "''${target_args[@]}" --fallback -- --ask-sudo-password "$@" 
+            nh os switch --ask "''${target_args[@]}" 
           '';
           sshAlias = name: "kitty +kitten ssh ${name}.machine.thuis";
         in
