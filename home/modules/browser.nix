@@ -41,7 +41,6 @@ in
       hetzner.script
       kvm.desktop
       kvm.script
-      citrix_workspace
     ];
     programs.librewolf = {
       enable = true;

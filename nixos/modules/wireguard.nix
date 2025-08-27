@@ -1,8 +1,6 @@
-# /etc/nixos/exit-node.nix
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 with lib;

@@ -4,8 +4,7 @@
     ../../home
   ];
 
-  # Enable profiles
-  maatwerk.desktop.enable = false;
+  stylix.enable = false;
 
   home.packages = with pkgs; [
     zfs

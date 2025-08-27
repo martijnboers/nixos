@@ -37,10 +37,17 @@
     address = "0.0.0.0";
     txindex = true; # for fulcurm+electrs
     tor.enforce = false;
-    rpc.threads = lib.mkForce 8;
+    rpc.threads = lib.mkForce 4;
     extraConfig = ''
       rpcworkqueue=64
+      dbcache=1024
+      debug=reindex
+      maxmempool=100
     '';
+  };
+  systemd.services.bitcoind.serviceConfig = {
+    TimeoutStartSec = lib.mkForce "99days";
+    TimeoutStopSec = lib.mkForce "99days";
   };
 
   networking.firewall.allowedTCPPorts = [ config.services.bitcoind.port ];

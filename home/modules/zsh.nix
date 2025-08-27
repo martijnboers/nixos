@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  inputs,
   lib,
   ...
 }:
@@ -14,42 +15,33 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      nh
-      nom
-    ];
+    home.packages = [ inputs.nh.packages.${pkgs.system}.default ];
 
     programs.zsh = {
       enable = true;
       shellAliases =
         let
           deploy-custom = pkgs.writeShellScriptBin "deploy-custom" ''
-                        set -euo pipefail
-                        cd /home/martijn/Nix/secrets
-                        git pull
-                        cd ../
-                        git submodule foreach git pull --depth=1
-                        nix flake update secrets
-                        if [ $# -eq 0 ]; then
-                          nh os switch \
-                            ".?submodules=1" \
-                            --ask \
-                            -- \
-                            --fallback
-                        else
-                          nixos-rebuild switch \
-            		--ask-sudo-password \
-                            --fallback \
-                            --verbose \
-                            --flake ".?submodules=1#''${1}" \
-                            --target-host "martijn@''${1}.machine.thuis"
-                        fi
+            set -euo pipefail
+            cd /home/martijn/Nix
+            git submodule update --remote secrets
+            nix flake update secrets
+
+            target_args=()
+
+            if [[ $# -gt 0 && ! "$1" =~ ^- ]]; then
+              hostname="$1"
+              target_args+=(--hostname "$hostname" --target-host "martijn@''${hostname}.machine.thuis")
+              shift
+            fi
+            export NH_FLAKE=/home/martijn/Nix
+            nh os switch --ask "''${target_args[@]}" --fallback "$@"
           '';
           sshAlias = name: "kitty +kitten ssh ${name}.machine.thuis";
         in
         {
           # --- NixOS specific --------
-          deploy = lib.getExe deploy-custom; # $ deploy {?host}
+          deploy = lib.getExe deploy-custom; # $ deploy {?host} --verbose
           mdeploy = "sudo darwin-rebuild switch --flake '/Users/martijn/nixos/.?submodules=1#paddy'";
           update = "nix flake update";
           # ---------------------------

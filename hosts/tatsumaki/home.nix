@@ -4,7 +4,7 @@
     ../../home
   ];
 
-  # Enable profiles
-  maatwerk.desktop.enable = false;
+  # storage constraints
+  stylix.enable = false;
   maatwerk.nixvim.enable = false;
 }

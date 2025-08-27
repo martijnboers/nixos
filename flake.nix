@@ -5,6 +5,8 @@
     nixpkgs.url = "nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "nixpkgs/nixos-24.11";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+    self.submodules = true; # add secrets
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -13,7 +15,6 @@
 
     nixvim = {
       url = "github:nix-community/nixvim";
-      # url = "github:martijnboers/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -22,7 +23,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Secrets
+    nh = {
+      url = "github:nix-community/nh";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,13 +37,11 @@
       flake = false;
     };
 
-    # On the fly running of programs
     nix-index-database = {
       url = "github:Mic92/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Disk setup for nixos-anywhere
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -59,14 +62,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # All-in-one bitcoin node
     nix-bitcoin = {
       url = "github:fort-nix/nix-bitcoin/master";
     };
 
     darwin = {
       url = "github:lnl7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs"; # Can be pinned to nixpkgs-23.11-darwin
+      inputs.nixpkgs.follows = "nixpkgs"; 
     };
   };
 
@@ -103,28 +105,28 @@
           inherit system;
 
           specialArgs = { inherit inputs outputs; };
-          modules = [
-            systemconfig
-            hardwareconfig
-            ./nixos/system.nix
+          modules =
+            with inputs;
+            [
+              systemconfig
+              hardwareconfig
+              ./nixos/system.nix
 
-            home-manager.nixosModules.home-manager
-            inputs.agenix.nixosModules.default
+              home-manager.nixosModules.home-manager
+              agenix.nixosModules.default
+              determinate.nixosModules.default
+              secrets.outPath
 
-            inputs.crowdsec.nixosModules.crowdsec
-            inputs.crowdsec.nixosModules.crowdsec-firewall-bouncer
+              crowdsec.nixosModules.crowdsec
+              crowdsec.nixosModules.crowdsec-firewall-bouncer
 
-            inputs.secrets.outPath
-            {
-              environment.systemPackages = [ inputs.agenix.packages.${system}.default ];
-            }
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.users.martijn = import homeconfig;
-              home-manager.extraSpecialArgs = { inherit inputs outputs system; };
-            }
-          ]
-          ++ modules;
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.users.martijn = import homeconfig;
+                home-manager.extraSpecialArgs = { inherit inputs outputs system; };
+              }
+            ]
+            ++ modules;
         };
     in
     {
@@ -171,9 +173,6 @@
 
       # -------------- PCs --------------
       nixosConfigurations.nurma = mkSystem "nurma" {
-        system = "x86_64-linux";
-      };
-      nixosConfigurations.virtual = mkSystem "virtual" {
         system = "x86_64-linux";
       };
       darwinConfigurations.paddy = darwin.lib.darwinSystem {

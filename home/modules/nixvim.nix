@@ -60,8 +60,8 @@ in
         sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions,globals";
         termguicolors = true; # more colors, makes linenumber color work
         cursorline = true; # show highlight under cursor
-	foldlevel = 99;
-	foldlevelstart = 99;
+        foldlevel = 99;
+        foldlevelstart = 99;
       };
 
       plugins = {
@@ -69,10 +69,10 @@ in
         auto-session.enable = true; # auto-restore sessions on startup
         gitsigns.enable = true; # git gutter signs
 
-	origami = {
-	  enable = true; # folding with lsp+treesitter
-	  settings.foldKeymaps.setup = false; 
-	};
+        origami = {
+          enable = true; # folding with lsp+treesitter
+          settings.foldKeymaps.setup = false;
+        };
 
         barbar = {
           enable = true; # tabs, as understood by any other editor.
@@ -100,9 +100,7 @@ in
 
         which-key = {
           enable = true; # shortcut hints
-          settings = {
-            delay = 900;
-          };
+          settings.delay = 900;
         };
 
         mini = {
@@ -113,6 +111,7 @@ in
             pick.enable = true; # file picker
             extra.enable = true; # more picker sources
             icons.enable = true; # icons support for extensions
+            visits.enable = true; # store visited paths
             surround = {
               add = "sa"; # surround words with something
               delete = "sd";
@@ -183,11 +182,11 @@ in
         {
           action = helpers.mkRaw ''
             function ()
-              MiniPick.builtin.buffers()
+              MiniExtra.pickers.visit_paths()
             end
           '';
           key = "<Leader>b";
-          options.desc = "Find buffers";
+          options.desc = "Find visited paths";
         }
         {
           action = helpers.mkRaw ''
@@ -389,7 +388,7 @@ in
 
       diagnostic.settings = {
         virtual_text = false;
-	signs = false;
+        signs = false;
         virtual_lines = {
           enable = true;
           current_line = true;
