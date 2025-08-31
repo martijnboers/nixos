@@ -21,22 +21,6 @@ in
         }
         respond 403
       '';
-      "llm.thuis".extraConfig = ''
-        import headscale
-        handle @internal {
-          reverse_proxy http://127.0.0.1:${toString config.services.librechat.port}
-        }
-        respond 403
-      '';
-    };
-
-    services.librechat = {
-      enable = false;
-      env = {
-        ALLOW_REGISTRATION = "true";
-        HOST = "0.0.0.0";
-      };
-      # credentials = [ config.age.secrets.llm.path ];
     };
 
     services.ollama = {

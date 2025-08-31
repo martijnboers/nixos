@@ -52,11 +52,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    librechat = {
-      url = "github:tschwemley/librechat-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nix-bitcoin = {
       url = "github:fort-nix/nix-bitcoin/master";
     };
@@ -149,7 +144,6 @@
       };
       nixosConfigurations.hadouken = mkSystem "hadouken" {
         system = "x86_64-linux";
-        modules = [ inputs.librechat.nixosModules.librechat ];
       };
       nixosConfigurations.tatsumaki = mkSystem "tatsumaki" {
         system = "x86_64-linux";
