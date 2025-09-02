@@ -3,6 +3,11 @@
   networking.hostName = "nurma";
   hosts.hyprland.enable = true;
 
+  hosts.uefi = {
+    enable = true;
+    crypto = true;
+  };
+
   hosts.borg = {
     enable = true;
     repository = "ssh://nads486h@nads486h.repo.borgbase.com/./repo";
@@ -124,13 +129,8 @@
     qemu = true;
   };
 
-  # Bootloader.
   boot = {
     loader = {
-      # Use the systemd-boot EFI boot loader.
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-
       # hopefully fixes crashing AMD GPU
       grub.extraConfig = ''
         amdgpu.aspm=0
@@ -141,8 +141,6 @@
     # https://wiki.archlinux.org/title/Silent_boot
     kernelParams = [
       "quiet"
-      "splash"
-      "vga=current"
       "rd.systemd.show_status=false"
       "rd.udev.log_level=3"
       "udev.log_priority=3"

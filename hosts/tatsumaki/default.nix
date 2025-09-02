@@ -3,13 +3,14 @@
   networking.hostName = "tatsumaki";
 
   imports = [
-    ./modules/crypto.nix
+    ./modules/bitcoin.nix
     ./modules/caddy.nix
   ];
 
   hosts.tailscale.enable = true;
   hosts.prometheus.enable = true;
   hosts.caddy.enable = true;
+  hosts.uefi.enable = true;
 
   hosts.openssh = {
     enable = true;

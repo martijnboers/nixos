@@ -18,6 +18,7 @@
     ./modules/auditd.nix
     ./modules/server.nix
     ./modules/borg.nix
+    ./modules/uefi.nix
     ./modules/ssh.nix
     ./modules/gpg.nix
   ];

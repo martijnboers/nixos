@@ -19,7 +19,6 @@ in
       BROWSER = "librewolf";
     };
 
-    services.davfs2.enable = true;
     boot.supportedFilesystems = [ "nfs" ];
 
     fileSystems =
@@ -37,31 +36,13 @@ in
           };
         };
       in
-      {
-        "/mnt/notes" = {
-          device = "http://webdav.thuis/notes/";
-          fsType = "davfs";
-          options = [
-            "uid=1000"
-            "gid=100"
-            "x-systemd.automount"
-            "_netdev"
-          ];
-        };
-      }
-      // mkNfsShare "music"
-      // mkNfsShare "share";
-
-    environment.etc."davfs2/secrets" = {
-      source = config.age.secrets.dav-notes.path;
-      mode = "0600";
-      user = "root";
-      group = "root";
-    };
-
-    age.secrets = {
-      dav-notes.file = ../../secrets/dav-notes.age;
-    };
+      lib.attrsets.mergeAttrsList (
+        map mkNfsShare [
+          "music"
+          "share"
+          "notes"
+        ]
+      );
 
     # Enable networkingmanager
     networking.networkmanager.enable = true;

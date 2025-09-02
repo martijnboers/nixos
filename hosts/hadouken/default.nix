@@ -34,6 +34,7 @@ in
     ./modules/llm.nix
   ];
 
+  hosts.uefi.enable = true;
   hosts.shares.enable = true;
   hosts.caddy.enable = true;
   hosts.vaultwarden.enable = true;
@@ -111,14 +112,7 @@ in
   # https://mdleom.com/blog/2021/12/27/caddy-plugins-nixos/#xcaddy
   nix.settings.sandbox = false;
 
-  # Bootloader.
   boot = {
-    loader = {
-      # Use the systemd-boot EFI boot loader.
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-
     supportedFilesystems = [ "zfs" ];
     zfs = {
       forceImportRoot = false;
@@ -132,8 +126,6 @@ in
     # https://wiki.archlinux.org/title/Silent_boot
     kernelParams = [
       "quiet"
-      "splash"
-      "vga=current"
       "rd.systemd.show_status=false"
       "rd.udev.log_level=3"
       "udev.log_priority=3"
