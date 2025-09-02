@@ -53,14 +53,9 @@ in
                 martijn $2a$14$ASOmj.jZv9cvR0W5E26UkOpCD7fjCWhfEKnI0YKUChqDsfx9FqR/O
               }
               rewrite /android /android/
-              rewrite /notes /notes/
               webdav /android/* {
                 root /mnt/zwembad/app/android
                 prefix /android
-              }
-              webdav /notes/* {
-                root /mnt/zwembad/app/notes
-                prefix /notes
               }
               file_server
             }

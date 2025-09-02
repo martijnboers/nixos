@@ -33,6 +33,11 @@ in
       options = [ "bind" ];
     };
 
+    fileSystems."/export/notes" = {
+      device = "/mnt/zwembad/app/notes";
+      options = [ "bind" ];
+    };
+
     networking.firewall = {
       allowedTCPPorts = [
         111
@@ -49,6 +54,7 @@ in
         /export          100.64.0.0/10(rw,fsid=0,no_subtree_check) 
         /export/music    100.64.0.0/10(rw,nohide,insecure,no_subtree_check)
         /export/share    100.64.0.0/10(rw,nohide,insecure,no_subtree_check)
+	/export/notes  	 100.64.0.0/24(rw,nohide,insecure,no_subtree_check)
         /export/bitcoin  10.10.0.0/24(rw,nohide,insecure,no_subtree_check)
         /export/fulcrum  10.10.0.0/24(rw,nohide,insecure,no_subtree_check)
       '';
