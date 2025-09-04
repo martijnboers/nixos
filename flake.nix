@@ -28,6 +28,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.2";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -105,6 +110,7 @@
               home-manager.nixosModules.home-manager
               agenix.nixosModules.default
               determinate.nixosModules.default
+              lanzaboote.nixosModules.lanzaboote
               secrets.outPath # so secrets/defaults becomes available
 
               crowdsec.nixosModules.crowdsec

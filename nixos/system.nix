@@ -10,6 +10,7 @@
   imports = [
     ./modules/virtualisation.nix
     ./modules/prometheus.nix
+    ./modules/secureboot.nix
     ./modules/tailscale.nix
     ./modules/wireguard.nix
     ./modules/hyprland.nix

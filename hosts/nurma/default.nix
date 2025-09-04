@@ -2,6 +2,7 @@
 {
   networking.hostName = "nurma";
   hosts.hyprland.enable = true;
+  hosts.secureboot.enable = true;
 
   hosts.uefi = {
     enable = true;
