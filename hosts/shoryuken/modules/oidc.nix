@@ -19,16 +19,22 @@ in
       '';
     };
 
-    age.secrets.oidc = {
-      file = ../../../secrets/oidc.age;
-      owner = config.services.pocket-id.user;
+    age.secrets = {
+      oidc = {
+        file = ../../../secrets/oidc.age;
+        owner = config.services.pocket-id.user;
+      };
+      geoippocket = {
+        file = ../../../secrets/geoip.age;
+        owner = config.services.pocket-id.user;
+      };
     };
 
     services.pocket-id = {
       enable = true;
       settings = {
-        MAXMIND_LICENSE_KEY_FILE = config.age.secrets.geoip.path;
-	ENCRYPTION_KEY_FILE = config.age.secrets.oidc.path;
+        MAXMIND_LICENSE_KEY_FILE = config.age.secrets.geoippocket.path;
+        ENCRYPTION_KEY_FILE = config.age.secrets.oidc.path;
         APP_URL = "https://auth.boers.email";
         TRUST_PROXY = true;
       };

@@ -8,6 +8,6 @@
 
   home.packages = with pkgs; [
     zfs
-    veracrypt
+    stable.veracrypt
   ];
 }

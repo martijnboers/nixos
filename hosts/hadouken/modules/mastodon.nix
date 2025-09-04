@@ -72,12 +72,6 @@ in
     services.mastodon = {
       enable = true;
       streamingProcesses = 1;
-      # package = (
-      #   pkgs.mastodon.override {
-      #     pname = "glitch-soc";
-      #     srcOverride = final.pkgs.callPackage ../../../pkgs/glitch-soc.nix { };
-      #   }
-      # );
       trustedProxy = "100.64.0.0/10,127.0.0.1";
       localDomain = "noisesfrom.space";
       configureNginx = false;

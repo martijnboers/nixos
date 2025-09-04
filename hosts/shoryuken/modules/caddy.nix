@@ -151,7 +151,7 @@ in
               '';
           };
         }
-        // makeProxy "p.boers.email" "microbin.thuis"
+        // makeProxy "p.plebian.nl" "microbin.thuis"
         // makeProxy "sea.boers.email" "seaf.thuis";
     };
     systemd.services.caddy = {

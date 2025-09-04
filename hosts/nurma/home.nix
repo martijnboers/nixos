@@ -11,7 +11,7 @@
 
     openssl # for internal pki certs
     xca
-    veracrypt
+    stable.veracrypt
 
     # yubikey
     yubioath-flutter
