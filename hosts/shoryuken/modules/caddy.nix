@@ -15,6 +15,12 @@ let
     url = "git@github.com:martijnboers/resume.git";
     rev = "b7d75859c8ce0c2867c95c5924623e397a2600f9";
   };
+  wkd = pkgs.runCommand "wkd-output" { nativeBuildInputs = [ pkgs.gnupg ]; } ''
+    KEY_HASH="nnzg8pw4hsizdcd9u31yy1ony94u94tw"
+    mkdir -p $out/hu
+    echo "${builtins.readFile ../../../secrets/keys/pgp.asc}" | gpg --dearmor > $out/hu/$KEY_HASH
+    touch $out/policy
+  '';
 in
 {
   options.hosts.caddy = {
@@ -70,6 +76,13 @@ in
               encode zstd gzip
               file_server
 
+              handle_path /.well-known/openpgpkey/* {
+                root * ${wkd}
+                header Content-Type application/octet-stream
+                header Access-Control-Allow-Origin *
+                file_server
+              }
+
               header /.well-known/matrix/* Content-Type application/json
               header /.well-known/matrix/* Access-Control-Allow-Origin *
               respond /.well-known/matrix/server `{"m.server": "matrix.boers.email:443"}`
@@ -81,8 +94,8 @@ in
           };
           "matrix.boers.email" = {
             extraConfig = ''
-              reverse_proxy /_matrix/* http://${config.hidden.tailscale_hosts.hadouken}:5553
-              reverse_proxy /_synapse/client/* http://${config.hidden.tailscale_hosts.hadouken}:5553
+              reverse_proxy /_matrix/* http://hadouken.machine.thuis:5553
+              reverse_proxy /_synapse/client/* http://hadouken.machine.thuis:5553
             '';
           };
           "resume.boers.email" = {
