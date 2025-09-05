@@ -71,6 +71,7 @@ in
 
     services.mastodon = {
       enable = true;
+      package = pkgs.glitch-soc;
       streamingProcesses = 1;
       trustedProxy = "100.64.0.0/10,127.0.0.1";
       localDomain = "noisesfrom.space";

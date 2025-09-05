@@ -132,7 +132,7 @@ in
                     path /oops.html /500.html /404.html /422.html /403.html # Error pages
                 }
                 handle @static_assets {
-                    root * ${pkgs.mastodon}/public
+                    root * ${pkgs.glitch-soc}/public
                     file_server
                 }
 
@@ -144,7 +144,7 @@ in
                     reverse_proxy hadouken.machine.thuis:5551
                 }
                 handle_errors {
-                    root * ${pkgs.mastodon}/public
+                    root * ${pkgs.glitch-soc}/public
                     rewrite * /500.html 
                     file_server
                 }
