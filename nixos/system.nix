@@ -115,6 +115,9 @@
       # Fallback quickly if substituters are not available.
       connect-timeout = lib.mkDefault 3;
 
+      # When doing deploys
+      download-buffer-size = 524288000;
+
       # Avoid copying unnecessary stuff over SSH
       builders-use-substitutes = true;
 

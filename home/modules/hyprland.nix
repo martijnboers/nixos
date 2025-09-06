@@ -312,7 +312,6 @@ in
     services.swayidle =
       let
         lockCmd = lib.getExe pkgs.hyprlock;
-        hyprlandPkg = lib.getExe config.wayland.windowManager.hyprland.package;
       in
       {
         enable = true;
@@ -325,11 +324,6 @@ in
           {
             timeout = 1500;
             command = lockCmd;
-          }
-          {
-            timeout = 1600;
-            command = "${hyprlandPkg} dispatch dpms off";
-            resumeCommand = "${hyprlandPkg} dispatch dpms on";
           }
         ];
       };

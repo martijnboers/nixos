@@ -156,6 +156,7 @@ in
                     "shoryuken"
                     "tatsumaki"
                     "tenshin"
+                    "rekkaken"
                     "nurma"
                   ];
             }

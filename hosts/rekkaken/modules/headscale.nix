@@ -75,32 +75,32 @@ in
         port = 7070;
         settings = {
           server_url = "https://headscale.boers.email";
-          derp = {
-            # urls = []; # only use custom derp server
-            paths = [
-              (pkgs.writeText "derpmap.yaml" (
-                lib.generators.toYAML { } {
-                  regions = {
-                    "900" = {
-                      regionid = 900;
-                      regioncode = "thuis";
-                      regionname = "In the void";
-                      nodes = [
-                        {
-                          name = "900";
-                          regionid = 900;
-                          hostname = config.hidden.hadouken.wan_domain;
-                          stunport = 0;
-                          stunonly = false;
-                          derpport = 0;
-                        }
-                      ];
-                    };
-                  };
-                }
-              ))
-            ];
-          };
+          # derp = {
+          #   # urls = []; # only use custom derp server
+          #   paths = [
+          #     (pkgs.writeText "derpmap.yaml" (
+          #       lib.generators.toYAML { } {
+          #         regions = {
+          #           "900" = {
+          #             regionid = 900;
+          #             regioncode = "thuis";
+          #             regionname = "In the void";
+          #             nodes = [
+          #               {
+          #                 name = "900";
+          #                 regionid = 900;
+          #                 hostname = config.hidden.hadouken.wan_domain;
+          #                 stunport = 0;
+          #                 stunonly = false;
+          #                 derpport = 0;
+          #               }
+          #             ];
+          #           };
+          #         };
+          #       }
+          #     ))
+          #   ];
+          # };
           oidc = {
             issuer = "https://auth.boers.email";
             client_id = "d88ca9d8-ee44-48d0-a993-b83a0830e937";

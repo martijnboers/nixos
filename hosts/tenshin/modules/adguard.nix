@@ -94,7 +94,6 @@ in
             "id.server"
             "hostname.bind"
           ];
-          cache_size = 1 * 1024 * 1024 * 1024; # 1gb
           cache_ttl_min = 1 * 60 * 60; # 1 hour
           cache_ttl_max = 24 * 60 * 60; # 24 hours
           # Responds from expired cache while refreshing in the background.
