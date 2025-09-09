@@ -57,12 +57,38 @@ in
     services = {
       caddy.virtualHosts = {
         "headscale.boers.email" = {
-          listenAddresses = [
-            config.hidden.wan_ips.rekkaken
-            "::1"
-          ];
           extraConfig = ''
             reverse_proxy http://localhost:${toString config.services.headscale.port}
+          '';
+        };
+        "derp-map.boers.email" = {
+          extraConfig = ''
+            header /regions Content-Type application/json
+            respond /regions `${
+              builtins.toJSON {
+                Regions = {
+                  "900" = {
+                    RegionID = 900;
+                    RegionCode = "Thuis";
+                    RegionName = "The Void";
+                    Latitude = 52.081145319980834;
+                    Longtitude = 4.306726018463948;
+                    Nodes = [
+                      {
+                        Name = "1";
+                        RegionID = 900;
+                        HostName = "derp1.boers.email";
+                      }
+                      {
+                        Name = "2";
+                        RegionID = 900;
+                        HostName = "derp2.boers.email";
+                      }
+                    ];
+                  };
+                };
+              }
+            }`
           '';
         };
       };
@@ -75,32 +101,10 @@ in
         port = 7070;
         settings = {
           server_url = "https://headscale.boers.email";
-          # derp = {
-          #   # urls = []; # only use custom derp server
-          #   paths = [
-          #     (pkgs.writeText "derpmap.yaml" (
-          #       lib.generators.toYAML { } {
-          #         regions = {
-          #           "900" = {
-          #             regionid = 900;
-          #             regioncode = "thuis";
-          #             regionname = "In the void";
-          #             nodes = [
-          #               {
-          #                 name = "900";
-          #                 regionid = 900;
-          #                 hostname = config.hidden.hadouken.wan_domain;
-          #                 stunport = 0;
-          #                 stunonly = false;
-          #                 derpport = 0;
-          #               }
-          #             ];
-          #           };
-          #         };
-          #       }
-          #     ))
-          #   ];
-          # };
+          derp.urls = [
+            "https://derp-map.boers.email/regions"
+            "https://controlplane.tailscale.com/derpmap/default"
+          ];
           oidc = {
             issuer = "https://auth.boers.email";
             client_id = "d88ca9d8-ee44-48d0-a993-b83a0830e937";
@@ -200,7 +204,7 @@ in
               magic_dns = true;
               base_domain = "machine.thuis";
               nameservers.global = [
-		config.hidden.tailscale_hosts.hadouken
+                config.hidden.tailscale_hosts.hadouken
                 config.hidden.tailscale_hosts.tenshin
               ];
               extra_records =

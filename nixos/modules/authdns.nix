@@ -8,11 +8,11 @@ let
   cfg = config.hosts.authdns;
   tsigKeyName = "plebs4diamonds";
 
-  rekkaken = {
+  rek = {
     ipv4 = config.hidden.wan_ips.rekkaken;
     ipv6 = config.hidden.wan_ips.rekkaken_6;
   };
-  shoryuken = {
+  shor = {
     ipv4 = config.hidden.wan_ips.shoryuken;
     ipv6 = config.hidden.wan_ips.shoryuken_6;
   };
@@ -28,10 +28,10 @@ let
     {
       name = "plebian.nl";
       records = ''
-        *           IN      A       ${shoryuken.ipv4}
-        *           IN      AAAA    ${shoryuken.ipv6}
-        @           IN      A       ${shoryuken.ipv4}
-        @           IN      AAAA    ${shoryuken.ipv6}
+        *           IN      A       ${shor.ipv4}
+        *           IN      AAAA    ${shor.ipv6}
+        @           IN      A       ${shor.ipv4}
+        @           IN      AAAA    ${shor.ipv6}
         openpgpkey  IN      TXT     ""
         protonmail._domainkey   IN CNAME protonmail.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch.
         protonmail2._domainkey  IN CNAME protonmail2.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch.
@@ -43,13 +43,21 @@ let
     {
       name = "boers.email";
       records = ''
-        *           IN      A       ${shoryuken.ipv4}
-        *           IN      AAAA    ${shoryuken.ipv6}
-        @           IN      A       ${shoryuken.ipv4}
-        @           IN      AAAA    ${shoryuken.ipv6}
-        headscale   IN      A       ${rekkaken.ipv4}
-        headscale   IN      AAAA    ${rekkaken.ipv6}
-        openpgpkey  IN      TXT     ""
+        *           IN      A       ${shor.ipv4}
+        *           IN      AAAA    ${shor.ipv6}
+        @           IN      A       ${shor.ipv4}
+        @           IN      AAAA    ${shor.ipv6}
+
+        headscale   IN      A       ${rek.ipv4}
+        headscale   IN      AAAA    ${rek.ipv6}
+        derp-map    IN      A       ${rek.ipv4}
+        derp-map    IN      AAAA    ${rek.ipv6}
+        derp1       IN      A       ${shor.ipv4}
+        derp1       IN      AAAA    ${shor.ipv6}
+        derp2       IN      A       ${rek.ipv4}
+        derp2       IN      AAAA    ${rek.ipv6}
+
+        openpgpkey  		IN TXT   ""
         protonmail._domainkey   IN CNAME protonmail.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
         protonmail2._domainkey  IN CNAME protonmail2.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
         protonmail3._domainkey  IN CNAME protonmail3.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
@@ -60,8 +68,8 @@ let
     {
       name = "noisesfrom.space";
       records = ''
-        @       IN      A       ${shoryuken.ipv4}
-        @       IN      AAAA    ${shoryuken.ipv6}
+        @       IN      A       ${shor.ipv4}
+        @       IN      AAAA    ${shor.ipv6}
       '';
     }
   ];
@@ -79,12 +87,12 @@ let
           86400 ; Expire
           3600 	; Negative Cache TTL
         )
-        @   IN  NS  ns1.${zoneInfo.name}.
-        @   IN  NS  ns2.${zoneInfo.name}.
-        ns1 IN  A   ${rekkaken.ipv4}
-        ns2 IN  A   ${shoryuken.ipv4}
-        ns1 IN  AAAA   ${rekkaken.ipv6}
-        ns2 IN  AAAA   ${shoryuken.ipv6}
+        @   IN  NS  	ns1.${zoneInfo.name}.
+        @   IN  NS  	ns2.${zoneInfo.name}.
+        ns1 IN  A   	${rek.ipv4}
+        ns2 IN  A   	${shor.ipv4}
+        ns1 IN  AAAA   	${rek.ipv6}
+        ns2 IN  AAAA   	${shor.ipv6}
         ${zoneInfo.records}
       '';
     }) allZones
@@ -140,12 +148,12 @@ in
         remote = [
           {
             id = "rekkaken";
-            address = [ rekkaken.ipv4 ];
+            address = [ rek.ipv4 ];
             key = tsigKeyName;
           }
           {
             id = "shoryuken";
-            address = [ shoryuken.ipv4 ];
+            address = [ shor.ipv4 ];
             key = tsigKeyName;
           }
         ];

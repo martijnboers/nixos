@@ -19,6 +19,7 @@
     ./modules/authdns.nix
     ./modules/auditd.nix
     ./modules/server.nix
+    ./modules/derper.nix
     ./modules/borg.nix
     ./modules/uefi.nix
     ./modules/ssh.nix

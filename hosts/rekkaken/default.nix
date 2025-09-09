@@ -19,6 +19,11 @@
   hosts.prometheus.enable = true;
   hosts.tailscale.enable = true;
 
+  hosts.derper = {
+    enable = true;
+    domain = "derp2.boers.email";
+  };
+
   age.secrets = {
     rekkaken-exit = {
       file = ../../secrets/rekkaken-exit.age;

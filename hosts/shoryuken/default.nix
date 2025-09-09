@@ -16,6 +16,11 @@
   hosts.endlessh.enable = true;
   hosts.authdns.enable = true;
 
+  hosts.derper = {
+    enable = true;
+    domain = "derp1.boers.email";
+  };
+
   age.secrets = {
     shoyruken-crowdsec = {
       file = ../../secrets/shoryuken-crowdsec.age;
