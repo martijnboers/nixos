@@ -24,8 +24,8 @@ let
     "sync"
     "vaultwarden"
     "webdav"
-    "wedding"
     "llm"
+    "dns"
   ];
   shoryukenRecords = [
     "acme"
@@ -36,7 +36,7 @@ let
     "uptime"
   ];
   tenshinRecords = [
-    "dns"
+    "dns-fallback"
     "hass"
     "search"
     "tools"
@@ -131,10 +131,10 @@ in
                   action = "accept";
                   src = [ "*" ];
                   dst = [
-                    "tenshin:53,80,443" # everyone access to dns
+                    "hadouken:53,80,443" # everyone can access hadouken web-services, dns
+                    "tenshin:53,80,443" # everyone access to dns fallback
                     "rekkaken:80,443,8025,2230,49837" # everyone can send notifications + internal email + crowdsec lapi
                     "shoryuken:80,443" # everyone can request acme certs
-                    "hadouken:80,443" # everyone can access hadouken web-services
                   ];
                 }
                 {
@@ -199,7 +199,10 @@ in
             {
               magic_dns = true;
               base_domain = "machine.thuis";
-              nameservers.global = [ config.hidden.tailscale_hosts.tenshin ];
+              nameservers.global = [
+		config.hidden.tailscale_hosts.hadouken
+                config.hidden.tailscale_hosts.tenshin
+              ];
               extra_records =
                 (map (name: makeRecord name config.hidden.tailscale_hosts.hadouken) hadoukenRecords)
                 ++ (map (name: makeRecord name config.hidden.tailscale_hosts.shoryuken) shoryukenRecords)

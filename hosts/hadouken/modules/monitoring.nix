@@ -186,7 +186,10 @@ in
           job_name = "adguard";
           static_configs = [
             {
-              targets = [ "tenshin.machine.thuis:9617" ];
+              targets = [
+                "tenshin.machine.thuis:9617"
+                "hadouken.machine.thuis:9617"
+              ];
             }
           ];
         }

@@ -56,6 +56,11 @@ in
   hosts.atuin.enable = true;
   hosts.seafile.enable = true;
 
+  hosts.adguard = {
+    enable = true;
+    domain = "dns";
+  };
+
   users = {
     groups.multimedia = { };
     users = {

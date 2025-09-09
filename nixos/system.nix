@@ -15,6 +15,7 @@
     ./modules/wireguard.nix
     ./modules/hyprland.nix
     ./modules/crowdsec.nix
+    ./modules/adguard.nix
     ./modules/authdns.nix
     ./modules/auditd.nix
     ./modules/server.nix

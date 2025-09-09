@@ -11,10 +11,14 @@ in
 {
   options.hosts.adguard = {
     enable = mkEnableOption "Adguard say no to ads";
+    domain = mkOption {
+      type = types.str;
+      default = "martijn";
+    };
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."dns.thuis".extraConfig = ''
+    services.caddy.virtualHosts."${cfg.domain}.thuis".extraConfig = ''
       import headscale
       handle @internal {
        reverse_proxy http://localhost:${toString config.services.adguardhome.port}
@@ -26,7 +30,7 @@ in
     '';
 
     age.secrets = {
-      adguard.file = ../../../secrets/adguard.age;
+      adguard.file = ../../secrets/adguard.age;
     };
 
     systemd.services = {
@@ -55,8 +59,6 @@ in
           MemoryHigh = "75%";
           # Memory soft limit: Preferential access to a guaranteed amount of memory.
           MemoryMin = "512M";
-          # IO weight: Higher priority for disk I/O.
-          IOWeight = "800CPUWeight=800";
         };
       };
     };
@@ -66,6 +68,7 @@ in
       mutableSettings = false;
       allowDHCP = false;
       host = "127.0.0.1"; # for webgui but using caddy reverse proxy
+      port = 3043;
 
       settings = {
         dns = {
