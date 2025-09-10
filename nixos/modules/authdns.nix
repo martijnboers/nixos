@@ -57,6 +57,8 @@ let
         derp2       IN      A       ${rek.ipv4}
         derp2       IN      AAAA    ${rek.ipv6}
 
+        test  	    IN 	    TXT     "hi3"
+
         openpgpkey  		IN TXT   ""
         protonmail._domainkey   IN CNAME protonmail.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
         protonmail2._domainkey  IN CNAME protonmail2.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
@@ -74,7 +76,6 @@ let
     }
   ];
 
-  # This generates the immutable source files in the Nix store.
   sourceZoneFiles = builtins.listToAttrs (
     map (zoneInfo: {
       name = zoneInfo.name;
@@ -116,23 +117,6 @@ in
       file = ../../secrets/tsigkey.age;
       owner = "knot";
       group = "knot";
-    };
-
-    # knot wants to write to zone files, move them to writable location
-    systemd.services.knot = lib.mkIf cfg.master {
-      preStart = ''
-        ZONES_DIR="/var/lib/knot/zones"
-        mkdir -p "$ZONES_DIR"
-        chown knot:knot "$ZONES_DIR"
-
-        ${lib.concatStringsSep "\n" (
-          map (zone: ''
-            cp ${sourceZoneFiles.${zone.name}} "$ZONES_DIR/${zone.name}.zone"
-            chown knot:knot "$ZONES_DIR/${zone.name}.zone"
-          '') allZones
-        )}
-      '';
-      serviceConfig.PermissionsStartOnly = true;
     };
 
     services.knot = {
@@ -181,6 +165,10 @@ in
           {
             id = "primary-template";
             dnssec-signing = true;
+            # https://www.knot-dns.cz/docs/3.3/singlehtml/#example-4
+            zonefile-sync = -1;
+            zonefile-load = "difference-no-serial";
+            journal-content = "all";
             notify = [ "shoryuken" ];
             acl = [ "allow-transfers-from-slave" ];
             serial-policy = "dateserial";
@@ -198,7 +186,7 @@ in
             {
               domain = zoneInfo.name;
               template = "primary-template";
-              file = "/var/lib/knot/zones/${zoneInfo.name}.zone";
+              file = sourceZoneFiles.${zoneInfo.name};
             }
           else
             {

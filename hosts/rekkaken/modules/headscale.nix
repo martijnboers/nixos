@@ -69,10 +69,8 @@ in
                 Regions = {
                   "900" = {
                     RegionID = 900;
-                    RegionCode = "Thuis";
+                    RegionCode = "lel";
                     RegionName = "The Void";
-                    Latitude = 52.081145319980834;
-                    Longtitude = 4.306726018463948;
                     Nodes = [
                       {
                         Name = "1";
@@ -98,12 +96,12 @@ in
       headscale = {
         enable = true;
         address = "0.0.0.0";
-        port = 7070;
+        port = 7092;
         settings = {
           server_url = "https://headscale.boers.email";
           derp.urls = [
             "https://derp-map.boers.email/regions"
-            "https://controlplane.tailscale.com/derpmap/default"
+            # "https://controlplane.tailscale.com/derpmap/default"
           ];
           oidc = {
             issuer = "https://auth.boers.email";

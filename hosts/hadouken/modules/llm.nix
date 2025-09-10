@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib;
@@ -21,6 +22,25 @@ in
         }
         respond 403
       '';
+      "llm.thuis".extraConfig = ''
+        import headscale
+        handle @internal {
+          reverse_proxy http://127.0.0.1:${toString config.services.open-webui.port}
+        }
+        respond 403
+      '';
+    };
+
+    services.open-webui = {
+      enable = true;
+      environmentFile = config.age.secrets.llm.path;
+      port = 4782;
+      environment = {
+        ANONYMIZED_TELEMETRY = "False";
+        DO_NOT_TRACK = "True";
+        SCARF_NO_ANALYTICS = "True";
+	WEBUI_AUTH = "False";
+      };
     };
 
     services.ollama = {

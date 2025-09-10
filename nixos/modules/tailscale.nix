@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib;
@@ -15,6 +16,7 @@ in
   config = mkIf cfg.enable {
     services.tailscale = {
       enable = true;
+      package = pkgs.stable.tailscale;
       openFirewall = true;
       useRoutingFeatures = lib.mkDefault "client";
       disableTaildrop = true;
