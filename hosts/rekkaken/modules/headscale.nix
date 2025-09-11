@@ -20,7 +20,7 @@ let
     "monitoring"
     "ollama"
     "pgadmin"
-    "seaf"
+    "pingvin"
     "sync"
     "vaultwarden"
     "webdav"
@@ -101,7 +101,7 @@ in
           server_url = "https://headscale.boers.email";
           derp.urls = [
             "https://derp-map.boers.email/regions"
-            # "https://controlplane.tailscale.com/derpmap/default"
+            "https://controlplane.tailscale.com/derpmap/default"
           ];
           oidc = {
             issuer = "https://auth.boers.email";

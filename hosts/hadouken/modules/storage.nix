@@ -30,7 +30,7 @@
     fsType = "zfs";
   };
 
-  # Only mount when sanoid has created the datasets
+  # Only mount when syncoid has created the datasets
   fileSystems."/mnt/garage/backups/app" = {
     device = "garage/backups/app";
     fsType = "zfs";
@@ -39,26 +39,12 @@
     device = "garage/backups/music";
     fsType = "zfs";
   };
+  fileSystems."/mnt/garage/backups/share" = {
+    device = "garage/backups/share";
+    fsType = "zfs";
+  };
 
   services.zfs.autoScrub.enable = true;
-
-  services.sanoid = {
-    enable = true;
-    templates.backup = {
-      hourly = 36;
-      daily = 30;
-      monthly = 3;
-      autoprune = true;
-      autosnap = true;
-    };
-
-    datasets."zwembad/app" = {
-      useTemplate = [ "backup" ];
-    };
-    datasets."zwembad/music" = {
-      useTemplate = [ "backup" ];
-    };
-  };
 
   services.syncoid = {
     enable = true;
@@ -73,6 +59,10 @@
     commands."music" = {
       source = "zwembad/music";
       target = "garage/backups/music";
+    };
+    commands."share" = {
+      source = "zwembad/share";
+      target = "garage/backups/share";
     };
 
     # https://github.com/NixOS/nixpkgs/issues/216614#issuecomment-1567519369

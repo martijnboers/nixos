@@ -165,7 +165,7 @@ in
           };
         }
         // makeProxy "p.plebian.nl" "microbin.thuis"
-        // makeProxy "sea.boers.email" "seaf.thuis";
+        // makeProxy "share.boers.email" "pingvin.thuis";
     };
     systemd.services.caddy = {
       serviceConfig = {

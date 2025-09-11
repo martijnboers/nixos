@@ -31,6 +31,8 @@ in
       '';
     };
 
+    services.borgbackup.jobs.default.paths = [ config.services.open-webui.stateDir ];
+
     services.open-webui = {
       enable = true;
       environmentFile = config.age.secrets.llm.path;
@@ -39,7 +41,7 @@ in
         ANONYMIZED_TELEMETRY = "False";
         DO_NOT_TRACK = "True";
         SCARF_NO_ANALYTICS = "True";
-	WEBUI_AUTH = "False";
+        WEBUI_AUTH = "False";
       };
     };
 

@@ -21,8 +21,8 @@ in
     ./modules/calendar.nix
     ./modules/bincache.nix
     ./modules/database.nix
-    ./modules/seafile.nix
     ./modules/storage.nix
+    ./modules/pingvin.nix
     ./modules/firefox.nix
     ./modules/archive.nix
     ./modules/matrix.nix
@@ -54,7 +54,7 @@ in
   hosts.calendar.enable = true;
   hosts.database.enable = true;
   hosts.atuin.enable = true;
-  hosts.seafile.enable = true;
+  hosts.pingvin.enable = true;
 
   hosts.adguard = {
     enable = true;
