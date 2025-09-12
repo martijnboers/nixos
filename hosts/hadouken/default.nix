@@ -17,13 +17,12 @@ in
     ./modules/mastodon.nix
     ./modules/detection.nix
     ./modules/syncthing.nix
+    ./modules/paperless.nix
     ./modules/microbin.nix
     ./modules/calendar.nix
-    ./modules/bincache.nix
     ./modules/database.nix
     ./modules/storage.nix
     ./modules/pingvin.nix
-    ./modules/firefox.nix
     ./modules/archive.nix
     ./modules/matrix.nix
     ./modules/immich.nix
@@ -45,9 +44,7 @@ in
   hosts.mastodon.enable = true;
   hosts.llm.enable = true;
   hosts.microbin.enable = true;
-  hosts.sync.enable = true;
   hosts.archive.enable = true;
-  hosts.binarycache.enable = true;
   hosts.changedetection.enable = true;
   hosts.immich.enable = true;
   hosts.prometheus.enable = true;
@@ -55,6 +52,7 @@ in
   hosts.database.enable = true;
   hosts.atuin.enable = true;
   hosts.pingvin.enable = true;
+  hosts.paperless.enable = true;
 
   hosts.adguard = {
     enable = true;
@@ -98,9 +96,6 @@ in
 
   # Heat management intel cpu
   services.thermald.enable = true;
-
-  # Don't use own bincache, only upstream
-  nix.settings.substituters = lib.mkForce [ "https://cache.nixos.org" ];
 
   hosts.openssh = {
     enable = true;

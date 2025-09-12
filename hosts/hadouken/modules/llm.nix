@@ -42,6 +42,9 @@ in
         DO_NOT_TRACK = "True";
         SCARF_NO_ANALYTICS = "True";
         WEBUI_AUTH = "False";
+	ENABLE_WEB_SEARCH = "True";
+	WEB_SEARCH_ENGINE = "duckduckgo";
+	OLLAMA_BASE_URL = "https://ollama.thuis";
       };
     };
 
