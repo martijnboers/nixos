@@ -47,7 +47,6 @@ in
 
     programs.rofi = {
       enable = true;
-      package = pkgs.rofi-wayland;
       extraConfig = {
         show-icons = true;
         display-combi = " :";
@@ -72,7 +71,7 @@ in
         };
       plugins = with pkgs; [
         rofi-calc
-        rofi-emoji-wayland
+        rofi-emoji
       ];
     };
 

@@ -18,11 +18,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    crowdsec = {
-      url = "git+https://codeberg.org/kampka/nix-flake-crowdsec.git";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nh = {
       url = "github:nix-community/nh";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -112,9 +107,6 @@
               determinate.nixosModules.default
               lanzaboote.nixosModules.lanzaboote
               secrets.outPath # so secrets/defaults becomes available
-
-              crowdsec.nixosModules.crowdsec
-              crowdsec.nixosModules.crowdsec-firewall-bouncer
 
               {
                 home-manager.useGlobalPkgs = true;
