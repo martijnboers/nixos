@@ -34,7 +34,6 @@
 
   # Global user level packages
   home.packages = with pkgs; [
-    # shell
     zsh-powerlevel10k
     zoxide
     fzf # A command-line fuzzy finder
@@ -42,14 +41,8 @@
     yazi # cli file explorer
     lsd # fancy ls
     gemini-cli # proompting
-
-    # system
     gnupg
-    jq # A lightweight and flexible command-line JSON processor
     tldr # man summarized
-    killall # 🔪
-    btop # fancy htop
-    hydra-check # check nixos ci builds
   ];
 
   # User level secrets
@@ -66,6 +59,7 @@
   programs.nix-index = {
     enable = true;
   };
+
   # Run programs with , cowsay
   programs.nix-index-database.comma.enable = true;
 

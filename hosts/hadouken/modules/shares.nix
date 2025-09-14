@@ -18,16 +18,6 @@ in
       options = [ "bind" ];
     };
 
-    fileSystems."/export/bitcoin" = {
-      device = "/mnt/zwembad/games/bitcoind";
-      options = [ "bind" ];
-    };
-
-    fileSystems."/export/fulcrum" = {
-      device = "/mnt/zwembad/games/fulcrum";
-      options = [ "bind" ];
-    };
-
     fileSystems."/export/share" = {
       device = "/mnt/zwembad/share";
       options = [ "bind" ];
@@ -55,8 +45,6 @@ in
         /export/music    100.64.0.0/10(rw,nohide,insecure,no_subtree_check)
         /export/share    100.64.0.0/10(rw,nohide,insecure,no_subtree_check)
 	/export/notes  	 100.64.0.0/24(rw,nohide,insecure,no_subtree_check)
-        /export/bitcoin  10.10.0.0/24(rw,nohide,insecure,no_subtree_check)
-        /export/fulcrum  10.10.0.0/24(rw,nohide,insecure,no_subtree_check)
       '';
     };
   };

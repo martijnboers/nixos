@@ -66,6 +66,7 @@
     lz4
     git
     wget
+    jq
 
     # editor
     helix
