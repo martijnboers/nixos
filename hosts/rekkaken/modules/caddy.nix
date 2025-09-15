@@ -25,6 +25,15 @@ in
             trusted_proxies static 100.64.0.0/10
         }
       '';
+      virtualHosts = {
+        "ip.boers.email" = {
+          extraConfig = ''
+            header Content-Type "text/plain; charset=utf-8"
+            templates
+            respond "{{.RemoteIP}}"
+          '';
+        };
+      };
       extraConfig = ''
         (headscale) {
           @internal remote_ip 100.64.0.0/10

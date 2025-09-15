@@ -145,7 +145,7 @@ in
             exec =
               let
                 wan = pkgs.writeShellScriptBin "wan-ip" ''
-                  wan_ip=$(curl -s https://checkip.amazonaws.com)
+                  wan_ip=$(curl -s https://ip.boers.email)
                   echo "󰖟 $wan_ip"
                 '';
               in

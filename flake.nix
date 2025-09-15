@@ -55,11 +55,6 @@
     nix-bitcoin = {
       url = "github:fort-nix/nix-bitcoin/master";
     };
-
-    darwin = {
-      url = "github:lnl7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -67,7 +62,6 @@
       self,
       nixpkgs,
       home-manager,
-      darwin,
       ...
     }@inputs:
     let
@@ -76,7 +70,6 @@
       systems = [
         "x86_64-linux"
         "aarch64-linux"
-        "aarch64-darwin"
       ];
       forAllSystems = lib.genAttrs systems;
 
@@ -155,20 +148,9 @@
       nixosConfigurations.nurma = mkSystem "nurma" {
         system = "x86_64-linux";
       };
-      darwinConfigurations.paddy = darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        specialArgs = { inherit inputs outputs; };
-        modules = [
-          ./hosts/paddy/system.nix
-
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs outputs; };
-            home-manager.users.martijn = import ./hosts/paddy/home.nix;
-          }
-        ];
+      nixosConfigurations.donk = mkSystem "donk" {
+        system = "x86_64-linux";
+        modules = [ inputs.nixos-hardware.nixosModules.framework-12-13th-gen-intel ];
       };
     };
 }

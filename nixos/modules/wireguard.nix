@@ -57,6 +57,10 @@ in
           publicKey = "kB9SFPsFsdma1aHnrHeE+Pz8U0WT67gqwo4e4K7HWDA=";
           allowedIPs = [ "10.100.0.2/32" ];
         }
+        {
+          publicKey = "XyG54O7XpQmiW0yelcGDOeKVn4s5sfNWlJgWK2YiuCg=";
+          allowedIPs = [ "10.100.0.3/32" ];
+        }
       ];
     };
   };

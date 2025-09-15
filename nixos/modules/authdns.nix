@@ -56,8 +56,8 @@ let
         derp1       IN      AAAA    ${shor.ipv6}
         derp2       IN      A       ${rek.ipv4}
         derp2       IN      AAAA    ${rek.ipv6}
-
-        test  	    IN 	    TXT     "hi3"
+        ip          IN      A       ${rek.ipv4}
+        ip          IN      AAAA    ${rek.ipv6}
 
         openpgpkey  		IN TXT   ""
         protonmail._domainkey   IN CNAME protonmail.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.

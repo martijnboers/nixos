@@ -131,7 +131,6 @@
         "https://cache.nixos.org?priority=1"
         "https://nix-community.cachix.org?priority=2"
         "https://install.determinate.systems"
-        # "https://binarycache.thuis"
         "https://cache.garnix.io"
         "https://devenv.cachix.org"
         "https://numtide.cachix.org"
