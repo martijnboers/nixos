@@ -1,12 +1,34 @@
-{ pkgs, config, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 {
   networking.hostName = "donk";
   hosts.hyprland.enable = true;
   hosts.secureboot.enable = true;
 
-  hosts.uefi = {
+  environment.systemPackages = [
+    inputs.iio-hyprland.packages.${pkgs.system}.default
+    pkgs.wvkbd-desktop
+  ];
+
+  services.tlp = {
     enable = true;
-    crypto = true;
+    settings = {
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+
+      CPU_MIN_PERF_ON_AC = 0;
+      CPU_MAX_PERF_ON_AC = 100;
+      CPU_MIN_PERF_ON_BAT = 0;
+      CPU_MAX_PERF_ON_BAT = 50;
+    };
   };
 
   hosts.borg = {
@@ -34,7 +56,7 @@
   };
 
   users.users.martijn = {
-    initialHashedPassword = "$y$j9T$B4qf64SyCW89SDSvoUiEc1$2nYvLO1mDbJ7Z./c8KD97y0f2Mtdsnx03mmTcD3Xmb7"; # todo: change
+    hashedPasswordFile = lib.mkForce config.age.secrets.password-laptop.path;
   };
 
   hosts.tailscale.enable = true;
@@ -44,6 +66,10 @@
     file = ../../secrets/donk-client.age;
     owner = "root";
     group = "systemd-network";
+  };
+
+  age = {
+    identityPaths = [ "/home/martijn/.ssh/id_ed25519" ];
   };
 
   networking.wg-quick.interfaces.wg0 = {
@@ -77,18 +103,4 @@
 
   # Support gpg for git signing
   hosts.gpg.enable = true;
-
-  boot = {
-    # Silent Boot
-    # https://wiki.archlinux.org/title/Silent_boot
-    kernelParams = [
-      "quiet"
-      "rd.systemd.show_status=false"
-      "rd.udev.log_level=3"
-      "udev.log_priority=3"
-    ];
-    consoleLogLevel = 0;
-    # https://github.com/NixOS/nixpkgs/pull/108294
-    initrd.verbose = false;
-  };
 }

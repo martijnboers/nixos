@@ -9,25 +9,37 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  boot.initrd.availableKernelModules = [
-    "nvme"
-    "xhci_pci"
-    "ahci"
-    "usb_storage"
-    "usbhid"
-    "sd_mod"
-  ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
-
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/94423d1c-1ff2-41cb-9c23-2d8444015324";
     fsType = "ext4";
   };
 
-  boot.initrd.luks.devices.root.device =
-    "/dev/disk/by-uuid/68b29e46-0399-4b6c-bcaa-c29cdf47330e";
+  boot = {
+    kernelModules = [ "kvm-amd" ];
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+
+    initrd = {
+      kernelModules = [ "amdgpu" ];
+      availableKernelModules = [
+        "nvme"
+        "xhci_pci"
+        "ahci"
+        "usb_storage"
+        "usbhid"
+        "sd_mod"
+      ];
+
+      luks.devices.root = {
+        device = "/dev/disk/by-uuid/68b29e46-0399-4b6c-bcaa-c29cdf47330e";
+        crypttabExtraOpts = [ "fido2-device=auto" ];
+      };
+
+      systemd.enable = true;
+    };
+  };
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/0581-2B71";

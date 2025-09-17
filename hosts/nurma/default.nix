@@ -4,11 +4,6 @@
   hosts.hyprland.enable = true;
   hosts.secureboot.enable = true;
 
-  hosts.uefi = {
-    enable = true;
-    crypto = true;
-  };
-
   hosts.borg = {
     enable = true;
     repository = "ssh://nads486h@nads486h.repo.borgbase.com/./repo";
@@ -128,29 +123,5 @@
   hosts.virtualisation = {
     enable = true;
     qemu = true;
-  };
-
-  boot = {
-    loader = {
-      # hopefully fixes crashing AMD GPU
-      grub.extraConfig = ''
-        amdgpu.aspm=0
-      '';
-    };
-
-    # Silent Boot
-    # https://wiki.archlinux.org/title/Silent_boot
-    kernelParams = [
-      "quiet"
-      "rd.systemd.show_status=false"
-      "rd.udev.log_level=3"
-      "udev.log_priority=3"
-    ];
-    consoleLogLevel = 0;
-    # https://github.com/NixOS/nixpkgs/pull/108294
-    initrd = {
-      verbose = false;
-      kernelModules = [ "amdgpu" ];
-    };
   };
 }

@@ -49,6 +49,9 @@ in
         "identity.fxaccounts.enabled" = true;
         "privacy.clearOnShutdown.history" = false;
         "privacy.clearOnShutdown.cookies" = false;
+        "privacy.clearOnShutdown.sessions" = false;
+        "privacy.clearOnShutdown_v2.cookiesAndStorage" = false;
+	"browser.fixup.domainSuffixwhitelist.thuis" = true;
         "network.cookie.lifetimePolicy" = 0;
         "network.trr.mode" = 2; # fallback to system
         "network.trr.uri" = "https://dns.thuis/dns-query";

@@ -112,14 +112,13 @@ in
           };
           policy.path = pkgs.writeText "acl.json" (
             builtins.toJSON {
-              randomizeClientPort = true; # direct connection pfsense
               hosts = {
                 shoryuken = config.hidden.tailscale_hosts.shoryuken;
                 tenshin = config.hidden.tailscale_hosts.tenshin;
                 hadouken = config.hidden.tailscale_hosts.hadouken;
                 tatsumaki = config.hidden.tailscale_hosts.tatsumaki;
                 nurma = config.hidden.tailscale_hosts.nurma;
-                mbp = config.hidden.tailscale_hosts.mbp;
+                donk = config.hidden.tailscale_hosts.donk;
                 pixel = config.hidden.tailscale_hosts.pixel;
                 router = config.hidden.tailscale_hosts.router;
                 pikvm = config.hidden.tailscale_hosts.pikvm;
@@ -149,6 +148,13 @@ in
                   src = [ "tatsumaki" ];
                   dst = [
                     "hadouken:2049" # nfs
+                  ];
+                }
+                {
+                  action = "accept";
+                  src = [ "donk" ];
+                  dst = [
+                    "hadouken:22,2049" # nfs+ssh
                   ];
                 }
                 {

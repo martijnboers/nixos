@@ -33,6 +33,7 @@ in
 
       # work
       citrix_workspace
+      exfatprogs
 
       # programming
       sublime-merge

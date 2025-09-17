@@ -30,17 +30,16 @@ in
             "hyprland/window"
           ];
           modules-center = [
-            "privacy"
             "clock"
+            "privacy"
           ];
           modules-right = [
-            "network"
             "custom/wan"
-            "cpu"
-            "memory"
             "temperature"
+            "cpu"
             "disk"
             "pulseaudio"
+            "battery"
             "tray"
           ];
 
@@ -80,7 +79,7 @@ in
 
           clock = {
             interval = 60;
-            format = "  {:%a %b %d <b>%H:%M</b>}";
+            format = "{:%a %b %d <b>%H:%M</b>}";
             exec-on-event = "true";
             on-click = "orage";
           };
@@ -96,6 +95,24 @@ in
             format = "  {}%";
           };
 
+          battery = {
+            interval = 2;
+            format = "  {capacity}%";
+            format-charging = "󱐋 {capacity}%";
+            on-click =
+              let
+                osk = pkgs.writeShellScriptBin "osk" ''
+                  PROG="wvkbd"
+                  SIGNAL="SIGRTMIN"
+                  if ! pgrep "''${PROG}" > /dev/null; then
+                      "''${PROG}" --hidden --alpha 204 &
+                  fi
+                  pkill --signal "''${SIGNAL}" "''${PROG}"
+                '';
+              in
+              lib.getExe osk;
+          };
+
           network = {
             interval = 2;
             format = "󰓅 {bandwidthTotalBits}";
@@ -107,6 +124,18 @@ in
             interval = 15;
             format = "󰋊 {percentage_used}%";
             path = "/";
+            on-click =
+              let
+                osk = pkgs.writeShellScriptBin "osk" ''
+                  PROG="iio-hyprland"
+                  if ! pgrep "''${PROG}" > /dev/null; then
+                    "''${PROG}" &
+                  else
+                    pkill "''${PROG}"
+                  fi
+                '';
+              in
+              lib.getExe osk;
           };
 
           pulseaudio = {

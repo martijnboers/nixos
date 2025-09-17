@@ -21,12 +21,14 @@
     ./modules/server.nix
     ./modules/derper.nix
     ./modules/borg.nix
-    ./modules/uefi.nix
     ./modules/ssh.nix
     ./modules/gpg.nix
   ];
 
-  age.secrets.password.file = ../secrets/password.age;
+  age.secrets = {
+    password.file = ../secrets/password.age;
+    password-laptop.file = ../secrets/password-laptop.age;
+  };
 
   # User
   users = {
@@ -207,7 +209,10 @@
   security = {
     sudo.enable = lib.mkDefault false; # 🦀🦀
     sudo-rs.enable = lib.mkDefault true; # 🦀🦀
-    pki.certificateFiles = [ ../secrets/keys/plebs4gold.crt ];
+    pki.certificateFiles = [
+      ../secrets/keys/plebs4gold.crt
+      ../secrets/keys/pfsense.crt
+    ];
   };
 
   # by default setup gotify bridge as email

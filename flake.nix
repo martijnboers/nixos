@@ -7,6 +7,7 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     self.submodules = true; # add secrets
+    iio-hyprland.url = "github:JeanSchoeller/iio-hyprland";
 
     home-manager = {
       url = "github:nix-community/home-manager";

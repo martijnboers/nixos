@@ -16,6 +16,11 @@ in
 
   options.maatwerk.hyprland = {
     enable = mkEnableOption "Hyprland";
+    touchpad = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Touchpad support";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -30,8 +35,8 @@ in
     services.dunst = {
       enable = true;
       iconTheme = {
-	name = "Tela-circle";
-	package = pkgs.tela-circle-icon-theme;
+        name = "Tela-circle";
+        package = pkgs.tela-circle-icon-theme;
       };
       settings.global = {
         frame_width = 1;
@@ -152,10 +157,27 @@ in
         ];
 
         bindl = [
+          ", switch:on:Lid Switch, exec, hyprctl keyword monitor \"eDP-1, disable\""
+          ", switch:off:Lid Switch, exec, hyprctl keyword monitor \"eDP-1,preferred,auto,1,transform,0\""
           ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
           ", XF86AudioPlay, exec, playerctl play-pause"
           ", XF86AudioNext, exec, playerctl next"
           ", XF86AudioPrev, exec, playerctl previous"
+          ", XF86MonBrightnessDown, exec, ${lib.getExe pkgs.brightnessctl} s 5%-"
+          ", XF86MonBrightnessUp, exec, ${lib.getExe pkgs.brightnessctl}  s +5%"
+          ", XF86AudioMedia, exec, ${
+            let
+              osk = pkgs.writeShellScriptBin "osk" ''
+                PROG="iio-hyprland"
+                if ! pgrep "''${PROG}" > /dev/null; then
+                  "''${PROG}" &
+                else
+                  pkill "''${PROG}"
+                fi
+              '';
+            in
+            lib.getExe osk
+          }"
         ];
 
         bind = [
@@ -205,6 +227,11 @@ in
           pseudotile = true; # Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
           preserve_split = true; # You probably want this
         };
+        gestures = lib.mkIf cfg.touchpad {
+          workspace_swipe_touch = true;
+          workspace_swipe_invert = false;
+          gesture = "3, horizontal, workspace";
+        };
         general = {
           gaps_in = 3;
           gaps_out = "5,12,12,12";
@@ -223,6 +250,7 @@ in
           repeat_delay = 450;
           touchpad = {
             natural_scroll = false;
+            scroll_factor = 0.8;
           };
         };
 
@@ -247,6 +275,9 @@ in
         };
       };
       extraConfig = ''
+        monitor=eDP-1,preferred,auto,1,transform,0
+        monitor=,preferred,auto,1
+
         windowrulev2 = keepaspectratio,class:^(librewolf)$,title:^(Picture-in-Picture)$
         windowrulev2 = noborder,class:^(librewolf)$,title:^(Picture-in-Picture)$
         windowrulev2 = fullscreenstate,class:^(librewolf)$,title:^(Firefox)$
@@ -262,7 +293,6 @@ in
           # https://https://www.cssportal.com/css-cubic-bezier-generator/
 
           enabled = true
-          first_launch_animation = true
 
           bezier = wind, 0.05, 0.9, 0.1, 1.05
           bezier = winIn, 0.1, 1.1, 0.1, 1.1
