@@ -100,7 +100,8 @@
     enable = true;
     rules = [
       "-w /home/martijn/.ssh -p rwa -k ssh_file_access"
-      "-w /home/martijn/Nix -p rwa -k nix_config_changes"
+      "-w /home/martijn/Nix -p wa -k nix_config_changes"
+      "-w /dev/video0 -p war" 
     ];
   };
 

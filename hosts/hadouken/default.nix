@@ -33,7 +33,6 @@ in
     ./modules/llm.nix
   ];
 
-  hosts.uefi.enable = true;
   hosts.shares.enable = true;
   hosts.caddy.enable = true;
   hosts.vaultwarden.enable = true;
@@ -78,14 +77,6 @@ in
     enable = true;
     repository = "ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo";
     paths = [ "/mnt/zwembad/app" ];
-  };
-
-  hosts.auditd = {
-    enable = true;
-    rules = [
-      "-w /home/martijn/.ssh -p rwa -k ssh_file_access"
-      "-w /home/martijn/Nix -p rwa -k nix_config_changes"
-    ];
   };
 
   hosts.syncthing = {

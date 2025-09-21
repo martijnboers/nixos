@@ -146,11 +146,15 @@
 
       "21-wifi" = {
         matchConfig.Name = "wifi";
-        address = [ "10.10.2.1/24" ];
+        address = [ "10.20.0.1/24" ];
         networkConfig = {
           DHCPServer = "yes";
           IPv6SendRA = "yes";
           DHCPPrefixDelegation = "yes";
+        };
+        dhcpServerConfig = {
+          PoolOffset = 100;
+          PoolSize = 20;
         };
         dhcpPrefixDelegationConfig = {
           SubnetId = "0xbeef";
@@ -159,21 +163,25 @@
 
       "22-opt1" = {
         matchConfig.Name = "opt1";
-        address = [ "10.10.3.1/24" ];
+        address = [ "10.30.0.1/24" ];
         networkConfig = {
           DHCPServer = "yes";
           IPv6SendRA = "yes";
           DHCPPrefixDelegation = "yes";
         };
+        dhcpServerConfig = {
+          PoolOffset = 100;
+          PoolSize = 20;
+        };
         dhcpPrefixDelegationConfig = {
           SubnetId = "0xb00f";
         };
-        dhcpServerStaticLeases = [
-          {
-            MACAddress = "AA:BB:CC:11:22:33";
-            Address = "10.30.0.2";
-          }
-        ];
+        # dhcpServerStaticLeases = [
+        #   {
+        #     MACAddress = "48:21:0b:55:90:f5";
+        #     Address = "10.30.0.2";
+        #   }
+        # ];
       };
     };
   };

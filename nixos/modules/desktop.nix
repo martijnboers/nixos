@@ -57,6 +57,12 @@ in
 
     programs.dconf.enable = true; # used for stylix
 
+    users.users.martijn.extraGroups = [ "wireshark" ];
+    programs.wireshark = {
+      enable = true;
+      package = pkgs.wireshark;
+    };
+
     # Yubikey
     programs.yubikey-touch-detector.enable = true;
     services.yubikey-agent.enable = true;

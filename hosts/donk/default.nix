@@ -15,6 +15,10 @@
     pkgs.wvkbd-desktop
   ];
 
+  programs.ssh.extraConfig = ''
+    IdentityFile /home/martijn/.ssh/id_ed25519_sk
+  '';
+
   services.tlp = {
     enable = true;
     settings = {
@@ -34,6 +38,7 @@
   hosts.borg = {
     enable = true;
     repository = "ssh://iuyrg38x@iuyrg38x.repo.borgbase.com/./repo";
+    identityPath = "/home/martijn/.ssh/id_ed25519_age";
     paths = [ "/home/martijn" ];
     exclude = [
       ".cache"
@@ -69,7 +74,7 @@
   };
 
   age = {
-    identityPaths = [ "/home/martijn/.ssh/id_ed25519" ];
+    identityPaths = [ "/home/martijn/.ssh/id_ed25519_age" ];
   };
 
   networking.wg-quick.interfaces.wg0 = {

@@ -21,6 +21,9 @@ in
     # No need for fonts on a server
     fonts.fontconfig.enable = lib.mkDefault false;
 
+    # Default auditd rules
+    hosts.auditd.enable = true;
+
     # No wifi
     networking.wireless.enable = lib.mkForce false;
 

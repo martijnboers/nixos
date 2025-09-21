@@ -120,7 +120,7 @@ in
                 nurma = config.hidden.tailscale_hosts.nurma;
                 donk = config.hidden.tailscale_hosts.donk;
                 pixel = config.hidden.tailscale_hosts.pixel;
-                router = config.hidden.tailscale_hosts.router;
+                dosukoi = config.hidden.tailscale_hosts.dosukoi;
                 pikvm = config.hidden.tailscale_hosts.pikvm;
                 rekkaken = config.hidden.tailscale_hosts.rekkaken;
               };
@@ -180,7 +180,7 @@ in
                     "hadouken:*"
                     "tatsumaki:*"
                     "rekkaken:*"
-                    "router:4433"
+                    "dosukoi:22"
                     "pikvm:80,443"
                   ];
                 } # nurma full-god

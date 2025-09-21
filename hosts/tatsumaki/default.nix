@@ -10,7 +10,6 @@
   hosts.tailscale.enable = true;
   hosts.prometheus.enable = true;
   hosts.caddy.enable = true;
-  hosts.uefi.enable = true;
 
   hosts.openssh = {
     enable = true;

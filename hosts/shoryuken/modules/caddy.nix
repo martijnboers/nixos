@@ -76,6 +76,11 @@ in
               encode zstd gzip
               file_server
 
+              @bots {
+                path /wp-login.php /wp-admin/* /xmlrpc.php
+              }
+              redir @bots http://speed.transip.nl/1tb.bin 302
+
               handle_path /.well-known/openpgpkey/* {
                 root * ${wkd}
                 header Content-Type application/octet-stream
@@ -90,7 +95,7 @@ in
                 "m.homeserver": {"base_url":"https://matrix.boers.email"},
                 "m.identity_server":{"base_url":"https://identity.boers.email"}
               }`
-            ''; # makes it possible to do @martijn:boers.email
+            '';
           };
           "matrix.boers.email" = {
             extraConfig = ''

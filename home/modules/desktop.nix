@@ -35,8 +35,8 @@ in
       citrix_workspace
       exfatprogs
       parted
-      wireshark
       minicom
+      nmap
 
       # programming
       sublime-merge
