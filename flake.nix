@@ -102,11 +102,11 @@
               lanzaboote.nixosModules.lanzaboote
               secrets.outPath # so secrets/defaults becomes available
 
-              {
-                home-manager.useGlobalPkgs = true;
-                home-manager.users.martijn = import homeconfig;
-                home-manager.extraSpecialArgs = { inherit inputs outputs system; };
-              }
+              # {
+              #   home-manager.useGlobalPkgs = true;
+              #   home-manager.users.martijn = import homeconfig;
+              #   home-manager.extraSpecialArgs = { inherit inputs outputs system; };
+              # }
             ]
             ++ modules;
         };
@@ -136,6 +136,12 @@
       };
       nixosConfigurations.hadouken = mkSystem "hadouken" {
         system = "x86_64-linux";
+      };
+      nixosConfigurations.dosukoi = mkSystem "dosukoi" {
+        system = "x86_64-linux";
+        modules = [
+          inputs.disko.nixosModules.disko
+        ];
       };
       nixosConfigurations.tatsumaki = mkSystem "tatsumaki" {
         system = "x86_64-linux";

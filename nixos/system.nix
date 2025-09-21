@@ -39,8 +39,9 @@
       useDefaultShell = true;
       extraGroups = [
         "networkmanager"
-        "wheel"
-        "plugdev"
+        "wheel" # sudo
+        "plugdev" # mounting
+        "dialout" # serial
       ];
       openssh.authorizedKeys.keyFiles = [
         ../secrets/keys/nurma-sk.pub
@@ -188,7 +189,7 @@
   services.fwupd.enable = true; # firmware update
 
   networking = {
-    firewall.enable = lib.mkForce true; # default value, but should never be disabled
+    firewall.enable = lib.mkDefault true;
 
     # tailscale overwrites this with 100.100.100.100 when connected
     nameservers = [
@@ -197,13 +198,9 @@
       "149.112.112.112"
       "2620:fe::9"
     ];
-    resolvconf = {
-      # so dns servers don't use their own service
+    resolvconf = { # so dns servers don't use their own service
       useLocalResolver = lib.mkForce false;
     };
-    # ignore what comes from dhcp
-    dhcpcd.extraConfig = "nohook resolv.conf";
-    networkmanager.dns = "none";
   };
 
   security = {

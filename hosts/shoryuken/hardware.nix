@@ -41,7 +41,6 @@
     };
   };
 
-  # Disk config
   disko.devices = {
     disk = {
       main = {

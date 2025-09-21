@@ -101,7 +101,6 @@
     rules = [
       "-w /home/martijn/.ssh -p rwa -k ssh_file_access"
       "-w /home/martijn/Nix -p rwa -k nix_config_changes"
-      "-a exit,always -F arch=b64 -S execve -k program_run"
     ];
   };
 

@@ -34,6 +34,9 @@ in
       # work
       citrix_workspace
       exfatprogs
+      parted
+      wireshark
+      minicom
 
       # programming
       sublime-merge
