@@ -102,11 +102,11 @@
               lanzaboote.nixosModules.lanzaboote
               secrets.outPath # so secrets/defaults becomes available
 
-              # {
-              #   home-manager.useGlobalPkgs = true;
-              #   home-manager.users.martijn = import homeconfig;
-              #   home-manager.extraSpecialArgs = { inherit inputs outputs system; };
-              # }
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.users.martijn = import homeconfig;
+                home-manager.extraSpecialArgs = { inherit inputs outputs system; };
+              }
             ]
             ++ modules;
         };

@@ -1,9 +1,9 @@
 { ... }:
 {
-  # imports = [
-  #   ../../home
-  # ];
-  #
-  # stylix.enable = false;
-  # maatwerk.nixvim.enable = false;
+  imports = [
+    ../../home
+  ];
+
+  stylix.enable = false;
+  maatwerk.nixvim.enable = false;
 }

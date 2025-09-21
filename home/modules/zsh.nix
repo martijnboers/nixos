@@ -65,6 +65,7 @@ in
           zima = sshAlias "tatsumaki";
           desktop = sshAlias "nurma";
           nofail = sshAlias "rekkaken";
+          router = sshAlias "dosukoi";
 
           socks = "ssh -D 1337 -q -C -N hadouken.machine.thuis";
           extreme-pro = ''sudo veracrypt -t "/dev/disk/by-partlabel/Extreme\\x20Pro" /mnt/veracrypt1/'';

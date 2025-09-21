@@ -34,11 +34,13 @@
     kernelModules = [ "kvm-intel" ];
     kernelParams = [ "console=ttyS0,115200n8" ];
     kernel.sysctl = {
+      # Enable packet forwarding for both IP protocols.
       "net.ipv4.conf.all.forwarding" = true;
       "net.ipv6.conf.all.forwarding" = true;
+
+      # Enable strict ARP filtering
       "net.ipv4.conf.all.arp_filter" = 1;
       "net.ipv4.conf.default.arp_filter" = 1;
-      "net.ipv6.conf.peepee.accept_ra" = 2;
     };
     loader = {
       systemd-boot.enable = true;

@@ -33,8 +33,8 @@
     ];
   };
 
-  # hosts.tailscale.enable = true;
-  # hosts.prometheus.enable = true;
+  hosts.tailscale.enable = true;
+  hosts.prometheus.enable = true;
 
   age = {
     identityPaths = [ "/home/martijn/.ssh/id_ed25519" ];
