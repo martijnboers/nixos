@@ -39,7 +39,6 @@ in
             }
             acme_server {
               ca plebs4gold
-              resolvers 100.100.100.100
               allow {
                 domains *.thuis 
               }

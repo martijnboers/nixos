@@ -22,7 +22,7 @@ in
           EditionIDs = [
             "GeoLite2-City"
           ];
-          AccountID = 1003091;
+          AccountID = 1232114;
           LicenseKey = config.age.secrets.geoip.path;
         };
       };

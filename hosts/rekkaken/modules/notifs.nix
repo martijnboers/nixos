@@ -20,9 +20,6 @@ in
       handle @internal {
         reverse_proxy http://localhost:${toString config.services.gotify.environment.GOTIFY_SERVER_PORT}
       }
-      log {
-          output discard
-      }
       respond 403
     '';
 

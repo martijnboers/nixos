@@ -1,11 +1,7 @@
 # https://www.sput.nl/internet/freedom/config.html
 # https://s-n.me/building-a-nixos-router-for-a-uk-fttp-isp-the-basics
 # https://www.jjpdev.com/posts/home-router-nixos/
-{
-  pkgs,
-  lib,
-  ...
-}:
+{ ... }:
 {
   services.pppd = {
     enable = true;
@@ -25,8 +21,6 @@
 
           # Automatically set the default IPv4 route via this link
           defaultroute
-          # Use the DNS servers provided by the ISP for IPv4
-          usepeerdns
           # No authentication needed for this ISP
           noauth
           # Do not assign a default IP if negotiation fails
@@ -107,6 +101,12 @@
           DHCP = "ipv6";
           IPv6AcceptRA = true;
           ConfigureWithoutCarrier = "yes";
+          DNS = [
+            "185.93.175.43" # Freedom Internet IPv4 DNS 1
+            "185.232.98.76" # Freedom Internet IPv4 DNS 2
+            "2a10:3780:2:52:185:93:175:43" # Freedom Internet IPv6 DNS 1
+            "2a10:3780:2:53:185:232:98:76" # Freedom Internet IPv6 DNS 2
+          ];
         };
         linkConfig.RequiredForOnline = "yes";
 
@@ -170,39 +170,19 @@
           DHCPPrefixDelegation = "yes";
         };
         dhcpServerConfig = {
-          PoolOffset = 100;
-          PoolSize = 20;
+          PoolOffset = 2;
+          PoolSize = 1;
         };
         dhcpPrefixDelegationConfig = {
           SubnetId = "0xb00f";
         };
         # dhcpServerStaticLeases = [
         #   {
-        #     MACAddress = "48:21:0b:55:90:f5";
+        #     MACAddress = "48:21:0B:55:90:F5"; 
         #     Address = "10.30.0.2";
         #   }
         # ];
       };
     };
   };
-
-  environment.etc."ppp/ip-up".source = lib.getExe (
-    pkgs.writeShellScriptBin "ppp-ip-up" ''
-      set -eu
-      if [ "$IFNAME" = "peepee" ]; then
-        if [ -n "$DNS1" ]; then
-          ${pkgs.systemd}/bin/resolvectl dns "$IFNAME" "$DNS1" "$DNS2"
-          ${pkgs.systemd}/bin/resolvectl domain "$IFNAME" '~.'
-        fi
-      fi
-    ''
-  );
-  environment.etc."ppp/ip-down".source = lib.getExe (
-    pkgs.writeShellScriptBin "ppp-ip-down" ''
-      set -eu
-      if [ "$IFNAME" = "peepee" ]; then
-        ${pkgs.systemd}/bin/resolvectl revert "$IFNAME"
-      fi
-    ''
-  );
 }

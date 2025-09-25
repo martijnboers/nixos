@@ -12,7 +12,6 @@ let
     "atuin"
     "cal"
     "detection"
-    "dns"
     "immich"
     "llm"
     "microbin"
@@ -34,7 +33,6 @@ let
     "uptime"
   ];
   tenshinRecords = [
-    "dns-fallback"
     "hass"
     "search"
     "tools"
@@ -42,6 +40,10 @@ let
   ];
   tatsumakiRecords = [
     "mempool"
+  ];
+  dosukoiRecords = [
+    "dns"
+    "leases"
   ];
 in
 {
@@ -130,10 +132,8 @@ in
                   action = "accept";
                   src = [ "*" ];
                   dst = [
-                    "hadouken:53,80,443" # everyone can access hadouken web-services, dns
-                    "tenshin:53,80,443" # everyone access to dns fallback
-                    "rekkaken:80,443,8025,2230,49837" # everyone can send notifications + internal email + crowdsec lapi
-                    "shoryuken:80,443" # everyone can request acme certs
+                    "hadouken:80,443" # everyone access to hadouken web-services
+                    "dosukoi:53,80,443" # everyone access to dns
                   ];
                 }
                 {
@@ -141,20 +141,23 @@ in
                   src = [ "shoryuken" ];
                   dst = [
                     "hadouken:5551,5552,5553,5554" # reverse proxy ports
+		    "headscale-server@:80,443" # acme challange
                   ];
                 }
                 {
                   action = "accept";
-                  src = [ "tatsumaki" ];
+                  src = [ "headscale-server@" ];
                   dst = [
-                    "hadouken:2049" # nfs
+                    "shoryuken:80,443" # request acme certs
+                    "rekkaken:80,443,8025,2230" # send notifications + internal email
                   ];
                 }
                 {
                   action = "accept";
-                  src = [ "donk" ];
+                  src = [ "headscale-user@" ];
                   dst = [
                     "hadouken:22,2049" # nfs+ssh
+                    "tenshin:80,443" # hass + static sites
                   ];
                 }
                 {
@@ -170,17 +173,14 @@ in
                 } # hadouken semi-god
                 {
                   action = "accept";
-                  src = [
-                    "nurma"
-                    "pixel"
-                  ];
+                  src = [ "nurma" ];
                   dst = [
                     "tenshin:*"
                     "shoryuken:*"
                     "hadouken:*"
                     "tatsumaki:*"
                     "rekkaken:*"
-                    "dosukoi:22"
+                    "dosukoi:22,3023"
                     "pikvm:80,443"
                   ];
                 } # nurma full-god
@@ -205,15 +205,13 @@ in
             {
               magic_dns = true;
               base_domain = "machine.thuis";
-              nameservers.global = [
-                config.hidden.tailscale_hosts.hadouken
-                config.hidden.tailscale_hosts.tenshin
-              ];
+              nameservers.global = [ config.hidden.tailscale_hosts.dosukoi ];
               extra_records =
                 (map (name: makeRecord name config.hidden.tailscale_hosts.hadouken) hadoukenRecords)
                 ++ (map (name: makeRecord name config.hidden.tailscale_hosts.shoryuken) shoryukenRecords)
                 ++ (map (name: makeRecord name config.hidden.tailscale_hosts.tatsumaki) tatsumakiRecords)
                 ++ (map (name: makeRecord name config.hidden.tailscale_hosts.rekkaken) rekkakenRecords)
+                ++ (map (name: makeRecord name config.hidden.tailscale_hosts.dosukoi) dosukoiRecords)
                 ++ (map (name: makeRecord name config.hidden.tailscale_hosts.tenshin) tenshinRecords);
             };
           prefixes = {

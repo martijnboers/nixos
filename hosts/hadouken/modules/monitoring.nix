@@ -158,6 +158,7 @@ in
                     "tenshin"
                     "rekkaken"
                     "nurma"
+                    "dosukoi"
                   ];
             }
           ];
@@ -167,9 +168,8 @@ in
           static_configs = [
             {
               targets = map (host: "${host}.machine.thuis:2019") [
-                "hadouken"
                 "shoryuken"
-                "tenshin"
+                "rekkaken"
               ];
             }
           ];
@@ -186,10 +186,7 @@ in
           job_name = "adguard";
           static_configs = [
             {
-              targets = [
-                "tenshin.machine.thuis:9617"
-                "hadouken.machine.thuis:9617"
-              ];
+              targets = [ "dosukoi.machine.thuis:9617" ];
             }
           ];
         }

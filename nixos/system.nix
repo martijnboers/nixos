@@ -12,10 +12,8 @@
     ./modules/prometheus.nix
     ./modules/secureboot.nix
     ./modules/tailscale.nix
-    ./modules/wireguard.nix
     ./modules/hyprland.nix
     ./modules/crowdsec.nix
-    ./modules/adguard.nix
     ./modules/authdns.nix
     ./modules/auditd.nix
     ./modules/server.nix
@@ -276,8 +274,6 @@
     config = {
       allowUnfree = true;
       permittedInsecurePackages = [
-        "cinny-unwrapped-4.2.3"
-        "beekeeper-studio-5.2.12" # Electron version 31 is EOL
         "electron-32.3.3" # eol
         "libxml2-2.13.8" # CVE-2025-6021
         "libsoup-2.74.3" # gnome cves

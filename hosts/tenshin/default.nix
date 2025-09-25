@@ -10,17 +10,13 @@
     ./modules/hass.nix
   ];
 
-  hosts.adguard = {
-    enable = true;
-    domain = "dns-fallback";
-  };
-
   hosts.caddy.enable = true;
   hosts.cinny-web.enable = true;
   hosts.search.enable = true;
   hosts.cyberchef.enable = true;
   hosts.prometheus.enable = true;
   hosts.hass.enable = true;
+  hosts.auditd.enable = false;
 
   # SDR
   hardware.rtl-sdr.enable = true;

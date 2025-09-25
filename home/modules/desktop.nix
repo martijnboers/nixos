@@ -56,7 +56,7 @@ in
       # messaging
       signal-desktop
       telegram-desktop
-      stable.cinny-desktop # matrix client
+      cinny-desktop # matrix client
     ];
 
     programs.gpg = {

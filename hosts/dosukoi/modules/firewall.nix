@@ -1,3 +1,4 @@
+# /etc/nixos/firewall.nix
 {
   config,
   ...
@@ -27,9 +28,12 @@ in
               ct state established,related accept;
               iifname "lo" accept;
 
+              # --- WIREGUARD VPN SERVER ACCESS ---
+              iifname "peepee" udp dport 51820 accept comment "Allow WireGuard VPN connections";
+
               # --- TRUSTED ACCESS TO ROUTER ---
-              iifname { "lan", "wifi", "opt1", "tailscale0" } udp dport 67 accept;
-              iifname { "lan", "wifi", "opt1", "tailscale0" } accept;
+              iifname { "lan", "wifi", "opt1", "tailscale0", "wg0" } udp dport 67 accept;
+              iifname { "lan", "wifi", "opt1", "tailscale0", "wg0" } accept;
 
               # --- ISP SERVICE RULES (WAN) ---
               iifname "peepee" udp sport 547 udp dport 546 accept;
@@ -45,20 +49,19 @@ in
               oifname "peepee" tcp flags syn tcp option maxseg size set rt mtu;
 
               # --- INBOUND PORT FORWARDING RULES ---
-              # IPv4: Allow new connections for forwarded ports to reach the server.
-              iifname "peepee" oifname "opt1" ip daddr ${hadouken.ipv4} tcp dport { 22000, 32400 } ct state new accept;
-              iifname "peepee" oifname "opt1" ip daddr ${hadouken.ipv4} udp dport 22000 ct state new accept;
-              # IPv6: Allow new connections from the internet directly to the server's public IPv6 address.
-              iifname "peepee" oifname "opt1" ip6 daddr ${hadouken.ipv6} tcp dport { 22000, 32400 } ct state new accept;
-              iifname "peepee" oifname "opt1" ip6 daddr ${hadouken.ipv6} udp dport 22000 ct state new accept;
+              iifname "peepee" oifname "opt1" ip daddr ${hadouken.ipv4} tcp dport { 22000, 32400 } ct state new accept comment "Allow Plex and Syncthing (TCP) to Hadouken over IPv4";
+              iifname "peepee" oifname "opt1" ip daddr ${hadouken.ipv4} udp dport 22000 ct state new accept comment "Allow Syncthing (UDP) to Hadouken over IPv4";
+              iifname "peepee" oifname "opt1" ip6 daddr ${hadouken.ipv6} tcp dport { 22000, 32400 } ct state new accept comment "Allow Plex and Syncthing (TCP) to Hadouken over IPv6";
+              iifname "peepee" oifname "opt1" ip6 daddr ${hadouken.ipv6} udp dport 22000 ct state new accept comment "Allow Syncthing (UDP) to Hadouken over IPv6";
 
               # --- GRANULAR INTER-LAN FORWARDING ---
               iifname { "lan", "opt1" } oifname { "lan", "opt1" } accept;
               iifname { "wifi" } oifname { "opt1" } tcp dport { 80, 443 } accept;
-              iifname { "wifi", "opt1" } oifname { "wifi", "opt1" } udp dport 41641 accept;
+              iifname { "wifi", "opt1" } oifname { "wifi", "opt1" } udp dport 41641 accept comment "Allow Tailscale direct connections between WiFi and Opt1";
+              iifname "lan" oifname "wifi" tcp dport { 80, 443 } accept comment "Allow LAN to access IoT device web UIs on WiFi";
 
               # --- INTERNET EGRESS RULES ---
-              iifname { "lan", "wifi", "opt1", "tailscale0" } oifname "peepee" accept;
+              iifname { "lan", "wifi", "opt1", "tailscale0", "wg0" } oifname "peepee" accept;
 
               # --- TAILSCALE SUBNET ROUTING ---
               iifname { "lan", "wifi", "opt1" } oifname "tailscale0" accept;
@@ -82,6 +85,7 @@ in
               type nat hook postrouting priority srcnat; policy accept;
 
               # --- OUTBOUND IPV4 NAT ---
+              # The existing masquerade rule will automatically handle NAT for the WireGuard clients.
               oifname "peepee" masquerade;
             }
           '';

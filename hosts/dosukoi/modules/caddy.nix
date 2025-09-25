@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 with lib;
@@ -16,7 +15,6 @@ in
   config = mkIf cfg.enable {
     services.caddy = {
       enable = true;
-      package = pkgs.caddy;
       globalConfig = ''
         servers {
             trusted_proxies static 100.64.0.0/10

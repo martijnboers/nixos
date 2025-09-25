@@ -11,14 +11,10 @@ in
 {
   options.hosts.adguard = {
     enable = mkEnableOption "Adguard say no to ads";
-    domain = mkOption {
-      type = types.str;
-      default = "martijn";
-    };
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."${cfg.domain}.thuis".extraConfig = ''
+    services.caddy.virtualHosts."dns.thuis".extraConfig = ''
       import headscale
       handle @internal {
        reverse_proxy http://localhost:${toString config.services.adguardhome.port}
@@ -30,7 +26,7 @@ in
     '';
 
     age.secrets = {
-      adguard.file = ../../secrets/adguard.age;
+      adguard.file = ../../../secrets/adguard.age;
     };
 
     systemd.services = {
@@ -52,11 +48,14 @@ in
         };
       };
       adguardhome = {
+        after = [ "tailscaled.service" ];
+        requires = [ "tailscaled.service" ];
+
         serviceConfig = {
           # CPU shares: higher value means more weight compared to other services.
           CPUWeight = 800;
           # Memory limit: Allows using up to 75% of total system memory, preventing overuse by others.
-          MemoryHigh = "75%";
+          MemoryHigh = "65%";
           # Memory soft limit: Preferential access to a guaranteed amount of memory.
           MemoryMin = "512M";
         };
@@ -73,7 +72,7 @@ in
       settings = {
         dns = {
           ratelimit = 0;
-          bind_hosts = [ "0.0.0.0" ]; # this can bind to tailscale
+          bind_hosts = [ config.hidden.tailscale_hosts.dosukoi ];
           upstream_dns = [
             "https://dns10.quad9.net/dns-query"
             "https://dns.freedom.nl/dns-query"

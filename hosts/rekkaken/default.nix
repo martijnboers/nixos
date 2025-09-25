@@ -24,30 +24,9 @@
     domain = "derp2.boers.email";
   };
 
-  age.secrets = {
-    rekkaken-exit = {
-      file = ../../secrets/rekkaken-exit.age;
-      owner = "root";
-      group = "root";
-      mode = "0400";
-    };
-    # crowdsecgapi = {
-    #   file = ../../secrets/crowdsecgapi.age;
-    #   owner = "crowdsec";
-    #   mode = "0400";
-    # };
-  };
-
   # Shared fail2ban services
   hosts.crowdsec = {
     enable = true;
-  };
-
-  hosts.exit-node = {
-    enable = true;
-    floatingIp = config.hidden.wan_ips.floating;
-    privateKeyFile = config.age.secrets.rekkaken-exit.path;
-    publicInterface = "enp1s0";
   };
 
   hosts.authdns = {

@@ -1,5 +1,4 @@
 {
-  lib,
   ...
 }:
 {
@@ -7,23 +6,24 @@
 
   imports = [
     ./modules/interfaces.nix
+    ./modules/wireguard.nix
     ./modules/firewall.nix
+    ./modules/ntopng.nix
+    ./modules/adguard.nix
+    ./modules/caddy.nix
   ];
 
-  # hosts.borg = {
-  #   enable = true;
-  #   repository = "ssh://iuyrg38x@iuyrg38x.repo.borgbase.com/./repo";
-  # };
-
-  users = {
-    users.martijn = {
-      hashedPasswordFile = lib.mkForce null;
-      initialHashedPassword = "$y$j9T$7.j3R9bso7io8OfCT007I1$66Eh2WK1lfhc/aR9FVA.YpI0NiUz60VHD8LAr2j7LCD";
-    };
+  hosts.borg = {
+    enable = true;
+    repository = "ssh://llh048o5@llh048o5.repo.borgbase.com/./repo";
   };
 
   nix.settings.trusted-users = [ "martijn" ]; # allows remote push
   hosts.server.enable = true;
+  hosts.adguard.enable = true;
+  hosts.caddy.enable = true;
+  hosts.ntopng.enable = true;
+  hosts.wireguard.enable = true;
 
   hosts.openssh = {
     enable = true;

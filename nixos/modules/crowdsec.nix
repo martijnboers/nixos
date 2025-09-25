@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 with lib;
@@ -14,6 +13,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    # todo
+    # https://github.com/NixOS/nixpkgs/commits/master/nixos/modules/services/security/crowdsec.nix
   };
 }

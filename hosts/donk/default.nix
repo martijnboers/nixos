@@ -35,10 +35,12 @@
     };
   };
 
+  age.identityPaths = [ "/home/martijn/.ssh/id_ed25519" ];
+
   hosts.borg = {
     enable = true;
     repository = "ssh://iuyrg38x@iuyrg38x.repo.borgbase.com/./repo";
-    identityPath = "/home/martijn/.ssh/id_ed25519_age";
+    identityPath = "/home/martijn/.ssh/id_ed25519";
     paths = [ "/home/martijn" ];
     exclude = [
       ".cache"
@@ -66,31 +68,6 @@
 
   hosts.tailscale.enable = true;
   hosts.prometheus.enable = true;
-
-  age.secrets.donk-client = {
-    file = ../../secrets/donk-client.age;
-    owner = "root";
-    group = "systemd-network";
-  };
-
-  age = {
-    identityPaths = [ "/home/martijn/.ssh/id_ed25519_age" ];
-  };
-
-  networking.wg-quick.interfaces.wg0 = {
-    autostart = false;
-    address = [ "10.100.0.2/24" ];
-    privateKeyFile = config.age.secrets.donk-client.path;
-    dns = [ "9.9.9.9" ];
-    peers = [
-      {
-        publicKey = "ePwQxnfNxjAdRYFtzvVTEZFBPnynQS/2FZ43R9fuHHQ=";
-        endpoint = "${config.hidden.wan_ips.rekkaken}:51820";
-        allowedIPs = [ "0.0.0.0/0" ];
-        persistentKeepalive = 25;
-      }
-    ];
-  };
 
   programs = {
     # Run unpatched bins

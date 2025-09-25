@@ -22,7 +22,7 @@ in
     fonts.fontconfig.enable = lib.mkDefault false;
 
     # Default auditd rules
-    hosts.auditd.enable = true;
+    hosts.auditd.enable = lib.mkDefault true;
 
     # No wifi
     networking.wireless.enable = lib.mkForce false;

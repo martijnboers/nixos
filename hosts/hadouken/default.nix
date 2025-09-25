@@ -53,11 +53,6 @@ in
   hosts.pingvin.enable = true;
   hosts.paperless.enable = true;
 
-  hosts.adguard = {
-    enable = true;
-    domain = "dns";
-  };
-
   users = {
     groups.multimedia = { };
     users = {
