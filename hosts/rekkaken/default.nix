@@ -24,11 +24,6 @@
     domain = "derp2.boers.email";
   };
 
-  # Shared fail2ban services
-  hosts.crowdsec = {
-    enable = true;
-  };
-
   hosts.authdns = {
     enable = true;
     master = true;

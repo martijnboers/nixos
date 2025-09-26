@@ -7,6 +7,7 @@
   imports = [
     ./modules/interfaces.nix
     ./modules/wireguard.nix
+    ./modules/blocklist.nix
     ./modules/firewall.nix
     ./modules/ntopng.nix
     ./modules/adguard.nix

@@ -13,7 +13,6 @@
     ./modules/secureboot.nix
     ./modules/tailscale.nix
     ./modules/hyprland.nix
-    ./modules/crowdsec.nix
     ./modules/authdns.nix
     ./modules/auditd.nix
     ./modules/server.nix

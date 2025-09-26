@@ -21,18 +21,6 @@
     domain = "derp1.boers.email";
   };
 
-  age.secrets = {
-    # shoyruken-crowdsec = {
-    #   file = ../../secrets/shoryuken-crowdsec.age;
-    #   owner = "root";
-    #   mode = "0400";
-    # };
-  };
-
-  hosts.crowdsec = {
-    enable = true;
-  };
-
   # Enable tailscale network
   hosts.tailscale.enable = true;
 

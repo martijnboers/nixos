@@ -1,4 +1,3 @@
-# /etc/nixos/firewall.nix
 {
   config,
   ...
@@ -21,11 +20,18 @@ in
         firewall = {
           family = "inet";
           content = ''
+            set blocklist_v4 {
+              type ipv4_addr
+              flags interval
+            }
+
             chain input {
               type filter hook input priority filter; policy drop;
 
               # --- BASELINE STATEFUL RULES ---
               ct state established,related accept;
+
+              iifname "peepee" ip saddr @blocklist_v4 drop comment "Drop traffic from WAN matching dynamic IPv4 blocklist";
               iifname "lo" accept;
 
               # --- WIREGUARD VPN SERVER ACCESS ---
@@ -46,6 +52,8 @@ in
 
               # --- BASELINE STATEFUL FORWARDING ---
               ct state established,related accept;
+
+              iifname "peepee" ip saddr @blocklist_v4 drop comment "Drop forwarded traffic from WAN matching dynamic IPv4 blocklist";
               oifname "peepee" tcp flags syn tcp option maxseg size set rt mtu;
 
               # --- INBOUND PORT FORWARDING RULES ---
@@ -85,7 +93,6 @@ in
               type nat hook postrouting priority srcnat; policy accept;
 
               # --- OUTBOUND IPV4 NAT ---
-              # The existing masquerade rule will automatically handle NAT for the WireGuard clients.
               oifname "peepee" masquerade;
             }
           '';
