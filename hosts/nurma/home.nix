@@ -11,6 +11,9 @@
     xca
     stable.veracrypt
 
+    # SDR
+    sdrpp
+
     # yubikey
     yubioath-flutter
     yubico-piv-tool

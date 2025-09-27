@@ -31,7 +31,10 @@
       "sd_mod"
       "sdhci_pci"
     ];
-    kernelModules = [ "kvm-intel" ];
+    kernelModules = [
+      "kvm-intel"
+      "sch_cake"
+    ];
     kernelParams = [ "console=ttyS0,115200n8" ];
     kernel.sysctl = {
       # Enable packet forwarding for both IP protocols.

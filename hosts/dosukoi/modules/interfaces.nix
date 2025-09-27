@@ -1,7 +1,7 @@
 # https://www.sput.nl/internet/freedom/config.html
 # https://s-n.me/building-a-nixos-router-for-a-uk-fttp-isp-the-basics
 # https://www.jjpdev.com/posts/home-router-nixos/
-{ ... }:
+{ pkgs, ... }:
 {
   services.pppd = {
     enable = true;
@@ -43,6 +43,34 @@
         '';
       };
     };
+  };
+
+  systemd.services.qos-cake-wan = {
+    description = "Apply CAKE queue discipline to the peepee (WAN) interface";
+
+    partOf = [ "pppd-peepee.service" ];
+    after = [ "pppd-peepee.service" ];
+    wantedBy = [ "multi-user.target" ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+
+      ExecStart = pkgs.writeShellScript "start-cake" ''
+        #!${pkgs.runtimeShell}
+        set -e 
+
+        ${pkgs.ethtool}/bin/ethtool -K peepee gso off tso off gro off
+
+        ${pkgs.iproute2}/bin/tc qdisc add dev peepee root cake \
+          bandwidth 800Mbit \
+          nat \
+          overhead 12 \
+          rtt 10ms
+      '';
+      ExecStop = "${pkgs.iproute2}/bin/tc qdisc del dev peepee root";
+    };
+    preStart = "${pkgs.iproute2}/bin/tc qdisc del dev peepee root 2>/dev/null || true";
   };
 
   systemd.network = {
@@ -178,7 +206,7 @@
         };
         # dhcpServerStaticLeases = [
         #   {
-        #     MACAddress = "48:21:0B:55:90:F5"; 
+        #     MACAddress = "48:21:0B:55:90:F5";
         #     Address = "10.30.0.2";
         #   }
         # ];
