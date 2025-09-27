@@ -96,7 +96,6 @@ in
 
         # File support
         zathura # pdf
-        vlc
 
         # calendar
         xfce.orage

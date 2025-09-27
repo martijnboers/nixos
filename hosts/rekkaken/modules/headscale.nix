@@ -134,6 +134,7 @@ in
                   dst = [
                     "hadouken:80,443" # everyone access to hadouken web-services
                     "dosukoi:53,80,443" # everyone access to dns
+                    "rekkaken:80,443,8025" # send/receive notifications + internal email
                   ];
                 }
                 {
@@ -141,7 +142,7 @@ in
                   src = [ "shoryuken" ];
                   dst = [
                     "hadouken:5551,5552,5553,5554" # reverse proxy ports
-		    "headscale-server@:80,443" # acme challange
+                    "headscale-server@:80,443" # acme challange
                   ];
                 }
                 {
@@ -149,7 +150,6 @@ in
                   src = [ "headscale-server@" ];
                   dst = [
                     "shoryuken:80,443" # request acme certs
-                    "rekkaken:80,443,8025,2230" # send notifications + internal email
                   ];
                 }
                 {
@@ -168,7 +168,7 @@ in
                     "shoryuken:*"
                     "tatsumaki:*"
                     "rekkaken:*"
-                    "nurma:9100"
+                    "*:9002" # node exporter
                   ];
                 } # hadouken semi-god
                 {

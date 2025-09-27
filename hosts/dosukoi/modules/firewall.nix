@@ -57,8 +57,7 @@ in
               oifname "peepee" tcp flags syn tcp option maxseg size set rt mtu;
 
               # --- INBOUND PORT FORWARDING RULES ---
-              iifname "peepee" oifname "opt1" ip daddr ${hadouken.ipv4} tcp dport { 22000, 32400 } ct state new accept comment "Allow Plex and Syncthing (TCP) to Hadouken over IPv4";
-              iifname "peepee" oifname "opt1" ip daddr ${hadouken.ipv4} udp dport 22000 ct state new accept comment "Allow Syncthing (UDP) to Hadouken over IPv4";
+              # iifname "peepee" oifname "opt1" ip daddr ${hadouken.ipv4} tcp dport { 8333 } ct state new accept comment "Bitcoing node port";
               iifname "peepee" oifname "opt1" ip6 daddr ${hadouken.ipv6} tcp dport { 22000, 32400 } ct state new accept comment "Allow Plex and Syncthing (TCP) to Hadouken over IPv6";
               iifname "peepee" oifname "opt1" ip6 daddr ${hadouken.ipv6} udp dport 22000 ct state new accept comment "Allow Syncthing (UDP) to Hadouken over IPv6";
 
@@ -85,8 +84,7 @@ in
               type nat hook prerouting priority dstnat; policy accept;
 
               # --- IPV4 PORT FORWARDING (DNAT) ---
-              iifname "peepee" tcp dport { 22000, 32400 } dnat to ${hadouken.ipv4};
-              iifname "peepee" udp dport 22000 dnat to ${hadouken.ipv4};
+              # iifname "peepee" tcp dport { 8333 } dnat to ${hadouken.ipv4};
             }
 
             chain postrouting {

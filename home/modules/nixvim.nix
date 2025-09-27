@@ -182,11 +182,11 @@ in
         {
           action = helpers.mkRaw ''
             function ()
-              MiniExtra.pickers.visit_paths()
+              MiniPick.builtin.buffers()
             end
           '';
           key = "<Leader>b";
-          options.desc = "Find visited paths";
+          options.desc = "Find in buffers";
         }
         {
           action = helpers.mkRaw ''

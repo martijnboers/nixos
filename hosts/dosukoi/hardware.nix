@@ -31,8 +31,14 @@
       "sd_mod"
       "sdhci_pci"
     ];
-    kernelModules = [ "kvm-intel" ];
-    kernelParams = [ "console=ttyS0,115200n8" ];
+    kernelModules = [
+      "kvm-intel"
+      "sch_cake"
+    ];
+    kernelParams = [
+      "console=ttyS0,115200n8"
+      "pcie_aspm=off" # fix random interface disconnects?
+    ];
     kernel.sysctl = {
       # Enable packet forwarding for both IP protocols.
       "net.ipv4.conf.all.forwarding" = true;

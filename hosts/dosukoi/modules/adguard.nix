@@ -76,9 +76,6 @@ in
           upstream_dns = [
             "https://dns10.quad9.net/dns-query"
             "https://dns.freedom.nl/dns-query"
-            "https://doh.dns.sb/dns-query"
-            "https://dns.nextdns.io"
-            "https://base.dns.mullvad.net/dns-query"
           ];
           allowed_clients = [
             "100.64.0.0/10"

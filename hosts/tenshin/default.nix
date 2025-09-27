@@ -18,9 +18,6 @@
   hosts.hass.enable = true;
   hosts.auditd.enable = false;
 
-  # SDR
-  hardware.rtl-sdr.enable = true;
-
   hosts.borg = {
     enable = true;
     repository = "ssh://aebp8i08@aebp8i08.repo.borgbase.com/./repo";

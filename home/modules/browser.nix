@@ -55,6 +55,7 @@ in
         "network.cookie.lifetimePolicy" = 0;
         "network.trr.mode" = 2; # fallback to system
         "network.trr.uri" = "https://dns.thuis/dns-query";
+	"signon.rememberSignons" = false; # builtin password manager
 
         # https://bugzilla.mozilla.org/show_bug.cgi?id=1732114
         "privacy.resistFingerprinting" = false;
