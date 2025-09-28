@@ -31,6 +31,7 @@ in
           ];
           modules-center = [
             "clock"
+            "calendar"
             "privacy"
           ];
           modules-right = [
@@ -58,10 +59,10 @@ in
             # https://www.nerdfonts.com/cheat-sheet
             format-icons = {
               "1" = "󰹈";
-              "2" = "󰢹";
-              "3" = "󰭆";
+              "2" = "󰭆";
+              "3" = "󱌚";
               "4" = "";
-              "5" = "󰭹";
+              "5" = "";
               "6" = "󰻈";
             };
           };
@@ -80,8 +81,25 @@ in
           clock = {
             interval = 60;
             format = "{:%a %b %d <b>%H:%M</b>}";
-            exec-on-event = "true";
-            on-click = "orage";
+            tooltip-format = "<big>{calendar}</big>";
+            calendar = {
+              mode = "month";
+              mode-mon-col = 3;
+              weeks-pos = "right";
+              on-scroll = 1;
+              format = {
+		months = "<span color='#ffcb6b'><b>{}</b></span>";
+                weekdays = "<span color='#b2ccd6'><b>{}</b></span>";
+                weeks = "<span color='#585b70'><b>W{}</b></span>";
+                days = "<span color='#eeffff'><b>{}</b></span>";
+                today = "<span color='#f38ba8'><b><u>{}</u></b></span>";
+              };
+            };
+            actions = {
+              on-click-right = "mode";
+              on-scroll-up = "shift_up";
+              on-scroll-down = "shift_down";
+            };
           };
 
           cpu = {
@@ -189,7 +207,7 @@ in
           };
 
           privacy = {
-            iconSize = 10;
+            icon-size = 18;
             modules = [
               {
                 type = "screenshare";

@@ -10,14 +10,14 @@ let
   hadoukenRecords = [
     "archive"
     "atuin"
+    "bincache"
     "cal"
     "detection"
     "immich"
-    "llm"
     "microbin"
     "minio"
+    "minio-admin"
     "monitoring"
-    "ollama"
     "paper"
     "pgadmin"
     "pingvin"
@@ -34,6 +34,7 @@ let
   ];
   tenshinRecords = [
     "hass"
+    "chef"
     "tools"
     "chat"
   ];

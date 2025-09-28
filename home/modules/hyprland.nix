@@ -97,9 +97,6 @@ in
         # File support
         zathura # pdf
 
-        # calendar
-        xfce.orage
-
         # screenshots / clipboard
         satty
         grim
@@ -266,6 +263,10 @@ in
           rounding = 10;
           dim_special = "0.0";
         };
+	ecosystem = {
+	  no_donation_nag = true;
+	  no_update_news = true;
+	};
         misc = {
           disable_hyprland_logo = true;
           animate_manual_resizes = false;

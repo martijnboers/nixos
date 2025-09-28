@@ -46,11 +46,10 @@ in
       # personal
       qflipper
       vlc
-      ollama # for the client
       electrum # btc wallet
 
       # music
-      clementine
+      strawberry
       spotify
 
       # messaging

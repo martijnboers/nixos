@@ -95,6 +95,7 @@
     pciutils # lspci
     usbutils # lsusb
     nfs-utils
+    attic-client # own bincache
 
     # forensics
     uutils-coreutils-noprefix
@@ -129,19 +130,14 @@
 
       substituters = [
         "https://cache.nixos.org?priority=1"
-        "https://nix-community.cachix.org?priority=2"
-        "https://install.determinate.systems"
-        "https://cache.garnix.io"
-        "https://devenv.cachix.org"
-        "https://numtide.cachix.org"
+	"https://bincache.thuis/default"
+	"https://install.determinate.systems"
+        "https://nix-community.cachix.org"
       ];
       trusted-public-keys = [
-        "binarycache.thuis:/alus5dkMvukzWHoAvbQ5qvjxISw+t9Cbo/nk129zSQ="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
-        "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
-        "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
         "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
+	"default:QiddKxFxKitj0NauDJDKT944qMq3bJvtHKNVlwsWz8k="
       ];
     };
 
@@ -171,6 +167,7 @@
       "tatsumaki.machine.thuis".publicKeyFile = ../secrets/keys/tatsumaki.pub;
       "shoryuken.machine.thuis".publicKeyFile = ../secrets/keys/shoryuken.pub;
       "rekkaken.machine.thuis".publicKeyFile = ../secrets/keys/rekkaken.pub;
+      "dosukoi.machine.thuis".publicKeyFile = ../secrets/keys/dosukoi.pub;
     }
     // (lib.attrsets.mergeAttrsList (
       map mkBorgRepo [
@@ -180,6 +177,8 @@
         "nads486h"
         "aebp8i08"
         "c4j3xt27"
+	"llh048o5"
+	"iuyrg38x"
       ]
     ));
   programs.zsh.enable = true;

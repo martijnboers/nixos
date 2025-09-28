@@ -6,18 +6,18 @@
 }:
 with lib;
 let
-  cfg = config.hosts.cyberchef;
+  cfg = config.hosts.it-tools;
 in
 {
-  options.hosts.cyberchef = {
+  options.hosts.it-tools = {
     enable = mkEnableOption "Development tools";
   };
 
   config = mkIf cfg.enable {
-    services.caddy.virtualHosts."chef.thuis".extraConfig = ''
+    services.caddy.virtualHosts."tools.thuis".extraConfig = ''
       import headscale
       handle @internal {
-        root * ${pkgs.cyberchef}/share/cyberchef/
+        root * ${pkgs.it-tools}/lib/
         encode zstd gzip
         file_server
       }

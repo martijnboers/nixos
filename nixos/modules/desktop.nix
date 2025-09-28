@@ -28,8 +28,14 @@ in
             device = "hadouken.machine.thuis:/${name}";
             fsType = "nfs";
             options = [
-              "rsize=1048576" # bigger read+write sizes
-              "wsize=1048576" # good for bigger files
+              # "rsize=1048576" # bigger read+write sizes
+              # "wsize=1048576" # good for bigger files
+              "rsize=32768" # Use smaller read/write sizes
+              "wsize=32768" # Better performance over high-latency networks.
+              "noatime" # Don't update file access times on read
+              "tcp"
+              "soft" # timeout instead of freezing
+              "intr"
               "x-systemd.automount" # lazyloading, solves tailscale chicken&egg
               "_netdev" # this makes the .mount unit require network-online.target
             ];
