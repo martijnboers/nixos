@@ -22,7 +22,7 @@ stdenv.mkDerivation {
   src = fetchFromGitHub {
     owner = "jjsullivan5196";
     repo = "wvkbd";
-    rev = "master"; 
+    rev = "master";
     hash = "sha256-RfZbPAaf8UB4scUZ9XSL12QZ4UkYMzXqfmNt9ObOgQ0=";
   };
 

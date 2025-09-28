@@ -1,8 +1,8 @@
 /*
-This fetches the glitch-soc source from GitHub and patches it.
+  This fetches the glitch-soc source from GitHub and patches it.
 
-This needs to be a separately buildable package so that update.sh can build it during upgrading,
-because it needs it for generating `gemset.nix` from the Gemfile in the source.
+  This needs to be a separately buildable package so that update.sh can build it during upgrading,
+  because it needs it for generating `gemset.nix` from the Gemfile in the source.
 */
 
 {
@@ -13,7 +13,8 @@ because it needs it for generating `gemset.nix` from the Gemfile in the source.
 
 let
   versionData = import ./version_data.nix;
-in applyPatches {
+in
+applyPatches {
   src = fetchFromGitHub {
     owner = "glitch-soc";
     repo = "mastodon";

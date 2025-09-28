@@ -45,7 +45,11 @@ in
         sizes.popups = 14; # for fuzzel
       };
       targets = {
-        librewolf.enable = false;
+        librewolf = {
+          enable = true;
+          colorTheme.enable = true;
+          profileNames = [ "default" ];
+        };
         nixvim.enable = false;
         hyprlock.enable = false;
       };

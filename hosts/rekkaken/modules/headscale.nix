@@ -34,7 +34,6 @@ let
   ];
   tenshinRecords = [
     "hass"
-    "search"
     "tools"
     "chat"
   ];

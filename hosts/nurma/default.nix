@@ -80,7 +80,7 @@
     rules = [
       "-w /home/martijn/.ssh -p rwa -k ssh_file_access"
       "-w /home/martijn/Nix -p wa -k nix_config_changes"
-      "-w /dev/video0 -p war" 
+      "-w /dev/video0 -p war"
     ];
   };
 

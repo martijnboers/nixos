@@ -12,7 +12,7 @@ in
     enable = mkEnableOption "Enable auditd";
     rules = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       description = "Auditd rules";
     };
   };

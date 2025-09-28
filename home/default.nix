@@ -71,10 +71,7 @@
     enable = true;
     userName = "Martijn Boers";
     userEmail = "martijn@boers.email";
-    signing = {
-      key = "328144ACADA0A336";
-      signByDefault = true;
-    };
+    signing.key = "328144ACADA0A336";
     extraConfig = {
       pull.rebase = "true";
       init.defaultBranch = "main";

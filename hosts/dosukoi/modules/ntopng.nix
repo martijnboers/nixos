@@ -29,9 +29,9 @@ in
         enable = true;
         settings = {
           EditionIDs = [
-	    "GeoLite2-Country"
+            "GeoLite2-Country"
             "GeoLite2-City"
-	    "GeoLite2-ASN"
+            "GeoLite2-ASN"
           ];
           AccountID = 1232114;
           LicenseKey = config.age.secrets.geoip.path;

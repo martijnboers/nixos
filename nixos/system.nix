@@ -195,7 +195,8 @@
       "149.112.112.112"
       "2620:fe::9"
     ];
-    resolvconf = { # so dns servers don't use their own service
+    resolvconf = {
+      # so dns servers don't use their own service
       useLocalResolver = lib.mkForce false;
     };
   };
