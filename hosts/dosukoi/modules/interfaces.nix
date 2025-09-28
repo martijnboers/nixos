@@ -206,12 +206,6 @@
         dhcpPrefixDelegationConfig = {
           SubnetId = "0xb00f";
         };
-        # dhcpServerStaticLeases = [
-        #   {
-        #     MACAddress = "48:21:0B:55:90:F5";
-        #     Address = "10.30.0.2";
-        #   }
-        # ];
       };
     };
   };

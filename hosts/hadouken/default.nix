@@ -21,6 +21,7 @@ in
     ./modules/microbin.nix
     ./modules/calendar.nix
     ./modules/database.nix
+    ./modules/bincache.nix
     ./modules/storage.nix
     ./modules/pingvin.nix
     ./modules/archive.nix
@@ -30,7 +31,6 @@ in
     ./modules/caddy.nix
     ./modules/atuin.nix
     ./modules/plex.nix
-    ./modules/llm.nix
   ];
 
   hosts.shares.enable = true;
@@ -41,7 +41,6 @@ in
   hosts.monitoring.enable = true;
   hosts.matrix.enable = true;
   hosts.mastodon.enable = true;
-  hosts.llm.enable = true;
   hosts.microbin.enable = true;
   hosts.archive.enable = true;
   hosts.changedetection.enable = true;
@@ -52,6 +51,7 @@ in
   hosts.atuin.enable = true;
   hosts.pingvin.enable = true;
   hosts.paperless.enable = true;
+  hosts.bincache.enable = true;
 
   users = {
     groups.multimedia = { };

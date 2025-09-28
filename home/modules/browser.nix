@@ -74,14 +74,17 @@ in
                 pinned = true;
               }
               {
-                id = "7esoorv3@alefvanoon.anonaddy.me";
-                name = "libredirect";
+                id = "{c6e8bd66-ebb4-4b63-bd29-5ef59c795903}";
+                name = "shiori_ext";
                 pinned = true;
               }
+	      {
+		id = "7esoorv3@alefvanoon.anonaddy.me";
+		name = "libredirect";
+	      }
               {
                 id = "@testpilot-containers";
                 name = "multi-account-containers";
-                pinned = true;
               }
               {
                 id = "transmitter@unrelenting.technology";
@@ -139,7 +142,7 @@ in
             "full-screen-api.transition-duration.enter" = "0 0";
             "full-screen-api.transition-duration.leave" = "0 0";
             "accessibility.force_disabled" = true;
-            "browser.uidensity" = 0; # chonky
+            "browser.uidensity" = 1; # compact
             "browser.backspace_action" = 0; # enable backspace back history
             "sidebar.verticalTabs" = true; # we zen browser now
             "sidebar.visibility" = "expand-on-hover";
@@ -189,6 +192,10 @@ in
                   {
                     id = "cs";
                     url = "https://github.com/search?type=code&q={searchTerms}";
+                  }
+                  {
+                    id = "gh";
+                    url = "https://github.com/search?q={searchTerms}";
                   }
                   {
                     id = "k";

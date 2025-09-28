@@ -1,10 +1,10 @@
 ## Description
-NixOS is a Linux distribution with a unique package management system, Nix, offering precise control and reproducible configurations. 
+NixOS is a Linux distribution with a unique package management system, Nix, offering precise control and reproducible configurations.
 It follows a declarative and functional programming approach, ensuring system reliability and easy rollback.
 
-You could directly use this but it's better to extract the pieces 
+You could directly use this but it's better to extract the pieces
 you want in your own config. Checkout [nix-starter-config](https://github.com/Misterio77/nix-starter-configs)
-for a good initial starting point for NixOS with flakes. 
+for a good initial starting point for NixOS with flakes.
 
 ### Services
 
@@ -12,19 +12,23 @@ for a good initial starting point for NixOS with flakes.
 | Service | Description | Configuration |
 | --- | --- | --- |
 | AdGuard Home | Network-wide ad and tracker blocking DNS sinkhole. | [adguard.nix](hosts/dosukoi/modules/adguard.nix) |
+| Blocklist | Manages a network-wide blocklist. | [blocklist.nix](hosts/dosukoi/modules/blocklist.nix) |
 | Firewall | Manages network traffic rules using nftables. | [firewall.nix](hosts/dosukoi/modules/firewall.nix) |
 | Interfaces | Configures network interfaces and PPPoE. | [interfaces.nix](hosts/dosukoi/modules/interfaces.nix) |
+| ntopng | Network traffic monitoring tool. | [ntopng.nix](hosts/dosukoi/modules/ntopng.nix) |
+| OpenBao | Secrets management. | [openbao.nix](hosts/dosukoi/modules/openbao.nix) |
+| WireGuard | VPN tunnel. | [wireguard.nix](hosts/dosukoi/modules/wireguard.nix) |
 
 #### Main file server
 | Service | Description | Configuration |
 | --- | --- | --- |
 | Shiori | Bookmark manager. | [archive.nix](hosts/hadouken/modules/archive.nix) |
 | Atuin | Shell history synchronization. | [atuin.nix](hosts/hadouken/modules/atuin.nix) |
+| Bincache | Caching for binary files. | [bincache.nix](hosts/hadouken/modules/bincache.nix) |
 | Radicale | CalDAV and CardDAV server. | [calendar.nix](hosts/hadouken/modules/calendar.nix) |
 | PostgreSQL, MinIO, pgAdmin | Database services and management. | [database.nix](hosts/hadouken/modules/database.nix) |
 | Changedetection.io | Website change detection and notification service. | [detection.nix](hosts/hadouken/modules/detection.nix) |
 | Immich | Self-hosted photo and video backup solution. | [immich.nix](hosts/hadouken/modules/immich.nix) |
-| Ollama & Open WebUI | Local AI model hosting and web interface. | [llm.nix](hosts/hadouken/modules/llm.nix) |
 | Mastodon (glitch-soc) & Fedifetcher | Federated social media server. | [mastodon.nix](hosts/hadouken/modules/mastodon.nix) |
 | Matrix Synapse | Secure, decentralized communication server. | [matrix.nix](hosts/hadouken/modules/matrix.nix) |
 | Microbin | Self-hosted pastebin. | [microbin.nix](hosts/hadouken/modules/microbin.nix) |
@@ -51,6 +55,18 @@ for a good initial starting point for NixOS with flakes.
 | Caddy | Reverse proxy and static file server. | [caddy.nix](hosts/shoryuken/modules/caddy.nix) |
 | Endlessh | SSH tarpit. | [endlessh.nix](hosts/shoryuken/modules/endlessh.nix) |
 | Pocket-ID | OIDC provider. | [oidc.nix](hosts/shoryuken/modules/oidc.nix) |
+
+#### Bitcoin Node
+| Service | Description | Configuration |
+| --- | --- | --- |
+| Bitcoin | Bitcoin node. | [bitcoin.nix](hosts/tatsumaki/modules/bitcoin.nix) |
+
+#### Home Automation
+| Service | Description | Configuration |
+| --- | --- | --- |
+| Cinny | Matrix client. | [cinny.nix](hosts/tenshin/modules/cinny.nix) |
+| Cyberchef | The Cyber Swiss Army Knife. | [cyberchef.nix](hosts/tenshin/modules/cyberchef.nix) |
+| Home Assistant | Home automation platform. | [hass.nix](hosts/tenshin/modules/hass.nix) |
 
 
 ### Hetzner
@@ -91,15 +107,3 @@ fwupdmgr get-devices
 fwupdmgr get-updates
 fwupdmgr update
 ```
-
-### Documentation
-| project           | link |
-|-------------------| ---- |
-| `quickemu`        | https://github.com/quickemu-project/quickemu/wiki/05-Advanced-quickemu-configuration |
-| `microvm`         | https://astro.github.io/microvm.nix |
-| `nixvim`          | https://nix-community.github.io/nixvim/NeovimOptions/index.html |
-| `agenix`          | https://github.com/ryantm/agenix/tree/main/doc |
-| `home-manager`    | https://home-manager-options.extranix.com/ |
-| `stylix`          | https://danth.github.io/stylix/ |
-| `realtek-re-kmod` | https://www.freshports.org/net/realtek-re-kmod |
-

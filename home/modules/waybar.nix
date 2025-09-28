@@ -57,11 +57,11 @@ in
             format = "{icon}";
             # https://www.nerdfonts.com/cheat-sheet
             format-icons = {
-              "1" = "󰹈";
-              "2" = "󰢹";
-              "3" = "󰭆";
-              "4" = "";
-              "5" = "󰭹";
+	      "1" = "󰹈";
+	      "2" = "󰭆";
+	      "3" = "󱌚";
+	      "4" = "";
+              "5" = "";
               "6" = "󰻈";
             };
           };
@@ -189,7 +189,7 @@ in
           };
 
           privacy = {
-            iconSize = 10;
+            iconSize = 1;
             modules = [
               {
                 type = "screenshare";

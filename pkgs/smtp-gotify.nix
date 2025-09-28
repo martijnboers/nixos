@@ -34,8 +34,6 @@ buildGoModule rec {
     "-w"
   ];
 
-  CGO_ENABLED = 0;
-
   meta = with lib; {
     description = "A small SMTP server that forwards emails to a Gotify server";
     homepage = "https://github.com/jreiml/smtp-gotify";

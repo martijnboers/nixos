@@ -4,6 +4,7 @@
 
   imports = [
     ./modules/cyberchef.nix
+    ./modules/ittools.nix
     ./modules/cinny.nix
     ./modules/caddy.nix
     ./modules/hass.nix
@@ -12,6 +13,7 @@
   hosts.caddy.enable = true;
   hosts.cinny-web.enable = true;
   hosts.cyberchef.enable = true;
+  hosts.it-tools.enable = true;
   hosts.prometheus.enable = true;
   hosts.hass.enable = true;
   hosts.auditd.enable = false;

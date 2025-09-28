@@ -113,6 +113,9 @@ in
           };
           "storage.boers.email" = {
             extraConfig = ''
+              @admin_api path /minio/admin/*
+              error @admin_api 403
+
               reverse_proxy hadouken.machine.thuis:5554 
               header Access-Control-Allow-Origin *
             '';

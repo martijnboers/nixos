@@ -15,18 +15,25 @@ in
   config = mkIf cfg.enable {
     services.caddy.virtualHosts = {
       "pgadmin.thuis".extraConfig = ''
-        	import headscale
-                handle @internal {
-                  reverse_proxy http://localhost:${toString config.services.pgadmin.port}
-                }
-                respond 403
+        import headscale
+        handle @internal {
+          reverse_proxy http://localhost:${toString config.services.pgadmin.port}
+        }
+        respond 403
       '';
       "minio.thuis".extraConfig = ''
-        	import headscale
-                handle @internal {
-                  reverse_proxy http://${toString config.services.minio.consoleAddress}
-                }
-                respond 403
+        import headscale
+        handle @internal {
+          reverse_proxy http://${toString config.services.minio.listenAddress}
+        }
+        respond 403
+      '';
+      "minio-admin.thuis".extraConfig = ''
+        import headscale
+        handle @internal {
+          reverse_proxy http://${toString config.services.minio.consoleAddress}
+        }
+        respond 403
       '';
     };
 

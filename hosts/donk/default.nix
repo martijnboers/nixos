@@ -2,7 +2,6 @@
   lib,
   config,
   pkgs,
-  inputs,
   ...
 }:
 {
@@ -11,7 +10,7 @@
   hosts.secureboot.enable = true;
 
   environment.systemPackages = [
-    inputs.iio-hyprland.packages.${pkgs.system}.default
+    pkgs.iio-hyprland
     pkgs.wvkbd-desktop
   ];
 

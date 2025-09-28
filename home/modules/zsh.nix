@@ -1,7 +1,6 @@
 {
   pkgs,
   config,
-  inputs,
   lib,
   ...
 }:
@@ -15,7 +14,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = [ inputs.nh.packages.${pkgs.system}.default ];
+    home.packages = [ pkgs.nh ];
 
     programs.zsh = {
       enable = true;
@@ -52,7 +51,7 @@ in
           ls = "lsd"; # fancy ls
           fmt = "nix fmt ~/Nix/*.nix";
           adel = "read -r s&&atuin search '$s' --delete";
-          notes = "nvim /mnt/notes/";
+          notes = "(cd /mnt/notes && nvim)";
           readme = "cat README* | glow";
           keyboard-compile = "qmk compile -kb peej/lumberjack -km martijn";
           keyboard-flash = "qmk flash -kb peej/lumberjack -km martijn";
@@ -74,7 +73,6 @@ in
           "c\?" = "mods -f -m cli-fast --role cli \"$1\"";
           "f\?" = "mods -f --role forensics \"$1\"";
           "s\?" = "mods -f --role sys \"$1\"";
-          "h\?" = "OLLAMA_HOST=https://ollama.thuis ollama run wizardlm2";
         };
       dotDir = "/home/martijn/.config/zsh";
       initContent = ''

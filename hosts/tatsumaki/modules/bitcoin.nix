@@ -22,7 +22,7 @@
   services.fulcrum = {
     enable = false;
     address = "0.0.0.0";
-    dataDir = "/mnt/fulcrum";
+    dataDir = "/mnt/crypto/fulcrum";
   };
 
   services.mempool = {
@@ -32,8 +32,8 @@
   };
 
   services.bitcoind = {
-    enable = false;
-    dataDir = "/mnt/bitcoin";
+    enable = true;
+    dataDir = "/mnt/crypto/bitcoin";
     address = "0.0.0.0";
     txindex = true; # for fulcurm+electrs
     tor.enforce = false;
@@ -44,10 +44,6 @@
       debug=reindex
       maxmempool=100
     '';
-  };
-  systemd.services.bitcoind.serviceConfig = {
-    TimeoutStartSec = lib.mkForce "99days";
-    TimeoutStopSec = lib.mkForce "99days";
   };
 
   networking.firewall.allowedTCPPorts = [ config.services.bitcoind.port ];
