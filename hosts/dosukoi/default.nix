@@ -9,8 +9,9 @@
     ./modules/wireguard.nix
     ./modules/blocklist.nix
     ./modules/firewall.nix
-    ./modules/ntopng.nix
+    ./modules/openbao.nix
     ./modules/adguard.nix
+    ./modules/ntopng.nix
     ./modules/caddy.nix
   ];
 
@@ -25,6 +26,7 @@
   hosts.caddy.enable = true;
   hosts.ntopng.enable = true;
   hosts.wireguard.enable = true;
+  hosts.openbao.enable = true;
 
   hosts.openssh = {
     enable = true;

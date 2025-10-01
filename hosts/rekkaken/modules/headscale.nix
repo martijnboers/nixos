@@ -43,6 +43,7 @@ let
   dosukoiRecords = [
     "dns"
     "leases"
+    "openbao"
   ];
 in
 {

@@ -49,7 +49,6 @@ in
           "wg0"
         ];
       };
-      # borgbackup.jobs.default.paths = [ "/var/lib/" ];
     };
   };
 }
