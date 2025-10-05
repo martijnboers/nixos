@@ -263,10 +263,10 @@ in
           rounding = 10;
           dim_special = "0.0";
         };
-	ecosystem = {
-	  no_donation_nag = true;
-	  no_update_news = true;
-	};
+        ecosystem = {
+          no_donation_nag = true;
+          no_update_news = true;
+        };
         misc = {
           disable_hyprland_logo = true;
           animate_manual_resizes = false;
@@ -280,12 +280,13 @@ in
 
         windowrulev2 = keepaspectratio,class:^(librewolf)$,title:^(Picture-in-Picture)$
         windowrulev2 = noborder,class:^(librewolf)$,title:^(Picture-in-Picture)$
-        windowrulev2 = fullscreenstate,class:^(librewolf)$,title:^(Firefox)$
+        windowrulev2 = fullscreenstate,class:^(librewolf)$,title:^(Librewolf)$
         windowrulev2 = fullscreenstate,class:^(librewolf)$,title:^(Picture-in-Picture)$
-        windowrulev2 = pin,class:^(librewolf)$,title:^(Firefox)$
+        windowrulev2 = pin,class:^(librewolf)$,title:^(Librewolf)$
         windowrulev2 = pin,class:^(librewolf)$,title:^(Picture-in-Picture)$
-        windowrulev2 = float,class:^(librewolf)$,title:^(Firefox)$
+        windowrulev2 = float,class:^(librewolf)$,title:^(Librewolf)$
         windowrulev2 = float,class:^(librewolf)$,title:^(Picture-in-Picture)$
+        windowrulev2 = float, class:Waydroid
 
         animations {
           # https://cubic-bezier.com/

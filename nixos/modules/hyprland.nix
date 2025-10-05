@@ -31,11 +31,6 @@ in
         xdg-utils
       ];
 
-    nix.settings = {
-      substituters = [ "https://hyprland.cachix.org" ];
-      trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
-    };
-
     programs.thunar = {
       enable = true;
       plugins = with pkgs.xfce; [
@@ -63,27 +58,11 @@ in
       };
     };
 
-    # Keyring settings
-    programs.seahorse.enable = true; # frontend for keyring
     security = {
       polkit.enable = true; # protocol for unpriv proces to speak to priv proc
-      pam.services = {
-        greetd.enableGnomeKeyring = true;
-        greetd-password.enableGnomeKeyring = true;
-        login.enableGnomeKeyring = true;
-      };
     };
-    services.dbus.packages = [
-      pkgs.gnome-keyring
-      pkgs.gcr
-    ];
 
     environment.sessionVariables = {
-      NIXOS_OZONE_WL = "1"; # hint electron apps to use wayland
-      MOZ_ENABLE_WAYLAND = "1"; # ensure enable wayland for Firefox
-      WLR_RENDERER_ALLOW_SOFTWARE = "1"; # enable software rendering for wlroots
-      WLR_NO_HARDWARE_CURSORS = "1"; # disable hardware cursors for wlroots
-      DEFAULT_BROWSER = "librewolf";
       QT_QPA_PLATFORMTHEME = "qt5ct";
     };
   };

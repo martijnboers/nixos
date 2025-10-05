@@ -17,6 +17,7 @@ in
     environment.sessionVariables = {
       TERM = "xterm-kitty";
       BROWSER = "librewolf";
+      DEFAULT_BROWSER = "librewolf";
     };
 
     boot.supportedFilesystems = [ "nfs" ];
@@ -50,19 +51,22 @@ in
         ]
       );
 
-    # Enable networkingmanager
-    networking.networkmanager.enable = true;
-
-    # Enable opengpl
     hardware = {
       graphics = {
         enable = true;
         enable32Bit = true;
       };
+      bluetooth = {
+        enable = true;
+        powerOnBoot = true;
+      };
+      keyboard.qmk.enable = true; # Access QMK without sudo
     };
 
+    networking.networkmanager.enable = true;
     programs.dconf.enable = true; # used for stylix
 
+    # Wireshark
     users.users.martijn.extraGroups = [ "wireshark" ];
     programs.wireshark = {
       enable = true;
@@ -77,9 +81,6 @@ in
       pcscd.enable = true;
       udev.packages = [ pkgs.yubikey-personalization ];
     };
-
-    # Access QMK without sudo
-    hardware.keyboard.qmk.enable = true;
 
     # Enable sound with pipewire.
     security.rtkit.enable = true;

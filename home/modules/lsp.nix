@@ -27,7 +27,8 @@ in
               nix = [ "nixfmt" ];
               python = [ "black" ];
               lua = [ "stylua" ];
-              html = [ "biome" ];
+              html = [ "prettier" ];
+              css = [ "biome" ];
               javascript = [ "biome" ];
               javascriptreact = [ "biome" ];
               typescript = [ "biome" ];
@@ -51,6 +52,7 @@ in
               nixfmt.command = lib.getExe pkgs.nixfmt-rfc-style;
               stylua.command = lib.getExe pkgs.stylua;
               biome.command = lib.getExe pkgs.biome;
+              prettier.command = lib.getExe pkgs.prettier;
               yamlfmt.command = lib.getExe pkgs.yamlfmt;
             };
           };
