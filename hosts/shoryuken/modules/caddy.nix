@@ -76,9 +76,7 @@ in
               encode zstd gzip
               file_server
 
-              @bots {
-                path /wp-login.php /wp-admin/* /xmlrpc.php
-              }
+              @bots path /wp-login.php /wp-admin/* /xmlrpc.php 
               redir @bots http://speed.transip.nl/1tb.bin 302
 
               handle_path /.well-known/openpgpkey/* {

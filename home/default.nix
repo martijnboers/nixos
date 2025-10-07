@@ -12,6 +12,7 @@
   imports = [
     ./modules/nixvim.nix
     ./modules/stylix.nix
+    ./modules/attic.nix
     ./modules/atuin.nix
     ./modules/zsh.nix
     ./modules/mods.nix

@@ -26,7 +26,8 @@ in
             }
 
             chain input {
-              type filter hook input priority filter; policy drop;
+              # -10, before tailscale injections
+              type filter hook input priority filter -10; policy drop;
 
               # --- BASELINE STATEFUL RULES ---
               ct state established,related accept;
@@ -48,7 +49,8 @@ in
             }
 
             chain forward {
-              type filter hook forward priority filter; policy drop;
+              # -10, before tailscale injections
+              type filter hook forward priority filter -10; policy drop;
 
               # --- BASELINE STATEFUL FORWARDING ---
               ct state established,related accept;

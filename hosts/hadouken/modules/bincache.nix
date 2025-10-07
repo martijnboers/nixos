@@ -58,10 +58,5 @@ in
       };
     };
 
-    services.shiori = {
-      enable = true;
-      port = 4354;
-      environmentFile = config.age.secrets.shiori.path;
-    };
   };
 }

@@ -24,9 +24,6 @@ in
     # Default auditd rules
     hosts.auditd.enable = lib.mkDefault true;
 
-    # No wifi
-    networking.wireless.enable = lib.mkForce false;
-
     # freedesktop xdg files
     xdg.autostart.enable = lib.mkDefault false;
     xdg.icons.enable = lib.mkDefault false;

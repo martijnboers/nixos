@@ -17,6 +17,7 @@ in
     maatwerk.browser.enable = true;
     maatwerk.kitty.enable = true;
     maatwerk.stylix.enable = true;
+    maatwerk.attic.enable = true;
 
     home.packages = with pkgs; [
       wl-clipboard # wayland clipboard manager

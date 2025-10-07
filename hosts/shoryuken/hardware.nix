@@ -4,7 +4,6 @@
   ...
 }:
 {
-  # Hardware
   imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
   boot.loader.grub.enable = true;
 
@@ -26,18 +25,22 @@
     }
   ];
 
-  networking = {
-    interfaces.enp1s0 = {
-      ipv6.addresses = [
-        {
-          address = "2a01:4f9:c013:c5fa::1";
-          prefixLength = 64;
-        }
+  systemd.network = {
+    enable = true;
+    networks."10-enp1s0" = {
+      matchConfig.Name = "enp1s0";
+      networkConfig.DHCP = "no";
+      address = [
+        "157.180.79.166/32"
+        "2a01:4f9:c013:c5fa::1/64"
       ];
-    };
-    defaultGateway6 = {
-      address = "fe80::1";
-      interface = "enp1s0";
+      routes = [
+        {
+          Gateway = "172.31.1.1";
+          GatewayOnLink = true;
+        }
+        { Gateway = "fe80::1"; }
+      ];
     };
   };
 

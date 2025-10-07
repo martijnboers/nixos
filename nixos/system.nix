@@ -27,7 +27,6 @@
     password-laptop.file = ../secrets/password-laptop.age;
   };
 
-  # User
   users = {
     mutableUsers = false;
     users.martijn = {
@@ -35,7 +34,6 @@
       isNormalUser = true;
       useDefaultShell = true;
       extraGroups = [
-        "networkmanager"
         "wheel" # sudo
         "plugdev" # mounting
         "dialout" # serial
@@ -48,7 +46,6 @@
     };
   };
 
-  # Global packages (also available to root)
   environment.systemPackages = with pkgs; [
     inputs.agenix.packages.${system}.default
 
@@ -95,7 +92,6 @@
     pciutils # lspci
     usbutils # lsusb
     nfs-utils
-    attic-client # own bincache
 
     # forensics
     uutils-coreutils-noprefix
@@ -146,6 +142,15 @@
       automatic = lib.mkDefault true;
       options = lib.mkDefault "--delete-older-than 7d";
     };
+  };
+
+  nixpkgs = {
+    overlays = [
+      outputs.overlays.additions
+      outputs.overlays.modifications
+      outputs.overlays.alternative-pkgs
+    ];
+    config.allowUnfree = true;
   };
 
   programs.ssh.knownHosts =
@@ -239,45 +244,26 @@
     NIXPKGS_ALLOW_UNFREE = 1;
   };
 
-  # Set time zone.
+  # Timezone + NTS
   time.timeZone = "Europe/Amsterdam";
-
-  # Prefer NTS over NTP
   services.chrony = {
     enable = true;
     enableNTS = true;
     servers = [ "ntp.time.nl" ];
   };
 
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "nl_NL.UTF-8";
-    LC_IDENTIFICATION = "nl_NL.UTF-8";
-    LC_MEASUREMENT = "nl_NL.UTF-8";
-    LC_MONETARY = "nl_NL.UTF-8";
-    LC_NAME = "nl_NL.UTF-8";
-    LC_NUMERIC = "nl_NL.UTF-8";
-    LC_PAPER = "nl_NL.UTF-8";
-    LC_TELEPHONE = "nl_NL.UTF-8";
-    LC_TIME = "nl_NL.UTF-8";
-  };
-
-  nixpkgs = {
-    overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.alternative-pkgs
-    ];
-
-    config = {
-      allowUnfree = true;
-      permittedInsecurePackages = [
-        "electron-32.3.3" # eol
-        "libxml2-2.13.8" # CVE-2025-6021
-        "libsoup-2.74.3" # gnome cves
-      ];
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+    extraLocaleSettings = {
+      LC_ADDRESS = "nl_NL.UTF-8";
+      LC_IDENTIFICATION = "nl_NL.UTF-8";
+      LC_MEASUREMENT = "nl_NL.UTF-8";
+      LC_MONETARY = "nl_NL.UTF-8";
+      LC_NAME = "nl_NL.UTF-8";
+      LC_NUMERIC = "nl_NL.UTF-8";
+      LC_PAPER = "nl_NL.UTF-8";
+      LC_TELEPHONE = "nl_NL.UTF-8";
+      LC_TIME = "nl_NL.UTF-8";
     };
   };
 

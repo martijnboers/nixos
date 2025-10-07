@@ -20,6 +20,32 @@ in
       DEFAULT_BROWSER = "librewolf";
     };
 
+    users.users.martijn.extraGroups = [
+      "wireshark"
+      "networkmanager"
+    ];
+
+    networking = {
+      networkmanager.enable = true;
+      useDHCP = lib.mkDefault true; # desktops don't use networkd
+    };
+
+    # Wireshark
+    programs.wireshark = {
+      enable = true;
+      package = pkgs.wireshark;
+    };
+
+    nixpkgs = {
+      config = {
+        permittedInsecurePackages = [
+          "electron-32.3.3" # eol
+          "libxml2-2.13.8" # CVE-2025-6021
+          "libsoup-2.74.3" # gnome cves
+        ];
+      };
+    };
+
     boot.supportedFilesystems = [ "nfs" ];
 
     fileSystems =
@@ -63,15 +89,7 @@ in
       keyboard.qmk.enable = true; # Access QMK without sudo
     };
 
-    networking.networkmanager.enable = true;
     programs.dconf.enable = true; # used for stylix
-
-    # Wireshark
-    users.users.martijn.extraGroups = [ "wireshark" ];
-    programs.wireshark = {
-      enable = true;
-      package = pkgs.wireshark;
-    };
 
     # Yubikey
     programs.yubikey-touch-detector.enable = true;
