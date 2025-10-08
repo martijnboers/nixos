@@ -67,7 +67,7 @@
 
     # editor
     helix
-    vim
+    neovim
 
     htop
     iotop # io monitoring
@@ -127,12 +127,10 @@
       substituters = [
         "https://cache.nixos.org?priority=1"
         "https://bincache.thuis/default"
-        "https://install.determinate.systems"
         "https://nix-community.cachix.org"
       ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
         "default:QiddKxFxKitj0NauDJDKT944qMq3bJvtHKNVlwsWz8k="
       ];
     };
@@ -191,18 +189,25 @@
 
   networking = {
     firewall.enable = lib.mkDefault true;
+    nameservers = lib.mkForce [ ];
+  };
 
-    # tailscale overwrites this with 100.100.100.100 when connected
-    nameservers = [
-      "8.8.8.8"
-      "2620:fe::fe"
-      "149.112.112.112"
-      "2620:fe::9"
+  services.resolved = {
+    enable = true;
+    dnssec = "allow-downgrade";
+    dnsovertls = "true";
+
+    # When active, Tailscale is the only DNS, rest fallbackDns
+    fallbackDns = [
+      "9.9.9.9#dns.quad9.net"
+      "2620:fe::fe#dns.quad9.net"
+      "149.112.112.112#dns.quad9.net"
+      "2620:fe::9#dns.quad9.net"
+      "193.110.81.0#dns0.eu"
+      "2a0f:fc80::#dns0.eu"
+      "185.253.5.0#dns0.eu"
+      "2a0f:fc81::#dns0.eu"
     ];
-    resolvconf = {
-      # so dns servers don't use their own service
-      useLocalResolver = lib.mkForce false;
-    };
   };
 
   security = {
@@ -241,7 +246,6 @@
     EDITOR = "nvim";
     REQUESTS_CA_BUNDLE = "/etc/ssl/certs/ca-certificates.crt";
     TMOUT = (5 * 60 * 60); # zsh timeout
-    NIXPKGS_ALLOW_UNFREE = 1;
   };
 
   # Timezone + NTS
@@ -249,7 +253,10 @@
   services.chrony = {
     enable = true;
     enableNTS = true;
-    servers = [ "ntp.time.nl" ];
+    servers = [
+      "0.nl.pool.ntp.org"
+      "1.nl.pool.ntp.org"
+    ];
   };
 
   i18n = {

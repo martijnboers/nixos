@@ -62,6 +62,18 @@ in
       };
     };
 
+    services.resolved = {
+      # Resolved should not bind to port 53
+      extraConfig = ''
+        [Resolve]
+        DNSStubListener=no
+      '';
+    };
+    networking = {
+      # Although not using resolvconf, never use local dns server
+      resolvconf.useLocalResolver = lib.mkForce false;
+    };
+
     services.adguardhome = {
       enable = true;
       mutableSettings = false;
@@ -147,6 +159,11 @@ in
             enabled = true;
             url = "https://v.firebog.net/hosts/Easyprivacy.txt";
             name = "firebog.net/";
+          }
+          {
+            enabled = true;
+            url = "https://easylist.to/easylist/easylist.txt";
+            name = "easylist";
           }
           {
             enabled = true;

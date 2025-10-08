@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   networking.hostName = "tenshin";
 
@@ -8,6 +8,7 @@
     ./modules/cinny.nix
     ./modules/caddy.nix
     ./modules/hass.nix
+    ./modules/ntp.nix
   ];
 
   hosts.caddy.enable = true;
@@ -16,7 +17,14 @@
   hosts.it-tools.enable = true;
   hosts.prometheus.enable = true;
   hosts.hass.enable = true;
+  hosts.ntp.enable = true;
+
   hosts.auditd.enable = false;
+
+  environment.systemPackages = [
+    pkgs.raspberrypi-eeprom
+    pkgs.ubootTools
+  ];
 
   hosts.borg = {
     enable = true;

@@ -78,10 +78,6 @@ in
                 name = "shiori_ext";
                 pinned = true;
               }
-	      {
-		id = "7esoorv3@alefvanoon.anonaddy.me";
-		name = "libredirect";
-	      }
               {
                 id = "@testpilot-containers";
                 name = "multi-account-containers";
@@ -200,6 +196,10 @@ in
                   {
                     id = "k";
                     url = "https://kagi.com/search?q={searchTerms}";
+                  }
+                  {
+                    id = "vim";
+                    url = "https://mattsturgeon.github.io/nixvim/search/?query={searchTerms}";
                   }
                 ]
               ));

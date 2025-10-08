@@ -111,12 +111,27 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    networking.firewall.allowedTCPPorts = [ 53 ];
-    networking.firewall.allowedUDPPorts = [ 53 ];
+    networking = {
+      # Although not using resolvconf, never use local dns server
+      resolvconf.useLocalResolver = lib.mkForce false;
+      firewall = {
+        allowedTCPPorts = [ 53 ];
+        allowedUDPPorts = [ 53 ];
+      };
+    };
+
     age.secrets.tsigkey = {
       file = ../../secrets/tsigkey.age;
       owner = "knot";
       group = "knot";
+    };
+
+    services.resolved = {
+      # Resolved should not bind to port 53
+      extraConfig = ''
+        [Resolve]
+        DNSStubListener=no
+      '';
     };
 
     services.knot = {

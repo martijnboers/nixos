@@ -25,6 +25,11 @@ in
       "networkmanager"
     ];
 
+    security.pam.services = {
+      login.u2fAuth = true;
+      sudo.u2fAuth = true;
+    };
+
     networking = {
       networkmanager.enable = true;
       useDHCP = lib.mkDefault true; # desktops don't use networkd
@@ -97,7 +102,7 @@ in
     # for smartcard support
     services = {
       pcscd.enable = true;
-      udev.packages = [ pkgs.yubikey-personalization ];
+      udev.packages = [ pkgs.yubikey-personalization ]; 
     };
 
     # Enable sound with pipewire.

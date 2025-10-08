@@ -47,7 +47,6 @@ in
           dud = "docker compose up -d";
           fixup = "ga . && gc --amend --no-edit";
           xev = "wev"; # wayland xev
-          vim = "nvim";
           ls = "lsd"; # fancy ls
           fmt = "nix fmt ~/Nix/*.nix";
           adel = "read -r s&&atuin search '$s' --delete";
