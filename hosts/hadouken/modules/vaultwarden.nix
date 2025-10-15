@@ -16,6 +16,8 @@ in
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."vaultwarden.thuis".extraConfig = ''
       import headscale
+      import mtls
+
       handle @internal {
         reverse_proxy http://localhost:${toString config.services.vaultwarden.config.rocketPort}
       }
@@ -32,6 +34,7 @@ in
         invitationsAllowed = false;
         rocketPort = 3011;
         websocketEnabled = false;
+	experimentalClientFeatureFlags = "mutual-tls";
       };
     };
   };

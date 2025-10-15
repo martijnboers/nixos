@@ -19,36 +19,40 @@ in
     maatwerk.stylix.enable = true;
     maatwerk.attic.enable = true;
 
-    home.packages = with pkgs; [
-      wl-clipboard # wayland clipboard manager
-      kooha # record screen wayland
-      wev # wayland xev
-      cheese # webcam
-      electrum # btc wallet
+    home.packages =
+      with pkgs;
+      with pkgs.kdePackages;
+      [
+        wl-clipboard # wayland clipboard manager
+        kooha # record screen wayland
+        wev # wayland xev
+        cheese # webcam
+        electrum # btc wallet
+        errands # todo manager
 
-      # file support
-      zathura # pdf
-      imv # image
-      vlc # video
-      kdePackages.kate # kwrite
+        # file support
+        zathura # pdf
+        imv # image
+        vlc # video
+        kate # kwrite
 
-      # work
-      citrix_workspace
-      nmap
-      xca
+        # work
+        citrix_workspace
+        nmap
+        xca
 
-      # programming
-      sublime-merge
-      devenv
+        # programming
+        sublime-merge
+        devenv
 
-      # music
-      strawberry
-      spotify
+        # music
+        strawberry
+        spotify
 
-      # messaging
-      signal-desktop
-      cinny-desktop # matrix client
-    ];
+        # messaging
+        signal-desktop
+        cinny-desktop # matrix client
+      ];
 
     programs.gpg = {
       enable = true;

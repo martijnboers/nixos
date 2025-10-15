@@ -16,6 +16,8 @@ in
     services.caddy.virtualHosts = {
       "pgadmin.thuis".extraConfig = ''
         import headscale
+        import mtls
+
         handle @internal {
           reverse_proxy http://localhost:${toString config.services.pgadmin.port}
         }
@@ -30,6 +32,8 @@ in
       '';
       "minio-admin.thuis".extraConfig = ''
         import headscale
+        import mtls
+
         handle @internal {
           reverse_proxy http://${toString config.services.minio.consoleAddress}
         }

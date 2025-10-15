@@ -16,6 +16,8 @@ in
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."notifications.thuis".extraConfig = ''
       import headscale
+      import mtls
+
       handle @internal {
         reverse_proxy http://localhost:${toString config.services.gotify.environment.GOTIFY_SERVER_PORT}
       }

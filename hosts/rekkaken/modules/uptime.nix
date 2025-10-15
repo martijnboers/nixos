@@ -15,6 +15,8 @@ in
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."uptime.thuis".extraConfig = ''
       import headscale
+      import mtls
+
       handle @internal {
         reverse_proxy http://${config.services.uptime-kuma.settings.UPTIME_KUMA_HOST}:${config.services.uptime-kuma.settings.UPTIME_KUMA_PORT}
       }

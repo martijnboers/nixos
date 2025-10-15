@@ -16,6 +16,8 @@ in
     services.caddy.virtualHosts = {
       "paper.thuis".extraConfig = ''
         import headscale
+        import mtls
+
         handle @internal {
            reverse_proxy http://127.0.0.1:${toString config.services.paperless.port}
         }

@@ -112,8 +112,6 @@ in
 
   config = lib.mkIf cfg.enable {
     networking = {
-      # Although not using resolvconf, never use local dns server
-      resolvconf.useLocalResolver = lib.mkForce false;
       firewall = {
         allowedTCPPorts = [ 53 ];
         allowedUDPPorts = [ 53 ];

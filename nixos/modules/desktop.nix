@@ -33,7 +33,6 @@ in
 
     networking = {
       networkmanager.enable = true;
-      useDHCP = lib.mkDefault true; # desktops don't use networkd
     };
 
     programs.wireshark = {

@@ -75,7 +75,6 @@
     # archives
     lz4 # compression
     zip
-    rar
     unzip
     gnutar
 
@@ -196,7 +195,7 @@
   services.resolved = {
     enable = true;
     dnssec = "allow-downgrade";
-    dnsovertls = "opportunistic";
+    dnsovertls = "true";
 
     # When active, Tailscale is the only DNS, rest fallbackDns
     fallbackDns = [

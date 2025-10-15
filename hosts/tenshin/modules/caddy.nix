@@ -29,6 +29,16 @@ in
             ca https://acme.thuis/acme/plebs4gold/directory
           }
         }
+        (mtls) {
+          tls {
+            client_auth {
+              mode require_and_verify
+              trust_pool file {
+        	pem_file ${../../../secrets/keys/plebs4gold.crt}
+              }
+            }
+          }
+        }
       '';
     };
   };

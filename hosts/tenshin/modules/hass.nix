@@ -1,5 +1,6 @@
 {
   config,
+  pkgs,
   lib,
   ...
 }:
@@ -15,6 +16,8 @@ in
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."hass.thuis".extraConfig = ''
       import headscale
+      import mtls
+
       handle @internal {
         reverse_proxy http://127.0.0.1:${toString config.services.home-assistant.config.http.server_port}
       }
@@ -26,6 +29,8 @@ in
       extraPackages =
         python3Packages: with python3Packages; [
           ibeacon-ble # don't use the bluetooth stuff...
+	  hassil
+	  apprise
           numpy
           pyturbojpeg
           gtts
@@ -34,6 +39,7 @@ in
       extraComponents = [
         "shelly"
         "apprise"
+	"isal"
       ];
       config = {
         http = {
@@ -80,8 +86,8 @@ in
           name = "Thuis";
           unit_system = "metric";
           temperature_unit = "C";
-	  longtitude = 52.081202;
-	  latitude = 4.306941;
+          longitude = 52.081202;
+          latitude = 4.306941;
         };
       };
     };
