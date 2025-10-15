@@ -33,16 +33,9 @@
     ./modules/kitty.nix
   ];
 
-  # Global user level packages
+  # User level packages
   home.packages = with pkgs; [
-    zsh-powerlevel10k
-    zoxide
-    fzf # A command-line fuzzy finder
-    direnv # used for .envrc files
-    yazi # cli file explorer
-    lsd # fancy ls
     gemini-cli # proompting
-    gnupg
     tldr # man summarized
   ];
 
@@ -56,10 +49,42 @@
     };
   };
 
-  # Let nix-index handle command-not-found
-  programs.nix-index = {
+  # Default mimetype associations
+  xdg.enable = true;
+  xdg.mime.enable = true;
+  xdg.mimeApps = {
     enable = true;
+    associations.removed = {
+      "application/zip" = "org.pwmt.zathura-cb.desktop";
+    };
+    defaultApplications =
+      let
+        mkMimeAssoc = mimeTypes: desktopFile: lib.attrsets.genAttrs mimeTypes (mimeType: desktopFile);
+        imageMimeTypes = [
+          "image/jpeg"
+          "image/png"
+          "image/gif"
+          "image/bmp"
+          "image/tiff"
+          "image/webp"
+          "image/x-icon"
+          "image/heif"
+          "image/heic"
+          "image/avif"
+        ];
+      in
+      {
+        # ls ~/.nix-profile/share/applications
+        "x-scheme-handler/http" = "librewolf.desktop";
+        "x-scheme-handler/https" = "librewolf.desktop";
+        "text/plain" = "org.kde.kwrite.desktop";
+        "application/pdf" = "org.pwmt.zathura.desktop";
+      }
+      // mkMimeAssoc imageMimeTypes "imv.desktop";
   };
+
+  # Let nix-index handle command-not-found
+  programs.nix-index.enable = true; 
 
   # Run programs with , cowsay
   programs.nix-index-database.comma.enable = true;

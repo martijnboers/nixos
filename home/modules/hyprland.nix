@@ -91,11 +91,6 @@ in
         pavucontrol # audio
         playerctl
         wlogout
-        imv # image viewer
-        kate # kwrite
-
-        # File support
-        zathura # pdf
 
         # screenshots / clipboard
         satty
@@ -120,6 +115,7 @@ in
           "cinny &"
           "blueman-applet &"
           "nm-applet --indicator &"
+	  "systemctl --user start hyprpolkitagent &"
         ];
         "$terminal" = "kitty";
         "$fileManager" = "thunar";

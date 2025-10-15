@@ -7,7 +7,6 @@
 with lib;
 let
   cfg = config.hosts.notifications;
-  mail-user = "smtp-gotify";
 in
 {
   options.hosts.notifications = {
@@ -24,17 +23,7 @@ in
     '';
 
     services.borgbackup.jobs.default.paths = [ config.services.gotify.stateDirectoryName ];
-
-    age.secrets.mailrise = {
-      file = ../../../secrets/mailrise.age;
-      owner = mail-user;
-    };
-
-    users.users.${mail-user} = {
-      isSystemUser = true;
-      group = mail-user;
-    };
-    users.groups.${mail-user} = { };
+    age.secrets.mailrise.file = ../../../secrets/mailrise.age;
 
     systemd.services.smtp-gotify = {
       description = "SMTP to Gotify Bridge";
@@ -43,19 +32,30 @@ in
 
       serviceConfig = {
         ExecStart = "${pkgs.smtp-gotify}/bin/smtp-gotify";
-        User = mail-user;
-        Group = mail-user;
-
-        # Set environment variables from the module's options
+        DynamicUser = true;
         Environment = [
           "SG_SMTP_LISTEN=0.0.0.0:8025"
           "GOTIFY_URL=https://notifications.thuis"
         ];
         EnvironmentFile = config.age.secrets.mailrise.path;
-
         Restart = "on-failure";
         RestartSec = "5s";
+
+        LockPersonality = true;
+        MemoryDenyWriteExecute = true;
         NoNewPrivileges = true;
+        PrivateDevices = true;
+        PrivateUsers = true;
+        ProtectClock = true;
+        ProtectControlGroups = true;
+        ProtectHome = true;
+        ProtectHostname = true;
+        ProtectKernelLogs = true;
+        ProtectKernelModules = true;
+        ProtectKernelTunables = true;
+        RestrictRealtime = true;
+        RestrictSUIDSGID = true;
+        SystemCallArchitectures = "native";
       };
     };
 

@@ -25,15 +25,12 @@ in
       respond 403
     '';
 
-    age.secrets = {
-      adguard.file = ../../../secrets/adguard.age;
-    };
+    age.secrets.adguard.file = ../../../secrets/adguard.age;
 
     systemd.services = {
       "adguard-exporter" = {
         enable = true;
         description = "AdGuard metric exporter for Prometheus";
-        documentation = [ "https://github.com/totoroot/adguard-exporter/blob/master/README.md" ];
         wantedBy = [ "multi-user.target" ];
         serviceConfig = {
           ExecStart = ''
@@ -43,23 +40,39 @@ in
           '';
           Restart = "on-failure";
           RestartSec = 5;
-          NoNewPrivileges = true;
+          DynamicUser = true;
           EnvironmentFile = config.age.secrets.adguard.path;
+
+	  ProtectControlGroups = true;
+          LockPersonality = true;
+          MemoryDenyWriteExecute = true;
+          NoNewPrivileges = true;
+          PrivateDevices = true;
+          PrivateUsers = true;
+          ProtectClock = true;
+          ProtectHostname = true;
+          ProtectKernelLogs = true;
+          ProtectKernelModules = true;
+          ProtectKernelTunables = true;
+          ProtectSystem = "strict";
+          RestrictRealtime = true;
+          RestrictSUIDSGID = true;
+          SystemCallArchitectures = "native";
+
         };
       };
       adguardhome = {
         after = [ "tailscaled.service" ];
         requires = [ "tailscaled.service" ];
-
-        serviceConfig = {
-          # CPU shares: higher value means more weight compared to other services.
-          CPUWeight = 800;
-          # Memory limit: Allows using up to 75% of total system memory, preventing overuse by others.
-          MemoryHigh = "65%";
-          # Memory soft limit: Preferential access to a guaranteed amount of memory.
-          MemoryMin = "512M";
-        };
       };
+    };
+
+    services.resolved = {
+      # Resolved should not bind to port 53
+      extraConfig = ''
+        [Resolve]
+        DNSStubListener=no
+      '';
     };
 
     services.adguardhome = {
@@ -147,6 +160,11 @@ in
             enabled = true;
             url = "https://v.firebog.net/hosts/Easyprivacy.txt";
             name = "firebog.net/";
+          }
+          {
+            enabled = true;
+            url = "https://easylist.to/easylist/easylist.txt";
+            name = "easylist";
           }
           {
             enabled = true;

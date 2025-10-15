@@ -30,6 +30,7 @@ in
 
     programs.nixvim = {
       enable = true;
+      vimAlias = true;
 
       globals = {
         mapleader = " "; # map leader to spacebar

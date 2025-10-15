@@ -80,6 +80,8 @@ in
           name = "Thuis";
           unit_system = "metric";
           temperature_unit = "C";
+	  longtitude = 52.081202;
+	  latitude = 4.306941;
         };
       };
     };

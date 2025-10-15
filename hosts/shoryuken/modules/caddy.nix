@@ -31,7 +31,6 @@ in
     networking.firewall.allowedTCPPorts = [
       80
       443
-      8448 # matrix
     ];
 
     services.caddy = {
@@ -175,11 +174,7 @@ in
     };
     systemd.services.caddy = {
       serviceConfig = {
-        # Required to use ports < 1024
-        AmbientCapabilities = "cap_net_bind_service";
-        CapabilityBoundingSet = "cap_net_bind_service";
         EnvironmentFile = config.age.secrets.caddy.path;
-        TimeoutStartSec = "5m";
       };
     };
 

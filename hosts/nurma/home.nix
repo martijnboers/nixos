@@ -5,13 +5,10 @@
   ];
 
   home.packages = with pkgs; [
-    gqrx
-
-    openssl # for internal pki certs
-    xca
     stable.veracrypt
 
     # SDR
+    gqrx
     sdrpp
 
     # yubikey

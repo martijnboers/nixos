@@ -170,11 +170,15 @@ in
                     "tatsumaki:*"
                     "rekkaken:*"
                     "*:9002" # node exporter
+		    "dosukoi:9617" # adguard exporter
                   ];
                 } # hadouken semi-god
                 {
                   action = "accept";
-                  src = [ "nurma" ];
+                  src = [
+                    "nurma"
+                    "donk"
+                  ];
                   dst = [
                     "tenshin:*"
                     "shoryuken:*"
@@ -184,7 +188,7 @@ in
                     "dosukoi:22,3023"
                     "pikvm:80,443"
                   ];
-                } # nurma full-god
+                } # full-god
               ];
             }
           );

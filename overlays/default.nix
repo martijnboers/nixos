@@ -5,7 +5,14 @@
 
   # prev = unaltered (before overlays)
   # final = after overlay mods, like rec keyword
-  modifications = final: prev: { };
+  modifications = final: prev: {
+    # strawberry = prev.strawberry.overrideAttrs (oldAttrs: {
+    #   # Set the flags to prevent stripping
+    #   dontStrip = true;
+    #   dontPatchELF = true;
+    #   cmakeFlags = (oldAttrs.cmakeFlags or [ ]) ++ [ "-DCMAKE_BUILD_TYPE=Debug" ];
+    # });
+  };
 
   # When applied, the stable nixpkgs set (declared in the flake inputs) will
   # be accessible through 'pkgs.stable'

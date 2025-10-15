@@ -98,29 +98,55 @@ in
     };
 
     age.secrets = {
-      fedifetcher.file = ../../../secrets/fedifetcher.age;
+      fedifetcher = {
+        file = ../../../secrets/fedifetcher.age;
+        owner = "mastodon";
+      };
       mastodon.file = ../../../secrets/mastodon.age;
     };
 
     # Backfill comments automaticly
     systemd.services.fedifetcher = {
       description = "FediFetcher";
-      wants = [
-        "mastodon-web.service"
-        "mastodon-wait-for-available.service"
-      ];
-      after = [
-        "mastodon-web.service"
-        "mastodon-wait-for-available.service"
-      ];
-      startAt = "*-*-* 05..23:*:00/20"; # every 20 minutes between 6 and 23
-
       serviceConfig = {
-        Type = "oneshot";
-        DynamicUser = true;
+        # https://aur.archlinux.org/cgit/aur.git/tree/fedi-fetcher.service?h=fedi-fetcher
+        Type = "simple";
+        User = "mastodon";
+        Group = "mastodon";
+        ExecStart = "${lib.getExe pkgs.fedifetcher} -c ${config.age.secrets.fedifetcher.path} --lock-file /run/fedifetcher/fedi.lock --state-dir /var/lib/fedifetcher --log-format '%(message)s'";
+
+        RuntimeDirectory = "fedifetcher";
         StateDirectory = "fedifetcher";
-        LoadCredential = "config.json:${config.age.secrets.fedifetcher.path}";
-        ExecStart = "${lib.getExe pkgs.fedifetcher} --state-dir=/var/lib/fedifetcher --config=%d/config.json";
+        ConfigurationDirectory = "fedifetcher";
+
+        LockPersonality = true;
+        MemoryDenyWriteExecute = true;
+        NoNewPrivileges = true;
+        PrivateDevices = true;
+        PrivateTmp = true;
+        PrivateUsers = true;
+        ProtectClock = true;
+        ProtectControlGroups = true;
+        ProtectHome = true;
+        ProtectHostname = true;
+        ProtectKernelLogs = true;
+        ProtectKernelModules = true;
+        ProtectKernelTunables = true;
+        ProtectSystem = "strict";
+        RestrictRealtime = true;
+        RestrictSUIDSGID = true;
+        SystemCallArchitectures = "native";
+        SystemCallErrorNumber = "EPERM";
+      };
+    };
+
+    systemd.timers.fedifetcher = {
+      description = "Run fedifetcher";
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnCalendar = "hourly";
+        RandomizedDelaySec = "5min";
+        Persistent = true; 
       };
     };
   };

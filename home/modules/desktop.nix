@@ -23,31 +23,23 @@ in
       wl-clipboard # wayland clipboard manager
       kooha # record screen wayland
       wev # wayland xev
-
       cheese # webcam
-      file-roller # archive manager
+      electrum # btc wallet
 
-      # Office suite
-      hunspell
-      hunspellDicts.nl_NL
-      hunspellDicts.en_US
+      # file support
+      zathura # pdf
+      imv # image
+      vlc # video
+      kdePackages.kate # kwrite
 
       # work
       citrix_workspace
-      exfatprogs
-      parted
-      minicom
       nmap
+      xca
 
       # programming
       sublime-merge
-      httpie-desktop
       devenv
-
-      # personal
-      qflipper
-      vlc
-      electrum # btc wallet
 
       # music
       strawberry
@@ -55,7 +47,6 @@ in
 
       # messaging
       signal-desktop
-      telegram-desktop
       cinny-desktop # matrix client
     ];
 

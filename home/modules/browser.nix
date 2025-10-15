@@ -7,41 +7,58 @@
 with lib;
 let
   cfg = config.maatwerk.browser;
-  mkChromeWrapper = name: url: rec {
-    script = pkgs.writeShellApplication {
-      inherit name;
-      runtimeInputs = [ pkgs.ungoogled-chromium ];
-      text = ''
-        chromium --new-tab "${url}"
-      '';
-    };
-    desktop = pkgs.makeDesktopItem {
-      name = name;
-      exec = getExe script;
-      desktopName = "${name} chrome";
-      startupWMClass = name;
-      terminal = true;
-    };
-  };
-  teams = mkChromeWrapper "teams" "https://teams.microsoft.com";
-  hetzner = mkChromeWrapper "hetzner" "https://console.hetzner.cloud";
-  kvm = mkChromeWrapper "kvm" "https://10.10.0.11/kvm/#";
+  mkChromeWrappers =
+    apps:
+    flatten (
+      map (
+        app:
+        let
+          script = pkgs.writeShellApplication {
+            name = app.name;
+            runtimeInputs = [ pkgs.ungoogled-chromium ];
+            text = ''
+              exec chromium --app="${app.url}" &> /dev/null &
+            '';
+          };
+          desktop = pkgs.makeDesktopItem {
+            name = app.name;
+            exec = getExe script;
+            desktopName = app.name;
+            startupWMClass = app.name;
+            terminal = false;
+          };
+        in
+        [
+          script
+          desktop
+        ]
+      ) apps
+    );
 in
 {
   options.maatwerk.browser = {
     enable = mkEnableOption "Add browsers + config";
   };
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      stable.ungoogled-chromium
-
-      teams.desktop
-      teams.script
-      hetzner.desktop
-      hetzner.script
-      kvm.desktop
-      kvm.script
-    ];
+    home.packages =
+      with pkgs;
+      [
+        stable.ungoogled-chromium
+      ]
+      ++ (mkChromeWrappers [
+        {
+          name = "teams";
+          url = "https://teams.microsoft.com";
+        }
+        {
+          name = "hetzner";
+          url = "https://console.hetzner.cloud";
+        }
+        {
+          name = "kvm";
+          url = "https://pikvm.machine.thuis/kvm/#";
+        }
+      ]);
     programs.librewolf = {
       enable = true;
       policies =
@@ -78,10 +95,6 @@ in
                 name = "shiori_ext";
                 pinned = true;
               }
-	      {
-		id = "7esoorv3@alefvanoon.anonaddy.me";
-		name = "libredirect";
-	      }
               {
                 id = "@testpilot-containers";
                 name = "multi-account-containers";
@@ -200,6 +213,10 @@ in
                   {
                     id = "k";
                     url = "https://kagi.com/search?q={searchTerms}";
+                  }
+                  {
+                    id = "vim";
+                    url = "https://mattsturgeon.github.io/nixvim/search/?query={searchTerms}";
                   }
                 ]
               ));

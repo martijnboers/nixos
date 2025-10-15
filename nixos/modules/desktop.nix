@@ -25,14 +25,21 @@ in
       "networkmanager"
     ];
 
+    # Yubikey sudo
+    security.pam.services = {
+      login.u2fAuth = true;
+      sudo.u2fAuth = true;
+    };
+
     networking = {
       networkmanager.enable = true;
       useDHCP = lib.mkDefault true; # desktops don't use networkd
     };
 
-    # Wireshark
     programs.wireshark = {
       enable = true;
+      usbmon.enable = true;
+      dumpcap.enable = true;
       package = pkgs.wireshark;
     };
 
@@ -97,7 +104,7 @@ in
     # for smartcard support
     services = {
       pcscd.enable = true;
-      udev.packages = [ pkgs.yubikey-personalization ];
+      udev.packages = [ pkgs.yubikey-personalization ]; 
     };
 
     # Enable sound with pipewire.

@@ -126,17 +126,17 @@
 
       "15-peepee" = {
         matchConfig.Name = "peepee";
-        # This interface is managed externally, but we use it for IPv6.
         networkConfig = {
           DHCP = "ipv6";
           IPv6AcceptRA = true;
           ConfigureWithoutCarrier = "yes";
           DNS = [
-            "185.93.175.43" # Freedom Internet IPv4 DNS 1
-            "185.232.98.76" # Freedom Internet IPv4 DNS 2
-            "2a10:3780:2:52:185:93:175:43" # Freedom Internet IPv6 DNS 1
-            "2a10:3780:2:53:185:232:98:76" # Freedom Internet IPv6 DNS 2
+            "185.93.175.43#dns.freedom.nl"
+            "185.232.98.76#dns.freedom.nl"
+            "2a10:3780:2:52:185:93:175:43#dns.freedom.nl"
+            "2a10:3780:2:53:185:232:98:76#dns.freedom.nl"
           ];
+          DNSOverTLS = "opportunistic";
         };
         linkConfig.RequiredForOnline = "yes";
 
@@ -148,7 +148,6 @@
           UseAddress = false; # Don't assign an address to this interface.
           WithoutRA = "solicit"; # Start soliciting immediately (ISP sends no RAs).
         };
-        # CRITICAL: ISP does not provide a default route via DHCPv6. Set it statically.
         routes = [
           {
             Gateway = "::";
@@ -184,8 +183,30 @@
         };
         dhcpServerConfig = {
           PoolOffset = 100;
-          PoolSize = 20;
+          PoolSize = 50;
         };
+        dhcpServerStaticLeases = [
+          {
+            Address = "10.20.0.130";
+            MACAddress = "FC:B4:67:25:45:34";
+          }
+          {
+            Address = "10.20.0.131";
+            MACAddress = "E8:6B:EA:EA:12:F4";
+          }
+          {
+            Address = "10.20.0.132";
+            MACAddress = "E4:65:B8:47:75:F4";
+          }
+          {
+            Address = "10.20.0.133";
+            MACAddress = "30:C9:22:87:0B:EC";
+          }
+          {
+            Address = "10.20.0.134";
+            MACAddress = "08:F9:E0:FC:7A:90";
+          }
+        ];
         dhcpPrefixDelegationConfig = {
           SubnetId = "0xbeef";
         };
@@ -198,10 +219,6 @@
           DHCPServer = "yes";
           IPv6SendRA = "yes";
           DHCPPrefixDelegation = "yes";
-        };
-        dhcpServerConfig = {
-          PoolOffset = 2;
-          PoolSize = 1;
         };
         dhcpPrefixDelegationConfig = {
           SubnetId = "0xb00f";

@@ -18,18 +18,10 @@ in
   config = mkIf cfg.enable {
     hosts.desktop.enable = true;
 
-    environment.systemPackages =
-      with pkgs;
-      with pkgs.kdePackages;
-      [
-        qtwayland
-        lxqt.lxqt-policykit # lxqt polkit
-
-        # For QT apps
-        kio
-        kio-extras
-        xdg-utils
-      ];
+    environment.systemPackages = with pkgs; [
+      hyprpolkitagent # polkit for hyprland
+      file-roller # archive manager used by thunar
+    ];
 
     programs.thunar = {
       enable = true;
@@ -58,9 +50,8 @@ in
       };
     };
 
-    security = {
-      polkit.enable = true; # protocol for unpriv proces to speak to priv proc
-    };
+    # protocol for unpriv proces to speak to become privileged
+    security.polkit.enable = true;
 
     environment.sessionVariables = {
       QT_QPA_PLATFORMTHEME = "qt5ct";

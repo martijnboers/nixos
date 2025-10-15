@@ -28,14 +28,6 @@ in
       options = [ "bind" ];
     };
 
-    networking.firewall = {
-      allowedTCPPorts = [
-        111
-        2049
-        20048
-      ];
-    };
-
     boot.supportedFilesystems = [ "nfs" ];
 
     services.nfs.server = {
