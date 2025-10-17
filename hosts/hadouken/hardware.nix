@@ -29,22 +29,19 @@
     };
   };
 
-  systemd.network = {
-    enable = true;
-    networks."10-enp114s0" = {
-      matchConfig.Name = "enp114s0";
-      networkConfig = {
-        DHCP = "no"; # no ipv4 dhcp
-        IPv6AcceptRA = true;
-      };
-      address = [
-        "10.30.0.2/24"
-      ];
-      routes = [
-        { Gateway = "10.30.0.1"; }
-      ];
-      linkConfig.RequiredForOnline = "routable";
+  systemd.network.networks."10-enp114s0" = {
+    matchConfig.Name = "enp114s0";
+    networkConfig = {
+      DHCP = "no"; # no ipv4 dhcp
+      IPv6AcceptRA = true;
     };
+    address = [
+      "10.30.0.2/24"
+    ];
+    routes = [
+      { Gateway = "10.30.0.1"; }
+    ];
+    linkConfig.RequiredForOnline = "routable";
   };
 
   fileSystems."/" = {

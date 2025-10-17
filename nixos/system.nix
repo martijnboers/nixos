@@ -37,6 +37,7 @@
         "wheel" # sudo
         "plugdev" # mounting
         "dialout" # serial
+        "network"
       ];
       openssh.authorizedKeys.keyFiles = [
         ../secrets/keys/nurma-sk.pub
@@ -125,7 +126,6 @@
       allowed-users = [ "martijn" ];
 
       substituters = [
-        "https://cache.nixos.org?priority=1"
         "https://bincache.thuis/default"
         "https://nix-community.cachix.org"
       ];
@@ -188,9 +188,10 @@
   services.fwupd.enable = true; # firmware update
 
   networking = {
+    useDHCP = false; # Done by networkd
     firewall.enable = lib.mkDefault true;
-    nameservers = lib.mkForce [ ];
   };
+  systemd.network.enable = true;
 
   services.resolved = {
     enable = true;

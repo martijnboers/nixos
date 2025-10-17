@@ -24,12 +24,6 @@ in
     # Default auditd rules
     hosts.auditd.enable = lib.mkDefault true;
 
-    # servers should use networkd
-    networking = {
-      networkmanager.enable = false;
-      useDHCP = false;
-    };
-
     # freedesktop xdg files
     xdg.autostart.enable = lib.mkDefault false;
     xdg.icons.enable = lib.mkDefault false;

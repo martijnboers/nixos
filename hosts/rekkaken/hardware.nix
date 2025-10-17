@@ -25,23 +25,20 @@
     }
   ];
 
-  systemd.network = {
-    enable = true;
-    networks."10-enp1s0" = {
-      matchConfig.Name = "enp1s0";
-      networkConfig.DHCP = "no";
-      address = [
-        "46.62.135.158/32"
-        "2a01:4f9:c013:98b::1/64"
-      ];
-      routes = [
-        {
-          Gateway = "172.31.1.1";
-          GatewayOnLink = true;
-        }
-        { Gateway = "fe80::1"; }
-      ];
-    };
+  systemd.network.networks."10-enp1s0" = {
+    matchConfig.Name = "enp1s0";
+    networkConfig.DHCP = "no";
+    address = [
+      "46.62.135.158/32"
+      "2a01:4f9:c013:98b::1/64"
+    ];
+    routes = [
+      {
+        Gateway = "172.31.1.1";
+        GatewayOnLink = true;
+      }
+      { Gateway = "fe80::1"; }
+    ];
   };
 
   disko.devices = {
