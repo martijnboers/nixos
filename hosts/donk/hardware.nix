@@ -52,6 +52,38 @@
     ];
   };
 
+  systemd.network.networks = {
+    "50-dhcp" = {
+      matchConfig.Name = "en*";
+      networkConfig.DHCP = "yes";
+      dhcpV4Config.UseDNS = false;
+      dhcpV6Config.UseDNS = false;
+      linkConfig.RequiredForOnline = "no";
+    };
+    "50-wireless" = {
+      matchConfig.Name = "wlan0";
+      dhcpV4Config.UseDNS = false;
+      dhcpV6Config.UseDNS = false;
+      networkConfig = {
+        DHCP = "yes";
+        IgnoreCarrierLoss = "3s";
+      };
+    };
+  };
+
+  networking.wireless.iwd = {
+    enable = true;
+    settings = {
+      IPv6.Enabled = true;
+      # https://man.archlinux.org/man/iwd.network.5#SETTINGS
+      Settings = {
+        AutoConnect = true;
+        Hidden = true; # show hidden
+        AlwaysRandomizeAddress = true; # random mac
+      };
+    };
+  };
+
   swapDevices = [
     { device = "/dev/disk/by-uuid/8e846295-8a8c-4bab-a07a-d615743733e1"; }
   ];

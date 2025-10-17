@@ -142,6 +142,7 @@ in
           isDefault = true;
           settings = {
             "webgl.disabled" = false;
+            "security.default_personal_cert" = "Select Automatically";
             "privacy.clearOnShutdown.history" = false;
             "privacy.clearOnShutdown.cookies" = false;
             "privacy.clearOnShutdown.sessions" = false;

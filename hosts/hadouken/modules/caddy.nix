@@ -67,6 +67,11 @@ in
                 root /mnt/zwembad/app/android
                 prefix /android
               }
+              rewrite /notes /notes/
+              webdav /notes/* {
+                root /mnt/zwembad/app/notes
+                prefix /notes
+              }
               file_server
             }
           }

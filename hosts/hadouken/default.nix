@@ -1,9 +1,4 @@
-{ lib, ... }:
-let
-  defaultRestart = {
-    RestartSec = 10;
-  };
-in
+{ ... }:
 {
   networking = {
     hostName = "hadouken";
@@ -52,31 +47,28 @@ in
   hosts.pingvin.enable = true;
   hosts.paperless.enable = true;
   hosts.bincache.enable = true;
+  hosts.syncthing.enable = true;
 
   users = {
     groups.multimedia = { };
+    groups.notes = { };
     users = {
       syncthing.extraGroups = [ "multimedia" ];
       plex.extraGroups = [ "multimedia" ];
-      martijn.extraGroups = [ "multimedia" ];
+      caddy.extraGroups = [ "notes" ];
     };
   };
 
   systemd.services.loki = {
     after = [ "tailscaled.service" ];
     requires = [ "tailscaled.service" ];
-    serviceConfig = defaultRestart;
+    serviceConfig.RestartSec = 10;
   };
 
   hosts.borg = {
     enable = true;
     repository = "ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo";
     paths = [ "/mnt/zwembad/app" ];
-  };
-
-  hosts.syncthing = {
-    enable = true;
-    name = "hadouken";
   };
 
   # Heat management intel cpu

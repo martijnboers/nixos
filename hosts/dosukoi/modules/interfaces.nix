@@ -76,7 +76,6 @@
     };
   };
   systemd.network = {
-    enable = true;
     wait-online.enable = false; # PPPoE handles the 'online' state.
 
     links = {

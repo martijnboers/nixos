@@ -20,19 +20,12 @@ in
       DEFAULT_BROWSER = "librewolf";
     };
 
-    users.users.martijn.extraGroups = [
-      "wireshark"
-      "networkmanager"
-    ];
+    users.users.martijn.extraGroups = [ "wireshark" ];
 
     # Yubikey sudo
     security.pam.services = {
       login.u2fAuth = true;
       sudo.u2fAuth = true;
-    };
-
-    networking = {
-      networkmanager.enable = true;
     };
 
     programs.wireshark = {
@@ -103,7 +96,7 @@ in
     # for smartcard support
     services = {
       pcscd.enable = true;
-      udev.packages = [ pkgs.yubikey-personalization ]; 
+      udev.packages = [ pkgs.yubikey-personalization ];
     };
 
     # Enable sound with pipewire.

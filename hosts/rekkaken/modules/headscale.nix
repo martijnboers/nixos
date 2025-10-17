@@ -18,6 +18,7 @@ let
     "minio"
     "minio-admin"
     "monitoring"
+    "syncthing"
     "paper"
     "pgadmin"
     "pingvin"

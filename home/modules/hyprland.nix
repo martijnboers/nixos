@@ -86,7 +86,6 @@ in
       [
         # utilities
         waybar
-        networkmanagerapplet
         blueman # bluetooth
         pavucontrol # audio
         playerctl
@@ -124,7 +123,6 @@ in
           "copyq --start-server &"
           "cinny &"
           "blueman-applet &"
-          "nm-applet --indicator &"
           "systemctl --user start hyprpolkitagent &"
         ];
         "$terminal" = "kitty";
