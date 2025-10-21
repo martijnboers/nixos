@@ -8,7 +8,6 @@
 }:
 {
   imports = [
-    ./modules/virtualisation.nix
     ./modules/prometheus.nix
     ./modules/secureboot.nix
     ./modules/tailscale.nix
@@ -17,6 +16,7 @@
     ./modules/auditd.nix
     ./modules/server.nix
     ./modules/derper.nix
+    ./modules/virt.nix
     ./modules/borg.nix
     ./modules/ssh.nix
     ./modules/gpg.nix

@@ -29,6 +29,7 @@ in
         cheese # webcam
         electrum # btc wallet
         errands # todo manager
+	karlender # gtk calendar
 	impala # wifi tui
 
         # file support

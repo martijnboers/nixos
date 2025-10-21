@@ -1,8 +1,9 @@
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 {
   networking.hostName = "nurma";
   hosts.hyprland.enable = true;
   hosts.secureboot.enable = true;
+  hosts.virt.enable = true;
 
   hosts.borg = {
     enable = true;
@@ -97,10 +98,4 @@
 
   # Support gpg for git signing
   hosts.gpg.enable = true;
-
-  # Docker + QEMU
-  hosts.virtualisation = {
-    enable = true;
-    qemu = true;
-  };
 }
