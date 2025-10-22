@@ -25,13 +25,13 @@
     ./modules/shares.nix
     ./modules/caddy.nix
     ./modules/atuin.nix
-    ./modules/plex.nix
+    ./modules/media.nix
   ];
 
   hosts.shares.enable = true;
   hosts.caddy.enable = true;
   hosts.vaultwarden.enable = true;
-  hosts.plex.enable = true;
+  hosts.media.enable = true;
   hosts.tailscale.enable = true;
   hosts.monitoring.enable = true;
   hosts.matrix.enable = true;
@@ -50,13 +50,18 @@
   hosts.syncthing.enable = true;
 
   users = {
-    groups.multimedia = { };
-    groups.notes = { };
-    users = {
-      syncthing.extraGroups = [ "multimedia" ];
-      plex.extraGroups = [ "multimedia" ];
-      caddy.extraGroups = [ "notes" ];
-    };
+    groups.multimedia.members = [
+      "syncthing"
+      "jellyfin"
+      "radarr"
+      "sonarr"
+    ];
+    groups.syncthing.members = [
+      "syncthing"
+      "radarr"
+      "sonarr"
+    ];
+    groups.notes.members = [ "caddy" ];
   };
 
   systemd.services.loki = {

@@ -2,6 +2,7 @@
   config,
   lib,
   modulesPath,
+  pkgs,
   ...
 }:
 {
@@ -27,6 +28,12 @@
       ];
       systemd.enable = true;
     };
+  };
+
+  hardware.graphics = {
+    extraPackages = with pkgs; [
+      vpl-gpu-rt  # video acceleration
+    ];
   };
 
   systemd.network.networks."10-enp114s0" = {

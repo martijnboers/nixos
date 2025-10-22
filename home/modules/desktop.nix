@@ -31,7 +31,7 @@ in
         cheese # webcam
         electrum # btc wallet
         errands # todo manager
-        karlender-dev # gtk calendar
+        karlender # gtk calendar
         impala # wifi tui
 
 	# keyring
@@ -41,7 +41,7 @@ in
         # file support
         zathura # pdf
         imv # image
-        vlc # video
+        mpv # video
         kate # kwrite
 
         # work

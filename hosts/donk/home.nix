@@ -15,8 +15,5 @@
   ];
 
   # Enable profiles
-  maatwerk.hyprland = {
-    enable = true;
-    touchpad = true;
-  };
+  maatwerk.hyprland.enable = true; 
 }

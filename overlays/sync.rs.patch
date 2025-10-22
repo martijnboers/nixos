@@ -1,0 +1,73 @@
+--- a/src/store/sync.rs
++++ b/src/store/sync.rs
+@@ -8,9 +8,15 @@
+ use async_recursion::async_recursion;
+ use async_trait::async_trait;
+ use std::{
++    fs::File,
++    io::Read,
+     collections::{HashMap, HashSet, LinkedList},
+     sync::Arc,
+ };
++use native_tls::Certificate;
++
++
++
+ 
+ #[derive(Debug, Clone, PartialEq, Eq)]
+ pub(crate) enum Action {
+@@ -86,7 +92,7 @@
+     if let Some((login, password)) = login {
+         if let Some(event) = event.clone().into_inner() {
+             if let Some(r) = asyncify(move || {
+-                let agent = ureq::Agent::new();
++                let agent = create_agent();
+                 let credentials = to_credentials(&login, &password);
+                 minicaldav::save_event(agent, &credentials, event.clone())
+             })
+@@ -120,7 +126,7 @@
+         let local_path = event.local_path().clone();
+         if let Some(event) = event.clone().into_inner() {
+             if let Some(r) = asyncify(move || {
+-                let agent = ureq::Agent::new();
++                let agent = create_agent();
+                 let credentials = to_credentials(&login, &password);
+                 minicaldav::remove_event(agent, &credentials, event.clone())
+             })
+@@ -150,7 +156,7 @@
+ #[async_recursion]
+ pub(crate) async fn sync(report_errors: bool) {
+     log::debug!("Start syncing.");
+-    let agent = ureq::Agent::new();
++    let agent = create_agent();
+ 
+     let mut saved_events = false;
+ 
+@@ -383,3 +389,28 @@
+ }
+ 
+ pub(crate) const SELECT_SYNCING: &Selector = &|a, b| a.sync.syncing != b.sync.syncing;
++
++
++fn create_agent() -> ureq::Agent {
++    let cert_path = get_app_dir().join("karlender.pem");
++    if cert_path.exists() {
++        log::debug!("Found custom certificate at {}", cert_path.display());
++        if let Ok(mut f) = File::open(&cert_path) {
++            let mut cert_buf = Vec::new();
++            if f.read_to_end(&mut cert_buf).is_ok() {
++                if let Ok(cert) = Certificate::from_pem(&cert_buf) {
++                    if let Ok(tls_connector) = native_tls::TlsConnector::builder()
++                        .add_root_certificate(cert)
++                        .build() {
++                    return ureq::AgentBuilder::new()
++                        .tls_connector(Arc::new(tls_connector))
++                        .build();
++                    }
++                }
++            }
++        }
++    }
++    ureq::Agent::new()
++}
++

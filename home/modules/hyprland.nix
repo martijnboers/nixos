@@ -16,11 +16,6 @@ in
 
   options.maatwerk.hyprland = {
     enable = mkEnableOption "Hyprland";
-    touchpad = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Touchpad support";
-    };
   };
 
   config = mkIf cfg.enable {
@@ -217,11 +212,6 @@ in
           pseudotile = true; # Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
           preserve_split = true; # You probably want this
         };
-        gestures = lib.mkIf cfg.touchpad {
-          workspace_swipe_touch = true;
-          workspace_swipe_invert = false;
-          gesture = "3, horizontal, workspace";
-        };
         general = {
           gaps_in = 3;
           gaps_out = "5,12,12,12";
@@ -282,11 +272,14 @@ in
         windowrulev2 = float,class:^(librewolf)$,title:^(Picture-in-Picture)$
         windowrulev2 = float, class:Waydroid
 
+        gesture = 3, horizontal, workspace
+        gesture = 2, pinchout, close
+        gesture = 4, swipe, resize
+
         animations {
           # https://cubic-bezier.com/
           # https://easings.net
           # https://https://www.cssportal.com/css-cubic-bezier-generator/
-
           enabled = true
 
           bezier = wind, 0.05, 0.9, 0.1, 1.05

@@ -99,6 +99,8 @@
     exfatprogs # fat support
     parted # disk partitioner
     minicom # serial port reader
+    mat2 # remove metadatain
+    exiftool # read metadatainl
   ];
 
   nix = {
@@ -242,7 +244,8 @@
 
   environment.sessionVariables = {
     EDITOR = "nvim";
-    REQUESTS_CA_BUNDLE = "/etc/ssl/certs/ca-certificates.crt";
+    REQUESTS_CA_BUNDLE = "/etc/ssl/certs/ca-certificates.crt"; # python
+    SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt"; # rust
     TMOUT = (5 * 60 * 60); # zsh timeout
   };
 

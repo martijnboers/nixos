@@ -26,6 +26,10 @@ in
       respond 403
     '';
 
+    systemd.services.syncthing = {
+      serviceConfig.AmbientCapabilities = "cap_chown"; # allow taking parent permissions
+    };
+
     services.syncthing = {
       enable = true;
       dataDir = "/mnt/zwembad/app/syncthing";
@@ -51,7 +55,8 @@ in
         };
         folders = {
           "hot" = {
-            path = "/mnt/zwembad/hot";
+            path = "/mnt/zwembad/hot/Downloads";
+            copyOwnershipFromParent = true;
             devices = [
               "seed"
               "hadouken"
@@ -59,6 +64,7 @@ in
           };
           "music" = {
             path = "/mnt/zwembad/music";
+            copyOwnershipFromParent = true;
             devices = [
               "seed"
               "hadouken"
