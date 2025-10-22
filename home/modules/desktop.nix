@@ -31,7 +31,7 @@ in
         cheese # webcam
         electrum # btc wallet
         errands # todo manager
-        karlender-dev # gtk calendar
+        karlender # gtk calendar
         impala # wifi tui
 
 	# keyring

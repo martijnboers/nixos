@@ -12,6 +12,11 @@
     #   dontPatchELF = true;
     #   cmakeFlags = (oldAttrs.cmakeFlags or [ ]) ++ [ "-DCMAKE_BUILD_TYPE=Debug" ];
     # });
+    # karlender = prev.karlender.overrideAttrs (oldAttrs: {
+    #   patches = (oldAttrs.patches or [ ]) ++ [
+    #     ./sync.rs.patch
+    #   ];
+    # });
   };
 
   # When applied, the stable nixpkgs set (declared in the flake inputs) will
