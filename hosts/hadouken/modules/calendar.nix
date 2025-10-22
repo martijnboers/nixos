@@ -22,6 +22,22 @@ in
         }
         respond 403
       '';
+      "cal-http.thuis:80".extraConfig = ''
+        import headscale
+        handle @internal {
+          reverse_proxy http://${radicaleListenAddress}
+        }
+        respond 403
+      '';
+    };
+
+    systemd.services.caddy = {
+      serviceConfig = {
+        # Required to use ports < 1024
+        AmbientCapabilities = "cap_net_bind_service";
+        CapabilityBoundingSet = "cap_net_bind_service";
+        TimeoutStartSec = "5m";
+      };
     };
 
     services.borgbackup.jobs.default.paths = [ "/var/lib/radicale/collections/" ];

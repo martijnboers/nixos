@@ -19,6 +19,8 @@ in
     maatwerk.stylix.enable = true;
     maatwerk.attic.enable = true;
 
+    services.gnome-keyring.enable = true;
+
     home.packages =
       with pkgs;
       with pkgs.kdePackages;
@@ -29,8 +31,12 @@ in
         cheese # webcam
         electrum # btc wallet
         errands # todo manager
-	karlender # gtk calendar
-	impala # wifi tui
+        karlender-dev # gtk calendar
+        impala # wifi tui
+
+	# keyring
+	seahorse 
+        gcr 
 
         # file support
         zathura # pdf

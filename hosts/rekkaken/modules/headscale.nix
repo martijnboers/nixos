@@ -12,6 +12,7 @@ let
     "atuin"
     "bincache"
     "cal"
+    "cal-http"
     "detection"
     "immich"
     "microbin"

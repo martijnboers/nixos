@@ -91,9 +91,6 @@ in
         playerctl
         wlogout
 
-        # age fork of password-store
-        passage
-
         # screenshots / clipboard
         satty
         grim
@@ -101,13 +98,6 @@ in
         wl-clipboard
         stable.copyq
       ];
-
-    # https://specifications.freedesktop.org/secret-service-spec/latest/
-    # https://community.bitwarden.com/t/support-for-libsecrets-dbus-api/4006/47
-    services.pass-secret-service = {
-      enable = true;
-      package = pkgs.passage;
-    };
 
     wayland.windowManager.hyprland = {
       enable = true;
