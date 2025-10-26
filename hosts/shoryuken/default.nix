@@ -1,4 +1,4 @@
-{ config, ... }:
+{ ... }:
 {
   networking.hostName = "shoryuken";
 
@@ -6,12 +6,10 @@
     ./modules/endlessh.nix
     ./modules/caddy.nix
     ./modules/oidc.nix
-    ./modules/acme.nix
   ];
 
   hosts.oidc.enable = true;
   hosts.caddy.enable = true;
-  hosts.acme.enable = true;
   hosts.prometheus.enable = true;
   hosts.endlessh.enable = true;
   hosts.authdns.enable = true;

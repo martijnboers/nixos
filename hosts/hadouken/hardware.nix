@@ -31,8 +31,15 @@
   };
 
   hardware.graphics = {
+    enable = true;
+    # Hardware decoding hail-mary packages
     extraPackages = with pkgs; [
-      vpl-gpu-rt  # video acceleration
+      intel-compute-runtime
+      intel-media-driver
+      libvdpau-va-gl
+      vaapiIntel
+      vaapiVdpau
+      vpl-gpu-rt
     ];
   };
 

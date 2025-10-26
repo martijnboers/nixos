@@ -5,14 +5,15 @@
   networking.hostName = "dosukoi";
 
   imports = [
+    ./modules/vaultwarden.nix
     ./modules/interfaces.nix
     ./modules/wireguard.nix
     ./modules/blocklist.nix
     ./modules/firewall.nix
-    ./modules/openbao.nix
     ./modules/adguard.nix
     ./modules/ntopng.nix
     ./modules/caddy.nix
+    ./modules/acme.nix
   ];
 
   hosts.borg = {
@@ -26,7 +27,8 @@
   hosts.caddy.enable = true;
   hosts.ntopng.enable = true;
   hosts.wireguard.enable = true;
-  hosts.openbao.enable = true;
+  hosts.vaultwarden.enable = true;
+  hosts.acme.enable = true;
 
   hosts.openssh = {
     enable = true;

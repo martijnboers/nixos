@@ -32,7 +32,7 @@ in
         electrum # btc wallet
         errands # todo manager
         karlender # gtk calendar
-        impala # wifi tui
+        iwgtk # wifi applet
 
 	# keyring
 	seahorse 

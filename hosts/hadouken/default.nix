@@ -6,12 +6,10 @@
   };
 
   imports = [
-    ./modules/vaultwarden.nix
     ./modules/monitoring.nix
     ./modules/detection.nix
     ./modules/mastodon.nix
     ./modules/detection.nix
-    ./modules/syncthing.nix
     ./modules/paperless.nix
     ./modules/microbin.nix
     ./modules/calendar.nix
@@ -30,7 +28,6 @@
 
   hosts.shares.enable = true;
   hosts.caddy.enable = true;
-  hosts.vaultwarden.enable = true;
   hosts.media.enable = true;
   hosts.tailscale.enable = true;
   hosts.monitoring.enable = true;
@@ -47,20 +44,8 @@
   hosts.pingvin.enable = true;
   hosts.paperless.enable = true;
   hosts.bincache.enable = true;
-  hosts.syncthing.enable = true;
 
   users = {
-    groups.multimedia.members = [
-      "syncthing"
-      "jellyfin"
-      "radarr"
-      "sonarr"
-    ];
-    groups.syncthing.members = [
-      "syncthing"
-      "radarr"
-      "sonarr"
-    ];
     groups.notes.members = [ "caddy" ];
   };
 

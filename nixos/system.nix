@@ -105,6 +105,8 @@
 
   nix = {
     channel.enable = lib.mkDefault false;
+    package = inputs.determinate.packages.${pkgs.system}.default;
+
     settings = {
       experimental-features = [
         "nix-command"
@@ -130,10 +132,12 @@
       substituters = [
         "https://bincache.thuis/default"
         "https://nix-community.cachix.org"
+        "https://install.determinate.systems"
       ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "default:QiddKxFxKitj0NauDJDKT944qMq3bJvtHKNVlwsWz8k="
+        "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
       ];
     };
 
@@ -198,7 +202,7 @@
   services.resolved = {
     enable = true;
     dnssec = "allow-downgrade";
-    dnsovertls = "true";
+    dnsovertls = "opportunistic";
 
     # When active, Tailscale is the only DNS, rest fallbackDns
     fallbackDns = [

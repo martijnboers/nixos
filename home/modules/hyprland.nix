@@ -20,19 +20,10 @@ in
 
   config = mkIf cfg.enable {
     maatwerk.desktop.enable = true;
-
-    gtk = {
-      enable = true;
-      iconTheme.name = "gruvbox";
-      iconTheme.package = pkgs.gruvbox-dark-icons-gtk;
-    };
+    services.copyq.enable = true;
 
     services.dunst = {
       enable = true;
-      iconTheme = {
-        name = "Tela-circle";
-        package = pkgs.tela-circle-icon-theme;
-      };
       settings.global = {
         frame_width = 1;
         corner_radius = 5;
@@ -91,7 +82,6 @@ in
         grim
         slurp
         wl-clipboard
-        stable.copyq
       ];
 
     wayland.windowManager.hyprland = {
@@ -105,7 +95,6 @@ in
         "$mod" = "ALT";
         "$prog" = "CTRL ALT";
         exec-once = [
-          "copyq --start-server &"
           "cinny &"
           "blueman-applet &"
           "systemctl --user start hyprpolkitagent &"

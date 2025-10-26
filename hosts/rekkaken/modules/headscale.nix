@@ -16,7 +16,7 @@ let
     "detection"
     "immich"
     "media"
-    "media-stats"
+    "jelly"
     "microbin"
     "minio"
     "minio-admin"
@@ -28,12 +28,9 @@ let
     "radarr"
     "sonarr"
     "syncthing"
-    "vaultwarden"
     "webdav"
   ];
-  shoryukenRecords = [
-    "acme"
-  ];
+  shoryukenRecords = [ ];
   rekkakenRecords = [
     "notifications"
     "vpn"
@@ -49,9 +46,10 @@ let
     "mempool"
   ];
   dosukoiRecords = [
+    "acme"
     "dns"
     "leases"
-    "openbao"
+    "vaultwarden"
   ];
 in
 {
@@ -141,7 +139,7 @@ in
                   src = [ "*" ];
                   dst = [
                     "hadouken:80,443" # everyone access to hadouken web-services
-                    "dosukoi:53,80,443" # everyone access to dns
+                    "dosukoi:53,80,443" # everyone access to dns, requests acme certs
                     "rekkaken:80,443,8025" # send/receive notifications + internal email
                   ];
                 }
@@ -151,13 +149,6 @@ in
                   dst = [
                     "hadouken:5551,5552,5553,5554" # reverse proxy ports
                     "headscale-server@:80,443" # acme challange
-                  ];
-                }
-                {
-                  action = "accept";
-                  src = [ "headscale-server@" ];
-                  dst = [
-                    "shoryuken:80,443" # request acme certs
                   ];
                 }
                 {
@@ -177,7 +168,7 @@ in
                     "tatsumaki:*"
                     "rekkaken:*"
                     "*:9002" # node exporter
-		    "dosukoi:9617" # adguard exporter
+                    "dosukoi:9617" # adguard exporter
                   ];
                 } # hadouken semi-god
                 {

@@ -11,12 +11,13 @@ for a good initial starting point for NixOS with flakes.
 #### Router
 | Service | Description | Configuration |
 | --- | --- | --- |
+| ACME | ACME server for internal TLS certificates. | [acme.nix](hosts/dosukoi/modules/acme.nix) |
 | AdGuard Home | Network-wide ad and tracker blocking DNS sinkhole. | [adguard.nix](hosts/dosukoi/modules/adguard.nix) |
 | Blocklist | Manages a network-wide blocklist. | [blocklist.nix](hosts/dosukoi/modules/blocklist.nix) |
 | Firewall | Manages network traffic rules using nftables. | [firewall.nix](hosts/dosukoi/modules/firewall.nix) |
 | Interfaces | Configures network interfaces and PPPoE. | [interfaces.nix](hosts/dosukoi/modules/interfaces.nix) |
 | ntopng | Network traffic monitoring tool. | [ntopng.nix](hosts/dosukoi/modules/ntopng.nix) |
-| OpenBao | Secrets management. | [openbao.nix](hosts/dosukoi/modules/openbao.nix) |
+| Vaultwarden | Password manager (Bitwarden compatible). | [vaultwarden.nix](hosts/dosukoi/modules/vaultwarden.nix) |
 | WireGuard | VPN tunnel. | [wireguard.nix](hosts/dosukoi/modules/wireguard.nix) |
 
 #### Main file server
@@ -31,19 +32,20 @@ for a good initial starting point for NixOS with flakes.
 | Immich | Self-hosted photo and video backup solution. | [immich.nix](hosts/hadouken/modules/immich.nix) |
 | Mastodon (glitch-soc) & Fedifetcher | Federated social media server. | [mastodon.nix](hosts/hadouken/modules/mastodon.nix) |
 | Matrix Synapse | Secure, decentralized communication server. | [matrix.nix](hosts/hadouken/modules/matrix.nix) |
+| Jellyfin & Jellyseerr | Media server. | [media.nix](hosts/hadouken/modules/media.nix) |
 | Microbin | Self-hosted pastebin. | [microbin.nix](hosts/hadouken/modules/microbin.nix) |
 | Grafana, Loki, Promtail, Prometheus | Monitoring and logging stack. | [monitoring.nix](hosts/hadouken/modules/monitoring.nix) |
 | Paperless-NGX | Document management system. | [paperless.nix](hosts/hadouken/modules/paperless.nix) |
 | Pingvin Share | File sharing service. | [pingvin.nix](hosts/hadouken/modules/pingvin.nix) |
-| Plex | Media server. | [plex.nix](hosts/hadouken/modules/plex.nix) |
 | NFS | Network File System for sharing files. | [shares.nix](hosts/hadouken/modules/shares.nix) |
 | ZFS & Syncoid | Manages ZFS filesystems and automated backups. | [storage.nix](hosts/hadouken/modules/storage.nix) |
 | Syncthing | Continuous file synchronization. | [syncthing.nix](hosts/hadouken/modules/syncthing.nix) |
-| Vaultwarden | Password manager (Bitwarden compatible). | [vaultwarden.nix](hosts/hadouken/modules/vaultwarden.nix) |
 
 #### Cloud #1
 | Service | Description | Configuration |
 | --- | --- | --- |
+| Authoritative DNS | Authoritative DNS server. | [authdns.nix](nixos/modules/authdns.nix) |
+| Derper | Tailscale DERP server. | [derper.nix](nixos/modules/derper.nix) |
 | Headscale | Self-hosted Tailscale control server. | [headscale.nix](hosts/rekkaken/modules/headscale.nix) |
 | Gotify & smtp-gotify | Notification service with an SMTP bridge. | [notifs.nix](hosts/rekkaken/modules/notifs.nix) |
 | Uptime Kuma | Service monitoring tool. | [uptime.nix](hosts/rekkaken/modules/uptime.nix) |
@@ -51,8 +53,9 @@ for a good initial starting point for NixOS with flakes.
 #### Cloud #2
 | Service | Description | Configuration |
 | --- | --- | --- |
-| Caddy (ACME Server) | Internal Certificate Authority. | [acme.nix](hosts/shoryuken/modules/acme.nix) |
+| Authoritative DNS | Authoritative DNS server. | [authdns.nix](nixos/modules/authdns.nix) |
 | Caddy | Reverse proxy and static file server. | [caddy.nix](hosts/shoryuken/modules/caddy.nix) |
+| Derper | Tailscale DERP server. | [derper.nix](nixos/modules/derper.nix) |
 | Endlessh | SSH tarpit. | [endlessh.nix](hosts/shoryuken/modules/endlessh.nix) |
 | Pocket-ID | OIDC provider. | [oidc.nix](hosts/shoryuken/modules/oidc.nix) |
 
@@ -67,6 +70,8 @@ for a good initial starting point for NixOS with flakes.
 | Cinny | Matrix client. | [cinny.nix](hosts/tenshin/modules/cinny.nix) |
 | Cyberchef | The Cyber Swiss Army Knife. | [cyberchef.nix](hosts/tenshin/modules/cyberchef.nix) |
 | Home Assistant | Home automation platform. | [hass.nix](hosts/tenshin/modules/hass.nix) |
+| IT-Tools | A collection of useful online tools for developers. | [ittools.nix](hosts/tenshin/modules/ittools.nix) |
+| NTP | Network Time Protocol daemon. | [ntp.nix](hosts/tenshin/modules/ntp.nix) |
 
 
 ### Hetzner

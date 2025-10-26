@@ -24,22 +24,20 @@ window#waybar {
   transition-duration: 0.5s;
 }
 
-#custom-power, #workspaces, #cpu, #memory, #pulseaudio, #custom-notification,
-#network, #temperature, #privacy, #battery, #custom-wan, #disk, #window,
-#tray, #clock {
+#custom-power, #workspaces, #custom-notification,
+#custom-wan, #window, #clock-privacy, #system-stats, #system-tray {
     background: @crust;
     border: 1px solid @mantle;
     border-radius: 12px;
-    margin: 0 6px 0 0;
+    margin: 0 4px 0 0;
     padding: 5px 12px;
     font-weight: 600;
     transition: background-color 0.3s ease;
 }
 
-#custom-power:hover, #cpu:hover, #memory:hover,
-#pulseaudio:hover, #custom-notification:hover, #network:hover,
-#temperature:hover, #privacy:hover, #battery:hover, #custom-wan:hover,
-#disk:hover, #window:hover, #tray:hover, #clock:hover {
+#custom-power:hover, #custom-notification:hover,
+#custom-wan:hover, #window:hover, #clock-privacy:hover,
+#system-stats:hover, #system-tray:hover {
   background: @mantle;
 }
 
@@ -48,19 +46,13 @@ window#waybar {
   padding: 5px 15px 5px 12px;
 }
 
-#window,
-#tray {
+#window {
   color: @white;
 }
 
-#cpu, #memory, #pulseaudio, #custom-notification, #network,
-#temperature, #privacy, #battery, #custom-wan, #disk {
+#custom-notification,
+#custom-wan {
   color: @grey;
-}
-
-#clock {
-  color: @grey;
-  font-weight: 700;
 }
 
 #workspaces {
@@ -96,12 +88,6 @@ window#waybar.empty #window {
     border-color: transparent;
 }
 
-#custom-sepp {
-  color: @text;
-  font-size: 20px;
-  padding: 0 10px 0 4px;
-}
-
 tooltip {
   background-color: @crust;
   border: 1px solid @mantle;
@@ -111,4 +97,36 @@ tooltip {
 
 tooltip label {
   color: @white;
+}
+
+#battery.charging { color: @green; }
+#battery.critical:not(.charging) { color: @red; }
+#network.disconnected { color: @red; }
+
+#clock, #privacy, #cpu, #temperature, #disk,
+#memory, #battery, #wireplumber, #pulseaudio, #bluetooth, #network {
+  background: transparent;
+  border: none;
+  color: @grey;
+  padding: 0;
+}
+
+#clock {
+  font-weight: 700;
+}
+
+#privacy {
+  border-left: 1px solid @text;
+  padding-left: 10px;
+  margin-left: 10px;
+}
+
+#network {
+  padding-right: 8px;
+}
+
+#battery, #bluetooth, #cpu, #disk, #temperature, #wireplumber {
+  border-right: 1px solid @text;
+  padding-right: 10px;
+  margin-right: 10px;
 }

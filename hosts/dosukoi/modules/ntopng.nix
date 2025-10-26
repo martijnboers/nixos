@@ -16,6 +16,8 @@ in
   config = mkIf cfg.enable {
     services.caddy.virtualHosts."leases.thuis".extraConfig = ''
       import headscale
+      import mtls
+
       handle @internal {
         reverse_proxy http://localhost:${toString config.services.ntopng.httpPort}
       }

@@ -10,7 +10,6 @@ let
 in
 {
   config = mkIf cfg.enable {
-
     programs.waybar = {
       enable = true;
       systemd.enable = true;
@@ -22,7 +21,7 @@ in
           margin-left = 12;
           margin-right = 12;
           margin-top = 5;
-          spacing = 1;
+          spacing = 0;
 
           modules-left = [
             "custom/power"
@@ -30,18 +29,12 @@ in
             "hyprland/window"
           ];
           modules-center = [
-            "clock"
-            "calendar"
-            "privacy"
+            "group/clock-privacy"
           ];
           modules-right = [
             "custom/wan"
-            "temperature"
-            "cpu"
-            "disk"
-            "pulseaudio"
-            "battery"
-            "tray"
+            "group/system-stats"
+            "group/system-tray"
           ];
 
           "hyprland/workspaces" = {
@@ -72,12 +65,6 @@ in
             icon = true;
           };
 
-          tray = {
-            icon-size = 18;
-            spacing = 5;
-            show-passive-items = true;
-          };
-
           clock = {
             interval = 60;
             format = "{:%a %b %d <b>%H:%M</b>}";
@@ -88,7 +75,7 @@ in
               weeks-pos = "right";
               on-scroll = 1;
               format = {
-		months = "<span color='#ffcb6b'><b>{}</b></span>";
+                months = "<span color='#ffcb6b'><b>{}</b></span>";
                 weekdays = "<span color='#b2ccd6'><b>{}</b></span>";
                 weeks = "<span color='#585b70'><b>W{}</b></span>";
                 days = "<span color='#eeffff'><b>{}</b></span>";
@@ -105,7 +92,55 @@ in
           cpu = {
             interval = 2;
             format = "  {usage}%";
-            tooltip = false;
+            min-length = 6;
+            tooltip = true;
+            tooltip-format = "<b>CPU</b>\nLoad: {load}%\nFrequency: {avg_frequency} GHz";
+          };
+
+          network = {
+            format-wifi = "󱚻";
+            format-ethernet = "󰈀";
+            format-disconnected = "󱘖";
+            tooltip = true;
+            tooltip-format-wifi = "<b>{essid}</b>\nSignal Strength: {signalStrength}%";
+            on-click = "iwgtk";
+          };
+
+          bluetooth = {
+            format = " {status}";
+            format-connected = " {num_connections}";
+            tooltip = true;
+            tooltip-format = "Bluetooth: {status}";
+            tooltip-format-connected = "<b>{device_alias}</b>\nBattery: {device_battery_percentage}%";
+            on-click = "blueman-manager";
+          };
+
+          "group/system-tray" = {
+            orientation = "horizontal";
+            modules = [
+              "wireplumber"
+              "battery"
+              "bluetooth"
+              "network"
+            ];
+          };
+
+          "group/clock-privacy" = {
+            orientation = "horizontal";
+            modules = [
+              "clock"
+              "privacy"
+            ];
+          };
+
+          "group/system-stats" = {
+            orientation = "horizontal";
+            modules = [
+              "cpu"
+              "temperature"
+              "disk"
+              "memory"
+            ];
           };
 
           memory = {
@@ -131,13 +166,6 @@ in
               lib.getExe osk;
           };
 
-          network = {
-            interval = 2;
-            format = "󰓅 {bandwidthTotalBits}";
-            format-disconnected = "󰌙 Disconnected";
-            tooltip-format = "󰖟  {ifname} 󰥔  {frequency} 󰅧  {bandwidthUpBits}   {bandwidthDownBits}";
-          };
-
           disk = {
             interval = 15;
             format = "󰋊 {percentage_used}%";
@@ -156,7 +184,7 @@ in
               lib.getExe osk;
           };
 
-          pulseaudio = {
+          wireplumber = {
             format = "{icon}  {volume}%";
             format-bluetooth = "{icon}  {volume}% 󰂯";
             format-bluetooth-muted = "󰖁 {icon} 󰂯";
@@ -201,8 +229,8 @@ in
           };
 
           temperature = {
-            # "thermal-zone": 2,
-            "hwmon-path" = "/sys/class/hwmon/hwmon2/temp1_input";
+            # for i in /sys/class/hwmon/hwmon*/temp*_input; do echo "$(<$(dirname $i)/name): $(cat ${i%_*}_label 2>/dev/null || echo $(basename ${i%_*})) $(readlink -f $i)"; done
+            "hwmon-path" = "/sys/class/hwmon/hwmon1/temp2_input";
             format = "󰈸 {temperatureC}°C";
           };
 

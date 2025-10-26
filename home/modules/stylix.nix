@@ -19,6 +19,11 @@ in
       enable = true;
       image = ../assets/img/wp_2.jpg;
       polarity = "dark";
+      icons = {
+        enable = true;
+        package = pkgs.tela-icon-theme;
+	dark = "Tela";
+      };
       cursor = {
         package = pkgs.phinger-cursors;
         name = "phinger-cursors-light";

@@ -4,13 +4,11 @@
   inputs = {
     self.submodules = true; # add secrets
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
 
-    determinate = {
-      url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # https://github.com/DeterminateSystems/nix-src/releases
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/nix-src/3.12.0.tar.gz";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -96,7 +94,6 @@
 
               home-manager.nixosModules.home-manager
               agenix.nixosModules.default
-              determinate.nixosModules.default
               lanzaboote.nixosModules.lanzaboote
               secrets.outPath # so secrets/defaults becomes available
 

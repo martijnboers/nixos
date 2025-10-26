@@ -172,9 +172,13 @@ in
         // makeProxy "p.plebian.nl" "microbin.thuis"
         // makeProxy "share.boers.email" "pingvin.thuis";
     };
+
     systemd.services.caddy = {
       serviceConfig = {
         EnvironmentFile = config.age.secrets.caddy.path;
+        AmbientCapabilities = "cap_net_bind_service";
+        CapabilityBoundingSet = "cap_net_bind_service";
+        TimeoutStartSec = "5m";
       };
     };
 
