@@ -128,6 +128,7 @@ in
           "group/clock-privacy" = {
             orientation = "horizontal";
             modules = [
+              "idle_inhibitor"
               "clock"
               "privacy"
             ];
@@ -141,6 +142,14 @@ in
               "disk"
               "memory"
             ];
+          };
+
+          idle_inhibitor = {
+            format = "{icon}";
+            format-icons = {
+              activated = " ";
+              deactivated = " ";
+            };
           };
 
           memory = {
@@ -235,7 +244,8 @@ in
           };
 
           privacy = {
-            icon-size = 18;
+            icon-size = 14;
+	    icon-spacing = 5;
             modules = [
               {
                 type = "screenshare";

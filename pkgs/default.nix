@@ -7,7 +7,5 @@
   tormon-exporter = pkgs.callPackage ./tormon-exporter.nix { };
   wvkbd-desktop = pkgs.callPackage ./wvkbd.nix { };
   karlender-dev = pkgs.callPackage ./karlender.nix { };
-
-  # https://git.eisfunke.com/config/nixos/-/tree/main/packages/mastodon
   glitch-soc = pkgs.callPackage ./mastodon/default.nix { };
 }

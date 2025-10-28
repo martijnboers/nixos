@@ -38,7 +38,6 @@ in
     nixpkgs = {
       config = {
         permittedInsecurePackages = [
-          "electron-32.3.3" # eol
           "libxml2-2.13.8" # CVE-2025-6021
           "libsoup-2.74.3" # gnome cves
         ];
@@ -53,6 +52,12 @@ in
           "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
         ];
       };
+    };
+
+    # Distrobox podman setup
+    virtualisation.podman = {
+      enable = true;
+      dockerCompat = true;
     };
 
     boot.supportedFilesystems = [ "nfs" ];

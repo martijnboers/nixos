@@ -29,14 +29,12 @@ in
         kooha # record screen wayland
         wev # wayland xev
         cheese # webcam
-        electrum # btc wallet
         errands # todo manager
         karlender # gtk calendar
-        iwgtk # wifi applet
 
-	# keyring
-	seahorse 
-        gcr 
+        # keyring
+        seahorse
+        gcr
 
         # file support
         zathura # pdf
@@ -45,7 +43,17 @@ in
         kate # kwrite
 
         # work
-        citrix_workspace
+        (citrix_workspace.overrideAttrs (oa: {
+          buildInputs = (oa.buildInputs or [ ]) ++ [ stable.webkitgtk_4_0 ];
+          meta = (oa.meta or { }) // {
+            # https://github.com/NixOS/nixpkgs/issues/454151
+            broken = false;
+          };
+        }))
+
+	# networking
+	wireguard-tools # wg-quick
+        iwgtk # wifi applet
         nmap
         xca
 
@@ -59,8 +67,23 @@ in
 
         # messaging
         signal-desktop
-        cinny-desktop # matrix client
+	fractal # matrix-client
       ];
+
+    programs.distrobox = {
+      enable = true;
+      containers = {
+        debian = {
+	  entry = true;
+          image = "debian:13";
+        };
+        arch = {
+	  entry = true;
+	  additional_packages = "python3 git";
+          image = "archlinux:latest";
+        };
+      };
+    };
 
     programs.gpg = {
       enable = true;

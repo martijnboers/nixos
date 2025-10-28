@@ -36,6 +36,7 @@
   # User level packages
   home.packages = with pkgs; [
     gemini-cli # proompting
+    claude-code # proompting
     tldr # man summarized
   ];
 

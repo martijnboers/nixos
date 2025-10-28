@@ -8,8 +8,7 @@
     stable.veracrypt
 
     # SDR
-    gqrx
-    sdrpp
+    stable.sdrpp
 
     # yubikey
     yubioath-flutter

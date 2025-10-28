@@ -16,8 +16,8 @@
     ./modules/auditd.nix
     ./modules/server.nix
     ./modules/derper.nix
-    ./modules/virt.nix
     ./modules/borg.nix
+    ./modules/qemu.nix
     ./modules/ssh.nix
     ./modules/gpg.nix
   ];

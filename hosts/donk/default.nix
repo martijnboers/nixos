@@ -69,13 +69,6 @@
   hosts.tailscale.enable = true;
   hosts.prometheus.enable = true;
 
-  programs = {
-    # Run unpatched bins
-    nix-ld = {
-      enable = true;
-    };
-  };
-
   # Allow network access when building shoryuken
   # https://mdleom.com/blog/2021/12/27/caddy-plugins-nixos/#xcaddy
   nix.settings.sandbox = false;

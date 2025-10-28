@@ -103,7 +103,7 @@ tooltip label {
 #battery.critical:not(.charging) { color: @red; }
 #network.disconnected { color: @red; }
 
-#clock, #privacy, #cpu, #temperature, #disk,
+#clock, #privacy, #cpu, #temperature, #disk, #idle_inhibitor,
 #memory, #battery, #wireplumber, #pulseaudio, #bluetooth, #network {
   background: transparent;
   border: none;
@@ -125,7 +125,7 @@ tooltip label {
   padding-right: 8px;
 }
 
-#battery, #bluetooth, #cpu, #disk, #temperature, #wireplumber {
+#battery, #idle_inhibitor, #bluetooth, #cpu, #disk, #temperature, #wireplumber {
   border-right: 1px solid @text;
   padding-right: 10px;
   margin-right: 10px;

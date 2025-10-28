@@ -67,7 +67,6 @@ for a good initial starting point for NixOS with flakes.
 #### Home Automation
 | Service | Description | Configuration |
 | --- | --- | --- |
-| Cinny | Matrix client. | [cinny.nix](hosts/tenshin/modules/cinny.nix) |
 | Cyberchef | The Cyber Swiss Army Knife. | [cyberchef.nix](hosts/tenshin/modules/cyberchef.nix) |
 | Home Assistant | Home automation platform. | [hass.nix](hosts/tenshin/modules/hass.nix) |
 | IT-Tools | A collection of useful online tools for developers. | [ittools.nix](hosts/tenshin/modules/ittools.nix) |

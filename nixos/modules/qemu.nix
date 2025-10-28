@@ -6,24 +6,18 @@
 }:
 with lib;
 let
-  cfg = config.hosts.virt;
+  cfg = config.hosts.qemu;
 in
 {
-  options.hosts.virt = {
-    enable = mkEnableOption "Default virtualisation desktop setup";
+  options.hosts.qemu = {
+    enable = mkEnableOption "QEMU+quickemu";
   };
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
-      # https://github.com/89luca89/distrobox/blob/main/docs/compatibility.md#containers-distros
-      distrobox
       # https://github.com/quickemu-project/quickemu/wiki/05-Advanced-quickemu-configuration
       quickemu
     ];
-
-    environment.etc."distrobox/distrobox.conf".text = ''
-      container_additional_volumes="/nix/store:/nix/store:ro"
-    '';
 
     users.users.martijn.extraGroups = [
       "libvirtd"
@@ -34,10 +28,6 @@ in
     programs.virt-manager.enable = true;
 
     virtualisation = {
-      podman = {
-        enable = true;
-        dockerCompat = true;
-      };
       waydroid.enable = true; # android
       libvirtd.enable = true; # virt-manager
       spiceUSBRedirection.enable = true;

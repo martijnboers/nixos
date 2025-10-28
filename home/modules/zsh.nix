@@ -20,6 +20,7 @@ in
       fzf # A command-line fuzzy finder
       zoxide # use z to goto visited paths
       lsd # fancy ls
+      glow # fancy markdown
     ];
 
     programs.zsh = {
@@ -47,21 +48,16 @@ in
         {
           # --- NixOS specific --------
           deploy = lib.getExe deploy-custom; # $ deploy {?host} --verbose
-          mdeploy = "sudo darwin-rebuild switch --flake '/Users/martijn/nixos/.?submodules=1#paddy'";
           update = "nix flake update";
           # ---------------------------
-          dud = "docker compose up -d";
           fixup = "ga . && gc --amend --no-edit";
           xev = "wev"; # wayland xev
           ls = "lsd"; # fancy ls
-          fmt = "nix fmt ~/Nix/*.nix";
           adel = "read -r s&&atuin search '$s' --delete";
           notes = "(cd /mnt/notes && nvim)";
           readme = "cat README* | glow";
           keyboard-compile = "qmk compile -kb peej/lumberjack -km martijn";
           keyboard-flash = "qmk flash -kb peej/lumberjack -km martijn";
-          proxy = "sudo systemctl start wg-quick-wg0";
-          proxyd = "sudo systemctl stop wg-quick-wg0";
 
           pow = sshAlias "hadouken";
           wolk = sshAlias "shoryuken";

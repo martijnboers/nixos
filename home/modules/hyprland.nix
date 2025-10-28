@@ -95,7 +95,7 @@ in
         "$mod" = "ALT";
         "$prog" = "CTRL ALT";
         exec-once = [
-          "cinny &"
+          "Fractal &"
           "blueman-applet &"
           "systemctl --user start hyprpolkitagent &"
         ];
@@ -108,7 +108,7 @@ in
         windowrulev2 = [
           "workspace 2, class:(Wfica)" # citrix
           "workspace 4, class:(sublime_merge)"
-          "workspace 5, class:(cinny)"
+          "workspace 5, class:(fractal)"
           "workspace 5, class:(signal)"
           "workspace 5, class:(Slack)"
         ];
@@ -192,7 +192,7 @@ in
                 "$mod, ${ws}, workspace, ${ws}" # Switch to workspace {ws}
                 "$mod SHIFT, ${ws}, movetoworkspace, ${ws}" # Move to workspace {ws}
               ]
-            ) 6 # Generate for 6 workspaces
+            ) 6
           )
         );
 
@@ -315,23 +315,40 @@ in
       temperature.night = 3000;
     };
 
-    services.swayidle =
+    services.hypridle =
       let
         lockCmd = lib.getExe pkgs.hyprlock;
+        notifyCmd = lib.getExe pkgs.libnotify;
       in
       {
         enable = true;
-        package = pkgs.stable.swayidle;
-        timeouts = [
-          {
-            timeout = 1495;
-            command = "${lib.getExe pkgs.libnotify} 'Locking in 5 seconds' -t 5000";
-          }
-          {
-            timeout = 1500;
-            command = lockCmd;
-          }
-        ];
+        settings = {
+          general = {
+            after_sleep_cmd = "hyprctl dispatch dpms on";
+            ignore_dbus_inhibit = false;
+            lock_cmd = lockCmd;
+          };
+
+          listener = [
+            {
+              timeout = (5 * 60) - 5;
+              on-timeout = "${notifyCmd} 'Locking in 5 seconds...' -t 4900 -u critical";
+            }
+            {
+              timeout = 5 * 60;
+              on-timeout = lockCmd;
+            }
+            {
+              timeout = 15 * 60;
+              on-timeout = "hyprctl dispatch dpms off";
+              on-resume = "hyprctl dispatch dpms on";
+            }
+            {
+              timeout = 30 * 60;
+              on-timeout = "systemctl suspend";
+            }
+          ];
+        };
       };
 
     programs.hyprlock = {
@@ -352,22 +369,63 @@ in
           }
         ];
 
+        shape = [
+          {
+            monitor = "";
+            size = "320, 280"; 
+            rounding = 20;
+            color = "rgba(24, 25, 38, 0.5)";
+            position = "0, 0";
+            halign = "center";
+            valign = "center";
+            zindex = 0;
+
+            shadow_passes = 2;
+            shadow_size = 5;
+            shadow_color = "rgba(0, 0, 0, 0.4)";
+          }
+        ];
+
+        image = [
+          {
+            path = toString ../assets/img/icon.png;
+            size = 90;
+            rounding = -1;
+            border_size = 3;
+            border_color = "rgb(202, 211, 245)";
+            position = "0, 65"; 
+            halign = "center";
+            valign = "center";
+            zindex = 1;
+          }
+        ];
+
         input-field = [
           {
-            size = "200, 50";
-            position = "0, -80";
+            size = "220, 45";
+            position = "0, -55"; 
+            halign = "center";
+            valign = "center";
+            zindex = 1;
+            shadow_passes = 1;
+            shadow_size = 2; 
             monitor = "";
             dots_center = true;
             fade_on_empty = false;
             font_color = "rgb(202, 211, 245)";
-            inner_color = "rgb(91, 96, 120)";
-            outer_color = "rgb(24, 25, 38)";
-            outline_thickness = 5;
+            inner_color = "rgb(69, 71, 90)";
+	    outer_color = "rgb(202, 211, 245)";
+            outline_thickness = 3;
             placeholder_text = "Rara...";
-            shadow_passes = 2;
+            rounding = 15;
+            fail_color = "rgb(243, 139, 168)";
+            fail_text = "<i>$FAIL <b>($ATTEMPTS)</b></i>";
+            check_color = "rgb(166, 227, 161)";
+            capslock_color = "rgb(250, 179, 135)";
           }
         ];
       };
     };
+
   };
 }

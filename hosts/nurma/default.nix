@@ -3,7 +3,7 @@
   networking.hostName = "nurma";
   hosts.hyprland.enable = true;
   hosts.secureboot.enable = true;
-  hosts.virt.enable = true;
+  hosts.qemu.enable = true;
 
   hosts.borg = {
     enable = true;
@@ -51,11 +51,6 @@
       enable = true;
       package = pkgs.winbox4;
       openFirewall = true;
-    };
-
-    # Run unpatched bins
-    nix-ld = {
-      enable = true;
     };
   };
 

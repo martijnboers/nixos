@@ -9,7 +9,6 @@
     ./modules/monitoring.nix
     ./modules/detection.nix
     ./modules/mastodon.nix
-    ./modules/detection.nix
     ./modules/paperless.nix
     ./modules/microbin.nix
     ./modules/calendar.nix
