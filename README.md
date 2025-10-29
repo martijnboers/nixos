@@ -32,14 +32,13 @@ for a good initial starting point for NixOS with flakes.
 | Immich | Self-hosted photo and video backup solution. | [immich.nix](hosts/hadouken/modules/immich.nix) |
 | Mastodon (glitch-soc) & Fedifetcher | Federated social media server. | [mastodon.nix](hosts/hadouken/modules/mastodon.nix) |
 | Matrix Synapse | Secure, decentralized communication server. | [matrix.nix](hosts/hadouken/modules/matrix.nix) |
-| Jellyfin & Jellyseerr | Media server. | [media.nix](hosts/hadouken/modules/media.nix) |
+| Jellyfin & Syncthing | Media server and file synchronization. | [media.nix](hosts/hadouken/modules/media.nix) |
 | Microbin | Self-hosted pastebin. | [microbin.nix](hosts/hadouken/modules/microbin.nix) |
 | Grafana, Loki, Promtail, Prometheus | Monitoring and logging stack. | [monitoring.nix](hosts/hadouken/modules/monitoring.nix) |
 | Paperless-NGX | Document management system. | [paperless.nix](hosts/hadouken/modules/paperless.nix) |
 | Pingvin Share | File sharing service. | [pingvin.nix](hosts/hadouken/modules/pingvin.nix) |
 | NFS | Network File System for sharing files. | [shares.nix](hosts/hadouken/modules/shares.nix) |
 | ZFS & Syncoid | Manages ZFS filesystems and automated backups. | [storage.nix](hosts/hadouken/modules/storage.nix) |
-| Syncthing | Continuous file synchronization. | [syncthing.nix](hosts/hadouken/modules/syncthing.nix) |
 
 #### Cloud #1
 | Service | Description | Configuration |

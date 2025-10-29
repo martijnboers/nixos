@@ -48,6 +48,9 @@
     };
   };
 
+  # Disable harderning for ip-forwarding
+  nix-mineral.settings.network.ip-forwarding = true;
+
   systemd.services.qos-cake-wan = {
     description = "Apply and maintain CAKE queue discipline for peepee (WAN)";
 

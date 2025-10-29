@@ -351,6 +351,12 @@ in
         };
       };
 
+    home.file = {
+      ".config/avatar.png" = {
+        source = ../assets/img/icon.png;
+      };
+    };
+
     programs.hyprlock = {
       enable = true;
       settings = {
@@ -372,7 +378,7 @@ in
         shape = [
           {
             monitor = "";
-            size = "320, 280"; 
+            size = "320, 280";
             rounding = 20;
             color = "rgba(24, 25, 38, 0.5)";
             position = "0, 0";
@@ -388,12 +394,12 @@ in
 
         image = [
           {
-            path = toString ../assets/img/icon.png;
+            path = "${config.home.homeDirectory}/.config/avatar.png";
             size = 90;
             rounding = -1;
             border_size = 3;
             border_color = "rgb(202, 211, 245)";
-            position = "0, 65"; 
+            position = "0, 65";
             halign = "center";
             valign = "center";
             zindex = 1;
@@ -403,18 +409,18 @@ in
         input-field = [
           {
             size = "220, 45";
-            position = "0, -55"; 
+            position = "0, -55";
             halign = "center";
             valign = "center";
             zindex = 1;
             shadow_passes = 1;
-            shadow_size = 2; 
+            shadow_size = 2;
             monitor = "";
             dots_center = true;
             fade_on_empty = false;
             font_color = "rgb(202, 211, 245)";
             inner_color = "rgb(69, 71, 90)";
-	    outer_color = "rgb(202, 211, 245)";
+            outer_color = "rgb(202, 211, 245)";
             outline_thickness = 3;
             placeholder_text = "Rara...";
             rounding = 15;

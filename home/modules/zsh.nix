@@ -29,7 +29,9 @@ in
         let
           deploy-custom = pkgs.writeShellScriptBin "deploy-custom" ''
             set -euo pipefail
-            cd /home/martijn/Nix
+            export NH_FLAKE=${config.home.homeDirectory}/Nix
+
+	    cd $NH_FLAKE
             git submodule update --remote secrets
             nix flake update secrets
 
@@ -40,7 +42,6 @@ in
               target_args+=(--hostname "$hostname" --target-host "martijn@''${hostname}.machine.thuis")
               shift
             fi
-            export NH_FLAKE=/home/martijn/Nix
             nh os switch --ask "''${target_args[@]}" 
           '';
           sshAlias = name: "kitty +kitten ssh ${name}.machine.thuis";
@@ -72,7 +73,7 @@ in
 
           "c\?" = "mods -f -m cli-fast --role cli \"$1\"";
         };
-      dotDir = "/home/martijn/.config/zsh";
+      dotDir = "${config.home.homeDirectory}/.config/zsh";
       initContent = ''
         # Powerlevel10k Zsh theme
         source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme

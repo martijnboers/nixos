@@ -22,6 +22,11 @@ in
 
     users.users.martijn.extraGroups = [ "wireshark" ];
 
+    nix-mineral.filesystems.normal = {
+      # Devenv up requires exec
+      "/home".options."noexec" = false;
+    };
+
     # Yubikey sudo
     security.pam.services = {
       login.u2fAuth = true;
@@ -76,9 +81,10 @@ in
               "noatime" # Don't update file access times on read
               "tcp"
               "soft" # timeout instead of freezing
-              "intr"
-              "x-systemd.automount" # lazyloading, solves tailscale chicken&egg
+              "x-systemd.automount" # lazymount
               "_netdev" # this makes the .mount unit require network-online.target
+              "x-systemd.requires=tailscaled.service" 
+              "x-systemd.after=tailscaled.service" 
             ];
           };
         };

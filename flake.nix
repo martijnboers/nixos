@@ -2,7 +2,7 @@
   description = "Everything, everywhere, all at once";
 
   inputs = {
-    self.submodules = true; # add secrets
+    self.submodules = true; # git submodules
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
@@ -42,6 +42,11 @@
 
     nix-bitcoin = {
       url = "github:fort-nix/nix-bitcoin/master";
+    };
+
+    nix-mineral = {
+      url = "github:cynicsketch/nix-mineral?ref=seikm-refactor";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     agenix = {
@@ -93,9 +98,10 @@
               ./nixos/system.nix
 
               home-manager.nixosModules.home-manager
-              agenix.nixosModules.default
-              lanzaboote.nixosModules.lanzaboote
-              secrets.outPath # so secrets/defaults becomes available
+              lanzaboote.nixosModules.lanzaboote # secureboot
+              nix-mineral.nixosModules.nix-mineral # schizo settings
+              agenix.nixosModules.default # secrets
+              secrets.outPath # so config.hidden becomes available
 
               {
                 home-manager.useGlobalPkgs = true;
@@ -107,12 +113,9 @@
         };
     in
     {
-      # Custom packages, accessible through 'nix build', 'nix shell', etc
-      packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
-      # Formatter for your nix files, available through 'nix fmt'
-      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
-      # Custom adjustments to packages
       overlays = import ./overlays { inherit inputs; };
+      packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
       # ------------ Cloud ------------
       nixosConfigurations.shoryuken = mkSystem "shoryuken" {

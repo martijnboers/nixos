@@ -8,7 +8,6 @@
   networking.hostName = "donk";
   hosts.hyprland.enable = true;
   hosts.secureboot.enable = true;
-  hosts.virt.enable = true;
 
   environment.systemPackages = [
     pkgs.iio-hyprland

@@ -24,6 +24,11 @@ in
     # Default auditd rules
     hosts.auditd.enable = lib.mkDefault true;
 
+    # Harderning rules
+    nix-mineral.settings = {
+      bluetooth-kmodules = false;
+    };
+
     # freedesktop xdg files
     xdg.autostart.enable = lib.mkDefault false;
     xdg.icons.enable = lib.mkDefault false;

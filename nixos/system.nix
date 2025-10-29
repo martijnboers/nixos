@@ -223,6 +223,23 @@
     pki.certificateFiles = [ ../secrets/keys/plebs4gold.crt ];
   };
 
+  # System harderning
+  # https://github.com/cynicsketch/nix-mineral/
+  nix-mineral = {
+    enable = true;
+    settings = {
+      kernel = {
+        only-signed-modules = true;
+        lockdown = true;
+      };
+    };
+    extras = {
+      system = {
+        secure-chrony = true;
+      };
+    };
+  };
+
   # by default setup gotify bridge as email
   programs.msmtp = {
     enable = true;

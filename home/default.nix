@@ -2,6 +2,7 @@
   inputs,
   pkgs,
   lib,
+  config,
   ...
 }:
 {
@@ -43,7 +44,7 @@
   # User level secrets
   age = {
     identityPaths = [
-      "/home/martijn/.ssh/id_ed25519"
+      "${config.home.homeDirectory}/.ssh/id_ed25519"
     ];
     secrets = {
       llm.file = ../secrets/llm.age;
@@ -85,7 +86,7 @@
   };
 
   # Let nix-index handle command-not-found
-  programs.nix-index.enable = true; 
+  programs.nix-index.enable = true;
 
   # Run programs with , cowsay
   programs.nix-index-database.comma.enable = true;
@@ -96,13 +97,13 @@
 
   programs.git = {
     enable = true;
-    userName = "Martijn Boers";
-    userEmail = "martijn@boers.email";
     signing.key = "328144ACADA0A336";
-    extraConfig = {
+    settings = {
       pull.rebase = "true";
       init.defaultBranch = "main";
       push.autoSetupRemote = "true";
+      user.name = "Martijn Boers";
+      user.email = "martijn@boers.email";
     };
   };
 
