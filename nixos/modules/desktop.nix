@@ -15,7 +15,7 @@ in
 
   config = mkIf cfg.enable {
     environment.sessionVariables = {
-      TERM = "xterm-kitty";
+      TERM = "xterm-ghostty";
       BROWSER = "librewolf";
       DEFAULT_BROWSER = "librewolf";
     };

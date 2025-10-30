@@ -360,7 +360,7 @@ in
           key = "<C-d>";
         }
         {
-          action = "<C-i>"; # needed because mapping tab breaks CTRL-i in kitty
+          action = "<C-i>"; # needed because mapping tab breaks CTRL-i in ghostty?
           key = "<C-i>";
         }
         {

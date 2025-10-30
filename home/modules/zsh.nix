@@ -31,7 +31,7 @@ in
             set -euo pipefail
             export NH_FLAKE=${config.home.homeDirectory}/Nix
 
-	    cd $NH_FLAKE
+            cd $NH_FLAKE
             git submodule update --remote secrets
             nix flake update secrets
 
@@ -44,7 +44,7 @@ in
             fi
             nh os switch --ask "''${target_args[@]}" 
           '';
-          sshAlias = name: "kitty +kitten ssh ${name}.machine.thuis";
+          sshAlias = name: "ssh ${name}.machine.thuis";
         in
         {
           # --- NixOS specific --------
@@ -73,29 +73,49 @@ in
 
           "c\?" = "mods -f -m cli-fast --role cli \"$1\"";
         };
+      completionInit = ""; # let zplug do this
+      initContent = # bash
+        ''
+          s() {
+            nix shell "nixpkgs#$1"
+          }
+          wp() {
+            rm -f wp.jpg
+            dezoomify-rs --compression 0 --largest $1 wp.jpg
+          }
+          export $(cat ${config.age.secrets.llm.path} | xargs)
+          source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+          test -f ~/.config/zsh/.p10k.zsh && source ~/.config/zsh/.p10k.zsh
+        '';
       dotDir = "${config.home.homeDirectory}/.config/zsh";
-      initContent = ''
-        # Powerlevel10k Zsh theme
-        source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-        test -f ~/.config/zsh/.p10k.zsh && source ~/.config/zsh/.p10k.zsh
-
-        # nix-shell alias
-        s() {
-          nix shell "nixpkgs#$1"
-        }
-
-        # AI keys
-        export $(cat ${config.age.secrets.llm.path} | xargs)
-      '';
-      oh-my-zsh = {
+      zprof.enable = false;
+      zplug = {
         enable = true;
         plugins = [
-          "git"
-          "direnv"
-          "fzf"
-          "z"
-          "ssh-agent"
-          "vi-mode"
+          {
+            name = "plugins/ssh-agent";
+            tags = [ "from:oh-my-zsh" ];
+          }
+          {
+            name = "plugins/direnv";
+            tags = [ "from:oh-my-zsh" ];
+          }
+          {
+            name = "plugins/git";
+            tags = [ "from:oh-my-zsh" ];
+          }
+          {
+            name = "plugins/z";
+            tags = [ "from:oh-my-zsh" ];
+          }
+          {
+            name = "jeffreytse/zsh-vi-mode";
+            tags = [ "from:github" ];
+          }
+          {
+            name = "zsh-users/zsh-syntax-highlighting";
+            tags = [ "from:github" ];
+          }
         ];
       };
     };

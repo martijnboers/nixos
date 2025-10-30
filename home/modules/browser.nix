@@ -58,6 +58,10 @@ in
           name = "kvm";
           url = "https://pikvm.machine.thuis/kvm/#";
         }
+        {
+          name = "nixpkgs";
+          url = "https://nixos.org/manual/nixpkgs/unstable/";
+        }
       ]);
     programs.librewolf = {
       enable = true;

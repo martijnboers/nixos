@@ -17,7 +17,7 @@ in
     # file:///home/martijn/.config/stylix/palette.html
     stylix = {
       enable = true;
-      image = ../assets/img/wp_2.jpg;
+      image = ../assets/img/wp.jpg;
       polarity = "dark";
       icons = {
         enable = true;
@@ -29,7 +29,8 @@ in
         name = "phinger-cursors-light";
         size = 26;
       };
-      base16Scheme = "${pkgs.base16-schemes}/share/themes/material-darker.yaml";
+      # https://tinted-theming.github.io/tinted-gallery/
+      base16Scheme = "${pkgs.base16-schemes}/share/themes/kanagawa-dragon.yaml";
       fonts = {
         serif = {
           package = pkgs.inter;
@@ -47,7 +48,10 @@ in
           package = pkgs.noto-fonts-emoji;
           name = "Noto Color Emoji";
         };
-        sizes.popups = 14; # for fuzzel
+        sizes = {
+	  terminal = 13;
+	  popups = 14;
+	};
       };
       targets = {
         librewolf = {
