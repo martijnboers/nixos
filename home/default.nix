@@ -14,7 +14,6 @@
     ./modules/nixvim.nix
     ./modules/stylix.nix
     ./modules/attic.nix
-    ./modules/atuin.nix
     ./modules/zsh.nix
     ./modules/mods.nix
 
@@ -31,7 +30,7 @@
     # Desktop only
     ./modules/hyprland.nix
     ./modules/browser.nix
-    ./modules/kitty.nix
+    ./modules/ghostty.nix
   ];
 
   # User level packages
@@ -52,37 +51,44 @@
   };
 
   # Default mimetype associations
-  xdg.enable = true;
-  xdg.mime.enable = true;
-  xdg.mimeApps = {
+  xdg = {
     enable = true;
-    associations.removed = {
-      "application/zip" = "org.pwmt.zathura-cb.desktop";
+    mime.enable = true;
+    mimeApps = {
+      enable = true;
+      associations.removed = {
+        "application/zip" = "org.pwmt.zathura-cb.desktop";
+      };
+      defaultApplications =
+        let
+          mkMimeAssoc = mimeTypes: desktopFile: lib.attrsets.genAttrs mimeTypes (mimeType: desktopFile);
+          imageMimeTypes = [
+            "image/jpeg"
+            "image/png"
+            "image/gif"
+            "image/bmp"
+            "image/tiff"
+            "image/webp"
+            "image/x-icon"
+            "image/heif"
+            "image/heic"
+            "image/avif"
+          ];
+          htmlTypes = [
+            "x-scheme-handler/http"
+            "x-scheme-handler/https"
+            "text/html"
+          ];
+        in
+        {
+          # ls ~/.nix-profile/share/applications
+          "text/html" = "librewolf.desktop";
+          "text/plain" = "org.kde.kwrite.desktop";
+          "application/pdf" = "org.pwmt.zathura.desktop";
+        }
+        // mkMimeAssoc imageMimeTypes "imv.desktop"
+	// mkMimeAssoc htmlTypes "librewolf.desktop";
     };
-    defaultApplications =
-      let
-        mkMimeAssoc = mimeTypes: desktopFile: lib.attrsets.genAttrs mimeTypes (mimeType: desktopFile);
-        imageMimeTypes = [
-          "image/jpeg"
-          "image/png"
-          "image/gif"
-          "image/bmp"
-          "image/tiff"
-          "image/webp"
-          "image/x-icon"
-          "image/heif"
-          "image/heic"
-          "image/avif"
-        ];
-      in
-      {
-        # ls ~/.nix-profile/share/applications
-        "x-scheme-handler/http" = "librewolf.desktop";
-        "x-scheme-handler/https" = "librewolf.desktop";
-        "text/plain" = "org.kde.kwrite.desktop";
-        "application/pdf" = "org.pwmt.zathura.desktop";
-      }
-      // mkMimeAssoc imageMimeTypes "imv.desktop";
   };
 
   # Let nix-index handle command-not-found

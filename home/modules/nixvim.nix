@@ -69,6 +69,7 @@ in
         noice.enable = true; # cmd popup input modal
         auto-session.enable = true; # auto-restore sessions on startup
         gitsigns.enable = true; # git gutter signs
+        git-conflict.enable = true; # resolve rebase conflicts
 
         origami = {
           enable = true; # folding with lsp+treesitter
@@ -99,11 +100,6 @@ in
           };
         };
 
-        which-key = {
-          enable = true; # shortcut hints
-          settings.delay = 900;
-        };
-
         mini = {
           enable = true;
           mockDevIcons = true;
@@ -112,7 +108,6 @@ in
             pick.enable = true; # file picker
             extra.enable = true; # more picker sources
             icons.enable = true; # icons support for extensions
-            visits.enable = true; # store visited paths
             surround = {
               add = "sa"; # surround words with something
               delete = "sd";
@@ -238,6 +233,10 @@ in
           key = "<Leader>r";
           options.desc = "Show registers";
         }
+        {
+          action = "<C-i>"; # needed because mapping tab breaks CTRL-i in terminal
+          key = "<C-i>";
+        }
 
         # git stuff
         {
@@ -265,10 +264,6 @@ in
           action = "<cmd>Gitsigns reset_hunk<cr>";
           key = "<Leader>gu";
           options.desc = "Git undo changes";
-        }
-        {
-          action = "<cmd>Pick git_hunks<cr>";
-          key = "<Leader>gc";
         }
         {
           action = "<cmd>Pick git_commits path='%'<cr>";
@@ -358,10 +353,6 @@ in
         {
           action = "<C-d>zz";
           key = "<C-d>";
-        }
-        {
-          action = "<C-i>"; # needed because mapping tab breaks CTRL-i in kitty
-          key = "<C-i>";
         }
         {
           action = "\"+y";

@@ -99,7 +99,7 @@ in
           "blueman-applet &"
           "systemctl --user start hyprpolkitagent &"
         ];
-        "$terminal" = "kitty";
+        "$terminal" = "ghostty +new-window";
         "$fileManager" = "thunar";
         "$browser" = "librewolf";
         "$menu" = "rofi -show combi";
@@ -211,7 +211,7 @@ in
           layout = "dwindle";
 
           # https://github.com/danth/stylix/issues/430
-          "col.active_border" = lib.mkForce "rgb(${config.lib.stylix.colors.base06})";
+          "col.active_border" = lib.mkForce "rgb(${config.lib.stylix.colors.base05})";
         };
         input = {
           kb_layout = "us";
@@ -353,7 +353,11 @@ in
 
     home.file = {
       ".config/avatar.png" = {
-        source = ../assets/img/icon.png;
+        source = pkgs.fetchurl {
+          url = "https://share.boers.email/api/shares/icon/files/662963a7-a93a-403d-94a4-2513bcfe0d31";
+          hash = "sha256-YxJuLqQ4BpWKyMOTl+J09uRVuK4e0CVinXuNb5u/8aY=";
+        };
+
       };
     };
 
@@ -380,7 +384,8 @@ in
             monitor = "";
             size = "320, 280";
             rounding = 20;
-            color = "rgba(24, 25, 38, 0.5)";
+            # Muted background, using base01
+            color = "rgba(29, 28, 25, 0.5)";
             position = "0, 0";
             halign = "center";
             valign = "center";
@@ -388,7 +393,8 @@ in
 
             shadow_passes = 2;
             shadow_size = 5;
-            shadow_color = "rgba(0, 0, 0, 0.4)";
+            # Darkest color for shadow, using base00
+            shadow_color = "rgba(13, 12, 12, 0.4)";
           }
         ];
 
@@ -398,7 +404,8 @@ in
             size = 90;
             rounding = -1;
             border_size = 3;
-            border_color = "rgb(202, 211, 245)";
+            # Bright UI color for border, using base05
+            border_color = "rgb(197, 201, 197)";
             position = "0, 65";
             halign = "center";
             valign = "center";
@@ -406,7 +413,7 @@ in
           }
         ];
 
-        input-field = [
+        "input-field" = [
           {
             size = "220, 45";
             position = "0, -55";
@@ -418,16 +425,22 @@ in
             monitor = "";
             dots_center = true;
             fade_on_empty = false;
-            font_color = "rgb(202, 211, 245)";
-            inner_color = "rgb(69, 71, 90)";
-            outer_color = "rgb(202, 211, 245)";
+            # Bright text color, using base05
+            font_color = "rgb(197, 201, 197)";
+            # Dark inner background, using base02 for contrast
+            inner_color = "rgb(40, 39, 39)";
+            # Bright outline, using base05
+            outer_color = "rgb(197, 201, 197)";
             outline_thickness = 3;
             placeholder_text = "Rara...";
             rounding = 15;
-            fail_color = "rgb(243, 139, 168)";
+            # Red for failure, using base08
+            fail_color = "rgb(196, 116, 110)";
             fail_text = "<i>$FAIL <b>($ATTEMPTS)</b></i>";
-            check_color = "rgb(166, 227, 161)";
-            capslock_color = "rgb(250, 179, 135)";
+            # Green for success, using base0B
+            check_color = "rgb(135, 169, 135)";
+            # Orange/Brown for Caps Lock, using base09
+            capslock_color = "rgb(185, 141, 123)";
           }
         ];
       };

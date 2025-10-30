@@ -132,12 +132,10 @@
       substituters = [
         "https://bincache.thuis/default"
         "https://nix-community.cachix.org"
-        "https://install.determinate.systems"
       ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "default:QiddKxFxKitj0NauDJDKT944qMq3bJvtHKNVlwsWz8k="
-        "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
       ];
     };
 
@@ -276,8 +274,8 @@
     enable = true;
     enableNTS = true;
     servers = [
-      "0.nl.pool.ntp.org"
-      "1.nl.pool.ntp.org"
+      "ntppool1.time.nl"
+      "ntppool2.time.nl"
     ];
   };
 

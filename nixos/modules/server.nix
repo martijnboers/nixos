@@ -25,9 +25,9 @@ in
     hosts.auditd.enable = lib.mkDefault true;
 
     # Harderning rules
-    nix-mineral.settings = {
-      bluetooth-kmodules = false;
-    };
+    # nix-mineral.security = {
+    #   disable-bluetooth-kmodules = true;
+    # };
 
     # freedesktop xdg files
     xdg.autostart.enable = lib.mkDefault false;

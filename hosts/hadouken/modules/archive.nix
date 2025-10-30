@@ -24,10 +24,6 @@ in
     age.secrets.shiori.file = ../../../secrets/shiori.age;
     services.borgbackup.jobs.default.paths = [ config.systemd.services.shiori.environment.SHIORI_DIR ];
 
-    systemd.services.shiori.serviceConfig.Environment = [
-      "SG_SMTP_LISTEN=0.0.0.0:8025"
-    ];
-
     services.shiori = {
       enable = true;
       port = 4354;

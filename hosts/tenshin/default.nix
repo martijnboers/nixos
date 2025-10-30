@@ -18,6 +18,7 @@
   hosts.ntp.enable = true;
 
   hosts.auditd.enable = false;
+  nix-mineral.enable = false;
 
   environment.systemPackages = [
     pkgs.raspberrypi-eeprom

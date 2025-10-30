@@ -58,6 +58,10 @@ in
           name = "kvm";
           url = "https://pikvm.machine.thuis/kvm/#";
         }
+        {
+          name = "nixpkgs";
+          url = "https://nixos.org/manual/nixpkgs/unstable/";
+        }
       ]);
     programs.librewolf = {
       enable = true;
@@ -102,10 +106,6 @@ in
               {
                 id = "transmitter@unrelenting.technology";
                 name = "transmitter-for-transmission";
-              }
-              {
-                id = "{44ec79ad-72a9-471d-962d-49e7e5501d97}";
-                name = "earth-view-from-google";
               }
               {
                 id = "{d7742d87-e61d-4b78-b8a1-b469842139fa}";

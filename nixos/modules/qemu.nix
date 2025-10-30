@@ -28,7 +28,7 @@ in
     programs.virt-manager.enable = true;
 
     virtualisation = {
-      waydroid.enable = true; # android
+      waydroid.enable = false; # android
       libvirtd.enable = true; # virt-manager
       spiceUSBRedirection.enable = true;
     };

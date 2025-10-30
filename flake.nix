@@ -8,10 +8,11 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware";
 
     # https://github.com/DeterminateSystems/nix-src/releases
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/nix-src/3.12.0.tar.gz";
+    determinate.url = "github:DeterminateSystems/nix-src/v3.12.0";
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      # url = "github:nix-community/home-manager";
+      url = "github:martijnboers/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

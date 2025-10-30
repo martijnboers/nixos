@@ -15,7 +15,7 @@ in
 
   config = mkIf cfg.enable {
     maatwerk.browser.enable = true;
-    maatwerk.kitty.enable = true;
+    maatwerk.ghostty.enable = true;
     maatwerk.stylix.enable = true;
     maatwerk.attic.enable = true;
 
@@ -31,6 +31,7 @@ in
         cheese # webcam
         errands # todo manager
         karlender # gtk calendar
+	dezoomify-rs # art archival
 
         # keyring
         seahorse
@@ -51,8 +52,8 @@ in
           };
         }))
 
-	# networking
-	wireguard-tools # wg-quick
+        # networking
+        wireguard-tools # wg-quick
         iwgtk # wifi applet
         nmap
         xca
@@ -67,19 +68,22 @@ in
 
         # messaging
         signal-desktop
-	fractal # matrix-client
+        fractal # matrix-client
       ];
 
     programs.distrobox = {
       enable = true;
+      settings = {
+        container_manager = "podman";
+      };
       containers = {
         debian = {
-	  entry = true;
+          entry = true;
           image = "debian:13";
         };
         arch = {
-	  entry = true;
-	  additional_packages = "python3 git";
+          entry = true;
+          additional_packages = "python3 git";
           image = "archlinux:latest";
         };
       };

@@ -139,14 +139,16 @@
       "locked": {
         "lastModified": 1761238235,
         "narHash": "sha256-BvEZ31+FQKJz2XH8PTXpJqGZ1eT9bhMQ2wBj2ehBYvM=",
+        "owner": "DeterminateSystems",
+        "repo": "nix-src",
         "rev": "9512828397f684d0f732ea76b7631f69a0db34f7",
-        "revCount": 23138,
-        "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/DeterminateSystems/nix-src/3.12.0/019a1277-d4c6-7dca-9d55-ee5165fd0bf6/source.tar.gz"
+        "type": "github"
       },
       "original": {
-        "type": "tarball",
-        "url": "https://flakehub.com/f/DeterminateSystems/nix-src/3.12.0.tar.gz"
+        "owner": "DeterminateSystems",
+        "ref": "v3.12.0",
+        "repo": "nix-src",
+        "type": "github"
       }
     },
     "disko": {
@@ -501,15 +503,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1761660375,
-        "narHash": "sha256-04hmZlwuV8OjzvsBvFMnmcyC5IWcVnIU1V8i0P60jXU=",
-        "owner": "nix-community",
+        "lastModified": 1762202250,
+        "narHash": "sha256-kbSpxoCyNA4aKJR+1gX+CzU6cykCujKV5OKxdUMkesQ=",
+        "owner": "martijnboers",
         "repo": "home-manager",
-        "rev": "d47259b685b1145b610fd8c28e7498304a97fa78",
+        "rev": "f838cfe85b8578ab8505d7cd70c5e5ab9f8c7bc6",
         "type": "github"
       },
       "original": {
-        "owner": "nix-community",
+        "owner": "martijnboers",
         "repo": "home-manager",
         "type": "github"
       }

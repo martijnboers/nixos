@@ -183,10 +183,7 @@
           IPv6SendRA = "yes";
           DHCPPrefixDelegation = "yes";
         };
-        dhcpServerConfig = {
-          PoolOffset = 100;
-          PoolSize = 50;
-        };
+        dhcpServerConfig.PoolOffset = 10; 
         dhcpServerStaticLeases = [
           {
             Address = "10.20.0.130";
