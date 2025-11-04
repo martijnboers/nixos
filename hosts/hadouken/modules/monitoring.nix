@@ -82,7 +82,7 @@ in
             }
           ];
         };
-        storage_config.filesystem.directory = "/var/lib/loki/chunk";
+        storage_config.filesystem.directory = "/mnt/zwembad/games/loki/chunk";
       };
     };
 

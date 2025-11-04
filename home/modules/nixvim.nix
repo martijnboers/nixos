@@ -68,8 +68,6 @@ in
       plugins = {
         noice.enable = true; # cmd popup input modal
         auto-session.enable = true; # auto-restore sessions on startup
-        gitsigns.enable = true; # git gutter signs
-        git-conflict.enable = true; # resolve rebase conflicts
 
         origami = {
           enable = true; # folding with lsp+treesitter
@@ -82,6 +80,7 @@ in
             clickable = true;
             animations = false;
             auto_hide = 1;
+            exclude_ft = [ "qf" ];
             icons = {
               button = false; # don't show close button
               preset = "default";
@@ -108,10 +107,17 @@ in
             pick.enable = true; # file picker
             extra.enable = true; # more picker sources
             icons.enable = true; # icons support for extensions
-            surround = {
-              add = "sa"; # surround words with something
-              delete = "sd";
+            surround.enable = true; # surround words with something
+            git.enable = true; # :Git helper functions
+            diff.enable = true; # gitsigns replacement
+
+            hipatterns = {
+              enable = true; # color color hexcodes
+              highlighters.hex_color = helpers.mkRaw ''
+                require('mini.hipatterns').gen_highlighter.hex_color(),
+              '';
             };
+
             move = {
               mappings = {
                 up = "<C-S-Up>";
@@ -120,6 +126,7 @@ in
                 line_down = "<C-S-Down>";
               };
             };
+
             statusline = {
               use_icons = false;
               content = {
@@ -142,6 +149,7 @@ in
                 '';
               };
             };
+
           };
         };
 
@@ -233,10 +241,6 @@ in
           key = "<Leader>r";
           options.desc = "Show registers";
         }
-        {
-          action = "<C-i>"; # needed because mapping tab breaks CTRL-i in terminal
-          key = "<C-i>";
-        }
 
         # git stuff
         {
@@ -251,24 +255,87 @@ in
           options.silent = true;
         }
         {
-          action = "<cmd>Gitsigns blame<cr>";
-          key = "<Leader>gb";
+          action = helpers.mkRaw ''
+            function ()
+              MiniGit.show_at_cursor() 
+            end
+          '';
+          key = "gb";
+          mode = [ "v" ];
           options.desc = "Git blame";
         }
         {
-          action = "<cmd>Gitsigns preview_hunk_inline<cr>";
-          key = "<Leader>gp";
-          options.desc = "Git preview hunk";
+          action = ":Pick git_commits path='%'<cr>";
+          key = "gb";
+          mode = [ "n" ];
+          options.desc = "Git blame";
         }
         {
-          action = "<cmd>Gitsigns reset_hunk<cr>";
-          key = "<Leader>gu";
-          options.desc = "Git undo changes";
+          action = "<cmd>Git add . <cr><cmd>Git commit --amend --no-edit<cr>";
+          key = "gcf";
+          options = {
+            desc = "fixup";
+            silent = true;
+          };
         }
         {
-          action = "<cmd>Pick git_commits path='%'<cr>";
-          key = "<Leader>gh";
-          options.desc = "Git history of file";
+          action = "<cmd>Git add . <cr><cmd>Git commit<cr>";
+          key = "gca";
+          options = {
+            desc = "Git commit all";
+            silent = true;
+          };
+        }
+        {
+          action = ":Git commit<cr>";
+          key = "gcc";
+          options = {
+            desc = "Git commit";
+            silent = true;
+          };
+        }
+        {
+          action = ":Git log --stat<cr>";
+          key = "glg";
+          options = {
+            desc = "Git log";
+            silent = true;
+          };
+        }
+        {
+          action = ":Git pull --rebase<cr>";
+          key = "gl";
+          options = {
+            desc = "Git pull";
+            silent = true;
+          };
+        }
+        {
+          action = helpers.mkRaw ''
+            function ()
+              MiniDiff.toggle_overlay()
+            end
+          '';
+          key = "gt";
+          options.desc = "Show buffer changes";
+        }
+        {
+          action = helpers.mkRaw ''
+            function ()
+              MiniExtra.pickers.git_hunks()
+            end
+          '';
+          key = "gu";
+          options.desc = "Unstaged hunks";
+        }
+        {
+          action = helpers.mkRaw ''
+            function ()
+              MiniExtra.pickers.git_hunks({scope = "staged"})
+            end
+          '';
+          key = "gs";
+          options.desc = "Staged hunks";
         }
 
         # file explorer
@@ -302,12 +369,12 @@ in
         }
         {
           action = "<cmd>BufferMovePrevious<cr>";
-          key = "<C-Left>";
+          key = "<C-S-Left>";
           options.desc = "Move buffer left";
         }
         {
           action = "<cmd>BufferMoveNext<cr>";
-          key = "<C-Right>";
+          key = "<C-S-Right>";
           options.desc = "Move buffer to the right";
         }
         (mkGotoBuffer 1)
@@ -375,6 +442,10 @@ in
             desc = "Add whole file to sytem clipboard";
             silent = true;
           };
+        }
+        {
+          action = "<C-i>"; # needed because mapping tab breaks CTRL-i in terminal
+          key = "<C-i>";
         }
       ];
 

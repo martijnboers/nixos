@@ -99,8 +99,8 @@
     exfatprogs # fat support
     parted # disk partitioner
     minicom # serial port reader
-    mat2 # remove metadatain
-    exiftool # read metadatainl
+    mat2 # remove metadata
+    exiftool # read metadata
   ];
 
   nix = {
@@ -121,7 +121,7 @@
       connect-timeout = lib.mkDefault 3;
 
       # When doing deploys
-      download-buffer-size = 524288000;
+      download-buffer-size = (512 * 1024 * 1024);
 
       # Avoid copying unnecessary stuff over SSH
       builders-use-substitutes = true;
@@ -132,10 +132,12 @@
       substituters = [
         "https://bincache.thuis/default"
         "https://nix-community.cachix.org"
+	"https://install.determinate.systems"
       ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "default:QiddKxFxKitj0NauDJDKT944qMq3bJvtHKNVlwsWz8k="
+	"cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
       ];
     };
 
@@ -224,7 +226,7 @@
   # System harderning
   # https://github.com/cynicsketch/nix-mineral/
   nix-mineral = {
-    enable = true;
+    enable = lib.mkDefault true;
     settings = {
       kernel = {
         only-signed-modules = true;
@@ -234,6 +236,14 @@
     extras = {
       system = {
         secure-chrony = true;
+      };
+    };
+    extras = {
+      misc = {
+        usbguard = {
+          enable = lib.mkDefault true;
+          whitelist-at-boot = true;
+        };
       };
     };
   };

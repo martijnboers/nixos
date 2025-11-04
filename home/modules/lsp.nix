@@ -84,8 +84,6 @@ in
               K = "hover";
               gD = "references";
               gd = "definition";
-              gi = "implementation";
-              gt = "type_definition";
               gr = "rename";
               ga = "code_action";
             };

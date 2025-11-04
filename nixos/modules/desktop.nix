@@ -22,9 +22,21 @@ in
 
     users.users.martijn.extraGroups = [ "wireshark" ];
 
-    nix-mineral.filesystems.normal = {
-      # Devenv up requires exec
-      "/home".options."noexec" = false;
+    nix-mineral = {
+      filesystems = {
+        normal = {
+          # Devenv up requires exec
+          "/home".options."noexec" = false;
+        };
+        special = {
+          # Cross compiling requires exec
+          "/run".options."noexec" = false;
+        };
+      };
+      # emulation for aarm64
+      settings.kernel.binfmt-misc = true;
+      # allow all usbs
+      extras.misc.usbguard.enable = false;
     };
 
     # Yubikey sudo
@@ -83,8 +95,8 @@ in
               "soft" # timeout instead of freezing
               "x-systemd.automount" # lazymount
               "_netdev" # this makes the .mount unit require network-online.target
-              "x-systemd.requires=tailscaled.service" 
-              "x-systemd.after=tailscaled.service" 
+              "x-systemd.requires=tailscaled.service"
+              "x-systemd.after=tailscaled.service"
             ];
           };
         };

@@ -621,15 +621,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1761771871,
-        "narHash": "sha256-usfbyUWz210yypb5yA/yEwky5UwWTpuBRHICwB5ARgw=",
-        "owner": "cynicsketch",
+        "lastModified": 1762293283,
+        "narHash": "sha256-8diBJSgn5py3kqyRBy7OsEDLTvPBApqFfXb+tQZPdrk=",
+        "owner": "martijnboers",
         "repo": "nix-mineral",
-        "rev": "83299c21d9aa5276a343801210be5a2fd4ed9ec7",
+        "rev": "cc0808f22eea816842beae62e2ec92ab205d5051",
         "type": "github"
       },
       "original": {
-        "owner": "cynicsketch",
+        "owner": "martijnboers",
         "ref": "seikm-refactor",
         "repo": "nix-mineral",
         "type": "github"

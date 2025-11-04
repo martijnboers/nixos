@@ -95,7 +95,7 @@ in
         "$mod" = "ALT";
         "$prog" = "CTRL ALT";
         exec-once = [
-          "Fractal &"
+          "fractal &"
           "blueman-applet &"
           "systemctl --user start hyprpolkitagent &"
         ];
@@ -107,10 +107,8 @@ in
         # hyprctl clients
         windowrulev2 = [
           "workspace 2, class:(Wfica)" # citrix
-          "workspace 4, class:(sublime_merge)"
           "workspace 5, class:(fractal)"
           "workspace 5, class:(signal)"
-          "workspace 5, class:(Slack)"
         ];
 
         # l -> locked, will also work when an input inhibitor (e.g. a lockscreen) is active.
@@ -159,7 +157,6 @@ in
           "$mod, Q, exec, $terminal"
           "$mod, E, exec, $fileManager"
           "$mod, Space, exec, $menu"
-          "$mod, R, exec, code"
           '', Print, exec, grim -g "$(slurp)" - | satty -f - -o ~/Pictures/screenshot_%Y-%m-%d_%H-%M-%S.png''
           "$mod, F4, killactive"
           "$prog, H, exec, copyq toggle"
@@ -251,16 +248,6 @@ in
         monitor=eDP-1,preferred,auto,1,transform,0
         monitor=,preferred,auto,1
 
-        windowrulev2 = keepaspectratio,class:^(librewolf)$,title:^(Picture-in-Picture)$
-        windowrulev2 = noborder,class:^(librewolf)$,title:^(Picture-in-Picture)$
-        windowrulev2 = fullscreenstate,class:^(librewolf)$,title:^(Librewolf)$
-        windowrulev2 = fullscreenstate,class:^(librewolf)$,title:^(Picture-in-Picture)$
-        windowrulev2 = pin,class:^(librewolf)$,title:^(Librewolf)$
-        windowrulev2 = pin,class:^(librewolf)$,title:^(Picture-in-Picture)$
-        windowrulev2 = float,class:^(librewolf)$,title:^(Librewolf)$
-        windowrulev2 = float,class:^(librewolf)$,title:^(Picture-in-Picture)$
-        windowrulev2 = float, class:Waydroid
-
         gesture = 3, horizontal, workspace
         gesture = 2, pinchout, close
         gesture = 4, swipe, resize
@@ -286,16 +273,12 @@ in
 
           animation = windowsIn, 1, 3, easeInOutSine, popin
           animation = windowsOut, 1, 3, easeInOutSine, popin
-          
           animation = border, 1, 3, easeInOutSine
           animation = borderangle, 1, 30, easeInOutSine, loop
-          
           animation = workspacesIn, 1, 3, easeInOutSine, slidefade
           animation = workspacesOut, 1, 3, easeInOutSine, slidefade
-          
           animation = specialWorkspaceIn, 1, 3, easeInOutSine, slidevert
           animation = specialWorkspaceOut, 1, 3, easeInOutSine, slidevert
-          
           animation = layersIn, 1, 3, easeInOutSine, fade
           animation = layersOut, 1, 3, easeInOutSine, fade
         }
@@ -331,8 +314,8 @@ in
 
           listener = [
             {
-              timeout = (5 * 60) - 5;
-              on-timeout = "${notifyCmd} 'Locking in 5 seconds...' -t 4900 -u critical";
+              timeout = (5 * 60) - 15;
+              on-timeout = "${notifyCmd} 'Locking in 15 seconds...' -t 15000 -u critical";
             }
             {
               timeout = 5 * 60;
