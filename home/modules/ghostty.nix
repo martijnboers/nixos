@@ -24,7 +24,6 @@ in
         gtk-titlebar-hide-when-maximized = true;
         scrollback-limit = 500 * 1024 * 1024; # 500mb
         freetype-load-flags = "no-force-autohint";
-	shell-integration-features = "ssh-terminfo";
         keybind = [
           "ctrl+shift+page_down=move_tab:1"
           "ctrl+shift+page_up=move_tab:-1"

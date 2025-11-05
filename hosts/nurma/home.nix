@@ -5,16 +5,7 @@
   ];
 
   home.packages = with pkgs; [
-    stable.veracrypt
-
-    # SDR
-    stable.sdrpp
-
-    # yubikey
-    yubioath-flutter
-    yubico-piv-tool
-    yubikey-manager # ykman
-    opensc
+    stable.sdrpp # sdr
   ];
 
   age.identityPaths = [ "/home/martijn/.ssh/id_ed25519_age" ];

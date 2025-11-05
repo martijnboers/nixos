@@ -8,10 +8,52 @@ with lib;
 let
   cfg = config.maatwerk.nixvim;
   helpers = config.lib.nixvim;
+
   mkGotoBuffer = index: {
     action = "<cmd>BufferGoto ${toString index}<cr>";
     key = "<C-${toString (index + 5)}>"; # use right side of keyboard
     options.desc = "Go to buffer ${toString index}";
+  };
+
+  mkLuaKeymap = key: desc: luaCode: {
+    inherit key;
+    action = helpers.mkRaw "function() ${luaCode} end";
+    options.desc = desc;
+  };
+
+  mkLuaKeymapModes = key: desc: modes: luaCode: {
+    inherit key;
+    mode = modes;
+    action = helpers.mkRaw "function() ${luaCode} end";
+    options.desc = desc;
+  };
+
+  mkCmdKeymap = key: desc: cmd: {
+    inherit key;
+    action = "<cmd>${cmd}<cr>";
+    options.desc = desc;
+  };
+
+  mkGitKeymap = key: desc: gitCmd: {
+    inherit key;
+    action = ":Git ${gitCmd}<cr>";
+    options = {
+      inherit desc;
+      silent = true;
+    };
+  };
+
+  mkGitChainedKeymap = key: desc: commands: {
+    inherit key;
+    action = builtins.concatStringsSep "" (map (cmd: "<cmd>Git ${cmd}<cr>") commands);
+    options = {
+      inherit desc;
+      silent = true;
+    };
+  };
+
+  mkSimpleRemap = key: action: {
+    inherit key action;
   };
 in
 {
@@ -26,8 +68,6 @@ in
   ];
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ ripgrep ];
-
     programs.nixvim = {
       enable = true;
       vimAlias = true;
@@ -68,6 +108,7 @@ in
       plugins = {
         noice.enable = true; # cmd popup input modal
         auto-session.enable = true; # auto-restore sessions on startup
+	auto-save.enable = true; # no more :w :w :w
 
         origami = {
           enable = true; # folding with lsp+treesitter
@@ -137,13 +178,20 @@ in
                     local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 70 })
                     local path          = MiniStatusline.section_filename({ trunc_width = 10 })
 
+                    -- Calculate the percentage of the current line in the file
+                    local current_line = vim.fn.line('.')
+                    local total_lines = vim.fn.line('$')
+                    local percentage = math.floor((current_line / total_lines) * 100)
+                    local percentage_str = string.format('%d%%%%', (total_lines > 0 and math.floor((current_line / total_lines) * 100)) or 0)
+
                     return MiniStatusline.combine_groups({
-                      { hl = mode_hl,               strings = { mode } },
+                      { hl = mode_hl,               	strings = { mode } },
                       '%<',
-                      { hl = 'MiniStatuslineLocation', strings = { path } },
+                      { hl = 'MiniStatuslineDevinfo',	strings = { percentage_str } },
+                      { hl = 'MiniStatuslineLocation', 	strings = { path } },
                       '%=',
-                      { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
-                      { hl = 'MiniStatuslineDiff',  strings = {  diff } },
+                      { hl = 'MiniStatuslineFileinfo', 	strings = { fileinfo } },
+                      { hl = 'MiniStatuslineDiff',  	strings = {  diff } },
                     })
                   end
                 '';
@@ -160,293 +208,123 @@ in
       };
 
       keymaps = [
-        # picker
-        {
-          action = helpers.mkRaw ''
-            function ()
-              MiniPick.builtin.grep_live()
-            end
-          '';
-          key = "<Leader>f";
-          mode = [
-            "n"
-            "v"
-          ];
-          options.desc = "Find";
-        }
-        {
-          action = helpers.mkRaw ''
-            function ()
-              MiniPick.builtin.files()
-            end
-          '';
-          key = "<Leader>o";
-          options.desc = "Files";
-        }
-        {
-          action = helpers.mkRaw ''
-            function ()
-              MiniPick.builtin.buffers()
-            end
-          '';
-          key = "<Leader>b";
-          options.desc = "Find in buffers";
-        }
-        {
-          action = helpers.mkRaw ''
-            function ()
-              MiniExtra.pickers.buf_lines()
-            end
-          '';
-          key = "<Leader>/";
-          options.desc = "Find in buffer lines";
-        }
-        {
-          action = helpers.mkRaw ''
-            function ()
-              MiniPick.builtin.help()
-            end
-          '';
-          key = "<Leader>h";
-          options.desc = "Find help pages";
-        }
-        {
-          action = helpers.mkRaw ''
-            function ()
-              MiniExtra.pickers.diagnostic()
-            end
-          '';
-          key = "<Leader>x";
-          mode = [
-            "n"
-            "v"
-          ];
-          options.desc = "Find errors";
-        }
-        {
-          action = helpers.mkRaw ''
-            function ()
-              MiniExtra.pickers.lsp({scope = 'document_symbol'})
-            end
-          '';
-          key = "<Leader>s";
-          options.desc = "Find symbols";
-        }
-        {
-          action = helpers.mkRaw ''
-            function ()
-              MiniExtra.pickers.registers()
-            end
-          '';
-          key = "<Leader>r";
-          options.desc = "Show registers";
-        }
+        # ============================================
+        # Picker / Fuzzy Finding
+        # ============================================
+        (mkLuaKeymapModes "<Leader>f" "Find" [ "n" "v" ] "MiniPick.builtin.grep_live()")
+        (mkLuaKeymap "<Leader>o" "Files" "MiniPick.builtin.files()")
+        (mkLuaKeymap "<Leader>b" "Find in buffers" "MiniPick.builtin.buffers()")
+        (mkLuaKeymap "<Leader>/" "Find in buffer lines" "MiniExtra.pickers.buf_lines()")
+        (mkLuaKeymap "<Leader>h" "Find help pages" "MiniPick.builtin.help()")
+        (mkLuaKeymapModes "<Leader>x" "Find errors" [ "n" "v" ] "MiniExtra.pickers.diagnostic()")
+        (mkLuaKeymap "<Leader>s" "Find symbols" "MiniExtra.pickers.lsp({scope = 'document_symbol'})")
+        (mkLuaKeymap "<Leader>r" "Show registers" "MiniExtra.pickers.registers()")
 
-        # git stuff
-        {
-          action = "<cmd>OpenInGHFile<cr>";
-          key = "<Leader>go";
-          options.silent = true;
-        }
-        {
-          action = ":OpenInGHFileLines<cr>"; # has to be : for range to work
-          key = "<Leader>go";
-          mode = [ "v" ];
-          options.silent = true;
-        }
-        {
-          action = helpers.mkRaw ''
-            function ()
-              MiniGit.show_at_cursor() 
-            end
-          '';
-          key = "gb";
-          mode = [ "v" ];
-          options.desc = "Git blame";
-        }
-        {
-          action = ":Pick git_commits path='%'<cr>";
-          key = "gb";
-          mode = [ "n" ];
-          options.desc = "Git blame";
-        }
-        {
-          action = "<cmd>Git add . <cr><cmd>Git commit --amend --no-edit<cr>";
-          key = "gcf";
-          options = {
-            desc = "fixup";
-            silent = true;
-          };
-        }
-        {
-          action = "<cmd>Git add . <cr><cmd>Git commit<cr>";
-          key = "gca";
-          options = {
-            desc = "Git commit all";
-            silent = true;
-          };
-        }
-        {
-          action = ":Git commit<cr>";
-          key = "gcc";
-          options = {
-            desc = "Git commit";
-            silent = true;
-          };
-        }
-        {
-          action = ":Git log --stat<cr>";
-          key = "glg";
-          options = {
-            desc = "Git log";
-            silent = true;
-          };
-        }
-        {
-          action = ":Git pull --rebase<cr>";
-          key = "gl";
-          options = {
-            desc = "Git pull";
-            silent = true;
-          };
-        }
-        {
-          action = helpers.mkRaw ''
-            function ()
-              MiniDiff.toggle_overlay()
-            end
-          '';
-          key = "gt";
-          options.desc = "Show buffer changes";
-        }
-        {
-          action = helpers.mkRaw ''
-            function ()
-              MiniExtra.pickers.git_hunks()
-            end
-          '';
-          key = "gu";
-          options.desc = "Unstaged hunks";
-        }
-        {
-          action = helpers.mkRaw ''
-            function ()
-              MiniExtra.pickers.git_hunks({scope = "staged"})
-            end
-          '';
-          key = "gs";
-          options.desc = "Staged hunks";
-        }
+        # ============================================
+        # File Explorer
+        # ============================================
+        (mkLuaKeymapModes "<Leader>e" "Toggle MiniFiles" [
+          "n"
+          "v"
+        ] "if not MiniFiles.close() then MiniFiles.open(vim.api.nvim_buf_get_name(0), false) end")
 
-        # file explorer
-        {
-          action = helpers.mkRaw ''
-            function(...)
-              if not MiniFiles.close() then MiniFiles.open(vim.api.nvim_buf_get_name(0), false) end
-            end
-          '';
-          key = "<Leader>e";
-          mode = [
-            "n"
-            "v"
-          ];
-          options = {
-            desc = "Toggle MiniFiles";
-            silent = true;
-          };
-        }
-
-        # Buffers
-        {
-          action = "<cmd>BufferPrevious<cr>";
-          key = "<Left>";
-          options.desc = "Go to prev buffer";
-        }
-        {
-          action = "<cmd>BufferNext<cr>";
-          key = "<Right>";
-          options.desc = "Go to next buffer";
-        }
-        {
-          action = "<cmd>BufferMovePrevious<cr>";
-          key = "<C-S-Left>";
-          options.desc = "Move buffer left";
-        }
-        {
-          action = "<cmd>BufferMoveNext<cr>";
-          key = "<C-S-Right>";
-          options.desc = "Move buffer to the right";
-        }
+        # ============================================
+        # Buffer Management
+        # ============================================
+        # Navigation
+        (mkCmdKeymap "<Left>" "Go to prev buffer" "BufferPrevious")
+        (mkCmdKeymap "<Right>" "Go to next buffer" "BufferNext")
         (mkGotoBuffer 1)
         (mkGotoBuffer 2)
         (mkGotoBuffer 3)
-        (mkGotoBuffer 4)
-        (mkGotoBuffer 5)
+
+        # Moving buffers
+        (mkCmdKeymap "<C-S-Left>" "Move buffer left" "BufferMovePrevious")
+        (mkCmdKeymap "<C-S-Right>" "Move buffer to the right" "BufferMoveNext")
+
+        # Closing buffers
+        (mkLuaKeymap "x" "close buffer" "vim.api.nvim_buf_delete(0, {})")
+        (mkCmdKeymap "X" "Close all but pinned or current" "BufferCloseAllButCurrentOrPinned")
+
+        # Pinning
+        (mkCmdKeymap "<Leader>a" "Pin buffer" "BufferPin")
+
+        # Window navigation
+        (mkSimpleRemap "<Tab>" "<C-w>w")
+        (mkSimpleRemap "<S-Tab>" "<C-w>W")
+
+        # ============================================
+        # Git Operations
+        # ============================================
+        # Viewing / Blame
         {
-          action = "<cmd>BufferPin<cr>";
-          key = "<Leader>a";
-          options.desc = "Move buffer to the right";
+          key = "gb";
+          mode = [ "n" ];
+          action = ":Pick git_commits path='%'<cr>";
+          options.desc = "Git blame";
         }
+        (mkLuaKeymapModes "gb" "Git blame" [ "v" ] "MiniGit.show_at_cursor()")
+        (mkGitKeymap "glg" "Git log" "log --stat --max-count=200")
+
+        # Diff / Hunks
+        (mkLuaKeymap "gt" "Show buffer changes" "MiniDiff.toggle_overlay()")
+        (mkLuaKeymap "gu" "Unstaged hunks" "MiniExtra.pickers.git_hunks()")
+        (mkLuaKeymap "gs" "Staged hunks" "MiniExtra.pickers.git_hunks({scope = \"staged\"})")
+
+        # Commits
+        (mkGitKeymap "<Leader>cc" "Git commit --verbose" "commit")
+        (mkGitChainedKeymap "<Leader>ca" "Git commit all" [
+          "add ."
+          "commit --verbose"
+        ])
+        (mkGitChainedKeymap "<Leader>cf" "fixup" [
+          "add ."
+          "commit --amend --no-edit"
+        ])
+
+        # Push / Pull
+        (mkGitKeymap "<Leader>pl" "Git pull" "pull --rebase")
+        (mkGitKeymap "<Leader>pp" "Git push" "push")
+        (mkGitKeymap "<Leader>pf" "Git push force" "push --force-with-lease --force-if-includes")
+
+        # GitHub integration
+        (mkCmdKeymap "<Leader>go" "Open file in source control" "OpenInGHFile")
         {
-          action = helpers.mkRaw ''
-            function ()
-              vim.api.nvim_buf_delete(0, {})
-            end
-          '';
-          key = "x";
-          options.desc = "close buffer";
-        }
-        {
-          action = "<cmd>BufferCloseAllButCurrentOrPinned<cr>";
-          key = "X";
-          options.desc = "Close all but pinned or current";
-        }
-        {
-          action = "<C-w>w";
-          key = "<Tab>";
-          options.desc = "Switch window";
-        }
-        {
-          action = "<C-w>W";
-          key = "<S-Tab>";
-          options.desc = "Prev window";
+          key = "<Leader>go";
+          mode = [ "v" ];
+          action = ":OpenInGHFileLines<cr>"; # has to be : for range to work
+          options.silent = true;
         }
 
-        # quality of life stuff
+        # ============================================
+        # Quality of Life / Utilities
+        # ============================================
+        # Smooth scrolling (center cursor)
+        (mkSimpleRemap "<C-u>" "<C-u>zz")
+        (mkSimpleRemap "<C-d>" "<C-d>zz")
+
+        # Clipboard operations
         {
-          action = "<C-u>zz";
-          key = "<C-u>";
-        }
-        {
-          action = "<C-d>zz";
-          key = "<C-d>";
-        }
-        {
+          key = "<Leader>y";
+          mode = [ "v" ];
           action = "\"+y";
-          key = "<Leader>c";
-          mode = [
-            "v"
-          ];
           options = {
             desc = "Add to sytem clipboard";
             silent = true;
           };
         }
         {
+          key = "<Leader>y";
+          mode = [ "n" ];
           action = "<cmd>%y+<cr>";
-          key = "<Leader>c";
-          mode = [
-            "n"
-          ];
           options = {
             desc = "Add whole file to sytem clipboard";
             silent = true;
           };
         }
-        {
-          action = "<C-i>"; # needed because mapping tab breaks CTRL-i in terminal
-          key = "<C-i>";
-        }
+
+        # Fix for Tab mapping breaking Ctrl-i
+        (mkSimpleRemap "<C-i>" "<C-i>")
       ];
 
       diagnostic.settings = {

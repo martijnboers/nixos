@@ -26,12 +26,13 @@ in
     # Sets the error output to the HDMI console, for the same reason as above.
     # sudo fw_setenv stderr vidconsole
 
-    # services.chrony = {
-    #   enable = true;
-    #   extraConfig = ''
-    #     allow 100.64.0.0/10 
-    #   '';
-    # };
+    services.chrony = {
+      enableNTS = false;
+      servers = [ "94.198.159.14" ];
+      # extraConfig = ''
+      #   allow 100.64.0.0/10
+      # '';
+    };
 
     boot = {
       kernelPackages = pkgs.linuxPackages_rpi4;

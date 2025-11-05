@@ -12,9 +12,9 @@
     #   dontPatchELF = true;
     #   cmakeFlags = (oldAttrs.cmakeFlags or [ ]) ++ [ "-DCMAKE_BUILD_TYPE=Debug" ];
     # });
-    # karlender = prev.karlender.overrideAttrs (oldAttrs: {
+    # ghostty = prev.ghostty.overrideAttrs (oldAttrs: {
     #   patches = (oldAttrs.patches or [ ]) ++ [
-    #     ./sync.rs.patch
+    #     ./ghostty.patch
     #   ];
     # });
   };

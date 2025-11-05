@@ -31,7 +31,7 @@ in
         cheese # webcam
         errands # todo manager
         karlender # gtk calendar
-	dezoomify-rs # art archival
+        dezoomify-rs # art archival
 
         # keyring
         seahorse
@@ -42,6 +42,11 @@ in
         imv # image
         mpv # video
         kate # kwrite
+        sqlitebrowser
+
+        # yubikey
+        yubioath-flutter # 2fa
+        yubikey-manager # ykman
 
         # work
         (citrix_workspace.overrideAttrs (oa: {
@@ -54,7 +59,13 @@ in
 
         # networking
         wireguard-tools # wg-quick
+        podman-compose # replace for dud
         iwgtk # wifi applet
+
+        # forensics
+        mat2 # remove metadata
+        exiftool # read metadata
+	rdap # whois
         nmap
         xca
 
@@ -76,6 +87,7 @@ in
       settings = {
         container_manager = "podman";
       };
+      # distrobox-assemble create --file ~/.config/distrobox/containers.ini
       containers = {
         debian = {
           entry = true;
@@ -83,8 +95,11 @@ in
         };
         arch = {
           entry = true;
-          additional_packages = "python3 git";
           image = "archlinux:latest";
+        };
+        fedora = {
+          entry = true;
+          image = "fedora:44";
         };
       };
     };

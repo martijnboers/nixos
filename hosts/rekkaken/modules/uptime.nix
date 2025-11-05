@@ -26,6 +26,8 @@ in
       respond 403
     '';
 
+    services.borgbackup.jobs.default.paths = [ "/var/lib/uptime-kuma" ];
+
     services.uptime-kuma = {
       enable = true;
       settings = {

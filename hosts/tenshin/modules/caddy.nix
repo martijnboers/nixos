@@ -17,6 +17,7 @@ in
     services.caddy = {
       enable = true;
       package = pkgs.caddy;
+      logFormat = "level DEBUG";
       globalConfig = ''
         servers {
             trusted_proxies static 100.64.0.0/10

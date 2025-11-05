@@ -50,10 +50,6 @@
   environment.systemPackages = with pkgs; [
     inputs.agenix.packages.${system}.default
 
-    # networking tools
-    dnsutils # `dig` + `nslookup`
-    whois
-
     # core
     ripgrep
     openssl
@@ -71,6 +67,10 @@
 
     htop # the og
     btop # fancy htop
+
+    # networking
+    dnsutils # `dig` + `nslookup`
+    geonet # geodns+geoping
 
     # archives
     lz4 # compression
@@ -99,8 +99,6 @@
     exfatprogs # fat support
     parted # disk partitioner
     minicom # serial port reader
-    mat2 # remove metadata
-    exiftool # read metadata
   ];
 
   nix = {
@@ -132,12 +130,12 @@
       substituters = [
         "https://bincache.thuis/default"
         "https://nix-community.cachix.org"
-	"https://install.determinate.systems"
+        "https://install.determinate.systems"
       ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "default:QiddKxFxKitj0NauDJDKT944qMq3bJvtHKNVlwsWz8k="
-	"cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
+        "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
       ];
     };
 
@@ -282,8 +280,8 @@
   time.timeZone = "Europe/Amsterdam";
   services.chrony = {
     enable = true;
-    enableNTS = true;
-    servers = [
+    enableNTS = lib.mkDefault true;
+    servers = lib.mkDefault [
       "ntppool1.time.nl"
       "ntppool2.time.nl"
     ];

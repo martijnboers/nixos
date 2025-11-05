@@ -20,6 +20,10 @@ in
       DEFAULT_BROWSER = "librewolf";
     };
 
+    environment.systemPackages = [
+      pkgs.veracrypt 
+    ];
+
     users.users.martijn.extraGroups = [ "wireshark" ];
 
     nix-mineral = {
@@ -71,10 +75,12 @@ in
       };
     };
 
-    # Distrobox podman setup
+    virtualisation.containers.enable = true;
     virtualisation.podman = {
       enable = true;
       dockerCompat = true;
+      # Required for containers under podman-compose to be able to talk to each other.
+      defaultNetwork.settings.dns_enabled = true;
     };
 
     boot.supportedFilesystems = [ "nfs" ];

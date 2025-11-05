@@ -7,9 +7,73 @@
 with lib;
 let
   cfg = config.maatwerk.hyprland;
+
+  # On-screen keyboard toggle for battery widget
+  oskToggle = pkgs.writeShellScriptBin "osk" ''
+    PROG="wvkbd"
+    SIGNAL="SIGRTMIN"
+    if ! pgrep "''${PROG}" > /dev/null; then
+        "''${PROG}" --hidden --alpha 204 &
+    fi
+    pkill --signal "''${SIGNAL}" "''${PROG}"
+  '';
+
+  # Screen rotation toggle for disk widget
+  iioToggle = pkgs.writeShellScriptBin "iio-toggle" ''
+    PROG="iio-hyprland"
+    if ! pgrep "''${PROG}" > /dev/null; then
+      "''${PROG}" &
+    else
+      pkill "''${PROG}"
+    fi
+  '';
+
+  # WAN IP display script
+  wanIP = pkgs.writeShellScriptBin "wan-ip" ''
+    wan_ip=$(curl -s https://ip.boers.email)
+    echo "󰖟 $wan_ip"
+  '';
+
+  # Quick settings menu
+  quickSettings = pkgs.writeShellScriptBin "quick-settings" ''
+    # Define options with icons
+    options="⌨️  Keyboard\n🔄  Rotation"
+
+    # Show wofi menu with larger font/padding for touch
+    chosen=$(echo -e "$options" | wofi \
+      --dmenu \
+      --hide-search \
+      --insensitive \
+      --prompt "" \
+      --width 300 \
+      --height 200 \
+      --cache-file /dev/null \
+      --style ${pkgs.writeText "wofi-quicksettings.css" ''
+        #entry {
+          padding: 20px;
+          font-size: 20px;
+        }
+      ''})
+
+    # Execute based on selection
+    case "$chosen" in
+      "⌨️  Keyboard")
+        ${lib.getExe oskToggle}
+        ;;
+      "🔄  Rotation")
+        ${lib.getExe iioToggle}
+        ;;
+    esac
+  '';
 in
 {
   config = mkIf cfg.enable {
+    programs.wofi = {
+      enable = true;
+      settings = {
+        single_click = true;
+      };
+    };
     programs.waybar = {
       enable = true;
       systemd.enable = true;
@@ -47,7 +111,7 @@ in
             transition-duration: 0.5s;
           }
 
-          #custom-power, #workspaces, #custom-notification,
+          #custom-power, #custom-quick-settings, #workspaces, #custom-notification,
           #custom-wan, #window, #clock-privacy, #system-stats, #system-tray {
               background: @base01;
               border: 1px solid @base02;
@@ -58,7 +122,7 @@ in
               transition: background-color 0.3s ease;
           }
 
-          #custom-power:hover, #custom-notification:hover,
+          #custom-power:hover, #custom-quick-settings:hover, #custom-notification:hover,
           #custom-wan:hover, #window:hover, #clock-privacy:hover,
           #system-stats:hover, #system-tray:hover {
             background: @base02;
@@ -66,7 +130,12 @@ in
 
           #custom-power {
             color: @base0A;
-            padding: 5px 15px 5px 12px;
+            padding-left: 15px;
+            padding-right: 15px;
+            border-right: 1px solid @base03;
+            margin-right: 0;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
           }
 
           #window {
@@ -76,6 +145,16 @@ in
           #custom-notification,
           #custom-wan {
             color: @base04;
+          }
+
+          #custom-quick-settings {
+            color: @base0C;
+            padding-left: 15px;
+            padding-right: 20px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border-left: none;
+            margin-left: 0;
           }
 
           #workspaces {
@@ -123,6 +202,7 @@ in
           }
 
           #battery.charging { color: @base0B; }
+	  #battery.warning:not(.charging) { color: @base0A }
           #battery.critical:not(.charging) { color: @base08; }
           #network.disconnected { color: @base08; }
 
@@ -165,6 +245,7 @@ in
 
           modules-left = [
             "custom/power"
+            "custom/quick-settings"
             "hyprland/workspaces"
             "hyprland/window"
           ];
@@ -299,38 +380,20 @@ in
 
           battery = {
             interval = 2;
+            states = {
+              warning = 25;
+              critical = 10;
+            };
             format = "  {capacity}%";
             format-charging = "󱐋 {capacity}%";
-            on-click =
-              let
-                osk = pkgs.writeShellScriptBin "osk" ''
-                  PROG="wvkbd"
-                  SIGNAL="SIGRTMIN"
-                  if ! pgrep "''${PROG}" > /dev/null; then
-                      "''${PROG}" --hidden --alpha 204 &
-                  fi
-                  pkill --signal "''${SIGNAL}" "''${PROG}"
-                '';
-              in
-              lib.getExe osk;
+	    format-warning = "󰚥 {capacity}%";
+            format-critical = "󱗗 {capacity}%";
           };
 
           disk = {
             interval = 15;
             format = "󰋊 {percentage_used}%";
             path = "/";
-            on-click =
-              let
-                osk = pkgs.writeShellScriptBin "osk" ''
-                  PROG="iio-hyprland"
-                  if ! pgrep "''${PROG}" > /dev/null; then
-                    "''${PROG}" &
-                  else
-                    pkill "''${PROG}"
-                  fi
-                '';
-              in
-              lib.getExe osk;
           };
 
           wireplumber = {
@@ -359,21 +422,22 @@ in
           "custom/power" = {
             tooltip = false;
             format = "{icon}";
-            format-icons = "";
+            format-icons = "⏻";
             exec-on-event = "true";
             on-click = "wlogout";
           };
 
+          "custom/quick-settings" = {
+            tooltip = false;
+            format = "{icon}";
+            format-icons = "";
+            exec-on-event = "true";
+            on-click = lib.getExe quickSettings;
+          };
+
           "custom/wan" = {
             tooltip = false;
-            exec =
-              let
-                wan = pkgs.writeShellScriptBin "wan-ip" ''
-                  wan_ip=$(curl -s https://ip.boers.email)
-                  echo "󰖟 $wan_ip"
-                '';
-              in
-              lib.getExe wan;
+            exec = lib.getExe wanIP;
             interval = 5;
           };
 

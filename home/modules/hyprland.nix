@@ -107,7 +107,7 @@ in
         # hyprctl clients
         windowrulev2 = [
           "workspace 2, class:(Wfica)" # citrix
-          "workspace 5, class:(fractal)"
+          "workspace 5, class:(Fractal)"
           "workspace 5, class:(signal)"
         ];
 

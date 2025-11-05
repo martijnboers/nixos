@@ -37,10 +37,11 @@ let
     "uptime"
   ];
   tenshinRecords = [
-    "hass"
-    "chef"
-    "tools"
     "chat"
+    "chef"
+    "hass"
+    "ladder"
+    "tools"
   ];
   tatsumakiRecords = [
     "mempool"
@@ -141,6 +142,13 @@ in
                     "hadouken:80,443" # everyone access to hadouken web-services
                     "dosukoi:53,80,443" # everyone access to dns, requests acme certs
                     "rekkaken:80,443,8025" # send/receive notifications + internal email
+                  ];
+                }
+                {
+                  action = "accept";
+                  src = [ "dosukoi" ];
+                  dst = [
+                    "*:80,443" # always allow finishing ACME challange
                   ];
                 }
                 {

@@ -35,18 +35,6 @@
   hosts.prometheus.enable = true;
 
   programs = {
-    gamemode = {
-      enable = true;
-    };
-    steam = {
-      enable = true;
-      package = pkgs.steam.override {
-        extraPkgs =
-          pkgs: with pkgs; [
-            gamemode
-          ];
-      };
-    };
     winbox = {
       enable = true;
       package = pkgs.winbox4;

@@ -16,6 +16,7 @@ in
       vale
       ruff
       eslint
+      prettier
     ];
 
     programs.nixvim = {
@@ -24,16 +25,18 @@ in
           enable = true;
           settings = {
             formatters_by_ft = {
-              nix = [ "nixfmt" ];
-              python = [ "black" ];
-              lua = [ "stylua" ];
-              html = [ "prettier" ];
               css = [ "biome" ];
+              html = [ "prettier" ];
+              htmldjango = [ "prettier" ];
               javascript = [ "biome" ];
               javascriptreact = [ "biome" ];
+              lua = [ "stylua" ];
+              nix = [ "nixfmt" ];
+              python = [ "black" ];
               typescript = [ "biome" ];
               typescriptreact = [ "biome" ];
               yaml = [ "yamlfmt" ];
+              zig = [ "zig" ];
               bash = [
                 "shellcheck"
                 "shellharden"
@@ -54,6 +57,7 @@ in
               biome.command = lib.getExe pkgs.biome;
               prettier.command = lib.getExe pkgs.prettier;
               yamlfmt.command = lib.getExe pkgs.yamlfmt;
+              zig.command = "${lib.getExe pkgs.zig} fmt";
             };
           };
         }; # formatters
@@ -98,6 +102,7 @@ in
             pyright.enable = true;
             gopls.enable = true;
             ccls.enable = true;
+	    zls.enable = true;
             vtsls.enable = true; # Javascript (nice naming)
             yamlls.enable = true;
             docker_compose_language_service.enable = true;

@@ -87,7 +87,7 @@
           "application/pdf" = "org.pwmt.zathura.desktop";
         }
         // mkMimeAssoc imageMimeTypes "imv.desktop"
-	// mkMimeAssoc htmlTypes "librewolf.desktop";
+        // mkMimeAssoc htmlTypes "librewolf.desktop";
     };
   };
 
@@ -110,7 +110,24 @@
       push.autoSetupRemote = "true";
       user.name = "Martijn Boers";
       user.email = "martijn@boers.email";
+      delta = {
+        navigate = true;
+        dark = true;
+      };
+      merge.conflictStyle = "zdiff3";
+      pager = {
+        blame = "delta";
+        diff = "delta";
+        reflog = "delta";
+        show = "delta";
+      };
     };
+  };
+
+  # Delta git diff highlighter
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
   };
 
   # Nicely reload system units when changing configs

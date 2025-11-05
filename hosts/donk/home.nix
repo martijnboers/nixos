@@ -1,19 +1,11 @@
-{ pkgs, ... }:
+{ ... }:
 {
   imports = [
     ../../home
   ];
 
-  home.packages = with pkgs; [
-    stable.veracrypt
-
-    # yubikey
-    yubioath-flutter
-    yubico-piv-tool
-    yubikey-manager # ykman
-    opensc
-  ];
+  home.packages = [ ];
 
   # Enable profiles
-  maatwerk.hyprland.enable = true; 
+  maatwerk.hyprland.enable = true;
 }

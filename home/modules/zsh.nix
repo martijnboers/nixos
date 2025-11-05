@@ -14,6 +14,10 @@ in
   };
 
   config = mkIf cfg.enable {
+    home.packages = with pkgs; [
+      dezoomify-rs # art archival
+    ];
+
     programs.zsh = {
       enable = true;
       shellAliases =
@@ -40,7 +44,6 @@ in
           deploy = lib.getExe deploy-custom; # $ deploy {?host} --verbose
           update = "nix flake update";
           # ---------------------------
-          fixup = "ga . && gc --amend --no-edit";
           xev = "wev"; # wayland xev
           adel = "read -r s&&atuin search '$s' --delete";
           notes = "(cd /mnt/notes && nvim)";
@@ -48,6 +51,23 @@ in
           keyboard-compile = "qmk compile -kb peej/lumberjack -km martijn";
           keyboard-flash = "qmk flash -kb peej/lumberjack -km martijn";
 
+          # git alias
+          ga = "git add";
+          gc = "git commit --verbose";
+          gco = "git checkout";
+          gbd = "git branch --delete";
+          gcb = "git checkout -b";
+          gf = "git fetch";
+          gl = "git pull";
+          glg = "git log --stat";
+          gp = "git push";
+          gpf = "git push --force-with-lease --force-if-includes";
+          grb = "git rebase";
+          groh = "git reset origin/$(git_current_branch) --hard";
+          gwip = ''git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify --no-gpg-sign --message "--wip-- [skip ci]"'';
+          fixup = "ga . && gc --amend --no-edit";
+
+          # ssh nicknames
           pow = sshAlias "hadouken";
           wolk = sshAlias "shoryuken";
           pi = sshAlias "tenshin";
@@ -106,10 +126,6 @@ in
             tags = [ "from:oh-my-zsh" ];
           }
           {
-            name = "plugins/git";
-            tags = [ "from:oh-my-zsh" ];
-          }
-          {
             name = "jeffreytse/zsh-vi-mode";
             tags = [ "from:github" ];
           }
@@ -133,30 +149,27 @@ in
       };
     };
 
-    programs.zoxide = {
-      enable = true; # Use z to goto visited paths
-      enableZshIntegration = true;
+    programs = {
+      zoxide = {
+        enable = true; # Use z to goto visited paths
+        enableZshIntegration = true;
+      };
+      nh = {
+        enable = true; # nixos-rebuild wrapper
+        flake = "${config.home.homeDirectory}/Nix";
+      };
+      fzf = {
+        enable = true; # A command-line fuzzy finder
+        enableZshIntegration = true;
+      };
+      direnv = {
+        enable = true; # Execute commands when stepping into directory
+        enableZshIntegration = true;
+      };
+      lsd = {
+        enable = true; # fancy ls
+        enableZshIntegration = true;
+      };
     };
-
-    programs.nh = {
-      enable = true; # nixos-rebuild wrapper
-      flake = "${config.home.homeDirectory}/Nix";
-    };
-
-    programs.fzf = {
-      enable = true; # A command-line fuzzy finder
-      enableZshIntegration = true;
-    };
-
-    programs.direnv = {
-      enable = true; # Execute commands when stepping into directory
-      enableZshIntegration = true;
-    };
-
-    programs.lsd = {
-      enable = true; # fancy ls
-      enableZshIntegration = true;
-    };
-
   };
 }

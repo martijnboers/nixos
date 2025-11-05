@@ -15,5 +15,7 @@ in
   tormon-exporter = pkgs.callPackage ./tormon-exporter.nix { };
   wvkbd-desktop = pkgs.callPackage ./wvkbd.nix { };
   karlender-dev = pkgs.callPackage ./karlender.nix { };
+  geonet = pkgs.callPackage ./geonet.nix { };
+  ladder = pkgs.callPackage ./ladder.nix { };
   glitch-soc = pkgs.callPackage "${glitch-soc-src}/packages/mastodon" { };
 }
