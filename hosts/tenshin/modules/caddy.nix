@@ -22,6 +22,9 @@ in
         servers {
             trusted_proxies static 100.64.0.0/10
         }
+        metrics {
+          per_host
+        }
       '';
       extraConfig = ''
         (headscale) {

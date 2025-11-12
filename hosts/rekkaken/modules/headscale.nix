@@ -148,7 +148,7 @@ in
                   action = "accept";
                   src = [ "dosukoi" ];
                   dst = [
-                    "*:80,443" # always allow finishing ACME challange
+                    "headscale-server@:80,443" # http acme challange
                   ];
                 }
                 {
@@ -156,29 +156,26 @@ in
                   src = [ "shoryuken" ];
                   dst = [
                     "hadouken:5551,5552,5553,5554" # reverse proxy ports
-                    "headscale-server@:80,443" # acme challange
                   ];
                 }
                 {
                   action = "accept";
                   src = [ "headscale-user@" ];
                   dst = [
-                    "hadouken:22,2049" # nfs+ssh
-                    "tenshin:80,443" # hass + static sites
+                    "hadouken:2049" # nfs
+                    "headscale-server@:80,443"
                   ];
                 }
                 {
                   action = "accept";
                   src = [ "hadouken" ];
                   dst = [
-                    "tenshin:*"
-                    "shoryuken:*"
-                    "tatsumaki:*"
-                    "rekkaken:*"
-                    "*:9002" # node exporter
-                    "dosukoi:9617" # adguard exporter
+                    "headscale-server@:9002" # node exporter
+                    "headscale-server@:2019" # caddy exporter
+                    "headscale-server@:${toString config.services.endlessh-go.prometheus.port}"
+                    "headscale-server@:9617" # adguard exporter
                   ];
-                } # hadouken semi-god
+                }
                 {
                   action = "accept";
                   src = [
@@ -186,15 +183,10 @@ in
                     "donk"
                   ];
                   dst = [
-                    "tenshin:*"
-                    "shoryuken:*"
-                    "hadouken:*"
-                    "tatsumaki:*"
-                    "rekkaken:*"
-                    "dosukoi:22,3023"
+                    "headscale-server@:22"
                     "pikvm:80,443"
                   ];
-                } # full-god
+                }
               ];
             }
           );
