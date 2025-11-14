@@ -54,7 +54,7 @@ in
               shellharden.command = lib.getExe pkgs.shellharden;
               nixfmt.command = lib.getExe pkgs.nixfmt-rfc-style;
               stylua.command = lib.getExe pkgs.stylua;
-              biome.command = lib.getExe pkgs.biome;
+              biome.command = "${lib.getExe pkgs.biome} format";
               prettier.command = lib.getExe pkgs.prettier;
               yamlfmt.command = lib.getExe pkgs.yamlfmt;
               zig.command = "${lib.getExe pkgs.zig} fmt";
@@ -102,7 +102,7 @@ in
             pyright.enable = true;
             gopls.enable = true;
             ccls.enable = true;
-	    zls.enable = true;
+            zls.enable = true;
             vtsls.enable = true; # Javascript (nice naming)
             yamlls.enable = true;
             docker_compose_language_service.enable = true;

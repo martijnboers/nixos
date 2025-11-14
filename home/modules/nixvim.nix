@@ -101,19 +101,12 @@ in
         sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions,globals";
         termguicolors = true; # more colors, makes linenumber color work
         cursorline = true; # show highlight under cursor
-        foldlevel = 99;
-        foldlevelstart = 99;
       };
 
       plugins = {
         noice.enable = true; # cmd popup input modal
         auto-session.enable = true; # auto-restore sessions on startup
-	auto-save.enable = true; # no more :w :w :w
-
-        origami = {
-          enable = true; # folding with lsp+treesitter
-          settings.foldKeymaps.setup = false;
-        };
+	quicker.enable = true; # edit quickfix as buffer
 
         barbar = {
           enable = true; # tabs, as understood by any other editor.
@@ -174,7 +167,7 @@ in
                 active = helpers.mkRaw ''
                   function()
                     local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 200 })
-                    local diff          = MiniStatusline.section_diff({ icon = "  ", trunc_width = 70 })
+                    local diff          = MiniStatusline.section_git({ icon = "  ", trunc_width = 70 })
                     local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 70 })
                     local path          = MiniStatusline.section_filename({ trunc_width = 10 })
 
