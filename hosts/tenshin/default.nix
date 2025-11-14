@@ -5,7 +5,6 @@
   imports = [
     ./modules/cyberchef.nix
     ./modules/ittools.nix
-    ./modules/ladder.nix
     ./modules/caddy.nix
     ./modules/hass.nix
     ./modules/ntp.nix
@@ -17,7 +16,6 @@
   hosts.prometheus.enable = true;
   hosts.hass.enable = true;
   hosts.ntp.enable = true;
-  hosts.ladder.enable = true;
 
   hosts.auditd.enable = false;
   nix-mineral.enable = false;

@@ -36,34 +36,30 @@ in
       };
     };
 
-    programs.rofi = {
+    programs.walker = {
       enable = true;
-      extraConfig = {
-        show-icons = true;
-        display-combi = " :";
-        display-drun = "";
-        display-window = "";
-        display-run = "󰨡";
-        modes = "combi,calc";
-        combi-modes = "window,drun,run,emoji";
-      };
-      theme =
-        let
-          # Use `mkLiteral` for string-like values that should show without quotes
-          inherit (config.lib.formats.rasi) mkLiteral;
-        in
-        {
-          "*" = {
-            width = 700;
-          };
-          element-icon = {
-            size = mkLiteral "1.2em";
-          };
+      runAsService = true;
+      # https://github.com/abenz1267/walker/blob/master/resources/config.toml
+      config = {
+        providers = {
+          default = [
+            "desktopapplications"
+            "symbols"
+            "calc"
+          ];
+          prefixes = [
+            {
+              provider = "files";
+              prefix = "/";
+            }
+          ];
+          keybinds.quick_activate = [
+            "F1"
+            "F2"
+            "F3"
+          ];
         };
-      plugins = with pkgs; [
-        rofi-calc
-        rofi-emoji
-      ];
+      };
     };
 
     home.packages =
@@ -102,7 +98,7 @@ in
         "$terminal" = "ghostty +new-window";
         "$fileManager" = "thunar";
         "$browser" = "librewolf";
-        "$menu" = "rofi -show combi";
+        "$menu" = "walker";
 
         # hyprctl clients
         windowrulev2 = [

@@ -9,6 +9,7 @@
     ./modules/headscale.nix
     ./modules/notifs.nix
     ./modules/uptime.nix
+    ./modules/ladder.nix
     ./modules/caddy.nix
   ];
 

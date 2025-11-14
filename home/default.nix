@@ -20,6 +20,7 @@
     # Packaged home manager modules
     inputs.nixvim.homeModules.nixvim
     inputs.stylix.homeModules.stylix
+    inputs.walker.homeManagerModules.default
 
     # quickly lookup and run programs
     inputs.nix-index-database.homeModules.nix-index

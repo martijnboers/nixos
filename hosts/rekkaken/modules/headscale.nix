@@ -33,6 +33,7 @@ let
   shoryukenRecords = [ ];
   rekkakenRecords = [
     "notifications"
+    "ladder"
     "vpn"
     "uptime"
   ];
@@ -40,7 +41,6 @@ let
     "chat"
     "chef"
     "hass"
-    "ladder"
     "tools"
   ];
   tatsumakiRecords = [
