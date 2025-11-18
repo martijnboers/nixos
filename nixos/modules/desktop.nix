@@ -21,7 +21,7 @@ in
     };
 
     environment.systemPackages = [
-      pkgs.veracrypt 
+      pkgs.veracrypt
     ];
 
     users.users.martijn.extraGroups = [ "wireshark" ];
@@ -31,6 +31,8 @@ in
         normal = {
           # Devenv up requires exec
           "/home".options."noexec" = false;
+	  # Building npm requires exec
+          "/tmp".options."noexec" = false;
         };
         special = {
           # Cross compiling requires exec

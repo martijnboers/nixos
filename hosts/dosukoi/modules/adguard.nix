@@ -43,7 +43,7 @@ in
           DynamicUser = true;
           EnvironmentFile = config.age.secrets.adguard.path;
 
-	  ProtectControlGroups = true;
+          ProtectControlGroups = true;
           LockPersonality = true;
           MemoryDenyWriteExecute = true;
           NoNewPrivileges = true;

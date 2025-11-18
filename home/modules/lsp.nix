@@ -12,11 +12,12 @@ in
 {
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
+      eslint
+      golangci-lint
+      prettier
+      ruff
       tflint
       vale
-      ruff
-      eslint
-      prettier
     ];
 
     programs.nixvim = {
@@ -37,6 +38,7 @@ in
               typescriptreact = [ "biome" ];
               yaml = [ "yamlfmt" ];
               zig = [ "zig" ];
+              go = [ "go" ];
               bash = [
                 "shellcheck"
                 "shellharden"
@@ -47,18 +49,6 @@ in
                 "trim_newlines"
               ];
             };
-            formatters = {
-              black.command = lib.getExe pkgs.black;
-              shellcheck.command = lib.getExe pkgs.shellcheck;
-              shfmt.command = lib.getExe pkgs.shfmt;
-              shellharden.command = lib.getExe pkgs.shellharden;
-              nixfmt.command = lib.getExe pkgs.nixfmt-rfc-style;
-              stylua.command = lib.getExe pkgs.stylua;
-              biome.command = "${lib.getExe pkgs.biome} format";
-              prettier.command = lib.getExe pkgs.prettier;
-              yamlfmt.command = lib.getExe pkgs.yamlfmt;
-              zig.command = "${lib.getExe pkgs.zig} fmt";
-            };
           };
         }; # formatters
 
@@ -68,6 +58,7 @@ in
             nix = [ "nix" ];
             python = [ "ruff" ];
             javascript = [ "eslint" ];
+            go = [ "golangcilint" ];
             terraform = [ "tflint" ];
             text = [ "vale" ];
           };

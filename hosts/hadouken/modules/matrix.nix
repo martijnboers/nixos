@@ -27,7 +27,7 @@ in
         server_name = "boers.email";
         public_baseurl = "https://boers.email";
         enable_registration = false;
-	dynamic_thumbnails = true;
+        dynamic_thumbnails = true;
       };
       settings.listeners = [
         {

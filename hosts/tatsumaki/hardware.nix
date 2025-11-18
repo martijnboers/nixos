@@ -30,22 +30,23 @@
 
   systemd.network.networks =
     let
-      defaultNetwork = adapter: ip: {
-        "10-${adapter}" = {
-          matchConfig.Name = adapter;
-          networkConfig = {
-            DHCP = "no";
-            IPv6AcceptRA = true;
+      defaultNetwork = { adapter, ip }:
+        {
+          "10-${adapter}" = {
+            matchConfig.Name = adapter;
+            networkConfig = {
+              DHCP = "no";
+              IPv6AcceptRA = true;
+            };
+            address = [
+              "10.10.0.${ip}/24"
+            ];
+            routes = [
+              { Gateway = "10.10.0.1"; }
+            ];
+            linkConfig.RequiredForOnline = "routable";
           };
-          address = [
-            "10.10.0.${ip}/24"
-          ];
-          routes = [
-            { Gateway = "10.10.0.1"; }
-          ];
-          linkConfig.RequiredForOnline = "routable";
         };
-      };
     in
     lib.attrsets.mergeAttrsList (
       map defaultNetwork [

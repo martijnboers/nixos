@@ -65,7 +65,7 @@ in
         # forensics
         mat2 # remove metadata
         exiftool # read metadata
-	rdap # whois
+        rdap # whois
         nmap
         xca
 

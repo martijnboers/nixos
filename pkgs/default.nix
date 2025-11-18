@@ -17,5 +17,6 @@ in
   karlender-dev = pkgs.callPackage ./karlender.nix { };
   geonet = pkgs.callPackage ./geonet.nix { };
   ladder = pkgs.callPackage ./ladder.nix { };
+  unaware = pkgs.callPackage ./unaware.nix { };
   glitch-soc = pkgs.callPackage "${glitch-soc-src}/packages/mastodon" { };
 }

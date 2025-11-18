@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ ... }:
 {
   networking.hostName = "tatsumaki";
 

@@ -160,7 +160,7 @@ in
             "browser.backspace_action" = 0; # enable backspace back history
             "sidebar.verticalTabs" = true; # we zen browser now
             "sidebar.visibility" = "expand-on-hover";
-            "sidebar.animation.expand-on-hover.duration-ms" = "100";
+            "sidebar.animation.enabled" = false;
             "sidebar.revamp.round-content-area" = true;
 
             # https://bugzilla.mozilla.org/show_bug.cgi?id=1732114

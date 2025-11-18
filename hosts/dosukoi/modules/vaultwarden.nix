@@ -34,7 +34,7 @@ in
         invitationsAllowed = false;
         rocketPort = 3011;
         websocketEnabled = false;
-	experimentalClientFeatureFlags = "mutual-tls";
+        experimentalClientFeatureFlags = "mutual-tls";
       };
     };
   };

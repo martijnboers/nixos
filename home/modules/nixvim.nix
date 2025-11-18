@@ -73,7 +73,7 @@ in
       vimAlias = true;
 
       globals = {
-        mapleader = " "; # map leader to spacebar
+        mapleader = " "; 
       };
 
       extraPlugins = [
@@ -106,7 +106,7 @@ in
       plugins = {
         noice.enable = true; # cmd popup input modal
         auto-session.enable = true; # auto-restore sessions on startup
-	quicker.enable = true; # edit quickfix as buffer
+        quicker.enable = true; # edit quickfix as buffer
 
         barbar = {
           enable = true; # tabs, as understood by any other editor.
@@ -116,8 +116,9 @@ in
             auto_hide = 1;
             exclude_ft = [ "qf" ];
             icons = {
-              button = false; # don't show close button
+              button = false; 
               preset = "default";
+              filetype.enabled = false;
               pinned = {
                 button = "";
                 filename = true;
@@ -167,7 +168,7 @@ in
                 active = helpers.mkRaw ''
                   function()
                     local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 200 })
-                    local diff          = MiniStatusline.section_git({ icon = "  ", trunc_width = 70 })
+                    local diff          = MiniStatusline.section_diff({ icon = "  ", trunc_width = 70 })
                     local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 70 })
                     local path          = MiniStatusline.section_filename({ trunc_width = 10 })
 
@@ -190,13 +191,7 @@ in
                 '';
               };
             };
-
           };
-        };
-
-        render-markdown = {
-          enable = true; # better markdown support
-          settings.render_modes = true;
         };
       };
 

@@ -40,16 +40,19 @@ in
           sshAlias = name: "ssh ${name}.machine.thuis";
         in
         {
-          # --- NixOS specific --------
+          # --- NixOS specific ---
           deploy = lib.getExe deploy-custom; # $ deploy {?host} --verbose
           update = "nix flake update";
-          # ---------------------------
+
           xev = "wev"; # wayland xev
           adel = "read -r s&&atuin search '$s' --delete";
           notes = "(cd /mnt/notes && nvim)";
           readme = "cat README* | ${lib.getExe pkgs.glow}";
           keyboard-compile = "qmk compile -kb peej/lumberjack -km martijn";
           keyboard-flash = "qmk flash -kb peej/lumberjack -km martijn";
+          socks = "ssh -D 1337 -q -C -N hadouken.machine.thuis";
+          extreme-pro = ''sudo veracrypt -t "/dev/disk/by-partlabel/Extreme\\x20Pro" /mnt/veracrypt1/'';
+          "c\?" = "mods -f -m cli-fast --role cli \"$1\"";
 
           # git alias
           ga = "git add";
@@ -75,11 +78,6 @@ in
           desktop = sshAlias "nurma";
           nofail = sshAlias "rekkaken";
           router = sshAlias "dosukoi";
-
-          socks = "ssh -D 1337 -q -C -N hadouken.machine.thuis";
-          extreme-pro = ''sudo veracrypt -t "/dev/disk/by-partlabel/Extreme\\x20Pro" /mnt/veracrypt1/'';
-
-          "c\?" = "mods -f -m cli-fast --role cli \"$1\"";
         };
       completionInit = ""; # let zplug do this
       initContent =

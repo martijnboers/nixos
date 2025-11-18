@@ -29,8 +29,8 @@ in
       extraPackages =
         python3Packages: with python3Packages; [
           ibeacon-ble # don't use the bluetooth stuff...
-	  hassil
-	  apprise
+          hassil
+          apprise
           numpy
           pyturbojpeg
           gtts
@@ -39,7 +39,7 @@ in
       extraComponents = [
         "shelly"
         "apprise"
-	"isal"
+        "isal"
       ];
       config = {
         http = {

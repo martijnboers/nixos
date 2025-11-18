@@ -22,10 +22,10 @@
     inputs.stylix.homeModules.stylix
     inputs.walker.homeManagerModules.default
 
-    # quickly lookup and run programs
+    # Quickly lookup and run programs
     inputs.nix-index-database.homeModules.nix-index
 
-    # secrets manager
+    # Secrets manager
     inputs.agenix.homeManagerModules.default
 
     # Desktop only

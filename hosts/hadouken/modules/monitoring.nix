@@ -168,10 +168,10 @@ in
           static_configs = [
             {
               targets = map (host: "${host}.machine.thuis:2019") [
-		"dosukoi"
-		"hadouken"
-		"tatsumaki"
-		"tenshin"
+                "dosukoi"
+                "hadouken"
+                "tatsumaki"
+                "tenshin"
                 "rekkaken"
                 "shoryuken"
               ];
