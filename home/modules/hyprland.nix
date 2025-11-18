@@ -67,11 +67,11 @@ in
       with kdePackages;
       [
         # utilities
-        waybar
         blueman # bluetooth
         pavucontrol # audio
         playerctl
         wlogout
+	waybar
 
         # screenshots / clipboard
         satty

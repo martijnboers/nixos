@@ -83,6 +83,7 @@
     screen
     killall # 🔪
     magic-wormhole # send files
+    unaware # mask PII-data
 
     # system tools
     lm_sensors # for `sensors` command

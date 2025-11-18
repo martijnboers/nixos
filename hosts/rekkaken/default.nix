@@ -18,6 +18,7 @@
   hosts.caddy.enable = true;
   hosts.uptime-kuma.enable = true;
   hosts.prometheus.enable = true;
+  hosts.ladder.enable = true;
   hosts.tailscale.enable = true;
 
   hosts.derper = {
