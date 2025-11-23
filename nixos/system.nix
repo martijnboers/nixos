@@ -48,7 +48,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    inputs.agenix.packages.${system}.default
+    inputs.agenix.packages.${stdenv.hostPlatform.system}.default
 
     # core
     ripgrep
@@ -79,7 +79,7 @@
     gnutar
 
     # diagnostic
-    du-dust # better du
+    dust # better du
     screen
     killall # 🔪
     magic-wormhole # send files

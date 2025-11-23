@@ -6,6 +6,7 @@
 
   home.packages = with pkgs; [
     stable.sdrpp # sdr
+    electrum-custom
   ];
 
   age.identityPaths = [ "/home/martijn/.ssh/id_ed25519_age" ];

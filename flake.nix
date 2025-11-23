@@ -22,7 +22,7 @@
     };
 
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.2";
+      url = "github:nix-community/lanzaboote/v0.4.3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -50,9 +50,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    elephant.url = "github:abenz1267/elephant";
+    elephant.url = "github:abenz1267/elephant/v2.16.1";
     walker = {
-      url = "github:abenz1267/walker";
+      url = "github:abenz1267/walker/v2.11.2";
       inputs.elephant.follows = "elephant";
     };
 
