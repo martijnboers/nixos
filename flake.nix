@@ -11,8 +11,7 @@
     determinate.url = "github:DeterminateSystems/nix-src/v3.12.0";
 
     home-manager = {
-      # url = "github:nix-community/home-manager";
-      url = "github:martijnboers/home-manager";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -159,6 +158,10 @@
       # -------------- PCs --------------
       nixosConfigurations.nurma = mkSystem "nurma" {
         system = "x86_64-linux";
+      };
+      nixosConfigurations.paddy = mkSystem "paddy" {
+        system = "x86_64-linux";
+        modules = [ inputs.nixos-hardware.nixosModules.dell-xps-17-9700-nvidia ];
       };
       nixosConfigurations.donk = mkSystem "donk" {
         system = "x86_64-linux";

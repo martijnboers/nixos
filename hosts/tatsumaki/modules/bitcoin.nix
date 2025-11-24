@@ -8,7 +8,7 @@
   };
 
   services.clightning = {
-    enable = false;
+    enable = true;
     address = "0.0.0.0";
   };
 

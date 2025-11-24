@@ -50,11 +50,11 @@ in
 
         # work
         (citrix_workspace.overrideAttrs (oa: {
-          buildInputs = (oa.buildInputs or [ ]) ++ [ stable.webkitgtk_4_0 ];
-          meta = (oa.meta or { }) // {
-            # https://github.com/NixOS/nixpkgs/issues/454151
-            broken = false;
-          };
+         buildInputs = (oa.buildInputs or [ ]) ++ [ stable.webkitgtk_4_0 ];
+         meta = (oa.meta or { }) // {
+           # https://github.com/NixOS/nixpkgs/issues/454151
+           broken = false;
+         };
         }))
 
         # networking

@@ -9,17 +9,17 @@ buildGoModule rec {
   version = "0.0.21";
 
   src = fetchFromGitHub {
-    owner = "kubero-dev";
+    owner = "everywall";
     repo = "ladder";
     rev = "v${version}";
-    hash = "sha256-37X9TbFPhxfWKE07VMN2Tb+w3p9EKv9Utcnqq9HuLr8=";
+    hash = "sha256-9KL9ghQFyU+8UyPVAfrf/9J24OUDyiUXVXaSqZ8P3/o=";
   };
 
   postPatch = ''
     echo "v${version}" >handlers/VERSION
   '';
 
-  vendorHash = "sha256-0AihQ3KW3iBLqKPm3JK0eHdnZjmABaKDACj3HhoCnoM=";
+  vendorHash = "sha256-LnbmWpKJo7USTcl5RQknw3nGe4YZ7iNWnl/dtT43afk=";
 
   ldflags = [
     "-s"

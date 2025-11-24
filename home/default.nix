@@ -59,6 +59,7 @@
       enable = true;
       associations.removed = {
         "application/zip" = "org.pwmt.zathura-cb.desktop";
+	"inode/directory" = "org.kde.kwrite.desktop";
       };
       defaultApplications =
         let
