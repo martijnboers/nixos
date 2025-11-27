@@ -165,6 +165,7 @@ in
                     "hadouken:2049" # nfs
                     "headscale-server@:80,443"
 		    "tatsumaki:50001" # bitcoin node
+		    "headscale-user@:53317" # localsend
                   ];
                 }
                 {

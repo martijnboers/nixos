@@ -9,6 +9,10 @@ let
     ipv4 = "10.30.0.2";
     ipv6 = "${ipv6Prefix}:b00f:4a21:bff:fe55:90f5";
   };
+  tatsumaki = {
+    ipv4 = "10.10.0.103";
+    ipv6 = "${ipv6Prefix}:c0de:2e0:4cff:fe34:7c67";
+  };
 in
 {
   networking = {
@@ -19,65 +23,70 @@ in
       tables = {
         firewall = {
           family = "inet";
-          content = ''
-            set blocklist_v4 {
-              type ipv4_addr
-              flags interval
-            }
+          content = # bash
+            ''
+              set blocklist_v4 {
+                type ipv4_addr
+                flags interval
+              }
 
-            chain input {
-              # -10, before tailscale injections
-              type filter hook input priority filter -10; policy drop;
+              chain input {
+                # -10, before tailscale injections
+                type filter hook input priority filter -10; policy drop;
 
-              # --- BASELINE STATEFUL RULES ---
-              ct state established,related accept;
+                # --- BASELINE STATEFUL RULES ---
+                ct state invalid drop;
+                ct state established,related accept;
 
-              iifname "peepee" ip saddr @blocklist_v4 drop comment "Drop traffic from WAN matching dynamic IPv4 blocklist";
-              iifname "lo" accept;
+                iifname "peepee" ip saddr @blocklist_v4 drop comment "Drop traffic from WAN matching dynamic IPv4 blocklist";
+                iifname "lo" accept;
 
-              # --- WIREGUARD VPN SERVER ACCESS ---
-              iifname "peepee" udp dport 51820 accept comment "Allow WireGuard VPN connections";
+                # --- SERVICES ---
+                iifname { "lan", "tailscale0" } tcp dport 22 accept comment "Allow SSH management";
+                iifname { "lan", "wifi", "tailscale0" } udp dport 53 accept comment "DNS";
+                iifname { "lan", "wifi", "tailscale0" } tcp dport 53 accept comment "DNS";
+                iifname { "lan", "wifi" } udp dport 67 accept comment "DHCP";
 
-              # --- TRUSTED ACCESS TO ROUTER ---
-              iifname { "lan", "wifi", "opt1", "tailscale0", "wg0" } udp dport 67 accept;
-              iifname { "lan", "wifi", "opt1", "tailscale0", "wg0" } accept;
+                iifname { "lan", "wifi", "tailscale0" } tcp dport { 80, 443 } accept comment "Websites hosted on router";
+                iifname { "peepee", "lan", "wifi" } udp dport 51820 accept comment "Wireguard";
 
-              # --- ISP SERVICE RULES (WAN) ---
-              iifname "peepee" udp sport 547 udp dport 546 accept;
-              iifname "peepee" icmpv6 type { echo-reply, destination-unreachable, packet-too-big, time-exceeded, parameter-problem, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } accept;
-              iifname "peepee" icmp type echo-request accept;
-            }
+                # --- ISP SERVICE RULES (WAN) ---
+                iifname "peepee" udp sport 547 udp dport 546 accept;
+                iifname "peepee" icmpv6 type { echo-reply, destination-unreachable, packet-too-big, time-exceeded, parameter-problem, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } accept;
+                iifname "peepee" icmp type echo-request accept;
+              }
 
-            chain forward {
-              # -10, before tailscale injections
-              type filter hook forward priority filter -10; policy drop;
+              chain forward {
+                # -10, before tailscale injections
+                type filter hook forward priority filter -10; policy drop;
 
-              # --- BASELINE STATEFUL FORWARDING ---
-              ct state established,related accept;
+                # --- BASELINE STATEFUL FORWARDING ---
+                ct state invalid drop;
+                ct state established,related accept;
 
-              iifname "peepee" ip saddr @blocklist_v4 drop comment "Drop forwarded traffic from WAN matching dynamic IPv4 blocklist";
-              oifname "peepee" tcp flags syn tcp option maxseg size set rt mtu;
+                iifname "peepee" ip saddr @blocklist_v4 drop comment "Drop forwarded traffic from WAN matching dynamic IPv4 blocklist";
+                oifname "peepee" tcp flags syn tcp option maxseg size set rt mtu;
 
-              # --- INBOUND PORT FORWARDING RULES ---
-              iifname "peepee" oifname "opt1" ip daddr ${hadouken.ipv4} tcp dport 22000 ct state new accept comment "Allow Syncthing (TCP) to Hadouken over IPv4";
-              iifname "peepee" oifname "opt1" ip daddr ${hadouken.ipv4} udp dport 22000 ct state new accept comment "Allow Syncthing (UDP) to Hadouken over IPv4";
-              iifname "peepee" oifname "opt1" ip6 daddr ${hadouken.ipv6} tcp dport 22000 ct state new accept comment "Allow Syncthing (TCP) to Hadouken over IPv6";
-              iifname "peepee" oifname "opt1" ip6 daddr ${hadouken.ipv6} udp dport 22000 ct state new accept comment "Allow Syncthing (UDP) to Hadouken over IPv6";
+                # --- INBOUND PORT FORWARDING RULES ---
+                iifname "peepee" oifname "opt1" ip daddr ${hadouken.ipv4} meta l4proto { tcp, udp } th dport 22000 ct state new accept comment "Syncthing IPv4";
+                iifname "peepee" oifname "opt1" ip6 daddr ${hadouken.ipv6} meta l4proto { tcp, udp } th dport 22000 ct state new accept comment "Syncthing IPv6";
+                iifname "peepee" oifname "lan" ip daddr ${tatsumaki.ipv4} tcp dport 8333 ct state new accept comment "Bitcoin";
+                iifname "peepee" oifname "lan" ip6 daddr ${tatsumaki.ipv6} tcp dport 8333 ct state new accept comment "Bitcoin";
 
-              # --- GRANULAR INTER-LAN FORWARDING ---
-              iifname { "lan", "opt1" } oifname { "lan", "opt1" } accept;
-              iifname { "wifi" } oifname { "opt1" } tcp dport { 80, 443 } accept;
-              iifname { "wifi", "opt1" } oifname { "wifi", "opt1" } udp dport 41641 accept comment "Allow Tailscale direct connections between WiFi and Opt1";
-              iifname "lan" oifname "wifi" tcp dport { 80, 443 } accept comment "Allow LAN to access IoT device web UIs on WiFi";
+                # --- GRANULAR INTER-LAN FORWARDING ---
+                iifname { "lan", "opt1" } oifname { "lan", "opt1" } accept;
+                iifname { "wifi" } oifname { "opt1" } tcp dport { 80, 443 } accept;
+                iifname { "wifi", "opt1" } oifname { "wifi", "opt1" } udp dport 41641 accept comment "Allow Tailscale direct connections between WiFi and Opt1";
+                iifname "lan" oifname "wifi" tcp dport { 80, 443 } accept comment "Allow LAN to access IoT device web UIs on WiFi";
 
-              # --- INTERNET EGRESS RULES ---
-              iifname { "lan", "wifi", "opt1", "tailscale0", "wg0" } oifname "peepee" accept;
+                # --- INTERNET EGRESS RULES ---
+                iifname { "lan", "wifi", "opt1", "tailscale0", "wg0" } oifname "peepee" accept;
 
-              # --- TAILSCALE SUBNET ROUTING ---
-              iifname { "lan", "wifi", "opt1" } oifname "tailscale0" accept;
-              iifname "tailscale0" oifname { "lan", "wifi", "opt1" } accept;
-            }
-          '';
+                # --- TAILSCALE SUBNET ROUTING ---
+                iifname { "lan", "wifi", "opt1" } oifname "tailscale0" accept;
+                iifname "tailscale0" oifname { "lan", "wifi", "opt1" } accept;
+              }
+            '';
         };
 
         nat = {
@@ -89,6 +98,7 @@ in
               # --- IPV4 PORT FORWARDING (DNAT) ---
               iifname "peepee" tcp dport 22000 dnat to ${hadouken.ipv4};
               iifname "peepee" udp dport 22000 dnat to ${hadouken.ipv4};
+              iifname "peepee" tcp dport 8333 dnat to ${tatsumaki.ipv4};
             }
 
             chain postrouting {

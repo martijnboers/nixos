@@ -161,7 +161,6 @@
       };
       nixosConfigurations.paddy = mkSystem "paddy" {
         system = "x86_64-linux";
-        modules = [ inputs.nixos-hardware.nixosModules.dell-xps-17-9700-nvidia ];
       };
       nixosConfigurations.donk = mkSystem "donk" {
         system = "x86_64-linux";

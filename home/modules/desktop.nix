@@ -32,6 +32,7 @@ in
         errands # todo manager
         karlender # gtk calendar
         dezoomify-rs # art archival
+        localsend # airdrop
 
         # keyring
         seahorse
@@ -48,7 +49,7 @@ in
         yubioath-flutter # 2fa
         yubikey-manager # ykman
 
-        # work
+        # work (https://github.com/NixOS/nixpkgs/pull/464965)
         (citrix_workspace.overrideAttrs (oa: {
          buildInputs = (oa.buildInputs or [ ]) ++ [ stable.webkitgtk_4_0 ];
          meta = (oa.meta or { }) // {

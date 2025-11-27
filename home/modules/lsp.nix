@@ -12,11 +12,15 @@ in
 {
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      eslint
+      nixfmt-rfc-style
       golangci-lint
       prettier
-      ruff
+      yamlfmt
+      eslint
       tflint
+      black
+      biome
+      ruff
       vale
     ];
 
@@ -25,6 +29,7 @@ in
         conform-nvim = {
           enable = true;
           settings = {
+            stop_after_first = true;
             formatters_by_ft = {
               css = [ "biome" ];
               html = [ "prettier" ];

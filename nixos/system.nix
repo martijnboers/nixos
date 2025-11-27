@@ -193,6 +193,7 @@
   networking = {
     useDHCP = false; # Done by networkd
     firewall.enable = lib.mkDefault true;
+    nftables.enable = lib.mkDefault true;
   };
   systemd.network.enable = true;
 

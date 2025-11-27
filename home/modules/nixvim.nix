@@ -73,7 +73,7 @@ in
       vimAlias = true;
 
       globals = {
-        mapleader = " "; 
+        mapleader = " ";
       };
 
       extraPlugins = [
@@ -89,18 +89,23 @@ in
       ];
 
       opts = {
+        expandtab = true; # Use spaces instead of tabs (Fixes nixfmt exploding)
+        shiftwidth = 2; # Size of an indent
+        tabstop = 2; # Number of spaces tabs count for
+        softtabstop = 2; # Number of spaces a <Tab> inserts in insert mode
         number = true; # Show line numbers
-        relativenumber = true; # Show relative line numbers
-        shiftwidth = 2; # Tab width should be 2
-        swapfile = false; # No more .swp files
-        autoread = true; # autoreload changed files
-        ignorecase = true; # case insensitive search
-        smartcase = true; # when adding cases to search, becomes case sensitive
-        scrolloff = 8; # start scrolling when 8 lines left
-        sidescrolloff = 8; # same for side scrolling
-        sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions,globals";
-        termguicolors = true; # more colors, makes linenumber color work
-        cursorline = true; # show highlight under cursor
+        relativenumber = true; # Show relative line numbers (for easy jumps)
+        termguicolors = true; # Enable 24-bit RGB colors (Required for Kanagawa)
+        cursorline = true; # Highlight the current line
+        scrolloff = 8; # Keep 8 lines of context when scrolling vertically
+        sidescrolloff = 8; # Keep 8 columns of context when scrolling horizontally
+        splitbelow = true; # New horizontal splits go below
+        splitright = true; # New vertical splits go to the right
+        ignorecase = true; # Ignore case in search patterns
+        smartcase = true; # Override ignorecase if search contains capitals
+        swapfile = false; # Don't create cluttering .swp files
+        autoread = true; # Automatically reload files changed outside vim
+        sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal";
       };
 
       plugins = {
@@ -116,7 +121,7 @@ in
             auto_hide = 1;
             exclude_ft = [ "qf" ];
             icons = {
-              button = false; 
+              button = false;
               preset = "default";
               filetype.enabled = false;
               pinned = {
