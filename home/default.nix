@@ -59,7 +59,6 @@
       enable = true;
       associations.removed = {
         "application/zip" = "org.pwmt.zathura-cb.desktop";
-	"inode/directory" = "org.kde.kwrite.desktop";
       };
       defaultApplications =
         let
@@ -87,6 +86,7 @@
           "text/html" = "librewolf.desktop";
           "text/plain" = "org.kde.kwrite.desktop";
           "application/pdf" = "org.pwmt.zathura.desktop";
+          "inode/directory" = "thunar.desktop";
         }
         // mkMimeAssoc imageMimeTypes "imv.desktop"
         // mkMimeAssoc htmlTypes "librewolf.desktop";

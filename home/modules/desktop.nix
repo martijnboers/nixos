@@ -42,7 +42,7 @@ in
         zathura # pdf
         imv # image
         mpv # video
-        kate # kwrite
+        xfce.mousepad # gui-notepad
         sqlitebrowser
 
         # yubikey

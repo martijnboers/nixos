@@ -9,7 +9,7 @@ let
   cfg = config.hosts.caddy;
   info = builtins.fetchGit {
     url = "https://github.com/martijnboers/boers.email.git";
-    rev = "113945f8d61a244f403a3a85085d86e7b77ba724";
+    rev = "f6a2c54aa904327adc808cb9fc0f7b5c2127d33a";
   };
   resume = builtins.fetchGit {
     url = "git@github.com:martijnboers/resume.git";
