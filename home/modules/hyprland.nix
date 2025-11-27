@@ -241,6 +241,7 @@ in
       };
       extraConfig = ''
         monitor=eDP-1,preferred,auto,1,transform,0
+        monitor = desc:Samsung Display Corp. 0x41B4, preferred, auto, 1.25
         monitor=,preferred,auto,1
 
         gesture = 3, horizontal, workspace
