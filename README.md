@@ -36,7 +36,6 @@ for a good initial starting point for NixOS with flakes.
 | Microbin | Self-hosted pastebin. | [microbin.nix](hosts/hadouken/modules/microbin.nix) |
 | Grafana, Loki, Promtail, Prometheus | Monitoring and logging stack. | [monitoring.nix](hosts/hadouken/modules/monitoring.nix) |
 | Paperless-NGX | Document management system. | [paperless.nix](hosts/hadouken/modules/paperless.nix) |
-| Pingvin Share | File sharing service. | [pingvin.nix](hosts/hadouken/modules/pingvin.nix) |
 | NFS | Network File System for sharing files. | [shares.nix](hosts/hadouken/modules/shares.nix) |
 | ZFS & Syncoid | Manages ZFS filesystems and automated backups. | [storage.nix](hosts/hadouken/modules/storage.nix) |
 

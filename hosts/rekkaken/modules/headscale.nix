@@ -14,9 +14,10 @@ let
     "cal"
     "cal-http"
     "detection"
+    "forgejo"
     "immich"
-    "media"
     "jelly"
+    "media"
     "microbin"
     "minio"
     "minio-admin"
@@ -24,7 +25,6 @@ let
     "paper"
     "pgadmin"
     "prowlarr"
-    "pingvin"
     "radarr"
     "sonarr"
     "syncthing"
@@ -155,7 +155,7 @@ in
                   action = "accept";
                   src = [ "shoryuken" ];
                   dst = [
-                    "hadouken:5551,5552,5553,5554" # reverse proxy ports
+                    "hadouken:5551,5552,5553,5554,5555" # reverse proxy ports
                   ];
                 }
                 {
@@ -164,8 +164,8 @@ in
                   dst = [
                     "hadouken:2049" # nfs
                     "headscale-server@:80,443"
-		    "tatsumaki:50001" # bitcoin node
-		    "headscale-user@:53317" # localsend
+                    "tatsumaki:50001" # bitcoin node
+                    "headscale-user@:53317" # localsend
                   ];
                 }
                 {

@@ -117,6 +117,11 @@ in
               header Access-Control-Allow-Origin *
             '';
           };
+          "git.boers.email" = {
+            extraConfig = ''
+              reverse_proxy hadouken.machine.thuis:5555 
+            '';
+          };
           "noisesfrom.space" = {
             extraConfig = # caddy
               ''
@@ -170,7 +175,6 @@ in
           };
         }
         // makeProxy "p.plebian.nl" "microbin.thuis"
-        // makeProxy "share.boers.email" "pingvin.thuis";
     };
 
     systemd.services.caddy = {

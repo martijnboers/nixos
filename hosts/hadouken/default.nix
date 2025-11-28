@@ -15,7 +15,7 @@
     ./modules/database.nix
     ./modules/bincache.nix
     ./modules/storage.nix
-    ./modules/pingvin.nix
+    ./modules/forgejo.nix
     ./modules/archive.nix
     ./modules/matrix.nix
     ./modules/immich.nix
@@ -40,7 +40,7 @@
   hosts.calendar.enable = true;
   hosts.database.enable = true;
   hosts.atuin.enable = true;
-  hosts.pingvin.enable = true;
+  hosts.forgejo.enable = true;
   hosts.paperless.enable = true;
   hosts.bincache.enable = true;
 
