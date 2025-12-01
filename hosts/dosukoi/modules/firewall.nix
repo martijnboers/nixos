@@ -47,6 +47,9 @@ in
                 iifname { "lan", "wifi", "tailscale0" } tcp dport 53 accept comment "DNS";
                 iifname { "lan", "wifi" } udp dport 67 accept comment "DHCP";
 
+                # Allow IPv6 Neighbor Discovery and Ping 
+                iifname { "lan", "wifi", "tailscale0", "opt1" } icmpv6 type { nd-neighbor-solicit, nd-neighbor-advert, nd-router-solicit, echo-request } accept;
+
                 iifname { "lan", "wifi", "tailscale0" } tcp dport { 80, 443 } accept comment "Websites hosted on router";
                 iifname { "peepee", "lan", "wifi" } udp dport 51820 accept comment "Wireguard";
 
@@ -63,6 +66,9 @@ in
                 # --- BASELINE STATEFUL FORWARDING ---
                 ct state invalid drop;
                 ct state established,related accept;
+
+                # Essential for HTTPS/Curl (Path MTU Discovery)
+                meta l4proto ipv6-icmp icmpv6 type { destination-unreachable, packet-too-big, time-exceeded, parameter-problem, echo-request, echo-reply } accept;
 
                 iifname "peepee" ip saddr @blocklist_v4 drop comment "Drop forwarded traffic from WAN matching dynamic IPv4 blocklist";
                 oifname "peepee" tcp flags syn tcp option maxseg size set rt mtu;
