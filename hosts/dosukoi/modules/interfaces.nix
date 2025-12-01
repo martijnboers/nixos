@@ -186,24 +186,28 @@
         dhcpServerConfig.PoolOffset = 10;
         dhcpServerStaticLeases = [
           {
-            Address = "10.20.0.130";
+            Address = "10.20.0.130"; # shelly
             MACAddress = "FC:B4:67:25:45:34";
           }
           {
-            Address = "10.20.0.131";
+            Address = "10.20.0.131"; # shelly
             MACAddress = "E8:6B:EA:EA:12:F4";
           }
           {
-            Address = "10.20.0.132";
+            Address = "10.20.0.132"; # shelly
             MACAddress = "E4:65:B8:47:75:F4";
           }
           {
-            Address = "10.20.0.133";
+            Address = "10.20.0.133"; # shelly
             MACAddress = "30:C9:22:87:0B:EC";
           }
           {
-            Address = "10.20.0.134";
+            Address = "10.20.0.134"; # shelly
             MACAddress = "08:F9:E0:FC:7A:90";
+          }
+          {
+            Address = "10.20.0.135"; # vacuum
+            MACAddress = "00:AE:F7:0A:7E:7A";
           }
         ];
         dhcpPrefixDelegationConfig = {

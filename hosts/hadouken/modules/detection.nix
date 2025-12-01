@@ -29,6 +29,7 @@ in
 
     services.changedetection-io = {
       enable = true;
+      package = pkgs.stable.changedetection-io;
       behindProxy = true;
       datastorePath = "/mnt/zwembad/app/changedetection";
       baseURL = "https://detection.thuis";

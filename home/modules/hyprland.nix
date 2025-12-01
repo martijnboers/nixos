@@ -333,10 +333,9 @@ in
     home.file = {
       ".config/avatar.png" = {
         source = pkgs.fetchurl {
-          url = "https://share.boers.email/api/shares/icon/files/662963a7-a93a-403d-94a4-2513bcfe0d31";
+          url = "https://storage.boers.email/random/icon.png";
           hash = "sha256-YxJuLqQ4BpWKyMOTl+J09uRVuK4e0CVinXuNb5u/8aY=";
         };
-
       };
     };
 

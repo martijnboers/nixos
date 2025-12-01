@@ -159,7 +159,6 @@ in
             "browser.uidensity" = 1; # compact
             "browser.backspace_action" = 0; # enable backspace back history
             "sidebar.verticalTabs" = true; # we zen browser now
-            "sidebar.visibility" = "expand-on-hover";
             "sidebar.animation.enabled" = false;
             "sidebar.revamp.round-content-area" = true;
 

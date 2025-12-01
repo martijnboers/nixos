@@ -3,8 +3,8 @@
 let
   glitch-soc-src = pkgs.fetchgit {
     url = "https://git.eisfunke.com/config/nixos.git";
-    rev = "5cf6c6d43195517057a29bb2d535721cb4bb64de";
-    sha256 = "sha256-WAlBG/mt4TAWAQMevsRB98/R+Krd5hFcF68BvzoRyqI=";
+    rev = "58f6a1ca9a1a9a7c6716cb91fb34432258c5fbb4";
+    sha256 = "sha256-WtuNWILJ/DX5nKcNt7eivqJoOay0JxOKtAF0Rvl6Ecs=";
   };
 in
 {
