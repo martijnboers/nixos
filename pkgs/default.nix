@@ -18,5 +18,6 @@ in
   geonet = pkgs.callPackage ./geonet.nix { };
   ladder = pkgs.callPackage ./ladder.nix { };
   unaware = pkgs.callPackage ./unaware.nix { };
+  bw-secret-service = pkgs.callPackage ./secret-service.nix { };
   glitch-soc = pkgs.callPackage "${glitch-soc-src}/packages/mastodon" { };
 }
