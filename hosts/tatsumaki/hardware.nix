@@ -30,7 +30,8 @@
 
   systemd.network.networks =
     let
-      defaultNetwork = { adapter, ip }:
+      defaultNetwork =
+        { adapter, ip }:
         {
           "10-${adapter}" = {
             matchConfig.Name = adapter;

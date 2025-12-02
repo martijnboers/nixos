@@ -31,7 +31,7 @@ in
         normal = {
           # Devenv up requires exec
           "/home".options."noexec" = false;
-	  # Building npm requires exec
+          # Building npm requires exec
           "/tmp".options."noexec" = false;
         };
         special = {
@@ -63,7 +63,7 @@ in
         permittedInsecurePackages = [
           "libxml2-2.13.8" # CVE-2025-6021
           "libsoup-2.74.3" # gnome cves
-	  "python3.12-ecdsa-0.19.1" # electrum
+          "python3.12-ecdsa-0.19.1" # electrum
         ];
       };
     };

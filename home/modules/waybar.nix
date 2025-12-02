@@ -79,160 +79,160 @@ in
       systemd.enable = true;
       style = # css
         ''
-	  @define-color base00 #0d0c0c;
-	  @define-color base01 #1d1c19;
-	  @define-color base02 #282727;
-	  @define-color base03 #737c73;
-	  @define-color base04 #a6a69c;
-	  @define-color base05 #c5c9c5;
-	  @define-color base06 #7a8382;
-	  @define-color base07 #c5c9c5;
-	  @define-color base08 #c4746e;
-	  @define-color base09 #b98d7b;
-	  @define-color base0A #c4b28a;
-	  @define-color base0B #87a987;
-	  @define-color base0C #8ea4a2;
-	  @define-color base0D #8ba4b0;
-	  @define-color base0E #8992a7;
-	  @define-color base0F #a292a3;
+          @define-color base00 #0d0c0c;
+          @define-color base01 #1d1c19;
+          @define-color base02 #282727;
+          @define-color base03 #737c73;
+          @define-color base04 #a6a69c;
+          @define-color base05 #c5c9c5;
+          @define-color base06 #7a8382;
+          @define-color base07 #c5c9c5;
+          @define-color base08 #c4746e;
+          @define-color base09 #b98d7b;
+          @define-color base0A #c4b28a;
+          @define-color base0B #87a987;
+          @define-color base0C #8ea4a2;
+          @define-color base0D #8ba4b0;
+          @define-color base0E #8992a7;
+          @define-color base0F #a292a3;
 
-	  * {
-	    min-height: 0;
-	    font-family: ${config.stylix.fonts.monospace.name};
-	    font-size: ${toString config.stylix.fonts.sizes.terminal}px;
-	    border: none;
-	    border-radius: 0;
-	  }
+          * {
+            min-height: 0;
+            font-family: ${config.stylix.fonts.monospace.name};
+            font-size: ${toString config.stylix.fonts.sizes.terminal}px;
+            border: none;
+            border-radius: 0;
+          }
 
-	  window#waybar {
-	    background: transparent;
-	    color: @base03;
-	    transition-property: background-color;
-	    transition-duration: 0.5s;
-	  }
+          window#waybar {
+            background: transparent;
+            color: @base03;
+            transition-property: background-color;
+            transition-duration: 0.5s;
+          }
 
-	  #custom-power, #custom-quick-settings, #workspaces, #custom-notification,
-	  #custom-wan, #window, #clock-privacy, #system-stats, #system-tray {
-	      background: @base01;
-	      border: 1px solid @base02;
-	      border-radius: 12px;
-	      margin: 0 4px 0 0;
-	      padding: 5px 12px;
-	      font-weight: 600;
-	      transition: background-color 0.3s ease;
-	  }
+          #custom-power, #custom-quick-settings, #workspaces, #custom-notification,
+          #custom-wan, #window, #clock-privacy, #system-stats, #system-tray {
+              background: @base01;
+              border: 1px solid @base02;
+              border-radius: 12px;
+              margin: 0 4px 0 0;
+              padding: 5px 12px;
+              font-weight: 600;
+              transition: background-color 0.3s ease;
+          }
 
-	  #custom-power:hover, #custom-quick-settings:hover, #custom-notification:hover,
-	  #custom-wan:hover, #window:hover, #clock-privacy:hover,
-	  #system-stats:hover, #system-tray:hover {
-	    background: @base02;
-	  }
+          #custom-power:hover, #custom-quick-settings:hover, #custom-notification:hover,
+          #custom-wan:hover, #window:hover, #clock-privacy:hover,
+          #system-stats:hover, #system-tray:hover {
+            background: @base02;
+          }
 
-	  #custom-power {
-	    color: @base0A;
-	    padding-left: 15px;
-	    padding-right: 15px;
-	    border-right: 1px solid @base03;
-	    margin-right: 0;
-	    border-top-right-radius: 0;
-	    border-bottom-right-radius: 0;
-	  }
+          #custom-power {
+            color: @base0A;
+            padding-left: 15px;
+            padding-right: 15px;
+            border-right: 1px solid @base03;
+            margin-right: 0;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+          }
 
-	  #window {
-	    color: @base05;
-	  }
+          #window {
+            color: @base05;
+          }
 
-	  #custom-notification,
-	  #custom-wan {
-	    color: @base04;
-	  }
+          #custom-notification,
+          #custom-wan {
+            color: @base04;
+          }
 
-	  #custom-quick-settings {
-	    color: @base0C;
-	    padding-left: 15px;
-	    padding-right: 20px;
-	    border-top-left-radius: 0;
-	    border-bottom-left-radius: 0;
-	    border-left: none;
-	    margin-left: 0;
-	  }
+          #custom-quick-settings {
+            color: @base0C;
+            padding-left: 15px;
+            padding-right: 20px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border-left: none;
+            margin-left: 0;
+          }
 
-	  #workspaces {
-	    padding: 4px 8px;
-	  }
+          #workspaces {
+            padding: 4px 8px;
+          }
 
-	  #workspaces button {
-	    color: @base0A;
-	    font-weight: 600;
-	    margin: 0;
-	    background-color: transparent;
-	    transition: all 0.3s ease;
-	    padding: 0 4px;
-	  }
+          #workspaces button {
+            color: @base0A;
+            font-weight: 600;
+            margin: 0;
+            background-color: transparent;
+            transition: all 0.3s ease;
+            padding: 0 4px;
+          }
 
-	  #workspaces button:hover {
-	    background-color: @base02;
-	    border-radius: 8px;
-	  }
+          #workspaces button:hover {
+            background-color: @base02;
+            border-radius: 8px;
+          }
 
-	  #workspaces button.active {
-	    color: @base03;
-	    background-color: @base0A;
-	    border-radius: 8px;
-	  }
+          #workspaces button.active {
+            color: @base03;
+            background-color: @base0A;
+            border-radius: 8px;
+          }
 
-	  #workspaces button.urgent { color: @base08; }
-	  #workspaces button.empty { color: @base03; }
-	  #workspaces button.focused { color: @base0A; }
+          #workspaces button.urgent { color: @base08; }
+          #workspaces button.empty { color: @base03; }
+          #workspaces button.focused { color: @base0A; }
 
-	  window#waybar.empty #window {
-	      background-color: transparent;
-	      border-color: transparent;
-	  }
+          window#waybar.empty #window {
+              background-color: transparent;
+              border-color: transparent;
+          }
 
-	  tooltip {
-	    background-color: @base01;
-	    border: 1px solid @base02;
-	    border-radius: 12px;
-	    padding: 10px;
-	  }
+          tooltip {
+            background-color: @base01;
+            border: 1px solid @base02;
+            border-radius: 12px;
+            padding: 10px;
+          }
 
-	  tooltip label {
-	    color: @base05;
-	  }
+          tooltip label {
+            color: @base05;
+          }
 
-	  #battery.charging { color: @base0B; }
-	  #battery.warning:not(.charging) { color: @base0A }
-	  #battery.critical:not(.charging) { color: @base08; }
-	  #network.disconnected { color: @base08; }
+          #battery.charging { color: @base0B; }
+          #battery.warning:not(.charging) { color: @base0A }
+          #battery.critical:not(.charging) { color: @base08; }
+          #network.disconnected { color: @base08; }
 
-	  #clock, #privacy, #cpu, #temperature, #disk, #idle_inhibitor,
-	  #memory, #battery, #wireplumber, #pulseaudio, #bluetooth, #network {
-	    background: transparent;
-	    border: none;
-	    color: @base04;
-	    padding: 0;
-	  }
+          #clock, #privacy, #cpu, #temperature, #disk, #idle_inhibitor,
+          #memory, #battery, #wireplumber, #pulseaudio, #bluetooth, #network {
+            background: transparent;
+            border: none;
+            color: @base04;
+            padding: 0;
+          }
 
-	  #clock {
-	    font-weight: 700;
-	  }
+          #clock {
+            font-weight: 700;
+          }
 
-	  #privacy {
-	    border-left: 1px solid @base03;
-	    padding-left: 10px;
-	    margin-left: 10px;
-	  }
+          #privacy {
+            border-left: 1px solid @base03;
+            padding-left: 10px;
+            margin-left: 10px;
+          }
 
-	  #network {
-	    padding-right: 8px;
-	  }
+          #network {
+            padding-right: 8px;
+          }
 
-	  #battery, #idle_inhibitor, #bluetooth, #cpu, #disk, #temperature, #wireplumber {
-	    border-right: 1px solid @base03;
-	    padding-right: 10px;
-	    margin-right: 10px;
-	  }
+          #battery, #idle_inhibitor, #bluetooth, #cpu, #disk, #temperature, #wireplumber {
+            border-right: 1px solid @base03;
+            padding-right: 10px;
+            margin-right: 10px;
+          }
         '';
       settings = [
         {

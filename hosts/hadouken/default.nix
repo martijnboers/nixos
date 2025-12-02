@@ -83,6 +83,7 @@
       extraPools = [
         "zwembad"
         "garage"
+        "zolder"
       ];
     };
 

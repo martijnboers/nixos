@@ -36,6 +36,16 @@ in
       };
     };
 
+    programs.satty = {
+      enable = true;
+      settings = {
+        general = {
+          output-filename = "/home/martijn/Pictures/screenshot_%Y-%m-%d_%H:%M:%S.png";
+          early-exit = false;
+        };
+      };
+    };
+
     programs.walker = {
       enable = true;
       runAsService = true;
@@ -72,10 +82,7 @@ in
         playerctl
         wlogout
 
-        # screenshots / clipboard
-        satty
-        grim
-        slurp
+        # clipboard
         wl-clipboard
       ];
 
@@ -152,7 +159,7 @@ in
           "$mod, Q, exec, $terminal"
           "$mod, E, exec, $fileManager"
           "$mod, Space, exec, $menu"
-          '', Print, exec, grim -g "$(slurp)" - | satty -f - -o ~/Pictures/screenshot_%Y-%m-%d_%H-%M-%S.png''
+          '', Print, exec, ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - | satty -f -''
           "$mod, F4, killactive"
           "$prog, H, exec, copyq toggle"
           "$mod, M, exec, hyprlock"
