@@ -161,6 +161,7 @@ in
             "sidebar.verticalTabs" = true; # we zen browser now
             "sidebar.animation.enabled" = false;
             "sidebar.revamp.round-content-area" = true;
+            "sidebar.visibility" = "expand-on-hover";
 
             # https://bugzilla.mozilla.org/show_bug.cgi?id=1732114
             "privacy.resistFingerprinting" = false;

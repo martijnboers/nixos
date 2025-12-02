@@ -30,6 +30,15 @@
     fsType = "zfs";
   };
 
+  fileSystems."/mnt/zolder/cold" = {
+    device = "zolder/cold";
+    fsType = "zfs";
+  };
+  fileSystems."/mnt/zolder/misc" = {
+    device = "zolder/misc";
+    fsType = "zfs";
+  };
+
   # Only mount when syncoid has created the datasets
   fileSystems."/mnt/garage/backups/app" = {
     device = "garage/backups/app";
@@ -52,17 +61,29 @@
     # 3:14am daily
     interval = "*-*-* 03:14:00";
 
-    commands."apps" = {
+    commands."apps-garage" = {
       source = "zwembad/app";
       target = "garage/backups/app";
     };
-    commands."music" = {
+    commands."apps-zolder" = {
+      source = "zwembad/app";
+      target = "zolder/backups/app";
+    };
+    commands."music-garage" = {
       source = "zwembad/music";
       target = "garage/backups/music";
     };
-    commands."share" = {
+    commands."music-zolder" = {
+      source = "zwembad/music";
+      target = "zolder/backups/app";
+    };
+    commands."share-garage" = {
       source = "zwembad/share";
       target = "garage/backups/share";
+    };
+    commands."share-zolder" = {
+      source = "zwembad/share";
+      target = "zolder/backups/share";
     };
 
     # https://github.com/NixOS/nixpkgs/issues/216614#issuecomment-1567519369
