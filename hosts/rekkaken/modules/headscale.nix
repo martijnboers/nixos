@@ -17,7 +17,6 @@ let
     "immich"
     "jelly"
     "media"
-    "microbin"
     "minio"
     "minio-admin"
     "monitoring"
@@ -154,7 +153,7 @@ in
                   action = "accept";
                   src = [ "shoryuken" ];
                   dst = [
-                    "hadouken:5551,5552,5553,5554" # reverse proxy ports
+                    "hadouken:5551,5552,5553,5554,5555" # reverse proxy ports
                   ];
                 }
                 {

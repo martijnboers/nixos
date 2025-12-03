@@ -44,28 +44,28 @@
 
   # ----- Snapshots -----
   # Only mount when syncoid created datasets
-  fileSystems."/mnt/garage/backups/app" = {
-    device = "garage/backups/app";
+  fileSystems."/mnt/garage/snapshots/app" = {
+    device = "garage/snapshots/app";
     fsType = "zfs";
   };
-  fileSystems."/mnt/garage/backups/music" = {
-    device = "garage/backups/music";
+  fileSystems."/mnt/garage/snapshots/music" = {
+    device = "garage/snapshots/music";
     fsType = "zfs";
   };
-  fileSystems."/mnt/garage/backups/share" = {
-    device = "garage/backups/share";
+  fileSystems."/mnt/garage/snapshots/share" = {
+    device = "garage/snapshots/share";
     fsType = "zfs";
   };
-  # fileSystems."/mnt/zolder/backups/app" = {
-  #   device = "zolder/backups/app";
+  # fileSystems."/mnt/zolder/snapshots/app" = {
+  #   device = "zolder/snapshots/app";
   #   fsType = "zfs";
   # };
-  # fileSystems."/mnt/zolder/backups/music" = {
-  #   device = "zolder/backups/music";
+  # fileSystems."/mnt/zolder/snapshots/music" = {
+  #   device = "zolder/snapshots/music";
   #   fsType = "zfs";
   # };
-  # fileSystems."/mnt/zolder/backups/share" = {
-  #   device = "zolder/backups/share";
+  # fileSystems."/mnt/zolder/snapshots/share" = {
+  #   device = "zolder/snapshots/share";
   #   fsType = "zfs";
   # };
 

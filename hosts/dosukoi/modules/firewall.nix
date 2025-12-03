@@ -42,7 +42,10 @@ in
                 iifname "lo" accept;
 
                 # --- SERVICES ---
-                iifname { "lan", "tailscale0" } tcp dport 22 accept comment "Allow SSH management";
+                iifname { "peepee", "lan", "wifi" } udp dport 51820 accept comment "Wireguard setup connections";
+                iifname { "peepee", "lan", "wifi" } udp dport 41641 accept comment "Tailscale setup connections";
+
+                iifname { "lan", "tailscale0" } tcp dport 22 ct state new limit rate 10/minute accept comment "Allow SSH management";
                 iifname { "lan", "wifi", "tailscale0" } udp dport 53 accept comment "DNS";
                 iifname { "lan", "wifi", "tailscale0" } tcp dport 53 accept comment "DNS";
                 iifname { "lan", "wifi" } udp dport 67 accept comment "DHCP";
@@ -51,12 +54,11 @@ in
                 iifname { "lan", "wifi", "tailscale0", "opt1" } icmpv6 type { nd-neighbor-solicit, nd-neighbor-advert, nd-router-solicit, echo-request } accept;
 
                 iifname { "lan", "wifi", "tailscale0" } tcp dport { 80, 443 } accept comment "Websites hosted on router";
-                iifname { "peepee", "lan", "wifi" } udp dport 51820 accept comment "Wireguard";
 
                 # --- ISP SERVICE RULES (WAN) ---
                 iifname "peepee" udp sport 547 udp dport 546 accept;
                 iifname "peepee" icmpv6 type { echo-reply, destination-unreachable, packet-too-big, time-exceeded, parameter-problem, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } accept;
-                iifname "peepee" icmp type echo-request accept;
+                iifname "peepee" icmp type echo-request limit rate 2/second accept;
               }
 
               chain forward {
