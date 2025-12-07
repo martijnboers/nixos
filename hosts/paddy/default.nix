@@ -7,13 +7,10 @@
 {
   networking.hostName = "paddy";
   hosts.hyprland.enable = true;
-  # hosts.secureboot.enable = true;
-
-  # programs.ssh.extraConfig = ''
-  #   IdentityFile /home/martijn/.ssh/id_ed25519_sk
-  # '';
+  hosts.secureboot.enable = true;
 
   age.identityPaths = [ "/home/martijn/.ssh/id_ed25519" ];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   hosts.borg = {
     enable = true;
@@ -41,14 +38,8 @@
   };
 
   users.users.martijn = {
-    hashedPasswordFile = lib.mkForce null;
-    # hashedPasswordFile = lib.mkForce config.age.secrets.password-laptop.path;
-    hashedPassword = "$y$j9T$VQL/82faMlZSrWg9SefdB/$RQpwhho.v0avZJcjate9yXdzDxVRdBBXeui7ch5XYm9";
+    hashedPasswordFile = lib.mkForce config.age.secrets.password-laptop.path;
   };
 
   hosts.tailscale.enable = true;
-  hosts.prometheus.enable = true;
-
-  # Support gpg for git signing
-  hosts.gpg.enable = true;
 }

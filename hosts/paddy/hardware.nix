@@ -2,6 +2,7 @@
   config,
   lib,
   modulesPath,
+  pkgs,
   ...
 }:
 
@@ -31,18 +32,17 @@
       luks = {
         devices."luks-c871b8b9-389b-47d7-a962-7a6df02a37f3" = {
           device = "/dev/disk/by-uuid/c871b8b9-389b-47d7-a962-7a6df02a37f3";
-          # crypttabExtraOpts = [ "fido2-device=auto" ];
+          crypttabExtraOpts = [ "fido2-device=auto" ];
         };
         devices."luks-21deee7e-5835-4df0-9d84-f9b225a256e3" = {
           device = "/dev/disk/by-uuid/21deee7e-5835-4df0-9d84-f9b225a256e3";
-          # crypttabExtraOpts = [ "fido2-device=auto" ];
+          crypttabExtraOpts = [ "fido2-device=auto" ];
         };
       };
       systemd.enable = true;
     };
   };
 
-  services.fprintd.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {

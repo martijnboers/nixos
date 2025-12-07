@@ -104,11 +104,14 @@ in
         };
         "p.plebian.nl" = {
           extraConfig = ''
+            basic_auth {
+              martijn $2a$14$5IMomLZ8smU2w4VSbVN/ae8PNqQz7PfcmKpAJmgTMY58Wgoj3uRam
+            }
             reverse_proxy hadouken.machine.thuis:5555 {
                 header_up X-Forwarded-Host p.plebian.nl
                 header_up X-Forwarded-Proto https
                 header_up X-Real-IP {remote_host}
-              }
+            }
           '';
         };
         "noisesfrom.space" = {

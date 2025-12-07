@@ -81,7 +81,6 @@
     # diagnostic
     dust # better du
     screen
-    killall # 🔪
     magic-wormhole # send files
     unaware # mask PII-data
 

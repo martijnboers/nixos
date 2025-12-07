@@ -5,7 +5,8 @@
     self.submodules = true; # git submodules
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
+    hardware.url = "github:NixOS/nixos-hardware";
+    hardware-fork.url = "github:martijnboers/nixos-hardware";
 
     # https://github.com/DeterminateSystems/nix-src/releases
     determinate.url = "github:DeterminateSystems/nix-src/v3.12.0";
@@ -136,7 +137,7 @@
       # ------------ Servers ------------
       nixosConfigurations.tenshin = mkSystem "tenshin" {
         system = "aarch64-linux";
-        modules = [ inputs.nixos-hardware.nixosModules.raspberry-pi-4 ];
+        modules = [ inputs.hardware.nixosModules.raspberry-pi-4 ];
       };
       nixosConfigurations.hadouken = mkSystem "hadouken" {
         system = "x86_64-linux";
@@ -161,10 +162,11 @@
       };
       nixosConfigurations.paddy = mkSystem "paddy" {
         system = "x86_64-linux";
+        modules = [ inputs.hardware-fork.nixosModules.dell-da14250 ];
       };
       nixosConfigurations.donk = mkSystem "donk" {
         system = "x86_64-linux";
-        modules = [ inputs.nixos-hardware.nixosModules.framework-12-13th-gen-intel ];
+        modules = [ inputs.hardware.nixosModules.framework-12-13th-gen-intel ];
       };
     };
 }
