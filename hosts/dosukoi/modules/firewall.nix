@@ -13,6 +13,7 @@ let
     ipv4 = "10.10.0.103";
     ipv6 = "${ipv6Prefix}:c0de:2e0:4cff:fe34:7c67";
   };
+  dreame = "10.20.0.135";
 in
 {
   networking = {
@@ -46,14 +47,14 @@ in
                 iifname { "peepee", "lan", "wifi" } udp dport 41641 accept comment "Tailscale setup connections";
 
                 iifname { "lan", "tailscale0" } tcp dport 22 ct state new limit rate 10/minute accept comment "Allow SSH management";
-                iifname { "lan", "wifi", "tailscale0" } udp dport 53 accept comment "DNS";
-                iifname { "lan", "wifi", "tailscale0" } tcp dport 53 accept comment "DNS";
-                iifname { "lan", "wifi" } udp dport 67 accept comment "DHCP";
+                iifname { "lan", "wifi", "opt1" } udp dport 67 accept comment "DHCP";
+
+                iifname { "tailscale0" } tcp dport { 80, 443 } accept comment "Websites hosted on router";
+                iifname { "tailscale0" } udp dport 53 accept comment "DNS";
+                iifname { "tailscale0" } tcp dport 53 accept comment "DNS";
 
                 # Allow IPv6 Neighbor Discovery and Ping 
                 iifname { "lan", "wifi", "tailscale0", "opt1" } icmpv6 type { nd-neighbor-solicit, nd-neighbor-advert, nd-router-solicit, echo-request } accept;
-
-                iifname { "lan", "wifi", "tailscale0" } tcp dport { 80, 443 } accept comment "Websites hosted on router";
 
                 # --- ISP SERVICE RULES (WAN) ---
                 iifname "peepee" udp sport 547 udp dport 546 accept;
@@ -86,6 +87,14 @@ in
                 iifname { "wifi" } oifname { "opt1" } tcp dport { 80, 443 } accept;
                 iifname { "wifi", "opt1" } oifname { "wifi", "opt1" } udp dport 41641 accept comment "Allow Tailscale direct connections between WiFi and Opt1";
                 iifname "lan" oifname "wifi" tcp dport { 80, 443 } accept comment "Allow LAN to access IoT device web UIs on WiFi";
+
+                # --- IOT RESTRICTIONS ---
+                iifname { "lan", "wifi" } oifname "wifi" ip daddr ${dreame} ct state new accept comment "Allow LAN/WiFi to access Dreame";
+                iifname "wifi" ip saddr ${dreame} oifname "peepee" meta hour "13:30"-"15:00" accept comment "Dreame Internet Access Window 1";
+                iifname "wifi" ip saddr ${dreame} oifname "peepee" meta hour "16:00"-"18:30" accept comment "Dreame Internet Access Window 2";
+                iifname "wifi" ip saddr ${dreame} oifname "peepee" meta hour "19:30"-"20:00" accept comment "Dreame Internet Access Window 3";
+                iifname "wifi" ip saddr ${dreame} oifname "peepee" drop comment "Block Dreame Internet outside schedule";
+
 
                 # --- INTERNET EGRESS RULES ---
                 iifname { "lan", "wifi", "opt1", "tailscale0", "wg0" } oifname "peepee" accept;
