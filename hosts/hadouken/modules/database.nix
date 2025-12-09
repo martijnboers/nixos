@@ -45,8 +45,8 @@ in
       enable = true;
       enableTCPIP = true;
       authentication = lib.mkOverride 10 ''
-        #type database  DBuser  range		auth-method
-        local all       all     		trust
+        #type database  DBuser  range		        auth-method
+        local all       all                     trust
         host  all       all     100.64.0.0/10   trust
       '';
     };

@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib;
@@ -29,13 +30,6 @@ in
       "sonarr"
     ];
 
-    # written files should be r+w for groups
-    systemd.services = {
-      syncthing.serviceConfig.UMask = "0002";
-      sonarr.serviceConfig.UMask = "0002";
-      radarr.serviceConfig.UMask = "0002";
-    };
-
     boot.kernel.sysctl = {
       "fs.inotify.max_user_watches" = 524288;
       # For QUIC/UDP Buffer Size
@@ -43,13 +37,50 @@ in
       "net.core.wmem_max" = 2500000;
     };
 
-    systemd.tmpfiles.rules = [
-      # Type, Path,                       Mode, Owner,    Group,      Age, Argument
-      "d /mnt/zwembad/hot/Downloads -     2775  martijn   multimedia  -    -"
-      "d /mnt/zwembad/hot/Movies    -     2775  martijn   multimedia  -    -"
-      "d /mnt/zwembad/hot/Series    -     2775  martijn   multimedia  -    -"
-      "d /mnt/zwembad/music         -     2775  martijn   multimedia  -    -"
-    ];
+    systemd = {
+      services = {
+        # written files should be r+w for groups
+        syncthing.serviceConfig.UMask = "0002";
+        sonarr.serviceConfig.UMask = "0002";
+        radarr.serviceConfig.UMask = "0002";
+      };
+
+      tmpfiles.rules = [
+        # Type, Path,                       Mode, Owner,    Group,      Age, Argument
+        "d /mnt/zwembad/hot/Downloads -     2775  martijn   multimedia  -    -"
+        "d /mnt/zwembad/hot/Movies    -     2775  martijn   multimedia  -    -"
+        "d /mnt/zwembad/hot/Series    -     2775  martijn   multimedia  -    -"
+        "d /mnt/zwembad/music         -     2775  martijn   multimedia  -    -"
+      ];
+
+      services.unpackerr = {
+        description = "Unpackerr";
+        after = [ "network.target" ];
+        wantedBy = [ "multi-user.target" ];
+        serviceConfig = {
+          Type = "simple";
+          User = "syncthing";
+          Group = "multimedia";
+          UMask = "0002";
+          EnvironmentFile = config.age.secrets.unpackerr.path;
+          ExecStart =
+            let
+              config = pkgs.writeText "unpackerr.conf" ''
+                [[sonarr]]
+                url = "https://sonarr.thuis"
+                syncthing = true
+                [[radarr]]
+                url = "https://radarr.thuis"
+                syncthing = true
+              '';
+            in
+            "${lib.getExe pkgs.unpackerr} -c ${config}";
+          Restart = "on-failure";
+        };
+      };
+    };
+
+    age.secrets.unpackerr.file = ../../../secrets/unpackerr.age;
 
     services = {
       jellyfin.enable = true;

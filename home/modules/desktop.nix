@@ -64,6 +64,7 @@ in
         iwgtk # wifi applet
 
         # forensics
+        sleuthkit # fls, icat
         mat2 # remove metadata
         exiftool # read metadata
         rdap # whois

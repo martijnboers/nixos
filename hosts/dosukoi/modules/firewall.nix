@@ -90,7 +90,7 @@ in
 
                 # --- IOT RESTRICTIONS ---
                 iifname { "lan", "wifi" } oifname "wifi" ip daddr ${dreame} ct state new accept comment "Allow LAN/WiFi to access Dreame";
-                iifname "wifi" ip saddr ${dreame} oifname "peepee" meta hour "13:30"-"15:00" accept comment "Dreame Internet Access Window 1";
+                iifname "wifi" ip saddr ${dreame} oifname "peepee" meta hour "10:00"-"12:00" accept comment "Dreame Internet Access Window 1";
                 iifname "wifi" ip saddr ${dreame} oifname "peepee" meta hour "16:00"-"18:30" accept comment "Dreame Internet Access Window 2";
                 iifname "wifi" ip saddr ${dreame} oifname "peepee" meta hour "19:30"-"20:00" accept comment "Dreame Internet Access Window 3";
                 iifname "wifi" ip saddr ${dreame} oifname "peepee" drop comment "Block Dreame Internet outside schedule";

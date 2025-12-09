@@ -44,28 +44,28 @@
 
   # ----- Snapshots -----
   # Only mount when syncoid created datasets
-  fileSystems."/mnt/garage/snapshots/app" = {
-    device = "garage/snapshots/app";
-    fsType = "zfs";
-  };
-  fileSystems."/mnt/garage/snapshots/music" = {
-    device = "garage/snapshots/music";
-    fsType = "zfs";
-  };
-  fileSystems."/mnt/garage/snapshots/share" = {
-    device = "garage/snapshots/share";
-    fsType = "zfs";
-  };
-  # fileSystems."/mnt/zolder/snapshots/app" = {
-  #   device = "zolder/snapshots/app";
+  # fileSystems."/mnt/garage/backups/app" = {
+  #   device = "garage/backups/app";
   #   fsType = "zfs";
   # };
-  # fileSystems."/mnt/zolder/snapshots/music" = {
-  #   device = "zolder/snapshots/music";
+  # fileSystems."/mnt/garage/backups/music" = {
+  #   device = "garage/snapshots/music";
   #   fsType = "zfs";
   # };
-  # fileSystems."/mnt/zolder/snapshots/share" = {
-  #   device = "zolder/snapshots/share";
+  # fileSystems."/mnt/garage/backups/share" = {
+  #   device = "garage/backups/share";
+  #   fsType = "zfs";
+  # };
+  # fileSystems."/mnt/zolder/backups/app" = {
+  #   device = "zolder/backups/app";
+  #   fsType = "zfs";
+  # };
+  # fileSystems."/mnt/zolder/backups/music" = {
+  #   device = "zolder/backups/music";
+  #   fsType = "zfs";
+  # };
+  # fileSystems."/mnt/zolder/backups/share" = {
+  #   device = "zolder/backups/share";
   #   fsType = "zfs";
   # };
 

@@ -44,6 +44,7 @@ in
           deploy = lib.getExe deploy-custom; # $ deploy {?host} --verbose
           update = "nix flake update";
 
+          wut = "journalctl -b -1 -e"; # previous boot crash
           xev = "wev"; # wayland xev
           adel = "read -r s&&atuin search '$s' --delete";
           notes = "(cd /mnt/notes && nvim)";

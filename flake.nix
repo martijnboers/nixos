@@ -9,7 +9,7 @@
     hardware-fork.url = "github:martijnboers/nixos-hardware";
 
     # https://github.com/DeterminateSystems/nix-src/releases
-    determinate.url = "github:DeterminateSystems/nix-src/v3.12.0";
+    determinate.url = "github:DeterminateSystems/nix-src/v3.13.2";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -104,10 +104,10 @@
               hardwareconfig
               ./nixos/system.nix
 
+              agenix.nixosModules.default # secrets
               home-manager.nixosModules.home-manager
               lanzaboote.nixosModules.lanzaboote # secureboot
               nix-mineral.nixosModules.nix-mineral # schizo settings
-              agenix.nixosModules.default # secrets
               secrets.outPath # so config.hidden becomes available
 
               {

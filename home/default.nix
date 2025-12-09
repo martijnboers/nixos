@@ -84,7 +84,7 @@
         {
           # ls ~/.nix-profile/share/applications
           "text/html" = "librewolf.desktop";
-          "text/plain" = "org.kde.kwrite.desktop";
+          "text/plain" = "org.xfce.mousepad.desktop";
           "application/pdf" = "org.pwmt.zathura.desktop";
           "inode/directory" = "thunar.desktop";
         }
