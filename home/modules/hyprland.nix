@@ -2,6 +2,7 @@
   lib,
   config,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -92,6 +93,7 @@ in
         enable = true;
         variables = [ "all" ]; # pass all user env variables to systemd
       };
+      plugins = [ pkgs.hyprtasking ];
       # https://wiki.hyprland.org/Configuring/Variables/
       settings = {
         "$mod" = "ALT";
@@ -105,6 +107,17 @@ in
         "$fileManager" = "thunar";
         "$browser" = "librewolf";
         "$menu" = "walker";
+
+        plugin.hyprtasking = {
+          gap_size = 7;
+          bg_color = "0xff26233a";
+          grid = {
+            rows = 3;
+            cols = 2;
+            loop = false;
+            gaps_use_aspect_ratio = false;
+          };
+        };
 
         # hyprctl clients
         windowrulev2 = [
@@ -163,6 +176,7 @@ in
           "$mod, F4, killactive"
           "$prog, H, exec, copyq toggle"
           "$mod, M, exec, hyprlock"
+          "$mod, escape, hyprtasking:toggle, cursor"
 
           # movement
           # https://wiki.hyprland.org/Configuring/Dispatchers/#list-of-dispatchers
@@ -211,6 +225,7 @@ in
 
           # https://github.com/danth/stylix/issues/430
           "col.active_border" = lib.mkForce "rgb(${config.lib.stylix.colors.base05})";
+          "col.inactive_border" = lib.mkForce "rgb(${config.lib.stylix.colors.base02})";
         };
         input = {
           kb_layout = "us";
@@ -223,17 +238,13 @@ in
         };
 
         decoration = {
-          blur = {
-            size = 8;
-            passes = 3;
-            noise = "0.02";
-            contrast = "0.9";
-            brightness = "0.9";
-            popups = true;
-            xray = false;
+          rounding = 8;
+          shadow = {
+            enabled = true;
+            range = 6;
+            color = lib.mkForce "rgb(${config.lib.stylix.colors.base06})";
+            color_inactive = "rgba(00000044)"; # transparant
           };
-          rounding = 10;
-          dim_special = "0.0";
         };
         ecosystem = {
           no_donation_nag = true;

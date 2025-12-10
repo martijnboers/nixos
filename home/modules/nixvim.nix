@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  pkgs,
   ...
 }:
 with lib;
@@ -76,18 +75,6 @@ in
         mapleader = " ";
       };
 
-      extraPlugins = [
-        (pkgs.vimUtils.buildVimPlugin {
-          name = "openingh.nvim";
-          src = pkgs.fetchFromGitHub {
-            owner = "Almo7aya";
-            repo = "openingh.nvim";
-            rev = "7cc8c897cb6b34d8ed28e99d95baccef609ed251";
-            sha256 = "sha256-/FlNLWOSIrOYiWzAcgOdu9//QTorCDV1KWb+h6eqLwk=";
-          };
-        })
-      ];
-
       opts = {
         expandtab = true; # Use spaces instead of tabs (Fixes nixfmt exploding)
         shiftwidth = 2; # Size of an indent
@@ -112,6 +99,11 @@ in
         noice.enable = true; # cmd popup input modal
         auto-session.enable = true; # auto-restore sessions on startup
         quicker.enable = true; # edit quickfix as buffer
+
+        gitportal = {
+          enable = true; # open gh or gitlab web
+          settings.always_use_commit_hash_in_url = true;
+        };
 
         barbar = {
           enable = true; # tabs, as understood by any other editor.
@@ -280,13 +272,15 @@ in
         (mkGitKeymap "<Leader>pp" "Git push" "push")
         (mkGitKeymap "<Leader>pf" "Git push force" "push --force-with-lease --force-if-includes")
 
-        # GitHub integration
-        (mkCmdKeymap "<Leader>go" "Open file in source control" "OpenInGHFile")
+        # Open remote
         {
           key = "<Leader>go";
-          mode = [ "v" ];
-          action = ":OpenInGHFileLines<cr>"; # has to be : for range to work
-          options.silent = true;
+          mode = [
+            "n"
+            "v"
+          ];
+          action = "<cmd>GitPortal<cr>";
+          options.desc = "Open file in source control";
         }
 
         # ============================================
