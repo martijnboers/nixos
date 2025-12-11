@@ -260,7 +260,7 @@ in
 
           "hyprland/workspaces" = {
             on-click = "activate";
-            # https:#github.com/Alexays/Waybar/wiki/Module:-Workspaces#persistent-workspaces
+            # https://github.com/Alexays/Waybar/wiki/Module:-Workspaces#persistent-workspaces
             persistent-workspaces = {
               "1" = [ ];
               "2" = [ ];

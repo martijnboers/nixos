@@ -111,11 +111,10 @@ in
         plugin.hyprtasking = {
           gap_size = 7;
           bg_color = "0xff26233a";
+          gestures.enabled = false;
           grid = {
             rows = 3;
             cols = 2;
-            loop = false;
-            gaps_use_aspect_ratio = false;
           };
         };
 
@@ -259,7 +258,7 @@ in
       };
       extraConfig = ''
         monitor=eDP-1,preferred,auto,1,transform,0
-        monitor = desc:Samsung Display Corp. 0x41B4, preferred, auto, 1.25
+        monitor=desc:Samsung Display Corp. 0x41B4,preferred,auto,1.25
         monitor=,preferred,auto,1
 
         gesture = 3, horizontal, workspace

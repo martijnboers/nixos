@@ -242,12 +242,7 @@ in
         # Git Operations
         # ============================================
         # Viewing / Blame
-        {
-          key = "gb";
-          mode = [ "n" ];
-          action = ":Pick git_commits path='%'<cr>";
-          options.desc = "Git blame";
-        }
+        (mkLuaKeymapModes "gb" "Git blame" [ "n" ] "MiniExtra.pickers.git_commits({ path=vim.fn.expand('%') }")
         (mkLuaKeymapModes "gb" "Git blame" [ "v" ] "MiniGit.show_at_cursor()")
         (mkGitKeymap "glg" "Git log" "log --stat --max-count=200")
 
