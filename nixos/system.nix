@@ -41,7 +41,7 @@
       ];
       openssh.authorizedKeys.keyFiles = [
         ../secrets/keys/nurma-sk.pub
-        # ../secrets/keys/keychain-sk.pub
+        ../secrets/keys/keychain-sk.pub
       ];
       hashedPasswordFile = config.age.secrets.password.path;
     };
@@ -69,7 +69,7 @@
     btop # fancy htop
 
     # networking
-    dnsutils # `dig` + `nslookup`
+    dnsutils # dig+dnslookup
     geonet # geodns+geoping
 
     # archives

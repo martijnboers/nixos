@@ -100,7 +100,7 @@ in
             "208.67.222.222"
           ];
           protection_enabled = true;
-          enable_dnssec = true; # make it harder to tamper
+          enable_dnssec = true; 
           blocked_hosts = [
             "version.bind"
             "id.server"

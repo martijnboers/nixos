@@ -12,6 +12,10 @@
   age.identityPaths = [ "/home/martijn/.ssh/id_ed25519" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  programs.ssh.extraConfig = ''
+    IdentityFile /home/martijn/.ssh/id_ed25519_sk
+  '';
+
   hosts.borg = {
     enable = true;
     repository = "ssh://nkhm1dhr@nkhm1dhr.repo.borgbase.com/./repo";

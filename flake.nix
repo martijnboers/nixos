@@ -9,7 +9,7 @@
     hardware-fork.url = "github:martijnboers/nixos-hardware";
 
     # https://github.com/DeterminateSystems/nix-src/releases
-    determinate.url = "github:DeterminateSystems/nix-src/v3.13.2";
+    determinate.url = "github:DeterminateSystems/nix-src/v3.14.0";
 
     home-manager = {
       url = "github:nix-community/home-manager";
