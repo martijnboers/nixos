@@ -105,7 +105,7 @@
 
   programs.git = {
     enable = true;
-    signing.key = "328144ACADA0A336";
+    signing.key = "0x8BA2F86B654C7078";
     settings = {
       pull.rebase = "true";
       init.defaultBranch = "main";

@@ -8,52 +8,88 @@ let
   cfg = config.maatwerk.nixvim;
   helpers = config.lib.nixvim;
 
-  mkGotoBuffer = index: {
-    action = "<cmd>BufferGoto ${toString index}<cr>";
-    key = "<C-${toString (index + 5)}>"; # use right side of keyboard
-    options.desc = "Go to buffer ${toString index}";
-  };
+  keymaps =
+    let
+      mk = args: {
+        key = args.key;
+        action = args.action;
+        mode = args.modes;
+        options = {
+          inherit (args) desc;
+          silent = true;
+        };
+      };
+    in
+    {
+      inherit mk;
+      cmd =
+        args:
+        mk (
+          {
+            modes = [
+              "n"
+              "v"
+            ];
+          }
+          // args
+          // {
+            action = "<cmd>${args.command}<cr>";
+          }
+        );
 
-  mkLuaKeymap = key: desc: luaCode: {
-    inherit key;
-    action = helpers.mkRaw "function() ${luaCode} end";
-    options.desc = desc;
-  };
+      lua =
+        args:
+        mk (
+          {
+            modes = [ "n" ];
+          }
+          // args
+          // {
+            action = helpers.mkRaw "function() ${args.code} end";
+          }
+        );
 
-  mkLuaKeymapModes = key: desc: modes: luaCode: {
-    inherit key;
-    mode = modes;
-    action = helpers.mkRaw "function() ${luaCode} end";
-    options.desc = desc;
-  };
+      remap =
+        args:
+        mk (
+          {
+            modes = [ "n" ];
+            desc = "remap from ${args.key} to ${args.to}";
+          }
+          // args
+          // {
+            action = args.to;
+          }
+        );
 
-  mkCmdKeymap = key: desc: cmd: {
-    inherit key;
-    action = "<cmd>${cmd}<cr>";
-    options.desc = desc;
-  };
+      git =
+        args:
+        mk (
+          {
+            modes = [
+              "n"
+              "v"
+            ];
+          }
+          // args
+          // {
+            action = "<cmd>Git ${args.command}<cr>";
+          }
+        );
 
-  mkGitKeymap = key: desc: gitCmd: {
-    inherit key;
-    action = ":Git ${gitCmd}<cr>";
-    options = {
-      inherit desc;
-      silent = true;
+      gitChained =
+        args:
+        mk (
+          {
+            modes = [ "n" ];
+          }
+          // args
+          // {
+            action = builtins.concatStringsSep "" (map (cmd: "<cmd>Git ${cmd}<cr>") args.commands);
+          }
+        );
+
     };
-  };
-
-  mkGitChainedKeymap = key: desc: commands: {
-    inherit key;
-    action = builtins.concatStringsSep "" (map (cmd: "<cmd>Git ${cmd}<cr>") commands);
-    options = {
-      inherit desc;
-      silent = true;
-    };
-  };
-
-  mkSimpleRemap = key: action: {
-    inherit key action;
-  };
 in
 {
 
@@ -192,121 +228,222 @@ in
         };
       };
 
-      keymaps = [
+      keymaps = with keymaps; [
         # ============================================
         # Picker / Fuzzy Finding
         # ============================================
-        (mkLuaKeymapModes "<Leader>f" "Find" [ "n" "v" ] "MiniPick.builtin.grep_live()")
-        (mkLuaKeymap "<Leader>o" "Files" "MiniPick.builtin.files()")
-        (mkLuaKeymap "<Leader>b" "Find in buffers" "MiniPick.builtin.buffers()")
-        (mkLuaKeymap "<Leader>/" "Find in buffer lines" "MiniExtra.pickers.buf_lines()")
-        (mkLuaKeymap "<Leader>h" "Find help pages" "MiniPick.builtin.help()")
-        (mkLuaKeymapModes "<Leader>x" "Find errors" [ "n" "v" ] "MiniExtra.pickers.diagnostic()")
-        (mkLuaKeymap "<Leader>s" "Find symbols" "MiniExtra.pickers.lsp({scope = 'document_symbol'})")
-        (mkLuaKeymap "<Leader>r" "Show registers" "MiniExtra.pickers.registers()")
+        (lua {
+          key = "<Leader>f";
+          desc = "Find";
+          code = "MiniPick.builtin.grep_live()";
+          modes = [
+            "n"
+            "v"
+          ];
+        })
+        (lua {
+          key = "<Leader>o";
+          desc = "Files";
+          code = "MiniPick.builtin.files()";
+        })
+        (lua {
+          key = "<Leader>b";
+          desc = "Find in buffers";
+          code = "MiniPick.builtin.buffers()";
+        })
+        (lua {
+          key = "<Leader>/";
+          desc = "Find in buffer lines";
+          code = "MiniExtra.pickers.buf_lines()";
+        })
+        (lua {
+          key = "<Leader>h";
+          desc = "Find help pages";
+          code = "MiniPick.builtin.help()";
+        })
+        (lua {
+          key = "<Leader>x";
+          desc = "Find errors";
+          code = "MiniExtra.pickers.diagnostic()";
+          modes = [
+            "n"
+            "v"
+          ];
+        })
+        (lua {
+          key = "<Leader>s";
+          desc = "Find symbols";
+          code = "MiniExtra.pickers.lsp({scope = 'document_symbol'})";
+        })
+        (lua {
+          key = "<Leader>r";
+          desc = "Show registers";
+          code = "MiniExtra.pickers.registers()";
+        })
 
         # ============================================
         # File Explorer
         # ============================================
-        (mkLuaKeymapModes "<Leader>e" "Toggle MiniFiles" [
-          "n"
-          "v"
-        ] "if not MiniFiles.close() then MiniFiles.open(vim.api.nvim_buf_get_name(0), false) end")
+        (lua {
+          key = "<Leader>e";
+          desc = "Toggle MiniFiles";
+          code = "if not MiniFiles.close() then MiniFiles.open(vim.api.nvim_buf_get_name(0), false) end";
+          modes = [
+            "n"
+            "v"
+          ];
+        })
 
         # ============================================
         # Buffer Management
         # ============================================
         # Navigation
-        (mkCmdKeymap "<Left>" "Go to prev buffer" "BufferPrevious")
-        (mkCmdKeymap "<Right>" "Go to next buffer" "BufferNext")
-        (mkGotoBuffer 1)
-        (mkGotoBuffer 2)
-        (mkGotoBuffer 3)
-
-        # Moving buffers
-        (mkCmdKeymap "<C-S-Left>" "Move buffer left" "BufferMovePrevious")
-        (mkCmdKeymap "<C-S-Right>" "Move buffer to the right" "BufferMoveNext")
-
-        # Closing buffers
-        (mkLuaKeymap "x" "close buffer" "vim.api.nvim_buf_delete(0, {})")
-        (mkCmdKeymap "X" "Close all but pinned or current" "BufferCloseAllButCurrentOrPinned")
-
-        # Pinning
-        (mkCmdKeymap "<Leader>a" "Pin buffer" "BufferPin")
-
-        # Window navigation
-        (mkSimpleRemap "<Tab>" "<C-w>w")
-        (mkSimpleRemap "<S-Tab>" "<C-w>W")
+        (cmd {
+          key = "<Left>";
+          desc = "Go to prev buffer";
+          command = "BufferPrevious";
+        })
+        (cmd {
+          key = "<Right>";
+          desc = "Go to next buffer";
+          command = "BufferNext";
+        })
+        (cmd {
+          key = "<C-S-Left>";
+          desc = "Move buffer left";
+          command = "BufferMovePrevious";
+        })
+        (cmd {
+          key = "<C-S-Right>";
+          desc = "Move buffer to the right";
+          command = "BufferMoveNext";
+        })
+        (cmd {
+          key = "x";
+          desc = "Close buffer";
+          command = "bd";
+        })
+        (cmd {
+          key = "X";
+          desc = "Close all but pinned or current";
+          command = "BufferCloseAllButCurrentOrPinned";
+        })
+        (cmd {
+          key = "<Leader>a";
+          desc = "Pin buffer";
+          command = "BufferPin";
+        })
+        (remap {
+          key = "<Tab>";
+          to = "<C-w>";
+        })
 
         # ============================================
         # Git Operations
         # ============================================
-        # Viewing / Blame
-        (mkLuaKeymapModes "gb" "Git blame" [ "n" ] "MiniExtra.pickers.git_commits({ path=vim.fn.expand('%') }")
-        (mkLuaKeymapModes "gb" "Git blame" [ "v" ] "MiniGit.show_at_cursor()")
-        (mkGitKeymap "glg" "Git log" "log --stat --max-count=200")
-
-        # Diff / Hunks
-        (mkLuaKeymap "gt" "Show buffer changes" "MiniDiff.toggle_overlay()")
-        (mkLuaKeymap "gu" "Unstaged hunks" "MiniExtra.pickers.git_hunks()")
-        (mkLuaKeymap "gs" "Staged hunks" "MiniExtra.pickers.git_hunks({scope = \"staged\"})")
-
-        # Commits
-        (mkGitKeymap "<Leader>cc" "Git commit --verbose" "commit")
-        (mkGitChainedKeymap "<Leader>ca" "Git commit all" [
-          "add ."
-          "commit --verbose"
-        ])
-        (mkGitChainedKeymap "<Leader>cf" "fixup" [
-          "add ."
-          "commit --amend --no-edit"
-        ])
-
-        # Push / Pull
-        (mkGitKeymap "<Leader>pl" "Git pull" "pull --rebase")
-        (mkGitKeymap "<Leader>pp" "Git push" "push")
-        (mkGitKeymap "<Leader>pf" "Git push force" "push --force-with-lease --force-if-includes")
-
-        # Open remote
-        {
-          key = "<Leader>go";
-          mode = [
-            "n"
-            "v"
+        (lua {
+          key = "gb";
+          desc = "Git blame";
+          code = "MiniExtra.pickers.git_commits({ path=vim.fn.expand('%') })";
+          modes = [ "n" ];
+        })
+        (lua {
+          key = "gb";
+          desc = "Git blame";
+          code = "MiniGit.show_at_cursor()";
+          modes = [ "v" ];
+        })
+        (git {
+          key = "glg";
+          desc = "Git log";
+          command = "log --stat --max-count=200";
+        })
+        (lua {
+          key = "gt";
+          desc = "Show buffer changes";
+          code = "MiniDiff.toggle_overlay()";
+        })
+        (lua {
+          key = "gu";
+          desc = "Unstaged hunks";
+          code = "MiniExtra.pickers.git_hunks()";
+        })
+        (lua {
+          key = "gs";
+          desc = "Staged hunks";
+          code = "MiniExtra.pickers.git_hunks({scope = \"staged\"})";
+        })
+        (git {
+          key = "<Leader>cc";
+          desc = "Git commit --verbose";
+          command = "commit";
+        })
+        (gitChained {
+          key = "<Leader>ca";
+          desc = "Git commit all";
+          commands = [
+            "add ."
+            "commit --verbose"
           ];
-          action = "<cmd>GitPortal<cr>";
-          options.desc = "Open file in source control";
-        }
+        })
+        (gitChained {
+          key = "<Leader>cf";
+          desc = "fixup";
+          commands = [
+            "add ."
+            "commit --amend --no-edit"
+          ];
+        })
+        (git {
+          key = "<Leader>pl";
+          desc = "Git pull";
+          command = "pull --rebase";
+        })
+        (git {
+          key = "<Leader>pp";
+          desc = "Git push";
+          command = "push";
+        })
+        (git {
+          key = "<Leader>pf";
+          desc = "Git push force";
+          command = "push --force-with-lease --force-if-includes";
+        })
+        (cmd {
+          key = "<Leader>go";
+          desc = "Open file in source control";
+          command = "GitPortal";
+        })
 
         # ============================================
         # Quality of Life / Utilities
         # ============================================
         # Smooth scrolling (center cursor)
-        (mkSimpleRemap "<C-u>" "<C-u>zz")
-        (mkSimpleRemap "<C-d>" "<C-d>zz")
-
-        # Clipboard operations
-        {
+        (remap {
+          key = "<C-u>";
+          to = "<C-u>zz";
+        })
+        (remap {
+          key = "<C-d>";
+          to = "<C-d>zz";
+        })
+        (mk {
           key = "<Leader>y";
-          mode = [ "v" ];
-          action = "\"+y";
-          options = {
-            desc = "Add to sytem clipboard";
-            silent = true;
-          };
-        }
-        {
+          desc = "Add to sytem clipboard";
+          action = ''"+y'';
+          modes = [ "v" ];
+        })
+        (cmd {
           key = "<Leader>y";
-          mode = [ "n" ];
-          action = "<cmd>%y+<cr>";
-          options = {
-            desc = "Add whole file to sytem clipboard";
-            silent = true;
-          };
-        }
-
+          desc = "Add whole file to sytem clipboard";
+          command = "%y+";
+          modes = [ "n" ];
+        })
         # Fix for Tab mapping breaking Ctrl-i
-        (mkSimpleRemap "<C-i>" "<C-i>")
+        (remap {
+          key = "<C-i>";
+          to = "<C-i>";
+        })
       ];
 
       diagnostic.settings = {

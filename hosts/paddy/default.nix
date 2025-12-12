@@ -42,4 +42,5 @@
   };
 
   hosts.tailscale.enable = true;
+  hosts.gpg.enable = true;
 }
