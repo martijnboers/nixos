@@ -45,6 +45,7 @@ for a good initial starting point for NixOS with flakes.
 | Authoritative DNS | Authoritative DNS server. | [authdns.nix](nixos/modules/authdns.nix) |
 | Derper | Tailscale DERP server. | [derper.nix](nixos/modules/derper.nix) |
 | Headscale | Self-hosted Tailscale control server. | [headscale.nix](hosts/rekkaken/modules/headscale.nix) |
+| Ladder | Self-hosted 12ft.io alternative. | [ladder.nix](hosts/rekkaken/modules/ladder.nix) |
 | Gotify & smtp-gotify | Notification service with an SMTP bridge. | [notifs.nix](hosts/rekkaken/modules/notifs.nix) |
 | Uptime Kuma | Service monitoring tool. | [uptime.nix](hosts/rekkaken/modules/uptime.nix) |
 
