@@ -39,6 +39,18 @@ in
           type = "badger";
           dataSource = "${stepDir}/db";
         };
+        defaultTLSCertificate = {
+          template = ''
+            {
+              "subject": {
+                "commonName": "{{ index .SANs 0 }} (plebs4cash)"
+              },
+              "dnsNames": {{ toJson .SANs }},
+              "keyUsage": ["digitalSignature", "keyEncipherment"],
+              "extKeyUsage": ["serverAuth", "clientAuth"]
+            }
+          '';
+        };
         authority = {
           provisioners = [
             {

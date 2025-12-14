@@ -49,7 +49,7 @@ in
                 iifname { "lan", "tailscale0" } tcp dport 22 ct state new limit rate 10/minute accept comment "Allow SSH management";
                 iifname { "lan", "wifi", "opt1" } udp dport 67 accept comment "DHCP";
 
-                iifname { "tailscale0" } tcp dport { 80, 443 } accept comment "Websites hosted on router";
+                iifname { "tailscale0" } tcp dport { 80, 443, 4443 } accept comment "Websites hosted on router";
                 iifname { "tailscale0" } udp dport 53 accept comment "DNS";
                 iifname { "tailscale0" } tcp dport 53 accept comment "DNS";
 
@@ -57,9 +57,10 @@ in
                 iifname { "lan", "wifi", "tailscale0", "opt1" } icmpv6 type { nd-neighbor-solicit, nd-neighbor-advert, nd-router-solicit, echo-request } accept;
 
                 # --- ISP SERVICE RULES (WAN) ---
-                iifname "peepee" udp sport 547 udp dport 546 accept;
-                iifname "peepee" icmpv6 type { echo-reply, destination-unreachable, packet-too-big, time-exceeded, parameter-problem, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } accept;
-                iifname "peepee" icmp type echo-request limit rate 2/second accept;
+                iifname "peepee" udp sport 547 udp dport 546 accept comment "DHCPv6 client-server communication";
+                iifname "peepee" icmpv6 type { echo-reply, destination-unreachable, packet-too-big, time-exceeded, parameter-problem, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } accept comment "Essential IPv6 ICMP for discovery, MTU, etc.";
+                iifname "peepee" icmp type { destination-unreachable, time-exceeded, parameter-problem } accept comment "Essential IPv4 ICMP for Path MTU Discovery";
+                iifname "peepee" icmp type echo-request limit rate 2/second accept comment "Rate-limited IPv4 ping responses";
               }
 
               chain forward {
@@ -111,6 +112,9 @@ in
           content = ''
             chain prerouting {
               type nat hook prerouting priority dstnat; policy accept;
+
+              # --- DNS REDIRECTION ---
+              iifname "wifi" ip saddr ${dreame} meta l4proto { tcp, udp } th dport 53 dnat to 10.20.0.1 comment "Force Dreame to use router DNS";
 
               # --- IPV4 PORT FORWARDING (DNAT) ---
               iifname "peepee" tcp dport 22000 dnat to ${hadouken.ipv4};
