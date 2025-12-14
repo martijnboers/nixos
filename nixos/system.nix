@@ -217,7 +217,7 @@
   security = {
     sudo.enable = lib.mkDefault false; # 🦀🦀
     sudo-rs.enable = lib.mkDefault true; # 🦀🦀
-    pki.certificateFiles = [ ../secrets/keys/plebs4gold.crt ];
+    pki.certificateFiles = [ ../secrets/keys/plebs4platinum.crt ];
   };
 
   # System harderning

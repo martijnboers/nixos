@@ -138,7 +138,7 @@ in
                   src = [ "*" ];
                   dst = [
                     "hadouken:80,443" # everyone access to hadouken web-services
-                    "dosukoi:53,80,443" # everyone access to dns, requests acme certs
+                    "dosukoi:53" # everyone access to dns
                     "rekkaken:80,443,8025" # send/receive notifications + internal email
                   ];
                 }
@@ -146,7 +146,7 @@ in
                   action = "accept";
                   src = [ "dosukoi" ];
                   dst = [
-                    "headscale-server@:80,443" # http acme challange
+                    "headscale-server@:80,443,4443" # http acme challange
                   ];
                 }
                 {
@@ -164,6 +164,13 @@ in
                     "headscale-server@:80,443"
                     "tatsumaki:50001" # bitcoin node
                     "headscale-user@:53317" # localsend
+                  ];
+                }
+                {
+                  action = "accept";
+                  src = [ "headscale-server@" ];
+                  dst = [
+                    "dosukoi:80,4443" # request acme certs
                   ];
                 }
                 {

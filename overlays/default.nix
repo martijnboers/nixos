@@ -17,6 +17,11 @@
     #     ./ghostty.patch
     #   ];
     # });
+    # age = prev.age.withPlugins (ps: [ ps.age-plugin-tpm ]).overrideAttrs (old: {
+    #   meta = (old.meta or { }) // {
+    #     mainProgram = "age";
+    #   };
+    # });
     electrum-custom = prev.electrum.overridePythonAttrs (oldAttrs: {
       version = "4.6.2";
       src = prev.fetchurl {

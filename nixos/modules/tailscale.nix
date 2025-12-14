@@ -22,5 +22,6 @@ in
       disableTaildrop = true;
     };
     networking.firewall.trustedInterfaces = [ "tailscale0" ];
+    networking.resolvconf.useLocalResolver = true;
   };
 }

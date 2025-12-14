@@ -23,8 +23,6 @@
           defaultroute
           # No authentication needed for this ISP
           noauth
-          # Do not assign a default IP if negotiation fails
-          noipdefault
 
           # Enable IPv6 negotiation on the link
           +ipv6
@@ -132,13 +130,6 @@
           DHCP = "ipv6";
           IPv6AcceptRA = true;
           ConfigureWithoutCarrier = "yes";
-          DNS = [
-            "185.93.175.43#dns.freedom.nl"
-            "185.232.98.76#dns.freedom.nl"
-            "2a10:3780:2:52:185:93:175:43#dns.freedom.nl"
-            "2a10:3780:2:53:185:232:98:76#dns.freedom.nl"
-          ];
-          DNSOverTLS = "opportunistic";
         };
         linkConfig.RequiredForOnline = "yes";
 

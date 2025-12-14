@@ -41,7 +41,7 @@ in
         (headscale) {
           @internal remote_ip 100.64.0.0/10
           tls {
-            ca https://acme.thuis/acme/plebs4gold/directory
+            ca https://acme.thuis:4443/acme/gitgetgot/directory
           }
         }
         (mtls) {
@@ -49,7 +49,7 @@ in
             client_auth {
               mode require_and_verify
               trust_pool file {
-        	pem_file ${../../../secrets/keys/plebs4gold.crt}
+        	pem_file ${../../../secrets/keys/plebs4platinum.crt}
               }
             }
           }

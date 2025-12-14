@@ -1,12 +1,15 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 with lib;
 let
   cfg = config.hosts.acme;
+  stepDir = "/var/lib/step-ca";
+  rootCert = ../../../secrets/keys/plebs4platinum.crt;
+  intermediateKeyPath = config.age.secrets.plebs4gold.path;
+  stepCAPort = 4443;
 in
 {
   options.hosts.acme = {
@@ -14,44 +17,37 @@ in
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [ pkgs.nss ];
-
-    services.caddy = {
-      enable = true;
-      globalConfig = ''
-        skip_install_trust
-        pki {
-          ca plebs4gold {
-            name plebs4gold
-            intermediate_cn plebs4cash
-            root {
-              key ${config.age.secrets.plebs4gold.path}
-              cert ${../../../secrets/keys/plebs4gold.crt}
-            }
-          }
-        }
-      '';
-      virtualHosts = {
-        "acme.thuis" = {
-          extraConfig = ''
-            tls {
-              issuer internal { ca plebs4gold }
-            }
-            acme_server {
-              ca plebs4gold
-              allow {
-                domains *.thuis 
-              }
-            }
-          '';
-        };
-
-      };
+    age.secrets.plebs4gold = {
+      file = ../../../secrets/plebs4gold.age;
+      owner = "step-ca";
+      group = "step-ca";
+      mode = "440";
     };
-    age.secrets = {
-      plebs4gold = {
-        file = ../../../secrets/plebs4gold.age;
-        owner = "caddy";
+
+    services.step-ca = {
+      enable = true;
+      address = "0.0.0.0";
+      port = stepCAPort;
+      intermediatePasswordFile = intermediateKeyPath;
+
+      settings = {
+        root = rootCert;
+        crt = "${stepDir}/intermediate_ca.crt";
+        key = "${stepDir}/intermediate_ca_key";
+        dnsNames = [ "acme.thuis" ];
+        db = {
+          type = "badger";
+          dataSource = "${stepDir}/db";
+        };
+        authority = {
+          provisioners = [
+            {
+              type = "ACME";
+              name = "gitgetgot";
+              forceCN = true;
+            }
+          ];
+        };
       };
     };
   };

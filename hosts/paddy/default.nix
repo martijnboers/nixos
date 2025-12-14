@@ -13,7 +13,7 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   programs.ssh.extraConfig = ''
-    IdentityFile /home/martijn/.ssh/id_ed25519_sk
+    IdentityFile /home/martijn/.ssh/id_keychain.sk
   '';
 
   hosts.borg = {
