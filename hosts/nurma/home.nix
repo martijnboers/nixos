@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   imports = [
     ../../home
@@ -13,7 +13,7 @@
 
   programs.git = {
     settings.core.sshCommand = "ssh -i ~/.ssh/id_ed25519_age";
-    signing.signByDefault = true;
+    signing.key = "key::${lib.fileContents ../../secrets/keys/nurma-sk.pub}";
   };
 
   # Enable profiles

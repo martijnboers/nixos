@@ -46,5 +46,5 @@
   };
 
   hosts.tailscale.enable = true;
-  hosts.gpg.enable = true;
+  hosts.yubikey.enable = true;
 }

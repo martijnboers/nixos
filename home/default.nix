@@ -105,7 +105,11 @@
 
   programs.git = {
     enable = true;
-    signing.key = "0x8BA2F86B654C7078";
+    signing = {
+      signByDefault = true;
+      key = lib.mkDefault "key::${lib.fileContents ../secrets/keys/keychain-sk.pub}";
+      format = "ssh";
+    };
     settings = {
       pull.rebase = "true";
       init.defaultBranch = "main";

@@ -76,5 +76,5 @@
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # Support gpg for git signing
-  hosts.gpg.enable = true;
+  hosts.yubikey.enable = true;
 }

@@ -80,5 +80,5 @@
   users.users.martijn.extraGroups = [ "adbusers" ];
 
   # Support gpg for git signing
-  hosts.gpg.enable = true;
+  hosts.yubikey.enable = true;
 }

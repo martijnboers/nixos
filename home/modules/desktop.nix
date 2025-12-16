@@ -45,10 +45,6 @@ in
         xfce.mousepad # gui-notepad
         sqlitebrowser
 
-        # yubikey
-        yubioath-flutter # 2fa
-        yubikey-manager # ykman
-
         # work (https://github.com/NixOS/nixpkgs/pull/464965)
         (citrix_workspace.overrideAttrs (oa: {
           buildInputs = (oa.buildInputs or [ ]) ++ [ stable.webkitgtk_4_0 ];
@@ -108,10 +104,25 @@ in
 
     programs.gpg = {
       enable = true;
-      # https://support.yubico.com/hc/en-us/articles/4819584884124-Resolving-GPG-s-CCID-conflicts
       scdaemonSettings = {
+        # Use system PCSC driver
         disable-ccid = true;
+        # Allow OpenSC to touch the card
+        pcsc-shared = true;
+        # Stop GPG from blocking Firefox
+        disable-application = "piv";
+        # Timeout: 5 seconds (per OpenSC docs) or 30 seconds (for better cache)
+        # 5s is safer for preventing errors; 30s is better for typing PIN less.
+        card-timeout = "5";
       };
     };
+    services.gpg-agent = {
+      enable = true;
+      enableSshSupport = false;
+      pinentryPackage = pkgs.pinentry-gnome3;
+      defaultCacheTtl = 43200;
+      maxCacheTtl = 43200;
+    };
+
   };
 }

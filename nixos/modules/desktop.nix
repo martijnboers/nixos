@@ -22,7 +22,6 @@ in
 
     environment.systemPackages = with pkgs; [
       veracrypt
-      opensc # PIV driver (/run/current-system/sw/lib/opensc-pkcs11.so)
     ];
 
     users.users.martijn.extraGroups = [ "wireshark" ];
@@ -44,12 +43,6 @@ in
       settings.kernel.binfmt-misc = true;
       # allow all usbs
       extras.misc.usbguard.enable = false;
-    };
-
-    # Yubikey sudo
-    security.pam.services = {
-      login.u2fAuth = true;
-      sudo.u2fAuth = true;
     };
 
     programs.wireshark = {
@@ -132,15 +125,6 @@ in
     };
 
     programs.dconf.enable = true; # used for stylix
-
-    # Yubikey
-    programs.yubikey-touch-detector.enable = true;
-    services.yubikey-agent.enable = true;
-    # for smartcard support
-    services = {
-      pcscd.enable = true;
-      udev.packages = [ pkgs.yubikey-personalization ];
-    };
 
     # Enable sound with pipewire.
     security.rtkit.enable = true;

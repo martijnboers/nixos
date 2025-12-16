@@ -16,10 +16,10 @@
     ./modules/auditd.nix
     ./modules/server.nix
     ./modules/derper.nix
+    ./modules/yubi.nix
     ./modules/borg.nix
     ./modules/qemu.nix
     ./modules/ssh.nix
-    ./modules/gpg.nix
   ];
 
   age.secrets = {
