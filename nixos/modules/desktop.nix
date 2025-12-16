@@ -20,8 +20,9 @@ in
       DEFAULT_BROWSER = "librewolf";
     };
 
-    environment.systemPackages = [
-      pkgs.veracrypt
+    environment.systemPackages = with pkgs; [
+      veracrypt
+      opensc # PIV driver (/run/current-system/sw/lib/opensc-pkcs11.so)
     ];
 
     users.users.martijn.extraGroups = [ "wireshark" ];

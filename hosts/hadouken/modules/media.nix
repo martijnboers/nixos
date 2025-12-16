@@ -22,13 +22,30 @@ in
   };
 
   config = mkIf cfg.enable {
-    users.groups.multimedia.members = [
-      "syncthing"
-      "jellyfin"
-      "martijn"
-      "radarr"
-      "sonarr"
+    users.groups = {
+      render.members = [ "jellyfin" ];
+      multimedia.members = [
+        "syncthing"
+        "jellyfin"
+        "martijn"
+        "radarr"
+        "sonarr"
+      ];
+    };
+
+    nixpkgs.overlays = [
+      (final: prev: {
+        jellyfin-ffmpeg = prev.jellyfin-ffmpeg.override {
+          ffmpeg_7-full = prev.ffmpeg_7-full.override {
+            withMfx = false; # Disable the old MFX
+            withVpl = true;  # Enable the new VPL
+            withUnfree = true;
+          };
+        };
+      })
     ];
+
+    environment.systemPackages = [ pkgs.jellyfin-ffmpeg ];
 
     boot.kernel.sysctl = {
       "fs.inotify.max_user_watches" = 524288;
@@ -81,6 +98,11 @@ in
     };
 
     age.secrets.unpackerr.file = ../../../secrets/unpackerr.age;
+
+    systemd.services.jellyfin.environment.LIBVA_DRIVER_NAME = "iHD";
+    environment.sessionVariables = {
+      LIBVA_DRIVER_NAME = "iHD";
+    };
 
     services = {
       jellyfin.enable = true;

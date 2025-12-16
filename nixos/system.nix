@@ -37,6 +37,7 @@
         "wheel" # sudo
         "plugdev" # mounting
         "dialout" # serial
+        "tss" # tpm 
         "network"
       ];
       openssh.authorizedKeys.keyFiles = [
@@ -89,6 +90,7 @@
     pciutils # lspci
     usbutils # lsusb
     nfs-utils
+    tpm2-totp 
 
     # forensics
     uutils-coreutils-noprefix # rust core-utils
@@ -218,6 +220,7 @@
     sudo.enable = lib.mkDefault false; # 🦀🦀
     sudo-rs.enable = lib.mkDefault true; # 🦀🦀
     pki.certificateFiles = [ ../secrets/keys/plebs4platinum.crt ];
+    tpm2.enable = true;
   };
 
   # System harderning

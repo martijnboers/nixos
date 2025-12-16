@@ -35,7 +35,7 @@ in
             client_auth {
               mode require_and_verify
               trust_pool file {
-        	pem_file ${../../../secrets/keys/plebs4platinum.crt}
+                pem_file ${../../../secrets/keys/plebs4platinum.crt}
               }
             }
           }

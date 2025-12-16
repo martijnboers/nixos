@@ -114,7 +114,7 @@ in
               type nat hook prerouting priority dstnat; policy accept;
 
               # --- DNS REDIRECTION ---
-              iifname "wifi" ip saddr ${dreame} meta l4proto { tcp, udp } th dport 53 dnat to 10.20.0.1 comment "Force Dreame to use router DNS";
+              # iifname "wifi" ip saddr ${dreame} meta l4proto { tcp, udp } th dport 53 dnat to 10.20.0.1 comment "Force Dreame to use router DNS";
 
               # --- IPV4 PORT FORWARDING (DNAT) ---
               iifname "peepee" tcp dport 22000 dnat to ${hadouken.ipv4};

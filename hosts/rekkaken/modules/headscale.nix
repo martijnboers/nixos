@@ -170,7 +170,7 @@ in
                   action = "accept";
                   src = [ "headscale-server@" ];
                   dst = [
-                    "dosukoi:80,4443" # request acme certs
+                    "dosukoi:4443" # request acme certs
                   ];
                 }
                 {

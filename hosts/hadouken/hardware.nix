@@ -32,13 +32,10 @@
 
   hardware.graphics = {
     enable = true;
-    # Hardware decoding hail-mary packages
-    extraPackages = with pkgs; [
+    extraPackages = with pkgs; [ 
+      intel-media-driver 
       intel-compute-runtime
-      intel-media-driver
-      libvdpau-va-gl
-      intel-vaapi-driver
-      libva-vdpau-driver
+      intel-ocl
       vpl-gpu-rt
     ];
   };
@@ -74,4 +71,5 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.enableAllFirmware = true; # encoding thingz
 }
