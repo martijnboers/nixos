@@ -37,7 +37,7 @@
         "wheel" # sudo
         "plugdev" # mounting
         "dialout" # serial
-        "tss" # tpm 
+        "tss" # tpm
         "network"
       ];
       openssh.authorizedKeys.keyFiles = [
@@ -61,10 +61,7 @@
     gawk
     git
     wget
-
-    # editor
-    helix
-    neovim
+    vim
 
     htop # the og
     btop # fancy htop
@@ -90,11 +87,12 @@
     pciutils # lspci
     usbutils # lsusb
     nfs-utils
-    tpm2-totp 
+    tpm2-totp
 
     # forensics
     uutils-coreutils-noprefix # rust core-utils
-    hexedit # hex editor
+    binutils # strings+ld
+    xxd # hexviewer
     jless # cli json viewer
     jq # query json
     avml # make memory dump
@@ -155,39 +153,42 @@
     config.allowUnfree = true;
   };
 
-  programs.ssh.knownHosts =
-    let
-      mkBorgRepo = name: {
-        "${name}.repo.borgbase.com" = {
-          publicKey = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOstKfBbwVOYQh3J7X4nzd6/VYgLfaucP9z5n4cpSzcZAOKGh6jH8e1mhQ4YupthlsdPKyFFZ3pKo4mTaRRuiJo=";
+  programs.ssh = {
+    startAgent = true;
+    knownHosts =
+      let
+        mkBorgRepo = name: {
+          "${name}.repo.borgbase.com" = {
+            publicKey = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOstKfBbwVOYQh3J7X4nzd6/VYgLfaucP9z5n4cpSzcZAOKGh6jH8e1mhQ4YupthlsdPKyFFZ3pKo4mTaRRuiJo=";
+          };
         };
-      };
-    in
-    {
-      "github.com".publicKey =
-        "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=";
-      "gitlab.com".publicKey =
-        "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFSMqzJeV9rUzU4kWitGjeR4PWSa29SPqJ1fVkhtj3Hw9xjLVXVYrU9QlYWrOLXBpQ6KWjbjTDTdDkoohFzgbEY=";
+      in
+      {
+        "github.com".publicKey =
+          "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=";
+        "gitlab.com".publicKey =
+          "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFSMqzJeV9rUzU4kWitGjeR4PWSa29SPqJ1fVkhtj3Hw9xjLVXVYrU9QlYWrOLXBpQ6KWjbjTDTdDkoohFzgbEY=";
 
-      "hadouken.machine.thuis".publicKeyFile = ../secrets/keys/hadouken.pub;
-      "tenshin.machine.thuis".publicKeyFile = ../secrets/keys/tenshin.pub;
-      "tatsumaki.machine.thuis".publicKeyFile = ../secrets/keys/tatsumaki.pub;
-      "shoryuken.machine.thuis".publicKeyFile = ../secrets/keys/shoryuken.pub;
-      "rekkaken.machine.thuis".publicKeyFile = ../secrets/keys/rekkaken.pub;
-      "dosukoi.machine.thuis".publicKeyFile = ../secrets/keys/dosukoi.pub;
-    }
-    // (lib.attrsets.mergeAttrsList (
-      map mkBorgRepo [
-        "gak69wyz"
-        "jym6959y"
-        "iwa7rtli"
-        "nads486h"
-        "aebp8i08"
-        "c4j3xt27"
-        "llh048o5"
-        "iuyrg38x"
-      ]
-    ));
+        "hadouken.machine.thuis".publicKeyFile = ../secrets/keys/hadouken.pub;
+        "tenshin.machine.thuis".publicKeyFile = ../secrets/keys/tenshin.pub;
+        "tatsumaki.machine.thuis".publicKeyFile = ../secrets/keys/tatsumaki.pub;
+        "shoryuken.machine.thuis".publicKeyFile = ../secrets/keys/shoryuken.pub;
+        "rekkaken.machine.thuis".publicKeyFile = ../secrets/keys/rekkaken.pub;
+        "dosukoi.machine.thuis".publicKeyFile = ../secrets/keys/dosukoi.pub;
+      }
+      // (lib.attrsets.mergeAttrsList (
+        map mkBorgRepo [
+          "gak69wyz"
+          "jym6959y"
+          "iwa7rtli"
+          "nads486h"
+          "aebp8i08"
+          "c4j3xt27"
+          "llh048o5"
+          "iuyrg38x"
+        ]
+      ));
+  };
   programs.zsh.enable = true;
   services.fwupd.enable = true; # firmware update
 

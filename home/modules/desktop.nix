@@ -61,7 +61,10 @@ in
 
         # forensics
         sleuthkit # fls, icat
+        binwalk # firmware analysis
+        magika # recognize filetype
         mat2 # remove metadata
+        ent # test entropy files
         exiftool # read metadata
         rdap # whois
         nmap

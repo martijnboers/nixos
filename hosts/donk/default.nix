@@ -14,10 +14,6 @@
     pkgs.wvkbd-desktop
   ];
 
-  programs.ssh.extraConfig = ''
-    IdentityFile /home/martijn/.ssh/id_keychain.sk
-  '';
-
   services.tlp = {
     enable = true;
     settings = {

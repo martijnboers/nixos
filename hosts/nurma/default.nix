@@ -72,10 +72,6 @@
     identityPaths = [ "/home/martijn/.ssh/id_ed25519_age" ];
   };
 
-  programs.ssh.extraConfig = ''
-    IdentityFile /home/martijn/.ssh/id_ed25519_sk
-  '';
-
   programs.adb.enable = true;
   users.users.martijn.extraGroups = [ "adbusers" ];
 

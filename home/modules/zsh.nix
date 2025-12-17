@@ -93,6 +93,17 @@ in
                   rm -f wp.jpg
                   dezoomify-rs --compression 0 --largest $1 wp.jpg
                 }
+                fixkey() {
+                  # Find all USB devices with Vendor ID 1050 (Yubico)
+                  for id in $(grep -l "1050" /sys/bus/usb/devices/*/idVendor); do
+                    dev=$(basename $(dirname "$id"))
+                    echo "Resetting YubiKey on USB port $dev..."
+                    echo "$dev" | sudo tee /sys/bus/usb/drivers/usb/unbind > /dev/null
+                    sleep 0.5
+                    echo "$dev" | sudo tee /sys/bus/usb/drivers/usb/bind > /dev/null
+                    echo "Done."
+                  done
+                }
               '';
           last =
             lib.mkOrder 1500 # bash
@@ -121,12 +132,12 @@ in
         enable = true;
         plugins = [
           {
-            name = "plugins/ssh-agent";
-            tags = [ "from:oh-my-zsh" ];
-          }
-          {
             name = "jeffreytse/zsh-vi-mode";
             tags = [ "from:github" ];
+          }
+          {
+            name = "plugins/ssh-agent";
+            tags = [ "from:oh-my-zsh" ];
           }
         ];
       };

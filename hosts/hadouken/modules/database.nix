@@ -1,11 +1,13 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib;
 let
   cfg = config.hosts.database;
+  rustfsVar = "/mnt/zwembad/games/rustfs";
 in
 {
   options.hosts.database = {

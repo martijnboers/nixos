@@ -44,31 +44,49 @@
 
   # ----- Snapshots -----
   # Only mount when syncoid created datasets
-  # fileSystems."/mnt/garage/backups/app" = {
-  #   device = "garage/backups/app";
-  #   fsType = "zfs";
-  # };
-  # fileSystems."/mnt/garage/backups/music" = {
-  #   device = "garage/snapshots/music";
-  #   fsType = "zfs";
-  # };
-  # fileSystems."/mnt/garage/backups/share" = {
-  #   device = "garage/backups/share";
-  #   fsType = "zfs";
-  # };
-  #
-  # fileSystems."/mnt/zolder/backups/app" = {
-  #   device = "zolder/backups/app";
-  #   fsType = "zfs";
-  # };
-  # fileSystems."/mnt/zolder/backups/music" = {
-  #   device = "zolder/backups/music";
-  #   fsType = "zfs";
-  # };
-  # fileSystems."/mnt/zolder/backups/share" = {
-  #   device = "zolder/backups/share";
-  #   fsType = "zfs";
-  # };
+  fileSystems."/mnt/garage/backups/app" = {
+    device = "garage/backups/app";
+    fsType = "zfs";
+    options = [
+      "ro"
+      "nofail"
+      "noauto"
+    ];
+  };
+  fileSystems."/mnt/garage/backups/music" = {
+    device = "garage/backups/music";
+    fsType = "zfs";
+    options = [
+      "ro"
+      "nofail"
+      "noauto"
+    ];
+  };
+  fileSystems."/mnt/garage/backups/share" = {
+    device = "garage/backups/share";
+    fsType = "zfs";
+    options = [
+      "ro"
+      "nofail"
+      "noauto"
+    ];
+  };
+
+  fileSystems."/mnt/zolder/backups/app" = {
+    device = "zolder/backups/app";
+    fsType = "zfs";
+    options = [ "ro" ];
+  };
+  fileSystems."/mnt/zolder/backups/music" = {
+    device = "zolder/backups/music";
+    fsType = "zfs";
+    options = [ "ro" ];
+  };
+  fileSystems."/mnt/zolder/backups/share" = {
+    device = "zolder/backups/share";
+    fsType = "zfs";
+    options = [ "ro" ];
+  };
 
   services.zfs.autoScrub.enable = true;
 

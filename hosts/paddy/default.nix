@@ -12,10 +12,6 @@
   age.identityPaths = [ "/home/martijn/.ssh/id_ed25519" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  programs.ssh.extraConfig = ''
-    IdentityFile /home/martijn/.ssh/id_keychain.sk
-  '';
-
   hosts.borg = {
     enable = true;
     repository = "ssh://nkhm1dhr@nkhm1dhr.repo.borgbase.com/./repo";
@@ -46,5 +42,8 @@
   };
 
   hosts.tailscale.enable = true;
-  hosts.yubikey.enable = true;
+  hosts.yubikey = {
+    enable = true;
+    autolock = true;
+  };
 }

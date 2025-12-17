@@ -11,12 +11,15 @@ in
 {
   options.hosts.yubikey = {
     enable = mkEnableOption "Yubikey+PGP";
+    autolock = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Automatically lock sessions when Yubikey is removed";
+    };
   };
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
-      opensc # PIV driver (/run/current-system/sw/lib/opensc-pkcs11.so)
-      yubico-piv-tool # Yubi piv driver (/run/current-system/sw/lib/libykcs11.so)
       yubioath-flutter # 2fa
       yubikey-manager # ykman
     ];
@@ -26,34 +29,23 @@ in
       sudo.u2fAuth = true;
     };
 
-    # Dual mTLS and PIV GPG support
-    environment.etc."opensc/opensc.conf".text = ''
-      app default {
-        debug = 0; # Set to 0 for daily use to prevent lag
-        
-        # COEXISTENCE SETTINGS
-        connect_exclusive = false;
-        disconnect_action = leave;
-        transaction_end_action = leave;
-        reconnect_action = leave;
-        
-        # opensc-tool -a
-        card_atr 3b:fd:13:00:00:81:31:fe:15:80:73:c0:21:c0:57:59:75:62:69:4b:65:79:40 {
-            flags = "keep_alive";
-        }
+    environment.etc."pkcs11/modules/yubico.module".text = ''
+      module: ${pkgs.yubico-piv-tool}/lib/libykcs11.so
+      managed: yes
     '';
 
-    environment.sessionVariables = {
-      OPENSC_CONF = "/etc/opensc/opensc.conf";
+    services.udev = mkIf cfg.autolock {
+      packages = [ pkgs.yubikey-personalization ];
+      extraRules = ''
+        ACTION=="remove",\
+         ENV{ID_BUS}=="usb",\
+         ENV{ID_VENDOR_ID}=="1050",\
+         ENV{ID_VENDOR}=="Yubico",\
+         RUN+="${pkgs.systemd}/bin/loginctl lock-sessions"
+      '';
     };
 
     programs.yubikey-touch-detector.enable = true;
-
-    # for smartcard support
-    services = {
-      pcscd.enable = true;
-      udev.packages = [ pkgs.yubikey-personalization ];
-    };
-
+    services.pcscd.enable = true; # gpg daemon
   };
 }
