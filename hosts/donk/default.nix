@@ -64,10 +64,6 @@
   hosts.tailscale.enable = true;
   hosts.prometheus.enable = true;
 
-  # Allow network access when building shoryuken
-  # https://mdleom.com/blog/2021/12/27/caddy-plugins-nixos/#xcaddy
-  nix.settings.sandbox = false;
-
   # Enable binfmt emulation of aarch64-linux. (for the raspberry pi)
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 

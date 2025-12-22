@@ -35,10 +35,9 @@ in
 
     services.caddy = {
       enable = true;
-      package = pkgs.callPackage ../../../pkgs/xcaddy.nix {
-        plugins = [
-          "github.com/darkweak/souin/plugins/caddy"
-        ];
+      package = pkgs.caddy.withPlugins {
+        plugins = [ "github.com/darkweak/souin/plugins/caddy@v1.7.8" ];
+        hash = "sha256-citudcNd4HjNwGHtaUlz4CXhlUl1qXsptI3td86XXs0=";
       };
       globalConfig = ''
         metrics {

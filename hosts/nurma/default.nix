@@ -50,10 +50,6 @@
     ];
   };
 
-  # Allow network access when building shoryuken
-  # https://mdleom.com/blog/2021/12/27/caddy-plugins-nixos/#xcaddy
-  nix.settings.sandbox = false;
-
   services.xserver.videoDrivers = [ "amdgpu" ];
 
   # Enable binfmt emulation of aarch64-linux. (for the raspberry pi)

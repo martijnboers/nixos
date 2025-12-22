@@ -72,10 +72,6 @@
   # Server defaults
   hosts.server.enable = true;
 
-  # Allow network access when building
-  # https://mdleom.com/blog/2021/12/27/caddy-plugins-nixos/#xcaddy
-  nix.settings.sandbox = false;
-
   boot = {
     supportedFilesystems = [ "zfs" ];
     zfs = {

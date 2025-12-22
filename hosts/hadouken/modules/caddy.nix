@@ -16,11 +16,12 @@ in
   config = mkIf cfg.enable {
     services.caddy = {
       enable = true;
-      package = pkgs.callPackage ../../../pkgs/xcaddy.nix {
+      package = pkgs.caddy.withPlugins {
         plugins = [
-          "github.com/corazawaf/coraza-caddy/v2"
-          "github.com/mholt/caddy-webdav"
+          "github.com/corazawaf/coraza-caddy@v2.1.0"
+          "github.com/mholt/caddy-webdav@master"
         ];
+        hash = lib.fakeHash;
       };
 
       extraConfig = ''
