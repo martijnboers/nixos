@@ -4,9 +4,10 @@
   inputs = {
     self.submodules = true; # git submodules
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     hardware.url = "github:NixOS/nixos-hardware";
     hardware-fork.url = "github:martijnboers/nixos-hardware";
+    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
 
     # https://github.com/DeterminateSystems/nix-src/releases
     determinate.url = "github:DeterminateSystems/nix-src/v3.14.0";
@@ -71,6 +72,7 @@
       self,
       nixpkgs,
       home-manager,
+      nixos-raspberrypi,
       ...
     }@inputs:
     let
@@ -82,27 +84,38 @@
       ];
       forAllSystems = lib.genAttrs systems;
 
-      mkSystem =
+      importSystem =
         name:
         {
           system,
           modules ? [ ],
+          call ? lib.nixosSystem,
         }:
         let
           systemconfig = ./hosts/${name}/default.nix;
           hardwareconfig = ./hosts/${name}/hardware.nix;
           homeconfig = ./hosts/${name}/home.nix;
         in
-        lib.nixosSystem {
-          inherit system;
-
-          specialArgs = { inherit inputs outputs; };
+        call {
+          # inherit system;
+          specialArgs = { inherit inputs nixos-raspberrypi; };
           modules =
             with inputs;
             [
               systemconfig
               hardwareconfig
               ./nixos/system.nix
+
+              {
+                nixpkgs = {
+                  config.allowUnfree = true;
+                  overlays = [
+                    outputs.overlays.additions
+                    outputs.overlays.modifications
+                    outputs.overlays.alternative-pkgs
+                  ];
+                };
+              }
 
               agenix.nixosModules.default # secrets
               home-manager.nixosModules.home-manager
@@ -113,7 +126,7 @@
               {
                 home-manager.useGlobalPkgs = true;
                 home-manager.users.martijn = import homeconfig;
-                home-manager.extraSpecialArgs = { inherit inputs outputs system; };
+                home-manager.extraSpecialArgs = { inherit inputs system; };
               }
             ]
             ++ modules;
@@ -125,30 +138,42 @@
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
       # ------------ Cloud ------------
-      nixosConfigurations.shoryuken = mkSystem "shoryuken" {
+      nixosConfigurations.shoryuken = importSystem "shoryuken" {
         system = "x86_64-linux";
         modules = [ inputs.disko.nixosModules.disko ];
       };
-      nixosConfigurations.rekkaken = mkSystem "rekkaken" {
+      nixosConfigurations.rekkaken = importSystem "rekkaken" {
         system = "x86_64-linux";
         modules = [ inputs.disko.nixosModules.disko ];
       };
 
       # ------------ Servers ------------
-      nixosConfigurations.tenshin = mkSystem "tenshin" {
+      nixosConfigurations.tenshin = importSystem "tenshin" {
         system = "aarch64-linux";
-        modules = [ inputs.hardware.nixosModules.raspberry-pi-4 ];
+        call = inputs.nixos-raspberrypi.lib.nixosSystem;
+        modules = with inputs.nixos-raspberrypi.nixosModules; [
+          raspberry-pi-4.base
+          base
+        ];
       };
-      nixosConfigurations.hadouken = mkSystem "hadouken" {
+      nixosConfigurations.suzaku = importSystem "suzaku" {
+        system = "aarch64-linux";
+        call = inputs.nixos-raspberrypi.lib.nixosSystem;
+        modules = with inputs.nixos-raspberrypi.nixosModules; [
+          raspberry-pi-5.base
+          raspberry-pi-5.page-size-16k
+        ];
+      };
+      nixosConfigurations.hadouken = importSystem "hadouken" {
         system = "x86_64-linux";
       };
-      nixosConfigurations.dosukoi = mkSystem "dosukoi" {
+      nixosConfigurations.dosukoi = importSystem "dosukoi" {
         system = "x86_64-linux";
         modules = [
           inputs.disko.nixosModules.disko
         ];
       };
-      nixosConfigurations.tatsumaki = mkSystem "tatsumaki" {
+      nixosConfigurations.tatsumaki = importSystem "tatsumaki" {
         system = "x86_64-linux";
         modules = [
           inputs.disko.nixosModules.disko
@@ -157,14 +182,14 @@
       };
 
       # -------------- PCs --------------
-      nixosConfigurations.nurma = mkSystem "nurma" {
+      nixosConfigurations.nurma = importSystem "nurma" {
         system = "x86_64-linux";
       };
-      nixosConfigurations.paddy = mkSystem "paddy" {
+      nixosConfigurations.paddy = importSystem "paddy" {
         system = "x86_64-linux";
         modules = [ inputs.hardware-fork.nixosModules.dell-da14250 ];
       };
-      nixosConfigurations.donk = mkSystem "donk" {
+      nixosConfigurations.donk = importSystem "donk" {
         system = "x86_64-linux";
         modules = [ inputs.hardware.nixosModules.framework-12-13th-gen-intel ];
       };

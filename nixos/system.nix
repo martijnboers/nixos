@@ -1,7 +1,6 @@
 {
   pkgs,
   config,
-  outputs,
   inputs,
   lib,
   ...
@@ -23,8 +22,8 @@
   ];
 
   age.secrets = {
-    password.file = ../secrets/password.age;
-    password-laptop.file = ../secrets/password-laptop.age;
+    password.file = lib.mkDefault ../secrets/password.age;
+    password-laptop.file = lib.mkDefault ../secrets/password-laptop.age;
   };
 
   users = {
@@ -109,6 +108,7 @@
       experimental-features = [
         "nix-command"
         "pipe-operators"
+        "flakes"
       ];
       log-lines = lib.mkDefault 25;
 
@@ -130,10 +130,14 @@
       substituters = [
         "https://bincache.thuis/default"
         "https://nix-community.cachix.org"
+        "https://install.determinate.systems"
+        "https://nixos-raspberrypi.cachix.org"
       ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "default:QiddKxFxKitj0NauDJDKT944qMq3bJvtHKNVlwsWz8k="
+        "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
+        "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
       ];
     };
 
@@ -144,14 +148,7 @@
     };
   };
 
-  nixpkgs = {
-    overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.alternative-pkgs
-    ];
-    config.allowUnfree = true;
-  };
+
 
   programs.ssh = {
     startAgent = true;

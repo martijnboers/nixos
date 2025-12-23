@@ -23,7 +23,6 @@ in
     services.tailscale.derper = {
       enable = true;
       domain = cfg.domain;
-      configureNginx = false;
       openFirewall = true;
       verifyClients = true;
     };
