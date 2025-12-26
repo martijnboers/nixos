@@ -51,6 +51,7 @@
     inputs.agenix.packages.${stdenv.hostPlatform.system}.default
 
     # core
+    uutils-coreutils-noprefix
     ripgrep
     openssl
     gnupg
@@ -68,6 +69,7 @@
     # networking
     dnsutils # dig+dnslookup
     geonet # geodns+geoping
+    rdap # whois
 
     # archives
     lz4 # compression
@@ -78,18 +80,16 @@
     # diagnostic
     dust # better du
     screen
-    magic-wormhole # send files
-    unaware # mask PII-data
+    croc # send files
+    # unaware # mask PII-data
 
     # system tools
     lm_sensors # for `sensors` command
     pciutils # lspci
     usbutils # lsusb
     nfs-utils
-    tpm2-totp
 
     # forensics
-    uutils-coreutils-noprefix # rust core-utils
     binutils # strings+ld
     xxd # hexviewer
     jless # cli json viewer
@@ -98,6 +98,8 @@
     exfatprogs # fat support
     parted # disk partitioner
     minicom # serial port reader
+    magika-cli # recognize filetype
+    ent # test entropy files
   ];
 
   nix = {
@@ -147,8 +149,6 @@
       options = lib.mkDefault "--delete-older-than 7d";
     };
   };
-
-
 
   programs.ssh = {
     startAgent = true;
@@ -284,6 +284,10 @@
     servers = lib.mkDefault [
       "ntppool1.time.nl"
       "ntppool2.time.nl"
+
+      "194.58.200.20" # Netnod (Sweden)
+      "194.58.201.20" # Netnod (Sweden)
+      "192.53.103.108" # PTB (Germany)
     ];
   };
 

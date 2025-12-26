@@ -22,6 +22,7 @@ in
   config = mkIf cfg.enable {
     maatwerk.desktop.enable = true;
     services.copyq.enable = true;
+    services.hyprpolkitagent.enable = true; # escalate privileges
 
     services.dunst = {
       enable = true;

@@ -32,7 +32,11 @@ in
   };
 
   config = mkIf cfg.enable {
-    age.secrets.borg.file = ../../secrets/borg.age;
+    age.secrets.borg = {
+      file = ../../secrets/borg.age;
+      owner = "root";
+      group = "root";
+    };
     services.borgbackup.jobs.default = {
       paths = cfg.paths;
       encryption = {

@@ -6,7 +6,6 @@
     ./modules/cyberchef.nix
     ./modules/ittools.nix
     ./modules/caddy.nix
-    ./modules/hass.nix
     ./modules/ntp.nix
   ];
 
@@ -14,7 +13,6 @@
   hosts.cyberchef.enable = true;
   hosts.it-tools.enable = true;
   hosts.prometheus.enable = true;
-  hosts.hass.enable = true;
   hosts.ntp.enable = true;
 
   hosts.auditd.enable = false;

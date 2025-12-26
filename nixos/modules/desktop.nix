@@ -22,6 +22,7 @@ in
 
     environment.systemPackages = with pkgs; [
       veracrypt
+      gparted
     ];
 
     users.users.martijn.extraGroups = [ "wireshark" ];

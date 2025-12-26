@@ -1,26 +1,21 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   networking.hostName = "suzaku";
 
-  imports = [ ./modules/caddy.nix ];
-
-  hosts.caddy.enable = true;
-  nix-mineral.enable = false;
-
-  environment.systemPackages = [
-    pkgs.raspberrypi-eeprom
-    pkgs.ubootTools
+  imports = [
+    ./modules/caddy.nix
+    ./modules/hass.nix
   ];
 
-  users.users.martijn = {
-    hashedPasswordFile = lib.mkForce null;
-    hashedPassword = "$y$j9T$VQL/82faMlZSrWg9SefdB/$RQpwhho.v0avZJcjate9yXdzDxVRdBBXeui7ch5XYm9";
-  };
+  hosts.caddy.enable = true;
+  hosts.hass.enable = true;
+  nix-mineral.enable = false;
+  hosts.auditd.enable = false;
 
-  # hosts.borg = {
-  #   enable = true;
-  #   repository = "ssh://aebp8i08@aebp8i08.repo.borgbase.com/./repo";
-  # };
+  hosts.borg = {
+    enable = true;
+    repository = "ssh://jh49p12c@jh49p12c.repo.borgbase.com/./repo";
+  };
 
   hosts.openssh = {
     enable = true;

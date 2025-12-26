@@ -25,6 +25,7 @@ in
       domain = cfg.domain;
       openFirewall = true;
       verifyClients = true;
+      configureNginx = false;
     };
   };
 }

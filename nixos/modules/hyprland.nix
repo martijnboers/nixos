@@ -19,7 +19,6 @@ in
     hosts.desktop.enable = true;
 
     environment.systemPackages = with pkgs; [
-      hyprpolkitagent # polkit for hyprland
       file-roller # archive manager used by thunar
     ];
 

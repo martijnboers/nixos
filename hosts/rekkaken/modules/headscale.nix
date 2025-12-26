@@ -38,7 +38,6 @@ let
   tenshinRecords = [
     "chat"
     "chef"
-    "hass"
     "tools"
   ];
   tatsumakiRecords = [
@@ -49,6 +48,9 @@ let
     "dns"
     "leases"
     "vaultwarden"
+  ];
+  suzakuRecords = [
+    "hass"
   ];
 in
 {
@@ -222,6 +224,7 @@ in
                 ++ (map (name: makeRecord name config.hidden.tailscale_hosts.tatsumaki) tatsumakiRecords)
                 ++ (map (name: makeRecord name config.hidden.tailscale_hosts.rekkaken) rekkakenRecords)
                 ++ (map (name: makeRecord name config.hidden.tailscale_hosts.dosukoi) dosukoiRecords)
+                ++ (map (name: makeRecord name config.hidden.tailscale_hosts.suzaku) suzakuRecords)
                 ++ (map (name: makeRecord name config.hidden.tailscale_hosts.tenshin) tenshinRecords);
             };
           prefixes = {

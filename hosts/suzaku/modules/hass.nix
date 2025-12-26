@@ -26,6 +26,7 @@ in
     services.borgbackup.jobs.default.paths = [ config.services.home-assistant.configDir ];
     services.home-assistant = {
       enable = true;
+      package = pkgs.stable.home-assistant;
       extraPackages =
         python3Packages: with python3Packages; [
           ibeacon-ble # don't use the bluetooth stuff...

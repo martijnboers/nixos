@@ -151,18 +151,15 @@
       # ------------ Servers ------------
       nixosConfigurations.tenshin = importSystem "tenshin" {
         system = "aarch64-linux";
-        call = inputs.nixos-raspberrypi.lib.nixosSystem;
-        modules = with inputs.nixos-raspberrypi.nixosModules; [
-          raspberry-pi-4.base
-          base
-        ];
+        modules = [ inputs.hardware.nixosModules.raspberry-pi-4 ];
       };
       nixosConfigurations.suzaku = importSystem "suzaku" {
         system = "aarch64-linux";
         call = inputs.nixos-raspberrypi.lib.nixosSystem;
         modules = with inputs.nixos-raspberrypi.nixosModules; [
-          raspberry-pi-5.base
+          inputs.disko.nixosModules.disko
           raspberry-pi-5.page-size-16k
+          raspberry-pi-5.base
         ];
       };
       nixosConfigurations.hadouken = importSystem "hadouken" {

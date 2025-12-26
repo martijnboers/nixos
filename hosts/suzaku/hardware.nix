@@ -9,28 +9,77 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  system.nixos.tags =
-    let
-      cfg = config.boot.loader.raspberryPi;
-    in
-    [
-      "raspberry-pi-${cfg.variant}"
-      cfg.bootloader
-      config.boot.kernelPackages.kernel.version
-    ];
-
-  boot.loader.raspberryPi.bootloader = "kernel";
-
   boot.initrd.availableKernelModules = [
     "xhci_pci"
     "usbhid"
   ];
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-label/NIXOS_SD";
-    fsType = "ext4";
-    options = [ "noatime" ];
+  boot.loader.raspberryPi.bootloader = "kernel";
+
+  disko.devices = {
+    disk = {
+      main = {
+        type = "disk";
+        device = "/dev/mmcblk0";
+        content = {
+          type = "gpt";
+          partitions = {
+            FIRMWARE = {
+              label = "FIRMWARE";
+              priority = 1;
+              type = "0700"; # Microsoft basic data
+              attributes = [
+                0 # Required Partition
+              ];
+              size = "1024M";
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot/firmware";
+                mountOptions = [
+                  "noatime"
+                  "noauto"
+                  "x-systemd.automount"
+                  "x-systemd.idle-timeout=1min"
+                ];
+              };
+            };
+            ESP = {
+              label = "ESP";
+              type = "EF00";
+              attributes = [
+                2
+              ];
+
+              size = "1024M";
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot";
+                mountOptions = [
+                  "noatime"
+                  "noauto"
+                  "x-systemd.automount"
+                  "x-systemd.idle-timeout=1min"
+                  "umask=0077"
+                ];
+              };
+            };
+            root = {
+              size = "100%";
+              content = {
+                type = "filesystem";
+                format = "ext4";
+                mountpoint = "/";
+              };
+            };
+          };
+        };
+      };
+    };
   };
+
+  zramSwap.enable = true;
 
   systemd.network.networks."10-end0" = {
     matchConfig.Name = "end0";
@@ -39,7 +88,7 @@
       IPv6AcceptRA = true;
     };
     address = [
-      "10.10.0.102/24"
+      "10.10.0.104/24"
     ];
     routes = [
       { Gateway = "10.10.0.1"; }

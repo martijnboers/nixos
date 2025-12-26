@@ -33,6 +33,7 @@ in
         karlender # gtk calendar
         dezoomify-rs # art archival
         localsend # airdrop
+        sequoia-sq # gpg without gnu
 
         # keyring
         seahorse
@@ -62,11 +63,8 @@ in
         # forensics
         sleuthkit # fls, icat
         binwalk # firmware analysis
-        magika # recognize filetype
         mat2 # remove metadata
-        ent # test entropy files
         exiftool # read metadata
-        rdap # whois
         nmap
         xca
 
