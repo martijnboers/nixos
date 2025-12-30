@@ -34,6 +34,7 @@ in
         dezoomify-rs # art archival
         localsend # airdrop
         sequoia-sq # gpg without gnu
+        gnupg # gpg with gnu
 
         # keyring
         seahorse

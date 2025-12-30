@@ -26,13 +26,19 @@ in
 
     security.pam.services = {
       login.u2fAuth = true;
-      sudo.u2fAuth = true;
+      sudo = {
+        u2fAuth = true;
+        unixAuth = false;
+      };
     };
 
     environment.etc."pkcs11/modules/yubico.module".text = ''
       module: ${pkgs.yubico-piv-tool}/lib/libykcs11.so
       managed: yes
     '';
+
+    services.pcscd.enable = true; # gpg daemon
+    programs.yubikey-touch-detector.enable = true;
 
     services.udev = mkIf cfg.autolock {
       packages = [ pkgs.yubikey-personalization ];
@@ -44,8 +50,5 @@ in
          RUN+="${pkgs.systemd}/bin/loginctl lock-sessions"
       '';
     };
-
-    programs.yubikey-touch-detector.enable = true;
-    services.pcscd.enable = true; # gpg daemon
   };
 }

@@ -54,7 +54,6 @@
     uutils-coreutils-noprefix
     ripgrep
     openssl
-    gnupg
     file
     which
     tree
@@ -63,8 +62,11 @@
     wget
     vim
 
+    # admin
     htop # the og
     btop # fancy htop
+    exfatprogs # fat support
+    e2fsprogs # mkfs.ext4 etc
 
     # networking
     dnsutils # dig+dnslookup
@@ -95,8 +97,6 @@
     jless # cli json viewer
     jq # query json
     avml # make memory dump
-    exfatprogs # fat support
-    parted # disk partitioner
     minicom # serial port reader
     magika-cli # recognize filetype
     ent # test entropy files
