@@ -133,13 +133,11 @@
         "https://bincache.thuis/default"
         "https://nix-community.cachix.org"
         "https://install.determinate.systems"
-        "https://nixos-raspberrypi.cachix.org"
       ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "default:QiddKxFxKitj0NauDJDKT944qMq3bJvtHKNVlwsWz8k="
         "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
-        "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
       ];
     };
 
@@ -172,6 +170,7 @@
         "shoryuken.machine.thuis".publicKeyFile = ../secrets/keys/shoryuken.pub;
         "rekkaken.machine.thuis".publicKeyFile = ../secrets/keys/rekkaken.pub;
         "dosukoi.machine.thuis".publicKeyFile = ../secrets/keys/dosukoi.pub;
+        "suzaku.machine.thuis".publicKeyFile = ../secrets/keys/suzaku.pub;
       }
       // (lib.attrsets.mergeAttrsList (
         map mkBorgRepo [

@@ -658,16 +658,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1762293470,
-        "narHash": "sha256-HtWH8YVQQExqNmalnZqTBuvo3zNrkwJBZ6pB0VhSsiI=",
+        "lastModified": 1767478000,
+        "narHash": "sha256-HBo20H8UQucO0ClI2fb6arWpsrBSrw0xFIYSsGLZR1s=",
         "owner": "martijnboers",
         "repo": "nix-mineral",
-        "rev": "c327e7614d695d63ca0e87bfc0d2ad26debaba9a",
+        "rev": "ff4583bdd48bcfc134ae129b473d2e8e9e24afc9",
         "type": "github"
       },
       "original": {
         "owner": "martijnboers",
-        "ref": "seikm-refactor",
         "repo": "nix-mineral",
         "type": "github"
       }
