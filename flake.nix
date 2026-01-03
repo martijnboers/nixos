@@ -48,7 +48,7 @@
     };
 
     nix-mineral = {
-      url = "github:martijnboers/nix-mineral?ref=seikm-refactor";
+      url = "github:martijnboers/nix-mineral";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

@@ -35,6 +35,7 @@
   hosts.prometheus.enable = true;
 
   programs = {
+    steam.enable = true;
     winbox = {
       enable = true;
       package = pkgs.winbox4;

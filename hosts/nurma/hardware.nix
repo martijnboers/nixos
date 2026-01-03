@@ -15,7 +15,13 @@
   };
 
   boot = {
-    kernelModules = [ "kvm-amd" ];
+    # dedicated realtek drivers
+    extraModulePackages = [ config.boot.kernelPackages.r8125 ];
+    blacklistedKernelModules = [ "r8169" ];
+    kernelModules = [
+      "kvm-amd"
+      "r8125"
+    ];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;

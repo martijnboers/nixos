@@ -24,11 +24,16 @@ in
       yubikey-manager # ykman
     ];
 
-    security.pam.services = {
-      login.u2fAuth = true;
-      sudo = {
-        u2fAuth = true;
-        unixAuth = false;
+    age.secrets.u2fkeys.file = ../../secrets/u2fkeys.age;
+
+    security.pam = {
+      u2f.settings.authfile = config.age.secrets.u2fkeys.path;
+      services = {
+        login.u2fAuth = true;
+        sudo = {
+          u2fAuth = true;
+          unixAuth = false;
+        };
       };
     };
 

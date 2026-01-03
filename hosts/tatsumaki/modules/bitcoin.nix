@@ -19,15 +19,15 @@
     }
   '';
 
-  services.fulcrum = {
+  services.electrs = {
     enable = true;
     address = "0.0.0.0";
-    dataDir = "/mnt/crypto/fulcrum";
+    dataDir = "/mnt/crypto/electrs";
   };
 
   services.mempool = {
     enable = true;
-    electrumServer = "fulcrum";
+    electrumServer = "electrs";
     address = "0.0.0.0";
   };
 

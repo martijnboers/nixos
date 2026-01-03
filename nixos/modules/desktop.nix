@@ -28,6 +28,7 @@ in
     users.users.martijn.extraGroups = [ "wireshark" ];
 
     nix-mineral = {
+      preset = "compatibility";
       filesystems = {
         normal = {
           # Devenv up requires exec

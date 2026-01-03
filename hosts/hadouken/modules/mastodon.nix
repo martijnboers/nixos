@@ -113,7 +113,7 @@ in
         Type = "simple";
         User = "mastodon";
         Group = "mastodon";
-        ExecStart = "${lib.getExe pkgs.fedifetcher} -c ${config.age.secrets.fedifetcher.path} --lock-file /run/fedifetcher/fedi.lock --state-dir /var/lib/fedifetcher --log-format '%(message)s'";
+        ExecStart = "${lib.getExe pkgs.stable.fedifetcher} -c ${config.age.secrets.fedifetcher.path} --lock-file /run/fedifetcher/fedi.lock --state-dir /var/lib/fedifetcher --log-format '%(message)s'";
 
         RuntimeDirectory = "fedifetcher";
         StateDirectory = "fedifetcher";

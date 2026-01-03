@@ -18,10 +18,10 @@ in
       enable = true;
       package = pkgs.caddy.withPlugins {
         plugins = [
-          "github.com/corazawaf/coraza-caddy@v2.1.0"
-          "github.com/mholt/caddy-webdav@master"
+          "github.com/corazawaf/coraza-caddy/v2@v2.1.0"
+          "github.com/martijnboers/caddy-webdav@v0.0.0-20260104124919-990d6e445da5"
         ];
-        hash = lib.fakeHash;
+        hash = "sha256-MU3BkXMB6Iny5pwWaeaI9q27XsoxJK1ITQEgh1MGTnk=";
       };
 
       extraConfig = ''
