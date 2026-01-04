@@ -32,46 +32,8 @@
     fsType = "zfs";
   };
 
-  # ----- Broken disk -----
-  fileSystems."/mnt/garage/cold" = {
-    device = "garage/cold";
-    fsType = "zfs";
-  };
-  fileSystems."/mnt/garage/misc" = {
-    device = "garage/misc";
-    fsType = "zfs";
-  };
-
   # ----- Snapshots -----
   # Only mount when syncoid created datasets
-  fileSystems."/mnt/garage/backups/app" = {
-    device = "garage/backups/app";
-    fsType = "zfs";
-    options = [
-      "ro"
-      "nofail"
-      "noauto"
-    ];
-  };
-  fileSystems."/mnt/garage/backups/music" = {
-    device = "garage/backups/music";
-    fsType = "zfs";
-    options = [
-      "ro"
-      "nofail"
-      "noauto"
-    ];
-  };
-  fileSystems."/mnt/garage/backups/share" = {
-    device = "garage/backups/share";
-    fsType = "zfs";
-    options = [
-      "ro"
-      "nofail"
-      "noauto"
-    ];
-  };
-
   fileSystems."/mnt/zolder/backups/app" = {
     device = "zolder/backups/app";
     fsType = "zfs";
@@ -96,27 +58,13 @@
     # 3:14am daily
     interval = "*-*-* 03:14:00";
 
-    commands."apps-garage" = {
-      source = "zwembad/app";
-      target = "garage/backups/app";
-    };
     commands."apps-zolder" = {
       source = "zwembad/app";
       target = "zolder/backups/app";
     };
-
-    commands."music-garage" = {
-      source = "zwembad/music";
-      target = "garage/backups/music";
-    };
     commands."music-zolder" = {
       source = "zwembad/music";
-      target = "zolder/backups/app";
-    };
-
-    commands."share-garage" = {
-      source = "zwembad/share";
-      target = "garage/backups/share";
+      target = "zolder/backups/music";
     };
     commands."share-zolder" = {
       source = "zwembad/share";

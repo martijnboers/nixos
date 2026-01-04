@@ -78,7 +78,6 @@
       forceImportRoot = false;
       extraPools = [
         "zwembad"
-        "garage"
         "zolder"
       ];
     };
