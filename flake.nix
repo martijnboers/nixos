@@ -8,7 +8,6 @@
     nixpkgs-citrix.url = "github:NixOS/nixpkgs/nixos-25.05";
     hardware.url = "github:NixOS/nixos-hardware";
     hardware-fork.url = "github:martijnboers/nixos-hardware";
-    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
 
     # https://github.com/DeterminateSystems/nix-src/releases
     determinate.url = "github:DeterminateSystems/nix-src/v3.14.0";
@@ -73,7 +72,6 @@
       self,
       nixpkgs,
       home-manager,
-      nixos-raspberrypi,
       ...
     }@inputs:
     let
@@ -99,7 +97,7 @@
         in
         call {
           inherit system;
-          specialArgs = { inherit inputs nixos-raspberrypi; };
+          specialArgs = { inherit inputs; };
           modules =
             with inputs;
             [
@@ -155,12 +153,7 @@
       };
       nixosConfigurations.suzaku = importSystem "suzaku" {
         system = "aarch64-linux";
-        call = inputs.nixos-raspberrypi.lib.nixosSystem;
-        modules = with inputs.nixos-raspberrypi.nixosModules; [
-          inputs.disko.nixosModules.disko
-          raspberry-pi-5.page-size-16k
-          raspberry-pi-5.base
-        ];
+        modules = [ inputs.hardware.nixosModules.raspberry-pi-5 ];
       };
       nixosConfigurations.hadouken = importSystem "hadouken" {
         system = "x86_64-linux";

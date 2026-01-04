@@ -174,14 +174,16 @@
       }
       // (lib.attrsets.mergeAttrsList (
         map mkBorgRepo [
-          "gak69wyz"
-          "jym6959y"
-          "iwa7rtli"
-          "nads486h"
           "aebp8i08"
           "c4j3xt27"
-          "llh048o5"
+          "gak69wyz"
           "iuyrg38x"
+          "iwa7rtli"
+          "jh49p12c"
+          "jym6959y"
+          "llh048o5"
+          "nads486h"
+          "nkhm1dhr"
         ]
       ));
   };
