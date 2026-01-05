@@ -27,26 +27,6 @@ in
 
     users.users.martijn.extraGroups = [ "wireshark" ];
 
-    nix-mineral = {
-      preset = "compatibility";
-      filesystems = {
-        normal = {
-          # Devenv up requires exec
-          "/home".options."noexec" = false;
-          # Building npm requires exec
-          "/tmp".options."noexec" = false;
-        };
-        special = {
-          # Cross compiling requires exec
-          "/run".options."noexec" = false;
-        };
-      };
-      # emulation for aarm64
-      settings.kernel.binfmt-misc = true;
-      # allow all usbs
-      extras.misc.usbguard.enable = false;
-    };
-
     programs.wireshark = {
       enable = true;
       usbmon.enable = true;

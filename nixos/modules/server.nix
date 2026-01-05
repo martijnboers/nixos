@@ -24,10 +24,26 @@ in
     # Default auditd rules
     hosts.auditd.enable = lib.mkDefault true;
 
-    # Harderning rules
-    # nix-mineral.security = {
-    #   disable-bluetooth-kmodules = true;
-    # };
+    # System harderning
+    # https://github.com/cynicsketch/nix-mineral/
+    nix-mineral = {
+      enable = lib.mkDefault true;
+      preset = "compatibility";
+      settings = {
+        kernel = {
+          only-signed-modules = true;
+          lockdown = true;
+        };
+      };
+      extras = {
+        misc = {
+          usbguard = {
+            enable = lib.mkDefault true;
+            whitelist-at-boot = true;
+          };
+        };
+      };
+    };
 
     # freedesktop xdg files
     xdg.autostart.enable = lib.mkDefault false;

@@ -83,7 +83,7 @@
     dust # better du
     screen
     croc # send files
-    # unaware # mask PII-data
+    unaware # mask PII-data
 
     # system tools
     lm_sensors # for `sensors` command
@@ -157,21 +157,26 @@
             publicKey = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOstKfBbwVOYQh3J7X4nzd6/VYgLfaucP9z5n4cpSzcZAOKGh6jH8e1mhQ4YupthlsdPKyFFZ3pKo4mTaRRuiJo=";
           };
         };
+        mkServer = name: {
+          "${name}.machine.thuis".publicKeyFile = ../secrets/keys/${name}.pub;
+        };
       in
       {
         "github.com".publicKey =
           "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=";
         "gitlab.com".publicKey =
           "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFSMqzJeV9rUzU4kWitGjeR4PWSa29SPqJ1fVkhtj3Hw9xjLVXVYrU9QlYWrOLXBpQ6KWjbjTDTdDkoohFzgbEY=";
-
-        "hadouken.machine.thuis".publicKeyFile = ../secrets/keys/hadouken.pub;
-        "tenshin.machine.thuis".publicKeyFile = ../secrets/keys/tenshin.pub;
-        "tatsumaki.machine.thuis".publicKeyFile = ../secrets/keys/tatsumaki.pub;
-        "shoryuken.machine.thuis".publicKeyFile = ../secrets/keys/shoryuken.pub;
-        "rekkaken.machine.thuis".publicKeyFile = ../secrets/keys/rekkaken.pub;
-        "dosukoi.machine.thuis".publicKeyFile = ../secrets/keys/dosukoi.pub;
-        "suzaku.machine.thuis".publicKeyFile = ../secrets/keys/suzaku.pub;
       }
+      // (lib.attrsets.mergeAttrsList (
+        map mkServer [
+          "hadouken"
+          "tenshin"
+          "tatsumaki"
+          "shoryuken"
+          "rekkaken"
+          "suzaku"
+        ]
+      ))
       // (lib.attrsets.mergeAttrsList (
         map mkBorgRepo [
           "aebp8i08"
@@ -187,6 +192,7 @@
         ]
       ));
   };
+
   programs.zsh.enable = true;
   services.fwupd.enable = true; # firmware update
 
@@ -220,31 +226,6 @@
     sudo-rs.enable = lib.mkDefault true; # 🦀🦀
     pki.certificateFiles = [ ../secrets/keys/plebs4platinum.crt ];
     tpm2.enable = true;
-  };
-
-  # System harderning
-  # https://github.com/cynicsketch/nix-mineral/
-  nix-mineral = {
-    enable = lib.mkDefault true;
-    settings = {
-      kernel = {
-        only-signed-modules = true;
-        lockdown = true;
-      };
-    };
-    extras = {
-      system = {
-        secure-chrony = true;
-      };
-    };
-    extras = {
-      misc = {
-        usbguard = {
-          enable = lib.mkDefault true;
-          whitelist-at-boot = true;
-        };
-      };
-    };
   };
 
   # by default setup gotify bridge as email

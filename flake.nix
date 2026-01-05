@@ -153,7 +153,10 @@
       };
       nixosConfigurations.suzaku = importSystem "suzaku" {
         system = "aarch64-linux";
-        modules = [ inputs.hardware.nixosModules.raspberry-pi-5 ];
+        modules = [
+          inputs.hardware.nixosModules.raspberry-pi-5
+          inputs.disko.nixosModules.disko
+        ];
       };
       nixosConfigurations.hadouken = importSystem "hadouken" {
         system = "x86_64-linux";
