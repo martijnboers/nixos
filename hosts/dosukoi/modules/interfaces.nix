@@ -85,15 +85,15 @@
         linkConfig.Name = "wan";
       };
       "20-lan" = {
-        matchConfig.MACAddress = "64:62:66:2f:37:bb";
+        matchConfig.MACAddress = "64:62:66:2f:37:bc";
         linkConfig.Name = "lan";
       };
       "30-wifi" = {
-        matchConfig.MACAddress = "64:62:66:2f:37:bc";
+        matchConfig.MACAddress = "64:62:66:2f:37:bd";
         linkConfig.Name = "wifi";
       };
       "40-opt1" = {
-        matchConfig.MACAddress = "64:62:66:2f:37:bd";
+        matchConfig.MACAddress = "64:62:66:2f:37:bb";
         linkConfig.Name = "opt1";
       };
     };

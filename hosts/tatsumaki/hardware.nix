@@ -53,11 +53,11 @@
       map defaultNetwork [
         {
           adapter = "enp2s0";
-          ip = "102";
+          ip = "2";
         }
         {
           adapter = "enp3s0";
-          ip = "103";
+          ip = "3";
         }
       ]
     );

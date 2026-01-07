@@ -88,7 +88,7 @@
       IPv6AcceptRA = true;
     };
     address = [
-      "10.10.0.104/24"
+      "10.10.0.4/24"
     ];
     routes = [
       { Gateway = "10.10.0.1"; }

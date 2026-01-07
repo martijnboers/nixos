@@ -47,10 +47,10 @@
       IPv6AcceptRA = true;
     };
     address = [
-      "10.30.0.2/24"
+      "10.10.0.6/24"
     ];
     routes = [
-      { Gateway = "10.30.0.1"; }
+      { Gateway = "10.10.0.1"; }
     ];
     linkConfig.RequiredForOnline = "routable";
   };

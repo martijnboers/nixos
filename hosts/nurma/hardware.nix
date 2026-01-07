@@ -44,9 +44,17 @@
   systemd.network.networks = {
     "50-dhcp" = {
       matchConfig.Name = "enp11s0";
-      networkConfig.DHCP = "yes";
-      dhcpV4Config.UseDNS = false;
-      dhcpV6Config.UseDNS = false;
+      networkConfig = {
+        DHCP = "no"; 
+        IPv6AcceptRA = true;
+      };
+      address = [
+        "10.30.0.2/24"
+      ];
+      routes = [
+        { Gateway = "10.30.0.1"; }
+      ];
+      linkConfig.RequiredForOnline = "routable";
     };
     "50-wireless" = {
       matchConfig.Name = "wlan0";

@@ -6,11 +6,11 @@
 let
   ipv6Prefix = config.hidden.wan_ips.thuis_ipv6;
   hadouken = {
-    ipv4 = "10.30.0.2";
+    ipv4 = "10.10.0.7";
     ipv6 = "${ipv6Prefix}:b00f:4a21:bff:fe55:90f5";
   };
   tatsumaki = {
-    ipv4 = "10.10.0.103";
+    ipv4 = "10.10.0.3";
     ipv6 = "${ipv6Prefix}:c0de:2e0:4cff:fe34:7c67";
   };
   dreame = "10.20.0.135";
@@ -43,10 +43,10 @@ in
                 iifname "lo" accept;
 
                 # --- SERVICES ---
-                iifname { "peepee", "lan", "wifi" } udp dport 51820 accept comment "Wireguard setup connections";
-                iifname { "peepee", "lan", "wifi" } udp dport 41641 accept comment "Tailscale setup connections";
+                iifname { "peepee", "lan", "wifi", "opt1" } udp dport 51820 accept comment "Wireguard setup connections";
+                iifname { "peepee", "lan", "wifi", "opt1" } udp dport 41641 accept comment "Tailscale setup connections";
 
-                iifname { "lan", "tailscale0" } tcp dport 22 ct state new limit rate 10/minute accept comment "Allow SSH management";
+                iifname { "opt1", "tailscale0" } tcp dport 22 ct state new limit rate 10/minute accept comment "Allow SSH management";
                 iifname { "lan", "wifi", "opt1" } udp dport 67 accept comment "DHCP";
 
                 iifname { "tailscale0" } tcp dport { 80, 443, 4443 } accept comment "Websites hosted on router";
@@ -79,22 +79,20 @@ in
                 oifname "peepee" tcp flags syn tcp option maxseg size set rt mtu;
 
                 # --- INBOUND PORT FORWARDING RULES ---
-                iifname "peepee" oifname "opt1" ip daddr ${hadouken.ipv4} meta l4proto { tcp, udp } th dport 22000 ct state new accept comment "Syncthing IPv4";
-                iifname "peepee" oifname "opt1" ip6 daddr ${hadouken.ipv6} meta l4proto { tcp, udp } th dport 22000 ct state new accept comment "Syncthing IPv6";
+                iifname "peepee" oifname "lan" ip daddr ${hadouken.ipv4} meta l4proto { tcp, udp } th dport 22000 ct state new accept comment "Syncthing IPv4";
+                iifname "peepee" oifname "lan" ip6 daddr ${hadouken.ipv6} meta l4proto { tcp, udp } th dport 22000 ct state new accept comment "Syncthing IPv6";
                 iifname "peepee" oifname "lan" ip daddr ${tatsumaki.ipv4} tcp dport 8333 ct state new accept comment "Bitcoin";
                 iifname "peepee" oifname "lan" ip6 daddr ${tatsumaki.ipv6} tcp dport 8333 ct state new accept comment "Bitcoin";
 
                 # --- GRANULAR INTER-LAN FORWARDING ---
-                iifname { "lan", "opt1" } oifname { "lan", "opt1" } accept;
-                iifname { "wifi" } oifname { "opt1" } tcp dport { 80, 443 } accept;
-                iifname { "wifi", "opt1" } oifname { "wifi", "opt1" } udp dport 41641 accept comment "Allow Tailscale direct connections between WiFi and Opt1";
+                iifname { "opt1" } oifname { "lan", "opt1", "wifi" } accept comment "opt1 free to do anything";
+                iifname { "lan", "wifi", "opt1" } oifname { "lan", "wifi", "opt1" } udp dport 41641 accept comment "Allow Tailscale";
                 iifname "lan" oifname "wifi" tcp dport { 80, 443 } accept comment "Allow LAN to access IoT device web UIs on WiFi";
 
                 # --- IOT RESTRICTIONS ---
                 iifname { "lan", "wifi" } oifname "wifi" ip daddr ${dreame} ct state new accept comment "Allow LAN/WiFi to access Dreame";
                 iifname "wifi" ip saddr ${dreame} oifname "peepee" meta hour "10:00"-"19:00" accept comment "Dreame Internet Access Window";
                 iifname "wifi" ip saddr ${dreame} oifname "peepee" drop comment "Block Dreame Internet outside schedule";
-
 
                 # --- INTERNET EGRESS RULES ---
                 iifname { "lan", "wifi", "opt1", "tailscale0", "wg0" } oifname "peepee" accept;

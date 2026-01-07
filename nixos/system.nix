@@ -258,7 +258,6 @@
     TMOUT = (5 * 60 * 60); # zsh timeout
   };
 
-  # Timezone + NTS
   time.timeZone = "Europe/Amsterdam";
   services.chrony = {
     enable = true;

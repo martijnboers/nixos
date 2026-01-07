@@ -30,6 +30,9 @@ in
       enable = lib.mkDefault true;
       preset = "compatibility";
       settings = {
+        etc = {
+          kicksecure-module-blacklist = false; # nfs
+        };
         kernel = {
           only-signed-modules = true;
           lockdown = true;
