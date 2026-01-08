@@ -92,12 +92,6 @@ in
               {
                 id = "uBlock0@raymondhill.net";
                 name = "ublock-origin";
-                pinned = true;
-              }
-              {
-                id = "{c6e8bd66-ebb4-4b63-bd29-5ef59c795903}";
-                name = "shiori_ext";
-                pinned = true;
               }
               {
                 id = "@testpilot-containers";

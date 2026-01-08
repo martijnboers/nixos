@@ -15,7 +15,6 @@
     ./modules/database.nix
     ./modules/bincache.nix
     ./modules/storage.nix
-    ./modules/archive.nix
     ./modules/matrix.nix
     ./modules/immich.nix
     ./modules/shares.nix
@@ -32,7 +31,6 @@
   hosts.matrix.enable = true;
   hosts.mastodon.enable = true;
   hosts.microbin.enable = true;
-  hosts.archive.enable = true;
   hosts.changedetection.enable = true;
   hosts.immich.enable = true;
   hosts.prometheus.enable = true;

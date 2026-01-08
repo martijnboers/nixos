@@ -8,7 +8,6 @@ with lib;
 let
   cfg = config.hosts.headscale;
   hadoukenRecords = [
-    "archive"
     "atuin"
     "bincache"
     "cal"
