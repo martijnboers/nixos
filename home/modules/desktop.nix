@@ -93,6 +93,10 @@ in
           entry = true;
           image = "debian:13";
         };
+        ubuntu = {
+          entry = true;
+          image = "ubuntu:24.04";
+        };
         arch = {
           entry = true;
           image = "archlinux:latest";

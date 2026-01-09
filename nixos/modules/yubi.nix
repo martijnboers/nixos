@@ -27,12 +27,21 @@ in
     age.secrets.u2fkeys.file = ../../secrets/u2fkeys.age;
 
     security.pam = {
-      u2f.settings.authfile = config.age.secrets.u2fkeys.path;
+      u2f.settings = {
+        authfile = config.age.secrets.u2fkeys.path;
+        origin = "pam://nixos";
+        pinverification = true;
+        userverification = "preferred";
+      };
       services = {
         login.u2fAuth = true;
         sudo = {
           u2fAuth = true;
           unixAuth = false;
+        };
+        polkit-1 = {
+          u2fAuth = true;
+          unixAuth = false; 
         };
       };
     };
