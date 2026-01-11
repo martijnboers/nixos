@@ -36,6 +36,7 @@ in
         Environment = [
           "SG_SMTP_LISTEN=0.0.0.0:8025"
           "GOTIFY_URL=https://notifications.thuis"
+          "SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt"
         ];
         EnvironmentFile = config.age.secrets.mailrise.path;
         Restart = "on-failure";

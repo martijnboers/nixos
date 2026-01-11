@@ -20,6 +20,7 @@ in
   unaware = pkgs.callPackage ./unaware.nix { };
   hyprtasking = pkgs.callPackage ./hyprtasking.nix { };
   rustfs = pkgs.callPackage ./rustfs.nix { };
+  rip = pkgs.callPackage ./rip.nix { };
   bw-secret-service = pkgs.callPackage ./secret-service.nix { };
   glitch-soc = pkgs.callPackage "${glitch-soc-src}/packages/mastodon" { };
 }

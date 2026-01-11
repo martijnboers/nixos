@@ -235,7 +235,7 @@
     defaults = {
       aliases = "/etc/aliases";
       tls = "off";
-      port = 2525;
+      port = 8025;
     };
     accounts = {
       default = {
@@ -253,8 +253,9 @@
 
   environment.sessionVariables = {
     EDITOR = "nvim";
-    REQUESTS_CA_BUNDLE = "/etc/ssl/certs/ca-certificates.crt"; # python
-    SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt"; # rust
+    REQUESTS_CA_BUNDLE = config.security.pki.caBundle; # python
+    NODE_EXTRA_CA_CERTS = config.security.pki.caBundle; # node
+    SSL_CERT_FILE = config.security.pki.caBundle; # rust+go etc
     TMOUT = (5 * 60 * 60); # zsh timeout
   };
 
