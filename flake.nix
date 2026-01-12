@@ -134,7 +134,7 @@
     {
       overlays = import ./overlays { inherit inputs; };
       packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
-      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt);
 
       # ------------ Cloud ------------
       nixosConfigurations.shoryuken = importSystem "shoryuken" {

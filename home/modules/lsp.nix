@@ -12,7 +12,7 @@ in
 {
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      nixfmt-rfc-style
+      nixfmt
       golangci-lint
       prettier
       yamlfmt

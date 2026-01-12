@@ -5,6 +5,8 @@
   hosts.secureboot.enable = true;
   hosts.qemu.enable = true;
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   hosts.borg = {
     enable = true;
     repository = "ssh://nads486h@nads486h.repo.borgbase.com/./repo";
@@ -69,7 +71,6 @@
     identityPaths = [ "/home/martijn/.ssh/id_ed25519_age" ];
   };
 
-  programs.adb.enable = true;
   users.users.martijn.extraGroups = [ "adbusers" ];
 
   # Support gpg for git signing

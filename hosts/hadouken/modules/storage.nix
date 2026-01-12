@@ -39,11 +39,11 @@
     fsType = "zfs";
     options = [ "ro" ];
   };
-  fileSystems."/mnt/zolder/backups/music" = {
-    device = "zolder/backups/music";
-    fsType = "zfs";
-    options = [ "ro" ];
-  };
+  # fileSystems."/mnt/zolder/backups/music" = {
+  #   device = "zolder/backups/music";
+  #   fsType = "zfs";
+  #   options = [ "ro" ];
+  # };
   fileSystems."/mnt/zolder/backups/share" = {
     device = "zolder/backups/share";
     fsType = "zfs";

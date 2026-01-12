@@ -22,6 +22,12 @@
     #     mainProgram = "age";
     #   };
     # });
+    rpi-imager = prev.rpi-imager.overrideAttrs (oldAttrs: {
+      buildInputs = (oldAttrs.buildInputs or [ ]) ++ [
+        prev.qt6.qt5compat
+        prev.xorg.xcbutilcursor
+      ];
+    });
     electrum-custom = prev.electrum.overridePythonAttrs (oldAttrs: {
       version = "4.6.2";
       src = prev.fetchurl {

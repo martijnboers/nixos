@@ -24,7 +24,7 @@ in
 
     programs.thunar = {
       enable = true;
-      plugins = with pkgs.xfce; [
+      plugins = with pkgs; [
         thunar-media-tags-plugin
         thunar-archive-plugin
         thunar-volman
@@ -39,7 +39,7 @@ in
       settings = {
         # only first session auto-login
         initial_session = {
-          command = "Hyprland";
+          command = "start-hyprland";
           user = "martijn";
         };
         default_session = {

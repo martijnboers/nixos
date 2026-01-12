@@ -14,69 +14,11 @@
     "usbhid"
   ];
 
-  boot.loader.raspberryPi.bootloader = "kernel";
+  boot.loader.systemd-boot.enable = true;
 
-  disko.devices = {
-    disk = {
-      main = {
-        type = "disk";
-        device = "/dev/mmcblk0";
-        content = {
-          type = "gpt";
-          partitions = {
-            FIRMWARE = {
-              label = "FIRMWARE";
-              priority = 1;
-              type = "0700"; # Microsoft basic data
-              attributes = [
-                0 # Required Partition
-              ];
-              size = "1024M";
-              content = {
-                type = "filesystem";
-                format = "vfat";
-                mountpoint = "/boot/firmware";
-                mountOptions = [
-                  "noatime"
-                  "noauto"
-                  "x-systemd.automount"
-                  "x-systemd.idle-timeout=1min"
-                ];
-              };
-            };
-            ESP = {
-              label = "ESP";
-              type = "EF00";
-              attributes = [
-                2
-              ];
-
-              size = "1024M";
-              content = {
-                type = "filesystem";
-                format = "vfat";
-                mountpoint = "/boot";
-                mountOptions = [
-                  "noatime"
-                  "noauto"
-                  "x-systemd.automount"
-                  "x-systemd.idle-timeout=1min"
-                  "umask=0077"
-                ];
-              };
-            };
-            root = {
-              size = "100%";
-              content = {
-                type = "filesystem";
-                format = "ext4";
-                mountpoint = "/";
-              };
-            };
-          };
-        };
-      };
-    };
+  fileSystems."/" = {
+    device = "/dev/mmcblk0p2";
+    fsType = "ext4";
   };
 
   zramSwap.enable = true;
