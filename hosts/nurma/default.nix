@@ -7,6 +7,15 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  nix.settings = {
+    substituters = [
+      "https://nixos-raspberrypi.cachix.org"
+    ];
+    trusted-public-keys = [
+      "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
+    ];
+  };
+
   hosts.borg = {
     enable = true;
     repository = "ssh://nads486h@nads486h.repo.borgbase.com/./repo";
@@ -49,7 +58,7 @@
     enable = false;
     allowUsers = [
       "*@100.64.0.0/10"
-      "*@10.10.0.0/24"
+      "*@10.30.0.0/24"
     ];
   };
 

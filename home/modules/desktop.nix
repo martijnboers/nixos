@@ -48,7 +48,7 @@ in
         sqlitebrowser
         yt-dlp # download yt+
 
-        # work 
+        # work
         citrix_workspace
 
         # networking
@@ -57,10 +57,12 @@ in
         iwgtk # wifi applet
 
         # forensics
+        magika-cli # recognize filetype
         sleuthkit # fls, icat
-        binwalk # firmware analysis
-        mat2 # remove metadata
         exiftool # read metadata
+        binwalk # firmware analysis
+        ent # test entropy files
+        mat2 # remove metadata
         nmap
         xca
 

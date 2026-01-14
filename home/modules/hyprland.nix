@@ -120,10 +120,10 @@ in
         };
 
         # hyprctl clients
-        windowrulev2 = [
-          "workspace 2, class:(Wfica)" # citrix
-          "workspace 5, class:(Fractal)"
-          "workspace 5, class:(signal)"
+        windowrule = [
+          "workspace 2, match:class ^(Wfica)$" # citrix
+          "workspace 5, match:class ^(Fractal)$"
+          "workspace 5, match:class ^(Signal)$"
         ];
 
         # l -> locked, will also work when an input inhibitor (e.g. a lockscreen) is active.
@@ -199,7 +199,7 @@ in
             builtins.genList (
               x:
               let
-                ws = builtins.toString (x + 1); # Workspace number as a string
+                ws = toString (x + 1); # Workspace number as a string
               in
               [
                 "$mod, ${ws}, workspace, ${ws}" # Switch to workspace {ws}

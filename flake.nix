@@ -5,9 +5,12 @@
     self.submodules = true; # git submodules
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
-    nixpkgs-citrix.url = "github:NixOS/nixpkgs/nixos-25.05";
     hardware.url = "github:NixOS/nixos-hardware";
     hardware-fork.url = "github:martijnboers/nixos-hardware";
+
+    nixos-raspberrypi = {
+      url = "github:nvmd/nixos-raspberrypi/main";
+    };
 
     # https://github.com/DeterminateSystems/nix-src/releases
     determinate.url = "github:DeterminateSystems/nix-src/v3.14.0";
@@ -72,6 +75,7 @@
       self,
       nixpkgs,
       home-manager,
+      nixos-raspberrypi,
       ...
     }@inputs:
     let
@@ -97,7 +101,7 @@
         in
         call {
           inherit system;
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs nixos-raspberrypi; };
           modules =
             with inputs;
             [
@@ -153,8 +157,9 @@
       };
       nixosConfigurations.suzaku = importSystem "suzaku" {
         system = "aarch64-linux";
-        modules = [
-          inputs.hardware.nixosModules.raspberry-pi-5
+        call = inputs.nixos-raspberrypi.lib.nixosSystem;
+        modules = with inputs.nixos-raspberrypi.nixosModules; [
+          raspberry-pi-5.base
           inputs.disko.nixosModules.disko
         ];
       };

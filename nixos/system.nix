@@ -98,8 +98,6 @@
     jq # query json
     avml # make memory dump
     minicom # serial port reader
-    magika-cli # recognize filetype
-    ent # test entropy files
   ];
 
   nix = {

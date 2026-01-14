@@ -68,9 +68,5 @@
       system = final.system;
       config.allowUnfree = true;
     };
-    citrix = import inputs.nixpkgs-citrix {
-      system = final.system;
-      config.allowUnfree = true;
-    };
   };
 }
