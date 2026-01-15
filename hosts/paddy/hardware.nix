@@ -77,6 +77,8 @@
     { device = "/dev/disk/by-uuid/e7b8187d-3a28-4ef9-a98d-3264e813f3ce"; }
   ];
 
+  boot.resumeDevice = "/dev/dm-0";
+
   systemd.network.networks = {
     "50-dhcp" = {
       matchConfig.Name = "en*";
