@@ -19,6 +19,7 @@ in
     maatwerk.stylix.enable = true;
     maatwerk.attic.enable = true;
     maatwerk.aerc.enable = true;
+    maatwerk.khal.enable = true;
 
     services.gnome-keyring.enable = true;
 
@@ -35,7 +36,6 @@ in
         wev # wayland xev
         cheese # webcam
         errands # todo manager
-        karlender # gtk calendar
         dezoomify-rs # art archival
         localsend # airdrop
         sequoia-sq # gpg without gnu
@@ -66,6 +66,7 @@ in
         sleuthkit # fls, icat
         exiftool # read metadata
         binwalk # firmware analysis
+        tesseract # ocr
         ent # test entropy files
         mat2 # remove metadata
         nmap

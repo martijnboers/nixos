@@ -15,6 +15,7 @@
     ./modules/stylix.nix
     ./modules/attic.nix
     ./modules/aerc.nix
+    ./modules/khal.nix
     ./modules/zsh.nix
     ./modules/mods.nix
 
@@ -87,6 +88,7 @@
           "text/plain" = "org.xfce.mousepad.desktop";
           "application/pdf" = "org.pwmt.zathura.desktop";
           "inode/directory" = "thunar.desktop";
+          "text/calendar" = "khal.desktop";
         }
         // mkMimeAssoc imageMimeTypes "imv.desktop"
         // mkMimeAssoc htmlTypes "librewolf.desktop";

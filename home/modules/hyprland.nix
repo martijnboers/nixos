@@ -173,6 +173,7 @@ in
           "$mod, E, exec, $fileManager"
           "$mod, Space, exec, $menu"
           '', Print, exec, ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - | satty -f -''
+          ''$mod, Print, exec, ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - | ${lib.getExe pkgs.tesseract} - stdout | wl-copy''
           "$mod, F4, killactive"
           "$prog, H, exec, copyq toggle"
           "$mod, M, exec, hyprlock"

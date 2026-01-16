@@ -7,7 +7,6 @@
 with lib;
 let
   cfg = config.maatwerk.aerc;
-  c = config.lib.stylix.colors;
 in
 {
   options.maatwerk.aerc = {
@@ -30,59 +29,11 @@ in
 
     programs.aerc = {
       enable = true;
-
-      stylesets.kanagawa_custom = ''
-        # --- GLOBAL ---
-        *.bg = #${c.base00}
-        *.fg = #${c.base05}
-
-        # --- UI ELEMENTS ---
-        title.bg = #${c.base00}
-        title.fg = #${c.base0D}
-        title.bold = true
-
-        border.fg = #${c.base03}
-        border.bg = #${c.base00}
-
-        statusline_default.bg = #${c.base01}
-        statusline_default.fg = #${c.base05}
-
-        statusline_error.fg = #${c.base00}
-        statusline_error.bg = #${c.base08}
-
-        # --- MESSAGE LIST ---
-        msglist_default.bg = #${c.base00}
-        msglist_default.fg = #${c.base05}
-
-        # FIX: Use .selected modifier instead of msglist_selected
-        msglist_default.selected.bg = #${c.base02}
-        msglist_default.selected.fg = #${c.base05}
-        msglist_default.selected.bold = true
-
-        msglist_unread.fg = #${c.base0E}
-        msglist_unread.bold = true
-
-        # --- VIEWER SECTION ---
-        [viewer]
-        header.fg = #${c.base0D}
-        header.bold = true
-
-        url.fg = #${c.base0C}
-        url.underline = true
-
-        signature.fg = #${c.base03}
-
-        quote_1.fg = #${c.base0B}
-        quote_2.fg = #${c.base0A}
-      '';
-
       extraConfig = {
         general.unsafe-accounts-conf = true;
         ui = {
           sort = "-r date";
           timestamp-format = "2006-01-02 15:04";
-
-          styleset-name = "kanagawa_custom";
           border-char-vertical = "│";
           border-char-horizontal = "─";
         };
@@ -92,8 +43,22 @@ in
           "text/calendar" = "${lib.getExe pkgs.bat} -fP --style=plain";
           "application/pdf" = "${pkgs.poppler-utils}/bin/pdftotext - -";
         };
+        openers = {
+          "text/html" = "xdg-open";
+        };
       };
     };
+
+    xdg.configFile."aerc/binds.conf".text = builtins.readFile "${pkgs.aerc}/share/aerc/binds.conf" + ''
+      [messages]
+      # Refresh manually
+      R = :check-mail<Enter>
+      # Without prompt
+      q = :quit<Enter>
+      [view]
+      # Open attachment/html in browser
+      O = :open<Enter>
+    '';
 
     age.secrets.proton.file = ../../secrets/proton.age;
 
