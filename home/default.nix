@@ -14,6 +14,7 @@
     ./modules/nixvim.nix
     ./modules/stylix.nix
     ./modules/attic.nix
+    ./modules/aerc.nix
     ./modules/zsh.nix
     ./modules/mods.nix
 
@@ -83,7 +84,6 @@
         in
         {
           # ls ~/.nix-profile/share/applications
-          "text/html" = "librewolf.desktop";
           "text/plain" = "org.xfce.mousepad.desktop";
           "application/pdf" = "org.pwmt.zathura.desktop";
           "inode/directory" = "thunar.desktop";

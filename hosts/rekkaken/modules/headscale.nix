@@ -161,7 +161,7 @@ in
                   action = "accept";
                   src = [ "headscale-user@" ];
                   dst = [
-                    "hadouken:2049" # nfs
+                    "hadouken:2049,1143,1025" # nfs+protonbridge
                     "headscale-server@:80,443"
                     "pixel:1080" # socks 5g
                     "tatsumaki:50001" # bitcoin node

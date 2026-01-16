@@ -18,8 +18,13 @@ in
     maatwerk.ghostty.enable = true;
     maatwerk.stylix.enable = true;
     maatwerk.attic.enable = true;
+    maatwerk.aerc.enable = true;
 
     services.gnome-keyring.enable = true;
+
+    age.secrets = {
+      proton.file = ../../secrets/proton.age;
+    };
 
     home.packages =
       with pkgs;
