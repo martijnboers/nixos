@@ -56,6 +56,7 @@
     openssl
     file
     which
+    pass
     tree
     gawk
     git

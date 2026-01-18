@@ -21,8 +21,6 @@ in
     maatwerk.aerc.enable = true;
     maatwerk.khal.enable = true;
 
-    services.gnome-keyring.enable = true;
-
     age.secrets = {
       proton.file = ../../secrets/proton.age;
     };
@@ -40,10 +38,6 @@ in
         localsend # airdrop
         sequoia-sq # gpg without gnu
         gnupg # gpg with gnu
-
-        # keyring
-        seahorse
-        gcr
 
         # file support
         zathura # pdf
@@ -111,6 +105,9 @@ in
       };
     };
 
+    # DBus secret service
+    services.pass-secret-service.enable = true;
+
     programs.gpg = {
       enable = true;
       scdaemonSettings = {
@@ -128,7 +125,7 @@ in
     services.gpg-agent = {
       enable = true;
       enableSshSupport = false;
-      pinentryPackage = pkgs.pinentry-gnome3;
+      pinentryPackage = pkgs.pinentry-qt;
       defaultCacheTtl = 43200;
       maxCacheTtl = 43200;
     };
