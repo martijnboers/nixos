@@ -26,6 +26,7 @@ let
     "sonarr"
     "syncthing"
     "webdav"
+    "geld"
   ];
   shoryukenRecords = [ ];
   rekkakenRecords = [

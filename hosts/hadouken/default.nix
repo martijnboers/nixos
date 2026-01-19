@@ -19,6 +19,7 @@
     ./modules/immich.nix
     ./modules/shares.nix
     ./modules/proton.nix
+    ./modules/ledger.nix
     ./modules/caddy.nix
     ./modules/atuin.nix
     ./modules/media.nix
@@ -41,6 +42,7 @@
   hosts.paperless.enable = true;
   hosts.bincache.enable = true;
   hosts.proton.enable = true;
+  hosts.ledger.enable = true;
 
   users = {
     groups.notes.members = [ "caddy" ];
