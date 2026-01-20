@@ -54,9 +54,12 @@ in
         DATABASE_URL = "postgresql://sure@localhost/sure?host=/run/postgresql";
         HOME = "/var/lib/sure";
 
+        # OIDC
+        OIDC_ISSUER = "https://auth.boers";
+        OIDC_CLIENT_ID = "your-oidc-client-id";
+        OIDC_REDIRECT_URI = "https://yourdomain.com/auth/openid_connect/callback";
+
         # Enables local Email/Password login (disables forced OIDC)
-        SELF_HOSTED = "true";
-        AUTH_LOCAL_LOGIN_ENABLED = "true";
         ONBOARDING_STATE = "open";
         APP_DOMAIN = "geld.thuis";
 

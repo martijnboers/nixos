@@ -5,10 +5,13 @@
   imports = [
     ./modules/endlessh.nix
     ./modules/caddy.nix
-    ./modules/oidc.nix
   ];
 
-  hosts.oidc.enable = true;
+  hosts.oidc = {
+    enable = true;
+    domain = "auth.boers.email";
+  };
+
   hosts.caddy.enable = true;
   hosts.prometheus.enable = true;
   hosts.endlessh.enable = true;

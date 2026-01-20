@@ -16,6 +16,7 @@
     ./modules/server.nix
     ./modules/derper.nix
     ./modules/yubi.nix
+    ./modules/oidc.nix
     ./modules/borg.nix
     ./modules/qemu.nix
     ./modules/ssh.nix
@@ -94,7 +95,7 @@
 
     # forensics
     binutils # strings+ld
-    xxd # hexviewer
+    hexyl # hexviewer
     jless # cli json viewer
     jq # query json
     avml # make memory dump
@@ -172,6 +173,7 @@
           "tenshin"
           "tatsumaki"
           "shoryuken"
+          "dosukoi"
           "rekkaken"
           "suzaku"
         ]

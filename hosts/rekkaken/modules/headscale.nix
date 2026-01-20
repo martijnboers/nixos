@@ -45,6 +45,7 @@ let
   ];
   dosukoiRecords = [
     "acme"
+    "auth"
     "dns"
     "leases"
     "vaultwarden"

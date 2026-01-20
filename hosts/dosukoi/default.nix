@@ -32,6 +32,11 @@
   hosts.acme.enable = true;
   hosts.croc.enable = true;
 
+  hosts.oidc = {
+    enable = true;
+    domain = "auth.thuis";
+  };
+
   hosts.openssh = {
     enable = true;
     allowUsers = [

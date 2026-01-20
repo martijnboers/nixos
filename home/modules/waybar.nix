@@ -34,6 +34,30 @@ let
     echo "󰖟 $wan_ip"
   '';
 
+  khalScript =
+    pkgs.writers.writePython3Bin "khal-script" { libraries = [ pkgs.python3Packages.pygithub ]; } # python
+      ''
+        import subprocess
+        import datetime
+        import json
+        from html import escape
+
+        data = {}
+        today = datetime.date.today().strftime("%d-%m-%y")
+        output = subprocess.check_output("khal list now 7days", shell=True)
+        output = output.decode("utf-8")
+        lines = output.split("\n")
+        new_lines = []
+        for line in lines:
+            clean_line = escape(line).split(" ::")[0]
+            if len(clean_line) and not clean_line[0] in ['0', '1', '2']:
+                clean_line = "\n<b>"+clean_line+"</b>"
+            new_lines.append(clean_line)
+        output = "\n".join(new_lines).strip()
+        data['tooltip'] = output
+        print(json.dumps(data))
+      '';
+
   # Quick settings menu
   quickSettings = pkgs.writeShellScriptBin "quick-settings" ''
     # Define options with icons
@@ -112,7 +136,7 @@ in
           }
 
           #custom-power, #custom-quick-settings, #workspaces, #custom-notification,
-          #custom-wan, #window, #clock-privacy, #system-stats, #system-tray {
+          #custom-wan, #custom-khal,  #window, #clock-privacy, #system-stats, #system-tray {
               background: @base01;
               border: 1px solid @base02;
               border-radius: 12px;
@@ -123,7 +147,7 @@ in
           }
 
           #custom-power:hover, #custom-quick-settings:hover, #custom-notification:hover,
-          #custom-wan:hover, #window:hover, #clock-privacy:hover,
+          #custom-wan:hover, #custom-khal:hover, #window:hover, #clock-privacy:hover,
           #system-stats:hover, #system-tray:hover {
             background: @base02;
           }
@@ -143,7 +167,7 @@ in
           }
 
           #custom-notification,
-          #custom-wan {
+          #custom-wan, #custom-khal  {
             color: @base04;
           }
 
@@ -433,6 +457,15 @@ in
             format-icons = "";
             exec-on-event = "true";
             on-click = lib.getExe quickSettings;
+          };
+
+          "custom/khal" = {
+            format = "{icon}";
+            tooltip = true;
+            interval = 300;
+            format-icons = "󰨲";
+            exec = lib.getExe khalScript;
+            return-type = "json";
           };
 
           "custom/wan" = {

@@ -135,6 +135,7 @@ in
         noice.enable = true; # cmd popup input modal
         auto-session.enable = true; # auto-restore sessions on startup
         quicker.enable = true; # edit quickfix as buffer
+        hex.enable = true; # hexeditor
 
         gitportal = {
           enable = true; # open gh or gitlab web
