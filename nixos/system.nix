@@ -24,7 +24,6 @@
 
   age.secrets = {
     password.file = lib.mkDefault ../secrets/password.age;
-    password-laptop.file = lib.mkDefault ../secrets/password-laptop.age;
   };
 
   users = {

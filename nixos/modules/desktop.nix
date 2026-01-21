@@ -27,6 +27,10 @@ in
 
     users.users.martijn.extraGroups = [ "wireshark" ];
 
+    age.secrets = {
+      password-laptop.file = lib.mkDefault ../../secrets/password-laptop.age;
+    };
+
     programs.wireshark = {
       enable = true;
       usbmon.enable = true;

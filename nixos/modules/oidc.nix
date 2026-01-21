@@ -10,6 +10,11 @@ in
 {
   options.hosts.oidc = {
     enable = mkEnableOption "Provide OIDC";
+    internal = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Get cert from internal CA";
+    };
     domain = mkOption {
       type = types.str;
       description = "Public endpoint";
@@ -19,6 +24,7 @@ in
   config = mkIf cfg.enable {
     services.caddy.virtualHosts.${cfg.domain} = {
       extraConfig = ''
+        ${optionalString cfg.internal "import headscale"}
         reverse_proxy http://localhost:1411
       '';
     };
@@ -33,6 +39,8 @@ in
         owner = config.services.pocket-id.user;
       };
     };
+
+    services.borgbackup.jobs.default.paths = [ config.services.pocket-id.dataDir ];
 
     services.pocket-id = {
       enable = true;

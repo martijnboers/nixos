@@ -34,6 +34,7 @@
 
   hosts.oidc = {
     enable = true;
+    internal = true;
     domain = "auth.thuis";
   };
 
