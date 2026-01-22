@@ -65,6 +65,7 @@ in
       ]);
     programs.librewolf = {
       enable = true;
+      package = pkgs.stable.librewolf;
       policies =
         let
           mkExtension =

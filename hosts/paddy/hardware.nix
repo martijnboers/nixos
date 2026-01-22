@@ -17,6 +17,10 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
+    kernelParams = [
+      "i915.force_probe=!7d51"
+      "xe.force_probe=7d51"
+    ];
 
     initrd = {
       availableKernelModules = [
@@ -53,9 +57,9 @@
     modesetting.enable = true; # should be on by default
     powerManagement.enable = true; # should fix hybernation
     prime = {
-      offload.enable = false;
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
+      offload.enable = true;
+      intelBusId = "PCI:00:02:0";
+      nvidiaBusId = "PCI:01:00:0";
     };
   };
 

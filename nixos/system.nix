@@ -269,7 +269,6 @@
 
       "194.58.200.20" # Netnod (Sweden)
       "194.58.201.20" # Netnod (Sweden)
-      "192.53.103.108" # PTB (Germany)
     ];
   };
 

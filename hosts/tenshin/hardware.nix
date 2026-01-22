@@ -1,6 +1,7 @@
 {
   lib,
   modulesPath,
+  config,
   ...
 }:
 {
@@ -26,7 +27,7 @@
       IPv6AcceptRA = true;
     };
     address = [
-      "10.10.0.6/24"
+      "10.10.0.7/24"
     ];
     routes = [
       { Gateway = "10.10.0.1"; }

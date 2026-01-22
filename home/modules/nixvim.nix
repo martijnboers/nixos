@@ -172,7 +172,6 @@ in
           mockDevIcons = true;
           modules = {
             files.enable = true; # file explorer
-            pick.enable = true; # file picker
             extra.enable = true; # more picker sources
             icons.enable = true; # icons support for extensions
             surround.enable = true; # surround words with something
@@ -184,6 +183,13 @@ in
               highlighters.hex_color = helpers.mkRaw ''
                 require('mini.hipatterns').gen_highlighter.hex_color(),
               '';
+            };
+
+            pick = {
+              enable = true; # file picker
+              mappings = {
+                mark = "<C-CR>";
+              };
             };
 
             move = {

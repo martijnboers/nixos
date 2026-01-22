@@ -115,7 +115,7 @@ in
 
         sure-worker = {
           image = "ghcr.io/we-promise/sure:stable"; # Using 'stable' tag for consistency
-          entrypoint = [ "bundle" "exec" "sidekiq" ]; # Corrected from `cmd` to `entrypoint`
+          cmd = [ "bundle" "exec" "sidekiq" ]; # Corrected from `entrypoint` to `cmd`
           extraOptions = [ "--network=host" ];
           volumes = [ "sure_app-storage:/rails/storage" ];
           environment = config.virtualisation.oci-containers.containers.sure-web.environment; # Inherit from web

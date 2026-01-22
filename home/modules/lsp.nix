@@ -75,13 +75,13 @@ in
             highlight.enable = true;
             indent.enable = true;
           };
-        }; # Make vim understand syntax, but not like lsp
+        }; # syntax highlighting
 
         lsp = {
           enable = true;
           keymaps = {
             lspBuf = {
-              K = "hover";
+              "<C-space>" = "hover";
               gD = "references";
               gd = "definition";
               gr = "rename";
@@ -113,11 +113,6 @@ in
         blink-cmp = {
           enable = true;
           settings = {
-            enabled = helpers.mkRaw ''
-              function()
-                return vim.bo.buftype ~= 'prompt' and vim.b.completion ~= false
-              end
-            '';
             keymap = {
               "<C-b>" = [
                 "scroll_documentation_up"
@@ -138,17 +133,14 @@ in
               ];
               "<C-space>" = [
                 "show"
-                "show_documentation"
-                "hide_documentation"
               ];
               "<C-y>" = [ "select_and_accept" ];
             };
             completion.documentation.auto_show = true;
-            signature.enabled = true;
             sources.providers.buffer.score_offset = -7;
           };
         };
-      };
+      }; # auto-complete
 
       keymaps = [
         {
