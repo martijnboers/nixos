@@ -205,20 +205,21 @@
 
   services.resolved = {
     enable = true;
-    dnssec = "allow-downgrade";
-    dnsovertls = "opportunistic";
-
-    # When active, Tailscale is the only DNS, rest fallbackDns
-    fallbackDns = [
-      "9.9.9.9#dns.quad9.net"
-      "2620:fe::fe#dns.quad9.net"
-      "149.112.112.112#dns.quad9.net"
-      "2620:fe::9#dns.quad9.net"
-      "193.110.81.0#dns0.eu"
-      "2a0f:fc80::#dns0.eu"
-      "185.253.5.0#dns0.eu"
-      "2a0f:fc81::#dns0.eu"
-    ];
+    settings.Resolve = {
+      DNSSEC = "allow-downgrade";
+      DNSOverTLS = "opportunistic";
+      # When active, Tailscale is the only DNS, rest fallbackDns
+      FallbackDNS = [
+        "9.9.9.9#dns.quad9.net"
+        "2620:fe::fe#dns.quad9.net"
+        "149.112.112.112#dns.quad9.net"
+        "2620:fe::9#dns.quad9.net"
+        "193.110.81.0#dns0.eu"
+        "2a0f:fc80::#dns0.eu"
+        "185.253.5.0#dns0.eu"
+        "2a0f:fc81::#dns0.eu"
+      ];
+    };
   };
 
   security = {

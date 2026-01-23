@@ -113,6 +113,11 @@ in
         blink-cmp = {
           enable = true;
           settings = {
+            enabled = helpers.mkRaw ''
+              function()
+                return vim.bo.buftype ~= 'prompt' and vim.b.completion ~= false
+              end
+            '';
             keymap = {
               "<C-b>" = [
                 "scroll_documentation_up"

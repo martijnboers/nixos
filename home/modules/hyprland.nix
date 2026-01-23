@@ -2,7 +2,6 @@
   lib,
   config,
   pkgs,
-  inputs,
   ...
 }:
 with lib;
@@ -21,7 +20,6 @@ in
 
   config = mkIf cfg.enable {
     maatwerk.desktop.enable = true;
-    services.copyq.enable = true;
     services.hyprpolkitagent.enable = true; # escalate privileges
 
     services.dunst = {
@@ -56,13 +54,21 @@ in
         providers = {
           default = [
             "desktopapplications"
-            "symbols"
+            "websearch"
             "calc"
           ];
           prefixes = [
             {
               provider = "files";
               prefix = "/";
+            }
+            {
+              provider = "clipboard";
+              prefix = "\\";
+            }
+            {
+              provider = "symbols";
+              prefix = ":";
             }
           ];
           keybinds.quick_activate = [
@@ -175,8 +181,7 @@ in
           '', Print, exec, ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - | satty -f -''
           ''$mod, Print, exec, ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - | ${lib.getExe pkgs.tesseract} - stdout | wl-copy''
           "$mod, F4, killactive"
-          "$prog, H, exec, copyq toggle"
-          "$mod, M, exec, hyprlock"
+          "$mod, M, exec, ghostty --class clipse -e 'clipse'"
           "$mod, escape, hyprtasking:toggle, cursor"
 
           # movement
