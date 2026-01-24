@@ -54,7 +54,9 @@ in
           socks = "ssh -D 1337 -q -C -N hadouken.machine.thuis";
           croc = "croc --relay dosukoi.machine.thuis:9009 --relay6 fd7a:115c:a1e0::9";
           extreme-pro = ''sudo veracrypt -t "/dev/disk/by-partlabel/Extreme\\x20Pro" /mnt/veracrypt1/'';
-          "c\?" = "mods -f -m cli-fast --role cli \"$1\"";
+          "c\?" = "mods -f -m google-cli --role cli \"$1\" --quiet";
+          "f\?" = "mods -f -m google-pro --role forensics \"$1\" --quiet";
+          "s\?" = "mods -f -m google-pro --role sys \"$1\" --quiet";
 
           # git alias
           ga = "git add";

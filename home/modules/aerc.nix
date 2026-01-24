@@ -14,16 +14,28 @@ in
   };
 
   config = mkIf cfg.enable {
-    programs.mbsync.enable = true;
+    home.packages = [
+      pkgs.notmuch
+      pkgs.notmuch-addrlookup
+    ];
 
     programs.notmuch = {
       enable = true;
-      new.tags = [ "new" ];
+      new.tags = [
+        "new"
+        "inbox"
+        "unread"
+      ];
+      extraConfig = {
+        database.path = "${config.home.homeDirectory}/Maildir";
+        maildir.synchronize_flags = "true";
+      };
     };
 
+    programs.mbsync.enable = true;
     services.mbsync = {
       enable = true;
-      frequency = "*:0/2";
+      frequency = "*:0/2"; # Run every 2 minutes
       postExec = "${lib.getExe pkgs.notmuch} new";
     };
 
@@ -34,29 +46,28 @@ in
         ui = {
           sort = "-r date";
           timestamp-format = "2006-01-02 15:04";
-          border-char-vertical = "│";
-          border-char-horizontal = "─";
         };
+        # Use Notmuch only for autocompleting email addresses
+        compose.address-book-cmd = "${lib.getExe pkgs.notmuch-addrlookup} --format=aerc %s";
+
         filters = {
           "text/plain" = "${lib.getExe pkgs.bat} -fP --style=plain";
           "text/html" = "${lib.getExe pkgs.w3m} -dump -T text/html";
-          "text/calendar" = "${lib.getExe pkgs.bat} -fP --style=plain";
           "application/pdf" = "${pkgs.poppler-utils}/bin/pdftotext - -";
         };
         openers = {
           "text/html" = "xdg-open";
+          "application/pdf" = "xdg-open";
         };
       };
     };
 
     xdg.configFile."aerc/binds.conf".text = builtins.readFile "${pkgs.aerc}/share/aerc/binds.conf" + ''
       [messages]
-      # Refresh manually
       R = :check-mail<Enter>
-      # Without prompt
       q = :quit<Enter>
+      / = :filter 
       [view]
-      # Open attachment/html in browser
       O = :open<Enter>
     '';
 
@@ -91,10 +102,16 @@ in
 
       aerc = {
         enable = true;
-        extraAccounts = {
+        extraAccounts = rec {
           source = "maildir://~/Maildir/Proton";
+          # Prevents "File not found" errors when background sync renames files
+          cache-headers = false;
+          folders = "Inbox,Sent,Folders/signups,Folders/shipping,Folders/bewaren,Folders/werk,Drafts,Archive,Spam,Trash";
+          folders-sort = folders;
           outgoing = "smtp+plain://martijn%40boers.email@hadouken.machine.thuis:1025";
+          copy-to = "Sent";
           check-mail-cmd = "${pkgs.isync}/bin/mbsync proton";
+          check-mail = "1m";
         };
       };
 

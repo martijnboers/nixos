@@ -9,10 +9,7 @@
   hosts.hyprland.enable = true;
   hosts.secureboot.enable = true;
 
-  environment.systemPackages = [
-    pkgs.iio-hyprland
-    pkgs.wvkbd-desktop
-  ];
+  environment.systemPackages = [ pkgs.iio-hyprland ];
 
   services.tlp = {
     enable = true;

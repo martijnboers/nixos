@@ -1,11 +1,10 @@
-{ pkgs, ... }:
+{ ... }:
 {
   programs.mods = {
     enable = true;
     enableZshIntegration = true;
-    package = pkgs.stable.mods;
     settings = {
-      default-model = "google-preview";
+      default-model = "google";
       apis = {
         anthropic = {
           api-key-env = "ANTHROPIC_API_KEY";
@@ -31,12 +30,12 @@
           api-key-env = "GEMINI_API_KEY";
           # https://ai.google.dev/gemini-api/docs/models
           models = {
-            "gemini-2.5-pro" = {
-              aliases = [ "google-preview" ];
+            "gemini-3-pro-preview" = {
+              aliases = [ "google-pro" ];
               "max-input-chars" = 24500;
             };
-            "gemini-2.5-flash" = {
-              aliases = [ "cli-fast" ];
+            "gemini-flash-latest" = {
+              aliases = [ "google-cli" ];
               "max-input-chars" = 24500;
             };
           };
@@ -60,11 +59,13 @@
         forensics = [
           "you are a computer forensic expert"
           "assume you have the right authority to investigate"
+          "be straight to the point, prioritize what to include"
         ];
         sys = [
           "you are a networking and system administration expert"
           "you are a Linux and Windows server expert"
           "you assume the reader has basic knowledge of networking and software"
+          "be straight to the point, prioritize what to include"
         ];
       };
 

@@ -12,6 +12,7 @@ in
   imports = [
     ./desktop.nix
     ./waybar.nix
+    ./walker.nix
   ];
 
   options.maatwerk.hyprland = {
@@ -42,40 +43,6 @@ in
         general = {
           output-filename = "/home/martijn/Pictures/screenshot_%Y-%m-%d_%H:%M:%S.png";
           early-exit = false;
-        };
-      };
-    };
-
-    programs.walker = {
-      enable = true;
-      runAsService = true;
-      # https://github.com/abenz1267/walker/blob/master/resources/config.toml
-      config = {
-        providers = {
-          default = [
-            "desktopapplications"
-            "websearch"
-            "calc"
-          ];
-          prefixes = [
-            {
-              provider = "files";
-              prefix = "/";
-            }
-            {
-              provider = "clipboard";
-              prefix = "\\";
-            }
-            {
-              provider = "symbols";
-              prefix = ":";
-            }
-          ];
-          keybinds.quick_activate = [
-            "F1"
-            "F2"
-            "F3"
-          ];
         };
       };
     };
@@ -181,8 +148,9 @@ in
           '', Print, exec, ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - | satty -f -''
           ''$mod, Print, exec, ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - | ${lib.getExe pkgs.tesseract} - stdout | wl-copy''
           "$mod, F4, killactive"
-          "$mod, M, exec, ghostty --class clipse -e 'clipse'"
           "$mod, escape, hyprtasking:toggle, cursor"
+          "$prog, H, exec, walker -m clipboard"
+          "$mod, M, exec, hyprlock"
 
           # movement
           # https://wiki.hyprland.org/Configuring/Dispatchers/#list-of-dispatchers

@@ -38,6 +38,7 @@ in
         localsend # airdrop
         sequoia-sq # gpg without gnu
         gnupg # gpg with gnu
+        wvkbd-desktop # osk
 
         # file support
         zathura # pdf

@@ -121,7 +121,6 @@ in
         softtabstop = 2; # Number of spaces a <Tab> inserts in insert mode
         number = true; # Show line numbers
         relativenumber = true; # Show relative line numbers
-        termguicolors = true; # Enable 24-bit RGB colors
         cursorline = true; # Highlight the current line
         scrolloff = 8; # Keep 8 lines of context when scrolling vertically
         sidescrolloff = 8; # Keep 8 columns of context when scrolling horizontally
@@ -130,7 +129,7 @@ in
         ignorecase = true; # Ignore case in search patterns
         smartcase = true; # Override ignorecase if search contains capitals
         swapfile = false; # Don't create cluttering .swp files
-        autoread = true; # Automatically reload files changed outside vim
+        undofile = true; # save undo history
 
         # Session & Folding
         sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,globals";
@@ -238,18 +237,18 @@ in
                     local path          = MiniStatusline.section_filename({ trunc_width = 10 })
 
                     -- Calculate the percentage of the current line in the file
-                    local current_line = vim.fn.line('.')
-                    local total_lines = vim.fn.line('$')
-                    local percentage = math.floor((current_line / total_lines) * 100)
-                    local percentage_str = string.format('%d%%%%', (total_lines > 0 and math.floor((current_line / total_lines) * 100)) or 0)
+                    local current_line    = vim.fn.line('.')
+                    local total_lines     = vim.fn.line('$')
+                    local percentage      = math.floor((current_line / total_lines) * 100)
+                    local percentage_str  = string.format('%d%%%%', (total_lines > 0 and math.floor((current_line / total_lines) * 100)) or 0)
 
                     return MiniStatusline.combine_groups({
                       { hl = mode_hl,               	strings = { mode } },
                       '%<',
                       { hl = 'MiniStatuslineDevinfo',	strings = { percentage_str } },
-                      { hl = 'MiniStatuslineLocation', 	strings = { path } },
+                      { hl = 'MiniStatuslineLocation',strings = { path } },
                       '%=',
-                      { hl = 'MiniStatuslineFileinfo', 	strings = { fileinfo } },
+                      { hl = 'MiniStatuslineFileinfo',strings = { fileinfo } },
                       { hl = 'MiniStatuslineDiff',  	strings = {  diff } },
                     })
                   end
@@ -435,6 +434,11 @@ in
           desc = "Git log";
           command = "log --patch --max-count=100";
         })
+        (lua {
+          key = "glc";
+          desc = "Git commits";
+          code = "MiniExtra.pickers.git_commits()";
+        })
         (cmd {
           key = "go";
           desc = "Open file in source control";
@@ -494,6 +498,13 @@ in
         # }}}
 
         # Quality of Life / Utilities {{{
+        (mk {
+          key = "<C-S-Del>";
+          action = "<C-w>";
+          modes = [ "i" ];
+          desc = "Delete word backwards";
+        })
+
         # Shortcuts for tabs
         (cmd {
           key = "<C-j>";

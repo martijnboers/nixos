@@ -10,6 +10,7 @@
 
     nixos-raspberrypi = {
       url = "github:nvmd/nixos-raspberrypi/main";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # https://github.com/DeterminateSystems/nix-src/releases

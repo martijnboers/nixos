@@ -93,7 +93,7 @@ in
 {
   config = mkIf cfg.enable {
     programs.wofi = {
-      enable = true;
+      enable = true; # settings menu
       settings = {
         single_click = true;
       };
