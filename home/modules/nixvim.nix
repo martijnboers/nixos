@@ -130,9 +130,9 @@ in
         smartcase = true; # Override ignorecase if search contains capitals
         swapfile = false; # Don't create cluttering .swp files
         undofile = true; # save undo history
-
-        # Session & Folding
         sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,globals";
+
+        # Folding
         foldmethod = "marker"; # Use {{{ and }}} to define folds
         foldlevel = 0; # Close all marked folds by default
         foldenable = true; # Enable the feature
@@ -143,53 +143,11 @@ in
       plugins = {
         noice.enable = true; # cmd popup input modal
         quicker.enable = true; # edit quickfix as buffer
-
-        auto-session = {
-          enable = true;
-          settings = {
-            pre_save_cmds = [
-              # Trigger the event Barbar needs to save the pin state
-              "lua vim.api.nvim_exec_autocmds('User', {pattern = 'SessionSavePre'})"
-            ];
-          };
-        };
+        auto-session.enable = true; # save session
 
         gitportal = {
           enable = true; # open gh or gitlab web
           settings.always_use_commit_hash_in_url = true;
-        };
-
-        barbar = {
-          enable = true; # tabs, as understood by any other editor.
-          settings = {
-            clickable = true;
-            animations = false;
-            auto_hide = 1;
-            hide = {
-              extensions = false;
-              inactive = true;
-              alternate = true; # Last visited
-              current = false; # Keep current visible
-              visible = false; # Keep buffers in other splits visible
-            };
-            exclude_ft = [ "qf" ];
-            icons = {
-              button = false;
-              preset = "default";
-              filetype.enabled = false;
-              pinned = {
-                button = "";
-                filename = true;
-              };
-              diagnostics = {
-                # error
-                "1" = {
-                  enabled = true;
-                  icon = "󰈸";
-                };
-              };
-            };
-          };
         };
 
         mini = {
@@ -227,29 +185,48 @@ in
             };
 
             statusline = {
-              use_icons = false;
+              use_icons = true;
               content = {
                 active = helpers.mkRaw ''
                   function()
                     local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 200 })
-                    local diff          = MiniStatusline.section_diff({ icon = "  ", trunc_width = 70 })
-                    local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 70 })
                     local path          = MiniStatusline.section_filename({ trunc_width = 10 })
 
-                    -- Calculate the percentage of the current line in the file
+                    local n_errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+                    local n_warns  = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
+
+                    local s_errors = (n_errors > 0) and ("󰈸 " .. n_errors) or ""
+                    local s_warns  = (n_warns > 0)  and ("󱅼 " .. n_warns) or ""
+
+                    local recording = vim.fn.reg_recording()
+                    local s_rec = (recording ~= "") and ("󰶇  " .. recording) or ""
+
+                    local n_others = 0
+                    local current_buf = vim.api.nvim_get_current_buf()
+                    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+                      if vim.bo[buf].modified and vim.bo[buf].buflisted and buf ~= current_buf then
+                        n_others = n_others + 1
+                      end
+                    end
+                    local s_others = (n_others > 0) and ("● " .. n_others) or ""
+
+                    local s_ok = (s_errors == "" and s_warns == "" and s_rec == "" and s_others == "") and " "
+
                     local current_line    = vim.fn.line('.')
                     local total_lines     = vim.fn.line('$')
-                    local percentage      = math.floor((current_line / total_lines) * 100)
                     local percentage_str  = string.format('%d%%%%', (total_lines > 0 and math.floor((current_line / total_lines) * 100)) or 0)
 
                     return MiniStatusline.combine_groups({
-                      { hl = mode_hl,               	strings = { mode } },
+                      { hl = mode_hl,                  strings = { mode } },
                       '%<',
-                      { hl = 'MiniStatuslineDevinfo',	strings = { percentage_str } },
-                      { hl = 'MiniStatuslineLocation',strings = { path } },
+                      { hl = 'MiniStatuslineDevinfo',  strings = { percentage_str } },
+                      { hl = 'MiniStatuslineLocation', strings = { path } },
+
                       '%=',
-                      { hl = 'MiniStatuslineFileinfo',strings = { fileinfo } },
-                      { hl = 'MiniStatuslineDiff',  	strings = {  diff } },
+                      { hl = 'DiffChange',             strings = { s_others, s_rec } },
+                      { hl = 'DiagnosticWarn',         strings = { s_warns } },
+                      { hl = 'DiagnosticError',        strings = { s_errors } }, 
+                      { hl = 'MiniStatuslineLocation', strings = { s_ok } },
                     })
                   end
                 '';
@@ -288,7 +265,14 @@ in
         (lua {
           key = "<Leader>b";
           desc = "Find in buffers";
-          code = "MiniPick.builtin.buffers()";
+          code = # lua
+            ''
+              local wipeout_cur = function()
+                vim.api.nvim_buf_delete(MiniPick.get_picker_matches().current.bufnr, {})
+              end
+              local buffer_mappings = { wipeout = { char = '<C-d>', func = wipeout_cur } }
+              MiniPick.builtin.buffers(local_opts, { mappings = buffer_mappings })
+            '';
         })
         (lua {
           key = "<Leader>/";
@@ -351,63 +335,30 @@ in
         (cmd {
           key = "<Left>";
           desc = "Go to prev buffer";
-          command = "BufferPrevious";
+          command = "bprevious";
         })
         (cmd {
           key = "<Right>";
           desc = "Go to next buffer";
-          command = "BufferNext";
-        })
-        (cmd {
-          key = "<C-S-Left>";
-          desc = "Move buffer left";
-          command = "BufferMovePrevious";
-        })
-        (cmd {
-          key = "<C-S-Right>";
-          desc = "Move buffer to the right";
-          command = "BufferMoveNext";
+          command = "bnext";
         })
         (remap {
           key = "x";
-          to = "<C-w>q";
           desc = "Close window";
+          to = "<C-w>q";
         })
         (lua {
           key = "X";
-          desc = "Focus Mode: Pin current, close others";
+          desc = "Close all other buffers";
           code = # lua
             ''
-              local loaded_state, state = pcall(require, "barbar.state")
-              local loaded_api, api = pcall(require, "barbar.api")
-              if not loaded_state or not loaded_api then return end
-              local current_buf = vim.api.nvim_get_current_buf()
-              if not state.is_pinned(current_buf) then
-                api.toggle_pin(current_buf)
-              end
-              local to_close = {}
-              for _, buf in ipairs(state.buffers) do
-                if buf ~= current_buf and state.is_pinned(buf) then
-                  table.insert(to_close, buf)
+              local current = vim.api.nvim_get_current_buf()
+              local buffers = vim.api.nvim_list_bufs()
+
+              for _, buf in ipairs(buffers) do
+                if buf ~= current and vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted then
+                  vim.api.nvim_buf_delete(buf, { force = false })
                 end
-              end
-              for _, buf in ipairs(to_close) do
-                vim.api.nvim_buf_delete(buf, { force = false })
-              end
-            '';
-        })
-        (lua {
-          key = "<Leader>a";
-          desc = "Toggle Pin (Pin or Close)";
-          code = # lua
-            ''
-              local loaded, state = pcall(require, "barbar.state")
-              if not loaded then return end
-              local buf = vim.api.nvim_get_current_buf()
-              if state.is_pinned(buf) then
-                vim.cmd("BufferClose") 
-              else
-                vim.cmd("BufferPin")
               end
             '';
         })
@@ -498,34 +449,6 @@ in
         # }}}
 
         # Quality of Life / Utilities {{{
-        (mk {
-          key = "<C-S-Del>";
-          action = "<C-w>";
-          modes = [ "i" ];
-          desc = "Delete word backwards";
-        })
-
-        # Shortcuts for tabs
-        (cmd {
-          key = "<C-j>";
-          command = "BufferGoto 1";
-          desc = "Go to buffer 1";
-        })
-        (cmd {
-          key = "<C-k>";
-          command = "BufferGoto 2";
-          desc = "Go to buffer 2";
-        })
-        (cmd {
-          key = "<C-l>";
-          command = "BufferGoto 3";
-          desc = "Go to buffer 3";
-        })
-        (cmd {
-          key = "<C-;>"; # Warning: May not work in all terminals
-          command = "BufferGoto 4";
-          desc = "Go to buffer 4";
-        })
         # Smooth scrolling (center cursor)
         (remap {
           key = "<C-u>";
@@ -558,14 +481,11 @@ in
           modes = [ "n" ];
           code = # lua
             ''
-              -- If only one window, do nothing
               if vim.fn.winnr("$") == 1 then return end
 
               local width = vim.api.nvim_win_get_width(0)
               local total_width = vim.o.columns
 
-              -- Heuristic: If window is nearly full width, it's a horizontal split (resize height)
-              -- We subtract a few cols buffer for borders/signs
               if width >= total_width - 2 then
                 vim.cmd("resize -3")
               else
@@ -631,37 +551,6 @@ in
               vim.opt_local.foldexpr = "v:lua.MiniGit.diff_foldexpr()"
               vim.opt_local.foldlevel = 0
               vim.keymap.set("n", "<CR>", "zA", { buffer = true, silent = true, desc = "Toggle fold recursively" })
-            end
-          '';
-        }
-        {
-          event = "User";
-          pattern = "MiniFilesBufferCreate";
-          callback = helpers.mkRaw ''
-            function(args)
-              local b = args.data.buf_id
-              local function go_in_and_pin()
-                local entry = MiniFiles.get_fs_entry()
-                MiniFiles.go_in()
-                if entry.fs_type == "file" then
-                  local path = entry.path
-                  vim.schedule(function()
-                    local buf_id = vim.fn.bufnr(path)
-                    if buf_id ~= -1 then
-                      vim.api.nvim_buf_call(buf_id, function()
-                        local is_pinned = vim.b.barbar_pinned or false
-                        if not is_pinned then
-                           vim.cmd("BufferPin")
-                        end
-                      end)
-                    end
-                  end)
-                end
-              end
-              vim.keymap.set("n", "l", go_in_and_pin, { 
-                buffer = b, 
-                desc = "Go in / Open & Pin" 
-              })
             end
           '';
         }

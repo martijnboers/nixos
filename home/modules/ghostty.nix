@@ -35,7 +35,7 @@ in
           "ctrl+page_down=next_tab"
           "ctrl+page_up=previous_tab"
           "ctrl+shift+t=new_tab"
-          "ctrl+w=close_tab:this"
+          "ctrl+shift+w=close_tab:this"
           "ctrl+9=decrease_font_size:1"
           "ctrl+0=increase_font_size:1"
         ];
