@@ -703,19 +703,21 @@
         "argononed": "argononed",
         "flake-compat": "flake-compat_4",
         "nixos-images": "nixos-images",
-        "nixpkgs": "nixpkgs_4"
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
-        "lastModified": 1768599442,
-        "narHash": "sha256-y3HowshuCKVBjBFoDeVSz+LwqBIgELt17o1AcwbVl34=",
+        "lastModified": 1769349314,
+        "narHash": "sha256-t/w7NC3OSNmb/2ePxAPau1KvLCe5ji6sKVyF8RMkmCU=",
         "owner": "nvmd",
         "repo": "nixos-raspberrypi",
-        "rev": "debda1e1c80544a78157353225013afff2343034",
+        "rev": "1b2dba4dce18cce7178eb2b935496dc327ac247e",
         "type": "github"
       },
       "original": {
         "owner": "nvmd",
-        "ref": "main",
+        "ref": "pull/131/head",
         "repo": "nixos-raspberrypi",
         "type": "github"
       }
@@ -863,22 +865,6 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1768599367,
-        "narHash": "sha256-Wi4Wv7ltAAj7Ik8PGJkpUmpjO+K4eRZsWAEYrDd37YA=",
-        "owner": "nvmd",
-        "repo": "nixpkgs",
-        "rev": "c5f954e9abf64be4b07415cad77f8a4965a7bffb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nvmd",
-        "ref": "modules-with-keys-25.11",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_5": {
-      "locked": {
         "lastModified": 1768886240,
         "narHash": "sha256-C2TjvwYZ2VDxYWeqvvJ5XPPp6U7H66zeJlRaErJKoEM=",
         "owner": "NixOS",
@@ -893,7 +879,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_6": {
+    "nixpkgs_5": {
       "locked": {
         "lastModified": 1768564909,
         "narHash": "sha256-Kell/SpJYVkHWMvnhqJz/8DqQg2b6PguxVWOuadbHCc=",
@@ -996,7 +982,7 @@
         "nix-index-database": "nix-index-database",
         "nix-mineral": "nix-mineral",
         "nixos-raspberrypi": "nixos-raspberrypi",
-        "nixpkgs": "nixpkgs_5",
+        "nixpkgs": "nixpkgs_4",
         "nixpkgs-stable": "nixpkgs-stable",
         "nixvim": "nixvim",
         "secrets": "secrets",
@@ -1247,7 +1233,7 @@
         "elephant": [
           "elephant"
         ],
-        "nixpkgs": "nixpkgs_6",
+        "nixpkgs": "nixpkgs_5",
         "systems": "systems_6"
       },
       "locked": {

@@ -133,7 +133,7 @@
       "brcmfmac"
       "brcmutil"
     ];
-    loader.raspberryPi.bootloader = "kernel";
+    loader.raspberry-pi.bootloader = "kernel";
   };
 
   fileSystems = {
@@ -154,6 +154,7 @@
     };
   };
 
+  # disko {{{
   # disko.devices = {
   #   disk = {
   #     main = {
@@ -214,6 +215,7 @@
   #     };
   #   };
   # };
+  #}}}
 
   zramSwap.enable = true;
 

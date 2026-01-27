@@ -9,7 +9,8 @@
     hardware-fork.url = "github:martijnboers/nixos-hardware";
 
     nixos-raspberrypi = {
-      url = "github:nvmd/nixos-raspberrypi/main";
+      # https://github.com/nvmd/nixos-raspberrypi/pull/131
+      url = "github:nvmd/nixos-raspberrypi?ref=pull/131/head";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

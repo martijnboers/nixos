@@ -105,6 +105,19 @@
     channel.enable = lib.mkDefault false;
     package = inputs.determinate.packages.${pkgs.system}.default;
 
+    distributedBuilds = true;
+    buildMachines = [
+      {
+        hostName = "eu.nixbuild.net";
+        system = "aarch64-linux";
+        maxJobs = 100;
+        supportedFeatures = [
+          "benchmark"
+          "big-parallel"
+        ];
+      }
+    ];
+
     settings = {
       experimental-features = [
         "nix-command"
@@ -161,6 +174,10 @@
         };
       in
       {
+        nixbuild = {
+          hostNames = [ "eu.nixbuild.net" ];
+          publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPIQCZc54poJ8vqawd8TraNryQeJnvH1eLpIDgbiqymM";
+        };
         "github.com".publicKey =
           "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=";
         "gitlab.com".publicKey =

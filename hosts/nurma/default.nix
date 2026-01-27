@@ -7,6 +7,15 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  # ssh-keygen -t ed25519 -C remote-build -f remote-build
+  programs.ssh.extraConfig = ''
+    Host eu.nixbuild.net
+      PubkeyAcceptedKeyTypes ssh-ed25519
+      ServerAliveInterval 60
+      IPQoS throughput
+      IdentityFile /root/.ssh/remote-build
+  '';
+
   nix.settings = {
     substituters = [
       "https://nixos-raspberrypi.cachix.org"
