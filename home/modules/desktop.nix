@@ -47,6 +47,7 @@ in
         mousepad # gui-notepad
         sqlitebrowser
         yt-dlp # download yt+
+        imagemagick # convert images
 
         # work
         citrix_workspace

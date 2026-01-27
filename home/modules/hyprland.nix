@@ -140,6 +140,13 @@ in
           }"
         ];
 
+        binde = [
+          "$prog, j, resizeactive, -25 0"
+          "$prog, l, resizeactive, 25 0"
+          "$prog, i, resizeactive, 0 -25"
+          "$prog, k, resizeactive, 0 25"
+        ];
+
         bind = [
           "$mod, W, exec, $browser"
           "$mod, Q, exec, $terminal"
