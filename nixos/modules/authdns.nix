@@ -126,10 +126,7 @@ in
 
     services.resolved = {
       # Resolved should not bind to port 53
-      extraConfig = ''
-        [Resolve]
-        DNSStubListener=no
-      '';
+      settings.Resolve.DNSStubListener = "no";
     };
 
     services.knot = {
