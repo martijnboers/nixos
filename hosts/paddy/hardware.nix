@@ -5,14 +5,64 @@
   pkgs,
   ...
 }:
+let
+  intel-vision-driver = config.boot.kernelPackages.callPackage (
+    {
+      stdenv,
+      lib,
+      fetchFromGitHub,
+      kernel,
+    }:
+    stdenv.mkDerivation {
+      pname = "intel-vision-drivers";
+      version = "master";
 
+      src = fetchFromGitHub {
+        owner = "intel";
+        repo = "vision-drivers";
+        rev = "master";
+        hash = "sha256-zOvCZKGwOGT9kcJiefzx/duHqR0V8PYhNbqsMHkH1r4=";
+      };
+
+      hardeningDisable = [
+        "pic"
+        "format"
+      ];
+      nativeBuildInputs = kernel.moduleBuildDependencies;
+
+      buildPhase = ''
+        runHook preBuild
+        make -C ${kernel.dev}/lib/modules/${kernel.modDirVersion}/build M=$(pwd) modules
+        runHook postBuild
+      '';
+
+      installPhase = ''
+        runHook preInstall
+        mkdir -p $out/lib/modules/${kernel.modDirVersion}/extra
+        cp intel_cvs.ko $out/lib/modules/${kernel.modDirVersion}/extra/
+        runHook postInstall
+      '';
+
+      meta = with lib; {
+        description = "Intel Vision Drivers (CVS)";
+        license = licenses.gpl2Only;
+        platforms = platforms.linux;
+      };
+    }
+  ) { };
+in
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
   boot = {
-    kernelModules = [ "kvm-intel" ];
+    kernelPackages = pkgs.linuxPackages_latest;
+    kernelModules = [
+      "kvm-intel"
+      "intel_cvs"
+    ];
+    extraModulePackages = [ intel-vision-driver ];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
@@ -20,6 +70,10 @@
     kernelParams = [
       "i915.force_probe=!7d51"
       "xe.force_probe=7d51"
+      "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
+      "nvidia.NVreg_TemporaryFilePath=/var/tmp"
+      # "mem_sleep_default=deep"
+      # "resume_offset=112625664"
     ];
 
     initrd = {
@@ -56,6 +110,7 @@
     package = config.boot.kernelPackages.nvidiaPackages.beta;
     modesetting.enable = true; # should be on by default
     powerManagement.enable = true; # should fix hybernation
+    powerManagement.finegrained = false;
     prime = {
       offload.enable = true;
       intelBusId = "PCI:00:02:0";
@@ -78,10 +133,12 @@
   };
 
   swapDevices = [
-    { device = "/dev/disk/by-uuid/e7b8187d-3a28-4ef9-a98d-3264e813f3ce"; }
+    {
+      device = "/dev/mapper/luks-21deee7e-5835-4df0-9d84-f9b225a256e3";
+    }
   ];
 
-  boot.resumeDevice = "/dev/dm-0";
+  boot.resumeDevice = "/dev/mapper/luks-21deee7e-5835-4df0-9d84-f9b225a256e3";
 
   systemd.network.networks = {
     "50-dhcp" = {

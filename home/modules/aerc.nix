@@ -46,6 +46,7 @@ in
         ui = {
           sort = "-r date";
           timestamp-format = "2006-01-02 15:04";
+          threading-enabled = true;
         };
         # Use Notmuch only for autocompleting email addresses
         compose.address-book-cmd = "${lib.getExe pkgs.notmuch-addrlookup} --format=aerc %s";

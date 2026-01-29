@@ -17,6 +17,11 @@ in
 
   options.maatwerk.hyprland = {
     enable = mkEnableOption "Hyprland";
+    isLaptop = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Whether this host is a laptop.";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -59,6 +64,8 @@ in
 
         # clipboard
         wl-clipboard
+        # monitor settings
+        hyprmon
       ];
 
     wayland.windowManager.hyprland = {
@@ -117,14 +124,10 @@ in
         ];
 
         bindl = [
-          ", switch:on:Lid Switch, exec, hyprctl keyword monitor \"eDP-1, disable\""
-          ", switch:off:Lid Switch, exec, hyprctl keyword monitor \"eDP-1,preferred,auto,1,transform,0\""
           ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
           ", XF86AudioPlay, exec, playerctl play-pause"
           ", XF86AudioNext, exec, playerctl next"
           ", XF86AudioPrev, exec, playerctl previous"
-          ", XF86MonBrightnessDown, exec, ${lib.getExe pkgs.brightnessctl} s 5%-"
-          ", XF86MonBrightnessUp, exec, ${lib.getExe pkgs.brightnessctl}  s +5%"
           ", XF86AudioMedia, exec, ${
             let
               osk = pkgs.writeShellScriptBin "osk" ''
@@ -138,13 +141,19 @@ in
             in
             lib.getExe osk
           }"
-        ];
+        ]
+        ++ (lib.optionals cfg.isLaptop [
+          ", switch:on:Lid Switch, exec, hyprctl keyword monitor \"eDP-1, disable\""
+          ", switch:off:Lid Switch, exec, hyprctl keyword monitor \"eDP-1,preferred,auto,1,transform,0\""
+          ", XF86MonBrightnessDown, exec, ${lib.getExe pkgs.brightnessctl} s 10%-"
+          ", XF86MonBrightnessUp, exec, ${lib.getExe pkgs.brightnessctl}  s +10%"
+        ]);
 
         binde = [
-          "$prog, j, resizeactive, -25 0"
-          "$prog, l, resizeactive, 25 0"
-          "$prog, i, resizeactive, 0 -25"
-          "$prog, k, resizeactive, 0 25"
+          "$prog, j, resizeactive, -35 0"
+          "$prog, l, resizeactive, 35 0"
+          "$prog, i, resizeactive, 0 -35"
+          "$prog, k, resizeactive, 0 35"
         ];
 
         bind = [
@@ -212,7 +221,7 @@ in
           kb_layout = "us";
           repeat_rate = 40;
           repeat_delay = 450;
-          touchpad = {
+          touchpad = lib.mkIf cfg.isLaptop {
             natural_scroll = false;
             scroll_factor = 0.8;
           };
@@ -238,52 +247,54 @@ in
           close_special_on_empty = true;
         };
       };
-      extraConfig = ''
-        monitor=eDP-1,preferred,auto,1,transform,0
-        monitor=desc:Samsung Display Corp. 0x41B4,preferred,auto,1.25
-        monitor=,preferred,auto,1
+      extraConfig =
+        lib.optionalString cfg.isLaptop ''
+          gesture = 3, horizontal, workspace
+          gesture = 2, pinchout, close
+          gesture = 4, swipe, resize
+        ''
+        + ''
+          monitor=eDP-1,preferred,auto,1,transform,0
+          monitor=desc:Samsung Display Corp. 0x41B4,preferred,auto,1.25
+          monitor=,preferred,auto,1
 
-        gesture = 3, horizontal, workspace
-        gesture = 2, pinchout, close
-        gesture = 4, swipe, resize
+          animations {
+            # https://cubic-bezier.com/
+            # https://easings.net
+            # https://https://www.cssportal.com/css-cubic-bezier-generator/
+            enabled = true
 
-        animations {
-          # https://cubic-bezier.com/
-          # https://easings.net
-          # https://https://www.cssportal.com/css-cubic-bezier-generator/
-          enabled = true
+            bezier = wind, 0.05, 0.9, 0.1, 1.05
+            bezier = winIn, 0.1, 1.1, 0.1, 1.1
+            bezier = winOut, 0.3, -0.3, 0, 1
+            bezier = linear, 1, 1, 1, 1
+            bezier = Cubic, 0.1, 0.1, 0.1, 1
+            bezier = overshot, 0.05, 0.9, 0.1, 1.1
+            bezier = ease-in-out, 0.17, 0.67, 0.83, 0.67
+            bezier = ease-in, 0.17, 0.67, 0.83, 0.67
+            bezier = ease-out, 0.42, 0, 1, 1
+            bezier = easeInOutSine, 0.37, 0, 0.63, 1
+            bezier = easeInSine, 0.12, 0, 0.39, 0
+            bezier = easeOutSine, 0.61, 1, 0.88, 1
 
-          bezier = wind, 0.05, 0.9, 0.1, 1.05
-          bezier = winIn, 0.1, 1.1, 0.1, 1.1
-          bezier = winOut, 0.3, -0.3, 0, 1
-          bezier = linear, 1, 1, 1, 1
-          bezier = Cubic, 0.1, 0.1, 0.1, 1
-          bezier = overshot, 0.05, 0.9, 0.1, 1.1
-          bezier = ease-in-out, 0.17, 0.67, 0.83, 0.67
-          bezier = ease-in, 0.17, 0.67, 0.83, 0.67
-          bezier = ease-out, 0.42, 0, 1, 1
-          bezier = easeInOutSine, 0.37, 0, 0.63, 1
-          bezier = easeInSine, 0.12, 0, 0.39, 0
-          bezier = easeOutSine, 0.61, 1, 0.88, 1
+            animation = windowsIn, 1, 3, easeInOutSine, popin
+            animation = windowsOut, 1, 3, easeInOutSine, popin
+            animation = border, 1, 3, easeInOutSine
+            animation = borderangle, 1, 30, easeInOutSine, loop
+            animation = workspacesIn, 1, 3, easeInOutSine, slidefade
+            animation = workspacesOut, 1, 3, easeInOutSine, slidefade
+            animation = specialWorkspaceIn, 1, 3, easeInOutSine, slidevert
+            animation = specialWorkspaceOut, 1, 3, easeInOutSine, slidevert
+            animation = layersIn, 1, 3, easeInOutSine, fade
+            animation = layersOut, 1, 3, easeInOutSine, fade
+          }
 
-          animation = windowsIn, 1, 3, easeInOutSine, popin
-          animation = windowsOut, 1, 3, easeInOutSine, popin
-          animation = border, 1, 3, easeInOutSine
-          animation = borderangle, 1, 30, easeInOutSine, loop
-          animation = workspacesIn, 1, 3, easeInOutSine, slidefade
-          animation = workspacesOut, 1, 3, easeInOutSine, slidefade
-          animation = specialWorkspaceIn, 1, 3, easeInOutSine, slidevert
-          animation = specialWorkspaceOut, 1, 3, easeInOutSine, slidevert
-          animation = layersIn, 1, 3, easeInOutSine, fade
-          animation = layersOut, 1, 3, easeInOutSine, fade
-        }
-
-        env = XDG_CURRENT_DESKTOP,Hyprland
-        env = XDG_SESSION_TYPE,wayland
-        env = XDG_SESSION_DESKTOP,Hyprland
-        env = QT_QPA_PLATFORM,wayland;xcb
-        env = QT_QPA_PLATFORMTHEME,qt5ct
-      '';
+          env = XDG_CURRENT_DESKTOP,Hyprland
+          env = XDG_SESSION_TYPE,wayland
+          env = XDG_SESSION_DESKTOP,Hyprland
+          env = QT_QPA_PLATFORM,wayland;xcb
+          env = QT_QPA_PLATFORMTHEME,qt5ct
+        '';
     };
 
     services.wlsunset = {
@@ -323,7 +334,11 @@ in
             }
             {
               timeout = 30 * 60;
-              on-timeout = "systemctl suspend";
+              on-timeout =
+                if config.maatwerk.hyprland.isLaptop then
+                  "systemctl suspend-then-hibernate"
+                else
+                  "systemctl suspend";
             }
           ];
         };

@@ -42,7 +42,10 @@ let
         args:
         mk (
           {
-            modes = [ "n" ];
+            modes = [
+              "n"
+              "v"
+            ];
           }
           // args
           // {
@@ -144,6 +147,7 @@ in
         noice.enable = true; # cmd popup input modal
         quicker.enable = true; # edit quickfix as buffer
         auto-session.enable = true; # save session
+        markview.enable = true; # better markdown
 
         gitportal = {
           enable = true; # open gh or gitlab web
