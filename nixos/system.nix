@@ -14,6 +14,7 @@
     ./modules/authdns.nix
     ./modules/auditd.nix
     ./modules/server.nix
+    ./modules/laptop.nix
     ./modules/derper.nix
     ./modules/yubi.nix
     ./modules/oidc.nix
