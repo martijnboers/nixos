@@ -9,8 +9,6 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  services.chrony.enableNTS = false;
-
   boot.initrd.availableKernelModules = [
     "xhci_pci"
     "usbhid"
@@ -80,27 +78,27 @@
   # PCIe controller that this slot can only address the first 3GB
   # of RAM. This fixes the "Error -12" memory crash without using
   # the binary overlay that previously hung your system.
-  hardware.deviceTree = {
-    enable = true;
-    overlays = [
-      {
-        name = "limit-pcie-dma";
-        dtsText = ''
-          /dts-v1/;
-          /plugin/;
-          / {
-            compatible = "brcm,bcm2712";
-            fragment@0 {
-              target = <&pcie1>;
-              __overlay__ {
-                dma-ranges = <0x02000000 0x00 0x00000000 0x00 0x00000000 0x00 0xc0000000>;
-              };
-            };
-          };
-        '';
-      }
-    ];
-  };
+  # hardware.deviceTree = {
+  #   enable = true;
+  #   overlays = [
+  #     {
+  #       name = "limit-pcie-dma";
+  #       dtsText = ''
+  #         /dts-v1/;
+  #         /plugin/;
+  #         / {
+  #           compatible = "brcm,bcm2712";
+  #           fragment@0 {
+  #             target = <&pcie1>;
+  #             __overlay__ {
+  #               dma-ranges = <0x02000000 0x00 0x00000000 0x00 0x00000000 0x00 0xc0000000>;
+  #             };
+  #           };
+  #         };
+  #       '';
+  #     }
+  #   ];
+  # };
 
   # ----------------------------------------------------------------
   # 4. KERNEL PARAMETERS

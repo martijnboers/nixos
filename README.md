@@ -9,6 +9,7 @@ for a good initial starting point for NixOS with flakes.
 ### Services
 
 #### Router
+
 | Service | Description | Configuration |
 | --- | --- | --- |
 | ACME | ACME server for internal TLS certificates. | [acme.nix](hosts/dosukoi/modules/acme.nix) |
@@ -21,6 +22,7 @@ for a good initial starting point for NixOS with flakes.
 | WireGuard | VPN tunnel. | [wireguard.nix](hosts/dosukoi/modules/wireguard.nix) |
 
 #### Main file server
+
 | Service | Description | Configuration |
 | --- | --- | --- |
 | Shiori | Bookmark manager. | [archive.nix](hosts/hadouken/modules/archive.nix) |
@@ -40,6 +42,7 @@ for a good initial starting point for NixOS with flakes.
 | ZFS & Syncoid | Manages ZFS filesystems and automated backups. | [storage.nix](hosts/hadouken/modules/storage.nix) |
 
 #### Cloud #1
+
 | Service | Description | Configuration |
 | --- | --- | --- |
 | Authoritative DNS | Authoritative DNS server. | [authdns.nix](nixos/modules/authdns.nix) |
@@ -50,6 +53,7 @@ for a good initial starting point for NixOS with flakes.
 | Uptime Kuma | Service monitoring tool. | [uptime.nix](hosts/rekkaken/modules/uptime.nix) |
 
 #### Cloud #2
+
 | Service | Description | Configuration |
 | --- | --- | --- |
 | Authoritative DNS | Authoritative DNS server. | [authdns.nix](nixos/modules/authdns.nix) |
@@ -59,11 +63,13 @@ for a good initial starting point for NixOS with flakes.
 | Pocket-ID | OIDC provider. | [oidc.nix](hosts/shoryuken/modules/oidc.nix) |
 
 #### Bitcoin Node
+
 | Service | Description | Configuration |
 | --- | --- | --- |
 | Bitcoin | Bitcoin node. | [bitcoin.nix](hosts/tatsumaki/modules/bitcoin.nix) |
 
 #### Home Automation
+
 | Service | Description | Configuration |
 | --- | --- | --- |
 | Cyberchef | The Cyber Swiss Army Knife. | [cyberchef.nix](hosts/tenshin/modules/cyberchef.nix) |

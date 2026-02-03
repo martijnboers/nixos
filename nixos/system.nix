@@ -107,7 +107,7 @@
     channel.enable = lib.mkDefault false;
     package = inputs.determinate.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
-    distributedBuilds = true;
+    distributedBuilds = false;
     buildMachines = [
       {
         hostName = "eu.nixbuild.net";
@@ -246,7 +246,7 @@
     tpm2.enable = true;
   };
 
-  # by default setup gotify bridge as email
+  # By default setup gotify bridge as email
   programs.msmtp = {
     enable = true;
     setSendmail = true;
@@ -277,17 +277,41 @@
     TMOUT = (5 * 60 * 60); # zsh timeout
   };
 
+  # Time settings
   time.timeZone = "Europe/Amsterdam";
-  services.chrony = {
+  networking.timeServers = lib.mkForce [ ];
+  services.ntpd-rs = {
     enable = true;
-    enableNTS = lib.mkDefault true;
-    servers = lib.mkDefault [
-      "ntppool1.time.nl"
-      "ntppool2.time.nl"
-
-      "194.58.200.20" # Netnod (Sweden)
-      "194.58.201.20" # Netnod (Sweden)
-    ];
+    useNetworkingTimeServers = false;
+    settings = {
+      source = [
+        {
+          mode = "nts";
+          # https://experimental.ntspooltest.org/use
+          address = "0.ke.experimental.ntspooltest.org";
+        }
+        {
+          mode = "nts";
+          address = "ntppool1.time.nl";
+        }
+        {
+          mode = "server";
+          # https://tech.netnod.se/en/time-services/ntp
+          address = "194.58.202.20"; 
+        }
+        {
+          mode = "server";
+          address = "194.58.206.20"; 
+        }
+        {
+          mode = "server";
+          address = "194.58.204.20"; 
+        }
+      ];
+      synchronization = {
+        minimum-agreeing-sources = 2;
+      };
+    };
   };
 
   i18n = {

@@ -164,6 +164,7 @@ in
             surround.enable = true; # surround words with something
             git.enable = true; # :Git helper functions
             diff.enable = true; # gitsigns replacement
+            visits.enable = true; # visited buffers
 
             hipatterns = {
               enable = true; # color color hexcodes
@@ -269,14 +270,7 @@ in
         (lua {
           key = "<Leader>b";
           desc = "Find in buffers";
-          code = # lua
-            ''
-              local wipeout_cur = function()
-                vim.api.nvim_buf_delete(MiniPick.get_picker_matches().current.bufnr, {})
-              end
-              local buffer_mappings = { wipeout = { char = '<C-d>', func = wipeout_cur } }
-              MiniPick.builtin.buffers(local_opts, { mappings = buffer_mappings })
-            '';
+          code = "MiniExtra.pickers.visit_paths()";
         })
         (lua {
           key = "<Leader>/";
@@ -345,21 +339,6 @@ in
           key = "x";
           desc = "Close window";
           to = "<C-w>q";
-        })
-        (lua {
-          key = "X";
-          desc = "Close all other buffers";
-          code = # lua
-            ''
-              local current = vim.api.nvim_get_current_buf()
-              local buffers = vim.api.nvim_list_bufs()
-
-              for _, buf in ipairs(buffers) do
-                if buf ~= current and vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted then
-                  vim.api.nvim_buf_delete(buf, { force = false })
-                end
-              end
-            '';
         })
         (remap {
           key = "<Tab>";
