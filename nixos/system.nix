@@ -105,7 +105,7 @@
 
   nix = {
     channel.enable = lib.mkDefault false;
-    package = inputs.determinate.packages.${pkgs.system}.default;
+    package = inputs.determinate.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
     distributedBuilds = true;
     buildMachines = [

@@ -17,7 +17,7 @@
     ./modules/aerc.nix
     ./modules/khal.nix
     ./modules/zsh.nix
-    ./modules/mods.nix
+    ./modules/llm.nix
 
     # Packaged home manager modules
     inputs.nixvim.homeModules.nixvim
@@ -43,17 +43,12 @@
     tldr # man summarized
   ];
 
-  # User level secrets
   age = {
     identityPaths = [
       "${config.home.homeDirectory}/.ssh/id_ed25519"
     ];
-    secrets = {
-      llm.file = ../secrets/llm.age;
-    };
   };
 
-  # Default mimetype associations
   xdg = {
     enable = true;
     mime.enable = true;

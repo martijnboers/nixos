@@ -337,14 +337,9 @@ in
         # Buffer Management {{{
         # Navigation
         (cmd {
-          key = "<Left>";
-          desc = "Go to prev buffer";
-          command = "bprevious";
-        })
-        (cmd {
-          key = "<Right>";
-          desc = "Go to next buffer";
-          command = "bnext";
+          key = "<BS>";
+          desc = "Go to alternate buffer";
+          command = "b #";
         })
         (remap {
           key = "x";
