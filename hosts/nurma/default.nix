@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   networking.hostName = "nurma";
   hosts.hyprland.enable = true;
@@ -6,6 +6,10 @@
   hosts.qemu.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  # environment.systemPackages = [
+  #   inputs.credentialsd.packages.${pkgs.system}.firefox-patched
+  # ];
 
   # ssh-keygen -t ed25519 -C remote-build -f remote-build
   programs.ssh.extraConfig = ''
@@ -39,6 +43,8 @@
       ".config/Code/CachedData"
       ".container-diff"
       ".npm/_cacache"
+      ".ollama"
+      "Models"
       "Sync"
       "*/node_modules"
       "*/_build"

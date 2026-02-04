@@ -56,6 +56,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    credentialsd = {
+      url = "github:martijnboers/credentialsd";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     elephant.url = "github:abenz1267/elephant/v2.19.1";
     walker = {
       url = "github:abenz1267/walker/v2.14.1";
@@ -123,6 +128,7 @@
               }
 
               agenix.nixosModules.default # secrets
+              credentialsd.nixosModules.default # native passkeys
               home-manager.nixosModules.home-manager
               lanzaboote.nixosModules.lanzaboote # secureboot
               nix-mineral.nixosModules.nix-mineral # schizo settings

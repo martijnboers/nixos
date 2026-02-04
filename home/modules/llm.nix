@@ -21,6 +21,11 @@
           # https://docs.anthropic.com/en/docs/about-claude/models
           type = "claude";
         }
+        {
+          type = "openai-compatible";
+          name = "vllm";
+          api_base = "http://localhost:5000/v1";
+        }
       ];
     };
   };

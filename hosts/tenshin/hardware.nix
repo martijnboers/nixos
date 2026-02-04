@@ -12,7 +12,7 @@
     "xhci_pci"
     "usbhid"
   ];
-  boot.loader.raspberry-pi.bootloader = "kernel";
+  boot.loader.raspberry-pi.bootloader = "uboot";
 
   fileSystems = {
     "/boot/firmware" = {
