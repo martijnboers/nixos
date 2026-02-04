@@ -155,7 +155,10 @@
       # ------------ Servers ------------
       nixosConfigurations.tenshin = importSystem "tenshin" {
         system = "aarch64-linux";
-        modules = [ inputs.hardware.nixosModules.raspberry-pi-4 ];
+        call = inputs.nixos-raspberrypi.lib.nixosSystem;
+        modules = with inputs.nixos-raspberrypi.nixosModules; [
+          raspberry-pi-4.base
+        ];
       };
       nixosConfigurations.suzaku = importSystem "suzaku" {
         system = "aarch64-linux";

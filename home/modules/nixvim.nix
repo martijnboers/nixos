@@ -270,7 +270,7 @@ in
         (lua {
           key = "<Leader>b";
           desc = "Find in buffers";
-          code = "MiniExtra.pickers.visit_paths()";
+          code = "MiniExtra.pickers.visit_paths({ recency_weight = 0.7 })";
         })
         (lua {
           key = "<Leader>/";

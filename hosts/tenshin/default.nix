@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   networking.hostName = "tenshin";
 
@@ -17,11 +17,6 @@
 
   hosts.auditd.enable = false;
   nix-mineral.enable = false;
-
-  environment.systemPackages = [
-    pkgs.raspberrypi-eeprom
-    pkgs.ubootTools
-  ];
 
   hosts.borg = {
     enable = true;
@@ -43,9 +38,4 @@
 
   # Server defaults
   hosts.server.enable = true;
-
-  # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
-  boot.loader.grub.enable = false;
-  # Enables the generation of /boot/extlinux/extlinux.conf
-  boot.loader.generic-extlinux-compatible.enable = true;
 }
