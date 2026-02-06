@@ -110,6 +110,24 @@ in
     # DBus secret service
     services.pass-secret-service.enable = true;
 
+    services.unison = {
+      enable = true;
+      pairs = {
+        "notes" = {
+          roots = [
+            "/home/martijn/Notes"
+            "/mnt/notes/"
+          ];
+        };
+        "aichats" = {
+          roots = [
+            "${config.home.homeDirectory}/.config/aichat/sessions"
+            "/mnt/sessions/"
+          ];
+        };
+      };
+    };
+
     programs.gpg = {
       enable = true;
       scdaemonSettings = {

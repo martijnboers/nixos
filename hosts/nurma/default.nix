@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, ... }:
 {
   networking.hostName = "nurma";
   hosts.hyprland.enable = true;

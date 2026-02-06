@@ -41,8 +41,8 @@ in
       };
       postgres-sure = {
         file = ../../../secrets/postgres-sure.age;
-        owner = config.services.postgresql.user;
-        group = config.services.postgresql.group;
+        owner = "postgres";
+        group = "postgres";
       };
     };
 

@@ -36,13 +36,6 @@
     ./modules/ghostty.nix
   ];
 
-  # User level packages
-  home.packages = with pkgs; [
-    gemini-cli # proompting
-    claude-code # proompting
-    tldr # man summarized
-  ];
-
   age = {
     identityPaths = [
       "${config.home.homeDirectory}/.ssh/id_ed25519"

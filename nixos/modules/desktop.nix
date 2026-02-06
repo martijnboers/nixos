@@ -92,6 +92,7 @@ in
       in
       lib.attrsets.mergeAttrsList (
         map mkNfsShare [
+          "session"
           "music"
           "share"
           "notes"

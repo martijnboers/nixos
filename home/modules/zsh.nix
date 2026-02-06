@@ -47,7 +47,7 @@ in
           wut = "journalctl -b -1 -e"; # previous boot crash
           xev = "wev"; # wayland xev
           adel = "read -r s&&atuin search '$s' --delete";
-          notes = "(cd /mnt/notes && nvim)";
+          notes = "(cd ~/Notes && nvim)";
           readme = "cat README* | ${lib.getExe pkgs.glow}";
           keyboard-compile = "qmk compile -kb peej/lumberjack -km martijn";
           keyboard-flash = "qmk flash -kb peej/lumberjack -km martijn";
