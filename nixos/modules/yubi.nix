@@ -26,11 +26,6 @@ in
 
     age.secrets.u2fkeys.file = ../../secrets/u2fkeys.age;
 
-    services.credentialsd = {
-      enable = true;
-      ui.enable = true;
-    };
-
     security.pam = {
       u2f.settings = {
         authfile = config.age.secrets.u2fkeys.path;

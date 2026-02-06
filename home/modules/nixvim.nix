@@ -340,6 +340,12 @@ in
           desc = "Close window";
           to = "<C-w>q";
         })
+        (lua {
+          key = "X";
+          desc = "Remove all visit_paths";
+          code = "require('mini.visits').remove_path('')";
+          modes = [ "n" ];
+        })
         (remap {
           key = "<Tab>";
           to = "<C-w>";

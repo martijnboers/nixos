@@ -29,7 +29,7 @@ in
       settings = {
         default = {
           default_calendar = "martijn";
-          timedelta = "1h"; 
+          timedelta = "1h";
         };
       };
     };
@@ -65,7 +65,7 @@ in
       settings = {
         "general" = {
           default_action = "list";
-          editor = "nvim"; 
+          editor = "nvim";
           merge_editor = "vimdiff";
         };
       };

@@ -99,7 +99,7 @@ in
           };
         };
 
-        # hyprctl clients
+        # hyprlandhyprctl clients
         windowrule = [
           "workspace 2, match:class ^(Wfica)$" # citrix
           "workspace 5, match:class ^(Fractal)$"
@@ -392,7 +392,7 @@ in
 
         image = [
           {
-            path = "${config.home.homeDirectory}/.config/avatar.png";
+            path = "${config.xdg.configHome}/avatar.png";
             size = 90;
             rounding = -1;
             border_size = 3;

@@ -48,7 +48,6 @@ in
           xev = "wev"; # wayland xev
           adel = "read -r s&&atuin search '$s' --delete";
           notes = "(cd ~/Notes && nvim)";
-          readme = "cat README* | ${lib.getExe pkgs.glow}";
           keyboard-compile = "qmk compile -kb peej/lumberjack -km martijn";
           keyboard-flash = "qmk flash -kb peej/lumberjack -km martijn";
           socks = "ssh -D 1337 -q -C -N hadouken.machine.thuis";
@@ -125,7 +124,7 @@ in
           general
           last
         ];
-      dotDir = "${config.home.homeDirectory}/.config/zsh";
+      dotDir = "${config.xdg.configHome}/zsh";
       zprof.enable = false;
       syntaxHighlighting.enable = true;
       zplug = {

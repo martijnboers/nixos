@@ -121,8 +121,8 @@ in
         };
         "aichats" = {
           roots = [
-            "${config.home.homeDirectory}/.config/aichat/sessions"
-            "/mnt/sessions/"
+            "${config.xdg.configHome}/aichat/sessions"
+            "/mnt/session/"
           ];
         };
       };

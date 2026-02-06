@@ -31,6 +31,9 @@
         edit = true;
         bash = true;
       };
+      keybinds = {
+        editor_open = "ctrl+o";
+      };
       provider = {
         gemini = {
           options = {

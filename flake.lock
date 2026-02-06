@@ -122,26 +122,6 @@
         "type": "github"
       }
     },
-    "credentialsd": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1770243401,
-        "narHash": "sha256-106/IiaGBX9greodK+GFZ8GCrWcLe6qOZ60tIJfNcmg=",
-        "owner": "martijnboers",
-        "repo": "credentialsd",
-        "rev": "f60a3f8359e55cb4e962ade1bde3cf74e2987368",
-        "type": "github"
-      },
-      "original": {
-        "owner": "martijnboers",
-        "repo": "credentialsd",
-        "type": "github"
-      }
-    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -991,7 +971,6 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
-        "credentialsd": "credentialsd",
         "determinate": "determinate",
         "disko": "disko",
         "elephant": "elephant",
