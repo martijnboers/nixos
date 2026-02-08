@@ -158,6 +158,7 @@
         call = inputs.nixos-raspberrypi.lib.nixosSystem;
         modules = with inputs.nixos-raspberrypi.nixosModules; [
           raspberry-pi-4.base
+          inputs.disko.nixosModules.disko
         ];
       };
       nixosConfigurations.suzaku = importSystem "suzaku" {

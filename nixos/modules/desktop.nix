@@ -20,10 +20,7 @@ in
       DEFAULT_BROWSER = "librewolf";
     };
 
-    environment.systemPackages = with pkgs; [
-      veracrypt
-      gparted
-    ];
+    environment.systemPackages = with pkgs; [ veracrypt ];
 
     users.users.martijn.extraGroups = [ "wireshark" ];
 

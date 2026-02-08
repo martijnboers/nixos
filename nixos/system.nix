@@ -107,7 +107,7 @@
     channel.enable = lib.mkDefault false;
     package = inputs.determinate.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
-    distributedBuilds = true;
+    distributedBuilds = false;
     buildMachines = [
       {
         hostName = "eu.nixbuild.net";
@@ -287,6 +287,11 @@
       source = [
         {
           mode = "nts";
+          address = "tenshin.machine.thuis";
+          certificate-authority = ../secrets/keys/nts-chain.pem;
+        }
+        {
+          mode = "nts";
           # https://experimental.ntspooltest.org/use
           address = "0.ke.experimental.ntspooltest.org";
         }
@@ -295,21 +300,17 @@
           address = "ntppool1.time.nl";
         }
         {
-          mode = "nts";
-          address = "nts.netnod.se";
-        }
-        {
           mode = "server";
           # https://tech.netnod.se/en/time-services/ntp
-          address = "194.58.202.20"; 
+          address = "194.58.202.20";
         }
         {
           mode = "server";
-          address = "194.58.206.20"; 
+          address = "194.58.206.20";
         }
         {
           mode = "server";
-          address = "194.58.204.20"; 
+          address = "194.58.204.20";
         }
       ];
       synchronization = {

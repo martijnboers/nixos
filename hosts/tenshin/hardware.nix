@@ -12,24 +12,23 @@
     "xhci_pci"
     "usbhid"
   ];
-  boot.loader.raspberry-pi.bootloader = "uboot";
+  boot.loader.raspberry-pi.bootloader = "kernel";
 
-  fileSystems = {
-    "/boot/firmware" = {
-      device = "/dev/disk/by-label/FIRMWARE";
-      fsType = "vfat";
-      options = [
-        "noatime"
-        "noauto"
-        "x-systemd.automount"
-        "x-systemd.idle-timeout=1min"
-      ];
-    };
-    "/" = {
-      device = "/dev/disk/by-label/NIXOS_SD";
-      fsType = "ext4";
-      options = [ "noatime" ];
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-label/NIXOS_SD";
+    fsType = "ext4";
+    options = [ "noatime" ];
+  };
+
+  fileSystems."/boot/firmware" = {
+    device = "/dev/disk/by-label/FIRMWARE";
+    fsType = "vfat";
+    options = [
+      "noatime"
+      "noauto"
+      "x-systemd.automount"
+      "x-systemd.idle-timeout=1min"
+    ];
   };
 
   systemd.network.networks."10-end0" = {

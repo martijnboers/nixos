@@ -142,6 +142,7 @@ in
                     "hadouken:80,443" # everyone access to hadouken web-services
                     "dosukoi:53,9009,9010,9011,9012,9013" # everyone access to dns and croc
                     "rekkaken:80,443,8025" # send/receive notifications + internal email
+                    "tenshin:123,4460" # timeserver
                   ];
                 }
                 {

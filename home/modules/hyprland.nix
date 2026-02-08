@@ -281,10 +281,8 @@ in
             animation = windowsOut, 1, 3, easeInOutSine, popin
             animation = border, 1, 3, easeInOutSine
             animation = borderangle, 1, 30, easeInOutSine, loop
-            animation = workspacesIn, 1, 3, easeInOutSine, slidefade
-            animation = workspacesOut, 1, 3, easeInOutSine, slidefade
-            animation = specialWorkspaceIn, 1, 3, easeInOutSine, slidevert
-            animation = specialWorkspaceOut, 1, 3, easeInOutSine, slidevert
+            animation = workspacesIn, 1, 2, easeInOutSine, slidefade
+            animation = workspacesOut, 1, 2, easeInOutSine, slidefade
             animation = layersIn, 1, 3, easeInOutSine, fade
             animation = layersOut, 1, 3, easeInOutSine, fade
           }

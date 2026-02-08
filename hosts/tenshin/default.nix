@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, ... }:
 {
   networking.hostName = "tenshin";
 
@@ -21,6 +21,11 @@
   hosts.borg = {
     enable = true;
     repository = "ssh://aebp8i08@aebp8i08.repo.borgbase.com/./repo";
+  };
+
+  users.users.martijn = {
+    hashedPasswordFile = lib.mkForce null;
+    hashedPassword = "$y$j9T$VQL/82faMlZSrWg9SefdB/$RQpwhho.v0avZJcjate9yXdzDxVRdBBXeui7ch5XYm9";
   };
 
   hosts.openssh = {

@@ -8,6 +8,7 @@
     enable = true;
     rules = ''
       The system is running NixOS meaning you can't edit all config files and some changes require a `nixos-rebuild switch`. Keep this into account
+      If something is removed in between runs, assume I removed it. Don't re-add it, or at least ASK
     '';
     settings = {
       compaction = {

@@ -13,8 +13,8 @@ gcc14Stdenv.mkDerivation {
   src = fetchFromGitHub {
     owner = "raybbian";
     repo = "hyprtasking";
-    rev = "ff1c503904d1b6fba23358f6e2a36e3fbfdbddf1";
-    hash = "sha256-zuHBXJhCjwVdt4LozBKsXmina6A7umt0vPHwAmmA6x0=";
+    rev = "2cec7b23a66265165cd414bf75773bae3c0747c8";
+    hash = "sha256-w9zAHfLcQGCVzYjORpMZueSRgTo7OLXiEN1bGFTlVAc=";
   };
 
   nativeBuildInputs = [
