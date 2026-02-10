@@ -91,12 +91,13 @@ in
                 pinned = true;
               }
               {
-                id = "uBlock0@raymondhill.net";
-                name = "ublock-origin";
-              }
-              {
                 id = "@testpilot-containers";
                 name = "multi-account-containers";
+                pinned = true;
+              }
+              {
+                id = "uBlock0@raymondhill.net";
+                name = "ublock-origin";
               }
               {
                 id = "transmitter@unrelenting.technology";

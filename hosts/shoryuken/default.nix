@@ -4,6 +4,7 @@
 
   imports = [
     ./modules/endlessh.nix
+    ./modules/radicle.nix
     ./modules/caddy.nix
   ];
 
@@ -15,6 +16,7 @@
   hosts.caddy.enable = true;
   hosts.prometheus.enable = true;
   hosts.endlessh.enable = true;
+  hosts.radicle.enable = true;
   hosts.authdns.enable = true;
 
   hosts.derper = {

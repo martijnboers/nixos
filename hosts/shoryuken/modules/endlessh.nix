@@ -19,9 +19,7 @@ in
       geoipupdate = {
         enable = true;
         settings = {
-          EditionIDs = [
-            "GeoLite2-City"
-          ];
+          EditionIDs = [ "GeoLite2-City" ];
           AccountID = 1232114;
           LicenseKey = config.age.secrets.geoip.path;
         };

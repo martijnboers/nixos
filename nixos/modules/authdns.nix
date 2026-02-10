@@ -59,11 +59,16 @@ let
         ip          IN      A       ${rek.ipv4}
         ip          IN      AAAA    ${rek.ipv6}
 
-        openpgpkey  		IN TXT   ""
-        protonmail._domainkey   IN CNAME protonmail.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
-        protonmail2._domainkey  IN CNAME protonmail2.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
-        protonmail3._domainkey  IN CNAME protonmail3.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
-        @                       IN      TXT     "protonmail-verification=cb21de1e06a960ace5877daf0cf9b22426961ae4"
+        seed._radicle-node._tcp.boers.email.  3600  IN SRV  32767 32767 8776 seed.boers.email.
+        seed._radicle-node._tcp.boers.email.  3600  IN TXT  "nid=z6MkhJKKVmjsA2MVrMMqMe2Au7bx8bUVtzWh2A9J3JWTeZAB"
+        _radicle-node._tcp.boers.email.       3600  IN PTR  seed._radicle-node._tcp.boers.email.
+
+        openpgpkey  		                            IN TXT   ""
+
+        protonmail._domainkey                       IN CNAME protonmail.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
+        protonmail2._domainkey                      IN CNAME protonmail2.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
+        protonmail3._domainkey                      IN CNAME protonmail3.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
+        @                                           IN      TXT     "protonmail-verification=cb21de1e06a960ace5877daf0cf9b22426961ae4"
       ''
       + protonBoilerplate;
     }

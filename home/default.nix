@@ -1,6 +1,5 @@
 {
   inputs,
-  pkgs,
   lib,
   config,
   ...
@@ -18,6 +17,7 @@
     ./modules/khal.nix
     ./modules/zsh.nix
     ./modules/llm.nix
+    ./modules/git.nix
 
     # Packaged home manager modules
     inputs.nixvim.homeModules.nixvim
@@ -92,39 +92,6 @@
   # By default get full zsh+nixvim config
   maatwerk.zsh.enable = lib.mkDefault true;
   maatwerk.nixvim.enable = lib.mkDefault true;
-
-  programs.git = {
-    enable = true;
-    signing = {
-      signByDefault = true;
-      key = lib.mkDefault "key::${lib.fileContents ../secrets/keys/keychain-sk.pub}";
-      format = "ssh";
-    };
-    settings = {
-      pull.rebase = "true";
-      init.defaultBranch = "main";
-      push.autoSetupRemote = "true";
-      user.name = "Martijn Boers";
-      user.email = "martijn@boers.email";
-      delta = {
-        navigate = true;
-        dark = true;
-      };
-      merge.conflictStyle = "zdiff3";
-      pager = {
-        blame = "delta";
-        diff = "delta";
-        reflog = "delta";
-        show = "delta";
-      };
-    };
-  };
-
-  # Delta git diff highlighter
-  programs.delta = {
-    enable = true;
-    enableGitIntegration = true;
-  };
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
