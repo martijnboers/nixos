@@ -47,9 +47,13 @@ in
       settings = {
         web = {
           avatarUrl = "https://storage.boers.email/random/icon.png";
+          bannerUrl = "https://storage.boers.email/random/wallpaper.webp";
           description = "Martijn's Radicle repositories";
           pinned = {
-            repositories = [ "rad:z2Jkf9zxGPxEhCfGLpgRAcHRj8x2n" ];
+            repositories = [
+              "rad:z2Jkf9zxGPxEhCfGLpgRAcHRj8x2n"
+              "rad:z3bTedCQLQRkCdAmKKZTMSBimNp4J"
+            ];
           };
         };
         node = {
