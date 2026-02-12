@@ -63,13 +63,104 @@ in
       };
     };
 
-    xdg.configFile."aerc/binds.conf".text = builtins.readFile "${pkgs.aerc}/share/aerc/binds.conf" + ''
+    xdg.configFile."aerc/binds.conf".text = ''
+      gt = :next-tab<Enter>
+      gT = :prev-tab<Enter>
+      ? = :help keys<Enter>
+
       [messages]
       R = :check-mail<Enter>
       q = :quit<Enter>
-      / = :filter 
+      <C-c> = :quit<Enter>
+      / = :filter<space>
+
+      k = :prev<Enter>
+      j = :next<Enter>
+
+      <C-d> = :next 50%<Enter>
+      <C-u> = :prev 50%<Enter>
+      gg = :select 0<Enter>
+      G = :select -1<Enter>
+      V = :mark -V<Enter>
+      J = :next-folder<Enter>
+      K = :prev-folder<Enter>
+      <Space> = :mark -t<Enter>:next<Enter>
+
+      T = :toggle-threads<Enter>
+      C = :compose<Enter>
+
+      <Enter> = :view<Enter>
+      D = :delete<Enter>
+      A = :archive flat<Enter>
+
+      rr = :reply -a<Enter>
+      rq = :reply -aq<Enter>
+      Rr = :reply<Enter>
+      Rq = :reply -q<Enter>
+
+      c = :move<space>
+      <Backspace> = :clear<Enter>
+
+      <C-s> = :split<Enter>
+      <C-v> = :vsplit<Enter>
+
+      [messages:folder=Drafts]
+      <Enter> = :recall<Enter>
+
       [view]
-      O = :open<Enter>
+      / = :toggle-key-passthrough<Enter>/
+      q = :close<Enter>
+      x = :close<Enter>
+      o = :open<Enter>
+      S = :save<space>
+      D = :delete<Enter>
+      A = :archive flat<Enter>
+
+      <C-y> = :copy-link <space>
+      <C-l> = :open-link <space>
+
+      f = :forward<Enter>
+      rr = :reply -a<Enter>
+      rq = :reply -aq<Enter>
+      Rr = :reply<Enter>
+      Rq = :reply -q<Enter>
+
+      H = :toggle-headers<Enter>
+      <C-k> = :prev-part<Enter>
+      <C-j> = :next-part<Enter>
+      J = :next<Enter>
+      K = :prev<Enter>
+
+      [view::passthrough]
+      $noinherit = true
+      $ex = <C-x>
+      <Esc> = :toggle-key-passthrough<Enter>
+
+      [compose]
+      $noinherit = true
+      $ex = <C-x>
+      <tab> = :next-field<Enter>
+      <backtab> = :prev-field<Enter>
+
+      [compose::editor]
+      # Keybindings used when the embedded terminal is selected in the compose view
+      $noinherit = true
+      $ex = <C-x>
+
+      [compose::review]
+      # Keybindings used when reviewing a message to be sent
+      # Inline comments are used as descriptions on the review screen
+      y = :send<Enter> # Send
+      n = :abort<Enter> # Abort (discard message, no confirmation)
+      s = :sign<Enter> # Toggle signing
+      q = :choose -o d discard abort -o p postpone postpone<Enter> # Abort or postpone
+      e = :edit<Enter> # Edit (body and headers)
+      a = :attach<space> # Add attachment
+      d = :detach<space> # Remove attachment
+
+      [terminal]
+      $noinherit = true
+      $ex = <C-x>
     '';
 
     age.secrets.proton.file = ../../secrets/proton.age;
