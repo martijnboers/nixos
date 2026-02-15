@@ -35,7 +35,6 @@ let
     "uptime"
   ];
   tenshinRecords = [
-    "chat"
     "chef"
     "tools"
   ];

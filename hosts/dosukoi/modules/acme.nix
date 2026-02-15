@@ -36,8 +36,9 @@ in
         key = "${stepDir}/intermediate_ca_key";
         dnsNames = [ "acme.thuis" ];
         db = {
-          type = "badger";
+          type = "badgerV2";
           dataSource = "${stepDir}/db";
+          badgerFileLoadingMode = "FileIO";
         };
         defaultTLSCertificate = {
           template = ''
