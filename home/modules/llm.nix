@@ -21,10 +21,7 @@
         bash = {
           "*" = "allow";
           "rm -rf *" = "deny";
-          "git push --force" = "deny";
-          "git push -f" = "deny";
-          "git push origin --force" = "deny";
-          "git push origin -f" = "deny";
+          "git *" = "deny";
         };
       };
       tools = {
@@ -124,11 +121,6 @@
   };
 
   programs.zsh = {
-    sessionVariables = {
-      GOOGLE_API_KEY = "$GEMINI_API_KEY";
-      GOOGLE_GENERATIVE_AI_API_KEY = "$GEMINI_API_KEY";
-    };
-
     shellAliases = {
       "c?" = "aichat -m gemini:gemini-3-flash-preview -e";
       "w?" = "aichat -c";

@@ -454,6 +454,12 @@ in
           command = "%y+";
           modes = [ "n" ];
         })
+        (cmd {
+          key = "<Leader>p";
+          desc = "Overwrite file with clipboard";
+          command = "%d_ | 0put +";
+          modes = [ "n" ];
+        })
         # Fix for Tab mapping breaking Ctrl-i
         (remap {
           key = "<C-i>";

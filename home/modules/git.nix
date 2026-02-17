@@ -52,8 +52,8 @@
       node = {
         alias = osConfig.networking.hostName;
         listen = [ "127.0.0.1:8776" ];
-        proxy = "127.0.0.1:9050";
-        onion.mode = "forward";
+        proxy = "127.0.0.1:1080";
+        # onion.mode = "forward";
         connect = [ "z6MkhJKKVmjsA2MVrMMqMe2Au7bx8bUVtzWh2A9J3JWTeZAB@seed.boers.email:8776" ];
       };
     };

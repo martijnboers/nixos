@@ -51,7 +51,6 @@ in
 
         # work
         citrix_workspace
-        nym
 
         # networking
         wireguard-tools # wg-quick
