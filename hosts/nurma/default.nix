@@ -3,6 +3,11 @@
   networking.hostName = "nurma";
   hosts.hyprland.enable = true;
   hosts.secureboot.enable = true;
+  hosts.nymvpn = {
+    enable = true;
+    autoStartSocks = true;
+    exitCountry = "FR";
+  };
   hosts.qemu.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;

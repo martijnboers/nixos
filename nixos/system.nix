@@ -20,6 +20,7 @@
     ./modules/oidc.nix
     ./modules/borg.nix
     ./modules/qemu.nix
+    ./modules/nym.nix
     ./modules/ssh.nix
   ];
 

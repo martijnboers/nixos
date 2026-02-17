@@ -6,8 +6,10 @@ let
     rev = "5657d42c65d02d9aed3d04adc0e8ae408b29112e";
     sha256 = "sha256-dhIUokqOz45nkxmRPYQjcucCh2iBeW+Pv0pyT+G+ev8=";
   };
+  nym-libwg = pkgs.callPackage ./nym-libwg.nix { };
 in
 {
+  inherit nym-libwg;
   adguard-exporter = pkgs.callPackage ./adguard-exporter.nix { };
   smtp-gotify = pkgs.callPackage ./smtp-gotify.nix { };
   dnscrypt = pkgs.callPackage ./dnscrypt.nix { };
@@ -24,4 +26,5 @@ in
   sure = pkgs.callPackage ./sure.nix { };
   bw-secret-service = pkgs.callPackage ./secret-service.nix { };
   glitch-soc = pkgs.callPackage "${glitch-soc-src}/packages/mastodon" { };
+  nym-vpnd = pkgs.callPackage ./nym-vpnd.nix { inherit nym-libwg; };
 }
