@@ -12,19 +12,19 @@
   libnftnl,
 }:
 
-rustPlatform.buildRustPackage rec {
+rustPlatform.buildRustPackage {
   pname = "nym-vpnd";
   version = "1.25.0-beta";
 
   src = fetchFromGitHub {
-    owner = "nymtech";
+    owner = "martijnboers";
     repo = "nym-vpn-client";
     rev = "refs/heads/develop";
-    sha256 = "sha256-c4+WBUWnFFhi/XeBrHZmraKHOsNFScoVUm0TRuxXZ2o=";
+    sha256 = "sha256-4XLIgXOUZRhcpce467eKXouuG0AtWCi+pAL9g9pMHJQ=";
     fetchSubmodules = true;
   };
 
-  cargoHash = "sha256-CMnBnff+1p7hEct55SrEI+aMz+HqGS+dXaWbYwHctTQ=";
+  cargoHash = "sha256-4MUbi4Idz/xIzhHzBhgOw/i+vLO8Ridijtvc1QmE+lY=";
   sourceRoot = "source/nym-vpn-core";
 
   cargoBuildFlags = [ "--release" ];

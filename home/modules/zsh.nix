@@ -55,6 +55,7 @@ in
 
           proxy = "nym-vpnc connect";
           proxyoff = "nym-vpnc disconnect";
+          socks = "nym-vpnc socks5 enable --socks5-address 127.0.0.1:1080 --exit-random";
           nvmix = "nym-vpnc tunnel set --two-hop off";
           nvfast = "nym-vpnc tunnel set --two-hop on";
 

@@ -83,7 +83,7 @@ in
 
     disableIPv6 = mkOption {
       type = types.bool;
-      default = true;
+      default = false;
       description = "Disable IPv6 inside the Nym tunnel to prevent leaks.";
     };
 
@@ -116,6 +116,8 @@ in
           "NYM_VPND_DATA_DIR=${cfg.dataDir}"
           "NYM_VPND_LOG_DIR=${cfg.logDir}"
           "NYM_VPND_SOCKS_LISTEN=127.0.0.1:${toString cfg.socksPort}"
+          "NYM_VPND_SOCKS5_IDLE_TIMEOUT_SECS=86400" # 24h idle timeout to prevent disconnection
+          "NYM_VPND_SOCKS5_REQUEST_TIMEOUT_SECS=60" # Increased request timeout for mixnet latency
         ];
         CapabilityBoundingSet = [
           "CAP_NET_ADMIN"

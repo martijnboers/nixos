@@ -7,8 +7,15 @@
   programs.opencode = {
     enable = true;
     rules = ''
-      The system is running NixOS meaning you can't edit all config files and some changes require a `nixos-rebuild switch`. Keep this into account
-      If something is removed in between runs, assume I removed it. Don't re-add it, or at least ASK
+      The system is running NixOS meaning you can't edit all config files and
+      some changes require a `nixos-rebuild switch`. Keep this into account 
+
+      If something is removed in between runs, assume I removed it. Don't
+      re-add it, or at least ASK.
+
+      If you want to clone something locally, either do it in /tmp if it's a
+      one time thing, or in ~/Code if it's something that should be edited/used
+      more often
     '';
     settings = {
       compaction = {
@@ -20,8 +27,10 @@
         edit = "allow";
         bash = {
           "*" = "allow";
+          "git *" = "ask";
+          "nixos-rebuild *" = "ask";
+          "nh *" = "ask";
           "rm -rf *" = "deny";
-          "git *" = "deny";
         };
       };
       tools = {

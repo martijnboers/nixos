@@ -1,5 +1,4 @@
 {
-  lib,
   buildGoModule,
   fetchFromGitHub,
   pkg-config,
@@ -7,12 +6,12 @@
   libnftnl,
 }:
 
-buildGoModule rec {
+buildGoModule {
   pname = "nym-libwg";
   version = "1.25.0-beta";
 
   src = fetchFromGitHub {
-    owner = "nymtech";
+    owner = "martijnboers";
     repo = "nym-vpn-client";
     rev = "refs/heads/develop";
     sha256 = "sha256-c4+WBUWnFFhi/XeBrHZmraKHOsNFScoVUm0TRuxXZ2o=";
