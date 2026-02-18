@@ -112,6 +112,11 @@
               ./nixos/system.nix
 
               {
+                home-manager = {
+                  useGlobalPkgs = true;
+                  users.martijn = import homeconfig;
+                  extraSpecialArgs = { inherit inputs system; };
+                };
                 nixpkgs = {
                   config.allowUnfree = true;
                   overlays = [
@@ -134,12 +139,6 @@
               lanzaboote.nixosModules.lanzaboote # secureboot
               nix-mineral.nixosModules.nix-mineral # schizo settings
               secrets.outPath # so config.hidden becomes available
-
-              {
-                home-manager.useGlobalPkgs = true;
-                home-manager.users.martijn = import homeconfig;
-                home-manager.extraSpecialArgs = { inherit inputs system; };
-              }
             ]
             ++ modules;
         };
@@ -201,9 +200,7 @@
       };
       nixosConfigurations.dosukoi = importSystem "dosukoi" {
         system = "x86_64-linux";
-        modules = [
-          inputs.disko.nixosModules.disko
-        ];
+        modules = [ inputs.disko.nixosModules.disko ];
       };
       nixosConfigurations.tatsumaki = importSystem "tatsumaki" {
         system = "x86_64-linux";

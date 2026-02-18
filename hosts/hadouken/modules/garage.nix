@@ -14,6 +14,25 @@ in
   };
 
   config = mkIf cfg.enable {
+    services.caddy.virtualHosts = {
+      "garage.thuis".extraConfig = ''
+        import headscale
+        handle @internal {
+          handle {
+            reverse_proxy http://localhost:3900
+          }
+        }
+        respond 403
+      '';
+      "garage-admin.thuis".extraConfig = ''
+        import headscale
+        handle @internal {
+          reverse_proxy http://localhost:3909
+        }
+        respond 403
+      '';
+    };
+
     services.garage = {
       enable = true;
       package = pkgs.garage;
@@ -46,6 +65,20 @@ in
       environmentFile = config.age.secrets.garage.path;
     };
 
+    users.users.garage = {
+      isSystemUser = true;
+      group = "garage";
+      home = "/var/lib/garage";
+      createHome = true;
+    };
+    users.groups.garage = { };
+
+    systemd.services.garage.serviceConfig = {
+      User = "garage";
+      Group = "garage";
+      DynamicUser = lib.mkForce false;
+    };
+
     environment.systemPackages = [ pkgs.garage-webui ];
 
     systemd.services.garage-webui = {
@@ -61,7 +94,7 @@ in
         Restart = "on-failure";
         Environment = [
           "GARAGE_WEBUI_LISTEN=127.0.0.1:3909"
-          "GARAGE_WEBUI_GARAGE_API=http://localhost:3903"
+          "GARAGE_WEBUI_GARAGE_API=http://localhost:3901"
         ];
         EnvironmentFile = config.age.secrets.garage.path;
       };
@@ -71,26 +104,6 @@ in
       file = ../../../secrets/garage.age;
       owner = "garage";
       group = "garage";
-    };
-
-    services.caddy.virtualHosts = {
-      "garage.thuis".extraConfig = ''
-        import headscale
-        handle @internal {
-          handle_path /admin/* {
-            reverse_proxy http://localhost:3903
-          }
-
-          handle_path /webui/* {
-            reverse_proxy http://localhost:3909
-          }
-
-          handle {
-            reverse_proxy http://localhost:3900
-          }
-        }
-        respond 403
-      '';
     };
   };
 }

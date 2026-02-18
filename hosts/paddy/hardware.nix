@@ -2,7 +2,6 @@
   config,
   lib,
   modulesPath,
-  pkgs,
   ...
 }:
 let
@@ -57,7 +56,7 @@ in
   ];
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+    # kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [
       "kvm-intel"
       "intel_cvs"
@@ -107,7 +106,7 @@ in
   hardware.nvidia = {
     open = true;
     # https://github.com/NVIDIA/open-gpu-kernel-modules/pull/951
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    # package = config.boot.kernelPackages.nvidiaPackages.beta;
     modesetting.enable = true; # should be on by default
     powerManagement.enable = true; # should fix hybernation
     powerManagement.finegrained = false;

@@ -14,6 +14,7 @@ let
     "cal-http"
     "detection"
     "garage"
+    "garage-admin"
     "immich"
     "jelly"
     "media"
