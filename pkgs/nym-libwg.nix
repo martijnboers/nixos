@@ -11,10 +11,10 @@ buildGoModule {
   version = "1.25.0-beta";
 
   src = fetchFromGitHub {
-    owner = "martijnboers";
+    owner = "nymtech";
     repo = "nym-vpn-client";
     rev = "refs/heads/develop";
-    sha256 = "sha256-c4+WBUWnFFhi/XeBrHZmraKHOsNFScoVUm0TRuxXZ2o=";
+    sha256 = "sha256-intQuDXF4Nj3PIJOwVssADqaOJDEaVjefXO+NMUCsJw=";
     fetchSubmodules = true;
   };
 

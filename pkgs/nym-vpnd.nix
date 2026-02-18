@@ -17,10 +17,10 @@ rustPlatform.buildRustPackage {
   version = "1.25.0-beta";
 
   src = fetchFromGitHub {
-    owner = "martijnboers";
+    owner = "nymtech";
     repo = "nym-vpn-client";
     rev = "refs/heads/develop";
-    sha256 = "sha256-4XLIgXOUZRhcpce467eKXouuG0AtWCi+pAL9g9pMHJQ=";
+    sha256 = "sha256-BEGr+7fJmZjTgfvq7l0xdYozcgxmKXpQDa15lQp4XCA=";
     fetchSubmodules = true;
   };
 

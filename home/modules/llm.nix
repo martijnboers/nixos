@@ -7,15 +7,37 @@
   programs.opencode = {
     enable = true;
     rules = ''
-      The system is running NixOS meaning you can't edit all config files and
-      some changes require a `nixos-rebuild switch`. Keep this into account 
+      # SYSTEM CONTEXT & OPERATIONAL CONSTRAINTS
 
-      If something is removed in between runs, assume I removed it. Don't
-      re-add it, or at least ASK.
+      ## 1. OS Architecture: NixOS
+      **Context:** 
+        The system is NixOS. The file system is declarative and largely
+        immutable.
+      **Constraint:** 
+        DO NOT attempt to modify system files (e.g., in `/etc/`) directly using
+        standard Linux commands.
+      **Action:** 
+        To change system configurations, you must edit the relevant declarative
+        configuration files (e.g., `devenv.nix`, `flake.nix`) and execute
+        `nixos-rebuild switch`. You can run one off commands that are not in
+        path with `nix shell nixpkgs#cat` or `, cat`.
 
-      If you want to clone something locally, either do it in /tmp if it's a
-      one time thing, or in ~/Code if it's something that should be edited/used
-      more often
+      ## 2. Source Truth & User Intent
+      **Context:** 
+        The user manually edits files between runs.
+      **Rule:** 
+        Treat missing code or removed functions as **INTENTIONAL** deletions by
+        the user.
+      **Constraint:** 
+        NEVER re-add code that appears to have been removed since the last run.
+      **Exception:** 
+        If a removal causes a critical failure, **ASK** the user before
+        attempting to restore it.
+
+      ## 3. File Operations: Cloning
+      **Decision Tree for Cloning Repositories:**
+        IF the task is temporary, one-off, or for inspection -> Clone to `/tmp`.
+        IF the task is for development, persistence, or repeated use -> Clone to `~/Code`.
     '';
     settings = {
       compaction = {

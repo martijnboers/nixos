@@ -28,6 +28,12 @@ in
       password-laptop.file = lib.mkDefault ../../secrets/password-laptop.age;
     };
 
+    services.tor = {
+      enable = true;
+      # socks = 127.0.0.1:9150
+      client.enable = true;
+    };
+
     programs.wireshark = {
       enable = true;
       usbmon.enable = true;
