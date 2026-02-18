@@ -13,6 +13,7 @@
     ./modules/microbin.nix
     ./modules/calendar.nix
     ./modules/database.nix
+    ./modules/garage.nix
     ./modules/bincache.nix
     ./modules/storage.nix
     ./modules/matrix.nix
@@ -37,6 +38,7 @@
   hosts.prometheus.enable = true;
   hosts.calendar.enable = true;
   hosts.database.enable = true;
+  hosts.garage.enable = true;
   hosts.atuin.enable = true;
   hosts.paperless.enable = true;
   hosts.bincache.enable = true;

@@ -13,6 +13,7 @@ let
     "cal"
     "cal-http"
     "detection"
+    "garage"
     "immich"
     "jelly"
     "media"
@@ -155,7 +156,7 @@ in
                   action = "accept";
                   src = [ "shoryuken" ];
                   dst = [
-                    "hadouken:5551,5552,5553,5554,5555" # reverse proxy ports
+                    "hadouken:5551,5552,5553,5554,5555,3900" # reverse proxy ports
                   ];
                 }
                 {
