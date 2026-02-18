@@ -46,6 +46,27 @@ in
       environmentFile = config.age.secrets.garage.path;
     };
 
+    environment.systemPackages = [ pkgs.garage-webui ];
+
+    systemd.services.garage-webui = {
+      enable = true;
+      description = "Garage Web UI";
+      after = [ "garage.service" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        Type = "simple";
+        User = "garage";
+        Group = "garage";
+        ExecStart = "${pkgs.garage-webui}/bin/garage-webui";
+        Restart = "on-failure";
+        Environment = [
+          "GARAGE_WEBUI_LISTEN=127.0.0.1:3909"
+          "GARAGE_WEBUI_GARAGE_API=http://localhost:3903"
+        ];
+        EnvironmentFile = config.age.secrets.garage.path;
+      };
+    };
+
     age.secrets.garage = {
       file = ../../../secrets/garage.age;
       owner = "garage";
@@ -58,6 +79,10 @@ in
         handle @internal {
           handle_path /admin/* {
             reverse_proxy http://localhost:3903
+          }
+
+          handle_path /webui/* {
+            reverse_proxy http://localhost:3909
           }
 
           handle {

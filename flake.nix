@@ -115,9 +115,16 @@
                 nixpkgs = {
                   config.allowUnfree = true;
                   overlays = [
-                    outputs.overlays.additions
-                    outputs.overlays.modifications
-                    outputs.overlays.alternative-pkgs
+                    outputs.overlays
+                    (final: prev: {
+                      # stable packages through pkgs.stable.gimp
+                      stable = import inputs.nixpkgs-stable {
+                        system = final.stdenv.hostPlatform.system;
+                        config.allowUnfree = true;
+                      };
+                    })
+                    # bring in custom package on pkgs.custom-package
+                    (final: prev: import ./pkgs { pkgs = final; })
                   ];
                 };
               }
@@ -138,7 +145,27 @@
         };
     in
     {
-      overlays = import ./overlays { inherit inputs; };
+      # prev = unaltered (before overlays)
+      # final = after overlay mods, like rec keyword
+      overlays = final: prev: {
+        # strawberry = prev.strawberry.overrideAttrs (oldAttrs: {
+        #   # Set the flags to prevent stripping
+        #   dontStrip = true;
+        #   dontPatchELF = true;
+        #   cmakeFlags = (oldAttrs.cmakeFlags or [ ]) ++ [ "-DCMAKE_BUILD_TYPE=Debug" ];
+        # });
+        # ghostty = prev.ghostty.overrideAttrs (oldAttrs: {
+        #   patches = (oldAttrs.patches or [ ]) ++ [
+        #     ./ghostty.patch
+        #   ];
+        # });
+        # age = prev.age.withPlugins (ps: [ ps.age-plugin-tpm ]).overrideAttrs (old: {
+        #   meta = (old.meta or { }) // {
+        #     mainProgram = "age";
+        #   };
+        # });
+      };
+
       packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt);
 

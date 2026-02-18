@@ -1,6 +1,7 @@
 { pkgs, ... }:
 
 let
+  # https://git.eisfunke.com/config/nixos/-/tree/main/packages/mastodon
   glitch-soc-src = pkgs.fetchgit {
     url = "https://git.eisfunke.com/config/nixos.git";
     rev = "5657d42c65d02d9aed3d04adc0e8ae408b29112e";
