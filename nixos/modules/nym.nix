@@ -30,12 +30,6 @@ in
       description = "Local SOCKS5 listen port (bound to 127.0.0.1).";
     };
 
-    configDir = mkOption {
-      type = types.path;
-      default = "/etc/nym";
-      description = "Configuration directory for nym-vpnd (maps to NYM_VPND_CONFIG_DIR).";
-    };
-
     dataDir = mkOption {
       type = types.path;
       default = "/var/lib/nym-vpnd";
@@ -90,6 +84,12 @@ in
   };
 
   config = mkIf cfg.enable {
+    services.tor = {
+      enable = true;
+      # socks = 127.0.0.1:9050
+      client.enable = true;
+    };
+
     systemd.services.nym-vpnd = {
       description = "NymVPN daemon";
       wantedBy = [ "multi-user.target" ];
@@ -112,7 +112,7 @@ in
         RuntimeDirectory = "nym-vpnd";
         StateDirectory = "nym-vpnd";
         Environment = lib.concatStringsSep " " [
-          "NYM_VPND_CONFIG_DIR=${cfg.configDir}"
+          "NYM_VPND_CONFIG_DIR=%S/etc"
           "NYM_VPND_DATA_DIR=${cfg.dataDir}"
           "NYM_VPND_LOG_DIR=${cfg.logDir}"
           "NYM_VPND_SOCKS_LISTEN=127.0.0.1:${toString cfg.socksPort}"

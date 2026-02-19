@@ -15,7 +15,7 @@
     };
 
     # https://github.com/DeterminateSystems/nix-src/releases
-    determinate.url = "github:DeterminateSystems/nix-src/v3.14.0";
+    determinate.url = "github:DeterminateSystems/nix-src/v3.16.0";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -28,7 +28,8 @@
     };
 
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.3";
+      # https://github.com/nix-community/lanzaboote/releases
+      url = "github:nix-community/lanzaboote/v1.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

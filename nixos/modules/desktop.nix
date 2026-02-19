@@ -28,10 +28,9 @@ in
       password-laptop.file = lib.mkDefault ../../secrets/password-laptop.age;
     };
 
-    services.tor = {
+    hosts.nymvpn = {
       enable = true;
-      # socks = 127.0.0.1:9150
-      client.enable = true;
+      autoConnect = false;
     };
 
     programs.wireshark = {

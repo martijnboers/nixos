@@ -5,11 +5,6 @@
   hosts.secureboot.enable = true;
   hosts.qemu.enable = true;
 
-  hosts.nymvpn = {
-    enable = true;
-    autoConnect = false;
-  };
-
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # environment.systemPackages = [
