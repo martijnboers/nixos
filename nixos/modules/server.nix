@@ -1,6 +1,7 @@
 {
   config,
   lib,
+inputs,
   ...
 }:
 with lib;
@@ -23,6 +24,12 @@ in
 
     # Default auditd rules
     hosts.auditd.enable = lib.mkDefault true;
+
+    age.secrets = {
+      tailscale-server.file = lib.mkDefault "${inputs.secrets}/tailscale-server.age";
+    };
+
+    services.tailscale.authKeyFile = config.age.secrets.tailscale-server.path;
 
     # System harderning
     # https://github.com/cynicsketch/nix-mineral/

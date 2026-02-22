@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -15,10 +16,11 @@ let
     url = "git@github.com:martijnboers/resume.git";
     rev = "b7d75859c8ce0c2867c95c5924623e397a2600f9";
   };
+  gpg-key = "${inputs.secrets}/keys/pgp.asc";
   wkd = pkgs.runCommand "wkd-output" { nativeBuildInputs = [ pkgs.gnupg ]; } ''
     KEY_HASH="nnzg8pw4hsizdcd9u31yy1ony94u94tw"
     mkdir -p $out/hu
-    echo "${builtins.readFile ../../../secrets/keys/pgp.asc}" | gpg --dearmor > $out/hu/$KEY_HASH
+    cat ${gpg-key} | gpg --dearmor > $out/hu/$KEY_HASH
     touch $out/policy
   '';
 in
@@ -177,7 +179,7 @@ in
     };
 
     age.secrets = {
-      caddy.file = ../../../secrets/caddy.age;
+      caddy.file = "${inputs.secrets}/caddy.age";
     };
   };
 }

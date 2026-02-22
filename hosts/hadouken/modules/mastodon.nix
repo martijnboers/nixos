@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -37,7 +38,7 @@ in
             Restart = "on-failure";
             ProtectSystem = "strict";
             RuntimeDirectory = [ socketPath ];
-            ExecStart = "${lib.getExe pkgs.socat} TCP-LISTEN:5551,fork,reuseaddr,bind=${config.hidden.tailscale_hosts.hadouken} UNIX-CONNECT:${socketPath}";
+            ExecStart = "${lib.getExe pkgs.socat} TCP-LISTEN:5551,fork,reuseaddr,bind=${config.global.tailscale_hosts.hadouken} UNIX-CONNECT:${socketPath}";
             RestartSec = 10;
           };
         };
@@ -63,7 +64,7 @@ in
             Restart = "on-failure";
             ProtectSystem = "strict";
             RuntimeDirectory = [ socketPath ];
-            ExecStart = "${lib.getExe pkgs.socat} TCP-LISTEN:5552,fork,reuseaddr,bind=${config.hidden.tailscale_hosts.hadouken} UNIX-CONNECT:${socketPath}";
+            ExecStart = "${lib.getExe pkgs.socat} TCP-LISTEN:5552,fork,reuseaddr,bind=${config.global.tailscale_hosts.hadouken} UNIX-CONNECT:${socketPath}";
             RestartSec = 10;
           };
         };
@@ -99,10 +100,10 @@ in
 
     age.secrets = {
       fedifetcher = {
-        file = ../../../secrets/fedifetcher.age;
+        file = "${inputs.secrets}/fedifetcher.age";
         owner = "mastodon";
       };
-      mastodon.file = ../../../secrets/mastodon.age;
+      mastodon.file = "${inputs.secrets}/mastodon.age";
     };
 
     # Backfill comments automaticly

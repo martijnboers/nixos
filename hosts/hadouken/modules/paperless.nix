@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  inputs,
   ...
 }:
 with lib;
@@ -25,7 +26,7 @@ in
     };
 
     age.secrets.paperless = {
-      file = ../../../secrets/paperless.age;
+      file = "${inputs.secrets}/paperless.age";
       owner = config.services.paperless.user;
     };
 

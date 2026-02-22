@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  inputs,
   ...
 }:
 with lib;
@@ -13,7 +14,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    age.secrets.geoip.file = ../../../secrets/geoip.age;
+    age.secrets.geoip.file = "${inputs.secrets}/geoip.age";
 
     services = {
       geoipupdate = {

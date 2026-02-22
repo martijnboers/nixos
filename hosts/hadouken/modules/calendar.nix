@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  inputs,
   ...
 }:
 with lib;
@@ -43,7 +44,7 @@ in
     services.borgbackup.jobs.default.paths = [ "/var/lib/radicale/collections/" ];
 
     age.secrets.radicale = {
-      file = ../../../secrets/radicale.age;
+      file = "${inputs.secrets}/radicale.age";
       owner = "radicale";
       group = "radicale";
     };

@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  inputs,
   ...
 }:
 with lib;
@@ -46,7 +47,7 @@ in
     };
 
     age.secrets.nts = {
-      file = ../../../secrets/nts.age;
+      file = "${inputs.secrets}/nts.age";
       owner = "ntpd-rs";
       group = "ntpd-rs";
     };
@@ -81,7 +82,7 @@ in
         nts-ke-server = [
           {
             listen = "[::]:4460";
-            certificate-chain-path = ../../../secrets/keys/nts.crt;
+            certificate-chain-path = "${inputs.secrets}/keys/nts.crt";
             private-key-path = config.age.secrets.nts.path;
           }
         ];

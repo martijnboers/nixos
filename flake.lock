@@ -547,15 +547,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1771269455,
-        "narHash": "sha256-BZ31eN5F99YH6vkc4AhzKGE+tJgJ52kl8f01K7wCs8w=",
-        "owner": "nix-community",
+        "lastModified": 1771883951,
+        "narHash": "sha256-MiNlmH6VfAc7Pebp9CCfbVIJYQTIh3lzQRHTZSxaoEQ=",
+        "owner": "martijnboers",
         "repo": "home-manager",
-        "rev": "5f1d42a97b19803041434f66681d5c44c9ae62e3",
+        "rev": "dac50af6fdf63738e1108aa34e7f8d0ab8447b6d",
         "type": "github"
       },
       "original": {
-        "owner": "nix-community",
+        "owner": "martijnboers",
         "repo": "home-manager",
         "type": "github"
       }
@@ -988,14 +988,18 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "path": "./secrets",
-        "type": "path"
+        "lastModified": 1771882804,
+        "narHash": "sha256-Urnl16KcZtgIoyst8mfmc/58y/PxkTndwb9OiDmQuVU=",
+        "ref": "refs/heads/master",
+        "rev": "1ad80a0303a392bd5774aeaac61c8cf257faff5b",
+        "revCount": 58,
+        "type": "git",
+        "url": "file:///etc/nixos/secrets"
       },
       "original": {
-        "path": "./secrets",
-        "type": "path"
-      },
-      "parent": []
+        "type": "git",
+        "url": "file:///etc/nixos/secrets"
+      }
     },
     "stylix": {
       "inputs": {

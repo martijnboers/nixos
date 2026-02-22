@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  inputs,
   ...
 }:
 with lib;
@@ -52,8 +53,8 @@ in
     };
 
     age.secrets = {
-      pgadmin.file = ../../../secrets/pgadmin.age;
-      minio.file = ../../../secrets/minio.age;
+      pgadmin.file = "${inputs.secrets}/pgadmin.age";
+      minio.file = "${inputs.secrets}/minio.age";
     };
 
     services.minio = {

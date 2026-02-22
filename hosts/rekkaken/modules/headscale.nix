@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -119,20 +120,21 @@ in
               "headscale-server@boers.email"
               "headscale-user@boers.email"
             ];
+            expiry = 0; # disable
           };
           policy.path = pkgs.writeText "acl.json" (
             builtins.toJSON {
               hosts = {
-                shoryuken = config.hidden.tailscale_hosts.shoryuken;
-                tenshin = config.hidden.tailscale_hosts.tenshin;
-                hadouken = config.hidden.tailscale_hosts.hadouken;
-                tatsumaki = config.hidden.tailscale_hosts.tatsumaki;
-                nurma = config.hidden.tailscale_hosts.nurma;
-                donk = config.hidden.tailscale_hosts.donk;
-                pixel = config.hidden.tailscale_hosts.pixel;
-                dosukoi = config.hidden.tailscale_hosts.dosukoi;
-                pikvm = config.hidden.tailscale_hosts.pikvm;
-                rekkaken = config.hidden.tailscale_hosts.rekkaken;
+                shoryuken = config.global.tailscale_hosts.shoryuken;
+                tenshin = config.global.tailscale_hosts.tenshin;
+                hadouken = config.global.tailscale_hosts.hadouken;
+                tatsumaki = config.global.tailscale_hosts.tatsumaki;
+                nurma = config.global.tailscale_hosts.nurma;
+                donk = config.global.tailscale_hosts.donk;
+                pixel = config.global.tailscale_hosts.pixel;
+                dosukoi = config.global.tailscale_hosts.dosukoi;
+                pikvm = config.global.tailscale_hosts.pikvm;
+                rekkaken = config.global.tailscale_hosts.rekkaken;
               };
 
               acls = [
@@ -220,15 +222,15 @@ in
             {
               magic_dns = true;
               base_domain = "machine.thuis";
-              nameservers.global = [ config.hidden.tailscale_hosts.dosukoi ];
+              nameservers.global = [ config.global.tailscale_hosts.dosukoi ];
               extra_records =
-                (map (name: makeRecord name config.hidden.tailscale_hosts.hadouken) hadoukenRecords)
-                ++ (map (name: makeRecord name config.hidden.tailscale_hosts.shoryuken) shoryukenRecords)
-                ++ (map (name: makeRecord name config.hidden.tailscale_hosts.tatsumaki) tatsumakiRecords)
-                ++ (map (name: makeRecord name config.hidden.tailscale_hosts.rekkaken) rekkakenRecords)
-                ++ (map (name: makeRecord name config.hidden.tailscale_hosts.dosukoi) dosukoiRecords)
-                ++ (map (name: makeRecord name config.hidden.tailscale_hosts.suzaku) suzakuRecords)
-                ++ (map (name: makeRecord name config.hidden.tailscale_hosts.tenshin) tenshinRecords);
+                (map (name: makeRecord name config.global.tailscale_hosts.hadouken) hadoukenRecords)
+                ++ (map (name: makeRecord name config.global.tailscale_hosts.shoryuken) shoryukenRecords)
+                ++ (map (name: makeRecord name config.global.tailscale_hosts.tatsumaki) tatsumakiRecords)
+                ++ (map (name: makeRecord name config.global.tailscale_hosts.rekkaken) rekkakenRecords)
+                ++ (map (name: makeRecord name config.global.tailscale_hosts.dosukoi) dosukoiRecords)
+                ++ (map (name: makeRecord name config.global.tailscale_hosts.suzaku) suzakuRecords)
+                ++ (map (name: makeRecord name config.global.tailscale_hosts.tenshin) tenshinRecords);
             };
           prefixes = {
             v4 = "100.64.0.0/10";
@@ -240,7 +242,7 @@ in
 
     age.secrets = {
       headscale = {
-        file = ../../../secrets/headscale.age;
+        file = "${inputs.secrets}/headscale.age";
         owner = config.services.headscale.user;
       };
     };

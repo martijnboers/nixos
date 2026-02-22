@@ -428,7 +428,7 @@ in
         (git {
           key = "<Leader>pf";
           desc = "Git push force";
-          command = "push --force-with-lease --force-if-includes";
+          command = "push --force-with-lease";
         })
         # }}}
 

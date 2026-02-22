@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  inputs,
   ...
 }:
 with lib;
@@ -23,7 +24,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    age.secrets.radicle-server.file = ../../../secrets/radicle-server.age;
+    age.secrets.radicle-server.file = "${inputs.secrets}/radicle-server.age";
 
     services.caddy.virtualHosts = {
       "seed.boers.email" = {

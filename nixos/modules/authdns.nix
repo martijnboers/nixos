@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  inputs,
   lib,
   ...
 }:
@@ -9,12 +10,12 @@ let
   tsigKeyName = "plebs4diamonds";
 
   rek = {
-    ipv4 = config.hidden.wan_ips.rekkaken;
-    ipv6 = config.hidden.wan_ips.rekkaken_6;
+    ipv4 = config.global.wan_ips.rekkaken;
+    ipv6 = config.global.wan_ips.rekkaken_6;
   };
   shor = {
-    ipv4 = config.hidden.wan_ips.shoryuken;
-    ipv6 = config.hidden.wan_ips.shoryuken_6;
+    ipv4 = config.global.wan_ips.shoryuken;
+    ipv6 = config.global.wan_ips.shoryuken_6;
   };
 
   protonBoilerplate = ''
@@ -124,7 +125,7 @@ in
     };
 
     age.secrets.tsigkey = {
-      file = ../../secrets/tsigkey.age;
+      file = "${inputs.secrets}/tsigkey.age";
       owner = "knot";
       group = "knot";
     };

@@ -25,7 +25,7 @@
   ];
 
   age.secrets = {
-    password.file = lib.mkDefault ../secrets/password.age;
+    password.file = lib.mkDefault "${inputs.secrets}/password.age";
   };
 
   users = {
@@ -42,8 +42,8 @@
         "network"
       ];
       openssh.authorizedKeys.keyFiles = [
-        ../secrets/keys/nurma-sk.pub
-        ../secrets/keys/keychain-sk.pub
+        "${inputs.secrets}/keys/nurma-sk.pub"
+        "${inputs.secrets}/keys/keychain-sk.pub"
       ];
       hashedPasswordFile = config.age.secrets.password.path;
     };
@@ -171,7 +171,7 @@
           };
         };
         mkServer = name: {
-          "${name}.machine.thuis".publicKeyFile = ../secrets/keys/${name}.pub;
+          "${name}.machine.thuis".publicKeyFile = "${inputs.secrets}/keys/${name}.pub";
         };
       in
       {
@@ -243,7 +243,7 @@
   security = {
     sudo.enable = lib.mkDefault false; # 🦀🦀
     sudo-rs.enable = lib.mkDefault true; # 🦀🦀
-    pki.certificateFiles = [ ../secrets/keys/plebs4platinum.crt ];
+    pki.certificateFiles = [ "${inputs.secrets}/keys/plebs4platinum.crt" ];
     tpm2.enable = true;
   };
 
@@ -289,7 +289,7 @@
         {
           mode = "nts";
           address = "tenshin.machine.thuis";
-          certificate-authority = ../secrets/keys/nts-chain.pem;
+          certificate-authority = "${inputs.secrets}/keys/nts-chain.pem";
         }
         {
           mode = "nts";

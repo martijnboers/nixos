@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -101,7 +102,7 @@ in
     };
 
     age.secrets.garage = {
-      file = ../../../secrets/garage.age;
+      file = "${inputs.secrets}/garage.age";
       owner = "garage";
       group = "garage";
     };

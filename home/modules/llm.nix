@@ -1,7 +1,7 @@
-{ ... }:
+{ inputs, ... }:
 {
   age.secrets = {
-    llm.file = ../../secrets/llm.age;
+    llm.file = "${inputs.secrets}/llm.age";
   };
 
   programs.opencode = {

@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -24,7 +25,7 @@ in
       respond 403
     '';
 
-    age.secrets.geoip.file = ../../../secrets/geoip.age;
+    age.secrets.geoip.file = "${inputs.secrets}/geoip.age";
 
     services = {
       geoipupdate = {

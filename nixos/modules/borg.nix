@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  inputs,
   ...
 }:
 with lib;
@@ -33,7 +34,7 @@ in
 
   config = mkIf cfg.enable {
     age.secrets.borg = {
-      file = ../../secrets/borg.age;
+      file = "${inputs.secrets}/borg.age";
       owner = "root";
       group = "root";
     };

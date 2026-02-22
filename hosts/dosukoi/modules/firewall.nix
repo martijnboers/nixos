@@ -1,18 +1,7 @@
-{
-  config,
-  ...
-}:
-
+{ ... }:
 let
-  ipv6Prefix = config.hidden.wan_ips.thuis_ipv6;
-  hadouken = {
-    ipv4 = "10.10.0.7";
-    ipv6 = "${ipv6Prefix}:b00f:4a21:bff:fe55:90f5";
-  };
-  tatsumaki = {
-    ipv4 = "10.10.0.3";
-    ipv6 = "${ipv6Prefix}:c0de:2e0:4cff:fe34:7c67";
-  };
+  hadouken = "10.10.0.6";
+  tatsumaki = "10.10.0.3";
   dreame = "10.20.0.135";
 in
 {
@@ -79,10 +68,8 @@ in
                 oifname "peepee" tcp flags syn tcp option maxseg size set rt mtu;
 
                 # --- INBOUND PORT FORWARDING RULES ---
-                iifname "peepee" oifname "lan" ip daddr ${hadouken.ipv4} meta l4proto { tcp, udp } th dport 22000 ct state new accept comment "Syncthing IPv4";
-                iifname "peepee" oifname "lan" ip6 daddr ${hadouken.ipv6} meta l4proto { tcp, udp } th dport 22000 ct state new accept comment "Syncthing IPv6";
-                iifname "peepee" oifname "lan" ip daddr ${tatsumaki.ipv4} tcp dport 8333 ct state new accept comment "Bitcoin";
-                iifname "peepee" oifname "lan" ip6 daddr ${tatsumaki.ipv6} tcp dport 8333 ct state new accept comment "Bitcoin";
+                iifname "peepee" oifname "lan" ip daddr ${hadouken} meta l4proto { tcp, udp } th dport 22000 ct state new accept comment "Syncthing IPv4";
+                iifname "peepee" oifname "lan" ip daddr ${tatsumaki} tcp dport 8333 ct state new accept comment "Bitcoin";
 
                 # --- GRANULAR INTER-LAN FORWARDING ---
                 iifname { "opt1" } oifname { "lan", "opt1", "wifi" } accept comment "opt1 free to do anything";
@@ -114,9 +101,9 @@ in
               # iifname "wifi" ip saddr ${dreame} meta l4proto { tcp, udp } th dport 53 dnat to 10.20.0.1 comment "Force Dreame to use router DNS";
 
               # --- IPV4 PORT FORWARDING (DNAT) ---
-              iifname "peepee" tcp dport 22000 dnat to ${hadouken.ipv4};
-              iifname "peepee" udp dport 22000 dnat to ${hadouken.ipv4};
-              iifname "peepee" tcp dport 8333 dnat to ${tatsumaki.ipv4};
+              iifname "peepee" tcp dport 22000 dnat to ${hadouken};
+              iifname "peepee" udp dport 22000 dnat to ${hadouken};
+              iifname "peepee" tcp dport 8333 dnat to ${tatsumaki};
             }
 
             chain postrouting {

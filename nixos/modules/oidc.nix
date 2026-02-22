@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  inputs,
   ...
 }:
 with lib;
@@ -31,11 +32,11 @@ in
 
     age.secrets = {
       oidc = {
-        file = ../../secrets/oidc.age;
+        file = "${inputs.secrets}/oidc.age";
         owner = config.services.pocket-id.user;
       };
       geoippocket = {
-        file = ../../secrets/geoip.age;
+        file = "${inputs.secrets}/geoip.age";
         owner = config.services.pocket-id.user;
       };
     };

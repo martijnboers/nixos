@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -22,7 +23,7 @@ in
     maatwerk.khal.enable = true;
 
     age.secrets = {
-      proton.file = ../../secrets/proton.age;
+      proton.file = "${inputs.secrets}/proton.age";
     };
 
     home.packages =

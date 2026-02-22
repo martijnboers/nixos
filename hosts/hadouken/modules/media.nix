@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -38,7 +39,7 @@ in
         jellyfin-ffmpeg = prev.jellyfin-ffmpeg.override {
           ffmpeg_7-full = prev.ffmpeg_7-full.override {
             withMfx = false; # Disable the old MFX
-            withVpl = true;  # Enable the new VPL
+            withVpl = true; # Enable the new VPL
             withUnfree = true;
           };
         };
@@ -97,7 +98,7 @@ in
       };
     };
 
-    age.secrets.unpackerr.file = ../../../secrets/unpackerr.age;
+    age.secrets.unpackerr.file = "${inputs.secrets}/unpackerr.age";
 
     systemd.services.jellyfin.environment.LIBVA_DRIVER_NAME = "iHD";
     environment.sessionVariables = {

@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -22,7 +23,7 @@ in
       }
       respond 403
     '';
-    age.secrets.immich.file = ../../../secrets/immich.age;
+    age.secrets.immich.file = "${inputs.secrets}/immich.age";
     users.users.immich.extraGroups = [
       "video"
       "render"

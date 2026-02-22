@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  inputs,
   ...
 }:
 with lib;
@@ -21,7 +22,7 @@ in
       respond 403
     '';
     age.secrets.binarycache = {
-      file = ../../../secrets/binarycache.age;
+      file = "${inputs.secrets}/binarycache.age";
     };
 
     services.postgresql = {

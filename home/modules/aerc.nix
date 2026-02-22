@@ -2,6 +2,7 @@
   lib,
   config,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -163,7 +164,7 @@ in
       $ex = <C-x>
     '';
 
-    age.secrets.proton.file = ../../secrets/proton.age;
+    age.secrets.proton.file = "${inputs.secrets}/proton.age";
 
     accounts.email.accounts.proton = {
       primary = true;

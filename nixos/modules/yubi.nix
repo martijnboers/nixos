@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -24,7 +25,7 @@ in
       yubikey-manager # ykman
     ];
 
-    age.secrets.u2fkeys.file = ../../secrets/u2fkeys.age;
+    age.secrets.u2fkeys.file = "${inputs.secrets}/u2fkeys.age";
 
     security.pam = {
       u2f.settings = {
@@ -40,7 +41,7 @@ in
         };
         polkit-1 = {
           u2fAuth = true;
-          unixAuth = false; 
+          unixAuth = false;
         };
       };
     };

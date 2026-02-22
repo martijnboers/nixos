@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  inputs,
   ...
 }:
 with lib;
@@ -15,7 +16,7 @@ in
   config = mkIf cfg.enable {
     age.secrets = {
       wireguard-server = {
-        file = ../../../secrets/wireguard-server.age;
+        file = "${inputs.secrets}/wireguard-server.age";
         owner = "root";
         group = "systemd-network";
         mode = "0440";

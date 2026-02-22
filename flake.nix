@@ -2,7 +2,6 @@
   description = "Everything, everywhere, all at once";
 
   inputs = {
-    self.submodules = true; # git submodules
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     hardware.url = "github:NixOS/nixos-hardware";
@@ -18,7 +17,7 @@
     determinate.url = "github:DeterminateSystems/nix-src/v3.16.0";
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:martijnboers/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -68,7 +67,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     secrets = {
-      url = "./secrets";
+      url = "git+file:///etc/nixos/secrets";
       flake = false;
     };
   };
@@ -139,7 +138,37 @@
               home-manager.nixosModules.home-manager
               lanzaboote.nixosModules.lanzaboote # secureboot
               nix-mineral.nixosModules.nix-mineral # schizo settings
-              secrets.outPath # so config.hidden becomes available
+
+              {
+                options.global = with lib; {
+                  wan_ips = mkOption {
+                    type = with types; attrsOf str;
+                    default = {
+                      rekkaken = "46.62.135.158";
+                      rekkaken_6 = "2a01:4f9:c013:98b::1";
+                      shoryuken = "157.180.79.166";
+                      shoryuken_6 = "2a01:4f9:c013:c5fa::1";
+                    };
+                  };
+                  tailscale_hosts = mkOption {
+                    type = with types; attrsOf str;
+                    default = {
+                      donk = "100.64.0.8";
+                      dosukoi = "100.64.0.9";
+                      hadouken = "100.64.0.20";
+                      nurma = "100.64.0.3";
+                      pikvm = "100.64.0.5";
+                      pixel = "100.64.0.6";
+                      rekkaken = "100.64.0.1";
+                      shoryuken = "100.64.0.18";
+                      suzaku = "100.64.0.7";
+                      tatsumaki = "100.64.0.2";
+                      tenshin = "100.64.0.4";
+                    };
+                  };
+                };
+              }
+
             ]
             ++ modules;
         };

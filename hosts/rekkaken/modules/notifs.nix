@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -23,7 +24,7 @@ in
     '';
 
     services.borgbackup.jobs.default.paths = [ config.services.gotify.stateDirectoryName ];
-    age.secrets.mailrise.file = ../../../secrets/mailrise.age;
+    age.secrets.mailrise.file = "${inputs.secrets}/mailrise.age";
 
     systemd.services.smtp-gotify = {
       description = "SMTP to Gotify Bridge";

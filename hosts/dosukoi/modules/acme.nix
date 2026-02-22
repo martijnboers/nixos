@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  inputs,
   ...
 }:
 with lib;
 let
   cfg = config.hosts.acme;
   stepDir = "/var/lib/step-ca";
-  rootCert = ../../../secrets/keys/plebs4platinum.crt;
+  rootCert = "${inputs.secrets}/keys/plebs4platinum.crt";
   intermediateKeyPath = config.age.secrets.plebs4gold.path;
   stepCAPort = 4443;
 in
@@ -18,7 +19,7 @@ in
 
   config = mkIf cfg.enable {
     age.secrets.plebs4gold = {
-      file = ../../../secrets/plebs4gold.age;
+      file = "${inputs.secrets}/plebs4gold.age";
       owner = "step-ca";
       group = "step-ca";
       mode = "440";

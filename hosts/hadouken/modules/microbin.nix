@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  inputs,
   ...
 }:
 with lib;
@@ -13,7 +14,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    age.secrets.microbin.file = ../../../secrets/microbin.age;
+    age.secrets.microbin.file = "${inputs.secrets}/microbin.age";
     services.microbin = {
       enable = true;
       passwordFile = config.age.secrets.microbin.path;

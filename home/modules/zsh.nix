@@ -24,12 +24,7 @@ in
         let
           deploy-custom = pkgs.writeShellScriptBin "deploy-custom" ''
             set -euo pipefail
-            cd $NH_FLAKE
-            git submodule update --remote secrets
-            nix flake update secrets
-
             target_args=()
-
             if [[ $# -gt 0 ]]; then
               hostname="$1"
               target_args+=(--hostname "$hostname" --target-host "martijn@''${hostname}.machine.thuis")
@@ -69,7 +64,7 @@ in
           gl = "git pull";
           glg = "git log --stat";
           gp = "git push";
-          gpf = "git push --force-with-lease --force-if-includes";
+          gpf = "git push --force-with-lease";
           grb = "git rebase";
           groh = "git reset origin/$(git_current_branch) --hard";
           gwip = ''git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify --no-gpg-sign --message "--wip-- [skip ci]"'';

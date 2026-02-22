@@ -2,6 +2,7 @@
   osConfig,
   pkgs,
   lib,
+  inputs,
   ...
 }:
 {
@@ -9,35 +10,39 @@
     radicle-tui
   ];
 
-  programs.git = {
-    enable = true;
-    signing = {
-      signByDefault = true;
-      key = lib.mkDefault "key::${lib.fileContents ../../secrets/keys/keychain-sk.pub}";
-      format = "ssh";
+  programs.git =
+    let
+      keychain-sk = "${inputs.secrets}/keys/keychain-sk.pub";
+    in
+    {
+      enable = true;
+      signing = {
+        signByDefault = true;
+        key = lib.mkDefault "key::${lib.fileContents keychain-sk}";
+        format = "ssh";
+      };
+      settings = {
+        pull.rebase = "true";
+        init.defaultBranch = "main";
+        push.autoSetupRemote = "true";
+        user.name = "Martijn Boers";
+        user.email = "martijn@boers.email";
+        alias = {
+          patch = "push rad HEAD:refs/patches";
+        };
+        delta = {
+          navigate = true;
+          dark = true;
+        };
+        merge.conflictStyle = "zdiff3";
+        pager = {
+          blame = "delta";
+          diff = "delta";
+          reflog = "delta";
+          show = "delta";
+        };
+      };
     };
-    settings = {
-      pull.rebase = "true";
-      init.defaultBranch = "main";
-      push.autoSetupRemote = "true";
-      user.name = "Martijn Boers";
-      user.email = "martijn@boers.email";
-      alias = {
-        patch = "push rad HEAD:refs/patches";
-      };
-      delta = {
-        navigate = true;
-        dark = true;
-      };
-      merge.conflictStyle = "zdiff3";
-      pager = {
-        blame = "delta";
-        diff = "delta";
-        reflog = "delta";
-        show = "delta";
-      };
-    };
-  };
 
   # Delta git diff highlighter
   programs.delta = {
@@ -45,7 +50,11 @@
     enableGitIntegration = true;
   };
 
-  services.radicle.node.enable = true;
+  services.radicle.node = {
+    enable = true;
+    # lazy.enable = true;
+  };
+
   programs.radicle = {
     enable = true;
     settings = {

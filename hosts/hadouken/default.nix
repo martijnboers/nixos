@@ -43,7 +43,7 @@
   hosts.paperless.enable = true;
   hosts.bincache.enable = true;
   hosts.proton.enable = true;
-  hosts.nym.enable = true;
+  hosts.nymvpn.enable = true;
 
   users = {
     groups.notes.members = [ "caddy" ];

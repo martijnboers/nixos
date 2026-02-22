@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -25,7 +26,7 @@ in
       respond 403
     '';
 
-    age.secrets.adguard.file = ../../../secrets/adguard.age;
+    age.secrets.adguard.file = "${inputs.secrets}/adguard.age";
 
     systemd.services = {
       "adguard-exporter" = {
@@ -77,7 +78,7 @@ in
       settings = {
         dns = {
           ratelimit = 0;
-          bind_hosts = [ config.hidden.tailscale_hosts.dosukoi ];
+          bind_hosts = [ config.global.tailscale_hosts.dosukoi ];
           upstream_dns = [
             "https://dns10.quad9.net/dns-query"
             "https://dns.freedom.nl/dns-query"

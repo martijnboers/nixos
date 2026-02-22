@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  inputs,
   ...
 }:
 with lib;
@@ -14,7 +15,7 @@ in
 
   config = mkIf cfg.enable {
     age.secrets.synapse = {
-      file = ../../../secrets/synapse.age;
+      file = "${inputs.secrets}/synapse.age";
       owner = "matrix-synapse";
       group = "matrix-synapse";
     };

@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -31,7 +32,7 @@ in
       };
     };
 
-    age.secrets.gotify-auditd.file = ../../secrets/gotify-auditd.age;
+    age.secrets.gotify-auditd.file = "${inputs.secrets}/gotify-auditd.age";
 
     systemd.services.audit-gotify-notifier = {
       description = "Send Gotify notifications for Login Audit Events";
@@ -97,7 +98,7 @@ in
           -F "message=$line" \
           -F "priority=$PRIORITY" \
           -F "extras[client::display][contentType]=text/markdown"
-        
+
         echo ""
         done
       '';

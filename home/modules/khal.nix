@@ -2,6 +2,7 @@
   lib,
   config,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -15,7 +16,7 @@ in
 
   config = mkIf cfg.enable {
     age.secrets.radicale-client = {
-      file = ../../secrets/radicale-client.age;
+      file = "${inputs.secrets}/radicale-client.age";
     };
 
     programs.vdirsyncer.enable = true;

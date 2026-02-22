@@ -32,7 +32,7 @@ in
           Restart = "on-failure";
           RestartSec = 10;
           # Binds to Tailscale IP, forwards to Localhost
-          ExecStart = "${lib.getExe pkgs.socat} TCP-LISTEN:${toString imapPort},fork,reuseaddr,bind=${config.hidden.tailscale_hosts.hadouken} TCP:127.0.0.1:${toString imapPort}";
+          ExecStart = "${lib.getExe pkgs.socat} TCP-LISTEN:${toString imapPort},fork,reuseaddr,bind=${config.global.tailscale_hosts.hadouken} TCP:127.0.0.1:${toString imapPort}";
         };
       };
 
@@ -46,7 +46,7 @@ in
           Restart = "on-failure";
           RestartSec = 10;
           # Binds to Tailscale IP, forwards to Localhost
-          ExecStart = "${lib.getExe pkgs.socat} TCP-LISTEN:${toString smtpPort},fork,reuseaddr,bind=${config.hidden.tailscale_hosts.hadouken} TCP:127.0.0.1:${toString smtpPort}";
+          ExecStart = "${lib.getExe pkgs.socat} TCP-LISTEN:${toString smtpPort},fork,reuseaddr,bind=${config.global.tailscale_hosts.hadouken} TCP:127.0.0.1:${toString smtpPort}";
         };
       };
     };
