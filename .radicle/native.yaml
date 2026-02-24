@@ -1,0 +1,20 @@
+shell: |
+  set -xeuo pipefail
+
+  # Add git to path if not already there (though we added it to service path)
+  export PATH=$PATH:/run/current-system/sw/bin
+
+  # Configure GitHub remote
+  GITHUB_REPO="https://oauth2:${GITHUB_TOKEN}@github.com/martijnboers/nixos.git"
+
+  if ! git remote | grep -q "^github$"; then
+    git remote add github "$GITHUB_REPO"
+  else
+    git remote set-url github "$GITHUB_REPO"
+  fi
+
+  # Fetch to ensure we can force push safely
+  git fetch github || true
+
+  # Push to GitHub Mirror
+  git push --force github HEAD:master

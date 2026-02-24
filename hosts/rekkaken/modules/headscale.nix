@@ -30,7 +30,9 @@ let
     "syncthing"
     "webdav"
   ];
-  shoryukenRecords = [ ];
+  shoryukenRecords = [
+    "ci"
+  ];
   rekkakenRecords = [
     "notifications"
     "ladder"

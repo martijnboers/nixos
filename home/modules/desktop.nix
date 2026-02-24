@@ -34,20 +34,17 @@ in
         kooha # record screen wayland
         wev # wayland xev
         cheese # webcam
-        errands # todo manager
         dezoomify-rs # art archival
         localsend # airdrop
-        sequoia-sq # gpg without gnu
-        gnupg # gpg with gnu
         wvkbd-desktop # osk
+        gnupg
+        devenv
 
         # file support
         zathura # pdf
         imv # image
         mpv # video
         mousepad # gui-notepad
-        sqlitebrowser
-        yt-dlp # download yt+
         imagemagick # convert images
 
         # work
@@ -69,13 +66,8 @@ in
         nmap
         xca
 
-        # programming
-        sublime-merge
-        devenv
-
         # music
         strawberry
-        spotify
 
         # messaging
         signal-desktop
@@ -115,12 +107,16 @@ in
       enable = true;
       pairs = {
         "notes" = {
+          # NFS doesn't support inotify events
+          commandOptions.repeat = "60";
           roots = [
             "/home/martijn/Notes"
             "/mnt/notes/"
           ];
         };
         "aichats" = {
+          # NFS doesn't support inotify events
+          commandOptions.repeat = "60";
           roots = [
             "${config.xdg.configHome}/aichat/sessions"
             "/mnt/session/"

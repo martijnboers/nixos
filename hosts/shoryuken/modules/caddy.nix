@@ -9,11 +9,11 @@ with lib;
 let
   cfg = config.hosts.caddy;
   info = fetchGit {
-    url = "https://github.com/martijnboers/boers.email.git";
+    url = "https://seed.boers.email/z2r9euHZW161kfQNxdF4apHddD3mm.git";
     rev = "89cc63528d0eeabf87fd29fed6c26448a10b481c";
   };
   resume = fetchGit {
-    url = "git@github.com:martijnboers/resume.git";
+    url = "https://seed.boers.email/zb1FuXow3wJemDDPFWGFa49rNA4z.git";
     rev = "b7d75859c8ce0c2867c95c5924623e397a2600f9";
   };
   gpg-key = "${inputs.secrets}/keys/pgp.asc";
@@ -48,6 +48,24 @@ in
         servers {
             trusted_proxies static 100.64.0.0/10
             enable_full_duplex
+        }
+      '';
+      extraConfig = ''
+        (headscale) {
+          @internal remote_ip 100.64.0.0/10
+          tls {
+            ca https://acme.thuis:4443/acme/gitgetgot/directory
+          }
+        }
+        (mtls) {
+          tls {
+            client_auth {
+              mode require_and_verify
+              trust_pool file {
+                pem_file "${inputs.secrets}/keys/plebs4platinum.crt"
+              }
+            }
+          }
         }
       '';
       virtualHosts = {

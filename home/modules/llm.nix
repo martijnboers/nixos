@@ -22,7 +22,19 @@
         `nixos-rebuild switch`. You can run one off commands that are not in
         path with `nix shell nixpkgs#cat` or `, cat`.
 
-      ## 2. Source Truth & User Intent
+      ## 2. Enviroment
+      **Context:** 
+        I debug on computers for servers on desktops. Very often I will create
+        code/services that's not being run on the computer running opencode
+      **Constraint:** 
+        DO NOT keep on trying to find running services when they are not on the
+        system.
+      **Action:** 
+        ASK if the code/service you're developing is for this machine or a
+        machine you don't have access to. If it's for another machine DON'T TRY
+        TO LOOK FOR FILES / INSTALL PROGRAMS ETC
+
+      ## 3. Source Truth & User Intent
       **Context:** 
         The user manually edits files between runs.
       **Rule:** 

@@ -144,6 +144,7 @@ in
             urAccepted = 1;
             relaysEnabled = false;
             localAnnounceEnabled = false;
+            globalAnnounceEnabled = false;
             crashReportingEnabled = false;
           };
           gui.insecureSkipHostcheck = true; # reverse proxy

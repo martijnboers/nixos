@@ -988,11 +988,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1771882804,
-        "narHash": "sha256-Urnl16KcZtgIoyst8mfmc/58y/PxkTndwb9OiDmQuVU=",
+        "lastModified": 1772024015,
+        "narHash": "sha256-Jb5IpiOIhDbc0yY9NJLJBoCIXMXBktKB/Ax341tk2t8=",
         "ref": "refs/heads/master",
-        "rev": "1ad80a0303a392bd5774aeaac61c8cf257faff5b",
-        "revCount": 58,
+        "rev": "3f0aa8a7575842e1fc7917c69222a2ce22632dfa",
+        "revCount": 63,
         "type": "git",
         "url": "file:///etc/nixos/secrets"
       },

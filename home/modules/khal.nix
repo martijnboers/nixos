@@ -19,6 +19,13 @@ in
       file = "${inputs.secrets}/radicale-client.age";
     };
 
+    programs.todoman = {
+      enable = true;
+      extraConfig = ''
+        default_list = "martijn"
+      '';
+    };
+
     programs.vdirsyncer.enable = true;
     services.vdirsyncer = {
       enable = true;

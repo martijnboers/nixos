@@ -27,7 +27,7 @@ in
         description = "Socat forwarder for Proton Bridge IMAP";
         after = [ "protonmail-bridge.service" ];
         wants = [ "protonmail-bridge.service" ];
-        wantedBy = [ "multi-user.target" ];
+        wantedBy = [ "default.target" ];
         serviceConfig = {
           Restart = "on-failure";
           RestartSec = 10;
@@ -41,7 +41,7 @@ in
         description = "Socat forwarder for Proton Bridge SMTP";
         after = [ "protonmail-bridge.service" ];
         wants = [ "protonmail-bridge.service" ];
-        wantedBy = [ "multi-user.target" ];
+        wantedBy = [ "default.target" ];
         serviceConfig = {
           Restart = "on-failure";
           RestartSec = 10;

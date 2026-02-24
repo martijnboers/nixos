@@ -66,7 +66,7 @@ in
           gp = "git push";
           gpf = "git push --force-with-lease";
           grb = "git rebase";
-          groh = "git reset origin/$(git_current_branch) --hard";
+          groh = "git reset rad/$(git_current_branch) --hard";
           gwip = ''git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify --no-gpg-sign --message "--wip-- [skip ci]"'';
           fixup = "ga . && gc --amend --no-edit";
 
