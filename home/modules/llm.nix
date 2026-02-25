@@ -91,6 +91,11 @@
             apiKey = "{env:ANTHROPIC_API_KEY}";
           };
         };
+        moonshot-ai = {
+          options = {
+            apiKey = "{env:MOONSHOT_API_KEY}";
+          };
+        };
         deepseek = {
           npm = "@ai-sdk/openai-compatible";
           name = "DeepSeek";
@@ -146,18 +151,13 @@
         }
         {
           type = "openai-compatible";
+          name = "moonshot";
+          api_base=" https://api.moonshot.cn/v1";
+        }
+        {
+          type = "openai-compatible";
           name = "deepseek";
           api_base = "https://api.deepseek.com";
-        }
-        {
-          type = "openai-compatible";
-          name = "vllm";
-          api_base = "http://localhost:5000/v1";
-        }
-        {
-          type = "openai-compatible";
-          name = "ollama";
-          api_base = "http://localhost:11434/v1";
         }
       ];
     };

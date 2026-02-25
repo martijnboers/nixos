@@ -32,7 +32,8 @@ for a good initial starting point for NixOS with flakes.
 | --- | --- | --- |
 | Atuin | Shell history synchronization. | [atuin.nix](hosts/hadouken/modules/atuin.nix) |
 | Bincache | Binary cache with Attic. | [bincache.nix](hosts/hadouken/modules/bincache.nix) |
-| Caddy WebDAV | Authenticated WebDAV endpoints. | [caddy.nix](hosts/hadouken/modules/caddy.nix) |
+| Caddy WebDAV | Authenticated WebDAV endpoints with Coraza + WebDAV plugin. | [caddy.nix](hosts/hadouken/modules/caddy.nix) |
+| Garage | Object storage (Garage API + UI) for media assets. | [garage.nix](hosts/hadouken/modules/garage.nix) |
 | Calendar (Radicale) | CalDAV and CardDAV server. | [calendar.nix](hosts/hadouken/modules/calendar.nix) |
 | Database stack | PostgreSQL, MinIO buckets, pgAdmin UI. | [database.nix](hosts/hadouken/modules/database.nix) |
 | Changedetection.io | Website change detection and notification service. | [detection.nix](hosts/hadouken/modules/detection.nix) |
@@ -63,8 +64,8 @@ for a good initial starting point for NixOS with flakes.
 | Service | Description | Configuration |
 | --- | --- | --- |
 | Authoritative DNS | Authoritative DNS server. | [authdns.nix](nixos/modules/authdns.nix) |
-| Caddy (shoryuken) | Reverse proxy for boers.email + static sites. | [caddy.nix](hosts/shoryuken/modules/caddy.nix) |
 | Derper | Tailscale DERP server. | [derper.nix](nixos/modules/derper.nix) |
+| Caddy (shoryuken) | Reverse proxy for boers.email + static sites. | [caddy.nix](hosts/shoryuken/modules/caddy.nix) |
 | Endlessh | SSH tarpit. | [endlessh.nix](hosts/shoryuken/modules/endlessh.nix) |
 | Radicle | Radicle seed node + explorer. | [radicle.nix](hosts/shoryuken/modules/radicle.nix) |
 
@@ -74,12 +75,17 @@ for a good initial starting point for NixOS with flakes.
 | --- | --- | --- |
 | Bitcoin | Bitcoin node. | [bitcoin.nix](hosts/tatsumaki/modules/bitcoin.nix) |
 
-#### Home Automation
+#### WiFi AP
+
+| Service | Description | Configuration |
+| --- | --- | --- |
+| Home Assistant | Home automation platform. | [hass.nix](hosts/suzaku/modules/hass.nix) |
+
+#### Utilities + GPS timeserver
 
 | Service | Description | Configuration |
 | --- | --- | --- |
 | Cyberchef | The Cyber Swiss Army Knife. | [cyberchef.nix](hosts/tenshin/modules/cyberchef.nix) |
-| Home Assistant | Home automation platform. | [hass.nix](hosts/tenshin/modules/hass.nix) |
 | IT-Tools | A collection of useful online tools for developers. | [ittools.nix](hosts/tenshin/modules/ittools.nix) |
 | NTP | Network Time Protocol daemon. | [ntp.nix](hosts/tenshin/modules/ntp.nix) |
 
