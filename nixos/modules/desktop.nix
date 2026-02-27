@@ -21,9 +21,12 @@ in
       DEFAULT_BROWSER = "librewolf";
     };
 
-    environment.systemPackages = with pkgs; [ veracrypt ];
+    environment.systemPackages = with pkgs; [ veracrypt  ];
 
-    users.users.martijn.extraGroups = [ "wireshark" ];
+    users.users.martijn.extraGroups = [
+      "wireshark"
+      "tor" # read authcookie
+    ];
 
     age.secrets = {
       password-laptop.file = lib.mkDefault "${inputs.secrets}/password-laptop.age";
@@ -61,6 +64,31 @@ in
         trusted-public-keys = [
           "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
         ];
+      };
+    };
+
+    services.tor = {
+      enable = true;
+      client.enable = true;
+      # controlPort = 9051;
+      # settings = {
+      #   CookieAuthentication = true;
+      #   CookieAuthFileGroupReadable = true;
+      # };
+    };
+    programs.proxychains = {
+      enable = true;
+      proxies = {
+        tor = {
+          type = "socks5";
+          host = "127.0.0.1";
+          port = 9050;
+        };
+        # nym = {
+        #   type = "socks5";
+        #   host = "127.0.0.1";
+        #   port = 1080;
+        # };
       };
     };
 

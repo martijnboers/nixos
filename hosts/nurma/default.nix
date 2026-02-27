@@ -3,7 +3,6 @@
   networking.hostName = "nurma";
   hosts.hyprland.enable = true;
   hosts.secureboot.enable = true;
-  hosts.qemu.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -57,6 +56,29 @@
     ];
   };
 
+  environment.systemPackages = with pkgs; [
+    # https://github.com/quickemu-project/quickemu/wiki/05-Advanced-quickemu-configuration
+    quickemu
+  ];
+
+  users.users.martijn.extraGroups = [
+    "libvirtd"
+    "libvirt"
+    "kvm"
+    "adbusers"
+  ];
+
+  programs.virt-manager.enable = true;
+
+  virtualisation = {
+    waydroid.enable = false; # android
+    libvirtd.enable = true; # virt-manager
+    spiceUSBRedirection.enable = true;
+  };
+
+  services.qemuGuest.enable = true;
+  services.spice-vdagentd.enable = true; # copy&paste
+
   hosts.tailscale.enable = true;
   hosts.prometheus.enable = true;
 
@@ -94,8 +116,6 @@
   age = {
     identityPaths = [ "/home/martijn/.ssh/id_ed25519_age" ];
   };
-
-  users.users.martijn.extraGroups = [ "adbusers" ];
 
   # Support gpg for git signing
   hosts.yubikey.enable = true;

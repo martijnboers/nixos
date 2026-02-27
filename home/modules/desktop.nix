@@ -53,6 +53,7 @@ in
         # networking
         wireguard-tools # wg-quick
         podman-compose # replace for dud
+        nyx # tor debugging
         iwgtk # wifi applet
 
         # forensics

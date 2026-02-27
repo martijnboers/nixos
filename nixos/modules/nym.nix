@@ -84,12 +84,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    services.tor = {
-      enable = true;
-      # socks = 127.0.0.1:9050
-      client.enable = true;
-    };
-
     systemd.services.nym-vpnd = {
       description = "NymVPN daemon";
       wantedBy = [ "multi-user.target" ];
