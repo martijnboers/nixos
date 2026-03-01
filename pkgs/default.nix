@@ -22,6 +22,7 @@ in
   ladder = pkgs.callPackage ./ladder.nix { };
   unaware = pkgs.callPackage ./unaware.nix { };
   hyprtasking = pkgs.callPackage ./hyprtasking.nix { };
+  hyprspace = pkgs.callPackage ./hyprspace.nix { };
   rustfs = pkgs.callPackage ./rustfs.nix { };
   rip = pkgs.callPackage ./rip.nix { };
   sure = pkgs.callPackage ./sure.nix { };

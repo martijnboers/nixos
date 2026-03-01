@@ -11,7 +11,7 @@
 
   home.packages = with pkgs; [
     stable.sdrpp # sdr
-    electrum
+    # electrum
     android-tools
   ];
 

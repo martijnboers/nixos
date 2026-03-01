@@ -19,12 +19,12 @@ rustPlatform.buildRustPackage {
   src = fetchFromGitHub {
     owner = "nymtech";
     repo = "nym-vpn-client";
-    rev = "refs/heads/develop";
-    sha256 = "sha256-BEGr+7fJmZjTgfvq7l0xdYozcgxmKXpQDa15lQp4XCA=";
+    rev = "431bbf27920864e17f3d2179e3a9d74e68316927";
+    sha256 = "sha256-JDlhZswuUVURJ5TyvdGtcdUm/4l4kPXGGyQKQOek/xM=";
     fetchSubmodules = true;
   };
 
-  cargoHash = "sha256-4MUbi4Idz/xIzhHzBhgOw/i+vLO8Ridijtvc1QmE+lY=";
+  cargoHash = "sha256-RjbDNfnQdxVzQY0EKysn5/zGFMnmDqw1WrmK81JD9VA=";
   sourceRoot = "source/nym-vpn-core";
 
   cargoBuildFlags = [ "--release" ];

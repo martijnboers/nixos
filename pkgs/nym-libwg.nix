@@ -4,6 +4,7 @@
   pkg-config,
   libmnl,
   libnftnl,
+  lib,
 }:
 
 buildGoModule {
@@ -13,8 +14,8 @@ buildGoModule {
   src = fetchFromGitHub {
     owner = "nymtech";
     repo = "nym-vpn-client";
-    rev = "refs/heads/develop";
-    sha256 = "sha256-intQuDXF4Nj3PIJOwVssADqaOJDEaVjefXO+NMUCsJw=";
+    rev = "431bbf27920864e17f3d2179e3a9d74e68316927";
+    sha256 = "sha256-JDlhZswuUVURJ5TyvdGtcdUm/4l4kPXGGyQKQOek/xM=";
     fetchSubmodules = true;
   };
 

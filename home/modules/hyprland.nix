@@ -74,7 +74,7 @@ in
         enable = true;
         variables = [ "all" ]; # pass all user env variables to systemd
       };
-      plugins = [ pkgs.hyprtasking ];
+      # plugins = [ pkgs.hyprspace ];
       # https://wiki.hyprland.org/Configuring/Variables/
       settings = {
         "$mod" = "ALT";
@@ -89,15 +89,9 @@ in
         "$browser" = "librewolf";
         "$menu" = "walker";
 
-        plugin.hyprtasking = {
-          gap_size = 7;
-          bg_color = "0xff26233a";
-          gestures.enabled = false;
-          grid = {
-            rows = 3;
-            cols = 2;
-          };
-        };
+        # plugin.overview = {
+        #   affectStrut = false;
+        # };
 
         # hyprlandhyprctl clients
         windowrule = [
@@ -164,7 +158,7 @@ in
           '', Print, exec, ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - | satty -f -''
           ''$mod, Print, exec, ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - | ${lib.getExe pkgs.tesseract} - stdout | wl-copy''
           "$mod, F4, killactive"
-          "$mod, escape, hyprtasking:toggle, cursor"
+          # "$mod, escape, overview:toggle"
           "$prog, H, exec, walker -m clipboard"
           "$mod, M, exec, hyprlock"
 
@@ -177,11 +171,16 @@ in
           "$mod, L, movefocus, r"
           "$mod, I, movefocus, u"
           "$mod, K, movefocus, d"
-          "$mod, U, swapwindow, l"
-          "$mod, O, swapwindow, r"
+
+          # Swap windows directionally (exchange positions)
+          "$mod SHIFT, I, swapwindow, u"
+          "$mod SHIFT, K, swapwindow, d"
+          "$mod SHIFT, J, swapwindow, l"
+          "$mod SHIFT, L, swapwindow, r"
+
           "$mod, F, fullscreen,"
           "$mod, P, pseudo," # dwindle
-          "$mod, H, togglesplit" # dwindle
+          "$mod, H, layoutmsg, togglesplit" # dwindle
         ]
         ++ (
           # Define keybindings for workspaces 1 to 6
@@ -201,9 +200,11 @@ in
 
         # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
         dwindle = {
-          pseudotile = true; # Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
-          preserve_split = true; # You probably want this
+          pseudotile = true;
+          preserve_split = true;
+          default_split_ratio = 1.3;
         };
+
         general = {
           gaps_in = 3;
           gaps_out = "5,12,12,12";

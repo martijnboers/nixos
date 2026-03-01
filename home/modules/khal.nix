@@ -34,6 +34,7 @@ in
 
     programs.khal = {
       enable = true;
+      package = pkgs.stable.khal;
       settings = {
         default = {
           default_calendar = "martijn";
