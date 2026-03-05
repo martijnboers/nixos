@@ -128,6 +128,17 @@ in
       dotDir = "${config.xdg.configHome}/zsh";
       zprof.enable = false;
       syntaxHighlighting.enable = true;
+      history = {
+        # Point the history file to the void
+        path = "/dev/null";
+        # Stop Zsh from saving history to disk
+        save = 0;
+        # Even though we aren't saving to disk, Zsh needs an in-memory
+        # buffer (size) so Atuin's hooks can capture the command
+        size = 10000;
+        # Since we aren't using a file, we can't share via file.
+        share = false;
+      };
       zplug = {
         enable = true;
         plugins = [
@@ -145,11 +156,19 @@ in
 
     programs.atuin = {
       enable = true; # Command history database
-      flags = [ "--disable-up-arrow" ];
+      # flags = [ "--disable-up-arrow" ];
       enableZshIntegration = true;
       daemon.enable = true;
 
       settings = {
+        # ZSH isn't saving history
+        sync_shell_history = false;
+        ctrl_n_shortcuts = true;
+        keymap_mode = "vim-insert";
+        ui.columns = [
+          "command"
+          "directory"
+        ];
         auto_sync = true;
         sync_address = "https://atuin.thuis";
         sync_frequency = "10m";

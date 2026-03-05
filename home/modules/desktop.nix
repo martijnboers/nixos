@@ -75,32 +75,6 @@ in
         fractal # matrix-client
       ];
 
-    programs.distrobox = {
-      enable = true;
-      settings = {
-        container_manager = "podman";
-      };
-      # distrobox-assemble create --file ~/.config/distrobox/containers.ini
-      containers = {
-        debian = {
-          entry = true;
-          image = "debian:13";
-        };
-        ubuntu = {
-          entry = true;
-          image = "ubuntu:24.04";
-        };
-        arch = {
-          entry = true;
-          image = "archlinux:latest";
-        };
-        fedora = {
-          entry = true;
-          image = "fedora:44";
-        };
-      };
-    };
-
     # DBus secret service
     services.pass-secret-service.enable = true;
 
