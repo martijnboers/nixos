@@ -62,10 +62,9 @@ in
         playerctl
         wlogout
 
-        # clipboard
-        wl-clipboard
-        # monitor settings
-        hyprmon
+        wl-clipboard # clipboard
+        hyprmon # display settings
+        iwgtk # wifi applet
       ];
 
     wayland.windowManager.hyprland = {
@@ -98,6 +97,7 @@ in
           "workspace 2, match:class ^(Wfica)$" # citrix
           "workspace 5, match:class ^(Fractal)$"
           "workspace 5, match:class ^(Signal)$"
+          "float on, match:title ^Picture-in-Picture$"
         ];
 
         # l -> locked, will also work when an input inhibitor (e.g. a lockscreen) is active.

@@ -30,7 +30,6 @@ in
       with pkgs;
       with pkgs.kdePackages;
       [
-        wl-clipboard # wayland clipboard manager
         kooha # record screen wayland
         wev # wayland xev
         cheese # webcam
@@ -54,7 +53,6 @@ in
         wireguard-tools # wg-quick
         podman-compose # replace for dud
         nyx # tor debugging
-        iwgtk # wifi applet
 
         # forensics
         magika-cli # recognize filetype
@@ -74,32 +72,6 @@ in
         signal-desktop
         fractal # matrix-client
       ];
-
-    programs.distrobox = {
-      enable = true;
-      settings = {
-        container_manager = "podman";
-      };
-      # distrobox-assemble create --file ~/.config/distrobox/containers.ini
-      containers = {
-        debian = {
-          entry = true;
-          image = "debian:13";
-        };
-        ubuntu = {
-          entry = true;
-          image = "ubuntu:24.04";
-        };
-        arch = {
-          entry = true;
-          image = "archlinux:latest";
-        };
-        fedora = {
-          entry = true;
-          image = "fedora:44";
-        };
-      };
-    };
 
     # DBus secret service
     services.pass-secret-service.enable = true;
