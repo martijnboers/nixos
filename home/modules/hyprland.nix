@@ -62,10 +62,9 @@ in
         playerctl
         wlogout
 
-        # clipboard
-        wl-clipboard
-        # monitor settings
-        hyprmon
+        wl-clipboard # clipboard
+        hyprmon # display settings
+        iwgtk # wifi applet
       ];
 
     wayland.windowManager.hyprland = {

@@ -30,7 +30,6 @@ in
       with pkgs;
       with pkgs.kdePackages;
       [
-        wl-clipboard # wayland clipboard manager
         kooha # record screen wayland
         wev # wayland xev
         cheese # webcam
@@ -54,7 +53,6 @@ in
         wireguard-tools # wg-quick
         podman-compose # replace for dud
         nyx # tor debugging
-        iwgtk # wifi applet
 
         # forensics
         magika-cli # recognize filetype
