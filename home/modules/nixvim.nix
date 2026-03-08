@@ -628,6 +628,7 @@ in
         }
         {
           event = "VimEnter";
+          nested = true;
           callback = helpers.mkRaw ''
             function()
               if vim.fn.argc() == 0 then
