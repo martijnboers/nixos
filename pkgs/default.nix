@@ -23,6 +23,7 @@ in
   unaware = pkgs.callPackage ./unaware.nix { };
   hyprtasking = pkgs.callPackage ./hyprtasking.nix { };
   hyprspace = pkgs.callPackage ./hyprspace.nix { };
+  scooter = pkgs.callPackage ./scooter.nix { };
   rustfs = pkgs.callPackage ./rustfs.nix { };
   rip = pkgs.callPackage ./rip.nix { };
   sure = pkgs.callPackage ./sure.nix { };

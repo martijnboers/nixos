@@ -2,12 +2,12 @@
   gcc14Stdenv,
   pkgs,
 }:
-# Build from local PR branch with 0.54 support fixes
-gcc14Stdenv.mkDerivation {
-  pname = "Hyprspace";
-  version = "0.54.0-pr223";
 
-  src = /home/martijn/Code/Hyprspace;
+gcc14Stdenv.mkDerivation {
+  pname = "scooter";
+  version = "0.1.0";
+
+  src = /home/martijn/Code/scooter;
 
   nativeBuildInputs = pkgs.hyprland.nativeBuildInputs;
   buildInputs = [ pkgs.hyprland ] ++ pkgs.hyprland.buildInputs;
@@ -16,12 +16,12 @@ gcc14Stdenv.mkDerivation {
   installFlags = [ "PREFIX=$(out)" ];
 
   postInstall = ''
-    mv $out/lib/Hyprspace.so $out/lib/libHyprspace.so
+    mkdir -p $out/lib
+    mv $out/lib/scooter.so $out/lib/libscooter.so || mv scooter.so $out/lib/libscooter.so
   '';
 
   meta = with pkgs.lib; {
-    homepage = "https://github.com/KZDKM/Hyprspace";
-    description = "Workspace overview plugin for Hyprland (0.54 PR branch)";
+    description = "Minimal workspace overview plugin for Hyprland";
     license = licenses.gpl2Only;
     platforms = platforms.linux;
   };

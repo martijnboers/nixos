@@ -155,24 +155,28 @@ in
     };
 
     programs.atuin = {
-      enable = true; # Command history database
-      # flags = [ "--disable-up-arrow" ];
+      enable = true; 
       enableZshIntegration = true;
       daemon.enable = true;
 
       settings = {
-        # ZSH isn't saving history
+        # zsh isn't saving history
         sync_shell_history = false;
         ctrl_n_shortcuts = true;
-        keymap_mode = "vim-insert";
+        show_preview = false;
+        show_help = false;
+        show_tabs = false;
         ui.columns = [
           "command"
-          "directory"
+          "host"
         ];
         auto_sync = true;
+        show_someting = false;
         sync_address = "https://atuin.thuis";
         sync_frequency = "10m";
+        filter_mode_shell_up_key_binding = "session";
         update_check = false;
+        enter_accept = true;
         style = "compact";
         sync.records = true;
       };

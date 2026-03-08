@@ -81,7 +81,7 @@ in
           enable = true;
           keymaps = {
             lspBuf = {
-              "<C-space>" = "hover";
+              K = "hover";
               gD = "references";
               gd = "definition";
               gr = "rename";
@@ -101,6 +101,7 @@ in
             zls.enable = true;
             vtsls.enable = true; # Javascript (nice naming)
             yamlls.enable = true;
+            markdown_oxide.enable = true;
             docker_compose_language_service.enable = true;
             rust_analyzer = {
               enable = true;
@@ -110,42 +111,17 @@ in
           };
         }; # language servers
 
-        blink-cmp = {
+        navic = {
           enable = true;
           settings = {
-            enabled = helpers.mkRaw ''
-              function()
-                return vim.bo.buftype ~= 'prompt' and vim.b.completion ~= false
-              end
-            '';
-            keymap = {
-              "<C-b>" = [
-                "scroll_documentation_up"
-                "fallback"
-              ];
-              "<C-e>" = [ "hide" ];
-              "<C-f>" = [
-                "scroll_documentation_down"
-                "fallback"
-              ];
-              "<C-n>" = [
-                "select_next"
-                "fallback"
-              ];
-              "<C-p>" = [
-                "select_prev"
-                "fallback"
-              ];
-              "<C-space>" = [
-                "show"
-              ];
-              "<C-y>" = [ "select_and_accept" ];
-            };
-            completion.documentation.auto_show = true;
-            sources.providers.buffer.score_offset = -7;
+            lsp.auto_attach = true;
+            depth_limit = 3;
+            separator = " › ";
+            highlight = false;
+            safe_output = true;
           };
-        };
-      }; # auto-complete
+        }; # code context in statusline
+      };
 
       keymaps = [
         {

@@ -139,14 +139,21 @@ in
         foldmethod = "marker"; # Use {{{ and }}} to define folds
         foldlevel = 0; # Close all marked folds by default
         foldenable = true; # Enable the feature
+
+        # Completion
+        wildoptions = "pum"; # popup menu for wildmenu
+        wildmode = "longest:full,full"; # Complete longest common string, then each full match
+        pumblend = 0; # popup menu transparency
+        cmdheight = 0; # hide command line
+        completeopt = "menu,menuone,noinsert"; # Show menu, auto-select first, don't auto-insert
+        complete = "."; # Current buffer only
+        infercase = true; # Infer case for completion
       };
       # }}}
 
       # Plugins {{{
       plugins = {
-        noice.enable = true; # cmd popup input modal
         quicker.enable = true; # edit quickfix as buffer
-        auto-session.enable = true; # save session
         markview.enable = true; # better markdown
 
         gitportal = {
@@ -165,6 +172,26 @@ in
             git.enable = true; # :Git helper functions
             diff.enable = true; # gitsigns replacement
             visits.enable = true; # visited buffers
+
+            sessions = {
+              enable = true;
+              autoread = false; # Manual session selection
+              autowrite = true;
+              file = ""; # Disable local sessions (Session.vim)
+              force = {
+                read = false;
+                write = true;
+                delete = true; # Allow deleting current session
+              };
+            };
+
+            completion = {
+              enable = true;
+              window = {
+                info.border = "rounded";
+                signature.border = "rounded";
+              };
+            };
 
             hipatterns = {
               enable = true; # color color hexcodes
@@ -195,7 +222,7 @@ in
                 active = helpers.mkRaw ''
                   function()
                     local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 200 })
-                    local path          = MiniStatusline.section_filename({ trunc_width = 10 })
+                    local filename      = vim.fn.expand('%:t')
 
                     local n_errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
                     local n_warns  = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
@@ -206,33 +233,57 @@ in
                     local recording = vim.fn.reg_recording()
                     local s_rec = (recording ~= "") and ("󰶇  " .. recording) or ""
 
-                    local n_others = 0
+                    local n_unwritten = 0
                     local current_buf = vim.api.nvim_get_current_buf()
                     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-                      if vim.bo[buf].modified and vim.bo[buf].buflisted and buf ~= current_buf then
-                        n_others = n_others + 1
+                      if vim.bo[buf].modified and vim.bo[buf].buflisted then
+                        n_unwritten = n_unwritten + 1
                       end
                     end
-                    local s_others = (n_others > 0) and ("● " .. n_others) or ""
+                    local s_unwritten = (n_unwritten > 0) and ("● " .. n_unwritten) or ""
 
-                    local s_ok = (s_errors == "" and s_warns == "" and s_rec == "" and s_others == "") and " "
+                    local s_ok = (s_errors == "" and s_warns == "" and s_rec == "" and s_unwritten == "") and " "
 
                     local current_line    = vim.fn.line('.')
                     local total_lines     = vim.fn.line('$')
                     local percentage_str  = string.format('%d%%%%', (total_lines > 0 and math.floor((current_line / total_lines) * 100)) or 0)
+                    local search          = MiniStatusline.section_searchcount({ trunc_width = 75 })
 
-                    return MiniStatusline.combine_groups({
+                    -- Show status message with 5 second fade
+                    local msg = ""
+                    if vim.g._last_statusmsg and vim.g._last_statusmsg_time then
+                      local elapsed = (vim.loop.now() - vim.g._last_statusmsg_time) / 1000
+                      if elapsed < 5 then
+                        msg = vim.g._last_statusmsg
+                      else
+                        vim.g._last_statusmsg = nil
+                      end
+                    end
+
+                    -- Get code context from navic
+                    local navic = require('nvim-navic')
+                    local context = navic.is_available() and navic.get_location() or ""
+
+                    -- Build statusline groups conditionally
+                    local groups = {
                       { hl = mode_hl,                  strings = { mode } },
-                      '%<',
                       { hl = 'MiniStatuslineDevinfo',  strings = { percentage_str } },
-                      { hl = 'MiniStatuslineLocation', strings = { path } },
-
-                      '%=',
-                      { hl = 'DiffChange',             strings = { s_others, s_rec } },
-                      { hl = 'DiagnosticWarn',         strings = { s_warns } },
-                      { hl = 'DiagnosticError',        strings = { s_errors } }, 
-                      { hl = 'MiniStatuslineLocation', strings = { s_ok } },
-                    })
+                      '%<',
+                      { hl = 'MiniStatuslineLocation', strings = { filename .. (context ~= "" and " › " .. context or "") } },
+                    }
+                    
+                    if msg ~= "" then
+                      table.insert(groups, '%=')
+                      table.insert(groups, { hl = 'Comment', strings = { msg } })
+                    else
+                      table.insert(groups, '%=')
+                      table.insert(groups, { hl = 'DiffChange', strings = { s_unwritten, s_rec, search } })
+                      table.insert(groups, { hl = 'DiagnosticWarn', strings = { s_warns } })
+                      table.insert(groups, { hl = 'DiagnosticError', strings = { s_errors } })
+                      table.insert(groups, { hl = 'MiniStatuslineLocation', strings = { s_ok } })
+                    end
+                    
+                    return MiniStatusline.combine_groups(groups)
                   end
                 '';
               };
@@ -460,6 +511,27 @@ in
           command = "%d_ | 0put +";
           modes = [ "n" ];
         })
+        # }}}
+
+        # Session Management {{{
+        (lua {
+          key = "<Leader>ss";
+          desc = "Save session for this directory";
+          code = "local name = vim.fn.getcwd():gsub('/', '_'):gsub('^_', ''); MiniSessions.write(name); vim.notify('Session saved: ' .. name)";
+        })
+        (lua {
+          key = "<Leader>sd";
+          desc = "Delete session";
+          code = "MiniSessions.select('delete')";
+        })
+        (lua {
+          key = "<Leader>sl";
+          desc = "Load session";
+          code = "MiniSessions.select('read')";
+        })
+        # }}}
+
+        # Quality of Life / Utilities {{{
         # Fix for Tab mapping breaking Ctrl-i
         (remap {
           key = "<C-i>";
@@ -508,6 +580,7 @@ in
       diagnostic.settings = {
         virtual_text = false;
         signs = false;
+        float.border = "rounded";
         virtual_lines = {
           enable = true;
           current_line = true;
@@ -544,12 +617,45 @@ in
             end
           '';
         }
+        {
+          event = "BufWritePost";
+          callback = helpers.mkRaw ''
+            function()
+              vim.g._last_statusmsg = vim.v.statusmsg
+              vim.g._last_statusmsg_time = vim.loop.now()
+            end
+          '';
+        }
+        {
+          event = "VimEnter";
+          callback = helpers.mkRaw ''
+            function()
+              if vim.fn.argc() == 0 then
+                -- Generate session name from current working directory
+                local cwd = vim.fn.getcwd()
+                local name = cwd:gsub("/", "_"):gsub("^_", "")
+                -- Try to read session for this directory - silently fail if not found
+                pcall(MiniSessions.read, name)
+              end
+            end
+          '';
+        }
       ];
       # }}}
 
       clipboard = {
         providers.wl-copy.enable = true;
       };
+
+      extraConfigLua = ''
+        -- Capture vim.notify messages in statusline
+        local orig_notify = vim.notify
+        vim.notify = function(msg, level, opts)
+          vim.g._last_statusmsg = msg
+          vim.g._last_statusmsg_time = vim.loop.now()
+          return orig_notify(msg, level, opts)
+        end
+      '';
     };
   };
 }

@@ -2,17 +2,16 @@
   gcc14Stdenv,
   pkgs,
 }:
-# Build from local PR branch with 0.54 support fixes
+
 gcc14Stdenv.mkDerivation {
   pname = "Hyprspace";
-  version = "0.54.0-pr223";
+  version = "0.54.0-port";
 
   src = /home/martijn/Code/Hyprspace;
 
   nativeBuildInputs = pkgs.hyprland.nativeBuildInputs;
   buildInputs = [ pkgs.hyprland ] ++ pkgs.hyprland.buildInputs;
   dontUseCmakeConfigure = true;
-
   installFlags = [ "PREFIX=$(out)" ];
 
   postInstall = ''
@@ -20,8 +19,7 @@ gcc14Stdenv.mkDerivation {
   '';
 
   meta = with pkgs.lib; {
-    homepage = "https://github.com/KZDKM/Hyprspace";
-    description = "Workspace overview plugin for Hyprland (0.54 PR branch)";
+    description = "Workspace overview plugin for Hyprland";
     license = licenses.gpl2Only;
     platforms = platforms.linux;
   };
