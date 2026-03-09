@@ -14,9 +14,9 @@
         The system is NixOS. The file system is declarative and largely
         immutable.
       **Constraint:** 
-        DO NOT attempt to modify system files (e.g., in `/etc/`) directly using
-        standard Linux commands. DO NOT try and find from /nix store, this
-        takes too long.
+        **DO NOT** attempt to modify system files (e.g., in `/etc/`) directly
+        using standard Linux commands. **DO NOT** try and find from /nix store,
+        this takes too long.
       **Action:** 
         To change system configurations, you must edit the relevant declarative
         configuration files (e.g., `devenv.nix`, `flake.nix`) and execute

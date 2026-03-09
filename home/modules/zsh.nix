@@ -62,12 +62,11 @@ in
           gcb = "git checkout -b";
           gf = "git fetch";
           gl = "git pull";
+          gs = "git status";
           glg = "git log --stat";
           gp = "git push";
           gpf = "git push --force-with-lease";
           grb = "git rebase";
-          groh = "git reset rad/$(git_current_branch) --hard";
-          gwip = ''git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify --no-gpg-sign --message "--wip-- [skip ci]"'';
           fixup = "ga . && gc --amend --no-edit";
 
           # ssh nicknames
@@ -80,7 +79,16 @@ in
           router = sshAlias "dosukoi";
           ap = sshAlias "suzaku";
         };
-      completionInit = ""; # let zplug do this
+      antidote = {
+        enable = true;
+        plugins = [
+          "jeffreytse/zsh-vi-mode"
+          "ohmyzsh/ohmyzsh path:plugins/ssh-agent"
+          "mafredri/zsh-async"
+          "sindresorhus/pure"
+        ];
+      };
+      completionInit = "";
       initContent =
         let
           general =
@@ -105,12 +113,20 @@ in
                   done
                 }
               '';
+          pureConfig = lib.mkOrder 800 ''
+            PURE_GIT_PULL=0
+
+            zstyle ":prompt:pure:git:branch" color "242"
+            zstyle ":prompt:pure:git:dirty" color "218"
+            zstyle ":prompt:pure:git:action" color "242"
+            zstyle ":prompt:pure:prompt:success" color "140"
+            zstyle ":prompt:pure:prompt:error" color "red"
+            zstyle ":prompt:pure:execution_time" color "yellow"
+          '';
           last =
             lib.mkOrder 1500 # bash
               ''
                 export $(cat ${config.age.secrets.llm.path} | xargs)
-                source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-                test -f ~/.config/zsh/.p10k.zsh && source ~/.config/zsh/.p10k.zsh
 
                 function _force_atuin_binding_once() {
                   # Forcefully bind CTRL+R in the vi keymaps to atuin
@@ -122,6 +138,7 @@ in
               '';
         in
         lib.mkMerge [
+          pureConfig
           general
           last
         ];
@@ -139,23 +156,10 @@ in
         # Since we aren't using a file, we can't share via file.
         share = false;
       };
-      zplug = {
-        enable = true;
-        plugins = [
-          {
-            name = "jeffreytse/zsh-vi-mode";
-            tags = [ "from:github" ];
-          }
-          {
-            name = "plugins/ssh-agent";
-            tags = [ "from:oh-my-zsh" ];
-          }
-        ];
-      };
     };
 
     programs.atuin = {
-      enable = true; 
+      enable = true;
       enableZshIntegration = true;
       daemon.enable = true;
 

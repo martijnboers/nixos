@@ -17,7 +17,7 @@
     determinate.url = "github:DeterminateSystems/nix-src/v3.16.0";
 
     home-manager = {
-      url = "github:martijnboers/home-manager";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

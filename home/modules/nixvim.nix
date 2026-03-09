@@ -103,8 +103,9 @@ in
   };
 
   imports = [
-    ./lsp.nix
     ./dap.nix
+    ./lsp.nix
+    ./snip.nix
   ];
 
   config = mkIf cfg.enable {
@@ -143,6 +144,7 @@ in
         # Completion
         wildoptions = "pum"; # popup menu for wildmenu
         wildmode = "longest:full,full"; # Complete longest common string, then each full match
+        winborder = "rounded";
         pumblend = 0; # popup menu transparency
         cmdheight = 0; # hide command line
         completeopt = "menu,menuone,noinsert"; # Show menu, auto-select first, don't auto-insert
@@ -166,44 +168,25 @@ in
           mockDevIcons = true;
           modules = {
             files.enable = true; # file explorer
+            pick.enable = true; # file picker
             extra.enable = true; # more picker sources
             icons.enable = true; # icons support for extensions
             surround.enable = true; # surround words with something
-            git.enable = true; # :Git helper functions
+            git.enable = true; # :git helper functions
             diff.enable = true; # gitsigns replacement
             visits.enable = true; # visited buffers
+            cmdline.enable = true; # better cmd autocomplete
+            completion.enable = true; # autocomplete
 
             sessions = {
               enable = true;
-              autoread = false; # Manual session selection
+              autoread = false; # done by autoCmd
               autowrite = true;
-              file = ""; # Disable local sessions (Session.vim)
+              file = ""; # don't do local sessions
               force = {
                 read = false;
                 write = true;
-                delete = true; # Allow deleting current session
-              };
-            };
-
-            completion = {
-              enable = true;
-              window = {
-                info.border = "rounded";
-                signature.border = "rounded";
-              };
-            };
-
-            hipatterns = {
-              enable = true; # color color hexcodes
-              highlighters.hex_color = helpers.mkRaw ''
-                require('mini.hipatterns').gen_highlighter.hex_color(),
-              '';
-            };
-
-            pick = {
-              enable = true; # file picker
-              mappings = {
-                mark = "<C-CR>";
+                delete = true; # allow deleting current session
               };
             };
 
@@ -363,19 +346,6 @@ in
             "n"
             "v"
           ];
-        })
-        # }}}
-
-        # Native Tab Management {{{
-        (cmd {
-          key = "<Leader>tn";
-          command = "tabnew";
-          desc = "New Tab (Workspace)";
-        })
-        (cmd {
-          key = "<Leader>tc";
-          command = "tabclose";
-          desc = "Close Tab";
         })
         # }}}
 
@@ -580,7 +550,6 @@ in
       diagnostic.settings = {
         virtual_text = false;
         signs = false;
-        float.border = "rounded";
         virtual_lines = {
           enable = true;
           current_line = true;

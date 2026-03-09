@@ -168,7 +168,7 @@ in
           extensions.force = true;
           search = {
             force = true;
-            default = "ddg";
+            default = "google";
             engines =
               let
                 mkEngine =
