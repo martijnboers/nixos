@@ -17,14 +17,13 @@
 
   age.identityPaths = [ "/home/martijn/.ssh/id_ed25519_age" ];
 
-  programs.git =
-    let
-      keychain-sk = "${inputs.secrets}/keys/nurma-sk.pub";
-    in
-    {
-      settings.core.sshCommand = "ssh -i ~/.ssh/id_ed25519_age";
-      signing.key = "key::${lib.fileContents keychain-sk}";
+  programs.git = {
+    settings.core.sshCommand = "ssh -i ~/.ssh/id_ed25519_age";
+    signing = {
+      key = "C1E3 5670 353B 3516 BAA3 51D2 8BA2 F86B 654C 7078";
+      format = "gpg";
     };
+  };
 
   # Enable profiles
   maatwerk.hyprland.enable = true;

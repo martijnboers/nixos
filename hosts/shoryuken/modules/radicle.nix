@@ -41,12 +41,16 @@ in
     users.users.caddy.extraGroups = [ "radicle" ];
 
     systemd.services.radicle-ci-broker = {
-      serviceConfig.EnvironmentFile = config.age.secrets.github-token.path;
+      serviceConfig = {
+        EnvironmentFile = config.age.secrets.github-token.path;
+        LoadCredential = "pgp-public:${inputs.secrets}/keys/pgp.asc";
+      };
       path = with pkgs; [
         git
         bash
         coreutils
         curl
+        gnupg
       ];
     };
 

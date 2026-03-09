@@ -1,48 +1,41 @@
 {
   osConfig,
   pkgs,
-  lib,
-  inputs,
   ...
 }:
 {
-  home.packages = with pkgs; [
-    radicle-tui
-  ];
+  home.packages = with pkgs; [ radicle-tui ];
 
-  programs.git =
-    let
-      keychain-sk = "${inputs.secrets}/keys/keychain-sk.pub";
-    in
-    {
-      enable = true;
-      signing = {
-        signByDefault = true;
-        key = lib.mkDefault "key::${lib.fileContents keychain-sk}";
-        format = "ssh";
+  programs.git = {
+    enable = true;
+    signing = {
+      signByDefault = true;
+      key = "C1E3 5670 353B 3516 BAA3 51D2 8BA2 F86B 654C 7078";
+    };
+    settings = {
+      pull.rebase = "true";
+      init.defaultBranch = "main";
+      push.autoSetupRemote = "true";
+      user.name = "Martijn Boers";
+      user.email = "martijn@boers.email";
+      alias = {
+        patch = "push rad HEAD:refs/patches";
       };
-      settings = {
-        pull.rebase = "true";
-        init.defaultBranch = "main";
-        push.autoSetupRemote = "true";
-        user.name = "Martijn Boers";
-        user.email = "martijn@boers.email";
-        alias = {
-          patch = "push rad HEAD:refs/patches";
-        };
-        delta = {
-          navigate = true;
-          dark = true;
-        };
-        merge.conflictStyle = "zdiff3";
-        pager = {
-          blame = "delta";
-          diff = "delta";
-          reflog = "delta";
-          show = "delta";
-        };
+      delta = {
+        navigate = true;
+        dark = true;
+      };
+      merge.conflictStyle = "zdiff3";
+      fetch.fsckZeroPaddedFilemode = "ignore";
+      transfer.fsckZeroPaddedFilemode = "ignore";
+      pager = {
+        blame = "delta";
+        diff = "delta";
+        reflog = "delta";
+        show = "delta";
       };
     };
+  };
 
   # Delta git diff highlighter
   programs.delta = {

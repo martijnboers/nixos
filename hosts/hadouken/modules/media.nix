@@ -60,7 +60,7 @@ in
         # written files should be r+w for groups
         syncthing.serviceConfig.UMask = "0002";
         sonarr.serviceConfig.UMask = "0002";
-        radarr.serviceConfig.UMask = "0002";
+        # radarr.serviceConfig.UMask = "0002";
       };
 
       tmpfiles.rules = [

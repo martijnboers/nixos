@@ -42,6 +42,7 @@ in
         ];
       };
       settings = {
+        security.secret_key = "todo";
         server = {
           domain = "monitoring.thuis";
           http_port = 2342;

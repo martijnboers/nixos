@@ -39,7 +39,7 @@ in
       enable = true;
       package = pkgs.caddy.withPlugins {
         plugins = [ "github.com/darkweak/souin/plugins/caddy@v1.7.8" ];
-        hash = "sha256-citudcNd4HjNwGHtaUlz4CXhlUl1qXsptI3td86XXs0=";
+        hash = "sha256-723tdnUqWPcSNUim3sJMmcEgL3EJKkyOA7se56PMOXc=";
       };
       globalConfig = ''
         metrics {

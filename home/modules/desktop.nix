@@ -107,9 +107,7 @@ in
         pcsc-shared = true;
         # Stop GPG from blocking Firefox
         disable-application = "piv";
-        # Timeout: 5 seconds (per OpenSC docs) or 30 seconds (for better cache)
-        # 5s is safer for preventing errors; 30s is better for typing PIN less.
-        card-timeout = "5";
+        # card-timeout = "5";
       };
     };
     services.gpg-agent = {
