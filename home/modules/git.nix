@@ -26,8 +26,6 @@
         dark = true;
       };
       merge.conflictStyle = "zdiff3";
-      fetch.fsckZeroPaddedFilemode = "ignore";
-      transfer.fsckZeroPaddedFilemode = "ignore";
       pager = {
         blame = "delta";
         diff = "delta";

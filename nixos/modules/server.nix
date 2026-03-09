@@ -1,7 +1,7 @@
 {
   config,
   lib,
-inputs,
+  inputs,
   ...
 }:
 with lib;
@@ -39,6 +39,7 @@ in
       settings = {
         etc = {
           kicksecure-module-blacklist = false; # nfs
+          kicksecure-gitconfig = false; # allow old repos
         };
         kernel = {
           only-signed-modules = true;

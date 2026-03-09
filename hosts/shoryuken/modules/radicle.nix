@@ -99,6 +99,7 @@ in
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICpIiSK+rRAp4HPvWrjy2iUluPcInEsHAqJTN5FIOCFc radicle";
 
       ci = {
+        # https://app.radicle.xyz/nodes/radicle.liw.fi/rad:zwTxygwuz5LDGBq255RA2CbNGrz8/tree/doc/userguide.md
         broker = {
           enable = true;
           settings = {
@@ -113,10 +114,7 @@ in
             triggers = [
               {
                 adapter = "native";
-                filters = [
-                  "BranchCreated"
-                  "BranchUpdated"
-                ];
+                filters = [ "DefaultBranch" ];
               }
             ];
           };
