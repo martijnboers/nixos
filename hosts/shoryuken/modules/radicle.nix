@@ -155,7 +155,7 @@ in
         node = {
           alias = config.networking.hostName;
           externalAddresses = [ "seed.boers.email:8776" ];
-          seedingPolicy.default = "allow";
+          seedingPolicy.default = "block";
         };
       };
       node.openFirewall = true;
