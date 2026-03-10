@@ -133,8 +133,13 @@ in
         ignorecase = true; # Ignore case in search patterns
         smartcase = true; # Override ignorecase if search contains capitals
         swapfile = false; # Don't create cluttering .swp files
-        undofile = true; # save undo history
+        undofile = true; # Save undo history
         sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,globals";
+
+        # spelling
+        spell = false;
+        spelllang = "nl"; # Harper not supported yet
+        spellsuggest = "best,9";
 
         # Folding
         foldmethod = "marker"; # Use {{{ and }}} to define folds
@@ -147,7 +152,7 @@ in
         winborder = "rounded";
         pumblend = 0; # popup menu transparency
         cmdheight = 0; # hide command line
-        completeopt = "menu,menuone,noinsert"; # Show menu, auto-select first, don't auto-insert
+        completeopt = "menu,menuone,noinsert"; # Show menu, autoselect first, don't auto-insert
         complete = "."; # Current buffer only
         infercase = true; # Infer case for completion
       };
@@ -156,7 +161,7 @@ in
       # Plugins {{{
       plugins = {
         quicker.enable = true; # edit quickfix as buffer
-        markview.enable = true; # better markdown
+        markview.enable = true; # better Markdown
 
         gitportal = {
           enable = true; # open gh or gitlab web
@@ -175,8 +180,7 @@ in
             git.enable = true; # :git helper functions
             diff.enable = true; # gitsigns replacement
             visits.enable = true; # visited buffers
-            cmdline.enable = true; # better cmd autocomplete
-            completion.enable = true; # autocomplete
+            completion.enable = true; # autocomplete 
 
             sessions = {
               enable = true;

@@ -56,13 +56,6 @@ in
     };
 
     systemd = {
-      services = {
-        # written files should be r+w for groups
-        syncthing.serviceConfig.UMask = "0002";
-        sonarr.serviceConfig.UMask = "0002";
-        # radarr.serviceConfig.UMask = "0002";
-      };
-
       tmpfiles.rules = [
         # Type, Path,                       Mode, Owner,    Group,      Age, Argument
         "d /mnt/zwembad/hot/Downloads -     2775  martijn   multimedia  -    -"

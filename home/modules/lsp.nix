@@ -99,10 +99,19 @@ in
             gopls.enable = true;
             ccls.enable = true;
             zls.enable = true;
-            vtsls.enable = true; # Javascript (nice naming)
+            vtsls.enable = true; # JavaScript (nice naming)
             yamlls.enable = true;
             markdown_oxide.enable = true;
             docker_compose_language_service.enable = true;
+            harper_ls = {
+              # https://writewithharper.com/docs/integrations/language-server
+              enable = true; # Grammarly replacement
+              settings = {
+                linters = {
+                  SentenceCapitalization = false;
+                };
+              };
+            };
             rust_analyzer = {
               enable = true;
               installCargo = true;
