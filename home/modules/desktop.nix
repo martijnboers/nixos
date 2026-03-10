@@ -21,6 +21,7 @@ in
     maatwerk.attic.enable = true;
     maatwerk.aerc.enable = true;
     maatwerk.khal.enable = true;
+    maatwerk.nixvim.enable = true;
 
     age.secrets = {
       proton.file = "${inputs.secrets}/proton.age";

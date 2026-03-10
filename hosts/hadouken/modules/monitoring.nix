@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -21,7 +22,14 @@ in
       }
       respond 403
     '';
+
+    age.secrets.grafana = {
+      file = "${inputs.secrets}/grafana.age";
+      owner = "grafana";
+    };
+
     services.borgbackup.jobs.default.paths = [ config.services.grafana.settings.database.path ];
+
     services.grafana = {
       enable = true;
       provision = {
@@ -42,7 +50,7 @@ in
         ];
       };
       settings = {
-        security.secret_key = "todo";
+        security.secret_key = "$__file{${config.age.secrets.grafana.path}}";
         server = {
           domain = "monitoring.thuis";
           http_port = 2342;

@@ -162,6 +162,7 @@ in
       enable = true;
       enableZshIntegration = true;
       daemon.enable = true;
+      flags = [ "--disable-up-arrow" ];
 
       settings = {
         # zsh isn't saving history
@@ -178,7 +179,6 @@ in
         show_someting = false;
         sync_address = "https://atuin.thuis";
         sync_frequency = "10m";
-        filter_mode_shell_up_key_binding = "session";
         update_check = false;
         enter_accept = true;
         style = "compact";

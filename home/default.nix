@@ -89,9 +89,9 @@
   # Run programs with , cowsay
   programs.nix-index-database.comma.enable = true;
 
-  # By default get full zsh+nixvim config
+  # Get ZSH by default
   maatwerk.zsh.enable = lib.mkDefault true;
-  maatwerk.nixvim.enable = lib.mkDefault true;
+  maatwerk.nixvim.enable = lib.mkDefault false;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
