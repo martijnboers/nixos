@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ ... }:
 {
   networking.hostName = "suzaku";
 
@@ -11,11 +11,6 @@
   hosts.hass.enable = true;
   nix-mineral.enable = false;
   hosts.auditd.enable = false;
-
-  users.users.martijn = {
-    hashedPasswordFile = lib.mkForce null;
-    hashedPassword = "$y$j9T$VQL/82faMlZSrWg9SefdB/$RQpwhho.v0avZJcjate9yXdzDxVRdBBXeui7ch5XYm9";
-  };
 
   hosts.borg = {
     enable = true;

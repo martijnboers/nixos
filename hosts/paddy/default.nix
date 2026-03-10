@@ -2,11 +2,20 @@
   lib,
   config,
   ...
-}: {
+}:
+{
   networking.hostName = "paddy";
-  hosts.hyprland.enable = true;
-  hosts.laptop.enable = true;
-  hosts.secureboot.enable = true;
+
+  hosts = {
+    hyprland.enable = true;
+    laptop.enable = true;
+    secureboot.enable = true;
+    tailscale.enable = true;
+    yubikey = {
+      enable = true;
+      autolock = true;
+    };
+  };
 
   age.identityPaths = [ "/home/martijn/.ssh/id_ed25519" ];
 
@@ -37,11 +46,5 @@
 
   users.users.martijn = {
     hashedPasswordFile = lib.mkForce config.age.secrets.password-laptop.path;
-  };
-
-  hosts.tailscale.enable = true;
-  hosts.yubikey = {
-    enable = true;
-    autolock = true;
   };
 }

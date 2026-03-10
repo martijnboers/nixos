@@ -3,6 +3,7 @@
   networking.hostName = "nurma";
   hosts.hyprland.enable = true;
   hosts.secureboot.enable = true;
+  hosts.yubikey.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -116,7 +117,4 @@
   age = {
     identityPaths = [ "/home/martijn/.ssh/id_ed25519_age" ];
   };
-
-  # Support gpg for git signing
-  hosts.yubikey.enable = true;
 }
