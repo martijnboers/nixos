@@ -114,7 +114,27 @@ in
             triggers = [
               {
                 adapter = "native";
-                filters = [ "DefaultBranch" ];
+                filters = [
+                  {
+                    And = [
+                      { HasFile = ".radicle/native.yaml"; }
+                      {
+                        Or = [
+                          { Node = "z6MkqW1hUP7eyCVEcNm3DyT6NPYAdJuGunkNW5EcB4fY5fEN"; } # donk
+                          { Node = "z6MkrST9cLyV8NmWorWfXnfeRpYmRcmbKifMe9oiKaFJpqrw"; } # nurma
+                          { Node = "z6MkkE5buQW9vLSqcmqUSTurMLDvjN82qwTDUoiG4T7NWnkc"; } # paddy
+                        ];
+                      }
+                      {
+                        Or = [
+                          "DefaultBranch"
+                          "PatchCreated"
+                          "PatchUpdated"
+                        ];
+                      }
+                    ];
+                  }
+                ];
               }
             ];
           };
