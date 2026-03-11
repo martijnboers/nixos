@@ -101,7 +101,27 @@ in
             zls.enable = true;
             vtsls.enable = true; # JavaScript (nice naming)
             yamlls.enable = true;
-            markdown_oxide.enable = true;
+            markdown_oxide = {
+              enable = true;
+              package = pkgs.markdown-oxide.overrideAttrs (
+                old:
+                let
+                  newSrc = pkgs.fetchFromGitHub {
+                    owner = "martijnboers";
+                    repo = "markdown-oxide";
+                    rev = "7548d8c4078f12b3a7d7f058d69b30403e278297";
+                    hash = "sha256-A2FhCSxWDaOYPH9Gkk7Lc0oLxbtUx9cEX7uDB/kJUGE=";
+                  };
+                in
+                {
+                  src = newSrc;
+                  cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
+                    src = newSrc;
+                    hash = "sha256-Ts+nuQkeZYvp1p8A0mv9SC83Ft/MjQQZG9eOlBFCkIg=";
+                  };
+                }
+              );
+            };
             docker_compose_language_service.enable = true;
             harper_ls = {
               # https://writewithharper.com/docs/integrations/language-server
