@@ -36,9 +36,9 @@ in
 
     boot.kernelParams = [ "i2c_hid.polling_mode=1" ];
 
-    systemd.sleep.extraConfig = ''
-      HibernateDelaySec=30m
-      SuspendState=mem
-    '';
+    systemd.sleep.settings.Sleep = {
+      HibernateDelaySec = "30m";
+      SuspendState = "mem";
+    };
   };
 }

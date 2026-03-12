@@ -180,7 +180,7 @@ in
             git.enable = true; # :git helper functions
             diff.enable = true; # gitsigns replacement
             visits.enable = true; # visited buffers
-            completion.enable = true; # autocomplete 
+            completion.enable = true; # autocomplete
 
             sessions = {
               enable = true;
@@ -209,7 +209,12 @@ in
                 active = helpers.mkRaw ''
                   function()
                     local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 200 })
-                    local filename      = vim.fn.expand('%:t')
+                    -- Show parent dir/filename (e.g., "components/Button.tsx")
+                    local parent_dir = vim.fn.expand('%:h:t')
+                    local filename   = vim.fn.expand('%:t')
+                    local full_filename = (parent_dir ~= "" and parent_dir ~= ".") 
+                      and (parent_dir .. "/" .. filename)
+                      or filename
 
                     local n_errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
                     local n_warns  = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
@@ -236,6 +241,10 @@ in
                     local percentage_str  = string.format('%d%%%%', (total_lines > 0 and math.floor((current_line / total_lines) * 100)) or 0)
                     local search          = MiniStatusline.section_searchcount({ trunc_width = 75 })
 
+                    -- Get code context from navic
+                    local navic = require('nvim-navic')
+                    local context = navic.is_available() and navic.get_location() or ""
+
                     -- Show status message with 5 second fade
                     local msg = ""
                     if vim.g._last_statusmsg and vim.g._last_statusmsg_time then
@@ -247,23 +256,20 @@ in
                       end
                     end
 
-                    -- Get code context from navic
-                    local navic = require('nvim-navic')
-                    local context = navic.is_available() and navic.get_location() or ""
-
-                    -- Build statusline groups conditionally
+                    -- Build statusline: left side | right-aligned content with truncation
+                    -- Left side is protected, right side fills from right but truncates from left
                     local groups = {
                       { hl = mode_hl,                  strings = { mode } },
                       { hl = 'MiniStatuslineDevinfo',  strings = { percentage_str } },
+                      { hl = 'MiniStatuslineLocation', strings = { full_filename .. (context ~= "" and " › " .. context or "") } },
+                      '%=',
                       '%<',
-                      { hl = 'MiniStatuslineLocation', strings = { filename .. (context ~= "" and " › " .. context or "") } },
                     }
                     
+                    -- Right-aligned content (truncates from left if too long)
                     if msg ~= "" then
-                      table.insert(groups, '%=')
                       table.insert(groups, { hl = 'Comment', strings = { msg } })
                     else
-                      table.insert(groups, '%=')
                       table.insert(groups, { hl = 'DiffChange', strings = { s_unwritten, s_rec, search } })
                       table.insert(groups, { hl = 'DiagnosticWarn', strings = { s_warns } })
                       table.insert(groups, { hl = 'DiagnosticError', strings = { s_errors } })
@@ -479,27 +485,21 @@ in
           command = "%y+";
           modes = [ "n" ];
         })
-        (cmd {
-          key = "<Leader>p";
-          desc = "Overwrite file with clipboard";
-          command = "%d_ | 0put +";
-          modes = [ "n" ];
-        })
         # }}}
 
         # Session Management {{{
         (lua {
-          key = "<Leader>ss";
+          key = "<Leader>ps";
           desc = "Save session for this directory";
           code = "local name = vim.fn.getcwd():gsub('/', '_'):gsub('^_', ''); MiniSessions.write(name); vim.notify('Session saved: ' .. name)";
         })
         (lua {
-          key = "<Leader>sd";
+          key = "<Leader>pd";
           desc = "Delete session";
           code = "MiniSessions.select('delete')";
         })
         (lua {
-          key = "<Leader>sl";
+          key = "<Leader>pl";
           desc = "Load session";
           code = "MiniSessions.select('read')";
         })

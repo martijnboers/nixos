@@ -31,7 +31,7 @@ in
           "ctrl+shift+c=copy_to_clipboard"
           "ctrl+shift+v=paste_from_clipboard"
           "ctrl+shift+r=prompt_surface_title"
-          "ctrl+shift+f=write_scrollback_file:paste"
+          "ctrl+shift+f=start_search"
           "ctrl+shift+a=select_all"
           "ctrl+page_down=next_tab"
           "ctrl+page_up=previous_tab"

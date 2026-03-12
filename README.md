@@ -89,4 +89,3 @@ for a good initial starting point for NixOS with flakes.
 | IT-Tools | A collection of useful online tools for developers. | [ittools.nix](hosts/tenshin/modules/ittools.nix) |
 | NTP | Network Time Protocol daemon. | [ntp.nix](hosts/tenshin/modules/ntp.nix) |
 
-

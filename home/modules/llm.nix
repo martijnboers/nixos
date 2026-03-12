@@ -15,13 +15,20 @@
         immutable.
       **Constraint:** 
         **DO NOT** attempt to modify system files (e.g., in `/etc/`) directly
-        using standard Linux commands. **DO NOT** try and find from /nix store,
-        this takes too long.
+        using standard Linux commands. 
       **Action:** 
         To change system configurations, you must edit the relevant declarative
         configuration files (e.g., `devenv.nix`, `flake.nix`) and execute
         `nixos-rebuild switch`. You can run one off commands that are not in
-        path with `nix shell nixpkgs#cat` or `, cat`.
+        path with `nix shell nixpkgs#cat` or `, cat`. 
+
+      **Context**
+        /nix/store is very, very big. 
+      **Constraint**
+        **DO NOT** try to use find to look for binaries/libraries. 
+      **Action**
+        If you want to look for something, use nix-locate, it's much faster as
+        it has indexed the whole store. 
 
       ## 2. Enviroment
       **Context:** 
