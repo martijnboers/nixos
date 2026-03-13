@@ -22,12 +22,10 @@ in
   ladder = pkgs.callPackage ./ladder.nix { };
   unaware = pkgs.callPackage ./unaware.nix { };
   hyprtasking = pkgs.callPackage ./hyprtasking.nix { };
-  hyprspace = pkgs.callPackage ./hyprspace.nix { };
+  hyprspace-custom = pkgs.callPackage ./hyprspace.nix { };
   scooter = pkgs.callPackage ./scooter.nix { };
   rustfs = pkgs.callPackage ./rustfs.nix { };
-  rip = pkgs.callPackage ./rip.nix { };
   sure = pkgs.callPackage ./sure.nix { };
-  bw-secret-service = pkgs.callPackage ./secret-service.nix { };
   glitch-soc = pkgs.callPackage "${glitch-soc-src}/packages/mastodon" { };
   nym-vpnd = pkgs.callPackage ./nym-vpnd.nix { inherit nym-libwg; };
 }

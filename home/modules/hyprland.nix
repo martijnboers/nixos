@@ -32,13 +32,17 @@ in
       enable = true;
       settings.global = {
         frame_width = 1;
-        corner_radius = 5;
-        progress_bar_corner_radius = 5;
+        corner_radius = 6;
+        progress_bar_corner_radius = 6;
         corners = "top-left,bottom";
         progress_bar_corners = "top-left,bottom-right";
         offset = "32x20";
         gap_size = 5;
         format = "<b>󰁕 %a</b>\n%s\n<i>%b</i>";
+        mouse_left_click = "close_current";
+        mouse_right_click = "context";
+        alignment = "center";
+        word_wrap = true;
       };
     };
 
@@ -73,7 +77,7 @@ in
         enable = true;
         variables = [ "all" ]; # pass all user env variables to systemd
       };
-      # plugins = [ pkgs.hyprspace ];
+      plugins = [ pkgs.hyprspace-custom ];
       # https://wiki.hyprland.org/Configuring/Variables/
       settings = {
         "$mod" = "ALT";
@@ -88,15 +92,18 @@ in
         "$browser" = "librewolf";
         "$menu" = "walker";
 
-        # plugin.overview = {
-        #   affectStrut = false;
-        # };
+        plugin.overview = {
+          affectStrut = true;
+        };
 
         # hyprlandhyprctl clients
         windowrule = [
           "workspace 2, match:class ^(Wfica)$" # citrix
           "workspace 5, match:class ^(Fractal)$"
           "workspace 5, match:class ^(Signal)$"
+
+          # Set opacity active, inactive, and full screen for kitty
+          "opacity 1 override 0.93 override 1 override, match:class com.mitchellh.ghostty"
         ];
 
         # l -> locked, will also work when an input inhibitor (e.g. a lockscreen) is active.
@@ -157,7 +164,7 @@ in
           '', Print, exec, ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - | satty -f -''
           ''$mod, Print, exec, ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - | ${lib.getExe pkgs.tesseract} - stdout | wl-copy''
           "$mod, F4, killactive"
-          # "$mod, escape, overview:toggle"
+          "$mod, tab, overview:toggle"
           "$prog, H, exec, walker -m clipboard"
           "$mod, M, exec, hyprlock"
 
@@ -228,10 +235,10 @@ in
         };
 
         decoration = {
-          rounding = 8;
+          rounding = 6;
           shadow = {
             enabled = true;
-            range = 6;
+            range = 4;
             color = lib.mkForce "rgb(${config.lib.stylix.colors.base06})";
             color_inactive = "rgba(00000044)"; # transparant
           };
@@ -373,7 +380,7 @@ in
           {
             monitor = "";
             size = "320, 280";
-            rounding = 20;
+            rounding = 6;
             # Muted background, using base01
             color = "rgba(29, 28, 25, 0.5)";
             position = "0, 0";
@@ -423,7 +430,7 @@ in
             outer_color = "rgb(197, 201, 197)";
             outline_thickness = 3;
             placeholder_text = "Rara...";
-            rounding = 15;
+            rounding = 6;
             # Red for failure, using base08
             fail_color = "rgb(196, 116, 110)";
             fail_text = "<i>$FAIL <b>($ATTEMPTS)</b></i>";

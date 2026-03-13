@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  inputs,
   pkgs,
   ...
 }:
@@ -20,7 +19,7 @@ in
       package = pkgs.stable.tailscale;
       openFirewall = true;
       useRoutingFeatures = lib.mkDefault "client";
-      disableTaildrop = true;
+      disableTaildrop = false;
     };
     networking.firewall.trustedInterfaces = [ "tailscale0" ];
     networking.resolvconf.useLocalResolver = true;

@@ -139,7 +139,7 @@ in
           #custom-wan, #custom-khal,  #window, #clock-privacy, #system-stats, #system-tray {
               background: @base01;
               border: 1px solid @base02;
-              border-radius: 12px;
+              border-radius: 6px;
               margin: 0 4px 0 0;
               padding: 5px 12px;
               font-weight: 600;
@@ -196,13 +196,13 @@ in
 
           #workspaces button:hover {
             background-color: @base02;
-            border-radius: 8px;
+            border-radius: 6px;
           }
 
           #workspaces button.active {
             color: @base03;
             background-color: @base0A;
-            border-radius: 8px;
+            border-radius: 6px;
           }
 
           #workspaces button.urgent { color: @base08; }
@@ -217,7 +217,7 @@ in
           tooltip {
             background-color: @base01;
             border: 1px solid @base02;
-            border-radius: 12px;
+            border-radius: 6px;
             padding: 10px;
           }
 

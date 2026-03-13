@@ -64,24 +64,23 @@ in
             popover {
               background: ${colors.base01};
               border: 1px solid ${colors.base03};
-              border-radius: 18px;
+              border-radius: 6px;
               padding: 10px;
             }
 
             .normal-icons { -gtk-icon-size: 16px; }
             .large-icons { -gtk-icon-size: 32px; }
-            .search-container { border-radius: 10px; }
+            .search-container { border-radius: 6px; }
             .input placeholder { opacity: 0.5; }
             .list { color: @theme_fg_color; }
 
             scrollbar { opacity: 0; }
 
             .box-wrapper {
-              box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
               background: alpha(@window_bg_color, ${toString opacity.popups});
               padding: 20px;
-              border-radius: 20px;
-              border: 1px solid @accent_bg_color;
+              border-radius: 6px;
+              border: 1px solid ${colors.base02};
             }
 
             .preview-box, .elephant-hint, .placeholder {
@@ -97,17 +96,17 @@ in
               background: ${colors.base01};
               padding: 10px;
               color: @theme_fg_color;
-              border-radius: 8px;
+              border-radius: 6px;
             }
 
             .item-box {
-              border-radius: 10px;
+              border-radius: 6px;
               padding: 10px;
             }
 
             .item-quick-activation {
               background: alpha(@accent_bg_color, 0.25);
-              border-radius: 5px;
+              border-radius: 6px;
               padding: 10px;
               color: ${colors.base0A}; 
             }
@@ -123,7 +122,7 @@ in
 
             .preview {
               border: 1px solid alpha(@accent_bg_color, 0.25);
-              border-radius: 10px;
+              border-radius: 6px;
               color: @theme_fg_color;
             }
 

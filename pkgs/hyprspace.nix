@@ -1,13 +1,29 @@
 {
   gcc14Stdenv,
   pkgs,
+  fetchFromGitHub,
 }:
 # Build from local PR branch with 0.54 support fixes
-gcc14Stdenv.mkDerivation {
+gcc14Stdenv.mkDerivation rec {
   pname = "Hyprspace";
-  version = "0.54.0-pr223";
+  # version = "support_hyprland_0_54_0";
+  version = "main";
 
-  src = /home/martijn/Code/Hyprspace;
+  # src = /home/martijn/Code/Hyprspace;
+
+  src = fetchFromGitHub {
+    owner = "pascal-fischer";
+    repo = "Hyprspace";
+    rev = "${version}";
+    hash = "sha256-YHxxNYFG93gZShbRCXEA/RJCj6q/298QDCw3kA2woBw=";
+  };
+
+  # src = fetchFromGitHub {
+  #   owner = "douglas";
+  #   repo = "Hyprspace";
+  #   rev = "${version}";
+  #   hash = "sha256-hRDz5u0LHlKf4K6FDmKnhdAY0fttQmJJanvXMFjgvKY=";
+  # };
 
   nativeBuildInputs = pkgs.hyprland.nativeBuildInputs;
   buildInputs = [ pkgs.hyprland ] ++ pkgs.hyprland.buildInputs;

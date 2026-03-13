@@ -33,15 +33,29 @@ in
           "ctrl+shift+r=prompt_surface_title"
           "ctrl+shift+f=start_search"
           "ctrl+shift+a=select_all"
+          "ctrl+shift+b=scroll_to_bottom"
           "ctrl+j=jump_to_prompt:1"
           "ctrl+k=jump_to_prompt:-1"
-          "ctrl+b=scroll_to_bottom"
           "ctrl+page_down=next_tab"
           "ctrl+page_up=previous_tab"
           "ctrl+shift+t=new_tab"
           "ctrl+shift+w=close_tab:this"
           "ctrl+9=decrease_font_size:1"
           "ctrl+0=increase_font_size:1"
+
+          # vim keybind
+          "ctrl+escape=activate_key_table:vim"
+          "vim/j=scroll_page_lines:1"
+          "vim/k=scroll_page_lines:-1"
+          "vim/ctrl+d=scroll_page_down"
+          "vim/ctrl+u=scroll_page_up"
+          "vim/g>g=scroll_to_top"
+          "vim/shift+g=scroll_to_bottom"
+          "vim/escape=deactivate_key_table"
+          "vim/slash=start_search"
+          "vim/n=navigate_search:next"
+          "vim/shift+n=navigate_search:previous"
+          "vim/catch_all=ignore"
         ];
       };
     };
