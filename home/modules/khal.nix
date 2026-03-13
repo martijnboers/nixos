@@ -40,6 +40,10 @@ in
           default_calendar = "martijn";
           timedelta = "1h";
         };
+        keybindings = {
+          external_edit = "ctrl o";
+          new = "c";
+        };
       };
     };
 
