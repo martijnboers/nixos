@@ -22,9 +22,13 @@ in
         gtk-tabs-location = "bottom";
         gtk-toolbar-style = "flat";
         gtk-titlebar-hide-when-maximized = true;
+
         scrollback-limit = 500 * 1024 * 1024; # 500mb
-        freetype-load-flags = "no-force-autohint";
         shell-integration-features = "ssh-env";
+
+        notify-on-command-finish = "unfocused";
+        notify-on-command-finish-action = "notify";
+        notify-on-command-finish-after = "2m";
 
         keybind = [
           "ctrl+shift+page_down=move_tab:1"
@@ -44,7 +48,7 @@ in
           "ctrl+shift+0=reset_font_size"
 
           # vim keybind
-          "shift+backspace=activate_key_table:vim"
+          "ctrl+escape=activate_key_table:vim"
           "vim/j=scroll_page_lines:1"
           "vim/k=scroll_page_lines:-1"
           "vim/ctrl+j=jump_to_prompt:1"

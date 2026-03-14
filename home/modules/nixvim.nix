@@ -125,7 +125,6 @@ in
         number = true; # Show line numbers
         relativenumber = true; # Show relative line numbers
         cursorline = true; # Highlight the current line
-        scrolloff = 10; # Keep 10 lines of context when scrolling vertically
         splitbelow = true; # New horizontal splits go below
         splitright = true; # New vertical splits go to the right
         ignorecase = true; # Ignore case in search patterns
@@ -425,7 +424,7 @@ in
           desc = "Git add all";
           commands = [
             "add ."
-            "commit"
+            "commit --verbose"
           ];
         })
         (gitChained {
