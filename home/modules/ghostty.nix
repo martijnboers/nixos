@@ -25,6 +25,7 @@ in
         scrollback-limit = 500 * 1024 * 1024; # 500mb
         freetype-load-flags = "no-force-autohint";
         shell-integration-features = "ssh-env";
+
         keybind = [
           "ctrl+shift+page_down=move_tab:1"
           "ctrl+shift+page_up=move_tab:-1"
@@ -34,19 +35,20 @@ in
           "ctrl+shift+f=start_search"
           "ctrl+shift+a=select_all"
           "ctrl+shift+b=scroll_to_bottom"
-          "ctrl+j=jump_to_prompt:1"
-          "ctrl+k=jump_to_prompt:-1"
           "ctrl+page_down=next_tab"
           "ctrl+page_up=previous_tab"
           "ctrl+shift+t=new_tab"
           "ctrl+shift+w=close_tab:this"
           "ctrl+9=decrease_font_size:1"
           "ctrl+0=increase_font_size:1"
+          "ctrl+shift+0=reset_font_size"
 
           # vim keybind
-          "ctrl+escape=activate_key_table:vim"
+          "shift+backspace=activate_key_table:vim"
           "vim/j=scroll_page_lines:1"
           "vim/k=scroll_page_lines:-1"
+          "vim/ctrl+j=jump_to_prompt:1"
+          "vim/ctrl+k=jump_to_prompt:-1"
           "vim/ctrl+d=scroll_page_down"
           "vim/ctrl+u=scroll_page_up"
           "vim/g>g=scroll_to_top"

@@ -16,7 +16,7 @@
       ".ccls-cache"
       "**/.claude/settings.local.json"
       "result"
-      ".nvim/session.vim"
+      ".nvim.session"
     ];
     settings = {
       pull.rebase = "true";

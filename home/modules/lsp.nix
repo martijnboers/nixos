@@ -22,6 +22,7 @@ in
       biome
       ruff
       vale
+      jq
     ];
 
     programs.nixvim = {
@@ -36,6 +37,7 @@ in
               htmldjango = [ "prettier" ];
               javascript = [ "biome" ];
               javascriptreact = [ "biome" ];
+              json = [ "jq" ];
               lua = [ "stylua" ];
               nix = [ "nixfmt" ];
               python = [ "black" ];
@@ -164,8 +166,8 @@ in
             "v"
             "n"
           ];
-          key = "<Leader>=";
-          options.desc = "format selection or whole buffer";
+          key = "=";
+          options.desc = "Remap = when conform";
         }
       ];
     };

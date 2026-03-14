@@ -8,7 +8,7 @@ let
   cfg = config.maatwerk.nixvim;
   helpers = config.lib.nixvim;
 
-  # Keymap Helper Functions {{{
+  # Helper Functions for Keymaps {{{
   keymaps =
     let
       mk = args: {
@@ -92,7 +92,6 @@ let
             action = builtins.concatStringsSep "" (map (cmd: "<cmd>Git ${cmd}<cr>") args.commands);
           }
         );
-
     };
   # }}}
 in
@@ -113,11 +112,11 @@ in
       enable = true;
       vimAlias = true;
 
+      # Configuration {{{
       globals = {
         mapleader = " ";
       };
 
-      # Vim Options {{{
       opts = {
         expandtab = true; # Use spaces instead of tabs
         shiftwidth = 2; # Size of an indent
@@ -126,14 +125,14 @@ in
         number = true; # Show line numbers
         relativenumber = true; # Show relative line numbers
         cursorline = true; # Highlight the current line
-        scrolloff = 8; # Keep 8 lines of context when scrolling vertically
-        sidescrolloff = 8; # Keep 8 columns of context when scrolling horizontally
+        scrolloff = 10; # Keep 10 lines of context when scrolling vertically
         splitbelow = true; # New horizontal splits go below
         splitright = true; # New vertical splits go to the right
         ignorecase = true; # Ignore case in search patterns
         smartcase = true; # Override ignorecase if search contains capitals
         swapfile = false; # Don't create cluttering .swp files
         undofile = true; # Save undo history
+        cmdheight = 0; # hide command line
         sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,globals";
 
         # spelling
@@ -142,23 +141,48 @@ in
         spellsuggest = "best,9";
 
         # Folding
+        foldenable = true; # Enable the feature
         foldmethod = "marker"; # Use {{{ and }}} to define folds
         foldlevel = 0; # Close all marked folds by default
-        foldenable = true; # Enable the feature
 
         # Completion
         wildoptions = "pum"; # popup menu for wildmenu
         wildmode = "longest:full,full"; # Complete longest common string, then each full match
         winborder = "rounded";
-        pumblend = 0; # popup menu transparency
-        cmdheight = 0; # hide command line
         completeopt = "menu,menuone,noinsert"; # Show menu, autoselect first, don't auto-insert
         complete = "."; # Current buffer only
         infercase = true; # Infer case for completion
       };
-      # }}}
 
-      # Plugins {{{
+      # Dim inactive windows - only background color change
+      highlightOverride = {
+        NormalNC = {
+          bg = "#16161d"; # Much darker for clear contrast
+        };
+      };
+
+      diagnostic.settings = {
+        virtual_text = false;
+        signs = false;
+        virtual_lines = {
+          enable = true;
+          current_line = true;
+        };
+      };
+
+      colorschemes.kanagawa = {
+        enable = true;
+        settings = {
+          dimInactive = true;
+          colors.theme.all.ui.bg_gutter = "none";
+          background = {
+            light = "wave";
+            dark = "dragon";
+          };
+        };
+      };
+
+      # Plugins{{{
       plugins = {
         quicker.enable = true; # edit quickfix as buffer
         markview.enable = true; # better Markdown
@@ -181,17 +205,15 @@ in
             diff.enable = true; # gitsigns replacement
             visits.enable = true; # visited buffers
             completion.enable = true; # autocomplete
+            notify.enable = true; # vim.notify capture
 
             sessions = {
               enable = true;
-              autoread = false; # done by autoCmd
+              autoread = true;
               autowrite = true;
-              file = ""; # don't do local sessions
-              force = {
-                read = false;
-                write = true;
-                delete = true; # allow deleting current session
-              };
+              file = ".nvim.session";
+              # allow deleting current session
+              force.delete = true;
             };
 
             move = {
@@ -209,12 +231,8 @@ in
                 active = helpers.mkRaw ''
                   function()
                     local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 200 })
-                    -- Show parent dir/filename (e.g., "components/Button.tsx")
-                    local parent_dir = vim.fn.expand('%:h:t')
-                    local filename   = vim.fn.expand('%:t')
-                    local full_filename = (parent_dir ~= "" and parent_dir ~= ".") 
-                      and (parent_dir .. "/" .. filename)
-                      or filename
+                    local filepath = vim.fn.expand('%:~:.')
+                    local full_filename = vim.fn.pathshorten(filepath)
 
                     local n_errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
                     local n_warns  = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
@@ -233,7 +251,6 @@ in
                       end
                     end
                     local s_unwritten = (n_unwritten > 0) and ("● " .. n_unwritten) or ""
-
                     local s_ok = (s_errors == "" and s_warns == "" and s_rec == "" and s_unwritten == "") and " "
 
                     local current_line    = vim.fn.line('.')
@@ -241,40 +258,20 @@ in
                     local percentage_str  = string.format('%d%%%%', (total_lines > 0 and math.floor((current_line / total_lines) * 100)) or 0)
                     local search          = MiniStatusline.section_searchcount({ trunc_width = 75 })
 
-                    -- Get code context from navic
                     local navic = require('nvim-navic')
                     local context = navic.is_available() and navic.get_location() or ""
 
-                    -- Show status message with 5 second fade
-                    local msg = ""
-                    if vim.g._last_statusmsg and vim.g._last_statusmsg_time then
-                      local elapsed = (vim.loop.now() - vim.g._last_statusmsg_time) / 1000
-                      if elapsed < 5 then
-                        msg = vim.g._last_statusmsg
-                      else
-                        vim.g._last_statusmsg = nil
-                      end
-                    end
-
-                    -- Build statusline: left side | right-aligned content with truncation
-                    -- Left side is protected, right side fills from right but truncates from left
                     local groups = {
-                      { hl = mode_hl,                  strings = { mode } },
-                      { hl = 'MiniStatuslineDevinfo',  strings = { percentage_str } },
-                      { hl = 'MiniStatuslineLocation', strings = { full_filename .. (context ~= "" and " › " .. context or "") } },
-                      '%=',
-                      '%<',
-                    }
-                    
-                    -- Right-aligned content (truncates from left if too long)
-                    if msg ~= "" then
-                      table.insert(groups, { hl = 'Comment', strings = { msg } })
-                    else
-                      table.insert(groups, { hl = 'DiffChange', strings = { s_unwritten, s_rec, search } })
-                      table.insert(groups, { hl = 'DiagnosticWarn', strings = { s_warns } })
-                      table.insert(groups, { hl = 'DiagnosticError', strings = { s_errors } })
-                      table.insert(groups, { hl = 'MiniStatuslineLocation', strings = { s_ok } })
-                    end
+                        { hl = mode_hl,                  strings = { mode } },
+                        { hl = 'MiniStatuslineDevinfo',  strings = { percentage_str } },
+                        { hl = 'MiniStatuslineLocation', strings = { full_filename .. (context ~= "" and " › " .. context or "") } },
+                        '%=',
+                        '%<',
+                        { hl = 'DiffChange', strings = { s_unwritten, s_rec, search } },
+                        { hl = 'DiagnosticWarn', strings = { s_warns } },
+                        { hl = 'DiagnosticError', strings = { s_errors } },
+                        { hl = 'MiniStatuslineLocation', strings = { s_ok } }
+                      }                              
                     
                     return MiniStatusline.combine_groups(groups)
                   end
@@ -283,11 +280,34 @@ in
             };
           };
         };
+      }; # }}}
+
+      autoCmd = [
+        {
+          event = "FileType";
+          pattern = [
+            "git"
+            "diff"
+          ];
+          callback = helpers.mkRaw ''
+            function()
+              vim.opt_local.foldmethod = "expr"
+              vim.opt_local.foldexpr = "v:lua.MiniGit.diff_foldexpr()"
+              vim.opt_local.foldlevel = 1
+            end
+          '';
+        }
+      ];
+
+      clipboard = {
+        providers.wl-copy.enable = true;
       };
       # }}}
 
+      # Keymaps {{{
       keymaps = with keymaps; [
-        # Picker / Fuzzy Finding {{{
+        # Navigation {{{
+        # Picker / Fuzzy Finding
         (lua {
           key = "<Leader>f";
           desc = "Find";
@@ -345,9 +365,8 @@ in
           desc = "Show registers";
           code = "MiniExtra.pickers.registers()";
         })
-        # }}}
 
-        # File Explorer {{{
+        # File Explorer
         (lua {
           key = "<Leader>e";
           desc = "Toggle MiniFiles";
@@ -359,31 +378,7 @@ in
         })
         # }}}
 
-        # Buffer Management {{{
-        # Navigation
-        (cmd {
-          key = "<BS>";
-          desc = "Go to alternate buffer";
-          command = "b #";
-        })
-        (remap {
-          key = "x";
-          desc = "Close window";
-          to = "<C-w>q";
-        })
-        (lua {
-          key = "X";
-          desc = "Remove all visit_paths";
-          code = "require('mini.visits').remove_path('')";
-          modes = [ "n" ];
-        })
-        (remap {
-          key = "<Tab>";
-          to = "<C-w>";
-        })
-        # }}}
-
-        # Git Operations {{{
+        # Git {{{
         (git {
           key = "gb";
           desc = "Git blame";
@@ -399,11 +394,6 @@ in
           key = "glg";
           desc = "Git log";
           command = "log --patch --max-count=100";
-        })
-        (lua {
-          key = "glc";
-          desc = "Git commits";
-          code = "MiniExtra.pickers.git_commits()";
         })
         (cmd {
           key = "go";
@@ -428,14 +418,14 @@ in
         (git {
           key = "<Leader>cc";
           desc = "Git commit --verbose";
-          command = "commit";
+          command = "commit --verbose";
         })
         (gitChained {
           key = "<Leader>ca";
-          desc = "Git commit all";
+          desc = "Git add all";
           commands = [
             "add ."
-            "commit --verbose"
+            "commit"
           ];
         })
         (gitChained {
@@ -456,23 +446,10 @@ in
           desc = "Git push";
           command = "push";
         })
-        (git {
-          key = "<Leader>pf";
-          desc = "Git push force";
-          command = "push --force-with-lease";
-        })
         # }}}
 
-        # Quality of Life / Utilities {{{
-        # Smooth scrolling (center cursor)
-        (remap {
-          key = "<C-u>";
-          to = "<C-u>zz";
-        })
-        (remap {
-          key = "<C-d>";
-          to = "<C-d>zz";
-        })
+        # Utilities {{{
+        # Clipboard
         (mk {
           key = "<Leader>y";
           desc = "Add to sytem clipboard";
@@ -485,32 +462,25 @@ in
           command = "%y+";
           modes = [ "n" ];
         })
-        # }}}
 
-        # Session Management {{{
+        # Sessions
         (lua {
           key = "<Leader>ps";
-          desc = "Save session for this directory";
-          code = "local name = vim.fn.getcwd():gsub('/', '_'):gsub('^_', ''); MiniSessions.write(name); vim.notify('Session saved: ' .. name)";
+          desc = "Save session";
+          code = "MiniSessions.write('.nvim.session'); vim.notify('Session saved')";
         })
         (lua {
           key = "<Leader>pd";
           desc = "Delete session";
-          code = "MiniSessions.select('delete')";
+          code = "MiniSessions.delete('.nvim.session'); vim.notify('Session deleted')";
         })
         (lua {
-          key = "<Leader>pl";
-          desc = "Load session";
-          code = "MiniSessions.select('read')";
+          key = "<Leader>n";
+          desc = "List notifications";
+          code = "MiniNotify.show_history()";
         })
-        # }}}
 
-        # Quality of Life / Utilities {{{
-        # Fix for Tab mapping breaking Ctrl-i
-        (remap {
-          key = "<C-i>";
-          to = "<C-i>";
-        })
+        # Window resizing
         (lua {
           key = "-";
           desc = "Decrease window size";
@@ -549,87 +519,8 @@ in
         })
         # }}}
       ];
-
-      # Diagnostics & Colorschemes {{{
-      diagnostic.settings = {
-        virtual_text = false;
-        signs = false;
-        virtual_lines = {
-          enable = true;
-          current_line = true;
-        };
-      };
-
-      colorschemes.kanagawa = {
-        enable = true;
-        settings = {
-          dimInactive = true;
-          colors.theme.all.ui.bg_gutter = "none";
-          background = {
-            light = "wave";
-            dark = "dragon";
-          };
-        };
-      };
       # }}}
 
-      # Auto Commands {{{
-      autoCmd = [
-        {
-          event = "FileType";
-          pattern = [
-            "git"
-            "diff"
-          ];
-          callback = helpers.mkRaw ''
-            function()
-              vim.opt_local.foldmethod = "expr"
-              vim.opt_local.foldexpr = "v:lua.MiniGit.diff_foldexpr()"
-              vim.opt_local.foldlevel = 0
-              vim.keymap.set("n", "<CR>", "zA", { buffer = true, silent = true, desc = "Toggle fold recursively" })
-            end
-          '';
-        }
-        {
-          event = "BufWritePost";
-          callback = helpers.mkRaw ''
-            function()
-              vim.g._last_statusmsg = vim.v.statusmsg
-              vim.g._last_statusmsg_time = vim.loop.now()
-            end
-          '';
-        }
-        {
-          event = "VimEnter";
-          nested = true;
-          callback = helpers.mkRaw ''
-            function()
-              if vim.fn.argc() == 0 then
-                -- Generate session name from current working directory
-                local cwd = vim.fn.getcwd()
-                local name = cwd:gsub("/", "_"):gsub("^_", "")
-                -- Try to read session for this directory - silently fail if not found
-                pcall(MiniSessions.read, name)
-              end
-            end
-          '';
-        }
-      ];
-      # }}}
-
-      clipboard = {
-        providers.wl-copy.enable = true;
-      };
-
-      extraConfigLua = ''
-        -- Capture vim.notify messages in statusline
-        local orig_notify = vim.notify
-        vim.notify = function(msg, level, opts)
-          vim.g._last_statusmsg = msg
-          vim.g._last_statusmsg_time = vim.loop.now()
-          return orig_notify(msg, level, opts)
-        end
-      '';
     };
   };
 }
