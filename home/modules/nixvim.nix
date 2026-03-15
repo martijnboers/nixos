@@ -134,7 +134,7 @@ in
         cmdheight = 0; # hide command line
         sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,globals";
 
-        # spelling
+        # Spelling
         spell = false;
         spelllang = "nl"; # Harper not supported yet
         spellsuggest = "best,9";
@@ -448,6 +448,15 @@ in
         # }}}
 
         # Utilities {{{
+        # center window
+        (remap {
+          key = "<C-u>";
+          to = "<C-u>zz";
+        })
+        (remap {
+          key = "<C-d>";
+          to = "<C-d>zz";
+        })
         # Clipboard
         (mk {
           key = "<Leader>y";
