@@ -77,6 +77,9 @@ in
     # DBus secret service
     services.pass-secret-service.enable = true;
 
+    # Power notifications
+    services.poweralertd.enable = true;
+
     services.unison = {
       enable = true;
       pairs = {

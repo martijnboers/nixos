@@ -185,6 +185,7 @@ in
       plugins = {
         quicker.enable = true; # edit quickfix as buffer
         markview.enable = true; # better Markdown
+        neoscroll.enable = true; # better scrolling
 
         gitportal = {
           enable = true; # open gh or gitlab web
@@ -448,15 +449,6 @@ in
         # }}}
 
         # Utilities {{{
-        # center window
-        (remap {
-          key = "<C-u>";
-          to = "<C-u>zz";
-        })
-        (remap {
-          key = "<C-d>";
-          to = "<C-d>zz";
-        })
         # Clipboard
         (mk {
           key = "<Leader>y";

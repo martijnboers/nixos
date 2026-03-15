@@ -40,6 +40,9 @@ in
       autoConnect = false;
     };
 
+    # DBus power information provider
+    services.upower.enable = true;
+
     programs.wireshark = {
       enable = true;
       usbmon.enable = true;
