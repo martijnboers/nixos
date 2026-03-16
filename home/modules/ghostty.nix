@@ -57,7 +57,7 @@ in
           "vim/ctrl+u=scroll_page_up"
           "vim/g>g=scroll_to_top"
           "vim/shift+g=scroll_to_bottom"
-          "vim/escape=deactivate_key_table"
+          "vim/i=deactivate_key_table"
           "vim/slash=start_search"
           "vim/n=navigate_search:next"
           "vim/shift+n=navigate_search:previous"

@@ -82,6 +82,7 @@ in
       settings = {
         "$mod" = "ALT";
         "$prog" = "CTRL ALT";
+        "$super" = "SUPER";
         exec-once = [
           "fractal &"
           "blueman-applet &"
@@ -94,7 +95,7 @@ in
         "$menu" = "walker";
 
         plugin.overview = {
-          affectStrut = true;
+          affectStrut = false; # re-renders citrix
         };
 
         # hyprlandhyprctl clients
@@ -165,7 +166,7 @@ in
           '', Print, exec, ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - | satty -f -''
           ''$mod, Print, exec, ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - | ${lib.getExe pkgs.tesseract} - stdout | wl-copy''
           "$mod, F4, killactive"
-          "$mod, tab, overview:toggle"
+          "$super, tab, overview:toggle"
           "$prog, H, exec, walker -m clipboard"
           "$mod, M, exec, hyprlock"
 
