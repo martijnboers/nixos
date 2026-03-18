@@ -23,7 +23,7 @@ in
         gtk-toolbar-style = "flat";
         gtk-titlebar-hide-when-maximized = true;
 
-        scrollback-limit = 500 * 1024 * 1024; # 500mb
+        scrollback-limit = 250 * 1024 * 1024; 
         shell-integration-features = "ssh-env";
 
         notify-on-command-finish = "unfocused";
@@ -48,7 +48,7 @@ in
           "ctrl+shift+0=reset_font_size"
 
           # vim keybind
-          "ctrl+escape=activate_key_table:vim"
+          "alt+s=activate_key_table:vim"
           "vim/j=scroll_page_lines:1"
           "vim/k=scroll_page_lines:-1"
           "vim/ctrl+j=jump_to_prompt:1"

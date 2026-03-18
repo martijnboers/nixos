@@ -10,7 +10,7 @@ let
   cfg = config.hosts.caddy;
   info = fetchGit {
     url = "https://seed.boers.email/z2r9euHZW161kfQNxdF4apHddD3mm.git";
-    rev = "89cc63528d0eeabf87fd29fed6c26448a10b481c";
+    rev = "757077dcb9bf53fb9b1f5d66e6e46c9baf836331";
   };
   resume = fetchGit {
     url = "https://seed.boers.email/zb1FuXow3wJemDDPFWGFa49rNA4z.git";
@@ -39,7 +39,7 @@ in
       enable = true;
       package = pkgs.caddy.withPlugins {
         plugins = [ "github.com/darkweak/souin/plugins/caddy@v1.7.8" ];
-        hash = "sha256-723tdnUqWPcSNUim3sJMmcEgL3EJKkyOA7se56PMOXc=";
+        hash = "sha256-wLhuhDuGIGJuuD+iPdH1+Et3sq/+7z87SAwLAm5vPmM=";
       };
       globalConfig = ''
         metrics {

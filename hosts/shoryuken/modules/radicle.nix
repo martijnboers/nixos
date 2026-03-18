@@ -149,6 +149,8 @@ in
             repositories = [
               "rad:z2Jkf9zxGPxEhCfGLpgRAcHRj8x2n"
               "rad:z3bTedCQLQRkCdAmKKZTMSBimNp4J"
+              "rad:z2r9euHZW161kfQNxdF4apHddD3mm"
+              "rad:z3kbRfxk6ySRqoQpv2dg8NYzRdsyQ"
             ];
           };
         };

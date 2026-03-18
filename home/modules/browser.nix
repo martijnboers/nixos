@@ -42,9 +42,7 @@ in
   config = mkIf cfg.enable {
     home.packages =
       with pkgs;
-      [
-        stable.ungoogled-chromium
-      ]
+      [ ungoogled-chromium ]
       ++ (mkChromeWrappers [
         {
           name = "teams";

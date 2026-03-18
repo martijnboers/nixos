@@ -91,6 +91,16 @@ in
       completionInit = "";
       initContent =
         let
+          pure = lib.mkOrder 800 ''
+            PURE_GIT_PULL=0
+
+            zstyle ":prompt:pure:git:branch" color "242"
+            zstyle ":prompt:pure:git:dirty" color "218"
+            zstyle ":prompt:pure:git:action" color "242"
+            zstyle ":prompt:pure:prompt:success" color "140"
+            zstyle ":prompt:pure:prompt:error" color "red"
+            zstyle ":prompt:pure:execution_time" color "yellow"
+          '';
           general =
             lib.mkOrder 1000 # bash
               ''
@@ -113,16 +123,6 @@ in
                   done
                 }
               '';
-          pureConfig = lib.mkOrder 800 ''
-            PURE_GIT_PULL=0
-
-            zstyle ":prompt:pure:git:branch" color "242"
-            zstyle ":prompt:pure:git:dirty" color "218"
-            zstyle ":prompt:pure:git:action" color "242"
-            zstyle ":prompt:pure:prompt:success" color "140"
-            zstyle ":prompt:pure:prompt:error" color "red"
-            zstyle ":prompt:pure:execution_time" color "yellow"
-          '';
           last =
             lib.mkOrder 1500 # bash
               ''
@@ -138,7 +138,7 @@ in
               '';
         in
         lib.mkMerge [
-          pureConfig
+          pure
           general
           last
         ];

@@ -49,7 +49,7 @@
 
   services.radicle.node = {
     enable = true;
-    # lazy.enable = true;
+    lazy.enable = true;
   };
 
   programs.radicle = {

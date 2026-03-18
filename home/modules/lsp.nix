@@ -14,10 +14,14 @@ in
     home.packages = with pkgs; [
       nixfmt
       golangci-lint
+      shellcheck
+      shellharden
       prettier
       yamlfmt
       eslint
       tflint
+      stylua
+      shfmt
       black
       biome
       ruff

@@ -72,11 +72,9 @@ in
     ];
     boot.tmp.cleanOnBoot = lib.mkDefault true;
 
-    systemd = {
-      sleep.extraConfig = ''
-        AllowSuspend=no
-        AllowHibernation=no
-      '';
+    systemd.sleep.settings.Sleep = {
+      AllowSuspend = "no";
+      AllowHibernation = "no";
     };
 
     # Make sure the serial console is visible in qemu when testing the server configuration

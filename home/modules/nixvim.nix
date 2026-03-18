@@ -151,13 +151,30 @@ in
         completeopt = "menu,menuone,noinsert"; # Show menu, autoselect first, don't auto-insert
         complete = "."; # Current buffer only
         infercase = true; # Infer case for completion
+        pumheight = 15; # Max items in completion menu
+        pumwidth = 30; # Minimum width of completion menu
       };
 
-      # Dim inactive windows - only background color change
       highlightOverride = {
+        # Dim inactive windows - only background color change
         NormalNC = {
           bg = "#16161d"; # Much darker for clear contrast
         };
+        Pmenu = {
+          bg = "#1f1f28";
+          fg = "#c8c093";
+        };
+        PmenuSel = {
+          bg = "#2a2a37";
+          fg = "#e6c384";
+          bold = true;
+        };
+        PmenuSbar = {
+          bg = "#16161d";
+        }; # Dark scrollbar track
+        PmenuThumb = {
+          bg = "#54546d";
+        }; # Blue scrollbar thumb
       };
 
       diagnostic.settings = {
@@ -293,7 +310,7 @@ in
             function()
               vim.opt_local.foldmethod = "expr"
               vim.opt_local.foldexpr = "v:lua.MiniGit.diff_foldexpr()"
-              vim.opt_local.foldlevel = 1
+              -- vim.opt_local.foldlevel = 0
             end
           '';
         }
