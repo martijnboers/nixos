@@ -18,6 +18,7 @@ in
     home.packages = [
       pkgs.notmuch
       pkgs.notmuch-addrlookup
+      pkgs.mq
     ];
 
     programs.notmuch = {
@@ -36,7 +37,7 @@ in
     programs.mbsync.enable = true;
     services.mbsync = {
       enable = true;
-      frequency = "*:0/2"; # Run every 2 minutes
+      frequency = "*:0/2";
       postExec = "${lib.getExe pkgs.notmuch} new";
     };
 

@@ -54,10 +54,13 @@
         If a removal causes a critical failure, **ASK** the user before
         attempting to restore it.
 
-      ## 3. File Operations: Cloning
+      ## 4. File Operations: Cloning
       **Decision Tree for Cloning Repositories:**
         IF the task is temporary, one-off, or for inspection -> Clone to `/tmp`.
         IF the task is for development, persistence, or repeated use -> Clone to `~/Code`.
+
+      ## 5. General rules:
+      - **DONT REMOVE COMMENTS** unless specificly asked. 
     '';
     settings = {
       compaction = {

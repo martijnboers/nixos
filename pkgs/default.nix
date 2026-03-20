@@ -24,6 +24,7 @@ in
   hyprtasking = pkgs.callPackage ./hyprtasking.nix { };
   hyprspace-custom = pkgs.callPackage ./hyprspace.nix { };
   scooter = pkgs.callPackage ./scooter.nix { };
+  mq = pkgs.callPackage ./mq.nix { };
   rustfs = pkgs.callPackage ./rustfs.nix { };
   sure = pkgs.callPackage ./sure.nix { };
   glitch-soc = pkgs.callPackage "${glitch-soc-src}/packages/mastodon" { };
