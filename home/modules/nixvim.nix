@@ -137,7 +137,7 @@ in
         spellsuggest = "best,9";
 
         # Folding
-        foldenable = true; 
+        foldenable = true;
         foldlevel = 20;
         foldmethod = "expr";
         foldexpr = "v:lua.vim.lsp.foldexpr()";
@@ -154,9 +154,16 @@ in
       };
 
       highlightOverride = {
-        # Dim inactive windows - only background color change
         NormalNC = {
           bg = "#16161d"; # Much darker for clear contrast
+        };
+        MiniStatuslineIconWarn = {
+          fg = "#E6C384"; # Kanagawa DiagnosticWarn Yellow
+          bg = "none";
+        };
+        MiniStatuslineIconError = {
+          fg = "#E82424"; # Kanagawa Samurai Red
+          bg = "none";
         };
         Pmenu = {
           bg = "#1f1f28";
@@ -245,48 +252,46 @@ in
                 active = helpers.mkRaw ''
                   function()
                     local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 200 })
-                    local filepath = vim.fn.expand('%:~:.')
-                    local full_filename = vim.fn.pathshorten(filepath)
+                    local full_filename = vim.fn.pathshorten(vim.fn.expand('%:~:.'))
 
                     local n_errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
                     local n_warns  = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
-
-                    local s_errors = (n_errors > 0) and ("󰈸 " .. n_errors) or ""
-                    local s_warns  = (n_warns > 0)  and ("󱅼 " .. n_warns) or ""
-
-                    local recording = vim.fn.reg_recording()
-                    local s_rec = (recording ~= "") and ("󰶇  " .. recording) or ""
+                    local s_rec = vim.fn.reg_recording() ~= "" and ("󰶇  " .. vim.fn.reg_recording()) or ""
 
                     local n_unwritten = 0
-                    local current_buf = vim.api.nvim_get_current_buf()
                     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-                      if vim.bo[buf].modified and vim.bo[buf].buflisted then
-                        n_unwritten = n_unwritten + 1
-                      end
+                      if vim.bo[buf].modified and vim.bo[buf].buflisted then n_unwritten = n_unwritten + 1 end
                     end
-                    local s_unwritten = (n_unwritten > 0) and ("● " .. n_unwritten) or ""
-                    local s_ok = (s_errors == "" and s_warns == "" and s_rec == "" and s_unwritten == "") and " "
 
-                    local current_line    = vim.fn.line('.')
-                    local total_lines     = vim.fn.line('$')
-                    local percentage_str  = string.format('%d%%%%', (total_lines > 0 and math.floor((current_line / total_lines) * 100)) or 0)
-                    local search          = MiniStatusline.section_searchcount({ trunc_width = 75 })
+                    local ahead, behind, dirty = vim.b.git_ahead or 0, vim.b.git_behind or 0, vim.b.git_dirty
+                    local s_arrows = (ahead > 0 and ("↑" .. ahead) or "") .. (ahead > 0 and behind > 0 and " " or "") .. (behind > 0 and ("↓" .. behind) or "")
+                    
+                    local s_state = (n_unwritten > 0) and "●" or (dirty) and "◌" or ""
+                    local s_git = s_state .. (s_state ~= "" and s_arrows ~= "" and " " or "") .. s_arrows
+                    
+                    local icon_hl = (n_errors > 0) and 'MiniStatuslineIconError' 
+                                 or (n_warns > 0) and 'MiniStatuslineIconWarn' 
+                                 or 'MiniStatuslineLocation'
+
+                    local total_lines = vim.fn.line('$')
+                    local percentage = total_lines > 0 and math.floor((vim.fn.line('.') / total_lines) * 100) or 0
+                    local search = MiniStatusline.section_searchcount({ trunc_width = 75 })
 
                     local navic = require('nvim-navic')
                     local context = navic.is_available() and navic.get_location() or ""
+                    local location_str = full_filename .. (context ~= "" and " › " .. context or "")
 
                     local groups = {
                         { hl = mode_hl,                  strings = { mode } },
-                        { hl = 'MiniStatuslineDevinfo',  strings = { percentage_str } },
-                        { hl = 'MiniStatuslineLocation', strings = { full_filename .. (context ~= "" and " › " .. context or "") } },
-                        '%=',
-                        '%<',
-                        { hl = 'DiffChange', strings = { s_unwritten, s_rec, search } },
-                        { hl = 'DiagnosticWarn', strings = { s_warns } },
-                        { hl = 'DiagnosticError', strings = { s_errors } },
-                        { hl = 'MiniStatuslineLocation', strings = { s_ok } }
-                      }                              
+                        { hl = 'MiniStatuslineDevinfo',  strings = { percentage .. '%%' } },
+                        { hl = 'MiniStatuslineLocation', strings = { location_str } },
+                        '%=', '%<',
+                        { hl = 'MiniStatuslineDevinfo',  strings = { s_rec, search } },
+                    }
                     
+                    if s_git ~= "" then table.insert(groups, { hl = 'MiniStatuslineDevinfo', strings = { s_git } }) end
+                    table.insert(groups, { hl = icon_hl, strings = { " " } })
+
                     return MiniStatusline.combine_groups(groups)
                   end
                 '';
@@ -296,22 +301,73 @@ in
         };
       };
 
-      autoCmd = [
-        {
-          event = "FileType";
-          pattern = [
-            "git"
-            "diff"
-          ];
-          callback = helpers.mkRaw ''
-            function()
-              vim.opt_local.foldmethod = "expr"
-              vim.opt_local.foldexpr = "v:lua.MiniGit.diff_foldexpr()"
-              -- vim.opt_local.foldlevel = 0
+      autoCmd =
+        let
+          updateGit = helpers.mkRaw ''
+            function(args)
+              local buf = args.buf or vim.api.nvim_get_current_buf()
+              local summary = vim.b[buf].minigit_summary
+              if not summary or not summary.repo then return end
+
+              vim.system(
+                { "git", "status", "--porcelain=v2", "--branch" },
+                { text = true, cwd = summary.root },
+                function(obj)
+                  local ahead, behind, dirty = 0, 0, false
+                  
+                  if obj.code == 0 and obj.stdout then
+                    local a, b = obj.stdout:match("# branch%.ab %+(%d+) %-(%d+)")
+                    ahead, behind = a and tonumber(a) or 0, b and tonumber(b) or 0
+                    dirty = obj.stdout:find("\n[^#]") ~= nil
+                  end
+
+                  vim.schedule(function()
+                    if vim.api.nvim_buf_is_valid(buf) then
+                      vim.b[buf].git_ahead = ahead
+                      vim.b[buf].git_behind = behind
+                      vim.b[buf].git_dirty = dirty
+                      vim.cmd("redrawstatus")
+                    end
+                  end)
+                end
+              )
             end
           '';
-        }
-      ];
+
+        in
+        [
+          {
+            event = "FileType";
+            pattern = [
+              "git"
+              "diff"
+            ];
+            callback = helpers.mkRaw ''
+              function()
+                vim.opt_local.foldmethod = "expr"
+                vim.opt_local.foldexpr = "v:lua.MiniGit.diff_foldexpr()"
+                vim.opt_local.foldlevel = 0
+              end
+            '';
+          }
+
+          {
+            event = "User";
+            pattern = [
+              "MiniGitUpdated"
+              "MiniDiffUpdated"
+              "MiniGitCommandDone"
+            ];
+            callback = updateGit;
+          }
+          {
+            event = [
+              "FocusGained"
+              "BufEnter"
+            ];
+            callback = updateGit;
+          }
+        ];
 
       clipboard = {
         providers.wl-copy.enable = true;
