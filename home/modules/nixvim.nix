@@ -8,7 +8,6 @@ let
   cfg = config.maatwerk.nixvim;
   helpers = config.lib.nixvim;
 
-  # Helper Functions for Keymaps {{{
   keymaps =
     let
       mk = args: {
@@ -93,7 +92,6 @@ let
           }
         );
     };
-  # }}}
 in
 {
 
@@ -112,7 +110,6 @@ in
       enable = true;
       vimAlias = true;
 
-      # Configuration {{{
       globals = {
         mapleader = " ";
       };
@@ -140,9 +137,10 @@ in
         spellsuggest = "best,9";
 
         # Folding
-        foldenable = true; # Enable the feature
-        foldmethod = "marker"; # Use {{{ and }}} to define folds
-        foldlevel = 0; # Close all marked folds by default
+        foldenable = true; 
+        foldlevel = 20;
+        foldmethod = "expr";
+        foldexpr = "v:lua.vim.lsp.foldexpr()";
 
         # Completion
         wildoptions = "pum"; # popup menu for wildmenu
@@ -198,7 +196,6 @@ in
         };
       };
 
-      # Plugins{{{
       plugins = {
         quicker.enable = true; # edit quickfix as buffer
         markview.enable = true; # better Markdown
@@ -297,7 +294,7 @@ in
             };
           };
         };
-      }; # }}}
+      };
 
       autoCmd = [
         {
@@ -319,11 +316,8 @@ in
       clipboard = {
         providers.wl-copy.enable = true;
       };
-      # }}}
 
-      # Keymaps {{{
       keymaps = with keymaps; [
-        # Navigation {{{
         # Picker / Fuzzy Finding
         (lua {
           key = "<Leader>f";
@@ -393,9 +387,7 @@ in
             "v"
           ];
         })
-        # }}}
 
-        # Git {{{
         (git {
           key = "gb";
           desc = "Git blame";
@@ -463,9 +455,7 @@ in
           desc = "Git push";
           command = "push";
         })
-        # }}}
 
-        # Utilities {{{
         # Clipboard
         (mk {
           key = "<Leader>y";
@@ -534,9 +524,7 @@ in
               end
             '';
         })
-        # }}}
       ];
-      # }}}
 
     };
   };

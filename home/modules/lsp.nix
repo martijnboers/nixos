@@ -17,6 +17,7 @@ in
       shellcheck
       shellharden
       prettier
+      rustfmt
       yamlfmt
       eslint
       tflint
@@ -49,6 +50,7 @@ in
               typescriptreact = [ "biome" ];
               yaml = [ "yamlfmt" ];
               zig = [ "zig" ];
+              rust = [ "rustfmt" ];
               go = [ "go" ];
               bash = [
                 "shellcheck"
