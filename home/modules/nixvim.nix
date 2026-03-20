@@ -145,7 +145,7 @@ in
         # Completion
         wildoptions = "pum"; # popup menu for wildmenu
         wildmode = "longest:full,full"; # Complete longest common string, then each full match
-        winborder = "rounded";
+        winborder = "single";
         completeopt = "menu,menuone,noinsert"; # Show menu, autoselect first, don't auto-insert
         complete = "."; # Current buffer only
         infercase = true; # Infer case for completion
@@ -153,33 +153,43 @@ in
         pumwidth = 30; # Minimum width of completion menu
       };
 
-      highlightOverride = {
-        NormalNC = {
-          bg = "#16161d"; # Much darker for clear contrast
+      colorschemes.kanagawa = {
+        enable = true;
+        settings = {
+          dimInactive = true;
+          transparent = true;
+          colors.theme.all.ui.bg_gutter = "none";
+          commentStyle.italic = true;
+          background = {
+            light = "wave";
+            dark = "dragon";
+          };
+          overrides = # lua
+            ''
+              function(colors)
+                local theme = colors.theme
+                local palette = colors.palette
+                return {
+                  -- Inactive window contrast 
+                  NormalNC = { bg = palette.sumiInk0 },
+
+                  -- Completion popups 
+                  Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 },
+                  PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
+                  PmenuKind = { fg = theme.ui.fg_dim, bg = theme.ui.bg_p1 },
+                  PmenuKindSel = { fg = theme.ui.fg_dim, bg = theme.ui.bg_p2 },
+                  PmenuExtra = { fg = theme.ui.fg_dim, bg = theme.ui.bg_p1 },
+                  PmenuExtraSel = { fg = theme.ui.fg_dim, bg = theme.ui.bg_p2 },
+                  PmenuSbar = { bg = theme.ui.bg_m1 },
+                  PmenuThumb = { bg = theme.ui.bg_p2 },
+
+                  -- Status line icons (diagnostic colors from theme)
+                  MiniStatuslineIconWarn = { fg = theme.diag.warning, bg = "none" },
+                  MiniStatuslineIconError = { fg = theme.diag.error, bg = "none" },
+                }
+              end
+            '';
         };
-        MiniStatuslineIconWarn = {
-          fg = "#E6C384"; # Kanagawa DiagnosticWarn Yellow
-          bg = "none";
-        };
-        MiniStatuslineIconError = {
-          fg = "#E82424"; # Kanagawa Samurai Red
-          bg = "none";
-        };
-        Pmenu = {
-          bg = "#1f1f28";
-          fg = "#c8c093";
-        };
-        PmenuSel = {
-          bg = "#2a2a37";
-          fg = "#e6c384";
-          bold = true;
-        };
-        PmenuSbar = {
-          bg = "#16161d";
-        }; # Dark scrollbar track
-        PmenuThumb = {
-          bg = "#54546d";
-        }; # Blue scrollbar thumb
       };
 
       diagnostic.settings = {
@@ -188,18 +198,6 @@ in
         virtual_lines = {
           enable = true;
           current_line = true;
-        };
-      };
-
-      colorschemes.kanagawa = {
-        enable = true;
-        settings = {
-          dimInactive = true;
-          colors.theme.all.ui.bg_gutter = "none";
-          background = {
-            light = "wave";
-            dark = "dragon";
-          };
         };
       };
 
