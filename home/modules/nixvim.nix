@@ -121,7 +121,6 @@ in
         softtabstop = 2; # Number of spaces a <Tab> inserts in insert mode
         number = true; # Show line numbers
         relativenumber = true; # Show relative line numbers
-        cursorline = true; # Highlight the current line
         splitbelow = true; # New horizontal splits go below
         splitright = true; # New vertical splits go to the right
         ignorecase = true; # Ignore case in search patterns
@@ -204,7 +203,6 @@ in
       plugins = {
         quicker.enable = true; # edit quickfix as buffer
         markview.enable = true; # better Markdown
-        neoscroll.enable = true; # better scrolling
 
         gitportal = {
           enable = true; # open gh or gitlab web
@@ -222,7 +220,6 @@ in
             surround.enable = true; # surround words with something
             git.enable = true; # :git helper functions
             diff.enable = true; # gitsigns replacement
-            visits.enable = true; # visited buffers
             completion.enable = true; # autocomplete
             notify.enable = true; # vim.notify capture
 
@@ -399,7 +396,7 @@ in
         (lua {
           key = "<Leader>b";
           desc = "Find in buffers";
-          code = "MiniExtra.pickers.visit_paths({ recency_weight = 0.7 })";
+          code = "MiniPick.builtin.buffers()";
         })
         (lua {
           key = "<Leader>/";
@@ -445,7 +442,7 @@ in
         (git {
           key = "gb";
           desc = "Git blame";
-          command = "log --patch -- %";
+          command = "log --patch --max-count=100 -- %";
         })
         (lua {
           key = "gb";
@@ -458,6 +455,24 @@ in
           desc = "Git log";
           command = "log --patch --max-count=100";
         })
+        {
+          mode = "v";
+          key = "gr";
+          action = ":w !git apply --whitespace=nowarn --recount -R<CR>";
+          options = {
+            silent = true;
+            desc = "Git Revert selected hunk";
+          };
+        }
+        {
+          mode = "v";
+          key = "ga";
+          action = ":w !git apply --whitespace=nowarn --recount<CR>";
+          options = {
+            silent = true;
+            desc = "Git Apply selected hunk";
+          };
+        }
         (cmd {
           key = "go";
           desc = "Open file in source control";

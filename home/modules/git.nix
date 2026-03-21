@@ -24,6 +24,10 @@
       push.autoSetupRemote = "true";
       user.name = "Martijn Boers";
       user.email = "martijn@boers.email";
+      diff = {
+        algorithm = "histogram";
+        indentHeuristic = true;
+      };
       alias = {
         patch = "push rad HEAD:refs/patches";
       };
@@ -45,6 +49,9 @@
   programs.delta = {
     enable = true;
     enableGitIntegration = true;
+    options = {
+      side-by-side = true;
+    };
   };
 
   services.radicle.node = {

@@ -86,7 +86,6 @@ in
         exec-once = [
           "fractal &"
           "blueman-applet &"
-          "${pkgs.grim} &" # Fixes Hyprspace?
           "systemctl --user start hyprpolkitagent &"
         ];
         "$terminal" = "ghostty +new-window";
@@ -96,6 +95,10 @@ in
 
         plugin.overview = {
           affectStrut = false; # re-renders citrix
+          hideBackgroundLayers = true;
+          hideTopLayers = true;
+          hideOverlayLayers = true;
+          hideRealLayers = true;
         };
 
         # hyprlandhyprctl clients
