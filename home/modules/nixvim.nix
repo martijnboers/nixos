@@ -121,14 +121,13 @@ in
         softtabstop = 2; # Number of spaces a <Tab> inserts in insert mode
         number = true; # Show line numbers
         relativenumber = true; # Show relative line numbers
-        splitbelow = true; # New horizontal splits go below
-        splitright = true; # New vertical splits go to the right
         ignorecase = true; # Ignore case in search patterns
         smartcase = true; # Override ignorecase if search contains capitals
         swapfile = false; # Don't create cluttering .swp files
         undofile = true; # Save undo history
         cmdheight = 0; # hide command line
         sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,globals";
+        smoothscroll = true;
 
         # Spelling
         spell = false;
@@ -201,8 +200,24 @@ in
       };
 
       plugins = {
-        quicker.enable = true; # edit quickfix as buffer
         markview.enable = true; # better Markdown
+        friendly-snippets.enable = true; # community snippets
+
+        neoscroll = {
+          enable = true;
+          settings = {
+            duration_multiplier = 0.8;
+            mappings = [
+              "<C-u>"
+              "<C-d>"
+              "<C-f>"
+              "<C-b>"
+              "zz"
+            ];
+            hide_cursor = true;
+            easing = "quadratic";
+          };
+        };
 
         gitportal = {
           enable = true; # open gh or gitlab web
@@ -251,7 +266,7 @@ in
 
                     local n_errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
                     local n_warns  = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
-                    local s_rec = vim.fn.reg_recording() ~= "" and ("󰶇  " .. vim.fn.reg_recording()) or ""
+                    local s_rec = vim.fn.reg_recording() ~= "" and ( vim.fn.reg_recording()) .. "  " or ""
 
                     local n_unwritten = 0
                     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
