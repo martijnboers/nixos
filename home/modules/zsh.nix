@@ -82,7 +82,6 @@ in
       antidote = {
         enable = true;
         plugins = [
-          "jeffreytse/zsh-vi-mode"
           "ohmyzsh/ohmyzsh path:plugins/ssh-agent"
           "mafredri/zsh-async"
           "sindresorhus/pure"

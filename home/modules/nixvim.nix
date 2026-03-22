@@ -52,19 +52,6 @@ let
           }
         );
 
-      remap =
-        args:
-        mk (
-          {
-            modes = [ "n" ];
-            desc = "remap from ${args.key} to ${args.to}";
-          }
-          // args
-          // {
-            action = args.to;
-          }
-        );
-
       git =
         args:
         mk (
@@ -184,12 +171,15 @@ in
                   -- Status line icons (diagnostic colors from theme)
                   MiniStatuslineIconWarn = { fg = theme.diag.warning, bg = "none" },
                   MiniStatuslineIconError = { fg = theme.diag.error, bg = "none" },
+                  
+                  -- Error/warning indicator icon with dynamic background
+                  StatuslineErrorIcon = { fg = theme.diag.error, bg = "none" },
+                  StatuslineNormalIcon = { fg = theme.ui.fg, bg = "none" },
                 }
               end
             '';
         };
       };
-
       diagnostic.settings = {
         virtual_text = false;
         signs = false;
@@ -279,13 +269,8 @@ in
                     local s_state = (n_unwritten > 0) and "●" or (dirty) and "◌" or ""
                     local s_git = s_state .. (s_state ~= "" and s_arrows ~= "" and " " or "") .. s_arrows
                     
-                    local icon_hl = (n_errors > 0) and 'MiniStatuslineIconError' 
-                                 or (n_warns > 0) and 'MiniStatuslineIconWarn' 
-                                 or 'MiniStatuslineLocation'
-
                     local total_lines = vim.fn.line('$')
                     local percentage = total_lines > 0 and math.floor((vim.fn.line('.') / total_lines) * 100) or 0
-                    local search = MiniStatusline.section_searchcount({ trunc_width = 75 })
 
                     local navic = require('nvim-navic')
                     local context = navic.is_available() and navic.get_location() or ""
@@ -296,11 +281,14 @@ in
                         { hl = 'MiniStatuslineDevinfo',  strings = { percentage .. '%%' } },
                         { hl = 'MiniStatuslineLocation', strings = { location_str } },
                         '%=', '%<',
-                        { hl = 'MiniStatuslineDevinfo',  strings = { s_rec, search } },
+                        { hl = 'MiniStatuslineDevinfo',  strings = { s_rec } },
                     }
                     
                     if s_git ~= "" then table.insert(groups, { hl = 'MiniStatuslineDevinfo', strings = { s_git } }) end
-                    table.insert(groups, { hl = icon_hl, strings = { " " } })
+                    
+                    local icon_hl = (n_errors > 0) and 'StatuslineErrorIcon' or 'StatuslineNormalIcon'
+                    local icon_str = (n_errors > 0) and ("󰈸 " .. n_errors) or " "
+                    table.insert(groups, { hl = icon_hl, strings = { icon_str } })
 
                     return MiniStatusline.combine_groups(groups)
                   end
@@ -377,6 +365,32 @@ in
             ];
             callback = updateGit;
           }
+          {
+            event = "CursorMoved";
+            callback = helpers.mkRaw ''
+              function()
+                if vim.v.hlsearch == 0 then return end
+                local bufnr = vim.api.nvim_get_current_buf()
+                
+                -- Clear previous extmarks
+                local ns = vim.api.nvim_create_namespace('searchcount')
+                vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
+                
+                local pos = vim.fn.searchpos(vim.fn.getreg('/'), 'ncw')
+                if pos[1] == 0 then return end
+                
+                local current = vim.fn.searchcount({maxcount = 1000, timeout = 100})
+                if current.current > 0 and current.total > 0 then
+                  local text = string.format(" -- [%d/%d]", current.current, current.total)
+                  vim.api.nvim_buf_set_extmark(bufnr, ns, pos[1] - 1, pos[2] - 1, {
+                    virt_text = {{text, "Comment"}},
+                    virt_text_pos = "eol",
+                    priority = 100,
+                  })
+                end
+              end
+            '';
+          }
         ];
 
       clipboard = {
@@ -442,6 +456,17 @@ in
           desc = "Show registers";
           code = "MiniExtra.pickers.registers()";
         })
+
+        # terminal
+        {
+          mode = "t";
+          key = "<esc><esc>";
+          action = ''C-\><c-n>'';
+          options = {
+            silent = true;
+            desc = "Git Revert selected hunk";
+          };
+        }
 
         # File Explorer
         (lua {
