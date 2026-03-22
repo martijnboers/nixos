@@ -189,7 +189,7 @@ in
           "$mod SHIFT, J, swapwindow, l"
           "$mod SHIFT, L, swapwindow, r"
 
-          "$mod, F, fullscreen,"
+          "$mod, O, fullscreen,"
           "$mod, P, pseudo," # dwindle
           "$mod, H, layoutmsg, togglesplit" # dwindle
         ]

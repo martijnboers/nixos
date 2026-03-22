@@ -88,6 +88,7 @@ in
         ];
       };
       completionInit = "";
+      defaultKeymap = "emacs";
       initContent =
         let
           pure = lib.mkOrder 800 ''
