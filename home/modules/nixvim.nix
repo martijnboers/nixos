@@ -382,22 +382,45 @@ in
               function()
                 if vim.v.hlsearch == 0 then return end
                 local bufnr = vim.api.nvim_get_current_buf()
-                
-                -- Clear previous extmarks
                 local ns = vim.api.nvim_create_namespace('searchcount')
                 vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
-                
-                local pos = vim.fn.searchpos(vim.fn.getreg('/'), 'ncw')
-                if pos[1] == 0 then return end
-                
-                local current = vim.fn.searchcount({maxcount = 1000, timeout = 100})
-                if current.current > 0 and current.total > 0 then
-                  local text = string.format(" -- [%d/%d]", current.current, current.total)
-                  vim.api.nvim_buf_set_extmark(bufnr, ns, pos[1] - 1, pos[2] - 1, {
-                    virt_text = {{text, "Comment"}},
+
+                local pattern = vim.fn.getreg('/')
+                local cursor = vim.api.nvim_win_get_cursor(0)
+                local cursor_line, cursor_col = cursor[1], cursor[2] + 1
+
+                -- Find match at or before cursor (backward search, don't move cursor)
+                local match_line, match_col = unpack(vim.fn.searchpos(pattern, 'bcn'))
+                if match_line == 0 then return end
+
+                -- Only show when cursor is on the same line as the match
+                if cursor_line ~= match_line then return end
+
+                -- Get correct match index by temporarily moving to match position
+                local saved_pos = vim.api.nvim_win_get_cursor(0)
+                vim.api.nvim_win_set_cursor(0, {match_line, match_col - 1})
+                local count = vim.fn.searchcount({maxcount = 1000, timeout = 100})
+                vim.api.nvim_win_set_cursor(0, saved_pos)
+
+                if count.current > 0 and count.total > 0 then
+                  local text = string.format(" -- [%d/%d]", count.current, count.total)
+                  vim.api.nvim_buf_set_extmark(bufnr, ns, match_line - 1, match_col - 1, {
+                    virt_text = {{text, "Question"}},
                     virt_text_pos = "eol",
                     priority = 100,
                   })
+                end
+              end
+            '';
+          }
+          {
+            event = "OptionSet";
+            pattern = [ "hlsearch" ];
+            callback = helpers.mkRaw ''
+              function()
+                if vim.v.hlsearch == 0 then
+                  local ns = vim.api.nvim_create_namespace('searchcount')
+                  vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
                 end
               end
             '';
