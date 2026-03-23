@@ -4,8 +4,8 @@ let
   # https://git.eisfunke.com/config/nixos/-/tree/main/packages/mastodon
   glitch-soc-src = pkgs.fetchgit {
     url = "https://git.eisfunke.com/config/nixos.git";
-    rev = "5657d42c65d02d9aed3d04adc0e8ae408b29112e";
-    sha256 = "sha256-dhIUokqOz45nkxmRPYQjcucCh2iBeW+Pv0pyT+G+ev8=";
+    rev = "395331d51ad64b670aa4053b5c29dc81d3911f27";
+    sha256 = "sha256-8erij6w7S6aQMBNpPLNokKTXZrdhVGV4cduKCC118nk=";
   };
   nym-libwg = pkgs.callPackage ./nym-libwg.nix { };
 in
