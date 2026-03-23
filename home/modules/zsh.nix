@@ -128,6 +128,10 @@ in
               ''
                 export $(cat ${config.age.secrets.llm.path} | xargs)
 
+                autoload -z edit-command-line
+                zle -N edit-command-line
+                bindkey "^X^E" edit-command-line
+
                 function _force_atuin_binding_once() {
                   # Forcefully bind CTRL+R in the vi keymaps to atuin
                   bindkey -M viins '^R' atuin-search

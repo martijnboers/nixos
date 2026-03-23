@@ -222,11 +222,22 @@ in
             pick.enable = true; # file picker
             extra.enable = true; # more picker sources
             icons.enable = true; # icons support for extensions
-            surround.enable = true; # surround words with something
             git.enable = true; # :git helper functions
             diff.enable = true; # gitsigns replacement
             completion.enable = true; # autocomplete
             notify.enable = true; # vim.notify capture
+
+            surround = {
+              enable = true; # surround words with something
+              mappings = {
+                add = "<Leader>qa"; # 'quote add'
+                delete = "<Leader>qd";
+                replace = "<Leader>qr";
+                find = "";
+                find_left = "";
+                highlight = "";
+              };
+            };
 
             sessions = {
               enable = true;
