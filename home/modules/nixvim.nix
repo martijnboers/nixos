@@ -191,7 +191,6 @@ in
 
       plugins = {
         markview.enable = true; # better Markdown
-        friendly-snippets.enable = true; # community snippets
 
         neoscroll = {
           enable = true;
