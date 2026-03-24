@@ -9,7 +9,7 @@
     rules = ''
       # SYSTEM CONTEXT & OPERATIONAL CONSTRAINTS
 
-      ## 1. OS Architecture: NixOS
+      ## OS Architecture: NixOS
       **Context:** 
         The system is NixOS. The file system is declarative and largely
         immutable.
@@ -32,7 +32,7 @@
         If you want to look for something, use nix-locate, it's much faster as
         it has indexed the whole store. 
 
-      ## 2. Enviroment
+      ## Enviroment
       **Context:** 
         I debug on computers for servers on desktops. Very often I will create
         code/services that's not being run on the computer running opencode
@@ -44,7 +44,7 @@
         machine you don't have access to. If it's for another machine DON'T TRY
         TO LOOK FOR FILES / INSTALL PROGRAMS ETC
 
-      ## 3. Source Truth & User Intent
+      ## Source Truth & User Intent
       **Context:** 
         The user manually edits files between runs.
       **Rule:** 
@@ -56,13 +56,14 @@
         If a removal causes a critical failure, **ASK** the user before
         attempting to restore it.
 
-      ## 4. File Operations: Cloning
+      ## File Operations
       **Decision Tree for Cloning Repositories:**
-        IF the task is temporary, one-off, or for inspection -> Clone to `/tmp`.
         IF the task is for development, persistence, or repeated use -> Clone to `~/Code`.
+        IF the task is temporary, one-off, or for inspection -> Clone to `/tmp`.
 
-      ## 5. General rules:
+      ## General rules:
       - **DONT REMOVE COMMENTS** unless specificly asked. 
+      - If you are in plan mode, **DONT REMIND ME**, this was intentional
     '';
     settings = {
       compaction = {
@@ -165,7 +166,7 @@
         {
           type = "openai-compatible";
           name = "moonshot";
-          api_base=" https://api.moonshot.cn/v1";
+          api_base = "https://api.moonshot.cn/v1";
         }
         {
           type = "openai-compatible";

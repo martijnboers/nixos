@@ -114,11 +114,10 @@ in
         undofile = true; # Save undo history
         cmdheight = 0; # hide command line
         sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,globals";
-        smoothscroll = true;
 
         # Spelling
         spell = false;
-        spelllang = "nl"; # Harper not supported yet
+        spelllang = "nl,en_gb";
         spellsuggest = "best,9";
 
         # Folding
@@ -190,8 +189,6 @@ in
       };
 
       plugins = {
-        markview.enable = true; # better Markdown
-
         neoscroll = {
           enable = true;
           settings = {
@@ -225,27 +222,7 @@ in
             diff.enable = true; # gitsigns replacement
             completion.enable = true; # autocomplete
             notify.enable = true; # vim.notify capture
-
-            surround = {
-              enable = true; # surround words with something
-              mappings = {
-                add = "<Leader>qa"; # 'quote add'
-                delete = "<Leader>qd";
-                replace = "<Leader>qr";
-                find = "";
-                find_left = "";
-                highlight = "";
-              };
-            };
-
-            sessions = {
-              enable = true;
-              autoread = true;
-              autowrite = true;
-              file = ".nvim.session";
-              # allow deleting current session
-              force.delete = true;
-            };
+            surround.enable = true; # surround words with something
 
             move = {
               mappings = {
@@ -355,6 +332,8 @@ in
                 vim.opt_local.foldmethod = "expr"
                 vim.opt_local.foldexpr = "v:lua.MiniGit.diff_foldexpr()"
                 vim.opt_local.foldlevel = 0
+                -- Tells `gf` to remove 'a/' or 'b/' from the start of the path
+                vim.opt_local.includeexpr = [[substitute(v:fname, '^[ab]/', "", "")]]
               end
             '';
           }
@@ -374,6 +353,20 @@ in
               "BufEnter"
             ];
             callback = updateGit;
+          }
+          {
+            event = [ "FileType" ];
+            pattern = [
+              "markdown"
+              "gitcommit"
+              "text"
+              "latex"
+            ];
+            callback = helpers.mkRaw ''
+              function()
+                vim.opt_local.spell = true
+              end
+            '';
           }
           {
             event = "CursorMoved";
@@ -421,6 +414,36 @@ in
                   local ns = vim.api.nvim_create_namespace('searchcount')
                   vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
                 end
+              end
+            '';
+          }
+          {
+            event = "User";
+            pattern = [ "MiniFilesBufferCreate" ];
+            callback = helpers.mkRaw ''
+              function(args)
+                local buf_id = args.data.buf_id
+
+                local map_split = function(buf_id, lhs, direction)
+                  local rhs = function()
+                    local cur_target = MiniFiles.get_explorer_state().target_window
+                    local new_target = vim.api.nvim_win_call(cur_target, function()
+                      vim.cmd(direction .. ' split')
+                      return vim.api.nvim_get_current_win()
+                    end)
+
+                    MiniFiles.set_target_window(new_target)
+                    MiniFiles.go_in()
+                    MiniFiles.close()
+                  end
+
+                  local desc = 'Split ' .. direction
+                  vim.keymap.set('n', lhs, rhs, { buffer = buf_id, desc = desc })
+                end
+
+                map_split(buf_id, '<C-s>', 'belowright horizontal')
+                map_split(buf_id, '<C-v>', 'belowright vertical')
+                map_split(buf_id, '<C-t>', 'tab')
               end
             '';
           }
@@ -490,22 +513,52 @@ in
           code = "MiniExtra.pickers.registers()";
         })
 
-        # terminal
+        # Quality of life
         {
           mode = "t";
-          key = "<esc><esc>";
-          action = ''C-\><c-n>'';
+          key = "<esc>";
+          # :tnoremap <Esc> <C-\><C-N>
+          action = "<C-\\><C-n>";
           options = {
             silent = true;
-            desc = "Git Revert selected hunk";
+            desc = "Exit terminal mode";
           };
         }
+        {
+          mode = "t";
+          key = "<C-esc>";
+          # :tnoremap <S-Esc> <Esc>
+          action = "<Esc>";
+          options = {
+            silent = true;
+            desc = "Sent real Esc";
+          };
+        }
+        (lua {
+          key = "<Leader>n";
+          desc = "List notifications";
+          code = "MiniNotify.show_history()";
+        })
 
         # File Explorer
         (lua {
           key = "<Leader>e";
           desc = "Toggle MiniFiles";
-          code = "if not MiniFiles.close() then MiniFiles.open(vim.api.nvim_buf_get_name(0), false) end";
+          code = # lua
+            ''
+              if MiniFiles.close() then
+                return
+              end
+              local buf_name = vim.api.nvim_buf_get_name(0)
+              -- Check if buffer name is empty or starts with a special prefix (like term://)
+              local is_valid_file = buf_name ~= "" and vim.bo.buftype == "" and vim.fn.filereadable(buf_name) == 1
+              if is_valid_file then
+                MiniFiles.open(buf_name, false)
+              else
+                -- Fallback to opening at the current working directory
+                MiniFiles.open(vim.fn.getcwd(), false)
+              end
+            '';
           modes = [
             "n"
             "v"
@@ -515,7 +568,7 @@ in
         (git {
           key = "gb";
           desc = "Git blame";
-          command = "log --patch --max-count=100 -- %";
+          command = "log --patch --max-count=50 -- %";
         })
         (lua {
           key = "gb";
@@ -526,7 +579,7 @@ in
         (git {
           key = "glg";
           desc = "Git log";
-          command = "log --patch --max-count=100";
+          command = "log --patch --max-count=50";
         })
         {
           mode = "v";
@@ -610,23 +663,6 @@ in
           desc = "Add whole file to sytem clipboard";
           command = "%y+";
           modes = [ "n" ];
-        })
-
-        # Sessions
-        (lua {
-          key = "<Leader>ps";
-          desc = "Save session";
-          code = "MiniSessions.write('.nvim.session'); vim.notify('Session saved')";
-        })
-        (lua {
-          key = "<Leader>pd";
-          desc = "Delete session";
-          code = "MiniSessions.delete('.nvim.session'); vim.notify('Session deleted')";
-        })
-        (lua {
-          key = "<Leader>n";
-          desc = "List notifications";
-          code = "MiniNotify.show_history()";
         })
 
         # Window resizing
