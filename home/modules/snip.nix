@@ -5,6 +5,7 @@
 }:
 let
   helpers = config.lib.nixvim;
+  # https://github.com/rafamadriz/friendly-snippets/
   jsonPath = pkgs.writeText "global.json" (
     builtins.toJSON {
       date = {
@@ -49,6 +50,12 @@ let
               ''${4}
             };
           }
+        '';
+      };
+      fakehash = {
+        prefix = "fakehash";
+        body = ''
+          "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
         '';
       };
     }

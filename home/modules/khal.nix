@@ -75,6 +75,7 @@ in
 
     programs.khard = {
       enable = true;
+      package = pkgs.stable.khard;
       settings = {
         "general" = {
           default_action = "list";

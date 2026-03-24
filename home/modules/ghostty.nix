@@ -57,10 +57,14 @@ in
           "vim/ctrl+u=scroll_page_up"
           "vim/g>g=scroll_to_top"
           "vim/shift+g=scroll_to_bottom"
-          "vim/i=deactivate_key_table"
           "vim/slash=start_search"
           "vim/n=navigate_search:next"
           "vim/shift+n=navigate_search:previous"
+          "vim/ctrl+shift+page_down=move_tab:1"
+          "vim/ctrl+shift+page_up=move_tab:-1"
+          "vim/i=deactivate_key_table"
+          "vim/a=deactivate_key_table"
+          "vim/escape=deactivate_key_table"
           "vim/catch_all=ignore"
         ];
       };

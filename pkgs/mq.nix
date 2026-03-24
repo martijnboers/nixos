@@ -11,8 +11,8 @@ rustPlatform.buildRustPackage {
 
   src = pkgs.fetchgit {
     url = "https://seed.boers.email/z2AdUML1AaZmUVidUJ4vwQDJhmvKg.git";
-    rev = "65d05627e60b9884ba2fc969874c75ec360e1aa0";
-    hash = "sha256-zsqPnT5ckl05OnL4wd5NMqd5okjggHfs4SDxDNIVLWY=";
+    rev = "9ee96b7fb7b747be1e957f8c059540c486739cb5";
+    hash = "sha256-KA85DXZDuNdL/UkEbgxCCBW+Ft0xb+hUFd5HL1Pw5ag=";
   };
 
   cargoHash = "sha256-Cu4JlPFPoJ2pndsPrrhSY8Hy4PFodVjDol41ng0UtaE=";

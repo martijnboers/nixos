@@ -322,23 +322,6 @@ in
         in
         [
           {
-            event = "FileType";
-            pattern = [
-              "git"
-              "diff"
-            ];
-            callback = helpers.mkRaw ''
-              function()
-                vim.opt_local.foldmethod = "expr"
-                vim.opt_local.foldexpr = "v:lua.MiniGit.diff_foldexpr()"
-                vim.opt_local.foldlevel = 0
-                -- Tells `gf` to remove 'a/' or 'b/' from the start of the path
-                vim.opt_local.includeexpr = [[substitute(v:fname, '^[ab]/', "", "")]]
-              end
-            '';
-          }
-
-          {
             event = "User";
             pattern = [
               "MiniGitUpdated"
@@ -355,12 +338,28 @@ in
             callback = updateGit;
           }
           {
+            event = "FileType";
+            pattern = [
+              "git"
+              "diff"
+            ];
+            callback = helpers.mkRaw ''
+              function()
+                vim.opt_local.foldmethod = "expr"
+                vim.opt_local.foldexpr = "v:lua.MiniGit.diff_foldexpr()"
+                vim.opt_local.foldlevel = 0
+                -- Tells `gf` to remove 'a/' or 'b/' from the start of the path
+                vim.opt_local.includeexpr = [[substitute(v:fname, '^[ab]/', "", "")]]
+              end
+            '';
+          }
+          {
             event = [ "FileType" ];
             pattern = [
               "markdown"
-              "gitcommit"
-              "text"
               "latex"
+              "text"
+              "git"
             ];
             callback = helpers.mkRaw ''
               function()
@@ -406,11 +405,11 @@ in
             '';
           }
           {
-            event = "OptionSet";
-            pattern = [ "hlsearch" ];
+            event = "CmdlineLeave";
             callback = helpers.mkRaw ''
               function()
-                if vim.v.hlsearch == 0 then
+                local cmd = vim.fn.getcmdline()
+                if cmd == "noh" or cmd == "nohlsearch" then
                   local ns = vim.api.nvim_create_namespace('searchcount')
                   vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
                 end
