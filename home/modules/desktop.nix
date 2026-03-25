@@ -31,10 +31,7 @@ in
       with pkgs;
       with pkgs.kdePackages;
       [
-        kooha # record screen wayland
-        wev # wayland xev
         cheese # webcam
-        dezoomify-rs # art archival
         localsend # airdrop
         wvkbd-desktop # osk
         gnupg

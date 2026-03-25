@@ -25,9 +25,6 @@ in
     # Default auditd rules
     hosts.auditd.enable = lib.mkDefault true;
 
-    # Multiplexing on TTY
-    programs.tmux.enable = true;
-
     age.secrets = {
       tailscale-server.file = lib.mkDefault "${inputs.secrets}/tailscale-server.age";
     };

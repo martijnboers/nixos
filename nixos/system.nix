@@ -83,7 +83,6 @@
 
     # diagnostic
     dust # better du
-    screen
     croc # send files
     unaware # mask PII-data
     rlwrap # improve editing
@@ -212,8 +211,9 @@
       ));
   };
 
-  programs.zsh.enable = true;
   services.fwupd.enable = true; # firmware update
+  programs.zsh.enable = true;
+  programs.tmux.enable = true;
 
   networking = {
     useDHCP = false; # Done by networkd

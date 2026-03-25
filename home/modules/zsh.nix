@@ -14,10 +14,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      dezoomify-rs # art archival
-    ];
-
     programs.zsh = {
       enable = true;
       shellAliases =
@@ -106,10 +102,6 @@ in
               ''
                 s() {
                   nix shell "nixpkgs#$1"
-                }
-                wp() {
-                  rm -f wp.jpg
-                  dezoomify-rs --compression 0 --largest $1 wp.jpg
                 }
                 fixkey() {
                   # Find all USB devices with Vendor ID 1050 (Yubico)
