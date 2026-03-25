@@ -78,27 +78,31 @@
   # PCIe controller that this slot can only address the first 3GB
   # of RAM. This fixes the "Error -12" memory crash without using
   # the binary overlay that previously hung your system.
-  # hardware.deviceTree = {
-  #   enable = true;
-  #   overlays = [
-  #     {
-  #       name = "limit-pcie-dma";
-  #       dtsText = ''
-  #         /dts-v1/;
-  #         /plugin/;
-  #         / {
-  #           compatible = "brcm,bcm2712";
-  #           fragment@0 {
-  #             target = <&pcie1>;
-  #             __overlay__ {
-  #               dma-ranges = <0x02000000 0x00 0x00000000 0x00 0x00000000 0x00 0xc0000000>;
-  #             };
-  #           };
-  #         };
-  #       '';
-  #     }
-  #   ];
-  # };
+  hardware.deviceTree = {
+    enable = true;
+    overlays = [
+      {
+        name = "pcie-32bit-dma-pi5";
+        dtsText = ''
+          /dts-v1/;
+          /plugin/;
+
+          / {
+            compatible = "brcm,bcm2712";
+
+            fragment@0 {
+              target = <&pcie1>;
+              __overlay__ {
+                #address-cells = <3>;
+                #size-cells = <2>;
+                dma-ranges = <0x02000000 0x0 0x00000000 0x0 0x00000000 0x0 0x80000000>;
+              };
+            };
+          };
+        '';
+      }
+    ];
+  };
 
   # ----------------------------------------------------------------
   # 4. KERNEL PARAMETERS

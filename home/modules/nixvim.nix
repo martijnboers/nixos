@@ -359,7 +359,6 @@ in
               "markdown"
               "latex"
               "text"
-              "git"
             ];
             callback = helpers.mkRaw ''
               function()

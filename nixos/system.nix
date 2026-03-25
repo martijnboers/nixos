@@ -107,7 +107,7 @@
     channel.enable = lib.mkDefault false;
     package = inputs.determinate.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
-    distributedBuilds = false;
+    distributedBuilds = true;
     buildMachines = [
       {
         hostName = "eu.nixbuild.net";

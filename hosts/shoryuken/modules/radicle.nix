@@ -95,7 +95,7 @@ in
     };
     services.radicle = {
       enable = true;
-      privateKeyFile = config.age.secrets.radicle-server.path;
+      privateKey = config.age.secrets.radicle-server.path;
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICpIiSK+rRAp4HPvWrjy2iUluPcInEsHAqJTN5FIOCFc radicle";
 
       ci = {
