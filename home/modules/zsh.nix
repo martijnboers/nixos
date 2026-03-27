@@ -38,7 +38,6 @@ in
           wut = "journalctl -b -1 -e"; # previous boot crash
           xev = "wev"; # wayland xev
           adel = "read -r s&&atuin search '$s' --delete";
-          notes = "(cd ~/Notes && nvim)";
           keyboard-compile = "qmk compile -kb peej/lumberjack -km martijn";
           keyboard-flash = "qmk flash -kb peej/lumberjack -km martijn";
           croc = "croc --relay dosukoi.machine.thuis:9009 --relay6 fd7a:115c:a1e0::9";
@@ -102,6 +101,14 @@ in
               ''
                 s() {
                   nix shell "nixpkgs#$1"
+                }
+                notes() {
+                  cd ~/Notes || return
+                  if [[ -f ~/.config/notes.vim ]]; then
+                    nvim -c "silent source ~/.config/notes.vim"
+                  else
+                    nvim -c "mksession! ~/.config/notes.vim"
+                  fi
                 }
                 fixkey() {
                   # Find all USB devices with Vendor ID 1050 (Yubico)

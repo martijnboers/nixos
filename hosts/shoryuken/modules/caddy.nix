@@ -10,11 +10,11 @@ let
   cfg = config.hosts.caddy;
   info = fetchGit {
     url = "https://seed.boers.email/z2r9euHZW161kfQNxdF4apHddD3mm.git";
-    rev = "757077dcb9bf53fb9b1f5d66e6e46c9baf836331";
+    rev = "ec846d0164da6f8996e48939b347e424b01a38bc";
   };
   resume = fetchGit {
     url = "https://seed.boers.email/zb1FuXow3wJemDDPFWGFa49rNA4z.git";
-    rev = "b7d75859c8ce0c2867c95c5924623e397a2600f9";
+    rev = "01620fdcb4f262d567d0b1daabd6f69b767346b4";
   };
   gpg-key = "${inputs.secrets}/keys/pgp.asc";
   wkd = pkgs.runCommand "wkd-output" { nativeBuildInputs = [ pkgs.gnupg ]; } ''
@@ -107,7 +107,7 @@ in
         "resume.boers.email" = {
           extraConfig = ''
             cache { ttl 1h }
-            root * ${resume}/
+            root * ${resume}/public
             encode zstd gzip
             file_server
           '';

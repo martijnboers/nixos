@@ -445,6 +445,16 @@ in
               end
             '';
           }
+          {
+            event = [ "VimLeavePre" ];
+            callback = helpers.mkRaw ''
+              function()
+                if vim.v.this_session ~= "" then
+                  vim.cmd("mksession! " .. vim.fn.fnameescape(vim.v.this_session))
+                end
+              end
+            '';
+          }
         ];
 
       clipboard = {
