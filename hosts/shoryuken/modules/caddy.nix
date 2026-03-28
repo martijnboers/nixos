@@ -10,17 +10,16 @@ let
   cfg = config.hosts.caddy;
   info = fetchGit {
     url = "https://seed.boers.email/z2r9euHZW161kfQNxdF4apHddD3mm.git";
-    rev = "ec846d0164da6f8996e48939b347e424b01a38bc";
+    rev = "cbfb7707589329379630a6f16bc7a81bc241aaf4";
   };
   resume = fetchGit {
     url = "https://seed.boers.email/zb1FuXow3wJemDDPFWGFa49rNA4z.git";
-    rev = "01620fdcb4f262d567d0b1daabd6f69b767346b4";
+    rev = "b2d35c6938593ed3761c26b45b3da47f5d63bde0";
   };
   gpg-key = "${inputs.secrets}/keys/pgp.asc";
   wkd = pkgs.runCommand "wkd-output" { nativeBuildInputs = [ pkgs.gnupg ]; } ''
-    KEY_HASH="nnzg8pw4hsizdcd9u31yy1ony94u94tw"
     mkdir -p $out/hu
-    cat ${gpg-key} | gpg --dearmor > $out/hu/$KEY_HASH
+    cat ${gpg-key} | gpg --dearmor > $out/hu/nnzg8pw4hsizdcd9u31yy1ony94u94tw
     touch $out/policy
   '';
 in
