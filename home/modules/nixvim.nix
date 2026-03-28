@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }:
 with lib;
@@ -198,7 +199,6 @@ in
               "<C-d>"
               "<C-f>"
               "<C-b>"
-              "zz"
             ];
             hide_cursor = true;
             easing = "quadratic";
@@ -207,6 +207,14 @@ in
 
         gitportal = {
           enable = true; # open gh or gitlab web
+          package = pkgs.vimPlugins.gitportal-nvim.overrideAttrs {
+            src = pkgs.fetchFromCodeberg {
+              owner = "martijnboers";
+              repo = "gitportal.nvim";
+              rev = "4459fb71108371ae410579f666d75f962f0ac9d9";
+              hash = "sha256-GuAyNKM+37CfXrIfZfnepxDHTcRbWOPp1DViKI78jFc=";
+            };
+          };
           settings.always_use_commit_hash_in_url = true;
         };
 
@@ -647,16 +655,6 @@ in
             "add ."
             "commit --amend --no-edit"
           ];
-        })
-        (git {
-          key = "<Leader>pl";
-          desc = "Git pull";
-          command = "pull --rebase";
-        })
-        (git {
-          key = "<Leader>pp";
-          desc = "Git push";
-          command = "push";
         })
 
         # Clipboard

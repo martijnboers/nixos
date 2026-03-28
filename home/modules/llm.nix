@@ -61,6 +61,10 @@
         IF the task is for development, persistence, or repeated use -> Clone to `~/Code`.
         IF the task is temporary, one-off, or for inspection -> Clone to `/tmp`.
 
+      **Decision Tree for test files**
+        IF the path is tracked by git -> put test files in /tmp/dirname
+        IF the path is NOT tracked by git -> you can put test files directly in it
+
       ## General rules:
       - **DONT REMOVE COMMENTS** unless specificly asked. 
       - If you are in plan mode, **DONT REMIND ME**, this was intentional
@@ -75,7 +79,8 @@
         edit = "allow";
         bash = {
           "*" = "allow";
-          "git *" = "ask";
+          "git commit*" = "ask";
+          "git push*" = "ask";
           "nixos-rebuild *" = "ask";
           "nh *" = "ask";
           "rm -rf *" = "deny";

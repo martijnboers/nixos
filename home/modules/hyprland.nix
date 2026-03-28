@@ -99,6 +99,7 @@ in
           hideTopLayers = true;
           hideOverlayLayers = true;
           hideRealLayers = true;
+          exitOnSwitch = true;
         };
 
         # hyprlandhyprctl clients
