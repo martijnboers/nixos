@@ -37,6 +37,8 @@
         dark = true;
       };
       merge.conflictStyle = "zdiff3";
+      merge.tool = "vimdiff";
+      rerere.enabled = true;
       pager = {
         blame = "delta";
         diff = "delta";
