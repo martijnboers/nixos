@@ -7,6 +7,11 @@
 with lib;
 let
   cfg = config.maatwerk.hyprland;
+  lock-script = pkgs.writeShellScriptBin "lock-and-reenable-monitor" ''
+    hyprctl keyword monitor "eDP-1, disable"
+    ${lib.getExe pkgs.hyprlock}
+    hyprctl keyword monitor "eDP-1, preferred, auto, 1, transform, 0"
+  '';
 in
 {
   imports = [
@@ -149,7 +154,8 @@ in
           }"
         ]
         ++ (lib.optionals cfg.isLaptop [
-          ", switch:on:Lid Switch, exec, hyprctl keyword monitor \"eDP-1, disable\""
+          # Lid switch handling - disable monitor and lock on close
+          ", switch:on:Lid Switch, exec, ${lib.getExe lock-script}"
           ", switch:off:Lid Switch, exec, hyprctl keyword monitor \"eDP-1,preferred,auto,1,transform,0\""
           ", XF86MonBrightnessDown, exec, ${lib.getExe pkgs.brightnessctl} s 10%-"
           ", XF86MonBrightnessUp, exec, ${lib.getExe pkgs.brightnessctl}  s +10%"
@@ -324,8 +330,8 @@ in
         enable = true;
         settings = {
           general = {
-            after_sleep_cmd = "hyprctl dispatch dpms on";
-            ignore_dbus_inhibit = false;
+            after_sleep_cmd = "hyprctl keyword monitor 'eDP-1, preferred, auto, 1, transform, 0' && hyprctl dispatch dpms on";
+            ignore_dbus_inhibit = true; # Ignore apps like browsers playing video
             lock_cmd = lockCmd;
           };
 
@@ -341,7 +347,7 @@ in
             {
               timeout = 15 * 60;
               on-timeout = "hyprctl dispatch dpms off";
-              on-resume = "hyprctl dispatch dpms on";
+              on-resume = "hyprctl keyword monitor 'eDP-1, preferred, auto, 1, transform, 0' && hyprctl dispatch dpms on";
             }
             {
               timeout = 30 * 60;
@@ -368,10 +374,7 @@ in
       enable = true;
       settings = {
         general = {
-          disable_loading_bar = true;
-          grace = 30;
           hide_cursor = true;
-          no_fade_in = false;
         };
 
         background = [
@@ -448,6 +451,5 @@ in
         ];
       };
     };
-
   };
 }

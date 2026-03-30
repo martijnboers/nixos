@@ -71,11 +71,13 @@ in
       "xe.force_probe=7d51"
       "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
       "nvidia.NVreg_TemporaryFilePath=/var/tmp"
+      "nvidia_drm.modeset=1"
       # "mem_sleep_default=deep"
       # "resume_offset=112625664"
     ];
 
     initrd = {
+
       availableKernelModules = [
         "xhci_pci"
         "thunderbolt"
@@ -97,6 +99,15 @@ in
         };
       };
       systemd.enable = true;
+      systemd.services.delete-nvidia-ko = {
+        description = "Remove nvidia modules from initrd";
+        wantedBy = [ "initrd.target" ];
+        before = [ "sys-kernel-modules-load.service" ];
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = ''/bin/sh -c "rm -f /lib/modules/*/kernel/drivers/gpu/drm/nvidia*.ko"'';
+        };
+      };
     };
   };
 
@@ -110,6 +121,7 @@ in
     modesetting.enable = true; # should be on by default
     powerManagement.enable = true; # should fix hybernation
     powerManagement.finegrained = false;
+    nvidiaPersistenced = true;
     prime = {
       offload.enable = true;
       intelBusId = "PCI:00:02:0";
