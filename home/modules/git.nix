@@ -15,7 +15,6 @@
     };
     ignores = [
       ".ccls-cache"
-      "**/.claude/settings.local.json"
       "result"
       ".nvim.session"
     ];

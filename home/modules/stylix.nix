@@ -63,8 +63,11 @@ in
           colorTheme.enable = true;
           profileNames = [ "default" ];
         };
+        nixvim = {
+          enable = true;
+          transparentBackground.numberLine = true;
+        };
         waybar.enable = false;
-        nixvim.enable = false;
         hyprlock.enable = false;
       };
     };

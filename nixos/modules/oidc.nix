@@ -26,6 +26,7 @@ in
     services.caddy.virtualHosts.${cfg.domain} = {
       extraConfig = ''
         ${optionalString cfg.internal "import headscale"}
+        header X-Robots-Tag "noindex"
         reverse_proxy http://localhost:1411
       '';
     };

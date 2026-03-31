@@ -88,6 +88,7 @@ in
               file_server
             }
 
+            header X-Robots-Tag "noindex"
             header /.well-known/matrix/* Content-Type application/json
             header /.well-known/matrix/* Access-Control-Allow-Origin *
             respond /.well-known/matrix/server `{"m.server": "matrix.boers.email:443"}`
@@ -99,12 +100,14 @@ in
         };
         "matrix.boers.email" = {
           extraConfig = ''
+            header X-Robots-Tag "noindex"
             reverse_proxy /_matrix/* hadouken.machine.thuis:5553
             reverse_proxy /_synapse/client/* hadouken.machine.thuis:5553
           '';
         };
         "resume.boers.email" = {
           extraConfig = ''
+            header X-Robots-Tag "noindex"
             cache { ttl 1h }
             root * ${resume}/public
             encode zstd gzip
@@ -113,6 +116,7 @@ in
         };
         "storage.boers.email" = {
           extraConfig = ''
+            header X-Robots-Tag "noindex"
             @admin_api path /minio/admin/*
             error @admin_api 403
 
@@ -122,6 +126,7 @@ in
         };
         "p.plebian.nl" = {
           extraConfig = ''
+            header X-Robots-Tag "noindex"
             basic_auth {
               martijn $2a$14$5IMomLZ8smU2w4VSbVN/ae8PNqQz7PfcmKpAJmgTMY58Wgoj3uRam
             }

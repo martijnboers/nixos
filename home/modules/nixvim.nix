@@ -138,54 +138,31 @@ in
         pumwidth = 30; # Minimum width of completion menu
       };
 
-      colorschemes.kanagawa = {
-        enable = true;
-        settings = {
-          dimInactive = true;
-          transparent = true;
-          colors.theme.all.ui.bg_gutter = "none";
-          commentStyle.italic = true;
-          background = {
-            light = "wave";
-            dark = "dragon";
-          };
-          overrides = # lua
-            ''
-              function(colors)
-                local theme = colors.theme
-                local palette = colors.palette
-                return {
-                  -- Inactive window contrast 
-                  NormalNC = { bg = palette.sumiInk0 },
-
-                  -- Completion popups 
-                  Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 },
-                  PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
-                  PmenuKind = { fg = theme.ui.fg_dim, bg = theme.ui.bg_p1 },
-                  PmenuKindSel = { fg = theme.ui.fg_dim, bg = theme.ui.bg_p2 },
-                  PmenuExtra = { fg = theme.ui.fg_dim, bg = theme.ui.bg_p1 },
-                  PmenuExtraSel = { fg = theme.ui.fg_dim, bg = theme.ui.bg_p2 },
-                  PmenuSbar = { bg = theme.ui.bg_m1 },
-                  PmenuThumb = { bg = theme.ui.bg_p2 },
-
-                  -- Status line icons (diagnostic colors from theme)
-                  MiniStatuslineIconWarn = { fg = theme.diag.warning, bg = "none" },
-                  MiniStatuslineIconError = { fg = theme.diag.error, bg = "none" },
-                  
-                  -- Error/warning indicator icon with dynamic background
-                  StatuslineErrorIcon = { fg = theme.diag.error, bg = "none" },
-                  StatuslineNormalIcon = { fg = theme.ui.fg, bg = "none" },
-                }
-              end
-            '';
-        };
-      };
       diagnostic.settings = {
         virtual_text = false;
         signs = false;
         virtual_lines = {
           enable = true;
           current_line = true;
+        };
+      };
+
+      highlight = {
+        StatuslineErrorIcon = {
+          fg = config.lib.stylix.colors.withHashtag.red;
+        };
+        StatuslineNormalIcon = {
+          fg = config.lib.stylix.colors.withHashtag.green;
+        };
+        YankHighlight = {
+          bg = config.lib.stylix.colors.withHashtag.yellow;
+          fg = config.lib.stylix.colors.withHashtag.base00;
+        };
+      };
+
+      highlightOverride = {
+        StatusLineNC = {
+          bg = config.lib.stylix.colors.withHashtag.base00;
         };
       };
 
@@ -371,6 +348,14 @@ in
             callback = helpers.mkRaw ''
               function()
                 vim.opt_local.spell = true
+              end
+            '';
+          }
+          {
+            event = "TextYankPost";
+            callback = helpers.mkRaw ''
+              function()
+                vim.highlight.on_yank({ higroup = "YankHighlight", timeout = 150 })
               end
             '';
           }
@@ -709,7 +694,6 @@ in
             '';
         })
       ];
-
     };
   };
 }
