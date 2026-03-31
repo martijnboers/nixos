@@ -7,11 +7,18 @@
 with lib;
 let
   cfg = config.maatwerk.hyprland;
-  lock-script = pkgs.writeShellScriptBin "lock-and-reenable-monitor" ''
-    hyprctl keyword monitor "eDP-1, disable"
-    ${lib.getExe pkgs.hyprlock}
-    hyprctl keyword monitor "eDP-1, preferred, auto, 1, transform, 0"
-  '';
+
+  # Get laptop-specific settings from the per-host config, with defaults.
+  laptop-monitor = cfg.settings.laptopMonitorName or "eDP-1";
+  laptop-scaling = cfg.settings.laptopScalingFactor or 1;
+
+  monitorConfig = [
+    "monitor=${laptop-monitor},preferred,auto,${toString laptop-scaling},transform,0"
+    "monitor=,preferred,auto,1" # Catch-all for other monitors
+  ];
+  reloadMonitorsCmd = "hyprctl --batch '${
+    lib.concatStringsSep ";" (map (c: "keyword " + c) monitorConfig)
+  }'";
 in
 {
   imports = [
@@ -26,6 +33,18 @@ in
       type = types.bool;
       default = false;
       description = "Whether this host is a laptop.";
+    };
+    settings = mkOption {
+      type =
+        with types;
+        attrsOf (oneOf [
+          str
+          int
+          float
+          bool
+        ]);
+      default = { };
+      description = "Per-host settings for Hyprland.";
     };
   };
 
@@ -155,8 +174,8 @@ in
         ]
         ++ (lib.optionals cfg.isLaptop [
           # Lid switch handling - disable monitor and lock on close
-          ", switch:on:Lid Switch, exec, ${lib.getExe lock-script}"
-          ", switch:off:Lid Switch, exec, hyprctl keyword monitor \"eDP-1,preferred,auto,1,transform,0\""
+          ", switch:on:Lid Switch, exec, sh -c 'hyprctl keyword monitor \"${laptop-monitor}, disable\"; ${lib.getExe pkgs.hyprlock}; ${reloadMonitorsCmd}'"
+          ", switch:off:Lid Switch, exec, ${reloadMonitorsCmd}"
           ", XF86MonBrightnessDown, exec, ${lib.getExe pkgs.brightnessctl} s 10%-"
           ", XF86MonBrightnessUp, exec, ${lib.getExe pkgs.brightnessctl}  s +10%"
         ]);
@@ -273,9 +292,7 @@ in
           gesture = 4, swipe, resize
         ''
         + ''
-          monitor=eDP-1,preferred,auto,1,transform,0
-          monitor=desc:Samsung Display Corp. 0x41B4,preferred,auto,1.25
-          monitor=,preferred,auto,1
+          ${lib.concatStringsSep "\n" monitorConfig}
 
           animations {
             # https://cubic-bezier.com/
@@ -330,7 +347,7 @@ in
         enable = true;
         settings = {
           general = {
-            after_sleep_cmd = "hyprctl keyword monitor 'eDP-1, preferred, auto, 1, transform, 0' && hyprctl dispatch dpms on";
+            after_sleep_cmd = "${reloadMonitorsCmd} && hyprctl dispatch dpms on";
             ignore_dbus_inhibit = true; # Ignore apps like browsers playing video
             lock_cmd = lockCmd;
           };
@@ -347,7 +364,7 @@ in
             {
               timeout = 15 * 60;
               on-timeout = "hyprctl dispatch dpms off";
-              on-resume = "hyprctl keyword monitor 'eDP-1, preferred, auto, 1, transform, 0' && hyprctl dispatch dpms on";
+              on-resume = "${reloadMonitorsCmd} && hyprctl dispatch dpms on";
             }
             {
               timeout = 30 * 60;
