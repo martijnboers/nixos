@@ -63,6 +63,7 @@ in
           gp = "git push";
           gpf = "git push --force-with-lease";
           grb = "git rebase";
+          groh = "git reset --hard HEAD && git clean -fd";
           fixup = "ga . && gc --amend --no-edit";
 
           # ssh nicknames

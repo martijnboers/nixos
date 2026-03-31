@@ -10,7 +10,7 @@ let
   cfg = config.hosts.caddy;
   info = fetchGit {
     url = "https://seed.boers.email/z2r9euHZW161kfQNxdF4apHddD3mm.git";
-    rev = "cbfb7707589329379630a6f16bc7a81bc241aaf4";
+    rev = "1505f08958776961feef9fcd4826a615b7bcb39e";
   };
   resume = fetchGit {
     url = "https://seed.boers.email/zb1FuXow3wJemDDPFWGFa49rNA4z.git";

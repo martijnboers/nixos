@@ -37,7 +37,7 @@ shell: |
   echo "Commit signed by authorized GPG key"
 
   # Configure GitHub remote
-  GITHUB_REPO="https://oauth2:${GITHUB_TOKEN}@github.com/martijnboers/nixos.git"
+  GITHUB_REPO="https://oauth2:${GITHUB_TOKEN}@github.com/oetel/nixos.git"
 
   if ! git remote | grep -q "^github$"; then
     git remote add github "$GITHUB_REPO"
