@@ -369,10 +369,7 @@ in
             {
               timeout = 30 * 60;
               on-timeout =
-                if config.maatwerk.hyprland.isLaptop then
-                  "systemctl suspend-then-hibernate"
-                else
-                  "systemctl suspend";
+                if config.maatwerk.hyprland.isLaptop then "loginctl suspend-then-hibernate" else "loginctl suspend";
             }
           ];
         };
