@@ -164,6 +164,20 @@ in
         StatusLineNC = {
           bg = config.lib.stylix.colors.withHashtag.base00;
         };
+        LineNr = {
+          fg = config.lib.stylix.colors.withHashtag.yellow;
+        };
+        LineNrAbove = {
+          fg = config.lib.stylix.colors.withHashtag.base03;
+        };
+        LineNrBelow = {
+          fg = config.lib.stylix.colors.withHashtag.base03;
+        };
+        Comment = {
+          # subtle comments
+          fg = config.lib.stylix.colors.withHashtag.base04;
+          italic = true;
+        };
       };
 
       plugins = {

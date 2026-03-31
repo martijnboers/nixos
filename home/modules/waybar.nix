@@ -405,6 +405,7 @@ in
           modules-left = [
             "custom/power"
             "custom/quick-settings"
+            "custom/khal"
             "hyprland/workspaces"
             "hyprland/window"
           ];
@@ -413,7 +414,6 @@ in
           ];
           modules-right = [
             "custom/wan"
-            "custom/khal"
             "group/system-stats"
             "group/system-tray"
           ];
