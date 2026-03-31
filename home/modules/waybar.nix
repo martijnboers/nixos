@@ -35,26 +35,161 @@ let
   '';
 
   khalScript =
-    pkgs.writers.writePython3Bin "khal-script" { libraries = [ pkgs.python3Packages.pygithub ]; } # python
+    pkgs.writers.writePython3Bin "khal-script"
+      {
+        flakeIgnore = [
+          "E501"
+          "W293"
+        ];
+      } # python
       ''
         import subprocess
-        import datetime
         import json
+        import datetime
         from html import escape
 
         data = {}
-        today = datetime.date.today().strftime("%d-%m-%y")
-        output = subprocess.check_output("khal list now 7days", shell=True)
-        output = output.decode("utf-8")
-        lines = output.split("\n")
-        new_lines = []
-        for line in lines:
-            clean_line = escape(line).split(" ::")[0]
-            if len(clean_line) and not clean_line[0] in ['0', '1', '2']:
-                clean_line = "\n<b>"+clean_line+"</b>"
-            new_lines.append(clean_line)
-        output = "\n".join(new_lines).strip()
-        data['tooltip'] = output
+
+        # Get JSON output from khal
+        output = subprocess.check_output("khal list now 7days --json all", shell=True)
+        output = output.decode("utf-8").strip()
+
+        # Parse each day's events (one JSON array per line)
+        days = []
+        for line in output.split("\n"):
+            if line.strip():
+                days.append(json.loads(line))
+
+        # Process events and count today's remaining
+        today = datetime.date.today()
+        now = datetime.datetime.now()
+        today_remaining_count = 0
+        tooltip_lines = []
+
+        # Define colors for visual hierarchy
+        COLOR_DAY = "#c4b28a"
+        COLOR_TIME = "#87a987"
+        COLOR_TITLE = "#c5c9c5"
+        COLOR_LOCATION = "#8ba4b0"
+        COLOR_DESC = "#737c73"
+        COLOR_REPEAT = "#c4746e"
+
+        day_index = 0
+        for day_events in days:
+            if not day_events:
+                day_index += 1
+                continue
+
+            # Calculate the actual day based on the index
+            current_date = today + datetime.timedelta(days=day_index)
+
+            # Format day header: "Mon, mar 31"
+            day_name = current_date.strftime("%a")
+            month_name = current_date.strftime("%b").lower()
+            day_str = current_date.strftime("%d")
+
+            is_today = current_date == today
+            day_prefix = "📌 " if is_today else ""
+            day_header = f"<span color='{COLOR_DAY}'><b>"
+            day_header += f"{day_prefix}{day_name}, {month_name} {day_str}"
+            day_header += "</b></span>"
+            tooltip_lines.append(day_header)
+
+            # Separate all-day and timed events
+            all_day_events = []
+            timed_events = []
+
+            for event in day_events:
+                all_day = event.get("all-day", "False") == "True"
+                if all_day:
+                    all_day_events.append(event)
+                else:
+                    timed_events.append(event)
+
+            # Process all-day events (grouped together)
+            if all_day_events:
+                tooltip_lines.append(f"  <span color='{COLOR_TIME}'>All day</span>")
+                for event in all_day_events:
+                    title = event.get("title", "")
+                    location = event.get("location", "")
+                    description = event.get("description", "")
+                    repeat_symbol = event.get("repeat-symbol", "")
+
+                    # Build title with location
+                    title_text = escape(title)
+                    if location:
+                        title_text += f" <span color='{COLOR_LOCATION}'>({escape(location)})</span>"
+
+                    # Add repeat symbol if present
+                    if repeat_symbol:
+                        title_text += f" <span color='{COLOR_REPEAT}'>⟳</span>"
+
+                    tooltip_lines.append(f"    <span color='{COLOR_TITLE}'>• {title_text}</span>")
+
+                    # Description if present
+                    if description:
+                        desc_truncated = escape(description[:60])
+                        desc_suffix = "..." if len(description) > 60 else ""
+                        desc_line = f"    <span color='{COLOR_DESC}'>📝 {desc_truncated}{desc_suffix}</span>"
+                        tooltip_lines.append(desc_line)
+
+                    # Count today's remaining all-day events
+                    if is_today:
+                        today_remaining_count += 1
+
+            # Process timed events
+            for event in timed_events:
+                title = event.get("title", "")
+                location = event.get("location", "")
+                description = event.get("description", "")
+                start_time = event.get("start-time", "")
+                end_time = event.get("end-time", "")
+                repeat_symbol = event.get("repeat-symbol", "")
+
+                # Build time string
+                time_str = f"<span color='{COLOR_TIME}'>"
+                time_str += f"{start_time[:5]} - {end_time[:5]}"
+                time_str += "</span>"
+
+                # Add repeat symbol if present
+                if repeat_symbol:
+                    time_str += f" <span color='{COLOR_REPEAT}'>⟳</span>"
+
+                tooltip_lines.append(f"  {time_str}")
+
+                # Build title with location
+                title_text = escape(title)
+                if location:
+                    title_text += f" <span color='{COLOR_LOCATION}'>({escape(location)})</span>"
+
+                tooltip_lines.append(f"    <span color='{COLOR_TITLE}'>• {title_text}</span>")
+
+                # Description if present
+                if description:
+                    desc_truncated = escape(description[:60])
+                    desc_suffix = "..." if len(description) > 60 else ""
+                    desc_line = f"    <span color='{COLOR_DESC}'>📝 {desc_truncated}{desc_suffix}</span>"
+                    tooltip_lines.append(desc_line)
+
+                # Count today's remaining events
+                if is_today:
+                    try:
+                        event_hour = int(start_time[:2])
+                        event_min = int(start_time[3:5])
+                        event_time = now.replace(
+                            hour=event_hour, minute=event_min,
+                            second=0, microsecond=0
+                        )
+                        if event_time > now:
+                            today_remaining_count += 1
+                    except Exception:
+                        today_remaining_count += 1
+
+            tooltip_lines.append("")
+            day_index += 1
+
+        data["tooltip"] = "\n".join(tooltip_lines).strip()
+        data["text"] = f"{today_remaining_count}"
         print(json.dumps(data))
       '';
 
@@ -278,6 +413,7 @@ in
           ];
           modules-right = [
             "custom/wan"
+            "custom/khal"
             "group/system-stats"
             "group/system-tray"
           ];
@@ -460,10 +596,9 @@ in
           };
 
           "custom/khal" = {
-            format = "{icon}";
+            format = "󰨲 {}";
             tooltip = true;
             interval = 300;
-            format-icons = "󰨲";
             exec = lib.getExe khalScript;
             return-type = "json";
           };

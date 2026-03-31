@@ -14,7 +14,7 @@ let
 
   monitorConfig = [
     "monitor=${laptop-monitor},preferred,auto,${toString laptop-scaling},transform,0"
-    "monitor=,preferred,auto,1" # Catch-all for other monitors
+    "monitor=,preferred,auto,1"
   ];
   reloadMonitorsCmd = "hyprctl --batch '${
     lib.concatStringsSep ";" (map (c: "keyword " + c) monitorConfig)
