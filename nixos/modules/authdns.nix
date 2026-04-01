@@ -34,6 +34,7 @@ let
         @           IN      A       ${shor.ipv4}
         @           IN      AAAA    ${shor.ipv6}
         openpgpkey  IN      TXT     ""
+        @           IN      TXT     "Soverin=Z9AoiT0Nuv8mtO67"
         protonmail._domainkey   IN CNAME protonmail.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch.
         protonmail2._domainkey  IN CNAME protonmail2.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch.
         protonmail3._domainkey  IN CNAME protonmail3.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch.
@@ -65,6 +66,7 @@ let
         _radicle-node._tcp.boers.email.       3600  IN PTR  seed._radicle-node._tcp.boers.email.
 
         openpgpkey  		                            IN TXT   ""
+        @                                           IN TXT   "Soverin=r7bNsTxYuYM2axjb"
 
         protonmail._domainkey                       IN CNAME protonmail.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
         protonmail2._domainkey                      IN CNAME protonmail2.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
