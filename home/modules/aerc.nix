@@ -165,14 +165,14 @@ in
       $ex = <C-x>
     '';
 
-    age.secrets.proton.file = "${inputs.secrets}/proton.age";
+    age.secrets.soverin.file = "${inputs.secrets}/soverin.age";
 
-    accounts.email.accounts.proton = {
+    accounts.email.accounts.soverin = {
       primary = true;
       realName = "Martijn Boers";
       address = "martijn@boers.email";
       userName = "martijn@boers.email";
-      maildir.path = "Proton";
+      maildir.path = "Soverin";
 
       gpg = {
         key = "C1E3 5670 353B 3516 BAA3 51D2 8BA2 F86B 654C 7078";
@@ -186,9 +186,9 @@ in
         remove = "both";
         patterns = [
           "*"
-          "!Folders/gmail"
-          "!Folders/gmail/*"
-          "!'All Mail'"
+          # "!Folders/gmail"
+          # "!Folders/gmail/*"
+          # "!'All Mail'"
         ];
       };
 
@@ -197,37 +197,28 @@ in
       aerc = {
         enable = true;
         extraAccounts = rec {
-          source = "maildir://~/Maildir/Proton";
-          # Prevents "File not found" errors when background sync renames files
-          cache-headers = false;
-          folders = "Inbox,Sent,Folders/signups,Folders/shipping,Folders/bewaren,Folders/werk,Drafts,Archive,Spam,Trash";
+          source = "maildir://~/Maildir/Soverin";
+          folders = "Inbox,Sent,Signups,Shipping,Bewaren,Werk,Drafts,Archive,Spam,Trash";
           folders-sort = folders;
-          outgoing = "smtp+plain://martijn%40boers.email@hadouken.machine.thuis:1025";
           copy-to = "Sent";
-          check-mail-cmd = "${pkgs.isync}/bin/mbsync proton";
+          check-mail-cmd = "${pkgs.isync}/bin/mbsync soverin";
           check-mail = "1m";
         };
       };
 
       imap = {
-        host = "hadouken.machine.thuis";
-        port = 1143;
-        tls = {
-          enable = true;
-          useStartTls = true;
-        };
+        host = "imap.soverin.net";
+        port = 993;
+        tls.enable = true;
       };
 
       smtp = {
-        host = "hadouken.machine.thuis";
-        port = 1025;
-        tls = {
-          enable = true;
-          useStartTls = true;
-        };
+        host = "smtp.soverin.net";
+        port = 465;
+        tls.enable = true;
       };
 
-      passwordCommand = "cat ${config.age.secrets.proton.path}";
+      passwordCommand = "cat ${config.age.secrets.soverin.path}";
     };
   };
 }

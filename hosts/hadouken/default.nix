@@ -19,7 +19,6 @@
     ./modules/matrix.nix
     ./modules/immich.nix
     ./modules/shares.nix
-    ./modules/proton.nix
     ./modules/caddy.nix
     ./modules/atuin.nix
     ./modules/media.nix
@@ -42,7 +41,6 @@
   hosts.atuin.enable = true;
   hosts.paperless.enable = true;
   hosts.bincache.enable = true;
-  hosts.proton.enable = true;
   hosts.nymvpn.enable = true;
 
   users = {

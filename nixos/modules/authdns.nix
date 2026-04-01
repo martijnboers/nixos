@@ -18,11 +18,16 @@ let
     ipv6 = config.global.wan_ips.shoryuken_6;
   };
 
-  protonBoilerplate = ''
-    @           IN      MX      10 mail.protonmail.ch.
-    @           IN      MX      20 mailsec.protonmail.ch.
-    @           IN      TXT     "v=spf1 include:_spf.protonmail.ch ~all"
-    _dmarc      IN      TXT     "v=DMARC1; p=quarantine"
+  soverinEmail = ''
+    @                     IN      MX      10 mx.soverin.net.
+    *                     IN      MX      10 mx.soverin.net.
+
+    @                     IN      TXT     "v=spf1 include:soverin.net ~all"
+    *                     IN      TXT     "v=spf1 include:soverin.net ~all"
+    soverin1._domainkey   IN      CNAME   soverin1._domainkey.soverin.net.
+    soverin2._domainkey   IN      CNAME   soverin2._domainkey.soverin.net.
+    soverin3._domainkey   IN      CNAME   soverin3._domainkey.soverin.net.
+    _dmarc                IN      CNAME   reject._dmarc.soverin.net.
   '';
 
   allZones = [
@@ -35,12 +40,8 @@ let
         @           IN      AAAA    ${shor.ipv6}
         openpgpkey  IN      TXT     ""
         @           IN      TXT     "Soverin=Z9AoiT0Nuv8mtO67"
-        protonmail._domainkey   IN CNAME protonmail.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch.
-        protonmail2._domainkey  IN CNAME protonmail2.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch.
-        protonmail3._domainkey  IN CNAME protonmail3.domainkey.dvrrd4tde45wzezsahqogxqdpslvvh2xm6u6ldr3lksode54v6cua.domains.proton.ch.
-        @           IN      TXT     "protonmail-verification=32708d22ad3e171f23afdebe270278d6d914d5d3"
       ''
-      + protonBoilerplate;
+      + soverinEmail;
     }
     {
       name = "boers.email";
@@ -67,13 +68,8 @@ let
 
         openpgpkey  		                            IN TXT   ""
         @                                           IN TXT   "Soverin=r7bNsTxYuYM2axjb"
-
-        protonmail._domainkey                       IN CNAME protonmail.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
-        protonmail2._domainkey                      IN CNAME protonmail2.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
-        protonmail3._domainkey                      IN CNAME protonmail3.domainkey.d7ahwj43kdveifkw73bs5sfann4io5iv2i6xo6wcunii73igt26fa.domains.proton.ch.
-        @                                           IN      TXT     "protonmail-verification=cb21de1e06a960ace5877daf0cf9b22426961ae4"
       ''
-      + protonBoilerplate;
+      + soverinEmail;
     }
     {
       name = "noisesfrom.space";
@@ -136,7 +132,6 @@ in
       # Resolved should not bind to port 53
       settings.Resolve.DNSStubListener = "no";
     };
-
 
     services.knot = {
       enable = true;
