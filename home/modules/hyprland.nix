@@ -376,11 +376,10 @@ in
         let
           lockCmd = lib.getExe pkgs.hyprlock;
           notifyCmd = lib.getExe pkgs.libnotify;
-          resumeCmd = "sleep 2 && kanshictl reload 2>/dev/null; sleep 1 && hyprctl dispatch dpms on 2>/dev/null";
         in
         {
           general = {
-            after_sleep_cmd = resumeCmd;
+            after_sleep_cmd = "hyprctl dispatch dpms on";
             ignore_dbus_inhibit = true; # Ignore apps like browsers playing video
             lock_cmd = lockCmd;
           };
@@ -397,11 +396,11 @@ in
             {
               timeout = 15 * 60;
               on-timeout = "hyprctl dispatch dpms off";
-              on-resume = resumeCmd;
+              on-resume = "hyprctl dispatch dpms on";
             }
             {
               timeout = 30 * 60;
-              on-timeout = if cfg.isLaptop then "loginctl suspend-then-hibernate" else "loginctl suspend";
+              on-timeout = if cfg.isLaptop then "systemctl suspend-then-hibernate" else "systemctl suspend";
             }
           ];
         };
