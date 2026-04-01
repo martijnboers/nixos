@@ -10,9 +10,7 @@
   maatwerk.hyprland = {
     enable = true;
     isLaptop = true;
-    settings = {
-      laptopMonitorName = "eDP-1";
-      laptopScalingFactor = 1.25;
-    };
+    laptopMonitorName = "eDP-1";
+    laptopScalingFactor = 1.25;
   };
 }

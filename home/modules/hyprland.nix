@@ -8,17 +8,10 @@ with lib;
 let
   cfg = config.maatwerk.hyprland;
 
-  # Get laptop-specific settings from the per-host config, with defaults.
-  laptop-monitor = cfg.settings.laptopMonitorName or "eDP-1";
-  laptop-scaling = cfg.settings.laptopScalingFactor or 1;
-
   monitorConfig = [
-    "monitor=${laptop-monitor},preferred,auto,${toString laptop-scaling},transform,0"
+    "monitor=${cfg.laptopMonitorName},preferred,auto,${toString cfg.laptopScalingFactor},transform,0"
     "monitor=,preferred,auto,1"
   ];
-  reloadMonitorsCmd = "hyprctl --batch '${
-    lib.concatStringsSep ";" (map (c: "keyword " + c) monitorConfig)
-  }'";
 in
 {
   imports = [
@@ -34,17 +27,15 @@ in
       default = false;
       description = "Whether this host is a laptop.";
     };
-    settings = mkOption {
-      type =
-        with types;
-        attrsOf (oneOf [
-          str
-          int
-          float
-          bool
-        ]);
-      default = { };
-      description = "Per-host settings for Hyprland.";
+    laptopMonitorName = mkOption {
+      type = types.str;
+      default = "eDP-1";
+      description = "Name of the laptop monitor output.";
+    };
+    laptopScalingFactor = mkOption {
+      type = types.float;
+      default = 1.0;
+      description = "Scaling factor for the laptop monitor.";
     };
   };
 
@@ -80,6 +71,47 @@ in
       };
     };
 
+    services.kanshi = {
+      enable = true;
+      systemdTarget = "hyprland-session.target";
+      settings = [
+        {
+          profile.name = "laptop-only";
+          profile.outputs = [
+            {
+              criteria = cfg.laptopMonitorName;
+              scale = cfg.laptopScalingFactor;
+            }
+          ];
+        }
+        {
+          profile.name = "docked";
+          profile.outputs = [
+            {
+              criteria = cfg.laptopMonitorName;
+              status = "disable";
+            }
+            {
+              criteria = "*";
+              position = "0,0";
+            }
+          ];
+        }
+        {
+          profile.name = "external-only";
+          profile.outputs = [
+            {
+              criteria = cfg.laptopMonitorName;
+              status = "disable";
+            }
+            {
+              criteria = "*";
+            }
+          ];
+        }
+      ];
+    };
+
     home.packages =
       with pkgs;
       with kdePackages;
@@ -93,6 +125,7 @@ in
         wl-clipboard # clipboard
         hyprmon # display settings
         iwgtk # wifi applet
+        kanshi # automatic display configuration
       ];
 
     wayland.windowManager.hyprland = {
@@ -173,9 +206,8 @@ in
           }"
         ]
         ++ (lib.optionals cfg.isLaptop [
-          # Lid switch handling - disable monitor and lock on close
-          ", switch:on:Lid Switch, exec, sh -c 'hyprctl keyword monitor \"${laptop-monitor}, disable\"; ${lib.getExe pkgs.hyprlock}; ${reloadMonitorsCmd}'"
-          ", switch:off:Lid Switch, exec, ${reloadMonitorsCmd}"
+          ", switch:on:Lid Switch, exec, hyprctl dispatch dpms off; ${lib.getExe pkgs.hyprlock}"
+          ", switch:off:Lid Switch, exec, hyprctl dispatch dpms on"
           ", XF86MonBrightnessDown, exec, ${lib.getExe pkgs.brightnessctl} s 10%-"
           ", XF86MonBrightnessUp, exec, ${lib.getExe pkgs.brightnessctl}  s +10%"
         ]);
@@ -338,16 +370,17 @@ in
       temperature.night = 3000;
     };
 
-    services.hypridle =
-      let
-        lockCmd = lib.getExe pkgs.hyprlock;
-        notifyCmd = lib.getExe pkgs.libnotify;
-      in
-      {
-        enable = true;
-        settings = {
+    services.hypridle = {
+      enable = true;
+      settings =
+        let
+          lockCmd = lib.getExe pkgs.hyprlock;
+          notifyCmd = lib.getExe pkgs.libnotify;
+          resumeCmd = "sleep 2 && kanshictl reload 2>/dev/null; sleep 1 && hyprctl dispatch dpms on 2>/dev/null";
+        in
+        {
           general = {
-            after_sleep_cmd = "${reloadMonitorsCmd} && hyprctl dispatch dpms on";
+            after_sleep_cmd = resumeCmd;
             ignore_dbus_inhibit = true; # Ignore apps like browsers playing video
             lock_cmd = lockCmd;
           };
@@ -364,16 +397,15 @@ in
             {
               timeout = 15 * 60;
               on-timeout = "hyprctl dispatch dpms off";
-              on-resume = "${reloadMonitorsCmd} && hyprctl dispatch dpms on";
+              on-resume = resumeCmd;
             }
             {
               timeout = 30 * 60;
-              on-timeout =
-                if config.maatwerk.hyprland.isLaptop then "loginctl suspend-then-hibernate" else "loginctl suspend";
+              on-timeout = if cfg.isLaptop then "loginctl suspend-then-hibernate" else "loginctl suspend";
             }
           ];
         };
-      };
+    };
 
     home.file = {
       ".config/avatar.png" = {
