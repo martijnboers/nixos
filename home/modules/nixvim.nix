@@ -103,10 +103,6 @@ in
       };
 
       opts = {
-        expandtab = true; # Use spaces instead of tabs
-        shiftwidth = 2; # Size of an indent
-        tabstop = 2; # Number of spaces tabs count for
-        softtabstop = 2; # Number of spaces a <Tab> inserts in insert mode
         number = true; # Show line numbers
         relativenumber = true; # Show relative line numbers
         ignorecase = true; # Ignore case in search patterns
@@ -115,6 +111,12 @@ in
         undofile = true; # Save undo history
         cmdheight = 0; # hide command line
         sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,globals";
+
+        # Indentation
+        expandtab = true; # Use spaces instead of tabs
+        shiftwidth = 2; # Size of an indent
+        tabstop = 2; # Number of spaces tabs count for
+        softtabstop = 2; # Number of spaces a <Tab> inserts in insert mode
 
         # Spelling
         spell = false;
@@ -362,6 +364,7 @@ in
             callback = helpers.mkRaw ''
               function()
                 vim.opt_local.spell = true
+                vim.opt_local.linebreak = true
               end
             '';
           }

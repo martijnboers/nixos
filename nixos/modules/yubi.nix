@@ -55,6 +55,7 @@ in
     programs.yubikey-touch-detector.enable = true;
 
     services.udev = mkIf cfg.autolock {
+      # can be replaced with programs.yubikey-manager.enable
       packages = [ pkgs.yubikey-personalization ];
       extraRules = ''
         ACTION=="remove",\

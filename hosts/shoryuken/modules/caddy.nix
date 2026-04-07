@@ -8,14 +8,6 @@
 with lib;
 let
   cfg = config.hosts.caddy;
-  info = fetchGit {
-    url = "https://seed.boers.email/z2r9euHZW161kfQNxdF4apHddD3mm.git";
-    rev = "1505f08958776961feef9fcd4826a615b7bcb39e";
-  };
-  resume = fetchGit {
-    url = "https://seed.boers.email/zb1FuXow3wJemDDPFWGFa49rNA4z.git";
-    rev = "b2d35c6938593ed3761c26b45b3da47f5d63bde0";
-  };
   gpg-key = "${inputs.secrets}/keys/pgp.asc";
   wkd = pkgs.runCommand "wkd-output" { nativeBuildInputs = [ pkgs.gnupg ]; } ''
     mkdir -p $out/hu
@@ -38,7 +30,7 @@ in
       enable = true;
       package = pkgs.caddy.withPlugins {
         plugins = [ "github.com/darkweak/souin/plugins/caddy@v1.7.8" ];
-        hash = "sha256-wLhuhDuGIGJuuD+iPdH1+Et3sq/+7z87SAwLAm5vPmM=";
+        hash = "sha256-o1Uc4gJyjnU08qwiI7wVEvaA/cDRvReKnlknLrdTu1U=";
       };
       globalConfig = ''
         metrics {
@@ -74,7 +66,7 @@ in
             cache {
                 ttl 1h
             }
-            root * ${info}/
+            root * ${pkgs.info}/
             encode zstd gzip
             file_server
 
@@ -109,7 +101,15 @@ in
           extraConfig = ''
             header X-Robots-Tag "noindex"
             cache { ttl 1h }
-            root * ${resume}/public
+            root * ${pkgs.resume}
+            encode zstd gzip
+            file_server
+          '';
+        };
+        "blog.boers.email" = {
+          extraConfig = ''
+            cache { ttl 1h }
+            root * ${pkgs.blog}/
             encode zstd gzip
             file_server
           '';
@@ -138,7 +138,7 @@ in
           '';
         };
         "noisesfrom.space" = {
-          extraConfig = # caddy
+          extraConfig = # bash
             ''
               # Encode responses with Gzip
               encode gzip

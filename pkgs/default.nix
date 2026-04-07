@@ -27,6 +27,9 @@ in
   mq = pkgs.callPackage ./mq.nix { };
   rustfs = pkgs.callPackage ./rustfs.nix { };
   sure = pkgs.callPackage ./sure.nix { };
+  blog = pkgs.callPackage ./blog.nix { };
+  info = pkgs.callPackage ./info.nix { };
+  resume = pkgs.callPackage ./resume.nix { };
   glitch-soc = pkgs.callPackage "${glitch-soc-src}/packages/mastodon" { };
   nym-vpnd = pkgs.callPackage ./nym-vpnd.nix { inherit nym-libwg; };
 }

@@ -104,6 +104,7 @@ in
                 s() {
                   nix shell "nixpkgs#$1"
                 }
+
                 notes() {
                   cd ~/Notes || return
                   if [[ -f ~/.config/notes.vim ]]; then
@@ -112,6 +113,7 @@ in
                     nvim -c "mksession! ~/.config/notes.vim"
                   fi
                 }
+
                 fixkey() {
                   # Find all USB devices with Vendor ID 1050 (Yubico)
                   for id in $(grep -l "1050" /sys/bus/usb/devices/*/idVendor); do
@@ -120,9 +122,14 @@ in
                     echo "$dev" | sudo tee /sys/bus/usb/drivers/usb/unbind > /dev/null
                     sleep 0.5
                     echo "$dev" | sudo tee /sys/bus/usb/drivers/usb/bind > /dev/null
-                    echo "Done."
                   done
+                  echo "Done, restarting GPG"
+                  gpgconf --kill scdaemon 
+                  gpg-connect-agent updatestartuptty /bye 
+                  gpg --card-status > /dev/null 
+                  echo "Restart GPG daemon"
                 }
+
               '';
           last =
             lib.mkOrder 1500 # bash

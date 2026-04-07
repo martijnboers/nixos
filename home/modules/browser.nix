@@ -110,6 +110,10 @@ in
                 name = "dearrow";
               }
               {
+                id = "{84601290-bec9-494a-b11c-1baa897a9683}";
+                name = "ctrl-number-to-switch-tabs";
+              }
+              {
                 id = "sponsorBlocker@ajay.app";
                 name = "sponsorblock";
               }

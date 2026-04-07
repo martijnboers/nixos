@@ -57,6 +57,8 @@ let
         derp-map    IN      AAAA    ${rek.ipv6}
         derp1       IN      A       ${shor.ipv4}
         derp1       IN      AAAA    ${shor.ipv6}
+        blog        IN      A       ${shor.ipv4}
+        blog        IN      AAAA    ${shor.ipv6}
         derp2       IN      A       ${rek.ipv4}
         derp2       IN      AAAA    ${rek.ipv6}
         ip          IN      A       ${rek.ipv4}
