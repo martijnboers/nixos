@@ -20,19 +20,54 @@ in
         let
           deploy-custom = pkgs.writeShellScriptBin "deploy-custom" ''
             set -euo pipefail
+
             target_args=()
-            if [[ $# -gt 0 ]]; then
-              hostname="$1"
-              target_args+=(--hostname "$hostname" --target-host "martijn@''${hostname}.machine.thuis")
-              shift
+            extra_args=()
+            use_remote_builder=false
+
+            # Parse flags - can appear before or after hostname
+            while [[ $# -gt 0 ]]; do
+              case "$1" in
+                --use-remote-builder)
+                  use_remote_builder=true
+                  shift
+                  ;;
+                *)
+                  # First non-flag arg is the hostname
+                  if [[ -z "''${hostname:-}" ]]; then
+                    hostname="$1"
+                    target_args+=(--hostname "$hostname" --target-host "martijn@''${hostname}.machine.thuis")
+                    shift
+                  else
+                    # Remaining args pass through to nh
+                    extra_args+=("$1")
+                    shift
+                  fi
+                  ;;
+              esac
+            done
+
+            # Build the nh command
+            cmd=(nh os switch --ask "''${target_args[@]}")
+
+            # Add remote builder option if requested
+
+            if [[ "$use_remote_builder" == "true" ]]; then
+              cmd+=(--build-host "martijn@hadouken.machine.thuis")
             fi
-            nh os switch --ask "''${target_args[@]}" 
+
+            # Add any extra args
+            if [[ ''${#extra_args[@]} -gt 0 ]]; then
+              cmd+=(-- "''${extra_args[@]}")
+            fi
+
+            "''${cmd[@]}"
           '';
           sshAlias = name: "ssh ${name}.machine.thuis";
         in
         {
           # --- NixOS specific ---
-          deploy = lib.getExe deploy-custom; # $ deploy {?host} --verbose
+          deploy = lib.getExe deploy-custom; # $ deploy {?host} [--use-remote-builder]
           update = "nix flake update";
 
           wut = "journalctl -b -1 -e"; # previous boot crash

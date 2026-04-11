@@ -21,6 +21,7 @@
     ./modules/borg.nix
     ./modules/nym.nix
     ./modules/ssh.nix
+    ./modules/stalwart.nix
   ];
 
   age.secrets = {

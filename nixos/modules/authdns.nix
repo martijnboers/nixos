@@ -30,6 +30,55 @@ let
     _dmarc                IN      CNAME   reject._dmarc.soverin.net.
   '';
 
+  # Function to generate Stalwart email DNS records for any domain
+  mkStalwartEmail = domain: ''
+    ; Mail Exchange (MX) records
+    @                     IN      MX      10 ${shor.ipv4}.
+    @                     IN      MX      20 ${rek.ipv4}.
+    @                     IN      MX      10 ${shor.ipv6}.
+    @                     IN      MX      20 ${rek.ipv6}.
+
+    ; Sender Policy Framework (SPF)
+    @                     IN      TXT     "v=spf1 ip4:${shor.ipv4} ip4:${rek.ipv4} ip6:${shor.ipv6} ip6:${rek.ipv6} ~all"
+
+    ; DMARC policy
+    _dmarc                IN      TXT     "v=DMARC1; p=none; rua=mailto:dmarc@${domain}"
+
+    ; MTA-STS (Mail Transfer Agent Strict Transport Security)
+    mta-sts               IN      CNAME   @
+    _mta-sts              IN      TXT     "v=STSv1; id=1"
+
+    ; TLS Reporting
+    _smtp._tls            IN      TXT     "v=TLSRPTv1; rua=mailto:tlsrpt@${domain}"
+
+    ; Autoconfiguration for email clients
+    autoconfig            IN      CNAME   @
+    autodiscover          IN      CNAME   @
+
+    ; SRV records for automatic client configuration
+    _imaps._tcp           IN      SRV     0 1 993 ${shor.ipv4}.
+    _imaps._tcp           IN      SRV     0 1 993 ${rek.ipv4}.
+    _submission._tcp      IN      SRV     0 1 587 ${shor.ipv4}.
+    _submission._tcp      IN      SRV     0 1 587 ${rek.ipv4}.
+    _submissions._tcp     IN      SRV     0 1 465 ${shor.ipv4}.
+    _submissions._tcp     IN      SRV     0 1 465 ${rek.ipv4}.
+
+    ; TLSA records (DANE) - Using Let's Encrypt
+    ; 
+    ; Usage 3 1 1 pins the SPKI (public key) hash of the server certificate
+    ; This is stable across renewals as long as the private key is reused
+    ;
+    ; Usage 3 = DANE-EE (Domain-issued certificate)
+    ; Selector 1 = SPKI (Subject Public Key Info) - pins the public key
+    ; Matching Type 1 = SHA-256 hash
+    ;
+    ; After certificates are issued, generate hash with:
+    ; openssl x509 -in cert.pem -pubkey -noout | openssl pkey -pubin -outform DER | openssl sha256
+    ;
+    ; TODO: Add hash after certificates are generated
+    ; _25._tcp.${domain}.    IN      TLSA    3 1 1 <SHA256_HASH_OF_PUBLIC_KEY>
+  '';
+
   allZones = [
     {
       name = "plebian.nl";
@@ -39,9 +88,8 @@ let
         @           IN      A       ${shor.ipv4}
         @           IN      AAAA    ${shor.ipv6}
         openpgpkey  IN      TXT     ""
-        @           IN      TXT     "Soverin=Z9AoiT0Nuv8mtO67"
       ''
-      + soverinEmail;
+      + mkStalwartEmail "plebian.nl";
     }
     {
       name = "boers.email";

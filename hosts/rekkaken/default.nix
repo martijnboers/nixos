@@ -21,6 +21,11 @@
   hosts.ladder.enable = true;
   hosts.tailscale.enable = true;
 
+  hosts.stalwart = {
+    enable = true;
+    nodeId = 2;
+  };
+
   hosts.derper = {
     enable = true;
     domain = "derp2.boers.email";

@@ -18,6 +18,7 @@ let
     "garage-admin"
     "immich"
     "jelly"
+    "mail-admin"
     "media"
     "minio"
     "minio-admin"
@@ -160,9 +161,24 @@ in
                 }
                 {
                   action = "accept";
-                  src = [ "shoryuken" ];
+                  src = [
+                    "shoryuken"
+                    "rekkaken"
+                  ];
                   dst = [
                     "hadouken:5551,5552,5553,5554,5555,3900" # reverse proxy ports
+                    "hadouken:5432" # postgresql for stalwart
+                  ];
+                }
+                {
+                  action = "accept";
+                  src = [
+                    "shoryuken"
+                    "rekkaken"
+                  ];
+                  dst = [
+                    "shoryuken:17447" # stalwart zenoh p2p
+                    "rekkaken:17447" # stalwart zenoh p2p
                   ];
                 }
                 {

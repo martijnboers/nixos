@@ -19,6 +19,11 @@
   hosts.radicle.enable = true;
   hosts.authdns.enable = true;
 
+  hosts.stalwart = {
+    enable = true;
+    nodeId = 1;
+  };
+
   hosts.derper = {
     enable = true;
     domain = "derp1.boers.email";
