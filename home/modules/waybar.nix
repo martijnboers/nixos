@@ -283,7 +283,7 @@ in
 
           #custom-power:hover, #custom-quick-settings:hover, #custom-notification:hover,
           #custom-wan:hover, #custom-khal:hover, #window:hover, #clock-privacy:hover,
-          #system-stats:hover, #system-tray:hover {
+          #system-stats:hover, #system-tray:hover, #mpris:hover {
             background: @base02;
           }
 
@@ -387,10 +387,37 @@ in
             padding-right: 8px;
           }
 
-          #battery, #idle_inhibitor, #bluetooth, #cpu, #disk, #temperature, #wireplumber {
+           #battery, #idle_inhibitor, #bluetooth, #cpu, #disk, #temperature, #wireplumber {
             border-right: 1px solid @base03;
             padding-right: 10px;
             margin-right: 10px;
+          }
+
+          #mpris {
+            background: transparent;
+            border: none;
+            color: @base04;
+            padding: 0 4px 0 0;
+            border-left: 1px solid @base03;
+            padding-left: 10px;
+            margin-left: 10px;
+            transition: color 0.3s ease;
+          }
+
+          #mpris:hover {
+            color: @base05;
+          }
+
+          #mpris.playing {
+            color: @base0B;
+          }
+
+          #mpris.paused {
+            color: @base0A;
+          }
+
+          #mpris.stopped {
+            color: @base03;
           }
         '';
       settings = [
@@ -512,6 +539,7 @@ in
               "idle_inhibitor"
               "clock"
               "privacy"
+              "mpris"
             ];
           };
 
@@ -615,16 +643,25 @@ in
             format = "󰈸 {temperatureC}°C";
           };
 
+          mpris = {
+            format = "{status_icon}";
+            status-icons = {
+              playing = "";
+              paused = "";
+              stopped = "";
+            };
+            tooltip = true;
+            tooltip-format = "{artist} - {title}\nAlbum: {album}\nPlayer: {player}";
+            tooltip-interval = 50;
+            interval = 1;
+          };
+
           privacy = {
             icon-size = 14;
             icon-spacing = 5;
             modules = [
               {
                 type = "screenshare";
-                tooltip = true;
-              }
-              {
-                type = "audio-out";
                 tooltip = true;
               }
               {
