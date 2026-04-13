@@ -109,8 +109,9 @@ in
         smartcase = true; # Override ignorecase if search contains capitals
         swapfile = false; # Don't create cluttering .swp files
         undofile = true; # Save undo history
-        cmdheight = 0; # hide command line
+        cmdheight = 0; # Hide command line
         sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,globals";
+        nrformats = "unsigned"; # Ctrl+a always treated as positive number
 
         # Indentation
         expandtab = true; # Use spaces instead of tabs
@@ -130,7 +131,7 @@ in
         foldexpr = "v:lua.vim.lsp.foldexpr()";
 
         # Completion
-        wildoptions = "pum"; # popup menu for wildmenu
+        wildoptions = "pum"; # Popup menu for wildmenu
         wildmode = "longest:full,full"; # Complete longest common string, then each full match
         winborder = "single";
         completeopt = "menu,menuone,noinsert"; # Show menu, autoselect first, don't auto-insert
