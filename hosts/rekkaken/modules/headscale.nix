@@ -18,7 +18,6 @@ let
     "garage-admin"
     "immich"
     "jelly"
-    "mail-admin"
     "media"
     "minio"
     "minio-admin"
@@ -33,6 +32,7 @@ let
   ];
   shoryukenRecords = [
     "ci"
+    "mail-admin"
   ];
   rekkakenRecords = [
     "notifications"

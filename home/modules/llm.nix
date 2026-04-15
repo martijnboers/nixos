@@ -25,11 +25,11 @@
       **Context**
         /nix/store is very, very big. 
       **Constraint**
-        **!!NEVER EVER NEVER EVER!!** try to use find to look for binaries or
+        **!!NEVER EVER NEVER EVER!!** try to use `find` to look for binaries or
         libraries in /nix/store. If I catch you, you have to say sorry three
         times
       **Action**
-        If you want to look for something, use nix-locate, it's much faster as
+        If you want to look for something, **!!USE NIX-LOCATE!!**, it's much faster as
         it has indexed the whole store. 
 
       ## Enviroment

@@ -11,18 +11,13 @@ let
   # Node configuration
   shoryukenIp = config.global.tailscale_hosts.shoryuken;
   rekkakenIp = config.global.tailscale_hosts.rekkaken;
+  stalwartPkg = pkgs.stalwart-custom;
 
-  stalwartPkg = pkgs.stalwart.overrideAttrs (oldAttrs: {
-    buildFeatures = [
-      "postgres" # PostgreSQL database backend
-      "s3" # Garage S3 blob storage
-      "zenoh" # P2P clustering coordination
-    ];
-
-    # Disable LTO for faster build
-    cargoLtoMode = null;
-    doCheck = false;
-  });
+  # Email domains we handle
+  emailDomains = [
+    "plebian.nl"
+    "boers.email"
+  ];
 in
 {
   options.hosts.stalwart = {
@@ -91,9 +86,29 @@ in
           # Peer-to-peer coordination using Zenoh
           p2p = {
             type = "zenoh";
-            config = "{mode: peer, scouting: {multicast: {enabled: false}, gossip: {enabled: true}}, connect: {endpoints: [tcp/${
-              if cfg.nodeId == 1 then rekkakenIp else shoryukenIp
-            }:17447]}, listen: {endpoints: [tcp/0.0.0.0:17447]}}";
+            config = ''
+              {
+                mode: "peer",
+                scouting: {
+                  multicast: {
+                    enabled: false
+                  },
+                  gossip: {
+                    enabled: false
+                  }
+                },
+                connect: {
+                  endpoints: [
+                    "tcp/${if cfg.nodeId == 1 then rekkakenIp else shoryukenIp}:17447"
+                  ]
+                },
+                listen: {
+                  endpoints: [
+                    "tcp/0.0.0.0:17447"
+                  ]
+                }
+              }
+            '';
           };
 
           # PostgreSQL storage backend
@@ -114,7 +129,7 @@ in
             bucket = "mail";
             region = "thuis";
             endpoint = "https://garage.thuis";
-            access-key = "GKe41184bbe37aed170c62a32";
+            access-key = "GKee41184bbe37aed170c62a32";
             secret-key = "%{file:/run/credentials/stalwart.service/s3_secret_key}%";
             timeout = "30s";
             key-prefix = "stalwart/";
@@ -158,7 +173,7 @@ in
               tls.implicit = true;
             };
             http = {
-              bind = [ "127.0.0.1:8080" ];
+              bind = [ "127.0.0.1:8629" ];
               protocol = "http";
             };
           };
@@ -239,8 +254,9 @@ in
           enable = true;
         };
 
-        # Spam filter
-        spam-filter.resource = "file://${stalwartPkg.spam-filter}/spam-filter.toml";
+        # Use pkgs because not built with overrideAttrs
+        spam-filter.resource = "file://${pkgs.stalwart-spam-filter}/spam-filter.toml";
+        webadmin.resource = "file://${pkgs.stalwart-webadmin}/webadmin.zip";
 
         # Authentication fallback admin (for initial setup)
         authentication.fallback-admin = {
@@ -249,10 +265,7 @@ in
         };
 
         # Session configuration - domains we accept mail for
-        session.rcpt.relay = [
-          "plebian.nl"
-          "boers.email"
-        ];
+        session.rcpt.relay = emailDomains;
       };
 
       credentials = {
@@ -267,10 +280,10 @@ in
       "mail-admin.thuis" = {
         extraConfig = ''
           import headscale
-          import mtls
+          # import mtls
 
           handle @internal {
-            reverse_proxy http://127.0.0.1:8080
+            reverse_proxy http://127.0.0.1:8629
           }
           respond 403
         '';

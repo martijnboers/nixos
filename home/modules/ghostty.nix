@@ -23,7 +23,7 @@ in
         gtk-toolbar-style = "flat";
         gtk-titlebar-hide-when-maximized = true;
 
-        scrollback-limit = 250 * 1024 * 1024; 
+        scrollback-limit = 250 * 1024 * 1024;
         shell-integration-features = "ssh-env";
 
         notify-on-command-finish = "unfocused";
@@ -40,7 +40,9 @@ in
           "ctrl+shift+a=select_all"
           "ctrl+shift+b=scroll_to_bottom"
           "ctrl+page_down=next_tab"
+          "ctrl+shift+n=next_tab"
           "ctrl+page_up=previous_tab"
+          "ctrl+shift+p=previous_tab"
           "ctrl+shift+t=new_tab"
           "ctrl+shift+w=close_tab:this"
           "ctrl+1=goto_tab:1"
@@ -65,10 +67,14 @@ in
           "vim/slash=start_search"
           "vim/n=navigate_search:next"
           "vim/shift+n=navigate_search:previous"
+          "vim/shift+arrow_down=adjust_selection:down"
+          "vim/shift+arrow_left=adjust_selection:left"
+          "vim/shift+arrow_right=adjust_selection:right"
+          "vim/shift+arrow_up=adjust_selection:up"
           "vim/ctrl+shift+page_down=move_tab:1"
           "vim/ctrl+shift+page_up=move_tab:-1"
           "vim/i=deactivate_key_table"
-          "vim/a=deactivate_key_table"
+          "vim/q=deactivate_key_table"
           "vim/escape=deactivate_key_table"
           "vim/catch_all=ignore"
         ];

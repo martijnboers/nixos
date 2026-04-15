@@ -75,11 +75,11 @@
     enable = true;
     settings = {
       IPv6.Enabled = true;
-      # https://man.archlinux.org/man/iwd.network.5#SETTINGS
       Settings = {
         AutoConnect = true;
         Hidden = true; # show hidden
-        AlwaysRandomizeAddress = true; # random mac
+        AddressRandomization = "network"; # man iwd.network
+        AlwaysRandomizeAddress = true;
       };
     };
   };

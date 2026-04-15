@@ -13,6 +13,23 @@
   environment.systemPackages = [ pkgs.iio-hyprland ];
   age.identityPaths = [ "/home/martijn/.ssh/id_ed25519" ];
 
+  programs.ssh.extraConfig = ''
+    Host eu.nixbuild.net
+      PubkeyAcceptedKeyTypes ssh-ed25519
+      ServerAliveInterval 60
+      IPQoS throughput
+      IdentityFile /home/martijn/.ssh/my-nixbuild-key
+  '';
+
+  nix = {
+    settings = {
+      substituters = [ "ssh://eu.nixbuild.net" ];
+      trusted-public-keys = [
+        "nixbuild.net/HCCJGO-1:CJ14jk1iYfkrCFCxEJXuaozznRwCIbvgQymwWZW3t94="
+      ];
+    };
+  };
+
   hosts.borg = {
     enable = true;
     repository = "ssh://iuyrg38x@iuyrg38x.repo.borgbase.com/./repo";

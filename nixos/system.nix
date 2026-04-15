@@ -213,8 +213,17 @@
   };
 
   services.fwupd.enable = true; # firmware update
-  programs.zsh.enable = true;
-  programs.tmux.enable = true;
+
+  programs = {
+    zsh.enable = true;
+    tmux = {
+      enable = true;
+      mouse = true;
+      disableConfirmationPrompt = true;
+      baseIndex = 1;
+      keyMode = "vi";
+    };
+  };
 
   networking = {
     useDHCP = false; # Done by networkd
