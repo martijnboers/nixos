@@ -217,7 +217,6 @@ in
           mockDevIcons = true;
           modules = {
             files.enable = true; # file explorer
-            pick.enable = true; # file picker
             extra.enable = true; # more picker sources
             icons.enable = true; # icons support for extensions
             git.enable = true; # :git helper functions
@@ -225,6 +224,22 @@ in
             completion.enable = true; # autocomplete
             notify.enable = true; # vim.notify capture
             surround.enable = true; # surround words with something
+
+            pick = {
+              enable = true;
+              options = {
+                use_cache = true;
+              };
+              source = {
+                preview = helpers.mkRaw ''
+                  function(buf_id, item, opts)
+                    opts = opts or {}
+                    opts.line_position = "center"
+                    return MiniPick.default_preview(buf_id, item, opts)
+                  end
+                '';
+              };
+            };
 
             move = {
               mappings = {
@@ -521,6 +536,38 @@ in
             "v"
           ];
         })
+
+        # Scratch files
+        (lua {
+          key = "<Leader>nc";
+          desc = "New note file";
+          code = ''
+            local note_dir = '/home/martijn/Notes/sessions'
+            vim.fn.mkdir(note_dir, 'p')
+            vim.ui.input({ prompt = 'note name: ', default = os.date('%Y-%m-%d_') }, function(name)
+              if name and name ~= "" then
+                vim.cmd("edit " .. vim.fn.fnameescape(note_dir .. "/" .. name))
+              end
+            end)
+          '';
+        })
+        (lua {
+          key = "<Leader>nf";
+          desc = "Find note files";
+          code = ''
+            local note_dir = '/home/martijn/Notes/sessions'
+            vim.fn.mkdir(note_dir, 'p')
+            MiniPick.builtin.files({
+              tool = 'git',
+            }, {
+              source = {
+                name = 'note files',
+                cwd = note_dir,
+              }
+            })
+          '';
+        })
+
         (lua {
           key = "<Leader>s";
           desc = "Find symbols";

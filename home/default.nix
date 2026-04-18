@@ -85,7 +85,13 @@
 
   # Let nix-index handle command-not-found
   programs.nix-index.enable = true;
-
+  programs.tmux = {
+    enable = true;
+    mouse = true;
+    disableConfirmationPrompt = true;
+    baseIndex = 1;
+    keyMode = "vi";
+  };
   # Run programs with , cowsay
   programs.nix-index-database.comma.enable = true;
 

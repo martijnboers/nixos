@@ -345,9 +345,9 @@ in
             bezier = easeInSine, 0.12, 0, 0.39, 0
             bezier = easeOutSine, 0.61, 1, 0.88, 1
 
-            animation = windowsIn, 1, 3, easeInOutSine, popin
-            animation = windowsOut, 1, 3, easeInOutSine, popin
-            animation = border, 1, 3, easeInOutSine
+            animation = windowsIn, 1, 1.2, easeInOutSine, popin
+            animation = windowsOut, 1, 1.2, easeInOutSine, popin
+            animation = border, 1, 1.2, easeInOutSine
             animation = borderangle, 1, 30, easeInOutSine, loop
             animation = workspacesIn, 1, 2, easeInOutSine, slidefade
             animation = workspacesOut, 1, 2, easeInOutSine, slidefade

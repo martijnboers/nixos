@@ -126,13 +126,12 @@ in
           # Garage S3 blob storage
           s3 = {
             type = "s3";
-            bucket = "mail";
-            region = "thuis";
+            bucket = "email";
+            region = "us-east-1"; 
             endpoint = "https://garage.thuis";
             access-key = "GKee41184bbe37aed170c62a32";
             secret-key = "%{file:/run/credentials/stalwart.service/s3_secret_key}%";
             timeout = "30s";
-            key-prefix = "stalwart/";
           };
         };
 
@@ -256,7 +255,11 @@ in
 
         # Use pkgs because not built with overrideAttrs
         spam-filter.resource = "file://${pkgs.stalwart-spam-filter}/spam-filter.toml";
-        webadmin.resource = "file://${pkgs.stalwart-webadmin}/webadmin.zip";
+
+        webadmin = {
+          resource = "file://${pkgs.stalwart-webadmin}/webadmin.zip";
+          path = "/var/cache/stalwart-mail";
+        };
 
         # Authentication fallback admin (for initial setup)
         authentication.fallback-admin = {

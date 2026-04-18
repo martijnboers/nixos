@@ -30,13 +30,16 @@ let
     _dmarc                IN      CNAME   reject._dmarc.soverin.net.
   '';
 
-  # Function to generate Stalwart email DNS records for any domain
   mkStalwartEmail = domain: ''
+    ; Mail server A and AAAA records
+    mx1                   IN      A       ${shor.ipv4}
+    mx1                   IN      AAAA    ${shor.ipv6}
+    mx2                   IN      A       ${rek.ipv4}
+    mx2                   IN      AAAA    ${rek.ipv6}
+
     ; Mail Exchange (MX) records
-    @                     IN      MX      10 ${shor.ipv4}.
-    @                     IN      MX      20 ${rek.ipv4}.
-    @                     IN      MX      10 ${shor.ipv6}.
-    @                     IN      MX      20 ${rek.ipv6}.
+    @                     IN      MX      10 mx1.${domain}.
+    @                     IN      MX      20 mx2.${domain}.
 
     ; Sender Policy Framework (SPF)
     @                     IN      TXT     "v=spf1 ip4:${shor.ipv4} ip4:${rek.ipv4} ip6:${shor.ipv6} ip6:${rek.ipv6} ~all"
@@ -56,12 +59,12 @@ let
     autodiscover          IN      CNAME   @
 
     ; SRV records for automatic client configuration
-    _imaps._tcp           IN      SRV     0 1 993 ${shor.ipv4}.
-    _imaps._tcp           IN      SRV     0 1 993 ${rek.ipv4}.
-    _submission._tcp      IN      SRV     0 1 587 ${shor.ipv4}.
-    _submission._tcp      IN      SRV     0 1 587 ${rek.ipv4}.
-    _submissions._tcp     IN      SRV     0 1 465 ${shor.ipv4}.
-    _submissions._tcp     IN      SRV     0 1 465 ${rek.ipv4}.
+    _imaps._tcp           IN      SRV     0 1 993 mx1.${domain}.
+    _imaps._tcp           IN      SRV     0 1 993 mx2.${domain}.
+    _submission._tcp      IN      SRV     0 1 587 mx1.${domain}.
+    _submission._tcp      IN      SRV     0 1 587 mx2.${domain}.
+    _submissions._tcp     IN      SRV     0 1 465 mx1.${domain}.
+    _submissions._tcp     IN      SRV     0 1 465 mx2.${domain}.
 
     ; TLSA records (DANE) - Using Let's Encrypt
     ; 
