@@ -50,9 +50,6 @@ in
         s3_api = {
           s3_region = "us-east-1";
           api_bind_addr = "[::]:3900";
-          # root_domain is optional - only needed for virtual-hosted-style requests
-          # We use path-style (garage.thuis/bucket) so this can be omitted
-          # root_domain = ".s3.garage.thuis";
         };
 
         s3_web = {

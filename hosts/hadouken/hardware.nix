@@ -40,6 +40,9 @@
     ];
   };
 
+  # Fix some of the aggressive throttling
+  services.throttled.enable = true;
+
   systemd.network.networks."10-enp114s0" = {
     matchConfig.Name = "enp114s0";
     networkConfig = {
