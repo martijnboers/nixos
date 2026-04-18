@@ -65,21 +65,6 @@ let
     _submission._tcp      IN      SRV     0 1 587 mx2.${domain}.
     _submissions._tcp     IN      SRV     0 1 465 mx1.${domain}.
     _submissions._tcp     IN      SRV     0 1 465 mx2.${domain}.
-
-    ; TLSA records (DANE) - Using Let's Encrypt
-    ; 
-    ; Usage 3 1 1 pins the SPKI (public key) hash of the server certificate
-    ; This is stable across renewals as long as the private key is reused
-    ;
-    ; Usage 3 = DANE-EE (Domain-issued certificate)
-    ; Selector 1 = SPKI (Subject Public Key Info) - pins the public key
-    ; Matching Type 1 = SHA-256 hash
-    ;
-    ; After certificates are issued, generate hash with:
-    ; openssl x509 -in cert.pem -pubkey -noout | openssl pkey -pubin -outform DER | openssl sha256
-    ;
-    ; TODO: Add hash after certificates are generated
-    ; _25._tcp.${domain}.    IN      TLSA    3 1 1 <SHA256_HASH_OF_PUBLIC_KEY>
   '';
 
   allZones = [
@@ -91,6 +76,24 @@ let
         @           IN      A       ${shor.ipv4}
         @           IN      AAAA    ${shor.ipv6}
         openpgpkey  IN      TXT     ""
+
+        202604e._domainkey IN TXT   "v=DKIM1; k=ed25519; h=sha256; p=UZFz75x8FlCdqNDP7dCdKAgBzQJvyZ5zlCqGYDsjpAs="
+        202604r._domainkey IN TXT   "v=DKIM1; k=rsa; h=sha256; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx3ARBZrUg6AX12fiGTGKBf0PfqlRzzgVZ/KoScwhhrcuhQryyHM+uHWy5bdnuaqQn5Gg/lqVRJQ+uunU6dN38GrUFGyx4n/iMvqoZFvvCWhWHF+VKQEF3AEw8SK4HlX5sEyv/IUaPGzhmcI/4l1lk9hH10+hQ+Bvywpcb9mSA/w3OpxRLnhHhEu" "30BfizzK/NjntBs98sOTbhTRGx0+4epU9fQyYN8OGh1pW7Sa+RRmroSIpkCuGZf6DB3KBQmYpxQr2m8nQYhtnzPcvg0McQagFNebLebZDKHBjxrK0ANd61VVvJafjHcd2yNjpQYxY+smL/keczQ9rynNj4UMclwIDAQAB"
+
+        ; TLSA records (DANE) - Using Let's Encrypt
+        ; 
+        ; Usage 3 1 1 pins the SPKI (public key) hash of the server certificate
+        ; This is stable across renewals as long as the private key is reused
+        ;
+        ; Usage 3 = DANE-EE (Domain-issued certificate)
+        ; Selector 1 = SPKI (Subject Public Key Info) - pins the public key
+        ; Matching Type 1 = SHA-256 hash
+        ;
+        ; After certificates are issued, generate hash with:
+        ; openssl x509 -in cert.pem -pubkey -noout | openssl pkey -pubin -outform DER | openssl sha256
+        ;
+        ; TODO: Add hash after certificates are generated
+        ; _25._tcp.plebian.nl.    IN      TLSA    3 1 1 <SHA256_HASH_OF_PUBLIC_KEY>
       ''
       + mkStalwartEmail "plebian.nl";
     }

@@ -62,11 +62,6 @@ in
         owner = "stalwart-mail";
         group = "stalwart-mail";
       };
-      stalwart-admin = {
-        file = "${inputs.secrets}/stalwart-admin.age";
-        owner = "stalwart-mail";
-        group = "stalwart-mail";
-      };
     };
 
     # Stalwart service - use NixOS module with overrides
@@ -118,7 +113,7 @@ in
             port = 5432;
             database = "stalwart";
             user = "stalwart";
-            password = "%{file:/run/credentials/stalwart.service/postgresql_password}%";
+            password = config.age.secrets.stalwart-postgresql.path;
             timeout = "15s";
             pool.max-connections = 10;
           };
@@ -130,17 +125,16 @@ in
             region = "us-east-1";
             endpoint = "https://garage.thuis";
             access-key = "GKee41184bbe37aed170c62a32";
-            secret-key = "%{file:/run/credentials/stalwart.service/s3_secret_key}%";
+            secret-key = config.age.secrets.stalwart-s3-secret.path;
             timeout = "30s";
           };
         };
 
-        # Storage configuration - use our custom stores
         storage = {
           data = "postgresql";
           fts = "postgresql";
           lookup = "postgresql";
-          blob = "postgresql"; # Use PostgreSQL for blobs to avoid S3 signature issues
+          blob = "postgresql";
           directory = "internal";
         };
 
@@ -211,11 +205,8 @@ in
         acme.letsencrypt = {
           directory = "https://acme-v02.api.letsencrypt.org/directory";
           challenge = "tls-alpn-01";
-          contact = [ "postmaster@%{DEFAULT_DOMAIN}%" ];
-          domains = [
-            "%{DEFAULT_DOMAIN}%"
-            "mail.%{DEFAULT_DOMAIN}%"
-          ];
+          contact = [ "postmaster@boers.email" ];
+          domains = emailDomains ++ (map (d: "mail.${d}") emailDomains);
         };
 
         # Queue configuration - properly nested with tls settings
@@ -261,21 +252,15 @@ in
           path = "/var/cache/stalwart-mail";
         };
 
-        # Authentication fallback admin (for initial setup)
+        # Only first time; openssl passwd -6 'something'
+        # ---------------------------------
         authentication.fallback-admin = {
           user = "admin";
-          secret = "%{file:/run/credentials/stalwart.service/admin_password}%";
+          secret = "$6$3Amnk6ObFGqfd/dA$Fu2DVSdt6onbt8Tjo.AFFn0qq9APvBoM/164n/wjTIfw.P1oNqQWaibLD5Z1rTAKPy3c3F6HmEncxJXo/9WyE1";
         };
-
-        # Session configuration - domains we accept mail for
-        session.rcpt.relay = emailDomains;
+        # ---------------------------------
       };
 
-      credentials = {
-        postgresql_password = config.age.secrets.stalwart-postgresql.path;
-        s3_secret_key = config.age.secrets.stalwart-s3-secret.path;
-        admin_password = config.age.secrets.stalwart-admin.path;
-      };
     };
 
     # Caddy reverse proxy for web admin (Tailscale internal only)

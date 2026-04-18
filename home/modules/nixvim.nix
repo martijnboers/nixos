@@ -541,31 +541,33 @@ in
         (lua {
           key = "<Leader>nc";
           desc = "New note file";
-          code = ''
-            local note_dir = '/home/martijn/Notes/sessions'
-            vim.fn.mkdir(note_dir, 'p')
-            vim.ui.input({ prompt = 'note name: ', default = os.date('%Y-%m-%d_') }, function(name)
-              if name and name ~= "" then
-                vim.cmd("edit " .. vim.fn.fnameescape(note_dir .. "/" .. name))
-              end
-            end)
-          '';
+          code = # lua
+            ''
+              local note_dir = '/home/martijn/Notes/sessions'
+              vim.fn.mkdir(note_dir, 'p')
+              vim.ui.input({ prompt = 'note name: ', default = os.date('%Y-%m-%d_') }, function(name)
+                if name and name ~= "" then
+                  vim.cmd("edit " .. vim.fn.fnameescape(note_dir .. "/" .. name))
+                end
+              end)
+            '';
         })
         (lua {
           key = "<Leader>nf";
           desc = "Find note files";
-          code = ''
-            local note_dir = '/home/martijn/Notes/sessions'
-            vim.fn.mkdir(note_dir, 'p')
-            MiniPick.builtin.files({
-              tool = 'git',
-            }, {
-              source = {
-                name = 'note files',
-                cwd = note_dir,
-              }
-            })
-          '';
+          code = # lua
+            ''
+              local note_dir = '/home/martijn/Notes/sessions'
+              vim.fn.mkdir(note_dir, 'p')
+              MiniPick.builtin.files({
+                tool = 'git',
+              }, {
+                source = {
+                  name = 'note files',
+                  cwd = note_dir,
+                }
+              })
+            '';
         })
 
         (lua {
@@ -654,15 +656,6 @@ in
           options = {
             silent = true;
             desc = "Git Revert selected hunk";
-          };
-        }
-        {
-          mode = "v";
-          key = "ga";
-          action = ":w !git apply --whitespace=nowarn --recount<CR>";
-          options = {
-            silent = true;
-            desc = "Git Apply selected hunk";
           };
         }
         (cmd {

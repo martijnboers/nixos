@@ -141,11 +141,10 @@ in
                 }
 
                 notes() {
-                  cd ~/Notes || return
                   if [[ -f ~/.config/notes.vim ]]; then
-                    nvim -c "silent source ~/.config/notes.vim"
+                    nvim -c "silent source ~/.config/notes.vim" ~/Notes
                   else
-                    nvim -c "mksession! ~/.config/notes.vim"
+                    nvim -c "mksession! ~/.config/notes.vim" ~/Notes
                   fi
                 }
 
