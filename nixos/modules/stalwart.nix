@@ -127,7 +127,7 @@ in
           s3 = {
             type = "s3";
             bucket = "email";
-            region = "us-east-1"; 
+            region = "us-east-1";
             endpoint = "https://garage.thuis";
             access-key = "GKee41184bbe37aed170c62a32";
             secret-key = "%{file:/run/credentials/stalwart.service/s3_secret_key}%";
@@ -140,7 +140,7 @@ in
           data = "postgresql";
           fts = "postgresql";
           lookup = "postgresql";
-          blob = "s3";
+          blob = "postgresql"; # Use PostgreSQL for blobs to avoid S3 signature issues
           directory = "internal";
         };
 

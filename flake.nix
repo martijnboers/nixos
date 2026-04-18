@@ -5,7 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     hardware.url = "github:NixOS/nixos-hardware";
-    hardware-fork.url = "github:martijnboers/nixos-hardware";
+    hardware-fork.url = "github:noisesfromspace/nixos-hardware";
 
     nixos-raspberrypi = {
       # https://github.com/nvmd/nixos-raspberrypi/pull/131
@@ -52,7 +52,7 @@
     };
 
     nix-mineral = {
-      url = "github:martijnboers/nix-mineral";
+      url = "github:noisesfromspace/nix-mineral";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

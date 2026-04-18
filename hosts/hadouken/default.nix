@@ -60,46 +60,7 @@
   };
 
   # Heat management intel cpu
-  services.thermald = {
-    enable = true;
-    configFile =
-      pkgs.writeText "thermal-conf.xml" # xml
-        ''
-          <?xml version="1.0"?>
-          <ThermalConfiguration>
-            <Platform>
-              <Name>Intel NUC Power Limit</Name>
-              <!-- 
-                   We are defining a "Passive" trip point. 
-                   When the CPU hits 80°C, thermald will begin limiting power
-                   to keep it from ever reaching the 95°C panic zone.
-              -->
-              <ThermalZones>
-                <ThermalZone>
-                  <Type>package</Type>
-                  <TripPoints>
-                    <TripPoint>
-                      <SensorType>package_temp</SensorType>
-                      <Temperature>80000</Temperature> <!-- 80 degrees Celsius -->
-                      <Type>Passive</Type>
-                      <CoolingDevice>
-                        <Type>rapl_controller</Type>
-                        <SamplingPeriod>1</SamplingPeriod>
-                        <!-- 
-                             TargetState is in Microwatts. 
-                             20000000 = 20 Watts. 
-                             This keeps the i5-1240p in its most efficient window.
-                        -->
-                        <TargetState>20000000</TargetState> 
-                      </CoolingDevice>
-                    </TripPoint>
-                  </TripPoints>
-                </ThermalZone>
-              </ThermalZones>
-            </Platform>
-          </ThermalConfiguration>
-        '';
-  };
+  services.thermald.enable = true;
 
   hosts.openssh = {
     enable = true;

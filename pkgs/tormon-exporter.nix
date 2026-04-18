@@ -9,7 +9,7 @@ python3.pkgs.buildPythonApplication rec {
   pyproject = true;
 
   src = fetchFromGitHub {
-    owner = "martijnboers";
+    owner = "noisesfromspace";
     repo = "tormon";
     rev = version;
     hash = "sha256-iizvGP/Nf07iT8MFObiOXjDZC2fonBLJOoFrR8drPnI=";
@@ -30,7 +30,7 @@ python3.pkgs.buildPythonApplication rec {
 
   meta = {
     description = "Monitor Tor relay with Grafana";
-    homepage = "https://github.com/martijnboers/tormon";
+    homepage = "https://github.com/noisesfromspace/tormon";
     license = lib.licenses.gpl3Only;
     maintainers = with lib.maintainers; [ ];
     mainProgram = "application";

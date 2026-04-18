@@ -508,13 +508,13 @@
       "locked": {
         "lastModified": 1765121810,
         "narHash": "sha256-Zx0+qTeqyO8RYoYzwGcaHcMItVqV4xmgl4SDDiZrALU=",
-        "owner": "martijnboers",
+        "owner": "noisesfromspace",
         "repo": "nixos-hardware",
         "rev": "7d6c25ea467d52163ee7ea5c23b591eda05461c4",
         "type": "github"
       },
       "original": {
-        "owner": "martijnboers",
+        "owner": "noisesfromspace",
         "repo": "nixos-hardware",
         "type": "github"
       }
@@ -658,13 +658,13 @@
       "locked": {
         "lastModified": 1771902686,
         "narHash": "sha256-irAXYzB/ZJxQ6+sGfLjgDT5QVqMvEtJtKGPhzeJUBBQ=",
-        "owner": "martijnboers",
+        "owner": "noisesfromspace",
         "repo": "nix-mineral",
         "rev": "bc853fa1d5dbe4122aac3952804c493eb5ffe9a1",
         "type": "github"
       },
       "original": {
-        "owner": "martijnboers",
+        "owner": "noisesfromspace",
         "repo": "nix-mineral",
         "type": "github"
       }

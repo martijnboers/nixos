@@ -34,7 +34,7 @@
           "https://iplists.firehol.org/files/dshield.netset"
           "https://iplists.firehol.org/files/blocklist_de.ipset"
           "https://iplists.firehol.org/files/tor_exits.ipset"
-          "https://gist.githubusercontent.com/martijnboers/7c98a97df2bc68944a05d2e80299fdaa/raw/6c07ef4dccf6cbf778293a20e35cda608cd87688/gistfile1.txt"
+          "https://gist.githubusercontent.com/noisesfromspace/7c98a97df2bc68944a05d2e80299fdaa/raw/6c07ef4dccf6cbf778293a20e35cda608cd87688/gistfile1.txt"
         )
 
         TMP_IPV4_LIST_RAW="/tmp/blocklist_v4_raw.txt"

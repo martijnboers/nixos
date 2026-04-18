@@ -118,7 +118,7 @@ in
                 old:
                 let
                   newSrc = pkgs.fetchFromGitHub {
-                    owner = "martijnboers";
+                    owner = "noisesfromspace";
                     repo = "markdown-oxide";
                     rev = "7548d8c4078f12b3a7d7f058d69b30403e278297";
                     hash = "sha256-A2FhCSxWDaOYPH9Gkk7Lc0oLxbtUx9cEX7uDB/kJUGE=";

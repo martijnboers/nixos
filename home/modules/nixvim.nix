@@ -203,7 +203,7 @@ in
           enable = true; # open gh or gitlab web
           package = pkgs.vimPlugins.gitportal-nvim.overrideAttrs {
             src = pkgs.fetchFromCodeberg {
-              owner = "martijnboers";
+              owner = "noisesfromspace";
               repo = "gitportal.nvim";
               rev = "4459fb71108371ae410579f666d75f962f0ac9d9";
               hash = "sha256-GuAyNKM+37CfXrIfZfnepxDHTcRbWOPp1DViKI78jFc=";

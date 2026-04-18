@@ -9,7 +9,7 @@ buildGoModule rec {
   version = "1.3";
 
   src = fetchFromGitHub {
-    owner = "martijnboers";
+    owner = "noisesfromspace";
     repo = "unaware";
     rev = version;
     hash = "sha256-Sm5qJ+ZMIfN0MoAfv6kkHN50D9CvC/brN3lzzVE1fh4=";
@@ -24,7 +24,7 @@ buildGoModule rec {
 
   meta = with lib; {
     description = "Mask PII-data offline";
-    homepage = "https://github.com/martijnboers/unaware";
+    homepage = "https://github.com/noisesfromspace/unaware";
     license = licenses.mpl20;
     mainProgram = "unaware";
   };

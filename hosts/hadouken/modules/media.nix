@@ -100,7 +100,7 @@ in
 
     services = {
       jellyfin.enable = true;
-      jellyseerr.enable = true;
+      seerr.enable = true;
 
       caddy.virtualHosts."syncthing.thuis".extraConfig = ''
         import headscale
@@ -115,7 +115,7 @@ in
         config.services.radarr.dataDir
         config.services.sonarr.dataDir
         config.services.jellyfin.dataDir
-        config.services.jellyseerr.configDir
+        config.services.seerr.configDir
       ];
 
       prowlarr = {
@@ -171,7 +171,7 @@ in
           extraConfig = mkProxy 8096;
         };
         "jelly.thuis" = {
-          extraConfig = mkProxy config.services.jellyseerr.port;
+          extraConfig = mkProxy config.services.seerr.port;
         };
         "radarr.thuis" = {
           extraConfig = mkProxy config.services.radarr.settings.server.port;
