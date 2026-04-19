@@ -8,16 +8,13 @@
 let
   cfg = config.hosts.stalwart;
 
-  # Node configuration
   shoryukenIp = config.global.tailscale_hosts.shoryuken;
   rekkakenIp = config.global.tailscale_hosts.rekkaken;
   stalwartPkg = pkgs.stalwart-custom;
+  mxHost = "mx${toString cfg.nodeId}";
 
-  # Email domains we handle
-  emailDomains = [
-    "plebian.nl"
-    "boers.email"
-  ];
+  # Certificate paths (copied from Caddy to Stalwart directory)
+  certDir = "/var/lib/stalwart-mail/certs";
 in
 {
   options.hosts.stalwart = {
@@ -27,7 +24,7 @@ in
       type = lib.types.int;
       description = ''
         Unique node ID for this Stalwart instance in the cluster.
-        Must be unique across all nodes. Shoryuken=1, Rekkaken=2.
+        Must be unique across all nodes.
       '';
     };
 
@@ -59,6 +56,11 @@ in
       };
       stalwart-s3-secret = {
         file = "${inputs.secrets}/stalwart-s3-secret.age";
+        owner = "stalwart-mail";
+        group = "stalwart-mail";
+      };
+      stalwart-migadu = {
+        file = "${inputs.secrets}/stalwart-migadu.age";
         owner = "stalwart-mail";
         group = "stalwart-mail";
       };
@@ -138,13 +140,11 @@ in
           directory = "internal";
         };
 
-        # Directory configuration (internal for now)
         directory.internal = {
           type = "internal";
           store = "postgresql";
         };
 
-        # Server listeners - properly nested
         server = {
           listener = {
             smtp = {
@@ -154,6 +154,8 @@ in
             smtp-submission = {
               bind = [ "[::]:587" ];
               protocol = "smtp";
+              tls.starttls = "require";
+              auth.require = true;
             };
             smtps = {
               bind = [ "[::]:465" ];
@@ -171,7 +173,6 @@ in
             };
           };
 
-          # Auto-ban configuration - aggressive security (properly nested)
           auto-ban = {
             auth = {
               rate = "10/1h"; # Ban after 10 failed auth attempts per hour
@@ -194,23 +195,59 @@ in
           };
         };
 
-        # Certificate configuration
-        certificate = {
-          acme = {
-            acme = "letsencrypt";
+        session = {
+          rcpt = {
+            spf.verify = "relaxed"; # Verify SPF on incoming mail
+            dkim.verify = true; # Verify DKIM signatures
+            arc.verify = true; # Verify ARC chains
+            dmarc.verify = true; # Verify DMARC policy
+
+            # DNSBL/RBL spam blacklist checking
+            dnsbl = {
+              servers = [
+                "zen.spamhaus.org"
+                "bl.spamcop.net"
+                "b.barracudacentral.org"
+              ];
+              action = "reject"; # Reject mail from blacklisted IPs
+            };
           };
         };
 
-        # ACME (Let's Encrypt) configuration
-        acme.letsencrypt = {
-          directory = "https://acme-v02.api.letsencrypt.org/directory";
-          challenge = "tls-alpn-01";
-          contact = [ "postmaster@boers.email" ];
-          domains = emailDomains ++ (map (d: "mail.${d}") emailDomains);
+        certificate."${mxHost}-plebian" = {
+          cert = "%{file:${certDir}/${mxHost}.plebian.nl.crt}%";
+          private-key = "%{file:${certDir}/${mxHost}.plebian.nl.key}%";
+        };
+        certificate."${mxHost}-boers" = {
+          cert = "%{file:${certDir}/${mxHost}.boers.email.crt}%";
+          private-key = "%{file:${certDir}/${mxHost}.boers.email.key}%";
         };
 
-        # Queue configuration - properly nested with tls settings
+        # Queue configuration
         queue = {
+          strategy.route = [
+            {
+              "if" = "is_local_domain('', rcpt_domain)";
+              "then" = "'local'";
+            }
+            { "else" = "'migadu'"; }
+          ];
+
+          route = {
+            local.type = "local";
+            migadu = {
+              type = "relay";
+              address = "smtp.migadu.com";
+              port = 465;
+              protocol = "smtp";
+              tls.implicit = true;
+              auth = {
+                username = "martijn@boers.email";
+                secret = "%{file:${config.age.secrets.stalwart-migadu.path}}%";
+              };
+            };
+          };
+
           retry = [
             "2m"
             "5m"
@@ -252,36 +289,74 @@ in
           path = "/var/cache/stalwart-mail";
         };
 
-        # Only first time; openssl passwd -6 'something'
-        # ---------------------------------
-        authentication.fallback-admin = {
-          user = "admin";
-          secret = "$6$3Amnk6ObFGqfd/dA$Fu2DVSdt6onbt8Tjo.AFFn0qq9APvBoM/164n/wjTIfw.P1oNqQWaibLD5Z1rTAKPy3c3F6HmEncxJXo/9WyE1";
-        };
-        # ---------------------------------
       };
 
     };
 
-    # Caddy reverse proxy for web admin (Tailscale internal only)
+    # Caddy reverse proxy for Stalwart web admin (Tailscale internal only)
+    # Each node gets its own admin URL based on coordination ID
     services.caddy.virtualHosts = {
-      "mail-admin.thuis" = {
+      "admin-${toString cfg.nodeId}-mail.thuis" = {
         extraConfig = ''
           import headscale
-          # import mtls
-
-          handle @internal {
-            reverse_proxy http://127.0.0.1:8629
-          }
-          respond 403
+          reverse_proxy http://127.0.0.1:8629
         '';
       };
     };
 
-    # Ensure Stalwart can connect to Tailscale network
+    # Ensure Stalwart can connect to Tailscale network and has certificates
     systemd.services.stalwart = {
-      after = [ "tailscaled.service" ];
+      after = [
+        "tailscaled.service"
+        "stalwart-certs.service"
+      ];
       requires = [ "tailscaled.service" ];
+      wants = [ "stalwart-certs.service" ];
     };
+
+    # Copy Caddy certificates to Stalwart directory with proper permissions
+    systemd.services.stalwart-certs = {
+      description = "Copy Caddy certificates for Stalwart";
+      after = [ "caddy.service" ];
+      wants = [ "caddy.service" ];
+      serviceConfig = {
+        Type = "oneshot";
+        User = "root";
+        ExecStart = pkgs.writeShellScript "copy-caddy-certs" ''
+          mkdir -p /var/lib/stalwart-mail/certs
+
+          # Find and copy certificates from Caddy
+          for domain in mx1.plebian.nl mx1.boers.email mx2.plebian.nl mx2.boers.email; do
+            for dir in /var/lib/caddy/.local/share/caddy/certificates/*; do
+              if [ -d "$dir/$domain" ]; then
+                cp "$dir/$domain/$domain.crt" /var/lib/stalwart-mail/certs/ 2>/dev/null || true
+                cp "$dir/$domain/$domain.key" /var/lib/stalwart-mail/certs/ 2>/dev/null || true
+              fi
+            done
+          done
+
+          chown -R stalwart-mail:stalwart-mail /var/lib/stalwart-mail/certs
+          chmod 600 /var/lib/stalwart-mail/certs/*.key 2>/dev/null || true
+          chmod 644 /var/lib/stalwart-mail/certs/*.crt 2>/dev/null || true
+        '';
+      };
+    };
+
+    systemd.timers.stalwart-certs = {
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnBootSec = "30s";
+        OnUnitActiveSec = "1h";
+      };
+    };
+
+    # Ensure stalwart-mail can access the certs
+    users.users.stalwart-mail.home = "/var/lib/stalwart-mail";
+
+    # Ensure directories exist
+    systemd.tmpfiles.rules = [
+      "d /var/lib/stalwart-mail 0750 stalwart-mail stalwart-mail -"
+      "d /var/lib/stalwart-mail/certs 0750 stalwart-mail stalwart-mail -"
+    ];
   };
 }

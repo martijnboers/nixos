@@ -80,6 +80,7 @@ in
         "immich"
         "pgrok"
         "fluidcalendar"
+        "stalwart"
       ];
     };
 

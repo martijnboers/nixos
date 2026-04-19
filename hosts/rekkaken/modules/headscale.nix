@@ -32,13 +32,14 @@ let
   ];
   shoryukenRecords = [
     "ci"
-    "mail-admin"
+    "admin-1-mail"
   ];
   rekkakenRecords = [
     "notifications"
     "ladder"
     "vpn"
     "uptime"
+    "admin-2-mail"
   ];
   tenshinRecords = [
     "chef"

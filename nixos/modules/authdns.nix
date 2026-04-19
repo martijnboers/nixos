@@ -18,34 +18,30 @@ let
     ipv6 = config.global.wan_ips.shoryuken_6;
   };
 
-  soverinEmail = ''
-    @                     IN      MX      10 mx.soverin.net.
-    *                     IN      MX      10 mx.soverin.net.
-
-    @                     IN      TXT     "v=spf1 include:soverin.net ~all"
-    *                     IN      TXT     "v=spf1 include:soverin.net ~all"
-    soverin1._domainkey   IN      CNAME   soverin1._domainkey.soverin.net.
-    soverin2._domainkey   IN      CNAME   soverin2._domainkey.soverin.net.
-    soverin3._domainkey   IN      CNAME   soverin3._domainkey.soverin.net.
-    _dmarc                IN      CNAME   reject._dmarc.soverin.net.
-  '';
-
   mkStalwartEmail = domain: ''
-    ; Mail server A and AAAA records
+    ; Mail server A and AAAA records (Internal/Stalwart)
     mx1                   IN      A       ${shor.ipv4}
     mx1                   IN      AAAA    ${shor.ipv6}
     mx2                   IN      A       ${rek.ipv4}
     mx2                   IN      AAAA    ${rek.ipv6}
 
-    ; Mail Exchange (MX) records
+    ; Mail Exchange (MX) records - Pointing to our Stalwart servers
     @                     IN      MX      10 mx1.${domain}.
     @                     IN      MX      20 mx2.${domain}.
+    *                     IN      MX      10 mx1.${domain}.
+    *                     IN      MX      20 mx2.${domain}.
 
-    ; Sender Policy Framework (SPF)
-    @                     IN      TXT     "v=spf1 ip4:${shor.ipv4} ip4:${rek.ipv4} ip6:${shor.ipv6} ip6:${rek.ipv6} ~all"
+    ; Sender Policy Framework (SPF) - Including Migadu
+    @                     IN      TXT     "v=spf1 ip4:${shor.ipv4} ip4:${rek.ipv4} ip6:${shor.ipv6} ip6:${rek.ipv6} include:spf.migadu.com -all"
 
-    ; DMARC policy
-    _dmarc                IN      TXT     "v=DMARC1; p=none; rua=mailto:dmarc@${domain}"
+    ; Migadu DKIM Keys (CNAMEs)
+    key1._domainkey       IN      CNAME   key1.${domain}._domainkey.migadu.com.
+    key2._domainkey       IN      CNAME   key2.${domain}._domainkey.migadu.com.
+    key3._domainkey       IN      CNAME   key3.${domain}._domainkey.migadu.com.
+
+    ; DMARC policy (Migadu recommended)
+    _dmarc                IN      TXT     "v=DMARC1; p=quarantine;"
+
 
     ; MTA-STS (Mail Transfer Agent Strict Transport Security)
     mta-sts               IN      CNAME   @
@@ -79,6 +75,10 @@ let
 
         202604e._domainkey IN TXT   "v=DKIM1; k=ed25519; h=sha256; p=UZFz75x8FlCdqNDP7dCdKAgBzQJvyZ5zlCqGYDsjpAs="
         202604r._domainkey IN TXT   "v=DKIM1; k=rsa; h=sha256; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx3ARBZrUg6AX12fiGTGKBf0PfqlRzzgVZ/KoScwhhrcuhQryyHM+uHWy5bdnuaqQn5Gg/lqVRJQ+uunU6dN38GrUFGyx4n/iMvqoZFvvCWhWHF+VKQEF3AEw8SK4HlX5sEyv/IUaPGzhmcI/4l1lk9hH10+hQ+Bvywpcb9mSA/w3OpxRLnhHhEu" "30BfizzK/NjntBs98sOTbhTRGx0+4epU9fQyYN8OGh1pW7Sa+RRmroSIpkCuGZf6DB3KBQmYpxQr2m8nQYhtnzPcvg0McQagFNebLebZDKHBjxrK0ANd61VVvJafjHcd2yNjpQYxY+smL/keczQ9rynNj4UMclwIDAQAB"
+
+        ; Migadu Verification
+        @                     IN      TXT     "hosted-email-verify=uxeykcyj"
+
 
         ; TLSA records (DANE) - Using Let's Encrypt
         ; 
@@ -117,15 +117,19 @@ let
         derp2       IN      AAAA    ${rek.ipv6}
         ip          IN      A       ${rek.ipv4}
         ip          IN      AAAA    ${rek.ipv6}
+         	
+        @           IN      TXT     "hosted-email-verify=6livfawy"
+        openpgpkey  IN      TXT     ""
+
+        202604e._domainkey IN TXT   "v=DKIM1; k=ed25519; h=sha256; p=aKwl+KIQgsgqwMysx3kVNDbeFYlBiRxAqUHNn7LpaL4="
+        202604r._domainkey IN TXT   "v=DKIM1; k=rsa; h=sha256; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzAOjSgbHsF6mRggl7BgkUCx+82wSPhB29TzsEY7vsTMkFw5b77o24QN6/mi7nq546QFIiQGg37R4YeCJSYTYoo26zoNsQXSDOT0idg+547rMSaTM8NVi5wLZjX4NCGkzqkofqjcDPbUk1xYMcxZ5LRp10vOfnljSXF1ftFfacmv6m/fHdaw6eHU" "SByEc+BGl/MXOtL9bMf4n4RJqydSCVysC3JtWyZFdxx/ZoSiFdME/HBVPnmwc5bgRXEF9beDDqxYh7QCw5v0Qb2UJr0A7LH/RlOMnUZBw+yVhjS/nz8pGpiuybOvAdTmaxi5Bsu5FzLJSXIthOY0LxHPJs2AmmQIDAQAB"
 
         seed._radicle-node._tcp.boers.email.  3600  IN SRV  32767 32767 8776 seed.boers.email.
         seed._radicle-node._tcp.boers.email.  3600  IN TXT  "nid=z6MkhJKKVmjsA2MVrMMqMe2Au7bx8bUVtzWh2A9J3JWTeZAB"
         _radicle-node._tcp.boers.email.       3600  IN PTR  seed._radicle-node._tcp.boers.email.
 
-        openpgpkey  		                            IN TXT   ""
-        @                                           IN TXT   "Soverin=r7bNsTxYuYM2axjb"
       ''
-      + soverinEmail;
+      + mkStalwartEmail "boers.email";
     }
     {
       name = "noisesfrom.space";

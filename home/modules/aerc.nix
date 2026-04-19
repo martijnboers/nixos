@@ -50,7 +50,6 @@ in
           timestamp-format = "2006-01-02 15:04";
           threading-enabled = true;
         };
-        # Use Notmuch only for autocompleting email addresses
         compose.address-book-cmd = "${lib.getExe pkgs.notmuch-addrlookup} --format=aerc %s";
 
         filters = {
@@ -145,80 +144,79 @@ in
       <backtab> = :prev-field<Enter>
 
       [compose::editor]
-      # Keybindings used when the embedded terminal is selected in the compose view
       $noinherit = true
       $ex = <C-x>
 
       [compose::review]
-      # Keybindings used when reviewing a message to be sent
-      # Inline comments are used as descriptions on the review screen
-      y = :send<Enter> # Send
-      n = :abort<Enter> # Abort (discard message, no confirmation)
-      s = :sign<Enter> # Toggle signing
-      q = :choose -o d discard abort -o p postpone postpone<Enter> # Abort or postpone
-      e = :edit<Enter> # Edit (body and headers)
-      a = :attach<space> # Add attachment
-      d = :detach<space> # Remove attachment
+      y = :send<Enter>
+      n = :abort<Enter>
+      s = :sign<Enter>
+      q = :choose -o d discard abort -o p postpone postpone<Enter>
+      e = :edit<Enter>
+      a = :attach<space>
+      d = :detach<space>
 
       [terminal]
       $noinherit = true
       $ex = <C-x>
     '';
 
-    age.secrets.soverin.file = "${inputs.secrets}/soverin.age";
+    age.secrets.stalwart-password.file = "${inputs.secrets}/stalwart-password.age";
 
-    accounts.email.accounts.soverin = {
-      primary = true;
-      realName = "Martijn Boers";
-      address = "martijn@boers.email";
-      userName = "martijn@boers.email";
-      maildir.path = "Soverin";
+    accounts.email.accounts = {
+      main = {
+        primary = true;
+        realName = "Martijn Boers";
+        address = "martijn@boers.email";
+        userName = "martijn";
+        maildir.path = "Stalwart";
 
-      gpg = {
-        key = "C1E3 5670 353B 3516 BAA3 51D2 8BA2 F86B 654C 7078";
-        signByDefault = true;
-      };
-
-      mbsync = {
-        enable = true;
-        create = "both";
-        expunge = "both";
-        remove = "both";
-        patterns = [
-          "*"
-          # "!Folders/gmail"
-          # "!Folders/gmail/*"
-          # "!'All Mail'"
-        ];
-      };
-
-      notmuch.enable = true;
-
-      aerc = {
-        enable = true;
-        extraAccounts = rec {
-          source = "maildir://~/Maildir/Soverin";
-          folders = "Inbox,Sent,Signups,Shipping,Bewaren,Werk,Drafts,Archive,Spam,Trash";
-          folders-sort = folders;
-          copy-to = "Sent";
-          check-mail-cmd = "${pkgs.isync}/bin/mbsync soverin";
-          check-mail = "1m";
+        gpg = {
+          key = "C1E3 5670 353B 3516 BAA3 51D2 8BA2 F86B 654C 7078";
+          signByDefault = true;
         };
+
+        mbsync = {
+          enable = true;
+          create = "both";
+          expunge = "both";
+          remove = "both";
+          patterns = [ "*" ];
+        };
+
+        notmuch.enable = true;
+
+        aerc = {
+          enable = true;
+          extraAccounts = rec {
+            from = "martijn@boers.email";
+            source = "maildir://~/Maildir/Stalwart";
+            folders = "Inbox,Sent Items,Signups,Shipping,Bewaren,Werk,Archive,Drafts,Deleted Items,Junk Mail";
+            folders-sort = folders;
+            copy-to = "Sent Items";
+            check-mail-cmd = "${pkgs.isync}/bin/mbsync main";
+            check-mail = "1m";
+          };
+        };
+
+        imap = {
+          host = "mx1.plebian.nl";
+          port = 993;
+          tls.enable = true;
+        };
+
+        smtp = {
+          host = "mx1.plebian.nl";
+          port = 587;
+          tls = {
+            enable = true;
+            useStartTls = true;
+          };
+        };
+
+        passwordCommand = "cat ${config.age.secrets.stalwart-password.path}";
       };
 
-      imap = {
-        host = "imap.soverin.net";
-        port = 993;
-        tls.enable = true;
-      };
-
-      smtp = {
-        host = "smtp.soverin.net";
-        port = 465;
-        tls.enable = true;
-      };
-
-      passwordCommand = "cat ${config.age.secrets.soverin.path}";
     };
   };
 }

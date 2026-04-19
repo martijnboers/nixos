@@ -37,6 +37,17 @@ in
             respond "{{.RemoteIP}}"
           '';
         };
+        # Dummy endpoint to get certificates for mail server
+        # Uses Let's Encrypt STAGING (avoid rate limits)
+        "mx2.plebian.nl" = {
+          serverAliases = [ "mx2.boers.email" ];
+          extraConfig = ''
+            tls postmaster@boers.email {
+              ca https://acme-staging-v02.api.letsencrypt.org/directory
+            }
+            respond "Mail server certificate endpoint" 200
+          '';
+        };
       };
       extraConfig = ''
         (headscale) {
