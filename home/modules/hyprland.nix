@@ -7,11 +7,7 @@
 with lib;
 let
   cfg = config.maatwerk.hyprland;
-
-  monitorConfig = [
-    "monitor=${cfg.laptopMonitorName},preferred,auto,${toString cfg.laptopScalingFactor},transform,0"
-    "monitor=,preferred,auto,1"
-  ];
+  reloadCmd = "hyprctl --batch \"keyword monitor ${cfg.laptopMonitorName},preferred,auto,${toString cfg.laptopScalingFactor}; keyword monitor ,preferred,auto,1\"";
 in
 {
   imports = [
@@ -71,45 +67,143 @@ in
       };
     };
 
-    services.kanshi = {
-      enable = true;
-      systemdTarget = "hyprland-session.target";
-      settings = [
-        {
-          profile.name = "laptop-only";
-          profile.outputs = [
-            {
-              criteria = cfg.laptopMonitorName;
-              scale = cfg.laptopScalingFactor;
-            }
-          ];
-        }
-        {
-          profile.name = "docked";
-          profile.outputs = [
-            {
-              criteria = cfg.laptopMonitorName;
-              status = "disable";
-            }
-            {
-              criteria = "*";
-              position = "0,0";
-            }
-          ];
-        }
-        {
-          profile.name = "external-only";
-          profile.outputs = [
-            {
-              criteria = cfg.laptopMonitorName;
-              status = "disable";
-            }
-            {
-              criteria = "*";
-            }
-          ];
-        }
-      ];
+    home.file = {
+      "${config.xdg.configHome}/hyprdynamicmonitors/config.toml".text = # toml
+        ''
+          # Dell workstation with lid closed (external only)
+          [profiles.dell_closed]
+          config_file = "${
+            pkgs.writeText "dell-closed.conf" # bash
+              ''
+                monitor=${cfg.laptopMonitorName},disable
+                monitor=description:U3821DW,preferred,0x0,1
+              ''
+          }"
+          config_file_type = "static"
+          [profiles.dell_closed.conditions]
+          lid_state = "Closed"
+          [[profiles.dell_closed.conditions.required_monitors]]
+          name = "${cfg.laptopMonitorName}"
+          [[profiles.dell_closed.conditions.required_monitors]]
+          description = ".*U3821DW.*"
+          match_description_using_regex = true
+
+          # Dell workstation with lid open (extended desktop)
+          [profiles.dell_extended]
+          config_file = "${
+            pkgs.writeText "dell-extended.conf" # bash
+              ''
+                monitor=${cfg.laptopMonitorName},preferred,auto,${toString cfg.laptopScalingFactor}
+                monitor=description:U3821DW,preferred,2560x0,1
+                # Pin workspaces to ensure they move correctly
+                workspace=1,monitor:${cfg.laptopMonitorName}
+                workspace=3,monitor:${cfg.laptopMonitorName}
+                workspace=5,monitor:${cfg.laptopMonitorName}
+                workspace=2,monitor:description:U3821DW
+                workspace=4,monitor:description:U3821DW
+                workspace=6,monitor:description:U3821DW
+              ''
+          }"
+          config_file_type = "static"
+          [profiles.dell_extended.conditions]
+          lid_state = "Opened"
+          [[profiles.dell_extended.conditions.required_monitors]]
+          name = "${cfg.laptopMonitorName}"
+          [[profiles.dell_extended.conditions.required_monitors]]
+          description = ".*U3821DW.*"
+          match_description_using_regex = true
+
+          # Laptop only
+          [profiles.laptop_only]
+          config_file = "${pkgs.writeText "laptop.conf" ''
+            monitor=${cfg.laptopMonitorName},preferred,auto,${toString cfg.laptopScalingFactor}
+          ''}"
+          config_file_type = "static"
+          [profiles.laptop_only.conditions]
+          lid_state = "Opened"
+          [[profiles.laptop_only.conditions.required_monitors]]
+          name = "${cfg.laptopMonitorName}"
+
+          # External Display - Mirror (Lid Open)
+          [profiles.external_mirror]
+          config_file = "${pkgs.writeText "mirror.conf" ''
+            monitor=,preferred,auto,1
+            monitor=${cfg.laptopMonitorName},preferred,auto,1,mirror,
+          ''}"
+          config_file_type = "static"
+          [profiles.external_mirror.conditions]
+          lid_state = "Opened"
+          [[profiles.external_mirror.conditions.required_monitors]]
+          name = "${cfg.laptopMonitorName}"
+          [[profiles.external_mirror.conditions.required_monitors]]
+          description = ".*"
+          match_description_using_regex = true
+
+          # External Display - Only (Lid Closed)
+          [profiles.external_only]
+          config_file = "${pkgs.writeText "external.conf" ''
+            monitor=${cfg.laptopMonitorName},disable
+            monitor=,preferred,auto,1
+          ''}"
+          config_file_type = "static"
+          [profiles.external_only.conditions]
+          lid_state = "Closed"
+          [[profiles.external_only.conditions.required_monitors]]
+          name = "${cfg.laptopMonitorName}"
+          [[profiles.external_only.conditions.required_monitors]]
+          description = ".*"
+          match_description_using_regex = true
+
+          # Fallback (Desktop or unknown)
+          [profiles.default]
+          config_file = "${pkgs.writeText "default.conf" ''
+            monitor=,preferred,auto,1
+          ''}"
+          config_file_type = "static"
+          [profiles.default.conditions]
+        '';
+
+      # Avatar image
+      ".config/avatar.png" = {
+        source = pkgs.fetchurl {
+          url = "https://storage.boers.email/random/icon.png";
+          hash = "sha256-YxJuLqQ4BpWKyMOTl+J09uRVuK4e0CVinXuNb5u/8aY=";
+        };
+      };
+    };
+
+    # HyprDynamicMonitors systemd service
+    systemd.user.services.hyprdynamicmonitors = {
+      Unit = {
+        Description = "HyprDynamicMonitors - Dynamic monitor configuration for Hyprland";
+        After = [ "hyprland-session.target" ];
+        PartOf = [ "hyprland-session.target" ];
+      };
+      Service = {
+        Type = "simple";
+        ExecPreStart = "touch ${config.xdg.configHome}/hypr/monitors.conf";
+        ExecStart = "${lib.getExe pkgs.hyprdynamicmonitors} run --enable-lid-events --disable-power-events";
+        Restart = "on-failure";
+        RestartSec = 1;
+      };
+      Install = {
+        WantedBy = [ "hyprland-session.target" ];
+      };
+    };
+
+    # HyprDynamicMonitors prepare service (runs before Hyprland starts)
+    systemd.user.services.hyprdynamicmonitors-prepare = {
+      Unit = {
+        Description = "HyprDynamicMonitors prepare - Clean up monitor config before start";
+        Before = [ "hyprland-session.target" ];
+      };
+      Service = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.bash}/bin/bash -c '${pkgs.hyprdynamicmonitors}/bin/hyprdynamicmonitors prepare'";
+      };
+      Install = {
+        WantedBy = [ "hyprland-session.target" ];
+      };
     };
 
     home.packages =
@@ -125,7 +219,7 @@ in
         wl-clipboard # clipboard
         hyprmon # display settings
         iwgtk # wifi applet
-        kanshi # automatic display configuration
+        hyprdynamicmonitors # dynamic monitor configuration with lid support
       ];
 
     wayland.windowManager.hyprland = {
@@ -206,8 +300,8 @@ in
           }"
         ]
         ++ (lib.optionals cfg.isLaptop [
-          ", switch:on:Lid Switch, exec, hyprctl dispatch dpms off; ${lib.getExe pkgs.hyprlock}"
-          ", switch:off:Lid Switch, exec, hyprctl dispatch dpms on"
+          ", switch:on:Lid Switch, exec, hyprctl keyword monitor \"${cfg.laptopMonitorName}, disable\"; ${lib.getExe pkgs.hyprlock}"
+          ", switch:off:Lid Switch, exec, ${reloadCmd}"
           ", XF86MonBrightnessDown, exec, ${lib.getExe pkgs.brightnessctl} s 10%-"
           ", XF86MonBrightnessUp, exec, ${lib.getExe pkgs.brightnessctl}  s +10%"
         ]);
@@ -314,6 +408,7 @@ in
           disable_hyprland_logo = true;
           animate_manual_resizes = false;
           animate_mouse_windowdragging = false;
+          background_color = "rgb(${config.lib.stylix.colors.base00})";
           close_special_on_empty = true;
         };
       };
@@ -324,7 +419,8 @@ in
           gesture = 4, swipe, resize
         ''
         + ''
-          ${lib.concatStringsSep "\n" monitorConfig}
+          # Source the config file managed by hyprdynamicmonitors.
+          source = ${config.xdg.configHome}/hypr/monitors.conf
 
           animations {
             # https://cubic-bezier.com/
@@ -379,7 +475,7 @@ in
         in
         {
           general = {
-            after_sleep_cmd = "hyprctl dispatch dpms on";
+            after_sleep_cmd = reloadCmd;
             ignore_dbus_inhibit = true; # Ignore apps like browsers playing video
             lock_cmd = lockCmd;
           };
@@ -396,7 +492,7 @@ in
             {
               timeout = 15 * 60;
               on-timeout = "hyprctl dispatch dpms off";
-              on-resume = "hyprctl dispatch dpms on";
+              on-resume = reloadCmd;
             }
             {
               timeout = 30 * 60;
@@ -404,15 +500,6 @@ in
             }
           ];
         };
-    };
-
-    home.file = {
-      ".config/avatar.png" = {
-        source = pkgs.fetchurl {
-          url = "https://storage.boers.email/random/icon.png";
-          hash = "sha256-YxJuLqQ4BpWKyMOTl+J09uRVuK4e0CVinXuNb5u/8aY=";
-        };
-      };
     };
 
     programs.hyprlock = {

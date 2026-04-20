@@ -20,7 +20,7 @@ let
         owner = "intel";
         repo = "vision-drivers";
         rev = "master";
-        hash = "sha256-zOvCZKGwOGT9kcJiefzx/duHqR0V8PYhNbqsMHkH1r4=";
+        hash = "sha256-TdmePzX4waEFXAeCukn+IaVBL5t0xDnBm5XZjvnBho4=";
       };
 
       hardeningDisable = [
@@ -69,9 +69,11 @@ in
     kernelParams = [
       "i915.force_probe=!7d51"
       "xe.force_probe=7d51"
+      "xe.enable_psr=0"
       "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
       "nvidia.NVreg_TemporaryFilePath=/var/tmp"
       "nvidia_drm.modeset=1"
+      "nvidia_drm.fbdev=1"
       # "mem_sleep_default=deep"
       # "resume_offset=112625664"
     ];
