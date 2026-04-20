@@ -161,6 +161,9 @@ in
           ''}"
           config_file_type = "static"
           [profiles.default.conditions]
+          [[profiles.default.conditions.required_monitors]]
+          description = ".*"
+          match_description_using_regex = true
         '';
 
       # Avatar image
@@ -181,7 +184,6 @@ in
       };
       Service = {
         Type = "simple";
-        ExecPreStart = "touch ${config.xdg.configHome}/hypr/monitors.conf";
         ExecStart = "${lib.getExe pkgs.hyprdynamicmonitors} run --enable-lid-events --disable-power-events";
         Restart = "on-failure";
         RestartSec = 1;
@@ -199,7 +201,7 @@ in
       };
       Service = {
         Type = "oneshot";
-        ExecStart = "${pkgs.bash}/bin/bash -c '${pkgs.hyprdynamicmonitors}/bin/hyprdynamicmonitors prepare'";
+        ExecStart = "${lib.getExe pkgs.bash} -c '>>${config.xdg.configHome}/hypr/monitors.conf; ${pkgs.hyprdynamicmonitors}/bin/hyprdynamicmonitors prepare'";
       };
       Install = {
         WantedBy = [ "hyprland-session.target" ];
