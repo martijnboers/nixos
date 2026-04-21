@@ -12,10 +12,10 @@ gcc14Stdenv.mkDerivation rec {
   # src = /home/martijn/Code/Hyprspace;
 
   src = fetchFromGitHub {
-    owner = "pascal-fischer";
+    owner = "0xl30";
     repo = "Hyprspace";
     rev = "${version}";
-    hash = "sha256-YHxxNYFG93gZShbRCXEA/RJCj6q/298QDCw3kA2woBw=";
+    hash = "sha256-AaYdsh9mCmCxgaXzagaVLouZBAWPfw8BnU2GEpVGHkY=";
   };
 
   # src = fetchFromGitHub {

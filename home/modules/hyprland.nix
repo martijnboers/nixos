@@ -323,7 +323,7 @@ in
           '', Print, exec, ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - | satty -f -''
           ''$mod, Print, exec, ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - | ${lib.getExe pkgs.tesseract} - stdout | wl-copy''
           "$mod, F4, killactive"
-          "$super, tab, overview:toggle"
+          # "$super, tab, overview:toggle"
           "$prog, H, exec, walker -m clipboard"
           "$mod, M, exec, hyprlock"
 
@@ -477,7 +477,7 @@ in
         in
         {
           general = {
-            after_sleep_cmd = reloadCmd;
+            after_sleep_cmd =  "hyprctl dispatch dpms on";
             ignore_dbus_inhibit = true; # Ignore apps like browsers playing video
             lock_cmd = lockCmd;
           };
@@ -494,7 +494,7 @@ in
             {
               timeout = 15 * 60;
               on-timeout = "hyprctl dispatch dpms off";
-              on-resume = reloadCmd;
+              on-resume = "hyprctl dispatch dpms on";
             }
             {
               timeout = 30 * 60;

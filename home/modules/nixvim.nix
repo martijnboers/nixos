@@ -203,10 +203,10 @@ in
           enable = true; # open gh or gitlab web
           package = pkgs.vimPlugins.gitportal-nvim.overrideAttrs {
             src = pkgs.fetchFromCodeberg {
-              owner = "noisesfromspace";
+              owner = "martijnboers";
               repo = "gitportal.nvim";
-              rev = "4459fb71108371ae410579f666d75f962f0ac9d9";
-              hash = "sha256-GuAyNKM+37CfXrIfZfnepxDHTcRbWOPp1DViKI78jFc=";
+              rev = "e056a377326292874f70900af93104fc2fe7d39e";
+              hash = "sha256-myfrptp5efKjcbLKnDn/aTab3JlULzPCLDuiOpA5yHY=";
             };
           };
           settings.always_use_commit_hash_in_url = true;
@@ -468,6 +468,36 @@ in
                 map_split(buf_id, '<C-s>', 'belowright horizontal')
                 map_split(buf_id, '<C-v>', 'belowright vertical')
                 map_split(buf_id, '<C-t>', 'tab')
+
+                -- Set focused directory as current working directory
+                local set_cwd = function()
+                  local path = (MiniFiles.get_fs_entry() or {}).path
+                  if path == nil then return vim.notify('Cursor is not on valid entry') end
+                  local dir = vim.fs.dirname(path)
+                  vim.fn.chdir(dir)
+                  vim.notify('Changed cwd to ' .. dir)
+                end
+
+                -- Yank in register full path of entry under cursor
+                local yank_path = function()
+                  local path = (MiniFiles.get_fs_entry() or {}).path
+                  if path == nil then return vim.notify('Cursor is not on valid entry') end
+                  vim.fn.setreg(vim.v.register, path)
+                  vim.fn.setreg('+', path)
+                  vim.notify('Yanked path to clipboard: ' .. path)
+                end
+
+                -- Open path with system default handler (useful for non-text files)
+                local ui_open = function()
+                  local path = (MiniFiles.get_fs_entry() or {}).path
+                  if path == nil then return vim.notify('Cursor is not on valid entry') end
+                  vim.ui.open(path)
+                  vim.notify('Opened: ' .. path)
+                end
+
+                vim.keymap.set('n', '~', set_cwd,   { buffer = buf_id, desc = 'Set cwd' })
+                vim.keymap.set('n', 'x', ui_open,   { buffer = buf_id, desc = 'OS open' })
+                vim.keymap.set('n', 'Y', yank_path, { buffer = buf_id, desc = 'Yank path' })
               end
             '';
           }
