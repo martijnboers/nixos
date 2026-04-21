@@ -157,7 +157,7 @@ in
           # Fallback (Desktop or unknown)
           [profiles.default]
           config_file = "${pkgs.writeText "default.conf" ''
-            monitor=,preferred,auto,1
+            monitor=,preferred,0x0,1,transform,0
           ''}"
           config_file_type = "static"
           [profiles.default.conditions]

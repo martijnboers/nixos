@@ -644,9 +644,16 @@ in
           desc = "Toggle MiniFiles";
           code = # lua
             ''
-              if MiniFiles.close() then
+              -- Check if explorer is currently open in a valid window
+              local explorer_state = MiniFiles.get_explorer_state()
+              local is_open = explorer_state ~= nil and explorer_state.target_window ~= nil
+                and vim.api.nvim_win_is_valid(explorer_state.target_window)
+
+              if is_open then
+                MiniFiles.close()
                 return
               end
+
               local buf_name = vim.api.nvim_buf_get_name(0)
               -- Check if buffer name is empty or starts with a special prefix (like term://)
               local is_valid_file = buf_name ~= "" and vim.bo.buftype == "" and vim.fn.filereadable(buf_name) == 1
