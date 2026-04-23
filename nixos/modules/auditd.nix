@@ -36,10 +36,7 @@ in
 
     systemd.services.audit-gotify-notifier = {
       description = "Send Gotify notifications for Login Audit Events";
-      after = [
-        "network-online.target"
-        "auditd.service"
-      ];
+      after = [ "auditd.service" ];
       wantedBy = [ "multi-user.target" ];
       path = with pkgs; [
         curl

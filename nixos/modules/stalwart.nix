@@ -14,7 +14,7 @@ let
   mxHost = "mx${toString cfg.nodeId}";
 
   # Certificate paths (copied from Caddy to Stalwart directory)
-  certDir = "/var/lib/stalwart-mail/certs";
+  certDir = "/var/lib/stalwart/certs";
 in
 {
   options.hosts.stalwart = {
@@ -47,28 +47,38 @@ in
       ];
     };
 
-    # Agenix secrets - use the stalwart-mail user that NixOS module creates
+    # Agenix secrets - use the stalwart user that NixOS module creates
     age.secrets = {
       stalwart-postgresql = {
         file = "${inputs.secrets}/stalwart-postgresql.age";
-        owner = "stalwart-mail";
-        group = "stalwart-mail";
+        owner = "stalwart";
+        group = "stalwart";
       };
       stalwart-s3-secret = {
         file = "${inputs.secrets}/stalwart-s3-secret.age";
-        owner = "stalwart-mail";
-        group = "stalwart-mail";
+        owner = "stalwart";
+        group = "stalwart";
       };
       stalwart-migadu = {
         file = "${inputs.secrets}/stalwart-migadu.age";
-        owner = "stalwart-mail";
-        group = "stalwart-mail";
+        owner = "stalwart";
+        group = "stalwart";
       };
     };
 
-    # Stalwart service - use NixOS module with overrides
+    users.users.stalwart = {
+      isSystemUser = true;
+      # To access the certs
+      home = "/var/lib/stalwart";
+      group = "stalwart";
+      # For journald logging
+      extraGroups = [ "systemd-journal" ];
+    };
+    users.groups.stalwart = { };
+
     services.stalwart = {
       enable = true;
+      stateVersion = "26.05";
       package = stalwartPkg;
 
       settings = {
@@ -243,7 +253,8 @@ in
               tls.implicit = true;
               auth = {
                 username = "martijn@boers.email";
-                secret = "%{file:${config.age.secrets.stalwart-migadu.path}}%";
+                # Secrets not loading from files?
+                # secret = "%{file:${config.age.secrets.stalwart-migadu.path}}%";
               };
             };
           };
@@ -286,7 +297,7 @@ in
 
         webadmin = {
           resource = "file://${pkgs.stalwart-webadmin}/webadmin.zip";
-          path = "/var/cache/stalwart-mail";
+          path = "/var/cache/stalwart";
         };
 
       };
@@ -323,21 +334,21 @@ in
         Type = "oneshot";
         User = "root";
         ExecStart = pkgs.writeShellScript "copy-caddy-certs" ''
-          mkdir -p /var/lib/stalwart-mail/certs
+          mkdir -p /var/lib/stalwart/certs
 
           # Find and copy certificates from Caddy
           for domain in mx1.plebian.nl mx1.boers.email mx2.plebian.nl mx2.boers.email; do
             for dir in /var/lib/caddy/.local/share/caddy/certificates/*; do
               if [ -d "$dir/$domain" ]; then
-                cp "$dir/$domain/$domain.crt" /var/lib/stalwart-mail/certs/ 2>/dev/null || true
-                cp "$dir/$domain/$domain.key" /var/lib/stalwart-mail/certs/ 2>/dev/null || true
+                cp "$dir/$domain/$domain.crt" /var/lib/stalwart/certs/ 2>/dev/null || true
+                cp "$dir/$domain/$domain.key" /var/lib/stalwart/certs/ 2>/dev/null || true
               fi
             done
           done
 
-          chown -R stalwart-mail:stalwart-mail /var/lib/stalwart-mail/certs
-          chmod 600 /var/lib/stalwart-mail/certs/*.key 2>/dev/null || true
-          chmod 644 /var/lib/stalwart-mail/certs/*.crt 2>/dev/null || true
+          chown -R stalwart:stalwart /var/lib/stalwart/certs
+          chmod 600 /var/lib/stalwart/certs/*.key 2>/dev/null || true
+          chmod 644 /var/lib/stalwart/certs/*.crt 2>/dev/null || true
         '';
       };
     };
@@ -350,13 +361,11 @@ in
       };
     };
 
-    # Ensure stalwart-mail can access the certs
-    users.users.stalwart-mail.home = "/var/lib/stalwart-mail";
-
     # Ensure directories exist
     systemd.tmpfiles.rules = [
-      "d /var/lib/stalwart-mail 0750 stalwart-mail stalwart-mail -"
-      "d /var/lib/stalwart-mail/certs 0750 stalwart-mail stalwart-mail -"
+      "d /var/lib/stalwart 0750 stalwart stalwart -"
+      "d /var/lib/stalwart/certs 0750 stalwart stalwart -"
+      "d /var/cache/stalwart 0755 stalwart stalwart -"
     ];
   };
 }

@@ -6,6 +6,11 @@
 
   programs.opencode = {
     enable = true;
+    tui = {
+      keybinds = {
+        editor_open = "ctrl+o";
+      };
+    };
     rules = ''
       # SYSTEM CONTEXT & OPERATIONAL CONSTRAINTS
 
@@ -90,9 +95,6 @@
         write = true;
         edit = true;
         bash = true;
-      };
-      keybinds = {
-        editor_open = "ctrl+o";
       };
       provider = {
         gemini = {

@@ -52,7 +52,7 @@
     };
 
     nix-mineral = {
-      url = "github:noisesfromspace/nix-mineral";
+      url = "github:cynicsketch/nix-mineral";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

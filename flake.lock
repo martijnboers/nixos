@@ -654,15 +654,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1771902686,
-        "narHash": "sha256-irAXYzB/ZJxQ6+sGfLjgDT5QVqMvEtJtKGPhzeJUBBQ=",
-        "owner": "noisesfromspace",
+        "lastModified": 1776723330,
+        "narHash": "sha256-5dLrdIhNrb91CheZiCgW6EP6FqT1Ff2CqgkxaODv3YE=",
+        "owner": "cynicsketch",
         "repo": "nix-mineral",
-        "rev": "bc853fa1d5dbe4122aac3952804c493eb5ffe9a1",
+        "rev": "9541f5814c458aee1ae8d94fada1a1648688516b",
         "type": "github"
       },
       "original": {
-        "owner": "noisesfromspace",
+        "owner": "cynicsketch",
         "repo": "nix-mineral",
         "type": "github"
       }
@@ -1022,11 +1022,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1773157609,
-        "narHash": "sha256-YfSbGJx2aysQ+CjbYltHV35RQUNMxv6j/pcbzDKtzlE=",
+        "lastModified": 1776974574,
+        "narHash": "sha256-kcPpqe9amOIMl7S8PflhCa/PcHzNxJcgOUGrYPGrO84=",
         "ref": "refs/heads/master",
-        "rev": "8218c4bd5358045604f459f8915e27296201bf45",
-        "revCount": 65,
+        "rev": "33aa6b74a48da8875174ff8e1d78d045965fba29",
+        "revCount": 74,
         "type": "git",
         "url": "file:///etc/nixos/secrets"
       },

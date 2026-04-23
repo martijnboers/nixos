@@ -200,13 +200,13 @@ in
         };
 
         imap = {
-          host = "mx1.plebian.nl";
+          host = "mx1.boers.email";
           port = 993;
           tls.enable = true;
         };
 
         smtp = {
-          host = "mx1.plebian.nl";
+          host = "mx1.boers.email";
           port = 587;
           tls = {
             enable = true;
