@@ -11,11 +11,11 @@ rustPlatform.buildRustPackage {
 
   src = pkgs.fetchgit {
     url = "https://seed.boers.email/z2AdUML1AaZmUVidUJ4vwQDJhmvKg.git";
-    rev = "9ee96b7fb7b747be1e957f8c059540c486739cb5";
-    hash = "sha256-KA85DXZDuNdL/UkEbgxCCBW+Ft0xb+hUFd5HL1Pw5ag=";
+    rev = "fb72f998b18d7c38a85d4e5b89af3e34ce5ff9e9";
+    hash = "sha256-OpqkIQYYOdsjV5FkVL3LvQ1tL2WV+Agtk9YX7bUqAWo=";
   };
 
-  cargoHash = "sha256-Cu4JlPFPoJ2pndsPrrhSY8Hy4PFodVjDol41ng0UtaE=";
+  cargoHash = "sha256-kb8VxlFf6oNbi0x8gkWSVJ+OHr9sMUYN9IQ55o2fxT8=";
 
   nativeBuildInputs = [
     pkg-config

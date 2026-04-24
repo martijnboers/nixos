@@ -105,9 +105,6 @@ in
       <C-s> = :split<Enter>
       <C-v> = :vsplit<Enter>
 
-      [messages:folder=Drafts]
-      <Enter> = :recall<Enter>
-
       [view]
       / = :toggle-key-passthrough<Enter>/
       q = :close<Enter>
@@ -191,22 +188,22 @@ in
           extraAccounts = rec {
             from = "martijn@boers.email";
             source = "maildir://~/Maildir/Stalwart";
-            folders = "Inbox,Sent Items,Signups,Shipping,Bewaren,Werk,Archive,Drafts,Deleted Items,Junk Mail";
+            folders = "Inbox,Sent Items,Signups,Shipping,Bewaren,Werk,Archive,Deleted Items,Junk Mail";
             folders-sort = folders;
             copy-to = "Sent Items";
             check-mail-cmd = "${pkgs.isync}/bin/mbsync main";
-            check-mail = "1m";
+            check-mail = "15m";
           };
         };
 
         imap = {
-          host = "mx1.boers.email";
+          host = "mx1.plebian.nl";
           port = 993;
           tls.enable = true;
         };
 
         smtp = {
-          host = "mx1.boers.email";
+          host = "mx1.plebian.nl";
           port = 587;
           tls = {
             enable = true;

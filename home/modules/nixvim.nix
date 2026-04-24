@@ -566,40 +566,6 @@ in
             "v"
           ];
         })
-
-        # Scratch files
-        (lua {
-          key = "<Leader>nc";
-          desc = "New note file";
-          code = # lua
-            ''
-              local note_dir = '/home/martijn/Notes/sessions'
-              vim.fn.mkdir(note_dir, 'p')
-              vim.ui.input({ prompt = 'note name: ', default = os.date('%Y-%m-%d_') }, function(name)
-                if name and name ~= "" then
-                  vim.cmd("edit " .. vim.fn.fnameescape(note_dir .. "/" .. name))
-                end
-              end)
-            '';
-        })
-        (lua {
-          key = "<Leader>nf";
-          desc = "Find note files";
-          code = # lua
-            ''
-              local note_dir = '/home/martijn/Notes/sessions'
-              vim.fn.mkdir(note_dir, 'p')
-              MiniPick.builtin.files({
-                tool = 'git',
-              }, {
-                source = {
-                  name = 'note files',
-                  cwd = note_dir,
-                }
-              })
-            '';
-        })
-
         (lua {
           key = "<Leader>s";
           desc = "Find symbols";
@@ -632,11 +598,6 @@ in
             desc = "Sent real Esc";
           };
         }
-        (lua {
-          key = "<Leader>n";
-          desc = "List notifications";
-          code = "MiniNotify.show_history()";
-        })
 
         # File Explorer
         (lua {
