@@ -135,11 +135,175 @@ in
         wildmode = "longest:full,full"; # Complete longest common string, then each full match
         winborder = "single";
         completeopt = "menu,menuone,noinsert"; # Show menu, autoselect first, don't auto-insert
-        complete = "."; # Current buffer only
+        complete = ".,w,b"; # Current buffer, windows, and other loaded buffers
         infercase = true; # Infer case for completion
         pumheight = 15; # Max items in completion menu
         pumwidth = 30; # Minimum width of completion menu
       };
+
+      keymaps = with keymaps; [
+        # Picker / Fuzzy Finding
+        (lua {
+          key = "<Leader>f";
+          desc = "Find";
+          code = "MiniPick.builtin.grep_live()";
+          modes = [
+            "n"
+            "v"
+          ];
+        })
+        (lua {
+          key = "<Leader>l";
+          desc = "Last picker";
+          code = "MiniPick.builtin.resume()";
+          modes = [
+            "n"
+            "v"
+          ];
+        })
+        (lua {
+          key = "<Leader>o";
+          desc = "Files";
+          code = "MiniPick.builtin.files()";
+        })
+        (lua {
+          key = "<Leader>b";
+          desc = "Find in buffers";
+          code = "MiniPick.builtin.buffers()";
+        })
+        (lua {
+          key = "<Leader>/";
+          desc = "Find in buffer lines";
+          code = "MiniExtra.pickers.buf_lines({scope = 'current'})";
+        })
+        (lua {
+          key = "<Leader>h";
+          desc = "Find help pages";
+          code = "MiniPick.builtin.help()";
+        })
+        (lua {
+          key = "<Leader>x";
+          desc = "Find errors";
+          code = "MiniExtra.pickers.diagnostic()";
+          modes = [
+            "n"
+            "v"
+          ];
+        })
+        (lua {
+          key = "<Leader>s";
+          desc = "Find symbols";
+          code = "MiniExtra.pickers.lsp({scope = 'document_symbol'})";
+        })
+        (lua {
+          key = "<Leader>r";
+          desc = "Show registers";
+          code = "MiniExtra.pickers.registers()";
+        })
+
+        # Quality of life
+        {
+          mode = "t";
+          key = "<esc>";
+          # :tnoremap <Esc> <C-\><C-N>
+          action = "<C-\\><C-n>";
+          options = {
+            silent = true;
+            desc = "Exit terminal mode";
+          };
+        }
+        {
+          mode = "t";
+          key = "<C-esc>";
+          # :tnoremap <S-Esc> <Esc>
+          action = "<Esc>";
+          options = {
+            silent = true;
+            desc = "Sent real Esc";
+          };
+        }
+
+        # File Explorer
+        (lua {
+          key = "<Leader>e";
+          desc = "Toggle MiniFiles";
+          code = "_G.Maatwerk.ui.toggle_explorer()";
+          modes = [
+            "n"
+            "v"
+          ];
+        })
+
+        (git {
+          key = "gb";
+          desc = "Git blame";
+          command = "log --patch --max-count=50 -- %";
+        })
+        (lua {
+          key = "gb";
+          desc = "Git blame";
+          code = "MiniGit.show_at_cursor()";
+          modes = [ "v" ];
+        })
+        (cmd {
+          key = "gl";
+          desc = "Neogit log";
+          command = "NeogitLogCurrent";
+          modes = [ "n" ];
+        })
+        {
+          mode = "v";
+          key = "gr";
+          action = ":w !git apply --whitespace=nowarn --recount -R<CR>";
+          options = {
+            silent = true;
+            desc = "Git Revert selected hunk";
+          };
+        }
+        (cmd {
+          key = "go";
+          desc = "Open file in source control";
+          command = "GitPortal";
+        })
+        (lua {
+          key = "g\\";
+          desc = "Show buffer changes";
+          code = "MiniDiff.toggle_overlay()";
+        })
+        (cmd {
+          key = "gu";
+          desc = "Open neogit";
+          command = "Neogit";
+        })
+
+        # Clipboard
+        (mk {
+          key = "<Leader>y";
+          desc = "Add to sytem clipboard";
+          action = ''"+y'';
+          modes = [ "v" ];
+        })
+        (cmd {
+          key = "<Leader>y";
+          desc = "Add whole file to sytem clipboard";
+          command = "%y+";
+          modes = [ "n" ];
+        })
+
+        # Window resizing
+        (lua {
+          key = "-";
+          desc = "Decrease window size";
+          modes = [ "n" ];
+          code = "_G.Maatwerk.ui.resize_window(-3)";
+        })
+        (lua {
+          key = "+";
+          desc = "Increase window size";
+          modes = [ "n" ];
+          code = "_G.Maatwerk.ui.resize_window(3)";
+        })
+      ];
 
       diagnostic.settings = {
         virtual_text = false;
@@ -197,6 +361,21 @@ in
             hide_cursor = true;
             easing = "quadratic";
           };
+        };
+
+        neogit = {
+          enable = true;
+          settings = {
+            disable_commit_confirmation = true;
+            integrations = {
+              mini_pick = true;
+              diffview = true;
+            };
+          };
+        };
+
+        diffview = {
+          enable = true;
         };
 
         gitportal = {
@@ -303,453 +482,247 @@ in
         };
       };
 
-      autoCmd =
-        let
-          updateGit = helpers.mkRaw ''
-            function(args)
-              local buf = args.buf or vim.api.nvim_get_current_buf()
-              local summary = vim.b[buf].minigit_summary
-              if not summary or not summary.repo then return end
-
-              vim.system(
-                { "git", "status", "--porcelain=v2", "--branch" },
-                { text = true, cwd = summary.root },
-                function(obj)
-                  local ahead, behind, dirty = 0, 0, false
-                  
-                  if obj.code == 0 and obj.stdout then
-                    local a, b = obj.stdout:match("# branch%.ab %+(%d+) %-(%d+)")
-                    ahead, behind = a and tonumber(a) or 0, b and tonumber(b) or 0
-                    dirty = obj.stdout:find("\n[^#]") ~= nil
-                  end
-
-                  vim.schedule(function()
-                    if vim.api.nvim_buf_is_valid(buf) then
-                      vim.b[buf].git_ahead = ahead
-                      vim.b[buf].git_behind = behind
-                      vim.b[buf].git_dirty = dirty
-                      vim.cmd("redrawstatus")
-                    end
-                  end)
-                end
-              )
+      autoCmd = [
+        {
+          event = "User";
+          pattern = [
+            "MiniGitUpdated"
+            "MiniDiffUpdated"
+            "MiniGitCommandDone"
+          ];
+          callback = helpers.mkRaw "_G.Maatwerk.git.update_status";
+        }
+        {
+          event = [
+            "FocusGained"
+            "BufEnter"
+          ];
+          callback = helpers.mkRaw "_G.Maatwerk.git.update_status";
+        }
+        {
+          event = "FileType";
+          pattern = [
+            "git"
+            "diff"
+          ];
+          callback = helpers.mkRaw ''
+            function()
+              vim.opt_local.foldmethod = "expr"
+              vim.opt_local.foldexpr = "v:lua.MiniGit.diff_foldexpr()"
+              vim.opt_local.foldlevel = 0
+              -- Tells `gf` to remove 'a/' or 'b/' from the start of the path
+              vim.opt_local.includeexpr = [[substitute(v:fname, '^[ab]/', "", "")]]
             end
           '';
+        }
+        {
+          event = [ "FileType" ];
+          pattern = [
+            "markdown"
+            "latex"
+            "text"
+          ];
+          callback = helpers.mkRaw ''
+            function()
+              vim.opt_local.spell = true
+              vim.opt_local.linebreak = true
+            end
+          '';
+        }
+        {
+          event = "TextYankPost";
+          callback = helpers.mkRaw ''
+            function()
+              vim.highlight.on_yank({ higroup = "YankHighlight", timeout = 150 })
+            end
+          '';
+        }
+        {
+          event = "CursorMoved";
+          callback = helpers.mkRaw "_G.Maatwerk.ui.update_search_count";
+        }
+        {
+          event = "CmdlineLeave";
+          callback = helpers.mkRaw "_G.Maatwerk.ui.clear_search_count";
+        }
+        {
+          event = "User";
+          pattern = [ "MiniFilesBufferCreate" ];
+          callback = helpers.mkRaw ''
+            function(args)
+              local buf_id = args.data.buf_id
 
-        in
-        [
-          {
-            event = "User";
-            pattern = [
-              "MiniGitUpdated"
-              "MiniDiffUpdated"
-              "MiniGitCommandDone"
-            ];
-            callback = updateGit;
-          }
-          {
-            event = [
-              "FocusGained"
-              "BufEnter"
-            ];
-            callback = updateGit;
-          }
-          {
-            event = "FileType";
-            pattern = [
-              "git"
-              "diff"
-            ];
-            callback = helpers.mkRaw ''
-              function()
-                vim.opt_local.foldmethod = "expr"
-                vim.opt_local.foldexpr = "v:lua.MiniGit.diff_foldexpr()"
-                vim.opt_local.foldlevel = 0
-                -- Tells `gf` to remove 'a/' or 'b/' from the start of the path
-                vim.opt_local.includeexpr = [[substitute(v:fname, '^[ab]/', "", "")]]
-              end
-            '';
-          }
-          {
-            event = [ "FileType" ];
-            pattern = [
-              "markdown"
-              "latex"
-              "text"
-            ];
-            callback = helpers.mkRaw ''
-              function()
-                vim.opt_local.spell = true
-                vim.opt_local.linebreak = true
-              end
-            '';
-          }
-          {
-            event = "TextYankPost";
-            callback = helpers.mkRaw ''
-              function()
-                vim.highlight.on_yank({ higroup = "YankHighlight", timeout = 150 })
-              end
-            '';
-          }
-          {
-            event = "CursorMoved";
-            callback = helpers.mkRaw ''
-              function()
-                if vim.v.hlsearch == 0 then return end
-                local bufnr = vim.api.nvim_get_current_buf()
-                local ns = vim.api.nvim_create_namespace('searchcount')
-                vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
+              local map_split = function(buf_id, lhs, direction)
+                local rhs = function()
+                  local cur_target = MiniFiles.get_explorer_state().target_window
+                  local new_target = vim.api.nvim_win_call(cur_target, function()
+                    vim.cmd(direction .. ' split')
+                    return vim.api.nvim_get_current_win()
+                  end)
 
-                local pattern = vim.fn.getreg('/')
-                local cursor = vim.api.nvim_win_get_cursor(0)
-                local cursor_line, cursor_col = cursor[1], cursor[2] + 1
-
-                -- Find match at or before cursor (backward search, don't move cursor)
-                local match_line, match_col = unpack(vim.fn.searchpos(pattern, 'bcn'))
-                if match_line == 0 then return end
-
-                -- Only show when cursor is on the same line as the match
-                if cursor_line ~= match_line then return end
-
-                -- Get correct match index by temporarily moving to match position
-                local saved_pos = vim.api.nvim_win_get_cursor(0)
-                vim.api.nvim_win_set_cursor(0, {match_line, match_col - 1})
-                local count = vim.fn.searchcount({maxcount = 1000, timeout = 100})
-                vim.api.nvim_win_set_cursor(0, saved_pos)
-
-                if count.current > 0 and count.total > 0 then
-                  local text = string.format(" -- [%d/%d]", count.current, count.total)
-                  vim.api.nvim_buf_set_extmark(bufnr, ns, match_line - 1, match_col - 1, {
-                    virt_text = {{text, "Question"}},
-                    virt_text_pos = "eol",
-                    priority = 100,
-                  })
-                end
-              end
-            '';
-          }
-          {
-            event = "CmdlineLeave";
-            callback = helpers.mkRaw ''
-              function()
-                local cmd = vim.fn.getcmdline()
-                if cmd == "noh" or cmd == "nohlsearch" then
-                  local ns = vim.api.nvim_create_namespace('searchcount')
-                  vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
-                end
-              end
-            '';
-          }
-          {
-            event = "User";
-            pattern = [ "MiniFilesBufferCreate" ];
-            callback = helpers.mkRaw ''
-              function(args)
-                local buf_id = args.data.buf_id
-
-                local map_split = function(buf_id, lhs, direction)
-                  local rhs = function()
-                    local cur_target = MiniFiles.get_explorer_state().target_window
-                    local new_target = vim.api.nvim_win_call(cur_target, function()
-                      vim.cmd(direction .. ' split')
-                      return vim.api.nvim_get_current_win()
-                    end)
-
-                    MiniFiles.set_target_window(new_target)
-                    MiniFiles.go_in()
-                    MiniFiles.close()
-                  end
-
-                  local desc = 'Split ' .. direction
-                  vim.keymap.set('n', lhs, rhs, { buffer = buf_id, desc = desc })
+                  MiniFiles.set_target_window(new_target)
+                  MiniFiles.go_in()
+                  MiniFiles.close()
                 end
 
-                map_split(buf_id, '<C-s>', 'belowright horizontal')
-                map_split(buf_id, '<C-v>', 'belowright vertical')
-                map_split(buf_id, '<C-t>', 'tab')
-
-                -- Set focused directory as current working directory
-                local set_cwd = function()
-                  local path = (MiniFiles.get_fs_entry() or {}).path
-                  if path == nil then return vim.notify('Cursor is not on valid entry') end
-                  local dir = vim.fs.dirname(path)
-                  vim.fn.chdir(dir)
-                  vim.notify('Changed cwd to ' .. dir)
-                end
-
-                -- Yank in register full path of entry under cursor
-                local yank_path = function()
-                  local path = (MiniFiles.get_fs_entry() or {}).path
-                  if path == nil then return vim.notify('Cursor is not on valid entry') end
-                  vim.fn.setreg(vim.v.register, path)
-                  vim.fn.setreg('+', path)
-                  vim.notify('Yanked path to clipboard: ' .. path)
-                end
-
-                -- Open path with system default handler (useful for non-text files)
-                local ui_open = function()
-                  local path = (MiniFiles.get_fs_entry() or {}).path
-                  if path == nil then return vim.notify('Cursor is not on valid entry') end
-                  vim.ui.open(path)
-                  vim.notify('Opened: ' .. path)
-                end
-
-                vim.keymap.set('n', '~', set_cwd,   { buffer = buf_id, desc = 'Set cwd' })
-                vim.keymap.set('n', 'x', ui_open,   { buffer = buf_id, desc = 'OS open' })
-                vim.keymap.set('n', 'Y', yank_path, { buffer = buf_id, desc = 'Yank path' })
+                local desc = 'Split ' .. direction
+                vim.keymap.set('n', lhs, rhs, { buffer = buf_id, desc = desc })
               end
-            '';
-          }
-          {
-            event = [ "VimLeavePre" ];
-            callback = helpers.mkRaw ''
-              function()
-                if vim.v.this_session ~= "" then
-                  vim.cmd("mksession! " .. vim.fn.fnameescape(vim.v.this_session))
-                end
+
+              map_split(buf_id, '<C-s>', 'belowright horizontal')
+              map_split(buf_id, '<C-v>', 'belowright vertical')
+              map_split(buf_id, '<C-t>', 'tab')
+
+              -- Set focused directory as current working directory
+              local set_cwd = function()
+                local path = (MiniFiles.get_fs_entry() or {}).path
+                if path == nil then return vim.notify('Cursor is not on valid entry') end
+                local dir = vim.fs.dirname(path)
+                vim.fn.chdir(dir)
+                vim.notify('Changed cwd to ' .. dir)
               end
-            '';
-          }
-        ];
+
+              -- Yank in register full path of entry under cursor
+              local yank_path = function()
+                local path = (MiniFiles.get_fs_entry() or {}).path
+                if path == nil then return vim.notify('Cursor is not on valid entry') end
+                vim.fn.setreg(vim.v.register, path)
+                vim.fn.setreg('+', path)
+                vim.notify('Yanked path to clipboard: ' .. path)
+              end
+
+              -- Open path with system default handler (useful for non-text files)
+              local ui_open = function()
+                local path = (MiniFiles.get_fs_entry() or {}).path
+                if path == nil then return vim.notify('Cursor is not on valid entry') end
+                vim.ui.open(path)
+                vim.notify('Opened: ' .. path)
+              end
+
+              vim.keymap.set('n', '~', set_cwd,   { buffer = buf_id, desc = 'Set cwd' })
+              vim.keymap.set('n', 'x', ui_open,   { buffer = buf_id, desc = 'OS open' })
+              vim.keymap.set('n', 'Y', yank_path, { buffer = buf_id, desc = 'Yank path' })
+            end
+          '';
+        }
+        {
+          event = [ "VimLeavePre" ];
+          callback = helpers.mkRaw ''
+            function()
+              if vim.v.this_session ~= "" then
+                vim.cmd("mksession! " .. vim.fn.fnameescape(vim.v.this_session))
+              end
+            end
+          '';
+        }
+      ];
+
+      extraConfigLua = ''
+        _G.Maatwerk = _G.Maatwerk or {}
+        _G.Maatwerk.git = _G.Maatwerk.git or {}
+        _G.Maatwerk.ui = _G.Maatwerk.ui or {}
+
+        _G.Maatwerk.git.update_status = function(args)
+          local buf = args.buf or vim.api.nvim_get_current_buf()
+          local summary = vim.b[buf].minigit_summary
+          if not summary or not summary.repo then return end
+
+          vim.system(
+            { "git", "status", "--porcelain=v2", "--branch" },
+            { text = true, cwd = summary.root },
+            function(obj)
+              local ahead, behind, dirty = 0, 0, false
+              
+              if obj.code == 0 and obj.stdout then
+                local a, b = obj.stdout:match("# branch%.ab %+(%d+) %-(%d+)")
+                ahead, behind = a and tonumber(a) or 0, b and tonumber(b) or 0
+                dirty = obj.stdout:find("\n[^#]") ~= nil
+              end
+
+              vim.schedule(function()
+                if vim.api.nvim_buf_is_valid(buf) then
+                  vim.b[buf].git_ahead = ahead
+                  vim.b[buf].git_behind = behind
+                  vim.b[buf].git_dirty = dirty
+                  vim.cmd("redrawstatus")
+                end
+              end)
+            end
+          )
+        end
+
+        _G.Maatwerk.ui.resize_window = function(amount)
+          if vim.fn.winnr("$") == 1 then return end
+          local width = vim.api.nvim_win_get_width(0)
+          local total_width = vim.o.columns
+          if width >= total_width - 2 then
+            vim.cmd("resize " .. (amount > 0 and "+" or "") .. amount)
+          else
+            vim.cmd("vertical resize " .. (amount > 0 and "+" or "") .. amount)
+          end
+        end
+
+        _G.Maatwerk.ui.toggle_explorer = function()
+          local explorer_state = MiniFiles.get_explorer_state()
+          local is_open = explorer_state ~= nil and explorer_state.target_window ~= nil
+            and vim.api.nvim_win_is_valid(explorer_state.target_window)
+
+          if is_open then
+            MiniFiles.close()
+            return
+          end
+
+          local buf_name = vim.api.nvim_buf_get_name(0)
+          local is_valid_file = buf_name ~= "" and vim.bo.buftype == "" and vim.fn.filereadable(buf_name) == 1
+          if is_valid_file then
+            MiniFiles.open(buf_name, false)
+          else
+            MiniFiles.open(vim.fn.getcwd(), false)
+          end
+        end
+
+        _G.Maatwerk.ui.update_search_count = function()
+          if vim.v.hlsearch == 0 then return end
+          local bufnr = vim.api.nvim_get_current_buf()
+          local ns = vim.api.nvim_create_namespace('searchcount')
+          vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
+
+          local pattern = vim.fn.getreg('/')
+          local cursor = vim.api.nvim_win_get_cursor(0)
+          local cursor_line, cursor_col = cursor[1], cursor[2] + 1
+
+          local match_line, match_col = unpack(vim.fn.searchpos(pattern, 'bcn'))
+          if match_line == 0 then return end
+          if cursor_line ~= match_line then return end
+
+          local saved_pos = vim.api.nvim_win_get_cursor(0)
+          vim.api.nvim_win_set_cursor(0, {match_line, match_col - 1})
+          local count = vim.fn.searchcount({maxcount = 1000, timeout = 100})
+          vim.api.nvim_win_set_cursor(0, saved_pos)
+
+          if count.current > 0 and count.total > 0 then
+            local text = string.format(" -- [%d/%d]", count.current, count.total)
+            vim.api.nvim_buf_set_extmark(bufnr, ns, match_line - 1, match_col - 1, {
+              virt_text = {{text, "Question"}},
+              virt_text_pos = "eol",
+              priority = 100,
+            })
+          end
+        end
+
+        _G.Maatwerk.ui.clear_search_count = function()
+          local cmd = vim.fn.getcmdline()
+          if cmd == "noh" or cmd == "nohlsearch" then
+            local ns = vim.api.nvim_create_namespace('searchcount')
+            vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
+          end
+        end
+      '';
 
       clipboard = {
         providers.wl-copy.enable = true;
       };
 
-      keymaps = with keymaps; [
-        # Picker / Fuzzy Finding
-        (lua {
-          key = "<Leader>f";
-          desc = "Find";
-          code = "MiniPick.builtin.grep_live()";
-          modes = [
-            "n"
-            "v"
-          ];
-        })
-        (lua {
-          key = "<Leader>l";
-          desc = "Last picker";
-          code = "MiniPick.builtin.resume()";
-          modes = [
-            "n"
-            "v"
-          ];
-        })
-        (lua {
-          key = "<Leader>o";
-          desc = "Files";
-          code = "MiniPick.builtin.files()";
-        })
-        (lua {
-          key = "<Leader>b";
-          desc = "Find in buffers";
-          code = "MiniPick.builtin.buffers()";
-        })
-        (lua {
-          key = "<Leader>/";
-          desc = "Find in buffer lines";
-          code = "MiniExtra.pickers.buf_lines({scope = 'current'})";
-        })
-        (lua {
-          key = "<Leader>h";
-          desc = "Find help pages";
-          code = "MiniPick.builtin.help()";
-        })
-        (lua {
-          key = "<Leader>x";
-          desc = "Find errors";
-          code = "MiniExtra.pickers.diagnostic()";
-          modes = [
-            "n"
-            "v"
-          ];
-        })
-        (lua {
-          key = "<Leader>s";
-          desc = "Find symbols";
-          code = "MiniExtra.pickers.lsp({scope = 'document_symbol'})";
-        })
-        (lua {
-          key = "<Leader>r";
-          desc = "Show registers";
-          code = "MiniExtra.pickers.registers()";
-        })
-
-        # Quality of life
-        {
-          mode = "t";
-          key = "<esc>";
-          # :tnoremap <Esc> <C-\><C-N>
-          action = "<C-\\><C-n>";
-          options = {
-            silent = true;
-            desc = "Exit terminal mode";
-          };
-        }
-        {
-          mode = "t";
-          key = "<C-esc>";
-          # :tnoremap <S-Esc> <Esc>
-          action = "<Esc>";
-          options = {
-            silent = true;
-            desc = "Sent real Esc";
-          };
-        }
-
-        # File Explorer
-        (lua {
-          key = "<Leader>e";
-          desc = "Toggle MiniFiles";
-          code = # lua
-            ''
-              -- Check if explorer is currently open in a valid window
-              local explorer_state = MiniFiles.get_explorer_state()
-              local is_open = explorer_state ~= nil and explorer_state.target_window ~= nil
-                and vim.api.nvim_win_is_valid(explorer_state.target_window)
-
-              if is_open then
-                MiniFiles.close()
-                return
-              end
-
-              local buf_name = vim.api.nvim_buf_get_name(0)
-              -- Check if buffer name is empty or starts with a special prefix (like term://)
-              local is_valid_file = buf_name ~= "" and vim.bo.buftype == "" and vim.fn.filereadable(buf_name) == 1
-              if is_valid_file then
-                MiniFiles.open(buf_name, false)
-              else
-                -- Fallback to opening at the current working directory
-                MiniFiles.open(vim.fn.getcwd(), false)
-              end
-            '';
-          modes = [
-            "n"
-            "v"
-          ];
-        })
-
-        (git {
-          key = "gb";
-          desc = "Git blame";
-          command = "log --patch --max-count=50 -- %";
-        })
-        (lua {
-          key = "gb";
-          desc = "Git blame";
-          code = "MiniGit.show_at_cursor()";
-          modes = [ "v" ];
-        })
-        (git {
-          key = "glg";
-          desc = "Git log";
-          command = "log --patch --max-count=50";
-        })
-        {
-          mode = "v";
-          key = "gr";
-          action = ":w !git apply --whitespace=nowarn --recount -R<CR>";
-          options = {
-            silent = true;
-            desc = "Git Revert selected hunk";
-          };
-        }
-        (cmd {
-          key = "go";
-          desc = "Open file in source control";
-          command = "GitPortal";
-        })
-        (lua {
-          key = "g\\";
-          desc = "Show buffer changes";
-          code = "MiniDiff.toggle_overlay()";
-        })
-        (lua {
-          key = "gu";
-          desc = "Unstaged hunks";
-          code = "MiniExtra.pickers.git_hunks()";
-        })
-        (lua {
-          key = "gs";
-          desc = "Staged hunks";
-          code = "MiniExtra.pickers.git_hunks({scope = \"staged\"})";
-        })
-        (git {
-          key = "<Leader>cc";
-          desc = "Git commit --verbose";
-          command = "commit --verbose";
-        })
-        (gitChained {
-          key = "<Leader>ca";
-          desc = "Git add all";
-          commands = [
-            "add ."
-            "commit --verbose"
-          ];
-        })
-        (gitChained {
-          key = "<Leader>cf";
-          desc = "fixup";
-          commands = [
-            "add ."
-            "commit --amend --no-edit"
-          ];
-        })
-
-        # Clipboard
-        (mk {
-          key = "<Leader>y";
-          desc = "Add to sytem clipboard";
-          action = ''"+y'';
-          modes = [ "v" ];
-        })
-        (cmd {
-          key = "<Leader>y";
-          desc = "Add whole file to sytem clipboard";
-          command = "%y+";
-          modes = [ "n" ];
-        })
-
-        # Window resizing
-        (lua {
-          key = "-";
-          desc = "Decrease window size";
-          modes = [ "n" ];
-          code = # lua
-            ''
-              if vim.fn.winnr("$") == 1 then return end
-
-              local width = vim.api.nvim_win_get_width(0)
-              local total_width = vim.o.columns
-
-              if width >= total_width - 2 then
-                vim.cmd("resize -3")
-              else
-                vim.cmd("vertical resize -3")
-              end
-            '';
-        })
-        (lua {
-          key = "+";
-          desc = "Increase window size";
-          modes = [ "n" ];
-          code = # lua
-            ''
-              if vim.fn.winnr("$") == 1 then return end
-
-              local width = vim.api.nvim_win_get_width(0)
-              local total_width = vim.o.columns
-
-              if width >= total_width - 2 then
-                vim.cmd("resize +3")
-              else
-                vim.cmd("vertical resize +3")
-              end
-            '';
-        })
-      ];
     };
   };
 }

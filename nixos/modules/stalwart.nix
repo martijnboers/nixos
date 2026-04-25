@@ -38,6 +38,15 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    services.caddy.virtualHosts = {
+      "admin-${toString cfg.nodeId}-mail.thuis" = {
+        extraConfig = ''
+          import headscale
+          reverse_proxy http://127.0.0.1:8629
+        '';
+      };
+    };
+
     networking.firewall = lib.mkIf cfg.openFirewall {
       allowedTCPPorts = [
         25 # SMTP
@@ -302,17 +311,6 @@ in
 
       };
 
-    };
-
-    # Caddy reverse proxy for Stalwart web admin (Tailscale internal only)
-    # Each node gets its own admin URL based on coordination ID
-    services.caddy.virtualHosts = {
-      "admin-${toString cfg.nodeId}-mail.thuis" = {
-        extraConfig = ''
-          import headscale
-          reverse_proxy http://127.0.0.1:8629
-        '';
-      };
     };
 
     # Ensure Stalwart can connect to Tailscale network and has certificates

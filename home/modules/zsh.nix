@@ -162,6 +162,8 @@ in
                   gpg-connect-agent updatestartuptty /bye 
                   gpg --card-status > /dev/null 
                   echo "Restart GPG daemon"
+                  systemctl --user restart yubikey-touch-detector --verbose
+                  echo "Restart touch detector"
                 }
 
               '';

@@ -110,6 +110,8 @@ in
             gopls.enable = true;
             ccls.enable = true;
             zls.enable = true;
+            ruby_lsp.enable = true;
+            jdtls.enable = true; # Java (nice naming)
             vtsls.enable = true; # JavaScript (nice naming)
             yamlls.enable = true;
             markdown_oxide = {

@@ -161,58 +161,62 @@ in
     age.secrets.stalwart-password.file = "${inputs.secrets}/stalwart-password.age";
 
     accounts.email.accounts = {
-      main = {
-        primary = true;
-        realName = "Martijn Boers";
-        address = "martijn@boers.email";
-        userName = "martijn";
-        maildir.path = "Stalwart";
+      main =
+        let
+          address = "martijn@boers.email";
+        in
+        {
+          inherit address;
+          primary = true;
+          realName = "Martijn Boers";
+          userName = address;
+          maildir.path = "Stalwart";
 
-        gpg = {
-          key = "C1E3 5670 353B 3516 BAA3 51D2 8BA2 F86B 654C 7078";
-          signByDefault = true;
-        };
-
-        mbsync = {
-          enable = true;
-          create = "both";
-          expunge = "both";
-          remove = "both";
-          patterns = [ "*" ];
-        };
-
-        notmuch.enable = true;
-
-        aerc = {
-          enable = true;
-          extraAccounts = rec {
-            from = "martijn@boers.email";
-            source = "maildir://~/Maildir/Stalwart";
-            folders = "Inbox,Sent Items,Signups,Shipping,Bewaren,Werk,Archive,Deleted Items,Junk Mail";
-            folders-sort = folders;
-            copy-to = "Sent Items";
-            check-mail-cmd = "${pkgs.isync}/bin/mbsync main";
-            check-mail = "15m";
+          gpg = {
+            key = "C1E3 5670 353B 3516 BAA3 51D2 8BA2 F86B 654C 7078";
+            signByDefault = true;
           };
-        };
 
-        imap = {
-          host = "mx1.plebian.nl";
-          port = 993;
-          tls.enable = true;
-        };
-
-        smtp = {
-          host = "mx1.plebian.nl";
-          port = 587;
-          tls = {
+          mbsync = {
             enable = true;
-            useStartTls = true;
+            create = "both";
+            expunge = "both";
+            remove = "both";
+            patterns = [ "*" ];
           };
-        };
 
-        passwordCommand = "cat ${config.age.secrets.stalwart-password.path}";
-      };
+          notmuch.enable = true;
+
+          aerc = {
+            enable = true;
+            extraAccounts = rec {
+              from = address;
+              source = "maildir://~/Maildir/Stalwart";
+              folders = "Inbox,Sent Items,Signups,Shipping,Bewaren,Werk,Archive,Deleted Items,Junk Mail";
+              folders-sort = folders;
+              copy-to = "Sent Items";
+              check-mail-cmd = "${pkgs.isync}/bin/mbsync main";
+              check-mail-timeout = "360s";
+            };
+          };
+
+          imap = {
+            host = "mx1.boers.email";
+            port = 993;
+            tls.enable = true;
+          };
+
+          smtp = {
+            host = "mx1.boers.email";
+            port = 587;
+            tls = {
+              enable = true;
+              useStartTls = true;
+            };
+          };
+
+          passwordCommand = "cat ${config.age.secrets.stalwart-password.path}";
+        };
 
     };
   };
