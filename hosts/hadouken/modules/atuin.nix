@@ -20,6 +20,9 @@ in
       }
       respond 403
     '';
+
+    services.postgresqlBackup.databases = [ "atuin" ];
+
     services.atuin = {
       enable = true;
       openRegistration = false;

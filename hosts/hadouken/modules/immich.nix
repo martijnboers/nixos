@@ -30,6 +30,7 @@ in
     ];
     # by default zwembad/app is backed up
     services.borgbackup.jobs.default.paths = [ config.services.immich.mediaLocation ];
+    services.postgresqlBackup.databases = [ "immich" ];
 
     services.immich = {
       enable = true;

@@ -70,6 +70,8 @@ in
         };
     };
 
+    services.postgresqlBackup.databases = [ "mastodon" ];
+
     services.mastodon = {
       enable = true;
       package = pkgs.glitch-soc;

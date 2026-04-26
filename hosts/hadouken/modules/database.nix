@@ -45,10 +45,19 @@ in
     services.postgresql = {
       enable = true;
       enableTCPIP = true;
+      ensureDatabases = [ "umami" ];
+      ensureUsers = [
+        {
+          name = "umami";
+          ensureDBOwnership = true;
+          ensureClauses.login = true;
+        }
+      ];
       authentication = lib.mkOverride 10 ''
         #type database  DBuser  range		        auth-method
         local all       all                     trust
-        host  all       all     100.64.0.0/10   trust
+        host  all       all     127.0.0.1/32    trust
+        host  all       all     100.64.0.0/10   scram-sha-256
       '';
     };
 
@@ -75,12 +84,8 @@ in
     services.postgresqlBackup = {
       enable = true;
       databases = [
-        "mastodon"
-        "atuin"
-        "immich"
-        "pgrok"
-        "fluidcalendar"
         "stalwart"
+        "umami"
       ];
     };
 
