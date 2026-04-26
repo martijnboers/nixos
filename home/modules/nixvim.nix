@@ -52,33 +52,6 @@ let
             action = helpers.mkRaw "function() ${args.code} end";
           }
         );
-
-      git =
-        args:
-        mk (
-          {
-            modes = [
-              "n"
-              "v"
-            ];
-          }
-          // args
-          // {
-            action = "<cmd>Git ${args.command}<cr>";
-          }
-        );
-
-      gitChained =
-        args:
-        mk (
-          {
-            modes = [ "n" ];
-          }
-          // args
-          // {
-            action = builtins.concatStringsSep "" (map (cmd: "<cmd>Git ${cmd}<cr>") args.commands);
-          }
-        );
     };
 in
 {
@@ -234,21 +207,19 @@ in
           ];
         })
 
-        (git {
+        (cmd {
           key = "gb";
           desc = "Git blame";
-          command = "log --patch --max-count=50 -- %";
-        })
-        (lua {
-          key = "gb";
-          desc = "Git blame";
-          code = "MiniGit.show_at_cursor()";
-          modes = [ "v" ];
+          command = "NeogitLogCurrent";
+          modes = [
+            "n"
+            "v"
+          ];
         })
         (cmd {
           key = "gl";
           desc = "Neogit log";
-          command = "NeogitLogCurrent";
+          command = "NeogitLog";
           modes = [ "n" ];
         })
         {
@@ -273,7 +244,7 @@ in
         (cmd {
           key = "gu";
           desc = "Open neogit";
-          command = "Neogit";
+          command = "Neogit kind=split";
         })
 
         # Clipboard
@@ -398,7 +369,7 @@ in
             files.enable = true; # file explorer
             extra.enable = true; # more picker sources
             icons.enable = true; # icons support for extensions
-            git.enable = true; # :git helper functions
+            git.enable = true; # gh and gH
             diff.enable = true; # gitsigns replacement
             completion.enable = true; # autocomplete
             notify.enable = true; # vim.notify capture
@@ -484,36 +455,11 @@ in
 
       autoCmd = [
         {
-          event = "User";
-          pattern = [
-            "MiniGitUpdated"
-            "MiniDiffUpdated"
-            "MiniGitCommandDone"
-          ];
-          callback = helpers.mkRaw "_G.Maatwerk.git.update_status";
-        }
-        {
           event = [
             "FocusGained"
             "BufEnter"
           ];
           callback = helpers.mkRaw "_G.Maatwerk.git.update_status";
-        }
-        {
-          event = "FileType";
-          pattern = [
-            "git"
-            "diff"
-          ];
-          callback = helpers.mkRaw ''
-            function()
-              vim.opt_local.foldmethod = "expr"
-              vim.opt_local.foldexpr = "v:lua.MiniGit.diff_foldexpr()"
-              vim.opt_local.foldlevel = 0
-              -- Tells `gf` to remove 'a/' or 'b/' from the start of the path
-              vim.opt_local.includeexpr = [[substitute(v:fname, '^[ab]/', "", "")]]
-            end
-          '';
         }
         {
           event = [ "FileType" ];

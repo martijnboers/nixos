@@ -33,6 +33,7 @@ let
   shoryukenRecords = [
     "ci"
     "admin-1-mail"
+    "analytics"
   ];
   rekkakenRecords = [
     "notifications"

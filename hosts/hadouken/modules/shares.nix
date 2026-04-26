@@ -15,21 +15,25 @@ in
   config = mkIf cfg.enable {
     fileSystems."/export/music" = {
       device = "/mnt/zwembad/music";
+      fsType = "nfs";
       options = [ "bind" ];
     };
 
     fileSystems."/export/share" = {
       device = "/mnt/zwembad/share";
+      fsType = "nfs";
       options = [ "bind" ];
     };
 
     fileSystems."/export/notes" = {
       device = "/mnt/zwembad/app/notes";
+      fsType = "nfs";
       options = [ "bind" ];
     };
 
     fileSystems."/export/session" = {
       device = "/mnt/zwembad/app/session";
+      fsType = "nfs";
       options = [ "bind" ];
     };
 

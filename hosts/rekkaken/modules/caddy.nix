@@ -41,7 +41,6 @@ in
         "mx2.plebian.nl" = {
           serverAliases = [ "mx2.boers.email" ];
           extraConfig = ''
-            tls postmaster@boers.email 
             respond "Mail server certificate endpoint" 200
           '';
         };
