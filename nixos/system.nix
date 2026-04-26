@@ -87,6 +87,7 @@
     croc # send files
     unaware # mask PII-data
     rlwrap # improve editing
+    nurl # nix fetchUrl
 
     # system tools
     lm_sensors # for `sensors` command

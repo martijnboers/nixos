@@ -150,6 +150,9 @@ in
             "network.cookie.lifetimePolicy" = 0;
             "network.trr.mode" = 2; # fallback to system
             "network.trr.uri" = "https://dns.thuis/dns-query";
+            "network.trr.strict_native_fallback" = false; # Allow native fallback
+            "network.trr.retry_on_recoverable_errors" = true; # Retry on recoverable errors
+            "network.trr.disable-heuristics" = true; # Disables the canary telemetry detection request "use-application-dns.net" for DOH
             "signon.rememberSignons" = false; # builtin password manager
             "extensions.autoDisableScopes" = 0; # auto-enable installed plugins
             "full-screen-api.transition-duration.enter" = "0 0";

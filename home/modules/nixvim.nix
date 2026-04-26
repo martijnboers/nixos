@@ -108,7 +108,7 @@ in
         wildmode = "longest:full,full"; # Complete longest common string, then each full match
         winborder = "single";
         completeopt = "menu,menuone,noinsert"; # Show menu, autoselect first, don't auto-insert
-        complete = ".,w,b"; # Current buffer, windows, and other loaded buffers
+        complete = ".,w"; # Current buffer and windows
         infercase = true; # Infer case for completion
         pumheight = 15; # Max items in completion menu
         pumwidth = 30; # Minimum width of completion menu
@@ -207,30 +207,31 @@ in
           ];
         })
 
+        # Git actions
         (cmd {
           key = "gb";
-          desc = "Git blame";
-          command = "NeogitLogCurrent";
-          modes = [
-            "n"
-            "v"
-          ];
+          desc = "Git blame file";
+          command = "DiffviewFileHistory %";
+          modes = [ "n" ];
+        })
+        (mk {
+          key = "gb";
+          desc = "Git blame lines";
+          action = ":DiffviewFileHistory<cr>";
+          modes = [ "v" ];
         })
         (cmd {
           key = "gl";
-          desc = "Neogit log";
-          command = "NeogitLog";
+          desc = "Commit log";
+          command = "NeogitLog .";
           modes = [ "n" ];
         })
-        {
-          mode = "v";
-          key = "gr";
-          action = ":w !git apply --whitespace=nowarn --recount -R<CR>";
-          options = {
-            silent = true;
-            desc = "Git Revert selected hunk";
-          };
-        }
+        (cmd {
+          key = "gL";
+          desc = "Commit log";
+          command = "DiffviewFileHistory";
+          modes = [ "n" ];
+        })
         (cmd {
           key = "go";
           desc = "Open file in source control";
@@ -261,18 +262,32 @@ in
           modes = [ "n" ];
         })
 
-        # Window resizing
-        (lua {
-          key = "-";
-          desc = "Decrease window size";
+        # Terminal
+        (cmd {
+          key = "<C-w>t";
+          desc = "Terminal split";
+          command = "split | terminal";
           modes = [ "n" ];
-          code = "_G.Maatwerk.ui.resize_window(-3)";
         })
-        (lua {
-          key = "+";
-          desc = "Increase window size";
+
+        # Tab management
+        (cmd {
+          key = "<C-t>n";
+          desc = "New tab";
+          command = "tabnew";
           modes = [ "n" ];
-          code = "_G.Maatwerk.ui.resize_window(3)";
+        })
+        (cmd {
+          key = "<C-t>q";
+          desc = "Close tab";
+          command = "tabclose";
+          modes = [ "n" ];
+        })
+        (cmd {
+          key = "<C-t>o";
+          desc = "Only this tab";
+          command = "tabonly";
+          modes = [ "n" ];
         })
       ];
 
@@ -342,11 +357,29 @@ in
               mini_pick = true;
               diffview = true;
             };
+            mappings = {
+              status = {
+                "?" = false;
+              };
+              popup = {
+                "?" = false;
+                "g?" = "HelpPopup";
+              };
+            };
           };
         };
 
         diffview = {
           enable = true;
+          package = pkgs.vimPlugins.diffview-nvim.overrideAttrs {
+            src = pkgs.fetchFromGitHub {
+              owner = "dlyongemallo";
+              repo = "diffview.nvim";
+              rev = "385f26fd6a50e3b0b11cc9623f1f96cde00ef08c";
+              hash = "sha256-14JZDPF/BYbdY3EWAC509AU4amw5FnV7r0u28vvxJAY=";
+            };
+            doCheck = false;
+          };
         };
 
         gitportal = {
@@ -369,7 +402,6 @@ in
             files.enable = true; # file explorer
             extra.enable = true; # more picker sources
             icons.enable = true; # icons support for extensions
-            git.enable = true; # gh and gH
             diff.enable = true; # gitsigns replacement
             completion.enable = true; # autocomplete
             notify.enable = true; # vim.notify capture
@@ -417,11 +449,9 @@ in
                       if vim.bo[buf].modified and vim.bo[buf].buflisted then n_unwritten = n_unwritten + 1 end
                     end
 
-                    local ahead, behind, dirty = vim.b.git_ahead or 0, vim.b.git_behind or 0, vim.b.git_dirty
-                    local s_arrows = (ahead > 0 and ("↑" .. ahead) or "") .. (ahead > 0 and behind > 0 and " " or "") .. (behind > 0 and ("↓" .. behind) or "")
-                    
-                    local s_state = (n_unwritten > 0) and "●" or (dirty) and "◌" or ""
-                    local s_git = s_state .. (s_state ~= "" and s_arrows ~= "" and " " or "") .. s_arrows
+                    local root = _G.Maatwerk.git.get_git_root(0)
+                    local dirty = root and (vim.g.git_dirty or {})[root]
+                    local s_git = (n_unwritten > 0) and "●" or dirty and "◌" or ""
                     
                     local total_lines = vim.fn.line('$')
                     local percentage = total_lines > 0 and math.floor((vim.fn.line('.') / total_lines) * 100) or 0
@@ -455,9 +485,20 @@ in
 
       autoCmd = [
         {
+          event = "User";
+          pattern = [
+            "NeogitStatusRefreshed"
+            "NeogitCommitComplete"
+            "NeogitPushComplete"
+            "NeogitPullComplete"
+          ];
+          callback = helpers.mkRaw "_G.Maatwerk.git.update_status";
+        }
+        {
           event = [
-            "FocusGained"
+            "BufWritePost"
             "BufEnter"
+            "FocusGained"
           ];
           callback = helpers.mkRaw "_G.Maatwerk.git.update_status";
         }
@@ -512,7 +553,7 @@ in
                 end
 
                 local desc = 'Split ' .. direction
-                vim.keymap.set('n', lhs, rhs, { buffer = buf_id, desc = desc })
+                vim.keymap.set('n', lhs, rhs, { buffer = buf_id, desc = desc, nowait=true })
               end
 
               map_split(buf_id, '<C-s>', 'belowright horizontal')
@@ -568,44 +609,35 @@ in
         _G.Maatwerk.git = _G.Maatwerk.git or {}
         _G.Maatwerk.ui = _G.Maatwerk.ui or {}
 
-        _G.Maatwerk.git.update_status = function(args)
-          local buf = args.buf or vim.api.nvim_get_current_buf()
-          local summary = vim.b[buf].minigit_summary
-          if not summary or not summary.repo then return end
+        _G.Maatwerk.git.get_git_root = function(bufnr)
+          if bufnr == 0 then bufnr = vim.api.nvim_get_current_buf() end
+          local name = vim.api.nvim_buf_get_name(bufnr)
+          if name == "" then return nil end
+          return vim.fs.root(name, ".git")
+        end
 
+        local checking = {}
+
+        _G.Maatwerk.git.update_status = function()
+          local root = _G.Maatwerk.git.get_git_root(0)
+          if not root then return end
+          if checking[root] then return end
+
+          checking[root] = true
           vim.system(
-            { "git", "status", "--porcelain=v2", "--branch" },
-            { text = true, cwd = summary.root },
+            { "git", "status", "--porcelain" },
+            { text = true, cwd = root },
             function(obj)
-              local ahead, behind, dirty = 0, 0, false
-              
-              if obj.code == 0 and obj.stdout then
-                local a, b = obj.stdout:match("# branch%.ab %+(%d+) %-(%d+)")
-                ahead, behind = a and tonumber(a) or 0, b and tonumber(b) or 0
-                dirty = obj.stdout:find("\n[^#]") ~= nil
-              end
-
+              checking[root] = nil
+              local dirty = obj.code == 0 and obj.stdout and obj.stdout ~= ""
               vim.schedule(function()
-                if vim.api.nvim_buf_is_valid(buf) then
-                  vim.b[buf].git_ahead = ahead
-                  vim.b[buf].git_behind = behind
-                  vim.b[buf].git_dirty = dirty
-                  vim.cmd("redrawstatus")
-                end
+                local d = vim.g.git_dirty or {}
+                d[root] = dirty
+                vim.g.git_dirty = d
+                vim.cmd("redrawstatus")
               end)
             end
           )
-        end
-
-        _G.Maatwerk.ui.resize_window = function(amount)
-          if vim.fn.winnr("$") == 1 then return end
-          local width = vim.api.nvim_win_get_width(0)
-          local total_width = vim.o.columns
-          if width >= total_width - 2 then
-            vim.cmd("resize " .. (amount > 0 and "+" or "") .. amount)
-          else
-            vim.cmd("vertical resize " .. (amount > 0 and "+" or "") .. amount)
-          end
         end
 
         _G.Maatwerk.ui.toggle_explorer = function()
