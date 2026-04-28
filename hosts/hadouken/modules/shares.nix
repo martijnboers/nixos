@@ -16,7 +16,6 @@ in
     fileSystems."/export/music" = {
       device = "/mnt/zwembad/music";
       fsType = "nfs";
-      # forcer
       options = [ "bind" ];
     };
 

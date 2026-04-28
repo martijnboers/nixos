@@ -124,29 +124,6 @@ in
             header Access-Control-Allow-Origin *
           '';
         };
-        "analytics.thuis" = {
-          extraConfig = ''
-            import headscale
-            handle @internal {
-              reverse_proxy 127.0.0.1:3000
-            }
-          '';
-        };
-        "analytics.boers.email" = {
-          extraConfig = ''
-            @public_api {
-              path /script.js /api/send /api/config
-            }
-            
-            handle @public_api {
-              reverse_proxy 127.0.0.1:3000
-            }
-
-            handle {
-              respond "Not Found" 404
-            }
-          '';
-        };
         "p.plebian.nl" = {
           extraConfig = ''
             header X-Robots-Tag "noindex"

@@ -96,7 +96,10 @@ in
     };
 
     # Add promtail to access access logs
-    users.users.promtail.extraGroups = [ config.services.caddy.group ];
+    users.users.promtail = {
+      extraGroups = [ config.services.caddy.group ];
+      isSystemUser = true;
+    };
 
     services.promtail = {
       enable = true;

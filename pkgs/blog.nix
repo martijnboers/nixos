@@ -7,7 +7,7 @@ pkgs.stdenv.mkDerivation {
   version = "1";
   src = fetchGit {
     url = "https://seed.boers.email/z3VzfnAfkQw6oLc5tSZyXmGE4RabW.git";
-    rev = "8a3ee49419de5bd9c1d8aa02e12cdb47fe75aa0a";
+    rev = "96d6b88715816c5608f3fe9e3c57f35bf38fa7c4";
     submodules = true;
   };
   nativeBuildInputs = [ pkgs.zola ];

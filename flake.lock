@@ -1022,11 +1022,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1777151913,
-        "narHash": "sha256-BJvnO+e5xOQFZJQYqeTn596zvhN4rn4LtuYTchAYG1o=",
+        "lastModified": 1777390578,
+        "narHash": "sha256-kqbv2dheB1xvrChc1wzGfXqFMnaZsDAYnUKY8ZRei3g=",
         "ref": "refs/heads/master",
-        "rev": "475caf48c58fdddbb93b1f3422de5ec889c422a6",
-        "revCount": 76,
+        "rev": "6824939b5f8184fffb264a0ab904f423f7b3f0a0",
+        "revCount": 77,
         "type": "git",
         "url": "file:///etc/nixos/secrets"
       },

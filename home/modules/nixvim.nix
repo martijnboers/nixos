@@ -243,7 +243,7 @@ in
           code = "MiniDiff.toggle_overlay()";
         })
         (cmd {
-          key = "gu";
+          key = "<leader>g";
           desc = "Open neogit";
           command = "Neogit kind=split";
         })
@@ -287,6 +287,32 @@ in
           key = "<C-t>o";
           desc = "Only this tab";
           command = "tabonly";
+          modes = [ "n" ];
+        })
+
+        # Window resizing with bigger steps
+        (cmd {
+          key = "<C-w>+";
+          desc = "Increase window height";
+          command = "resize +5";
+          modes = [ "n" ];
+        })
+        (cmd {
+          key = "<C-w>-";
+          desc = "Decrease window height";
+          command = "resize -5";
+          modes = [ "n" ];
+        })
+        (cmd {
+          key = "<C-w>>";
+          desc = "Increase window width";
+          command = "vertical resize +10";
+          modes = [ "n" ];
+        })
+        (cmd {
+          key = "<C-w><";
+          desc = "Decrease window width";
+          command = "vertical resize -10";
           modes = [ "n" ];
         })
       ];
@@ -353,6 +379,7 @@ in
           enable = true;
           settings = {
             disable_commit_confirmation = true;
+            disable_hint = true;
             integrations = {
               mini_pick = true;
               diffview = true;

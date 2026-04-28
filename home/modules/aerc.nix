@@ -70,7 +70,6 @@ in
       ? = :help keys<Enter>
 
       [messages]
-      R = :check-mail<Enter>
       q = :quit<Enter>
       <C-c> = :quit<Enter>
       / = :filter<space>
@@ -195,8 +194,6 @@ in
               folders = "Inbox,Sent Items,Signups,Shipping,Bewaren,Werk,Archive,Deleted Items,Junk Mail";
               folders-sort = folders;
               copy-to = "Sent Items";
-              check-mail-cmd = "${pkgs.isync}/bin/mbsync main";
-              check-mail-timeout = "360s";
             };
           };
 
