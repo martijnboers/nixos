@@ -7,6 +7,7 @@
 with lib;
 let
   cfg = config.maatwerk.hyprland;
+  # Can't just do dpms on because nvidia sucks ass
   reloadCmd = "hyprctl --batch \"keyword monitor ${cfg.laptopMonitorName},preferred,auto,${toString cfg.laptopScalingFactor}; keyword monitor ,preferred,auto,1\"";
 in
 {
@@ -201,7 +202,7 @@ in
       };
       Service = {
         Type = "oneshot";
-        ExecStart = "${lib.getExe pkgs.bash} -c '>>${config.xdg.configHome}/hypr/monitors.conf; ${pkgs.hyprdynamicmonitors}/bin/hyprdynamicmonitors prepare'";
+        ExecStart = "${lib.getExe pkgs.bash} -c '>>${config.xdg.configHome}/hypr/monitors.conf; ${lib.getExe pkgs.hyprdynamicmonitors} prepare'";
       };
       Install = {
         WantedBy = [ "hyprland-session.target" ];

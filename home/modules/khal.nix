@@ -102,7 +102,7 @@ in
         passwordCommand = [
           "sh"
           "-c"
-          "${pkgs.coreutils}/bin/cat ${config.age.secrets.radicale-client.path}"
+          "cat ${config.age.secrets.radicale-client.path}"
         ];
       };
     };

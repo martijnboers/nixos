@@ -1,4 +1,9 @@
-{ inputs, ... }:
+{
+  inputs,
+  lib,
+  config,
+  ...
+}:
 {
   age.secrets = {
     llm.file = "${inputs.secrets}/llm.age";
