@@ -56,12 +56,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    elephant.url = "github:abenz1267/elephant/v2.19.1";
-    walker = {
-      url = "github:abenz1267/walker/v2.14.1";
-      inputs.elephant.follows = "elephant";
-    };
-
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";

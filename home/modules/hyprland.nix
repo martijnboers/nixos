@@ -14,7 +14,6 @@ in
   imports = [
     ./desktop.nix
     ./waybar.nix
-    ./walker.nix
   ];
 
   options.maatwerk.hyprland = {
@@ -220,6 +219,7 @@ in
         wlogout
 
         wl-clipboard # clipboard
+        cliphist
         hyprmon # display settings
         iwgtk # wifi applet
         hyprdynamicmonitors # dynamic monitor configuration with lid support
@@ -245,7 +245,7 @@ in
         "$terminal" = "ghostty +new-window";
         "$fileManager" = "thunar";
         "$browser" = "librewolf";
-        "$menu" = "walker";
+        "$menu" = "rofi -show combi";
 
         plugin.overview = {
           affectStrut = false; # re-renders citrix
@@ -325,7 +325,7 @@ in
           ''$mod, Print, exec, ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - | ${lib.getExe pkgs.tesseract} - stdout | wl-copy''
           "$mod, F4, killactive"
           "$super, tab, overview:toggle"
-          "$prog, H, exec, walker -m clipboard"
+          "$prog, H, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
           "$mod, M, exec, hyprlock"
 
           # movement
@@ -395,7 +395,7 @@ in
         };
 
         decoration = {
-          rounding = 6;
+          rounding = 3;
           shadow = {
             enabled = true;
             range = 4;
@@ -504,6 +504,39 @@ in
           ];
         };
     };
+
+
+    programs.rofi = {
+      enable = true;
+      extraConfig = {
+        show-icons = true;
+        display-combi = " :";
+        display-drun = "";
+        display-window = "";
+        display-run = "󰨡";
+        modes = "combi,calc";
+        combi-modes = "window,drun,run,emoji";
+      };
+      theme =
+        let
+          # Use `mkLiteral` for string-like values that should show without quotes
+          inherit (config.lib.formats.rasi) mkLiteral;
+        in
+        {
+          "*" = {
+            width = 700;
+          };
+          element-icon = {
+            size = mkLiteral "1.2em";
+          };
+        };
+      plugins = with pkgs; [
+        rofi-calc
+        rofi-emoji
+      ];
+    };
+
+    services.cliphist.enable = true;
 
     programs.hyprlock = {
       enable = true;
