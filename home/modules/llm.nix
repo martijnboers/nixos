@@ -14,6 +14,10 @@
     tui = {
       keybinds = {
         editor_open = "ctrl+o";
+        messages_next = "ctrl+j";
+        messages_previous = "ctrl+k";
+        messages_last = "ctrl+b";
+        command_list = "ctrl+l";
       };
     };
     rules = ''

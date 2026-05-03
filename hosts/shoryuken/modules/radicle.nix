@@ -147,12 +147,12 @@ in
           description = "Martijn's Radicle repositories";
           pinned = {
             repositories = [
-              "rad:z2Jkf9zxGPxEhCfGLpgRAcHRj8x2n"
-              "rad:z3bTedCQLQRkCdAmKKZTMSBimNp4J"
-              "rad:z2r9euHZW161kfQNxdF4apHddD3mm"
-              "rad:z2AdUML1AaZmUVidUJ4vwQDJhmvKg"
-              "rad:z3kbRfxk6ySRqoQpv2dg8NYzRdsyQ"
-              "rad:zb1FuXow3wJemDDPFWGFa49rNA4z"
+              "rad:z2Jkf9zxGPxEhCfGLpgRAcHRj8x2n" # Nix
+              "rad:z3bTedCQLQRkCdAmKKZTMSBimNp4J" # boers.email
+              "rad:z2r9euHZW161kfQNxdF4apHddD3mm" # mq
+              "rad:z2AdUML1AaZmUVidUJ4vwQDJhmvKg" # unaware
+              "rad:z4Vbc79HpHJ4juNCM1mB45vM7JugU" # offline-nvim
+              "rad:zb1FuXow3wJemDDPFWGFa49rNA4z"  # gpg-poc-T8044
             ];
           };
         };

@@ -223,7 +223,7 @@ in
         (cmd {
           key = "gl";
           desc = "Commit log";
-          command = "NeogitLog .";
+          command = "Neogit log";
           modes = [ "n" ];
         })
         (cmd {
@@ -243,8 +243,8 @@ in
           code = "MiniDiff.toggle_overlay()";
         })
         (cmd {
-          key = "<leader>g";
-          desc = "Open neogit";
+          key = "gs";
+          desc = "Open neogit status";
           command = "Neogit kind=split";
         })
 
@@ -380,6 +380,7 @@ in
           settings = {
             disable_commit_confirmation = true;
             disable_hint = true;
+            graph_style = "kitty";
             integrations = {
               mini_pick = true;
               diffview = true;
@@ -466,26 +467,40 @@ in
                   function()
                     local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 200 })
                     local full_filename = vim.fn.pathshorten(vim.fn.expand('%:~:.'))
+                    if full_filename == "" then full_filename = "[No Name]" end
 
                     local n_errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
                     local n_warns  = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
                     local s_rec = vim.fn.reg_recording() ~= "" and ( vim.fn.reg_recording()) .. "  " or ""
 
                     local n_unwritten = 0
+                    local n_unnamed_unwritten = 0
                     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-                      if vim.bo[buf].modified and vim.bo[buf].buflisted then n_unwritten = n_unwritten + 1 end
+                      if vim.bo[buf].modified and vim.bo[buf].buflisted and vim.bo[buf].buftype ~= "nofile" then 
+                        if vim.api.nvim_buf_get_name(buf) == "" then
+                          n_unnamed_unwritten = n_unnamed_unwritten + 1
+                        else
+                          n_unwritten = n_unwritten + 1 
+                        end
+                      end
                     end
 
                     local root = _G.Maatwerk.git.get_git_root(0)
                     local dirty = root and (vim.g.git_dirty or {})[root]
-                    local s_git = (n_unwritten > 0) and "●" or dirty and "◌" or ""
+                    
+                    local s_git = ""
+                    if n_unwritten > 0 then
+                      s_git = "●"
+                    elseif n_unnamed_unwritten > 0 then
+                      s_git = "○"
+                    elseif dirty then
+                      s_git = "◌"
+                    end
                     
                     local total_lines = vim.fn.line('$')
                     local percentage = total_lines > 0 and math.floor((vim.fn.line('.') / total_lines) * 100) or 0
 
-                    local navic = require('nvim-navic')
-                    local context = navic.is_available() and navic.get_location() or ""
-                    local location_str = full_filename .. (context ~= "" and " › " .. context or "")
+                    local location_str = full_filename
 
                     local groups = {
                         { hl = mode_hl,                  strings = { mode } },
@@ -540,6 +555,7 @@ in
             function()
               vim.opt_local.spell = true
               vim.opt_local.linebreak = true
+              vim.opt_local.textwidth = 80
             end
           '';
         }
