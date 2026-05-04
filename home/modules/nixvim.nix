@@ -142,7 +142,14 @@ in
         (lua {
           key = "<Leader>b";
           desc = "Find in buffers";
-          code = "MiniPick.builtin.buffers()";
+          code = # lua
+            ''
+              local wipeout_cur = function()
+                vim.api.nvim_buf_delete(MiniPick.get_picker_matches().current.bufnr, {})
+              end
+              local buffer_mappings = { wipeout = { char = '<C-d>', func = wipeout_cur } }
+              MiniPick.builtin.buffers(local_opts, { mappings = buffer_mappings })
+            '';
         })
         (lua {
           key = "<Leader>/";
@@ -360,21 +367,6 @@ in
       };
 
       plugins = {
-        neoscroll = {
-          enable = true;
-          settings = {
-            duration_multiplier = 0.8;
-            mappings = [
-              "<C-u>"
-              "<C-d>"
-              "<C-f>"
-              "<C-b>"
-            ];
-            hide_cursor = true;
-            easing = "quadratic";
-          };
-        };
-
         neogit = {
           enable = true;
           settings = {
