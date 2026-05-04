@@ -11,6 +11,6 @@
     enable = true;
     isLaptop = true;
     laptopMonitorName = "eDP-1";
-    laptopScalingFactor = 1.25;
+    laptopScalingFactor = 1.33;
   };
 }
