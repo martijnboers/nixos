@@ -1,21 +1,20 @@
 {
   lib,
   buildGoModule,
-  fetchFromGitHub,
+  pkgs,
 }:
 
-buildGoModule rec {
+buildGoModule {
   pname = "unaware";
   version = "1.3";
 
-  src = fetchFromGitHub {
-    owner = "noisesfromspace";
-    repo = "unaware";
-    rev = version;
-    hash = "sha256-Sm5qJ+ZMIfN0MoAfv6kkHN50D9CvC/brN3lzzVE1fh4=";
+  src = pkgs.fetchgit {
+    url = "https://seed.boers.email/z3bTedCQLQRkCdAmKKZTMSBimNp4J.git";
+    rev = "5e1c263bb0b3027d24124e0679af4541e99e9ac4";
+    hash = "sha256-kdjGiY1EjoleOxf5orNebrWIYR3zDW2lsh1kds7+JOU=";
   };
 
-  vendorHash = "sha256-j1OpJfz0yi2xaD7QzXp9sFgkRWUpv77oWCSCJIVC5iA=";
+  vendorHash = "sha256-KDAerpxeKy5EfL87HZBeiqzm4QSlkv68nKK6FIwkVaI=";
 
   ldflags = [
     "-s"
