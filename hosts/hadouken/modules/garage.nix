@@ -94,7 +94,7 @@ in
         Restart = "on-failure";
         Environment = [
           "GARAGE_WEBUI_LISTEN=127.0.0.1:3909"
-          "GARAGE_WEBUI_GARAGE_API=https://garage.thuis:3901"
+          "GARAGE_WEBUI_GARAGE_API=127.0.0.1:3901"
         ];
         EnvironmentFile = config.age.secrets.garage.path;
       };

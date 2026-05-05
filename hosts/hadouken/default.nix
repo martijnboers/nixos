@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   networking = {
     hostName = "hadouken";
@@ -58,6 +58,11 @@
     repository = "ssh://gak69wyz@gak69wyz.repo.borgbase.com/./repo";
     paths = [ "/mnt/zwembad/app" ];
   };
+
+  # Migrating
+  nixpkgs.config.permittedInsecurePackages = [
+    "minio-2025-10-15T17-29-55Z"
+  ];
 
   # Heat management intel cpu
   services.thermald.enable = true;
