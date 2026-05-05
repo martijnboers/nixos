@@ -114,12 +114,12 @@ in
             file_server
           '';
         };
-        "storage.boers.email" = {
+        "random.storage.boers.email" = {
+          serverAliases = [ "mastodon.storage.boers.email" ];
           extraConfig = ''
             header X-Robots-Tag "noindex"
 
-            reverse_proxy hadouken.machine.thuis:3900 
-            header Access-Control-Allow-Origin *
+            reverse_proxy hadouken.machine.thuis:3902
           '';
         };
         "p.plebian.nl" = {

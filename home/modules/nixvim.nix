@@ -250,6 +250,11 @@ in
           code = "MiniDiff.toggle_overlay()";
         })
         (cmd {
+          key = "gu";
+          desc = "Open unstaged";
+          command = "MiniExtra.pickers.git_hunks({ scope = 'unstaged' })";
+        })
+        (cmd {
           key = "gs";
           desc = "Open neogit status";
           command = "Neogit kind=split";

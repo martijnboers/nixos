@@ -27,6 +27,8 @@ in
       '';
       "garage-admin.thuis".extraConfig = ''
         import headscale
+        import mtls
+
         handle @internal {
           reverse_proxy http://localhost:3909
         }
@@ -36,7 +38,7 @@ in
 
     services.garage = {
       enable = true;
-      package = pkgs.garage;
+      package = pkgs.garage_2;
       settings = {
         metadata_dir = "/var/lib/garage/meta";
         data_dir = "/mnt/zwembad/games/garage";
@@ -54,7 +56,7 @@ in
 
         s3_web = {
           bind_addr = "[::]:3902";
-          root_domain = ".web.garage.thuis";
+          root_domain = ".storage.boers.email";
           index = "index.html";
         };
 
@@ -92,10 +94,7 @@ in
         Group = "garage";
         ExecStart = "${pkgs.garage-webui}/bin/garage-webui";
         Restart = "on-failure";
-        Environment = [
-          "GARAGE_WEBUI_LISTEN=127.0.0.1:3909"
-          "GARAGE_WEBUI_GARAGE_API=127.0.0.1:3901"
-        ];
+        Environment = [ "CONFIG_PATH=/etc/garage.toml" ];
         EnvironmentFile = config.age.secrets.garage.path;
       };
     };

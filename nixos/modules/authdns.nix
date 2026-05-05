@@ -102,6 +102,8 @@ let
       records = ''
         *           IN      A       ${shor.ipv4}
         *           IN      AAAA    ${shor.ipv6}
+        *.storage   IN      A       ${shor.ipv4}
+        *.storage   IN      AAAA    ${shor.ipv6}
         @           IN      A       ${shor.ipv4}
         @           IN      AAAA    ${shor.ipv6}
 

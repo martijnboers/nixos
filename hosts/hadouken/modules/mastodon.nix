@@ -91,9 +91,9 @@ in
         S3_ENABLED = "true";
         S3_BUCKET = "mastodon";
         S3_REGION = "thuis";
-        S3_ENDPOINT = "https://storage.boers.email";
-        S3_HOSTNAME = "storage.boers.email";
-        S3_FORCE_PATH_STYLE = "true";
+        S3_ENDPOINT = "https://garage.thuis";
+        S3_HOSTNAME = "mastodon.storage.boers.email";
+        S3_ALIAS_HOST = "mastodon.storage.boers.email";
       };
       mediaAutoRemove = {
         enable = true;
