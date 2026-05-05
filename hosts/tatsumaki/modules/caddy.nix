@@ -31,6 +31,16 @@ in
             ca https://acme.thuis:4443/acme/gitgetgot/directory
           }
         }
+        (mtls) {
+          tls {
+            client_auth {
+              mode require_and_verify
+              trust_pool file {
+                pem_file "${inputs.secrets}/keys/plebs4platinum.crt"
+              }
+            }
+          }
+        }
       '';
     };
 

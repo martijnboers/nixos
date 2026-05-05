@@ -166,7 +166,7 @@ in
                     "rekkaken"
                   ];
                   dst = [
-                    "hadouken:5551,5552,5553,5554,5555,3900" # reverse proxy ports
+                    "hadouken:5551,5552,5553,5555,3900" # reverse proxy ports
                     "hadouken:5432" # postgresql for stalwart
                   ];
                 }

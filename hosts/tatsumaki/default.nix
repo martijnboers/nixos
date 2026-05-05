@@ -3,7 +3,7 @@
   networking.hostName = "tatsumaki";
 
   imports = [
-    ./modules/bitcoin.nix
+    ./modules/hass.nix
     ./modules/caddy.nix
   ];
 
@@ -23,11 +23,6 @@
     enable = true;
     repository = "ssh://jym6959y@jym6959y.repo.borgbase.com/./repo";
   };
-
-  security = {
-    sudo.enable = true;
-    sudo-rs.enable = false;
-  }; # sudo-rs doesn't play nice with nix-bitcoin
 
   boot.supportedFilesystems = [ "nfs" ];
   nix.settings.trusted-users = [ "martijn" ]; # allows remote push

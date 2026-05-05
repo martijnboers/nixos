@@ -4,7 +4,6 @@
 
   imports = [
     ./modules/caddy.nix
-    ./modules/hass.nix
   ];
 
   hosts.caddy.enable = true;
