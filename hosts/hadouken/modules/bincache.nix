@@ -47,7 +47,7 @@ in
           type = "s3";
           region = "thuis";
           bucket = "bincache";
-          endpoint = "https://minio.thuis";
+          endpoint = "https://garage.thuis";
         };
         garbage-collection.default-retention-period = "6 months";
         chunking = {

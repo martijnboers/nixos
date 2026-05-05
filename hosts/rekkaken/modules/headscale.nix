@@ -19,8 +19,6 @@ let
     "immich"
     "jelly"
     "media"
-    "minio"
-    "minio-admin"
     "monitoring"
     "paper"
     "pgadmin"

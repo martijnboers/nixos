@@ -93,6 +93,7 @@ in
         S3_REGION = "thuis";
         S3_ENDPOINT = "https://storage.boers.email";
         S3_HOSTNAME = "storage.boers.email";
+        S3_FORCE_PATH_STYLE = "true";
       };
       mediaAutoRemove = {
         enable = true;

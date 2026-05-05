@@ -117,10 +117,8 @@ in
         "storage.boers.email" = {
           extraConfig = ''
             header X-Robots-Tag "noindex"
-            @admin_api path /minio/admin/*
-            error @admin_api 403
 
-            reverse_proxy hadouken.machine.thuis:5554 
+            reverse_proxy hadouken.machine.thuis:3900 
             header Access-Control-Allow-Origin *
           '';
         };

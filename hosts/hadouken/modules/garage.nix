@@ -48,7 +48,7 @@ in
         rpc_public_addr = "127.0.0.1:3901";
 
         s3_api = {
-          s3_region = "us-east-1";
+          s3_region = "thuis";
           api_bind_addr = "[::]:3900";
         };
 

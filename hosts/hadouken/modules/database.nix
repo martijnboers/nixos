@@ -24,22 +24,6 @@ in
         }
         respond 403
       '';
-      "minio.thuis".extraConfig = ''
-        import headscale
-        handle @internal {
-          reverse_proxy http://${toString config.services.minio.listenAddress}
-        }
-        respond 403
-      '';
-      "minio-admin.thuis".extraConfig = ''
-        import headscale
-        import mtls
-
-        handle @internal {
-          reverse_proxy http://${toString config.services.minio.consoleAddress}
-        }
-        respond 403
-      '';
     };
 
     services.postgresql = {
@@ -57,22 +41,12 @@ in
         #type database  DBuser  range		        auth-method
         local all       all                     trust
         host  all       all     127.0.0.1/32    trust
-        host  all       all     100.64.0.0/10   scram-sha-256
+        host  all       all     100.64.0.0/10   trust
       '';
     };
 
     age.secrets = {
       pgadmin.file = "${inputs.secrets}/pgadmin.age";
-      minio.file = "${inputs.secrets}/minio.age";
-    };
-
-    services.minio = {
-      enable = true;
-      region = "thuis";
-      listenAddress = "0.0.0.0:5554";
-      consoleAddress = "localhost:9901";
-      rootCredentialsFile = config.age.secrets.minio.path;
-      dataDir = [ "/mnt/zwembad/games/minio" ];
     };
 
     services.pgadmin = {
@@ -91,7 +65,7 @@ in
 
     services.borgbackup.jobs.default.paths = [
       config.services.postgresqlBackup.location
-      config.services.minio.configDir
+      config.services.garage.settings.metadata_dir
     ];
   };
 }

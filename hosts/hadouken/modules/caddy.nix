@@ -22,7 +22,7 @@ in
           "github.com/corazawaf/coraza-caddy/v2@v2.1.0"
           "github.com/martijnboers/caddy-webdav@v0.0.0-20260104124919-990d6e445da5"
         ];
-        hash = "sha256-vWMltSrdyfU1vCbAEzs16ugrDC1nho9OMeEUuaJm7Q8=";
+        hash = "sha256-bBDOKSJUrEAk0mMWnv6H4UpDbxOALs5AGN8U8tOrZa8=";
       };
 
       extraConfig = ''
