@@ -63,7 +63,7 @@
     gawk
     git
     wget
-    vim
+    neovim
 
     # admin
     htop # the og

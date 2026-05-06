@@ -23,6 +23,8 @@ in
     '';
     age.secrets.binarycache = {
       file = "${inputs.secrets}/binarycache.age";
+      owner = "atticd";
+      group = "atticd";
     };
 
     services.postgresql = {

@@ -58,16 +58,6 @@ in
 
     # Agenix secrets - use the stalwart user that NixOS module creates
     age.secrets = {
-      stalwart-postgresql = {
-        file = "${inputs.secrets}/stalwart-postgresql.age";
-        owner = "stalwart";
-        group = "stalwart";
-      };
-      stalwart-s3-secret = {
-        file = "${inputs.secrets}/stalwart-s3-secret.age";
-        owner = "stalwart";
-        group = "stalwart";
-      };
       stalwart-migadu = {
         file = "${inputs.secrets}/stalwart-migadu.age";
         owner = "stalwart";
@@ -134,7 +124,6 @@ in
             port = 5432;
             database = "stalwart";
             user = "stalwart";
-            password = config.age.secrets.stalwart-postgresql.path;
             timeout = "15s";
             pool.max-connections = 10;
           };
@@ -146,7 +135,6 @@ in
             region = "us-east-1";
             endpoint = "https://garage.thuis";
             access-key = "GKee41184bbe37aed170c62a32";
-            secret-key = config.age.secrets.stalwart-s3-secret.path;
             timeout = "30s";
           };
         };
@@ -262,8 +250,6 @@ in
               tls.implicit = true;
               auth = {
                 username = "martijn@boers.email";
-                # Secrets not loading from files?
-                # secret = "%{file:${config.age.secrets.stalwart-migadu.path}}%";
               };
             };
           };
