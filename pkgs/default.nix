@@ -20,6 +20,7 @@ in
   karlender-dev = pkgs.callPackage ./karlender.nix { };
   geonet = pkgs.callPackage ./geonet.nix { };
   ladder = pkgs.callPackage ./ladder.nix { };
+  flowmark = pkgs.callPackage ./flowmark.nix { };
   unaware = pkgs.callPackage ./unaware.nix { };
   hyprtasking = pkgs.callPackage ./hyprtasking.nix { };
   hyprspace-custom = pkgs.callPackage ./hyprspace.nix { };

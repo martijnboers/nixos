@@ -12,16 +12,22 @@ in
 {
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      nixfmt
+      (pkgs.mdformat.withPlugins (p: [
+        p.mdformat-beautysh
+        p.mdformat-footnote
+        p.mdformat-frontmatter
+        p.mdformat-gfm
+      ]))
       golangci-lint
-      shellcheck
       shellharden
+      shellcheck
       prettier
       rustfmt
       yamlfmt
       eslint
       tflint
       stylua
+      nixfmt
       clang
       shfmt
       black
@@ -52,6 +58,7 @@ in
               yaml = [ "yamlfmt" ];
               zig = [ "zig" ];
               rust = [ "rustfmt" ];
+              markdown = [ "mdformat" ];
               go = [ "go" ];
               c = [ "clang-format" ];
               cpp = [ "clang-format" ];

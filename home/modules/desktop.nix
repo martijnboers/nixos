@@ -43,6 +43,8 @@ in
         mpv # video
         mousepad # gui-notepad
         imagemagick # convert images
+        nurl # nix fetchUrl
+        nix-init # build packages
 
         # work
         citrix_workspace

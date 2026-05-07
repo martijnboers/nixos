@@ -16,16 +16,7 @@ python3.pkgs.buildPythonApplication rec {
   };
 
   build-system = [
-    python3.pkgs.poetry-core
-  ];
-
-  dependencies = with python3.pkgs; [
-    influxdb
-    stem
-  ];
-
-  pythonImportsCheck = [
-    "exporter"
+    python3.pkgs.uv
   ];
 
   meta = {

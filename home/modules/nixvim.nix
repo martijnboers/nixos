@@ -243,11 +243,6 @@ in
           desc = "Show buffer changes";
           code = "MiniDiff.toggle_overlay()";
         })
-        (lua {
-          key = "gu";
-          desc = "Open unstaged";
-          code = "MiniExtra.pickers.git_hunks({ scope = 'unstaged' })";
-        })
         (cmd {
           key = "gs";
           desc = "Open neogit status";
@@ -321,11 +316,6 @@ in
           command = "vertical resize -10";
           modes = [ "n" ];
         })
-        (cmd {
-          key = "<Leader>t";
-          desc = "Format markdown table";
-          command = "%! tr -s ' ' | column -t -s '|' -o '|'";
-        })
       ];
 
       diagnostic.settings = {
@@ -373,7 +363,7 @@ in
       plugins = {
         quicker = {
           enable = true;
-          settings.opts.buflisted = true; 
+          # settings.opts.buflisted = true; 
         };
 
         neogit = {
