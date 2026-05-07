@@ -321,6 +321,11 @@ in
           command = "vertical resize -10";
           modes = [ "n" ];
         })
+        (cmd {
+          key = "<Leader>t";
+          desc = "Format markdown table";
+          command = "%! tr -s ' ' | column -t -s '|' -o '|'";
+        })
       ];
 
       diagnostic.settings = {
@@ -366,6 +371,11 @@ in
       };
 
       plugins = {
+        quicker = {
+          enable = true;
+          settings.opts.buflisted = true; 
+        };
+
         neogit = {
           enable = true;
           settings = {

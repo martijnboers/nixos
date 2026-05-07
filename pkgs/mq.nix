@@ -9,8 +9,9 @@ rustPlatform.buildRustPackage {
   pname = "mq";
   version = "0.1.0";
 
-  src = pkgs.fetchgit {
-    url = "https://seed.boers.email/z2AdUML1AaZmUVidUJ4vwQDJhmvKg.git";
+  src = pkgs.fetchFromRadicle {
+    seed = "seed.boers.email";
+    repo = "z2AdUML1AaZmUVidUJ4vwQDJhmvKg";
     rev = "fb72f998b18d7c38a85d4e5b89af3e34ce5ff9e9";
     hash = "sha256-OpqkIQYYOdsjV5FkVL3LvQ1tL2WV+Agtk9YX7bUqAWo=";
   };
