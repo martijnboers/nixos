@@ -4,12 +4,11 @@
   pkg-config,
   libmnl,
   libnftnl,
-  lib,
 }:
 
 buildGoModule {
   pname = "nym-libwg";
-  version = "1.25.0-beta";
+  version = "1.29.2";
 
   src = fetchFromGitHub {
     owner = "nymtech";

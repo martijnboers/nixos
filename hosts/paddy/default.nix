@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  pkgs,
   ...
 }:
 {
@@ -19,11 +18,6 @@
   };
 
   age.identityPaths = [ "/home/martijn/.ssh/id_ed25519" ];
-
-  services.ollama = {
-    enable = true;
-    package = pkgs.ollama-cuda;
-  };
 
   hosts.borg = {
     enable = true;

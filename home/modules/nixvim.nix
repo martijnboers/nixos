@@ -234,12 +234,6 @@ in
           modes = [ "n" ];
         })
         (cmd {
-          key = "gL";
-          desc = "Commit log";
-          command = "DiffviewFileHistory";
-          modes = [ "n" ];
-        })
-        (cmd {
           key = "go";
           desc = "Open file in source control";
           command = "GitPortal";
@@ -249,10 +243,10 @@ in
           desc = "Show buffer changes";
           code = "MiniDiff.toggle_overlay()";
         })
-        (cmd {
+        (lua {
           key = "gu";
           desc = "Open unstaged";
-          command = "MiniExtra.pickers.git_hunks({ scope = 'unstaged' })";
+          code = "MiniExtra.pickers.git_hunks({ scope = 'unstaged' })";
         })
         (cmd {
           key = "gs";

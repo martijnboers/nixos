@@ -114,8 +114,7 @@ in
             file_server
           '';
         };
-        "random.storage.boers.email" = {
-          serverAliases = [ "mastodon.storage.boers.email" ];
+        "*.storage.boers.email" = {
           extraConfig = ''
             header X-Robots-Tag "noindex"
 

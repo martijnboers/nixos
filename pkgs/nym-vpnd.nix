@@ -14,7 +14,7 @@
 
 rustPlatform.buildRustPackage {
   pname = "nym-vpnd";
-  version = "1.25.0-beta";
+  version = "1.29.2";
 
   src = fetchFromGitHub {
     owner = "nymtech";

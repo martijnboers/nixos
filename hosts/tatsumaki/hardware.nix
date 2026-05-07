@@ -67,7 +67,7 @@
     fsType = "ext4";
   };
 
-  fileSystems."/mnt/crypto" = {
+  fileSystems."/mnt/backups" = {
     device = "/dev/disk/by-partuuid/75dd214a-61d2-4af7-9c23-1d441d8f7d47";
     fsType = "ext4";
   };
