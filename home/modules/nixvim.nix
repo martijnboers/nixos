@@ -216,21 +216,29 @@ in
 
         # Git actions
         (cmd {
-          key = "gb";
-          desc = "Git blame file";
-          command = "DiffviewFileHistory %";
-          modes = [ "n" ];
+          key = "<leader>u";
+          desc = "Undotree";
+          command = "Undotree";
+          modes = [
+            "n"
+            "v"
+          ];
         })
-        (mk {
+        (cmd {
           key = "gb";
-          desc = "Git blame lines";
-          action = ":DiffviewFileHistory<cr>";
+          desc = "Git blame";
+          command = "Git log --patch --max-count=50 -- %";
+        })
+        (lua {
+          key = "gb";
+          desc = "Git blame";
+          code = "MiniGit.show_at_cursor()";
           modes = [ "v" ];
         })
         (cmd {
           key = "gl";
           desc = "Commit log";
-          command = "Neogit log";
+          command = "Git log --patch --max-count=50";
           modes = [ "n" ];
         })
         (cmd {
@@ -361,11 +369,7 @@ in
       };
 
       plugins = {
-        quicker = {
-          enable = true;
-          # settings.opts.buflisted = true; 
-        };
-
+        quicker.enable = true;
         neogit = {
           enable = true;
           settings = {
@@ -374,7 +378,7 @@ in
             graph_style = "kitty";
             integrations = {
               mini_pick = true;
-              diffview = true;
+              diffview = false;
             };
             mappings = {
               status = {
@@ -385,19 +389,6 @@ in
                 "g?" = "HelpPopup";
               };
             };
-          };
-        };
-
-        diffview = {
-          enable = true;
-          package = pkgs.vimPlugins.diffview-nvim.overrideAttrs {
-            src = pkgs.fetchFromGitHub {
-              owner = "dlyongemallo";
-              repo = "diffview.nvim";
-              rev = "385f26fd6a50e3b0b11cc9623f1f96cde00ef08c";
-              hash = "sha256-14JZDPF/BYbdY3EWAC509AU4amw5FnV7r0u28vvxJAY=";
-            };
-            doCheck = false;
           };
         };
 
@@ -421,6 +412,7 @@ in
             files.enable = true; # file explorer
             extra.enable = true; # more picker sources
             icons.enable = true; # icons support for extensions
+            git.enable = true; # git log/blame file
             diff.enable = true; # gitsigns replacement
             completion.enable = true; # autocomplete
             notify.enable = true; # vim.notify capture
@@ -642,6 +634,15 @@ in
         _G.Maatwerk = _G.Maatwerk or {}
         _G.Maatwerk.git = _G.Maatwerk.git or {}
         _G.Maatwerk.ui = _G.Maatwerk.ui or {}
+
+        vim.cmd.packadd('nvim.undotree')
+
+        local neogit = require('neogit')
+        vim.keymap.set(
+          'n',
+          'gL',
+          neogit.action('log', 'log_all_branches', { '--graph', '--decorate', '--show-signature' })
+        )
 
         _G.Maatwerk.git.get_git_root = function(bufnr)
           if bufnr == 0 then bufnr = vim.api.nvim_get_current_buf() end

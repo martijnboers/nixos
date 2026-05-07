@@ -217,6 +217,7 @@ in
                   ];
                   dst = [
                     "headscale-server@:22"
+                    "hadouken:5432" # postgresql
                     "pikvm:80,443"
                   ];
                 }

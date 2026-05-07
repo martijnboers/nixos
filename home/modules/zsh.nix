@@ -94,7 +94,7 @@ in
           gl = "git pull";
           gll = "rad sync -v --fetch && git pull";
           gs = "git status";
-          glg = "git log --stat";
+          glg = "git log --show-signatures --stat";
           gp = "git push";
           gpf = "git push --force-with-lease";
           grb = "git rebase";

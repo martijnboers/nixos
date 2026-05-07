@@ -169,7 +169,7 @@ in
       # Avatar image
       ".config/avatar.png" = {
         source = pkgs.fetchurl {
-          url = "https://storage.boers.email/random/icon.png";
+          url = "https://random.storage.boers.email/icon.png";
           hash = "sha256-YxJuLqQ4BpWKyMOTl+J09uRVuK4e0CVinXuNb5u/8aY=";
         };
       };

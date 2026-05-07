@@ -143,7 +143,7 @@ in
 
       settings = {
         web = {
-          avatarUrl = "https://storage.boers.email/random/icon.png";
+          avatarUrl = "https://random.storage.boers.email/icon.png";
           description = "Martijn's Radicle repositories";
           pinned = {
             repositories = [

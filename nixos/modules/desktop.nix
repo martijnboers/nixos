@@ -36,7 +36,7 @@ in
     services.tailscale.authKeyFile = config.age.secrets.tailscale-desktop.path;
 
     hosts.nymvpn = {
-      enable = true;
+      enable = false;
       autoConnect = false;
     };
 

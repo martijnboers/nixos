@@ -19,7 +19,7 @@ in
     stylix = {
       enable = true;
       image = pkgs.fetchurl {
-        url = "https://storage.boers.email/random/wallpaper_optimized.jpg";
+        url = "https://random.storage.boers.email/wallpaper_optimized.jpg";
         hash = "sha256-7tCkOYseY4Oayw+WHxn+fK45BdOjRaELYPp33m9+UYI=";
       };
       polarity = "dark";
